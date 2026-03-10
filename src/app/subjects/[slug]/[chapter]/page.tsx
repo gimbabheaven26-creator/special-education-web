@@ -1,0 +1,113 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { subjects } from '@/data/subjects';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+export function generateStaticParams() {
+  return subjects.flatMap((subject) =>
+    subject.chapters.map((chapter) => ({
+      slug: subject.slug,
+      chapter: chapter.slug,
+    }))
+  );
+}
+
+export default function ChapterPage({
+  params,
+}: {
+  params: { slug: string; chapter: string };
+}) {
+  const { slug, chapter: chapterSlug } = params;
+  const subject = subjects.find((s) => s.slug === slug);
+
+  if (!subject) {
+    notFound();
+  }
+
+  const chapterIndex = subject.chapters.findIndex((c) => c.slug === chapterSlug);
+
+  if (chapterIndex === -1) {
+    notFound();
+  }
+
+  const chapter = subject.chapters[chapterIndex];
+  const prevChapter = chapterIndex > 0 ? subject.chapters[chapterIndex - 1] : null;
+  const nextChapter = chapterIndex < subject.chapters.length - 1 ? subject.chapters[chapterIndex + 1] : null;
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
+      {/* 브레드크럼 */}
+      <Breadcrumb className="mb-6">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink render={<Link href="/" />}>홈</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink render={<Link href="/subjects" />}>과목</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink render={<Link href={`/subjects/${subject.slug}`} />}>
+              {subject.title}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{chapter.title}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      {/* 챕터 헤더 */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-foreground mb-2">{chapter.title}</h1>
+        <p className="text-lg text-muted-foreground">{chapter.description}</p>
+      </div>
+
+      {/* 본문 영역 */}
+      <div className="min-h-64 flex items-center justify-center border border-dashed border-border rounded-xl bg-muted/30 mb-8">
+        <p className="text-muted-foreground text-lg">콘텐츠 준비 중입니다.</p>
+      </div>
+
+      {/* 이전/다음 챕터 이동 */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex-1">
+          {prevChapter && (
+            <Link href={`/subjects/${subject.slug}/${prevChapter.slug}`}>
+              <Button variant="outline" className="flex items-center gap-2">
+                <ChevronLeft className="h-4 w-4" />
+                <span className="text-left">
+                  <span className="block text-xs text-muted-foreground">이전 챕터</span>
+                  <span className="block text-sm font-medium">{prevChapter.title}</span>
+                </span>
+              </Button>
+            </Link>
+          )}
+        </div>
+        <div className="flex-1 flex justify-end">
+          {nextChapter && (
+            <Link href={`/subjects/${subject.slug}/${nextChapter.slug}`}>
+              <Button variant="outline" className="flex items-center gap-2">
+                <span className="text-right">
+                  <span className="block text-xs text-muted-foreground">다음 챕터</span>
+                  <span className="block text-sm font-medium">{nextChapter.title}</span>
+                </span>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,95 @@
+import type { Subject } from '@/types/content';
+
+export const subjects: Subject[] = [
+  {
+    slug: 'introduction',
+    title: '특수교육학 개론',
+    description: '특수교육의 기본 개념, 장애 영역별 이해, 역사와 동향',
+    icon: 'BookOpen',
+    color: 'bg-blue-500',
+    order: 1,
+    chapters: [
+      { slug: 'understanding', title: '특수교육의 이해', description: '특수교육의 정의, 목적, 대상, 원리', keywords: ['특수교육', '정의', '목적', '통합교육', '정상화'], order: 1 },
+      { slug: 'disability-types', title: '장애 영역별 이해', description: '지적장애, 자폐성장애, 정서행동장애, 학습장애 등', keywords: ['지적장애', '자폐성장애', '정서행동장애', '학습장애', '의사소통장애'], order: 2 },
+      { slug: 'history', title: '특수교육 역사와 동향', description: '특수교육의 발전 과정과 최신 동향', keywords: ['역사', '동향', '패러다임', '탈시설화', '자립생활'], order: 3 },
+    ],
+  },
+  {
+    slug: 'curriculum',
+    title: '특수교육 교육과정',
+    description: '기본교육과정, 공통교육과정, 개별화교육계획(IEP)',
+    icon: 'GraduationCap',
+    color: 'bg-green-500',
+    order: 2,
+    chapters: [
+      { slug: 'basic-curriculum', title: '기본교육과정', description: '특수교육 기본교육과정의 구성과 운영', keywords: ['기본교육과정', '교과', '창의적 체험활동'], order: 1 },
+      { slug: 'general-curriculum', title: '공통교육과정과 선택중심 교육과정', description: '공통교육과정 및 선택중심 교육과정에서의 특수교육', keywords: ['공통교육과정', '선택중심', '교육과정 수정', '교수적 수정'], order: 2 },
+      { slug: 'iep', title: '개별화교육계획(IEP)', description: 'IEP의 구성요소, 작성 절차, 운영', keywords: ['IEP', '개별화교육계획', '개별화교육지원팀', '장단기목표'], order: 3 },
+    ],
+  },
+  {
+    slug: 'inclusive-education',
+    title: '통합교육',
+    description: '통합교육의 이론, 협력교수, 보편적 학습설계',
+    icon: 'Users',
+    color: 'bg-purple-500',
+    order: 3,
+    chapters: [
+      { slug: 'theory', title: '통합교육의 이론', description: '통합교육의 정의, 이론적 배경, 조건', keywords: ['통합교육', '최소제한환경', 'REI', '완전통합'], order: 1 },
+      { slug: 'co-teaching', title: '협력교수 모델', description: '협력교수의 유형과 실제', keywords: ['협력교수', '교수-지원', '스테이션교수', '대안교수', '팀티칭'], order: 2 },
+      { slug: 'udl', title: '보편적 학습설계(UDL)', description: 'UDL의 원리와 적용', keywords: ['UDL', '보편적 학습설계', '다양한 표상', '다양한 행동과 표현', '다양한 참여'], order: 3 },
+    ],
+  },
+  {
+    slug: 'assessment',
+    title: '진단 및 평가',
+    description: '표준화 검사, 교육과정중심측정, 기능적 행동평가',
+    icon: 'ClipboardCheck',
+    color: 'bg-orange-500',
+    order: 4,
+    chapters: [
+      { slug: 'standardized-tests', title: '표준화 검사', description: '지능검사, 적응행동검사, 학력검사', keywords: ['K-WISC', 'K-ABC', '적응행동', 'BASA', '표준화검사'], order: 1 },
+      { slug: 'cbm', title: '교육과정중심측정(CBM)', description: 'CBM의 원리와 활용', keywords: ['CBM', '교육과정중심측정', '진전도 모니터링', 'RTI'], order: 2 },
+      { slug: 'fba', title: '기능적 행동평가(FBA)', description: 'FBA의 절차와 방법', keywords: ['FBA', '기능적 행동평가', '행동의 기능', 'ABC 분석'], order: 3 },
+    ],
+  },
+  {
+    slug: 'behavior-support',
+    title: '행동지원',
+    description: '응용행동분석, 긍정적 행동지원, 행동중재 전략',
+    icon: 'Heart',
+    color: 'bg-red-500',
+    order: 5,
+    chapters: [
+      { slug: 'aba', title: '응용행동분석(ABA)', description: 'ABA의 기본 원리와 기법', keywords: ['ABA', '강화', '소거', '벌', '촉구', '용암법', '행동형성'], order: 1 },
+      { slug: 'pbs', title: '긍정적 행동지원(PBS)', description: 'PBS의 체계와 실행', keywords: ['PBS', '긍정적 행동지원', '보편적 지원', '표적집단', '개별지원'], order: 2 },
+      { slug: 'intervention', title: '행동중재 전략', description: '구체적인 행동중재 기법과 적용', keywords: ['자기관리', '사회적 기술', '토큰경제', '행동계약', '자기점검'], order: 3 },
+    ],
+  },
+  {
+    slug: 'transition',
+    title: '전환교육',
+    description: '전환교육 계획, 자기결정, 지역사회 중심 교수',
+    icon: 'ArrowRightLeft',
+    color: 'bg-teal-500',
+    order: 6,
+    chapters: [
+      { slug: 'planning', title: '전환교육 계획', description: '전환교육의 개념과 계획 수립', keywords: ['전환교육', '전환계획', 'ITP', '성인생활'], order: 1 },
+      { slug: 'self-determination', title: '자기결정', description: '자기결정의 구성요소와 교수 전략', keywords: ['자기결정', '자기옹호', '선택하기', '의사결정', '목표설정'], order: 2 },
+      { slug: 'cbi', title: '지역사회 중심 교수', description: 'CBI의 원리와 실제', keywords: ['CBI', '지역사회중심교수', '현장학습', '직업교육'], order: 3 },
+    ],
+  },
+  {
+    slug: 'laws',
+    title: '관련 법령',
+    description: '특수교육법, 장애인복지법, 장애인차별금지법',
+    icon: 'Scale',
+    color: 'bg-indigo-500',
+    order: 7,
+    chapters: [
+      { slug: 'special-education-act', title: '장애인 등에 대한 특수교육법', description: '특수교육법의 주요 내용과 시행령', keywords: ['특수교육법', '의무교육', '무상교육', '특수교육대상자', '배치'], order: 1 },
+      { slug: 'welfare-act', title: '장애인복지법', description: '장애인복지법의 주요 내용', keywords: ['장애인복지법', '장애등급', '장애인등록', '복지서비스'], order: 2 },
+      { slug: 'anti-discrimination-act', title: '장애인차별금지법', description: '장애인차별금지법의 주요 내용', keywords: ['장애인차별금지법', '정당한 편의', '차별금지', '권리구제'], order: 3 },
+    ],
+  },
+];
