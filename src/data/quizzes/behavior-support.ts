@@ -16,6 +16,7 @@ export const behaviorSupportQuizzes: QuizQuestion[] = [
     answer: 1,
     explanation: '정적 강화는 바람직한 행동이 나타난 후 선호하는 자극(강화제)을 제공하여 해당 행동의 발생 빈도를 증가시키는 것입니다.',
     difficulty: 1,
+    source: 'Cooper, Heron & Heward (2020)',
   },
   {
     id: 'bs-q2',
@@ -42,6 +43,7 @@ export const behaviorSupportQuizzes: QuizQuestion[] = [
     answer: 2,
     explanation: 'PBS의 3단계 모델에서 1차 예방(보편적 지원)은 전체 학생의 약 80%를 대상으로 하며, 학교 전체 차원의 기대 행동 교수와 강화 시스템을 운영합니다.',
     difficulty: 2,
+    source: '특수교육법 제2조',
   },
   {
     id: 'bs-q4',
@@ -52,6 +54,7 @@ export const behaviorSupportQuizzes: QuizQuestion[] = [
     answer: 'ABC',
     explanation: 'ABC 기록법은 선행사건(Antecedent), 행동(Behavior), 후속결과(Consequence)를 관찰·기록하여 행동의 기능을 분석하는 방법입니다.',
     difficulty: 1,
+    source: 'Cooper, Heron & Heward (2020)',
     tags: { disability: '정서행동장애' },
   },
   {
@@ -79,6 +82,7 @@ export const behaviorSupportQuizzes: QuizQuestion[] = [
     answer: '7 / 일반성',
     explanation: 'ABA의 7가지 차원은 응용적, 행동적, 분석적, 기술적, 개념적 체계, 효과적, 일반성입니다. 일반성(Generality) 차원은 행동 변화가 특정 상황에 국한되지 않고 다른 환경·시간·행동으로 일반화되어야 함을 의미합니다.',
     difficulty: 2,
+    source: 'Baer, Wolf & Risley (1968)',
     tags: {
       disability: '정서행동장애',
     },
