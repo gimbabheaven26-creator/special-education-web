@@ -19,7 +19,7 @@ export default async function SubjectQuizPage({
         <p className="text-muted-foreground">과목을 찾을 수 없습니다.</p>
         <Link
           href="/quiz"
-          className="mt-4 inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap transition-all h-8 gap-1.5 px-2.5"
+          className="mt-4 inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap transition-all h-11 gap-1.5 px-2.5"
         >
           돌아가기
         </Link>

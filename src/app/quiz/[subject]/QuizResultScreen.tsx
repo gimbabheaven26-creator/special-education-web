@@ -51,7 +51,7 @@ function CircularProgressRing({
         cy={size / 2}
         r={radius}
         fill="none"
-        className="stroke-gray-200 dark:stroke-gray-700"
+        className="stroke-muted"
         strokeWidth={strokeWidth}
       />
       <circle

@@ -47,13 +47,13 @@ function ProgressDots({
           'w-3 h-3 rounded-full transition-all duration-200 flex-shrink-0';
 
         if (isCurrent) {
-          dotClass += ' bg-blue-500 ring-2 ring-blue-300 ring-offset-1 animate-pulse';
+          dotClass += ' bg-primary ring-2 ring-primary/40 ring-offset-1 ring-offset-background animate-pulse';
         } else if (result === true) {
           dotClass += ' bg-emerald-500';
         } else if (result === false) {
           dotClass += ' bg-red-500';
         } else {
-          dotClass += ' bg-gray-300 dark:bg-gray-600';
+          dotClass += ' bg-muted-foreground/30';
         }
 
         return <div key={i} className={dotClass} />;
@@ -564,7 +564,7 @@ export function QuizClient({
         </Card>
         <Link
           href="/quiz"
-          className="mt-6 inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-background text-sm font-medium whitespace-nowrap transition-all h-8 gap-1.5 px-2.5 hover:bg-muted hover:text-foreground"
+          className="mt-6 inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-background text-sm font-medium whitespace-nowrap transition-all h-11 gap-1.5 px-2.5 hover:bg-muted hover:text-foreground"
         >
           과목 목록으로
         </Link>

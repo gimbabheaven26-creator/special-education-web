@@ -1,0 +1,20 @@
+import Link from 'next/link';
+
+export default function QuizNotFound() {
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+      <h2 className="text-xl font-bold text-foreground mb-4">
+        과목을 찾을 수 없습니다
+      </h2>
+      <p className="text-muted-foreground mb-6 text-sm">
+        요청하신 과목의 퀴즈가 존재하지 않습니다.
+      </p>
+      <Link
+        href="/quiz"
+        className="inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground font-medium text-sm px-6 py-2.5 hover:bg-primary/90 transition-colors"
+      >
+        퀴즈 목록으로 돌아가기
+      </Link>
+    </div>
+  );
+}

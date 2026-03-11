@@ -146,13 +146,13 @@ export function FlashcardScene({
         <div className="flex items-center gap-1.5 flex-wrap max-h-10 overflow-y-auto sm:max-h-16">
           {Array.from({ length: total }, (_, i) => {
             const result = results[i];
-            let dotClass = 'bg-gray-200 dark:bg-gray-700';
+            let dotClass = 'bg-muted-foreground/30';
             if (result !== undefined) {
               dotClass = result.correct
                 ? 'bg-emerald-500'
                 : 'bg-red-500';
             } else if (i === currentIndex) {
-              dotClass = 'bg-blue-500 ring-2 ring-blue-300 dark:ring-blue-700';
+              dotClass = 'bg-primary ring-2 ring-primary/40';
             }
             return (
               <span
@@ -225,7 +225,7 @@ export function FlashcardScene({
           >
             {/* Front face */}
             <div
-              className="relative min-h-44 sm:min-h-56 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 sm:p-6 flex flex-col items-center justify-center gap-4 cursor-pointer"
+              className="relative min-h-44 sm:min-h-56 rounded-2xl border border-border bg-card p-4 sm:p-6 flex flex-col items-center justify-center gap-4 cursor-pointer"
               style={{
                 backfaceVisibility: 'hidden',
                 boxShadow: flipped
@@ -259,7 +259,7 @@ export function FlashcardScene({
 
             {/* Back face */}
             <div
-              className="absolute inset-0 min-h-44 sm:min-h-56 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 sm:p-6 flex flex-col items-center justify-center gap-4"
+              className="absolute inset-0 min-h-44 sm:min-h-56 rounded-2xl border border-border bg-card p-4 sm:p-6 flex flex-col items-center justify-center gap-4"
               style={{
                 backfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',
@@ -310,15 +310,15 @@ export function FlashcardScene({
       {/* Keyboard hints (desktop) */}
       <div className="hidden sm:flex justify-center gap-6 text-xs text-muted-foreground">
         <span>
-          <kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-gray-600 text-[10px] font-mono">Space</kbd>{' '}
+          <kbd className="px-1.5 py-0.5 rounded border border-border text-[10px] font-mono">Space</kbd>{' '}
           뒤집기
         </span>
         <span>
-          <kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-gray-600 text-[10px] font-mono">←</kbd>{' '}
+          <kbd className="px-1.5 py-0.5 rounded border border-border text-[10px] font-mono">←</kbd>{' '}
           틀림
         </span>
         <span>
-          <kbd className="px-1.5 py-0.5 rounded border border-gray-300 dark:border-gray-600 text-[10px] font-mono">→</kbd>{' '}
+          <kbd className="px-1.5 py-0.5 rounded border border-border text-[10px] font-mono">→</kbd>{' '}
           맞음
         </span>
       </div>

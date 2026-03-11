@@ -37,7 +37,7 @@ function ProgressDots({
   answers: Record<string, string>;
 }) {
   return (
-    <div className="flex flex-wrap gap-1.5 max-h-16 overflow-y-auto py-1">
+    <div className="flex flex-nowrap overflow-x-auto sm:flex-wrap gap-1.5 max-h-10 sm:max-h-16 overflow-y-auto py-1">
       {Array.from({ length: total }, (_, i) => {
         const isCurrent = i === currentIndex;
         const hasAnswer = Object.keys(answers).length > i; // approximate
@@ -46,11 +46,11 @@ function ProgressDots({
           'w-3 h-3 rounded-full transition-all duration-200 flex-shrink-0 cursor-pointer';
 
         if (isCurrent) {
-          dotClass += ' bg-blue-500 ring-2 ring-blue-300 ring-offset-1';
+          dotClass += ' bg-primary ring-2 ring-primary/40 ring-offset-1 ring-offset-background';
         } else if (hasAnswer) {
           dotClass += ' bg-emerald-500';
         } else {
-          dotClass += ' bg-gray-300 dark:bg-gray-600';
+          dotClass += ' bg-muted-foreground/30';
         }
 
         return <div key={i} className={dotClass} />;
@@ -137,7 +137,7 @@ function ExplanationToggle({
     <div>
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:underline"
+        className="flex items-center gap-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:underline min-h-[44px]"
       >
         {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         해설 보기
@@ -185,7 +185,7 @@ function QuestionCard({
 
   return (
     <Card className={`${cardBorder} transition-colors`}>
-      <CardContent className="pt-6">
+      <CardContent className="p-4 sm:p-6 pt-4 sm:pt-6">
         {/* Question number badge */}
         <div className="flex items-center gap-3 mb-4">
           <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-bold shrink-0">
@@ -221,7 +221,7 @@ function QuestionCard({
                 onChange={(e) => onAnswerChange(e.target.value)}
                 placeholder="정답을 입력하세요"
                 aria-label={`${index + 1}번 문제 답안`}
-                className="max-w-md"
+                className="max-w-full sm:max-w-md h-12"
                 autoFocus
               />
             ) : (
@@ -231,7 +231,7 @@ function QuestionCard({
                 placeholder="서술형 답안을 작성하세요"
                 aria-label={`${index + 1}번 문제 서술형 답안`}
                 rows={4}
-                className="w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm transition-colors outline-none placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/50"
+                className="w-full rounded-lg border border-input bg-transparent px-3 py-3 text-base sm:text-sm transition-colors outline-none placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/50"
               />
             )}
           </div>
@@ -270,7 +270,7 @@ function QuestionCard({
                     <Button
                       size="sm"
                       variant="outline"
-                      className="border-green-300 text-green-700 hover:bg-green-50 dark:border-green-700 dark:text-green-400"
+                      className="border-green-300 text-green-700 hover:bg-green-50 dark:border-green-700 dark:text-green-400 min-h-[44px]"
                       onClick={() => onSelfGrade(true)}
                     >
                       <CheckCircle className="h-4 w-4 mr-1" />
@@ -279,7 +279,7 @@ function QuestionCard({
                     <Button
                       size="sm"
                       variant="outline"
-                      className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-400"
+                      className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-400 min-h-[44px]"
                       onClick={() => onSelfGrade(false)}
                     >
                       <XCircle className="h-4 w-4 mr-1" />
@@ -463,7 +463,7 @@ export function WorksheetSolver({
         {/* Score Summary */}
         {scoreInfo && (
           <Card className="border-primary/30 bg-primary/5">
-            <CardContent className="pt-6">
+            <CardContent className="p-4 sm:p-6 pt-4 sm:pt-6">
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <ScoreRing
                   score={scoreInfo.score}
@@ -499,11 +499,11 @@ export function WorksheetSolver({
 
         {/* Action buttons at top */}
         <div className="flex gap-3">
-          <Button variant="outline" size="sm" onClick={handleRetry}>
+          <Button variant="outline" size="sm" onClick={handleRetry} className="min-h-[44px]">
             <RotateCcw className="h-4 w-4 mr-1.5" />
             다시 풀기
           </Button>
-          <Button variant="outline" size="sm" onClick={onNewWorksheet}>
+          <Button variant="outline" size="sm" onClick={onNewWorksheet} className="min-h-[44px]">
             <RefreshCw className="h-4 w-4 mr-1.5" />
             새 문제지
           </Button>
@@ -528,11 +528,11 @@ export function WorksheetSolver({
 
         {/* Bottom action buttons */}
         <div className="flex gap-3 pt-4">
-          <Button variant="outline" onClick={handleRetry}>
+          <Button variant="outline" onClick={handleRetry} className="min-h-[44px]">
             <RotateCcw className="h-4 w-4 mr-1.5" />
             다시 풀기
           </Button>
-          <Button variant="outline" onClick={onNewWorksheet}>
+          <Button variant="outline" onClick={onNewWorksheet} className="min-h-[44px]">
             <RefreshCw className="h-4 w-4 mr-1.5" />
             새 문제지
           </Button>
@@ -591,7 +591,7 @@ export function WorksheetSolver({
           variant="outline"
           onClick={goPrev}
           disabled={currentStep === 0 || isAnimating}
-          className="gap-1"
+          className="gap-1 min-h-[44px]"
         >
           <ChevronLeft className="h-4 w-4" />
           이전
@@ -602,7 +602,7 @@ export function WorksheetSolver({
             <Button
               onClick={goNext}
               disabled={isAnimating}
-              className="gap-1"
+              className="gap-1 min-h-[44px]"
             >
               다음
               <ChevronRight className="h-4 w-4" />
@@ -611,7 +611,7 @@ export function WorksheetSolver({
             <Button
               onClick={handleSubmit}
               disabled={answeredCount === 0}
-              className="gap-1"
+              className="gap-1 min-h-[44px] text-sm whitespace-nowrap"
             >
               <Send className="h-4 w-4 mr-1" />
               제출하기 ({answeredCount}/{totalQuestions})
