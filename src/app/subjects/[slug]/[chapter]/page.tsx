@@ -14,6 +14,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
+import remarkFrontmatter from 'remark-frontmatter';
 
 export function generateStaticParams() {
   return subjects.flatMap((subject) =>
@@ -87,7 +89,14 @@ export default async function ChapterPage({
       {/* 본문 영역 */}
       {mdxSource ? (
         <article className="prose prose-neutral dark:prose-invert max-w-none mb-8">
-          <MDXRemote source={mdxSource} />
+          <MDXRemote
+            source={mdxSource}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm, remarkFrontmatter],
+              },
+            }}
+          />
         </article>
       ) : (
         <div className="min-h-64 flex items-center justify-center border border-dashed border-border rounded-xl bg-muted/30 mb-8">
