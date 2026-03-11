@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import fs from 'fs';
+import path from 'path';
 import { subjects } from '@/data/subjects';
 import {
   Breadcrumb,
@@ -11,6 +13,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 
 export function generateStaticParams() {
   return subjects.flatMap((subject) =>
@@ -21,7 +24,13 @@ export function generateStaticParams() {
   );
 }
 
-export default function ChapterPage({
+function getMdxSource(slug: string, chapterSlug: string): string | null {
+  const mdxPath = path.join(process.cwd(), 'content', slug, `${chapterSlug}.mdx`);
+  if (!fs.existsSync(mdxPath)) return null;
+  return fs.readFileSync(mdxPath, 'utf-8');
+}
+
+export default async function ChapterPage({
   params,
 }: {
   params: { slug: string; chapter: string };
@@ -42,6 +51,7 @@ export default function ChapterPage({
   const chapter = subject.chapters[chapterIndex];
   const prevChapter = chapterIndex > 0 ? subject.chapters[chapterIndex - 1] : null;
   const nextChapter = chapterIndex < subject.chapters.length - 1 ? subject.chapters[chapterIndex + 1] : null;
+  const mdxSource = getMdxSource(slug, chapterSlug);
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
@@ -75,9 +85,15 @@ export default function ChapterPage({
       </div>
 
       {/* 본문 영역 */}
-      <div className="min-h-64 flex items-center justify-center border border-dashed border-border rounded-xl bg-muted/30 mb-8">
-        <p className="text-muted-foreground text-lg">콘텐츠 준비 중입니다.</p>
-      </div>
+      {mdxSource ? (
+        <article className="prose prose-neutral dark:prose-invert max-w-none mb-8">
+          <MDXRemote source={mdxSource} />
+        </article>
+      ) : (
+        <div className="min-h-64 flex items-center justify-center border border-dashed border-border rounded-xl bg-muted/30 mb-8">
+          <p className="text-muted-foreground text-lg">콘텐츠 준비 중입니다.</p>
+        </div>
+      )}
 
       {/* 이전/다음 챕터 이동 */}
       <div className="flex justify-between items-center gap-4">
