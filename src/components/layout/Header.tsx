@@ -14,6 +14,7 @@ import { useState, useEffect } from 'react';
 const navLinks = [
   { href: '/subjects', label: '과목' },
   { href: '/quiz', label: '퀴즈' },
+  { href: '/worksheets', label: '문제지' },
   { href: '/flashcards', label: '플래시카드' },
   { href: '/bookmarks', label: '북마크' },
 ];

@@ -120,3 +120,74 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ===== Worksheet Print Styles ===== */
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 20mm;
+  }
+
+  /* Hide non-essential UI elements */
+  header,
+  footer,
+  nav,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Show print-only elements */
+  .print\:block {
+    display: block !important;
+  }
+
+  body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #000;
+    background: #fff;
+  }
+
+  /* Worksheet layout */
+  .worksheet-content {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* Question spacing for A4 */
+  .worksheet-question {
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  /* fill_in: 8 questions per page - compact spacing */
+  .worksheet-fillin {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  /* descriptive: 3-4 per page - more answer space */
+  .worksheet-descriptive {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+  }
+
+  /* QR code stays visible in print */
+  img[alt="QR 코드"] {
+    display: block !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Clean badge appearance in print */
+  [data-slot="badge"] {
+    border: 1px solid #999;
+    padding: 1px 6px;
+    font-size: 11px;
+  }
+
+  /* Answer blanks in print */
+  .border-dashed {
+    border-color: #999 !important;
+  }
+}
