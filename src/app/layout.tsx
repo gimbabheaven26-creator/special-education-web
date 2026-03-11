@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ReviewPanel } from "@/components/ReviewPanel";
 
 export const metadata: Metadata = {
   title: "특수교육 공부방",
@@ -23,6 +24,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <ReviewPanel />
         </ThemeProvider>
       </body>
     </html>
