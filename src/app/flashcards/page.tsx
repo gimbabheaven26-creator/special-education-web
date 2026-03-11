@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useLeitnerStore } from '@/store/useLeitnerStore';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

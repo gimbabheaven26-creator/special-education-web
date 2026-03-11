@@ -1,6 +1,58 @@
-import type { WorksheetConfig } from '@/data/worksheets/types';
-import { SUBJECT_CODES } from '@/data/worksheets/types';
-import { getWorksheetQuestions as getQuestionsFromBank } from '@/data/worksheets';
+import { getWorksheetsByTopic, type WorksheetQuestionRow } from '@/lib/db';
+
+// ─── Types (migrated from @/data/worksheets/types) ───
+
+export interface WorksheetQuestion {
+  id: string;
+  topicId: string;
+  subject: string;
+  type: 'fill_in' | 'descriptive';
+  difficulty: 1 | 2 | 3;
+  question: string;
+  answer: string;
+  explanation: string;
+  source?: string;
+  tags?: string[];
+}
+
+export interface WorksheetConfig {
+  id: string;
+  subject: string;
+  topicId: string;
+  topicName: string;
+  type: 'fill_in' | 'descriptive' | 'mixed';
+  questionCount: number;
+  questions: WorksheetQuestion[];
+  createdAt: string;
+}
+
+/** 과목별 코드 매핑 (학습지 ID 생성용) */
+const SUBJECT_CODES: Record<string, string> = {
+  'behavior-support': 'BH',
+  'introduction': 'IN',
+  'laws': 'LW',
+  'curriculum': 'CR',
+  'assessment': 'AS',
+  'inclusive-education': 'IE',
+  'transition': 'TR',
+};
+
+// ─── Helpers ───
+
+function mapRowToQuestion(row: WorksheetQuestionRow): WorksheetQuestion {
+  return {
+    id: row.id,
+    topicId: row.topic_id,
+    subject: row.subject,
+    type: row.type,
+    difficulty: row.difficulty,
+    question: row.question,
+    answer: row.answer,
+    explanation: row.explanation,
+    source: row.source,
+    tags: row.tags,
+  };
+}
 
 /**
  * Generate a unique worksheet ID like SP-BH-0042
@@ -12,9 +64,9 @@ export function generateWorksheetId(subjectSlug: string): string {
 }
 
 /**
- * Fisher-Yates shuffle
+ * Fisher-Yates shuffle (immutable)
  */
-function shuffleArray<T>(arr: T[]): T[] {
+function shuffleArray<T>(arr: readonly T[]): T[] {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -24,30 +76,29 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 /**
- * Build a WorksheetConfig from selections
+ * Build a WorksheetConfig from selections (async — fetches from Supabase)
  */
-export function buildWorksheet(
+export async function buildWorksheet(
   subjectSlug: string,
   topicId: string,
   topicName: string,
   type: 'fill_in' | 'descriptive' | 'mixed',
-): WorksheetConfig | null {
+): Promise<WorksheetConfig | null> {
   const questionCount = type === 'fill_in' ? 8 : type === 'descriptive' ? 4 : 6;
 
-  let allQuestions = getQuestionsFromBank(subjectSlug, topicId);
+  const rows = await getWorksheetsByTopic(subjectSlug, topicId);
+  let questions = rows.map(mapRowToQuestion);
 
   // Filter by type if not mixed
   if (type !== 'mixed') {
-    allQuestions = allQuestions.filter((q) => q.type === type);
+    questions = questions.filter((q) => q.type === type);
   }
 
-  // No questions available
-  if (allQuestions.length === 0) {
+  if (questions.length === 0) {
     return null;
   }
 
-  // Shuffle and pick
-  const picked = shuffleArray(allQuestions).slice(0, questionCount);
+  const picked = shuffleArray(questions).slice(0, questionCount);
 
   return {
     id: generateWorksheetId(subjectSlug),
@@ -68,7 +119,6 @@ export function saveWorksheet(worksheet: WorksheetConfig): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem(`worksheet-${worksheet.id}`, JSON.stringify(worksheet));
-    // 오래된 학습지 정리 (최근 20개만 유지)
     cleanupOldWorksheets();
   } catch {
     // Storage full or unavailable

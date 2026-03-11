@@ -182,13 +182,44 @@ export async function saveReview(path: string, content: string): Promise<boolean
   return !error;
 }
 
-// ─── Search ───
+// ─── Quiz by Chapter ───
 
-export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
+export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: string): Promise<QuizQuestion[]> {
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
-    .or(`question.ilike.%${query}%,explanation.ilike.%${query}%`);
+    .eq('subject', subjectSlug)
+    .eq('chapter', chapterSlug);
+
+  if (error || !data) return [];
+  return data.map(mapQuizRow);
+}
+
+// ─── Quiz Count ───
+
+export async function getQuizCount(): Promise<Record<string, number>> {
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('subject');
+
+  if (error || !data) return {};
+
+  const counts: Record<string, number> = {};
+  for (const row of data) {
+    const s = row.subject as string;
+    counts[s] = (counts[s] || 0) + 1;
+  }
+  return counts;
+}
+
+// ─── Search ───
+
+export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
+  const sanitized = query.replace(/[%_\\]/g, (c) => `\\${c}`);
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('*')
+    .or(`question.ilike.%${sanitized}%,explanation.ilike.%${sanitized}%`);
 
   if (error || !data) return [];
   return data.map(mapQuizRow);

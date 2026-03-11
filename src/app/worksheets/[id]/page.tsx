@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import type { WorksheetConfig } from '@/data/worksheets/types';
+import type { WorksheetConfig } from '@/lib/worksheet-utils';
 import { loadWorksheet } from '@/lib/worksheet-utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

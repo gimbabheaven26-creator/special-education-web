@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { subjects } from '@/data/subjects';
-import type { WorksheetConfig } from '@/data/worksheets/types';
-import { getAvailableTopics, topicsBySubject } from '@/data/worksheets';
+import { getSubjects, getWorksheetTopics, getAllWorksheetTopics } from '@/lib/db';
+import type { WorksheetTopicRow } from '@/lib/db';
+import type { Subject } from '@/types/content';
+import type { WorksheetConfig } from '@/lib/worksheet-utils';
 import { buildWorksheet, saveWorksheet } from '@/lib/worksheet-utils';
 import { checkFillInAnswer } from '@/lib/answer-checker';
 import { Button } from '@/components/ui/button';
@@ -43,6 +44,11 @@ export default function WorksheetsPage() {
   const [noQuestionsError, setNoQuestionsError] = useState(false);
   const [origin, setOrigin] = useState('');
 
+  // DB에서 가져온 데이터
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [subjectsWithTopics, setSubjectsWithTopics] = useState<Set<string>>(new Set());
+  const [worksheetTopics, setWorksheetTopics] = useState<WorksheetTopicRow[]>([]);
+
   // 인터랙티브 모드 상태
   const [mode, setMode] = useState<'solve' | 'print'>('solve');
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
@@ -50,22 +56,45 @@ export default function WorksheetsPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showPrintAnswers, setShowPrintAnswers] = useState(false);
 
+  // 초기 데이터 로드
   useEffect(() => {
     setOrigin(window.location.origin);
+
+    async function loadInitialData() {
+      const [fetchedSubjects, allTopics] = await Promise.all([
+        getSubjects(),
+        getAllWorksheetTopics(),
+      ]);
+      setSubjects(fetchedSubjects);
+      setSubjectsWithTopics(new Set(allTopics.map((t) => t.subject)));
+    }
+    loadInitialData();
   }, []);
 
   const currentSubject = useMemo(
     () => subjects.find((s) => s.slug === selectedSubject),
-    [selectedSubject],
+    [subjects, selectedSubject],
   );
 
-  const worksheetTopics = useMemo(() => {
-    if (!selectedSubject) return [];
-    return getAvailableTopics(selectedSubject);
+  // 과목 변경 시 토픽 로드
+  useEffect(() => {
+    if (!selectedSubject) {
+      setWorksheetTopics([]);
+      return;
+    }
+    let cancelled = false;
+    async function loadTopics() {
+      const topics = await getWorksheetTopics(selectedSubject);
+      if (!cancelled) {
+        setWorksheetTopics(topics);
+      }
+    }
+    loadTopics();
+    return () => { cancelled = true; };
   }, [selectedSubject]);
 
   const topics = useMemo(() => {
-    return worksheetTopics.map((t) => ({ slug: t.id, title: `${t.name} (${t.count}문항)` }));
+    return worksheetTopics.map((t) => ({ slug: t.id, title: t.name }));
   }, [worksheetTopics]);
 
   const handleSubjectChange = (slug: string) => {
@@ -86,7 +115,7 @@ export default function WorksheetsPage() {
     setShowPrintAnswers(false);
   }, []);
 
-  const generateWorksheet = () => {
+  const generateWorksheet = async () => {
     if (!selectedSubject || !selectedTopic) return;
 
     const wsTopicMatch = worksheetTopics.find((t) => t.id === selectedTopic);
@@ -94,7 +123,7 @@ export default function WorksheetsPage() {
       ?? currentSubject?.chapters.find((c) => c.slug === selectedTopic)?.title
       ?? selectedTopic;
 
-    const ws = buildWorksheet(selectedSubject, selectedTopic, topicName, selectedType);
+    const ws = await buildWorksheet(selectedSubject, selectedTopic, topicName, selectedType);
     if (!ws) {
       setNoQuestionsError(true);
       setWorksheet(null);
@@ -189,14 +218,14 @@ export default function WorksheetsPage() {
               >
                 <option value="">-- 과목을 선택하세요 --</option>
                 {subjects
-                  .filter((s) => topicsBySubject[s.slug])
+                  .filter((s) => subjectsWithTopics.has(s.slug))
                   .map((s) => (
                     <option key={s.slug} value={s.slug}>
                       {s.title}
                     </option>
                   ))}
                 {subjects
-                  .filter((s) => !topicsBySubject[s.slug])
+                  .filter((s) => !subjectsWithTopics.has(s.slug))
                   .map((s) => (
                     <option key={s.slug} value={s.slug} disabled>
                       {s.title} (준비중)

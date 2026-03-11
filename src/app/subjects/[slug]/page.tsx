@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { subjects } from '@/data/subjects';
+import { getSubjectBySlug } from '@/lib/db';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,19 +12,13 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
-export function generateStaticParams() {
-  return subjects.map((subject) => ({
-    slug: subject.slug,
-  }));
-}
-
-export default function SubjectDetailPage({
+export default async function SubjectDetailPage({
   params,
 }: {
   params: { slug: string };
 }) {
   const { slug } = params;
-  const subject = subjects.find((s) => s.slug === slug);
+  const subject = await getSubjectBySlug(slug);
 
   if (!subject) {
     notFound();

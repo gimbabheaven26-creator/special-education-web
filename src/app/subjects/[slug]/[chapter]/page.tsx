@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import fs from 'fs';
 import path from 'path';
-import { subjects } from '@/data/subjects';
+import { getSubjectBySlug } from '@/lib/db';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,15 +17,6 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 
-export function generateStaticParams() {
-  return subjects.flatMap((subject) =>
-    subject.chapters.map((chapter) => ({
-      slug: subject.slug,
-      chapter: chapter.slug,
-    }))
-  );
-}
-
 function getMdxSource(slug: string, chapterSlug: string): string | null {
   const mdxPath = path.join(process.cwd(), 'content', slug, `${chapterSlug}.mdx`);
   if (!fs.existsSync(mdxPath)) return null;
@@ -38,7 +29,7 @@ export default async function ChapterPage({
   params: { slug: string; chapter: string };
 }) {
   const { slug, chapter: chapterSlug } = params;
-  const subject = subjects.find((s) => s.slug === slug);
+  const subject = await getSubjectBySlug(slug);
 
   if (!subject) {
     notFound();

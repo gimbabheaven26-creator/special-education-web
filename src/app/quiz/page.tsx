@@ -13,7 +13,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { subjects } from '@/data/subjects';
+import { getSubjects } from '@/lib/db';
 import type { Subject } from '@/types/content';
 import type { LucideIcon } from 'lucide-react';
 
@@ -56,7 +56,9 @@ function QuizSubjectCard({ subject }: { subject: Subject }) {
   );
 }
 
-export default function QuizPage() {
+export default async function QuizPage() {
+  const subjects = await getSubjects();
+
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
       <h1 className="text-3xl font-bold text-foreground mb-2">퀴즈</h1>

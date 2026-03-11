@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { useLeitnerStore } from '@/store/useLeitnerStore';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
