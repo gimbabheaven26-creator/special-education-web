@@ -3,6 +3,8 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 const REVIEWS_PATH = join(process.cwd(), 'reviews.json');
+const MAX_CONTENT_LENGTH = 10000;
+const PATH_PATTERN = /^\/[a-z0-9\-\/]*$/;
 
 interface Review {
   path: string;
@@ -13,7 +15,9 @@ interface Review {
 async function readReviews(): Promise<Review[]> {
   try {
     const data = await readFile(REVIEWS_PATH, 'utf-8');
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    if (!Array.isArray(parsed)) return [];
+    return parsed;
   } catch {
     return [];
   }
@@ -31,16 +35,33 @@ export async function GET() {
 
 // POST: 리뷰 저장/업데이트
 export async function POST(req: NextRequest) {
-  const { path, content } = await req.json();
-  if (!path || typeof path !== 'string') {
-    return NextResponse.json({ error: 'path is required' }, { status: 400 });
+  let body: { path?: unknown; content?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'invalid JSON' }, { status: 400 });
+  }
+
+  const { path, content } = body;
+
+  if (!path || typeof path !== 'string' || !PATH_PATTERN.test(path)) {
+    return NextResponse.json({ error: 'invalid path' }, { status: 400 });
+  }
+
+  if (content !== undefined && typeof content !== 'string') {
+    return NextResponse.json({ error: 'content must be string' }, { status: 400 });
+  }
+
+  const contentStr = typeof content === 'string' ? content : '';
+
+  if (contentStr.length > MAX_CONTENT_LENGTH) {
+    return NextResponse.json({ error: 'content too long' }, { status: 400 });
   }
 
   const reviews = await readReviews();
   const existing = reviews.findIndex((r) => r.path === path);
 
-  if (!content || !content.trim()) {
-    // 빈 내용이면 삭제
+  if (!contentStr.trim()) {
     if (existing !== -1) {
       reviews.splice(existing, 1);
       await writeReviews(reviews);
@@ -50,7 +71,7 @@ export async function POST(req: NextRequest) {
 
   const review: Review = {
     path,
-    content: content.trim(),
+    content: contentStr.trim(),
     updatedAt: new Date().toISOString(),
   };
 

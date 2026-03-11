@@ -3,11 +3,12 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { BottomTabBar } from "@/components/layout/BottomTabBar";
 import { ReviewPanel } from "@/components/ReviewPanel";
 
 export const metadata: Metadata = {
   title: "특수교육 공부방",
-  description: "특수교육 학습을 위한 웹사이트",
+  description: "특수교육 임용시험 대비 학습 플랫폼",
 };
 
 export default function RootLayout({
@@ -20,10 +21,11 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ThemeProvider>
           <Header />
-          <main className="min-h-screen">
+          <main className="min-h-screen pb-20 md:pb-0">
             {children}
           </main>
           <Footer />
+          <BottomTabBar />
           <ReviewPanel />
         </ThemeProvider>
       </body>

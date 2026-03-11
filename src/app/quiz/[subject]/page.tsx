@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getQuizzesBySubject } from '@/data/quizzes';
 import { subjects } from '@/data/subjects';
 import type { QuizQuestion } from '@/types/quiz';
+import { checkFillInAnswer } from '@/lib/answer-checker';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -374,7 +375,7 @@ function FillInChoice({
     setSubmitted(false);
   };
 
-  const isCorrect = submitted && input.trim() === String(question.answer);
+  const isCorrect = submitted && checkFillInAnswer(input, String(question.answer));
 
   return (
     <div>
@@ -471,7 +472,9 @@ export default function SubjectQuizPage({
 
   const handleAnswer = (answer: string | number) => {
     const question = questions[currentIndex];
-    const isCorrect = String(answer) === String(question.answer);
+    const isCorrect = question.type === 'fill_in'
+      ? checkFillInAnswer(String(answer), String(question.answer))
+      : String(answer) === String(question.answer);
     if (isCorrect) setCorrectCount((prev) => prev + 1);
 
     if (currentIndex + 1 >= questions.length) {

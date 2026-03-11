@@ -23,6 +23,8 @@ import {
   RotateCcw,
 } from 'lucide-react';
 
+const POINTS = { fill_in: 2, descriptive: 4 } as const;
+
 function QRCode({ url, size = 80 }: { url: string; size?: number }) {
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(url)}`;
   return (
@@ -138,7 +140,7 @@ export default function WorksheetsPage() {
     const hasUngraded = Object.values(grades).some((g) => g === null);
 
     for (const q of worksheet.questions) {
-      const pts = q.type === 'fill_in' ? 2 : 4;
+      const pts = POINTS[q.type as keyof typeof POINTS] ?? POINTS.fill_in;
       maxScore += pts;
       total++;
       const g = grades[q.id];
@@ -420,20 +422,21 @@ export default function WorksheetsPage() {
                                 setUserAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))
                               }
                               onKeyDown={(e) => {
-                                if (e.key === 'Enter' && !isSubmitted) {
-                                  // 다음 빈 input으로 포커스 이동
+                                if (e.key === 'Enter' && !e.shiftKey && !isSubmitted) {
+                                  e.preventDefault();
                                   const inputs = document.querySelectorAll<HTMLInputElement>(
                                     '[data-worksheet-input]'
                                   );
                                   const currentIdx = Array.from(inputs).indexOf(
                                     e.target as HTMLInputElement
                                   );
-                                  if (currentIdx < inputs.length - 1) {
+                                  if (currentIdx >= 0 && currentIdx < inputs.length - 1) {
                                     inputs[currentIdx + 1].focus();
                                   }
                                 }
                               }}
                               placeholder="정답을 입력하세요"
+                              aria-label={`${idx + 1}번 문제 답안`}
                               disabled={isSubmitted}
                               data-worksheet-input=""
                               className={`max-w-md ${
@@ -453,6 +456,7 @@ export default function WorksheetsPage() {
                                 setUserAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))
                               }
                               placeholder="서술형 답안을 작성하세요"
+                              aria-label={`${idx + 1}번 문제 서술형 답안`}
                               disabled={isSubmitted}
                               rows={4}
                               className={`w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm transition-colors outline-none placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/50 disabled:opacity-50 disabled:cursor-not-allowed ${

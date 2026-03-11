@@ -10,16 +10,17 @@ interface Review {
   updatedAt: string;
 }
 
-// 서버 API로 저장
-async function saveToServer(path: string, content: string) {
+// 서버 API로 저장 (실패 시 false 반환)
+async function saveToServer(path: string, content: string): Promise<boolean> {
   try {
-    await fetch('/api/reviews', {
+    const res = await fetch('/api/reviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ path, content }),
     });
+    return res.ok;
   } catch {
-    // 서버 저장 실패해도 localStorage는 유지
+    return false;
   }
 }
 
@@ -56,6 +57,7 @@ export function ReviewPanel() {
   const [view, setView] = useState<'edit' | 'history'>('edit');
   const [note, setNote] = useState('');
   const [saved, setSaved] = useState(false);
+  const [serverError, setServerError] = useState(false);
   const [allReviews, setAllReviews] = useState<Review[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -78,7 +80,9 @@ export function ReviewPanel() {
         delete notes[pathname];
       }
       saveLocalNotes(notes);
-      saveToServer(pathname, value);
+      saveToServer(pathname, value).then((ok) => {
+        setServerError(!ok);
+      });
       setSaved(true);
     },
     [pathname],
@@ -239,7 +243,8 @@ export function ReviewPanel() {
                     )}
                   </div>
                   <span className="text-xs text-muted-foreground">
-                    {saved && <span className="text-green-600 dark:text-green-400">저장됨</span>}
+                    {saved && !serverError && <span className="text-green-600 dark:text-green-400">저장됨</span>}
+                    {saved && serverError && <span className="text-amber-600 dark:text-amber-400">로컬만 저장됨</span>}
                     {!saved && hasNote && <span>자동 저장 대기...</span>}
                   </span>
                 </div>
