@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { FlashcardScene } from '@/components/flashcard/FlashcardScene';
 
 interface SessionResult {
   cardId: string;
@@ -22,31 +21,37 @@ export default function ReviewPage() {
   const dueCards = useMemo(() => getDueCards(), []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [flipped, setFlipped] = useState(false);
   const [results, setResults] = useState<SessionResult[]>([]);
   const [done, setDone] = useState(false);
 
   const total = dueCards.length;
   const currentCard = dueCards[currentIndex];
 
-  function handleAnswer(correct: boolean) {
-    if (!currentCard) return;
+  const handleAnswer = useCallback(
+    (correct: boolean) => {
+      if (!currentCard) return;
 
-    answerCard(currentCard.id, correct);
-    setResults((prev) => [
-      ...prev,
-      { cardId: currentCard.id, correct, fromBox: currentCard.box },
-    ]);
+      answerCard(currentCard.id, correct);
 
-    const next = currentIndex + 1;
-    if (next >= total) {
-      setDone(true);
-    } else {
-      setCurrentIndex(next);
-      setFlipped(false);
-    }
-  }
+      const newResult: SessionResult = {
+        cardId: currentCard.id,
+        correct,
+        fromBox: currentCard.box,
+      };
 
+      setResults((prev) => [...prev, newResult]);
+
+      const next = currentIndex + 1;
+      if (next >= total) {
+        setDone(true);
+      } else {
+        setCurrentIndex(next);
+      }
+    },
+    [currentCard, answerCard, currentIndex, total]
+  );
+
+  // Empty state
   if (total === 0) {
     return (
       <main className="max-w-xl mx-auto px-4 py-16 flex flex-col items-center gap-6 text-center">
@@ -69,6 +74,7 @@ export default function ReviewPage() {
     );
   }
 
+  // Session results screen
   if (done) {
     const correctCount = results.filter((r) => r.correct).length;
     const wrongCount = results.length - correctCount;
@@ -79,6 +85,18 @@ export default function ReviewPage() {
       <main className="max-w-xl mx-auto px-4 py-16 flex flex-col items-center gap-6 text-center">
         <h1 className="text-2xl font-bold">복습 완료!</h1>
         <p className="text-muted-foreground text-sm">총 {total}장을 복습했어요.</p>
+
+        {/* Progress dots summary */}
+        <div className="flex items-center gap-1.5 flex-wrap justify-center">
+          {results.map((r, i) => (
+            <span
+              key={i}
+              className={`inline-block w-3 h-3 rounded-full ${
+                r.correct ? 'bg-emerald-500' : 'bg-red-500'
+              }`}
+            />
+          ))}
+        </div>
 
         <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
           <div className="rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-4 flex flex-col items-center gap-1">
@@ -117,84 +135,19 @@ export default function ReviewPage() {
     );
   }
 
+  // Active review screen
   return (
-    <main className="max-w-xl mx-auto px-4 py-8 flex flex-col gap-6">
-      {/* Progress */}
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-foreground font-medium">
-          {currentIndex + 1} / {total}
-        </span>
-        <Badge variant="outline">박스 {currentCard.box}</Badge>
-      </div>
-
-      {/* Progress bar */}
-      <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-        <div
-          className="h-full bg-primary rounded-full transition-all duration-300"
-          style={{ width: `${(currentIndex / total) * 100}%` }}
-        />
-      </div>
-
-      {/* Flashcard */}
-      <div
-        className="relative cursor-pointer select-none"
-        onClick={() => !flipped && setFlipped(true)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => e.key === 'Enter' && !flipped && setFlipped(true)}
-        aria-label="카드를 클릭하여 답 확인"
-      >
-        <Card className="min-h-56 flex flex-col justify-center transition-all duration-200">
-          <CardContent className="flex flex-col gap-4 py-8">
-            {!flipped ? (
-              <>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium text-center">
-                  질문
-                </p>
-                <p className="text-center text-lg font-medium leading-relaxed">
-                  {currentCard.question}
-                </p>
-                <p className="text-center text-xs text-muted-foreground mt-4">
-                  탭하여 답 확인
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium text-center">
-                  답
-                </p>
-                <p className="text-center text-base leading-relaxed whitespace-pre-wrap">
-                  {currentCard.answer}
-                </p>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Answer buttons - only shown when flipped */}
-      {flipped && (
-        <div className="grid grid-cols-2 gap-3">
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/20 h-14 text-base font-semibold"
-            onClick={() => handleAnswer(false)}
-          >
-            틀렸어요
-          </Button>
-          <Button
-            size="lg"
-            className="bg-green-600 hover:bg-green-700 text-white h-14 text-base font-semibold"
-            onClick={() => handleAnswer(true)}
-          >
-            맞았어요
-          </Button>
-        </div>
-      )}
+    <main className="max-w-xl mx-auto px-4 py-8 flex flex-col gap-4">
+      <FlashcardScene
+        card={currentCard}
+        onAnswer={handleAnswer}
+        currentIndex={currentIndex}
+        total={total}
+        results={results}
+      />
 
       {/* Session exit link */}
-      <div className="text-center">
+      <div className="text-center mt-2">
         <Button
           variant="ghost"
           size="sm"

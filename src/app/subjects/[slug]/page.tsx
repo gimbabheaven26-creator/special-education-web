@@ -9,8 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import LearningTimeline from '@/components/subjects/LearningTimeline';
 
 export default async function SubjectDetailPage({
   params,
@@ -49,32 +48,11 @@ export default async function SubjectDetailPage({
         <p className="text-lg text-muted-foreground">{subject.description}</p>
       </div>
 
-      {/* 챕터 목록 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {subject.chapters.map((chapter) => (
-          <Link
-            key={chapter.slug}
-            href={`/subjects/${subject.slug}/${chapter.slug}`}
-            className="block"
-          >
-            <Card className="h-full transition-shadow duration-200 hover:shadow-md cursor-pointer">
-              <CardHeader>
-                <CardTitle className="text-base">{chapter.title}</CardTitle>
-                <CardDescription>{chapter.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-1.5">
-                  {chapter.keywords.map((keyword) => (
-                    <Badge key={keyword} variant="secondary">
-                      {keyword}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
+      {/* 학습 경로 타임라인 */}
+      <LearningTimeline
+        subjectSlug={subject.slug}
+        chapters={subject.chapters}
+      />
     </div>
   );
 }
