@@ -85,7 +85,7 @@ function PrintModeQuestions({
               </p>
 
               {q.type === 'fill_in' && !showAnswers && (
-                <div className="mt-3 border-b-2 border-dashed border-foreground/30 w-64 h-8" />
+                <div className="mt-3 border-b-2 border-dashed border-foreground/30 w-full max-w-64 h-8" />
               )}
               {q.type === 'descriptive' && !showAnswers && (
                 <div className="mt-3 space-y-3">
@@ -154,7 +154,7 @@ function ConfigStep({
                 <button
                   key={count}
                   onClick={() => onQuestionCountChange(count)}
-                  className={`flex-1 h-9 rounded-lg text-sm font-medium transition-colors border ${
+                  className={`flex-1 h-11 rounded-lg text-sm font-medium transition-colors border ${
                     questionCount === count
                       ? 'bg-primary text-primary-foreground border-primary'
                       : 'bg-background text-foreground border-border hover:bg-muted'
@@ -175,7 +175,7 @@ function ConfigStep({
                 <button
                   key={d}
                   onClick={() => onDifficultyChange(d)}
-                  className={`flex-1 h-9 rounded-lg text-sm font-medium transition-colors border ${
+                  className={`flex-1 h-11 rounded-lg text-sm font-medium transition-colors border ${
                     difficulty === d
                       ? 'bg-primary text-primary-foreground border-primary'
                       : 'bg-background text-foreground border-border hover:bg-muted'
@@ -370,7 +370,7 @@ export default function WorksheetsPage() {
               <select
                 value={selectedSubject}
                 onChange={(e) => handleSubjectChange(e.target.value)}
-                className="w-full h-10 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full h-11 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 <option value="">-- 과목을 선택하세요 --</option>
                 {subjects
@@ -399,7 +399,7 @@ export default function WorksheetsPage() {
                 value={selectedTopic}
                 onChange={(e) => handleTopicChange(e.target.value)}
                 disabled={!selectedSubject}
-                className="w-full h-10 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-11 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <option value="">-- 영역을 선택하세요 --</option>
                 {topics.map((t) => (
@@ -422,7 +422,7 @@ export default function WorksheetsPage() {
                     e.target.value as 'fill_in' | 'descriptive' | 'mixed',
                   )
                 }
-                className="w-full h-10 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full h-11 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 <option value="fill_in">기입형 2점</option>
                 <option value="descriptive">서술형 4점</option>
@@ -440,7 +440,7 @@ export default function WorksheetsPage() {
           <Button
             onClick={generateWorksheet}
             disabled={!selectedSubject || !selectedTopic}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto min-h-[44px]"
           >
             <FileText className="h-4 w-4 mr-2" />
             문제지 생성
@@ -556,6 +556,7 @@ export default function WorksheetsPage() {
                 <Button
                   onClick={() => window.print()}
                   variant="outline"
+                  className="min-h-[44px]"
                 >
                   <Printer className="h-4 w-4 mr-2" />
                   출력하기
@@ -563,10 +564,11 @@ export default function WorksheetsPage() {
                 <Button
                   onClick={() => setShowPrintAnswers((prev) => !prev)}
                   variant="outline"
+                  className="min-h-[44px]"
                 >
                   {showPrintAnswers ? '정답 숨기기' : '정답보기'}
                 </Button>
-                <Button onClick={generateWorksheet} variant="outline">
+                <Button onClick={generateWorksheet} variant="outline" className="min-h-[44px]">
                   <RefreshCw className="h-4 w-4 mr-2" />
                   다른 문제지
                 </Button>

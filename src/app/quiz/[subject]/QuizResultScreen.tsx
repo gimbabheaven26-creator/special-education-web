@@ -143,7 +143,9 @@ export function QuizResultScreen({
     <div className="max-w-2xl mx-auto">
       {/* Score Ring */}
       <div className="text-center mb-6">
-        <CircularProgressRing percentage={rate} />
+        <div className="scale-90 sm:scale-100">
+          <CircularProgressRing percentage={rate} />
+        </div>
         <p className="mt-3 text-lg text-muted-foreground">
           {total}문제 중 <span className="font-bold text-foreground">{correctCount}문제</span> 정답
         </p>
@@ -219,18 +221,18 @@ export function QuizResultScreen({
       {/* Action Buttons */}
       <div className="flex gap-3 flex-wrap justify-center">
         {wrongCount > 0 && (
-          <Button onClick={onRetryWrong} variant="outline" className="flex items-center gap-2">
+          <Button onClick={onRetryWrong} variant="outline" className="flex items-center gap-2 min-h-[44px]">
             <XCircle className="h-4 w-4" />
             틀린 문제 다시 풀기 ({wrongCount}문제)
           </Button>
         )}
-        <Button onClick={onRestart} className="flex items-center gap-2">
+        <Button onClick={onRestart} className="flex items-center gap-2 min-h-[44px]">
           <RotateCcw className="h-4 w-4" />
           다시 풀기
         </Button>
         <Link
           href="/quiz"
-          className="inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-background text-sm font-medium whitespace-nowrap transition-all h-9 gap-1.5 px-3 hover:bg-muted hover:text-foreground"
+          className="inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-background text-sm font-medium whitespace-nowrap transition-all min-h-[44px] gap-1.5 px-3 hover:bg-muted hover:text-foreground"
         >
           과목 목록
         </Link>

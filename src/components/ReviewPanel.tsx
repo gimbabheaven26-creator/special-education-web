@@ -161,7 +161,7 @@ export function ReviewPanel() {
             setView('edit');
             setTimeout(() => textareaRef.current?.focus(), 100);
           }}
-          className="fixed right-6 bottom-6 z-50 flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-3 shadow-lg hover:bg-primary/90 hover:scale-105 transition-all print:hidden"
+          className="fixed right-4 bottom-20 md:bottom-6 z-50 flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-3 shadow-lg hover:bg-primary/90 hover:scale-105 transition-all min-w-[44px] min-h-[44px] print:hidden"
           title="나의 리뷰"
         >
           <MessageSquarePlus className="h-5 w-5" />
@@ -173,14 +173,14 @@ export function ReviewPanel() {
 
       {/* 리뷰 패널 */}
       {isOpen && (
-        <div className="fixed right-0 top-0 bottom-0 z-50 w-80 sm:w-96 bg-background border-l border-border shadow-2xl flex flex-col print:hidden">
+        <div className="fixed right-0 top-0 bottom-0 z-50 w-full sm:w-96 bg-background border-l border-border shadow-2xl flex flex-col print:hidden">
           {/* 헤더 */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50">
             <div className="flex items-center gap-2">
               {view === 'history' && (
                 <button
                   onClick={() => setView('edit')}
-                  className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                  className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </button>
@@ -190,7 +190,7 @@ export function ReviewPanel() {
                   {view === 'edit' ? '나의 리뷰' : '리뷰 히스토리'}
                 </h3>
                 {view === 'edit' && (
-                  <p className="text-xs text-muted-foreground truncate max-w-[180px]">
+                  <p className="text-xs text-muted-foreground truncate max-w-[calc(100%-2rem)]">
                     {formatPath(pathname)}
                   </p>
                 )}
@@ -203,7 +203,7 @@ export function ReviewPanel() {
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <X className="h-4 w-4" />
             </button>
@@ -227,7 +227,7 @@ export function ReviewPanel() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleSaveNow}
-                      className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                      className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors min-h-[44px]"
                     >
                       <Save className="h-3.5 w-3.5" />
                       저장
@@ -235,7 +235,7 @@ export function ReviewPanel() {
                     {hasNote && (
                       <button
                         onClick={handleDelete}
-                        className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md text-destructive hover:bg-destructive/10 transition-colors"
+                        className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md text-destructive hover:bg-destructive/10 transition-colors min-h-[44px]"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                         삭제
@@ -250,7 +250,7 @@ export function ReviewPanel() {
                 </div>
                 <button
                   onClick={loadHistory}
-                  className="w-full inline-flex items-center justify-center gap-1.5 text-xs px-3 py-2 rounded-md border border-border hover:bg-muted transition-colors text-foreground"
+                  className="w-full inline-flex items-center justify-center gap-1.5 text-xs px-3 py-2 rounded-md border border-border hover:bg-muted transition-colors text-foreground min-h-[44px]"
                 >
                   <History className="h-3.5 w-3.5" />
                   리뷰 히스토리 ({noteCount}개)
@@ -271,7 +271,7 @@ export function ReviewPanel() {
                 <button
                   key={review.path}
                   onClick={() => navigateToReview(review.path)}
-                  className="w-full text-left px-4 py-3 border-b border-border hover:bg-muted/50 transition-colors group"
+                  className="w-full text-left px-4 py-3 border-b border-border hover:bg-muted/50 transition-colors group min-h-[44px]"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1">

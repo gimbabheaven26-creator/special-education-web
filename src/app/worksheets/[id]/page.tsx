@@ -83,7 +83,7 @@ export default function WorksheetViewPage({
             <Badge variant="outline">{worksheet.questionCount}문제</Badge>
           </div>
         </div>
-        <div className="shrink-0 ml-4">
+        <div className="shrink-0 ml-4 hidden sm:block">
           <QRCode
             url={`${origin}/worksheets/${worksheet.id}/answers`}
             size={80}
@@ -116,7 +116,7 @@ export default function WorksheetViewPage({
                 </p>
 
                 {q.type === 'fill_in' && !showAnswers && (
-                  <div className="mt-3 border-b-2 border-dashed border-foreground/30 w-64 h-8" />
+                  <div className="mt-3 border-b-2 border-dashed border-foreground/30 w-full max-w-64 h-8" />
                 )}
                 {q.type === 'descriptive' && !showAnswers && (
                   <div className="mt-3 space-y-3">
@@ -160,16 +160,16 @@ export default function WorksheetViewPage({
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3 mt-8 print:hidden">
-        <Button onClick={handlePrint} variant="outline">
+        <Button onClick={handlePrint} variant="outline" className="min-h-[44px]">
           <Printer className="h-4 w-4 mr-2" />
           출력하기
         </Button>
-        <Button onClick={() => setShowAnswers(!showAnswers)} variant="outline">
+        <Button onClick={() => setShowAnswers(!showAnswers)} variant="outline" className="min-h-[44px]">
           <Eye className="h-4 w-4 mr-2" />
           {showAnswers ? '정답 숨기기' : '정답보기'}
         </Button>
         <Link href="/worksheets">
-          <Button variant="outline">
+          <Button variant="outline" className="min-h-[44px]">
             <RefreshCw className="h-4 w-4 mr-2" />
             다른 문제지
           </Button>

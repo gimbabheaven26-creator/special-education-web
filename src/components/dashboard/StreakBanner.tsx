@@ -15,7 +15,7 @@ export function StreakBanner() {
 
   if (!mounted) {
     return (
-      <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-5 text-primary-foreground animate-pulse">
+      <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-4 sm:p-5 text-primary-foreground animate-pulse">
         <div className="h-16" />
       </div>
     );
@@ -24,14 +24,14 @@ export function StreakBanner() {
   const isNewUser = currentStreak === 0;
 
   return (
-    <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-5 text-primary-foreground">
+    <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-4 sm:p-5 text-primary-foreground">
       {isNewUser ? (
-        <div className="flex items-center gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-            <Flame className="h-7 w-7" />
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/20 flex items-center justify-center">
+            <Flame className="h-6 w-6 sm:h-7 sm:w-7" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">
+            <h2 className="text-base sm:text-lg font-bold">
               오늘 첫 학습을 시작해보세요!
             </h2>
             <p className="text-sm opacity-90 mt-0.5">
@@ -41,12 +41,12 @@ export function StreakBanner() {
         </div>
       ) : (
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-              <Flame className="h-7 w-7 text-streak" />
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/20 flex items-center justify-center">
+              <Flame className="h-6 w-6 sm:h-7 sm:w-7 text-streak" />
             </div>
             <div>
-              <h2 className="text-lg font-bold">
+              <h2 className="text-base sm:text-lg font-bold">
                 {currentStreak}일 연속 학습 중!
               </h2>
               <p className="text-sm opacity-90 mt-0.5">

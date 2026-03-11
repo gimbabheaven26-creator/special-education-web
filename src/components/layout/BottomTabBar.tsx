@@ -88,7 +88,7 @@ export function BottomTabBar() {
               <Link
                 key={tab.href}
                 href={tab.href}
-                className={`flex flex-col items-center justify-center gap-0.5 min-w-[3.5rem] py-1.5 rounded-xl transition-colors ${
+                className={`flex flex-col items-center justify-center gap-0.5 min-w-[3.5rem] py-2 rounded-xl transition-colors ${
                   active
                     ? 'text-primary'
                     : 'text-muted-foreground'
@@ -106,7 +106,7 @@ export function BottomTabBar() {
           })}
           <button
             onClick={() => setShowMore(!showMore)}
-            className={`flex flex-col items-center justify-center gap-0.5 min-w-[3.5rem] py-1.5 rounded-xl transition-colors ${
+            className={`flex flex-col items-center justify-center gap-0.5 min-w-[3.5rem] py-2 rounded-xl transition-colors ${
               isMoreActive || showMore
                 ? 'text-primary'
                 : 'text-muted-foreground'

@@ -38,7 +38,7 @@ function ProgressDots({
   );
 
   return (
-    <div className="flex flex-wrap gap-1.5 max-h-16 overflow-y-auto py-1">
+    <div className="flex flex-nowrap overflow-x-auto sm:flex-wrap gap-1.5 max-h-16 sm:overflow-y-auto py-1">
       {Array.from({ length: total }, (_, i) => {
         const isCurrent = i === currentIndex;
         const result = answeredMap.get(i);
@@ -165,7 +165,7 @@ function QuestionActions({ question }: { question: QuizQuestion }) {
 
   return (
     <div className="mb-4">
-      <div className="flex items-center gap-1 flex-wrap">
+      <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:flex-wrap">
         <span className="text-xs text-muted-foreground mr-1">이 문제가 도움이 됐나요?</span>
         <Button
           variant="ghost"
@@ -354,7 +354,7 @@ function MultipleChoice({
       )}
       <div className="flex gap-3">
         {submitted && (
-          <Button onClick={handleNext} className="w-full">
+          <Button onClick={handleNext} className="w-full min-h-[44px]">
             다음
           </Button>
         )}
@@ -441,7 +441,7 @@ function OXChoice({
       )}
       <div className="flex gap-3">
         {submitted && (
-          <Button onClick={handleNext} className="w-full">
+          <Button onClick={handleNext} className="w-full min-h-[44px]">
             다음
           </Button>
         )}
@@ -482,7 +482,7 @@ function FillInChoice({
           onKeyDown={(e) => !submitted && e.key === 'Enter' && handleSubmit()}
           placeholder="정답을 입력하세요"
           disabled={submitted}
-          className={submitted ? (isCorrect ? 'border-green-500' : 'border-red-500') : ''}
+          className={`h-12 ${submitted ? (isCorrect ? 'border-green-500' : 'border-red-500') : ''}`}
         />
       </div>
       {submitted && (
@@ -502,11 +502,11 @@ function FillInChoice({
       )}
       <div className="flex gap-3">
         {!submitted ? (
-          <Button onClick={handleSubmit} disabled={!input.trim()} className="w-full">
+          <Button onClick={handleSubmit} disabled={!input.trim()} className="w-full min-h-[44px]">
             제출
           </Button>
         ) : (
-          <Button onClick={handleNext} className="w-full">
+          <Button onClick={handleNext} className="w-full min-h-[44px]">
             다음 문제
           </Button>
         )}

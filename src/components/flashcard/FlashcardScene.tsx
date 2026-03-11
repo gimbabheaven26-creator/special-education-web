@@ -143,7 +143,7 @@ export function FlashcardScene({
     <div className="flex flex-col gap-5">
       {/* Progress dots */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="flex items-center gap-1.5 flex-wrap max-h-10 overflow-y-auto sm:max-h-16">
           {Array.from({ length: total }, (_, i) => {
             const result = results[i];
             let dotClass = 'bg-gray-200 dark:bg-gray-700';
@@ -225,7 +225,7 @@ export function FlashcardScene({
           >
             {/* Front face */}
             <div
-              className="relative min-h-56 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 flex flex-col items-center justify-center gap-4 cursor-pointer"
+              className="relative min-h-44 sm:min-h-56 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 sm:p-6 flex flex-col items-center justify-center gap-4 cursor-pointer"
               style={{
                 backfaceVisibility: 'hidden',
                 boxShadow: flipped
@@ -259,7 +259,7 @@ export function FlashcardScene({
 
             {/* Back face */}
             <div
-              className="absolute inset-0 min-h-56 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 flex flex-col items-center justify-center gap-4"
+              className="absolute inset-0 min-h-44 sm:min-h-56 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 sm:p-6 flex flex-col items-center justify-center gap-4"
               style={{
                 backfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',

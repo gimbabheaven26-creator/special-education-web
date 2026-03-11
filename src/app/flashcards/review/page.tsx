@@ -62,11 +62,12 @@ export default function ReviewPage() {
         <div className="flex gap-3">
           <Button
             variant="outline"
+            className="min-h-[44px]"
             render={<Link href="/flashcards/add" />}
           >
             카드 추가하기
           </Button>
-          <Button render={<Link href="/flashcards" />}>
+          <Button className="min-h-[44px]" render={<Link href="/flashcards" />}>
             돌아가기
           </Button>
         </div>
@@ -123,11 +124,12 @@ export default function ReviewPage() {
         <div className="flex gap-3 flex-wrap justify-center">
           <Button
             variant="outline"
+            className="min-h-[44px]"
             render={<Link href="/flashcards/add" />}
           >
             카드 추가하기
           </Button>
-          <Button render={<Link href="/flashcards" />}>
+          <Button className="min-h-[44px]" render={<Link href="/flashcards" />}>
             메인으로
           </Button>
         </div>
@@ -151,6 +153,7 @@ export default function ReviewPage() {
         <Button
           variant="ghost"
           size="sm"
+          className="min-h-[44px]"
           render={<Link href="/flashcards" />}
         >
           세션 종료

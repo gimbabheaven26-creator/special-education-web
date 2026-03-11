@@ -67,7 +67,7 @@ function ProgressHeader({
     totalChapters > 0 ? Math.round((completedCount / totalChapters) * 100) : 0;
 
   return (
-    <div className="flex items-center gap-4 rounded-lg bg-muted/50 px-4 py-3">
+    <div className="flex items-center gap-3 sm:gap-4 rounded-lg bg-muted/50 px-3 sm:px-4 py-3">
       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
         <BookOpen className="size-4" />
         <span>
@@ -99,7 +99,7 @@ function TimelineNode({
   isLast: boolean;
 }) {
   return (
-    <div className="relative flex gap-4">
+    <div className="relative flex gap-3 sm:gap-4">
       {/* Vertical line + circle */}
       <div className="flex flex-col items-center">
         <NodeIndicator visited={status.visited} isCurrent={status.isCurrent} />
@@ -113,7 +113,7 @@ function TimelineNode({
         href={`/subjects/${subjectSlug}/${chapter.slug}`}
         className="group mb-6 flex-1"
       >
-        <div className="rounded-lg border border-border bg-card p-4 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
+        <div className="rounded-lg border border-border bg-card p-3 sm:p-4 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
           <div className="mb-1 flex items-center gap-2">
             <h3 className="text-base font-semibold text-foreground">
               {chapter.title}

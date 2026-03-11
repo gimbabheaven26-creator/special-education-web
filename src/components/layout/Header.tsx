@@ -24,7 +24,7 @@ function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" aria-label="테마 전환">
+      <Button variant="ghost" size="icon" className="h-11 w-11 sm:h-10 sm:w-10" aria-label="테마 전환">
         <Sun className="h-5 w-5" />
       </Button>
     );
@@ -34,6 +34,7 @@ function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
+      className="h-11 w-11 sm:h-10 sm:w-10"
       aria-label="테마 전환"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
@@ -77,7 +78,7 @@ export function Header() {
         {/* 우측 액션 */}
         <div className="flex items-center gap-1">
           <Link href="/search">
-            <Button variant="ghost" size="icon" aria-label="검색">
+            <Button variant="ghost" size="icon" className="h-11 w-11 sm:h-10 sm:w-10" aria-label="검색">
               <Search className="h-5 w-5" />
             </Button>
           </Link>

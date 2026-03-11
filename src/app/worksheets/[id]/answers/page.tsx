@@ -131,7 +131,7 @@ export default function WorksheetAnswersPage({
       {/* Actions */}
       <div className="flex flex-wrap gap-3 mt-8 print:hidden">
         <Link href="/worksheets">
-          <Button variant="outline">
+          <Button variant="outline" className="min-h-[44px]">
             <ArrowLeft className="h-4 w-4 mr-2" />
             새 문제지 생성
           </Button>

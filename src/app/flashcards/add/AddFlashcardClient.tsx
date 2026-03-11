@@ -118,7 +118,7 @@ export default function AddFlashcardClient({ subjects }: { subjects: Subject[] }
             <div className="flex gap-3 pt-1">
               <Button
                 type="submit"
-                className="flex-1"
+                className="flex-1 min-h-[44px]"
                 disabled={!question.trim() || !answer.trim()}
               >
                 추가
@@ -134,6 +134,7 @@ export default function AddFlashcardClient({ subjects }: { subjects: Subject[] }
           <Button
             variant="outline"
             size="sm"
+            className="min-h-[44px]"
             render={<Link href="/flashcards" />}
           >
             돌아가기
@@ -142,6 +143,7 @@ export default function AddFlashcardClient({ subjects }: { subjects: Subject[] }
         <Button
           variant="ghost"
           size="sm"
+          className="min-h-[44px]"
           render={<Link href="/flashcards" />}
         >
           ← 플래시카드 홈
