@@ -18,6 +18,7 @@ export const transitionQuizzes: QuizQuestion[] = [
     explanation:
       '「장애인 등에 대한 특수교육법」 제23조 및 동법 시행령에 따라, 중학교 과정 이상(중3 또는 만 14세 이상)의 특수교육대상자에게는 개별화교육계획(IEP)에 개별화전환교육계획(ITP)을 포함하여야 합니다. ⚠️ 용어 검증 필요: 법령 개정에 따라 적용 학년 기준이 변경될 수 있으므로 최신 법령을 확인하세요.',
     difficulty: 2,
+    source: 'KICE 기출 빈출 주제 (전환교육/특수교육법)',
   },
   {
     id: 'trans-q2',
@@ -49,6 +50,7 @@ export const transitionQuizzes: QuizQuestion[] = [
       'Wehmeyer의 자기결정 구성요소에는 선택하기, 의사결정, 문제해결, 목표설정 및 달성, 자기관리 및 자기조절, 자기옹호 및 리더십, 긍정적 자기효능감, 자기인식 등이 포함됩니다. "타인에 대한 의존"은 자기결정의 반대 개념으로, 자기결정을 저해하는 요인입니다.',
     difficulty: 2,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (자기결정)',
   },
   {
     id: 'trans-q4',
@@ -62,6 +64,7 @@ export const transitionQuizzes: QuizQuestion[] = [
       '지역사회 참조(community-referenced) 교수는 실제 지역사회 환경에서의 교수(CBI) 이전에 학교 내에서 시뮬레이션, 역할극, 모형 등을 활용하여 지역사회 기술을 연습하는 방법입니다. CBI의 보완적 방법으로, 실제 현장 경험이 어려운 경우나 사전 준비 단계로 활용됩니다. ⚠️ 용어 검증 필요: community-referenced와 community-based의 구분은 문헌마다 다를 수 있습니다.',
     difficulty: 3,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (지역사회중심교수)',
   },
   {
     id: 'trans-q5',
@@ -93,6 +96,7 @@ export const transitionQuizzes: QuizQuestion[] = [
       'CBI(Community-Based Instruction)는 실제 지역사회 환경(마트, 은행, 대중교통 등)에서 생활 기술을 직접 교수하는 방법입니다. 교실 내 학습의 일반화 문제를 극복하고, 실제 상황에서의 수행 능력을 높이는 데 효과적입니다. 특히 지적장애, 자폐성장애 학생의 일반화 어려움을 고려할 때 중요합니다.',
     difficulty: 1,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (지역사회중심교수)',
   },
   {
     id: 'trans-q7',
@@ -106,6 +110,7 @@ export const transitionQuizzes: QuizQuestion[] = [
       'SDLMI(Wehmeyer 등 개발)는 학생 주도 학습을 위한 교수 모델로, 학생이 ① 목표 설정(내가 원하는 것이 무엇인가?) → ② 계획 수립 및 실행(내가 무엇을 해야 하는가?) → ③ 결과 평가 및 조정(내가 배운 것은 무엇인가?)의 3단계를 통해 자기결정 기술을 개발합니다.',
     difficulty: 3,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (자기결정)',
   },
   {
     id: 'trans-q8',
@@ -166,5 +171,6 @@ export const transitionQuizzes: QuizQuestion[] = [
       '자기옹호(self-advocacy)는 자신의 권리와 필요를 알고, 이를 다른 사람에게 효과적으로 전달하며, 의사결정 과정에 참여하는 능력입니다. 전환교육에서 자기옹호 기술은 성인 삶에서의 자립, 취업, 지역사회 참여를 위해 필수적이며, IEP/ITP 회의에 학생이 직접 참여하는 것이 자기옹호 연습의 좋은 기회입니다.',
     difficulty: 1,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (자기결정/자기옹호)',
   },
 ];

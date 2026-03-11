@@ -18,6 +18,7 @@ export const inclusiveEducationQuizzes: QuizQuestion[] = [
     explanation:
       '「장애인 등에 대한 특수교육법」 제2조 제6호에 따르면, 통합교육이란 특수교육대상자가 일반학교에서 장애유형·장애정도에 따라 차별을 받지 않고 또래와 함께 개개인의 교육적 요구에 적합한 교육을 받는 것을 의미합니다. 단순한 물리적 통합을 넘어 교육적 통합을 강조합니다.',
     difficulty: 1,
+    source: 'KICE 기출 빈출 주제 (통합교육)',
   },
   {
     id: 'inc-q2',
@@ -49,6 +50,7 @@ export const inclusiveEducationQuizzes: QuizQuestion[] = [
       '교수-지원(one teach, one support) 모델은 한 명의 교사가 주된 수업을 담당하고 다른 교사가 학생들을 순회하며 지원하거나, 특정 학생의 행동 및 학습 데이터를 수집하는 형태입니다. 가장 흔하게 활용되는 협력교수 모델이지만, 지원 교사의 역할이 보조로 국한되지 않도록 주의해야 합니다.',
     difficulty: 1,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (협력교수)',
   },
   {
     id: 'inc-q4',
@@ -79,6 +81,7 @@ export const inclusiveEducationQuizzes: QuizQuestion[] = [
     explanation:
       'CAST(Center for Applied Special Technology)가 제안한 UDL의 3가지 원리는 (1) 다양한 표상 수단 제공(무엇을 배우는가), (2) 다양한 행동 및 표현 수단 제공(어떻게 학습하는가), (3) 다양한 참여 수단 제공(왜 배우는가)입니다. "다양한 평가 도구 제공"은 UDL의 공식 원리에 포함되지 않습니다.',
     difficulty: 2,
+    source: 'KICE 기출 빈출 주제 (보편적 학습설계/UDL)',
   },
   {
     id: 'inc-q6',
@@ -91,6 +94,7 @@ export const inclusiveEducationQuizzes: QuizQuestion[] = [
     explanation:
       'UDL은 사후 조정(retrofitting) 방식과 달리, 처음 설계 단계에서부터 다양한 학습자의 요구를 반영하여 유연한 교육과정을 만드는 사전 예방적(proactive) 접근입니다. 건축의 "보편적 설계(Universal Design)" 개념을 교육에 적용한 것으로, 장애학생뿐만 아니라 모든 학생에게 이익이 됩니다.',
     difficulty: 1,
+    source: 'KICE 기출 빈출 주제 (보편적 학습설계/UDL)',
   },
   {
     id: 'inc-q7',
@@ -109,6 +113,7 @@ export const inclusiveEducationQuizzes: QuizQuestion[] = [
     explanation:
       '대안교수(alternative teaching)는 한 교사가 전체 학생의 대부분을 지도하는 동안 다른 교사가 특정 학생들(선수학습 보충, 심화학습, 또는 특수교육대상자 등)로 구성된 소집단을 별도로 지도하는 형태입니다. 소집단에 항상 같은 학생이 배치되지 않도록 주의해야 합니다.',
     difficulty: 2,
+    source: 'KICE 기출 빈출 주제 (협력교수)',
   },
   {
     id: 'inc-q8',
@@ -168,5 +173,6 @@ export const inclusiveEducationQuizzes: QuizQuestion[] = [
       '또래교수(peer tutoring)는 또래 간 상호 교수 활동으로, 장애학생이 학습자 역할뿐 아니라 교수자 역할도 경험하게 합니다. 짝 또래교수(peer-assisted learning strategies, PALS), 학급 전체 또래교수(classwide peer tutoring, CWPT) 등 다양한 형태가 있습니다. 사회적 통합과 학업 성취 모두에 효과적입니다.',
     difficulty: 1,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (또래지원)',
   },
 ];

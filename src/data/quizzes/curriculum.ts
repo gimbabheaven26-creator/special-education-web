@@ -18,6 +18,7 @@ export const curriculumQuizzes: QuizQuestion[] = [
       '기본교육과정은 지적장애 또는 자폐성장애를 지닌 학생 중 공통교육과정과 선택중심 교육과정을 적용하기 어려운 학생에게 적용하는 교육과정입니다. 장애 유형이나 정도만으로 자동 적용되는 것이 아니라 교육과정 접근 가능성을 기준으로 결정합니다.',
     difficulty: 2,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (교육과정 편성/운영)',
   },
   {
     id: 'cur-q2',
@@ -30,6 +31,7 @@ export const curriculumQuizzes: QuizQuestion[] = [
     explanation:
       '교수적 수정은 크게 교육과정 수정과 교수환경·방법 수정으로 나뉩니다. 교육과정 수정(curriculum modification)은 교육 목표, 내용, 수행 기준의 수준을 장애학생의 요구에 맞게 변경하는 것을 포함합니다. 이와 달리 교수 방법 수정은 목표는 유지하되 방법을 바꾸는 것입니다. ⚠️ 용어 검증 필요: 문헌에 따라 accommodation(조정)과 modification(수정)의 경계를 달리 정의하기도 합니다.',
     difficulty: 2,
+    source: 'KICE 기출 빈출 주제 (교수적합화/교수적 수정)',
   },
   {
     id: 'cur-q3',
@@ -43,6 +45,7 @@ export const curriculumQuizzes: QuizQuestion[] = [
       '개별화교육계획(IEP: Individualized Education Program)은 특수교육법 제22조에 근거하며, 매 학년도 시작일부터 30일 이내에 작성되어야 합니다. 개별화교육지원팀이 구성되어 학생의 현재 학습 수행 수준, 장단기 목표, 교육 방법·환경, 관련 서비스 등을 포함하여 작성합니다.',
     difficulty: 2,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (IEP/개별화교육)',
   },
   {
     id: 'cur-q4',
@@ -61,6 +64,7 @@ export const curriculumQuizzes: QuizQuestion[] = [
     explanation:
       '교수적 수정(instructional adaptation)의 일반적 위계는 교수환경 수정 → 교수 집단 수정 → 교수 방법 수정 → 교수 내용 수정 순으로, 학생에 대한 영향이 적은 수정에서 점진적으로 더 큰 변화로 이동합니다. ⚠️ 용어 검증 필요: 학자에 따라 위계 구분 방식에 차이가 있습니다.',
     difficulty: 3,
+    source: 'KICE 기출 빈출 주제 (교수적합화/교수적 수정)',
   },
   {
     id: 'cur-q5',
@@ -74,6 +78,7 @@ export const curriculumQuizzes: QuizQuestion[] = [
       '현재 학습 수행 수준(Present Levels of Academic Achievement and Functional Performance, PLAAFP)은 IEP의 출발점으로, 학생의 현재 강점과 요구, 장애가 교육과정 참여에 미치는 영향을 구체적으로 기술합니다. 이를 바탕으로 연간목표와 단기목표가 설정됩니다.',
     difficulty: 2,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (IEP/개별화교육)',
   },
   {
     id: 'cur-q6',
@@ -122,6 +127,7 @@ export const curriculumQuizzes: QuizQuestion[] = [
       '「장애인 등에 대한 특수교육법」 제22조에 따른 개별화교육지원팀은 보호자, 특수교육교원, 일반교육교원, 진로 및 직업교육 담당 교원, 특수교육 관련 서비스 담당 인력 등으로 구성됩니다. 교육감이나 교육장은 행정 책임자이지 개별화교육지원팀의 법정 구성원이 아닙니다.',
     difficulty: 2,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (IEP/개별화교육)',
   },
   {
     id: 'cur-q9',
@@ -149,6 +155,7 @@ export const curriculumQuizzes: QuizQuestion[] = [
       'IEP의 목표는 SMART(구체적, 측정 가능, 달성 가능, 관련성, 시간 제한) 원칙에 따라 작성해야 합니다. 교수적 수정은 학생이 통합학급에서 의미 있게 참여할 수 있도록 지원하되, 가능한 한 학급의 교육활동과 연계되도록 계획합니다.',
     difficulty: 3,
     tags: { disability: '지적장애' },
+    source: 'KICE 기출 빈출 주제 (IEP/교수적 수정 종합)',
   },
   {
     id: 'cur-q10',
