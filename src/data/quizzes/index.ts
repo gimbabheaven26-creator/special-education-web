@@ -6,6 +6,10 @@ import { inclusiveEducationQuizzes } from './inclusive-education';
 import { assessmentQuizzes } from './assessment';
 import { transitionQuizzes } from './transition';
 import { lawsQuizzes } from './laws';
+import { visualImpairmentQuizzes } from './visual-impairment';
+import { hearingImpairmentQuizzes } from './hearing-impairment';
+import { physicalDisabilityQuizzes } from './physical-disability';
+import { communicationDisorderQuizzes } from './communication-disorder';
 
 export const quizzesBySubject: Record<string, QuizQuestion[]> = {
   introduction: introductionQuizzes,
@@ -15,6 +19,10 @@ export const quizzesBySubject: Record<string, QuizQuestion[]> = {
   assessment: assessmentQuizzes,
   transition: transitionQuizzes,
   laws: lawsQuizzes,
+  'visual-impairment': visualImpairmentQuizzes,
+  'hearing-impairment': hearingImpairmentQuizzes,
+  'physical-disability': physicalDisabilityQuizzes,
+  'communication-disorder': communicationDisorderQuizzes,
 };
 
 export function getQuizzesBySubject(subjectSlug: string): QuizQuestion[] {
