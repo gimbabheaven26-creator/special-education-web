@@ -7,6 +7,10 @@ import {
   Heart,
   ArrowRightLeft,
   Scale,
+  Eye,
+  Ear,
+  Accessibility,
+  MessageCircle,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { subjects } from '@/data/subjects';
@@ -21,6 +25,10 @@ const iconMap: Record<string, LucideIcon> = {
   Heart,
   ArrowRightLeft,
   Scale,
+  Eye,
+  Ear,
+  Accessibility,
+  MessageCircle,
 };
 
 function SubjectCard({ subject }: { subject: Subject }) {
