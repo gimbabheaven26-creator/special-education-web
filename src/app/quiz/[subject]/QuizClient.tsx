@@ -1,63 +1,97 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import type { QuizQuestion } from '@/types/quiz';
 import { checkFillInAnswer } from '@/lib/answer-checker';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, XCircle, RotateCcw, ChevronDown, ChevronUp, ThumbsUp, ThumbsDown, Flag } from 'lucide-react';
+import {
+  CheckCircle, XCircle, ChevronDown, ChevronUp,
+  ThumbsUp, ThumbsDown, Flag,
+} from 'lucide-react';
 import { useQuizFeedbackStore } from '@/stores/useQuizFeedbackStore';
+import { useStudyStore } from '@/stores/useStudyStore';
+import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
+import type { AnswerRecord } from './QuizResultScreen';
 
-function QuizResult({
-  questions,
-  correctCount,
-  onRestart,
+// ─── Constants ───────────────────────────────────────────────────────────────
+
+const XP_CORRECT = 15;
+const XP_WRONG = 10;
+
+// ─── Progress Dots ───────────────────────────────────────────────────────────
+
+function ProgressDots({
+  total,
+  currentIndex,
+  answers,
 }: {
-  questions: QuizQuestion[];
-  correctCount: number;
-  onRestart: () => void;
+  total: number;
+  currentIndex: number;
+  answers: ReadonlyArray<AnswerRecord>;
 }) {
-  const total = questions.length;
-  const rate = Math.round((correctCount / total) * 100);
+  const answeredMap = new Map(
+    answers.map((a) => [a.questionIndex, a.isCorrect])
+  );
 
   return (
-    <div className="max-w-2xl mx-auto text-center">
-      <div className="mb-8">
-        <div className="text-6xl font-bold text-foreground mb-2">{rate}%</div>
-        <p className="text-xl text-muted-foreground">
-          {total}문제 중 {correctCount}문제 정답
-        </p>
-      </div>
-      <Card className="mb-6">
-        <CardContent className="pt-6">
-          {rate >= 80 ? (
-            <p className="text-green-600 dark:text-green-400 font-medium">대단해요! 꾸준한 학습이 빛을 발하고 있어요.</p>
-          ) : rate >= 60 ? (
-            <p className="text-yellow-600 dark:text-yellow-400 font-medium">잘 하고 있어요! 이 부분을 마스터하는 중이에요.</p>
-          ) : (
-            <p className="text-red-600 dark:text-red-400 font-medium">아직 익히는 중이에요. 한 번 더 도전하면 달라질 거에요!</p>
-          )}
-        </CardContent>
-      </Card>
-      <div className="flex gap-4 justify-center">
-        <Button onClick={onRestart} className="flex items-center gap-2">
-          <RotateCcw className="h-4 w-4" />
-          다시 풀기
-        </Button>
-        <Link
-          href="/quiz"
-          className="inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-background text-sm font-medium whitespace-nowrap transition-all h-8 gap-1.5 px-2.5 hover:bg-muted hover:text-foreground"
-        >
-          과목 목록
-        </Link>
+    <div className="flex flex-wrap gap-1.5 max-h-16 overflow-y-auto py-1">
+      {Array.from({ length: total }, (_, i) => {
+        const isCurrent = i === currentIndex;
+        const result = answeredMap.get(i);
+
+        let dotClass =
+          'w-3 h-3 rounded-full transition-all duration-200 flex-shrink-0';
+
+        if (isCurrent) {
+          dotClass += ' bg-blue-500 ring-2 ring-blue-300 ring-offset-1 animate-pulse';
+        } else if (result === true) {
+          dotClass += ' bg-emerald-500';
+        } else if (result === false) {
+          dotClass += ' bg-red-500';
+        } else {
+          dotClass += ' bg-gray-300 dark:bg-gray-600';
+        }
+
+        return <div key={i} className={dotClass} />;
+      })}
+    </div>
+  );
+}
+
+// ─── XP Toast ────────────────────────────────────────────────────────────────
+
+function XPToast({ amount, visible }: { amount: number; visible: boolean }) {
+  if (!visible) return null;
+
+  return (
+    <div className="fixed top-20 right-4 z-50 animate-bounce">
+      <div className="rounded-full bg-purple-600 px-4 py-2 text-white font-bold text-sm shadow-lg">
+        +{amount} XP
       </div>
     </div>
   );
 }
+
+// ─── Case Context Box ────────────────────────────────────────────────────────
+
+function CaseContextBox({ caseContext }: { caseContext: string }) {
+  return (
+    <div className="mb-4 rounded-lg border border-amber-300 bg-amber-50 p-4 dark:border-amber-700 dark:bg-amber-950/20">
+      <p className="mb-1 text-xs font-semibold text-amber-700 dark:text-amber-400">
+        {'📋 사례'}
+      </p>
+      <p className="text-sm leading-relaxed text-amber-900 dark:text-amber-200">
+        {caseContext}
+      </p>
+    </div>
+  );
+}
+
+// ─── ErrorReportSection (kept) ───────────────────────────────────────────────
 
 function ErrorReportSection({ questionId }: { questionId: string }) {
   const [open, setOpen] = useState(false);
@@ -123,6 +157,8 @@ function ErrorReportSection({ questionId }: { questionId: string }) {
   );
 }
 
+// ─── QuestionActions (kept) ──────────────────────────────────────────────────
+
 function QuestionActions({ question }: { question: QuizQuestion }) {
   const { getFeedback, addFeedback } = useQuizFeedbackStore();
   const currentFeedback = getFeedback(question.id);
@@ -167,8 +203,20 @@ function QuestionActions({ question }: { question: QuizQuestion }) {
   );
 }
 
-function ExplanationToggle({ explanation }: { explanation: string }) {
-  const [open, setOpen] = useState(false);
+// ─── Explanation / Wrong Explanation ─────────────────────────────────────────
+
+function ExplanationToggle({
+  explanation,
+  defaultOpen = false,
+}: {
+  explanation: string;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  useEffect(() => {
+    if (defaultOpen) setOpen(true);
+  }, [defaultOpen]);
 
   return (
     <div className="mb-4">
@@ -188,15 +236,58 @@ function ExplanationToggle({ explanation }: { explanation: string }) {
   );
 }
 
+function WrongExplanationBox({ text }: { text: string }) {
+  return (
+    <div className="mb-3 p-4 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800">
+      <p className="text-xs font-semibold text-red-600 dark:text-red-400 mb-1">
+        선택한 답이 틀린 이유
+      </p>
+      <p className="text-sm text-red-700 dark:text-red-300">{text}</p>
+    </div>
+  );
+}
+
+// ─── Feedback Section ────────────────────────────────────────────────────────
+
+function FeedbackSection({
+  question,
+  isCorrect,
+  selectedOptionIndex,
+}: {
+  question: QuizQuestion;
+  isCorrect: boolean;
+  selectedOptionIndex?: string;
+}) {
+  const wrongExplanation =
+    !isCorrect && selectedOptionIndex && question.wrongExplanations
+      ? question.wrongExplanations[selectedOptionIndex]
+      : undefined;
+
+  return (
+    <>
+      {wrongExplanation && <WrongExplanationBox text={wrongExplanation} />}
+      <ExplanationToggle
+        explanation={question.explanation}
+        defaultOpen={!isCorrect}
+      />
+      <QuestionActions question={question} />
+    </>
+  );
+}
+
+// ─── MultipleChoice ──────────────────────────────────────────────────────────
+
 function MultipleChoice({
   question,
   onAnswer,
 }: {
   question: QuizQuestion;
-  onAnswer: (answer: number) => void;
+  onAnswer: (answer: number, isCorrect: boolean) => void;
 }) {
   const [selected, setSelected] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
+
+  const isCorrect = submitted && selected !== null && selected === Number(question.answer);
 
   const handleSelect = (index: number) => {
     if (submitted) return;
@@ -206,9 +297,7 @@ function MultipleChoice({
 
   const handleNext = () => {
     if (selected === null) return;
-    onAnswer(selected);
-    setSelected(null);
-    setSubmitted(false);
+    onAnswer(selected, selected === Number(question.answer));
   };
 
   return (
@@ -218,9 +307,9 @@ function MultipleChoice({
           let className =
             'w-full text-left p-4 rounded-lg border border-border transition-colors cursor-pointer';
           if (submitted) {
-            if (index === question.answer) {
+            if (index === Number(question.answer)) {
               className += ' border-green-500 bg-green-50 dark:bg-green-950/20';
-            } else if (index === selected && index !== question.answer) {
+            } else if (index === selected && index !== Number(question.answer)) {
               className += ' border-red-500 bg-red-50 dark:bg-red-950/20';
             } else {
               className += ' bg-muted/30';
@@ -246,18 +335,23 @@ function MultipleChoice({
       </div>
       {submitted && (
         <div className="mb-2 flex items-center gap-2">
-          {selected === question.answer ? (
+          {isCorrect ? (
             <CheckCircle className="h-5 w-5 text-green-600" />
           ) : (
             <XCircle className="h-5 w-5 text-red-600" />
           )}
           <span className="text-sm font-medium">
-            {selected === question.answer ? '정답입니다!' : `오답 (정답: ${Number(question.answer) + 1}번)`}
+            {isCorrect ? '정답입니다!' : `오답 (정답: ${Number(question.answer) + 1}번)`}
           </span>
         </div>
       )}
-      {submitted && <ExplanationToggle explanation={question.explanation} />}
-      {submitted && <QuestionActions question={question} />}
+      {submitted && (
+        <FeedbackSection
+          question={question}
+          isCorrect={isCorrect}
+          selectedOptionIndex={selected !== null ? String(selected) : undefined}
+        />
+      )}
       <div className="flex gap-3">
         {submitted && (
           <Button onClick={handleNext} className="w-full">
@@ -269,15 +363,19 @@ function MultipleChoice({
   );
 }
 
+// ─── OXChoice ────────────────────────────────────────────────────────────────
+
 function OXChoice({
   question,
   onAnswer,
 }: {
   question: QuizQuestion;
-  onAnswer: (answer: string) => void;
+  onAnswer: (answer: string, isCorrect: boolean) => void;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+
+  const isCorrect = submitted && selected === String(question.answer);
 
   const handleSelect = (choice: string) => {
     if (submitted) return;
@@ -287,9 +385,7 @@ function OXChoice({
 
   const handleNext = () => {
     if (!selected) return;
-    onAnswer(selected);
-    setSelected(null);
-    setSubmitted(false);
+    onAnswer(selected, selected === String(question.answer));
   };
 
   return (
@@ -299,9 +395,9 @@ function OXChoice({
           let className =
             'flex-1 h-20 text-3xl font-bold rounded-xl border border-border transition-colors cursor-pointer';
           if (submitted) {
-            if (choice === question.answer) {
+            if (choice === String(question.answer)) {
               className += ' border-green-500 bg-green-50 dark:bg-green-950/20 text-green-600';
-            } else if (choice === selected && choice !== question.answer) {
+            } else if (choice === selected && choice !== String(question.answer)) {
               className += ' border-red-500 bg-red-50 dark:bg-red-950/20 text-red-600';
             } else {
               className += ' bg-muted/30 text-muted-foreground';
@@ -326,18 +422,23 @@ function OXChoice({
       </div>
       {submitted && (
         <div className="mb-2 flex items-center gap-2">
-          {selected === question.answer ? (
+          {isCorrect ? (
             <CheckCircle className="h-5 w-5 text-green-600" />
           ) : (
             <XCircle className="h-5 w-5 text-red-600" />
           )}
           <span className="text-sm font-medium">
-            {selected === question.answer ? '정답입니다!' : `오답 (정답: ${String(question.answer)})`}
+            {isCorrect ? '정답입니다!' : `오답 (정답: ${String(question.answer)})`}
           </span>
         </div>
       )}
-      {submitted && <ExplanationToggle explanation={question.explanation} />}
-      {submitted && <QuestionActions question={question} />}
+      {submitted && (
+        <FeedbackSection
+          question={question}
+          isCorrect={isCorrect}
+          selectedOptionIndex={selected === 'O' ? '0' : '1'}
+        />
+      )}
       <div className="flex gap-3">
         {submitted && (
           <Button onClick={handleNext} className="w-full">
@@ -349,15 +450,19 @@ function OXChoice({
   );
 }
 
+// ─── FillInChoice ────────────────────────────────────────────────────────────
+
 function FillInChoice({
   question,
   onAnswer,
 }: {
   question: QuizQuestion;
-  onAnswer: (answer: string) => void;
+  onAnswer: (answer: string, isCorrect: boolean) => void;
 }) {
   const [input, setInput] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  const isCorrect = submitted && checkFillInAnswer(input, String(question.answer));
 
   const handleSubmit = () => {
     if (!input.trim()) return;
@@ -365,12 +470,8 @@ function FillInChoice({
   };
 
   const handleNext = () => {
-    onAnswer(input.trim());
-    setInput('');
-    setSubmitted(false);
+    onAnswer(input.trim(), checkFillInAnswer(input, String(question.answer)));
   };
-
-  const isCorrect = submitted && checkFillInAnswer(input, String(question.answer));
 
   return (
     <div>
@@ -396,8 +497,9 @@ function FillInChoice({
           </span>
         </div>
       )}
-      {submitted && <ExplanationToggle explanation={question.explanation} />}
-      {submitted && <QuestionActions question={question} />}
+      {submitted && (
+        <FeedbackSection question={question} isCorrect={isCorrect} />
+      )}
       <div className="flex gap-3">
         {!submitted ? (
           <Button onClick={handleSubmit} disabled={!input.trim()} className="w-full">
@@ -413,6 +515,8 @@ function FillInChoice({
   );
 }
 
+// ─── Main QuizClient ─────────────────────────────────────────────────────────
+
 export function QuizClient({
   subjectTitle,
   questions,
@@ -420,11 +524,36 @@ export function QuizClient({
   subjectTitle: string;
   questions: QuizQuestion[];
 }) {
+  const [activeQuestions, setActiveQuestions] = useState<ReadonlyArray<QuizQuestion>>(questions);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [correctCount, setCorrectCount] = useState(0);
+  const [answers, setAnswers] = useState<ReadonlyArray<AnswerRecord>>([]);
   const [finished, setFinished] = useState(false);
+  const [xpEarned, setXpEarned] = useState(0);
+  const [xpToast, setXpToast] = useState<{ amount: number; visible: boolean }>({
+    amount: 0,
+    visible: false,
+  });
 
-  if (questions.length === 0) {
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
+
+  const showXPToast = useCallback((amount: number) => {
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+    }
+    setXpToast({ amount, visible: true });
+    toastTimerRef.current = setTimeout(() => {
+      setXpToast((prev) => ({ ...prev, visible: false }));
+    }, 1200);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    };
+  }, []);
+
+  if (activeQuestions.length === 0) {
     return (
       <div className="max-w-2xl mx-auto px-4 md:px-8 py-8 text-center">
         <h1 className="text-2xl font-bold text-foreground mb-4">{subjectTitle} 퀴즈</h1>
@@ -444,56 +573,90 @@ export function QuizClient({
   }
 
   const handleRestart = () => {
+    setActiveQuestions(questions);
     setCurrentIndex(0);
-    setCorrectCount(0);
+    setAnswers([]);
     setFinished(false);
+    setXpEarned(0);
   };
 
-  const handleAnswer = (answer: string | number) => {
-    const question = questions[currentIndex];
-    const isCorrect = question.type === 'fill_in'
-      ? checkFillInAnswer(String(answer), String(question.answer))
-      : String(answer) === String(question.answer);
-    if (isCorrect) setCorrectCount((prev) => prev + 1);
+  const handleRetryWrong = () => {
+    const wrongIndices = new Set(
+      answers.filter((a) => !a.isCorrect).map((a) => a.questionIndex)
+    );
+    const wrongQuestions = activeQuestions.filter((_, i) => wrongIndices.has(i));
+    setActiveQuestions(wrongQuestions);
+    setCurrentIndex(0);
+    setAnswers([]);
+    setFinished(false);
+    setXpEarned(0);
+  };
 
-    if (currentIndex + 1 >= questions.length) {
+  const handleAnswer = (_answer: string | number, isCorrect: boolean) => {
+    const newAnswer: AnswerRecord = {
+      questionIndex: currentIndex,
+      isCorrect,
+      userAnswer: _answer,
+    };
+    const updatedAnswers = [...answers, newAnswer];
+
+    // Record in study store
+    recordQuizResult(isCorrect);
+
+    // XP toast
+    const earned = isCorrect ? XP_CORRECT : XP_WRONG;
+    setXpEarned((prev) => prev + earned);
+    showXPToast(earned);
+
+    setAnswers(updatedAnswers);
+
+    if (currentIndex + 1 >= activeQuestions.length) {
       setFinished(true);
     } else {
       setCurrentIndex((prev) => prev + 1);
     }
   };
 
-  const currentQuestion = questions[currentIndex];
-  const progress = ((currentIndex) / questions.length) * 100;
+  const currentQuestion = activeQuestions[currentIndex];
 
   return (
     <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
+      <XPToast amount={xpToast.amount} visible={xpToast.visible} />
+
       <h1 className="text-2xl font-bold text-foreground mb-6">{subjectTitle} 퀴즈</h1>
 
       {finished ? (
-        <QuizResult
-          questions={questions}
-          correctCount={correctCount}
+        <QuizResultScreen
+          questions={activeQuestions}
+          answers={answers}
+          totalXPEarned={xpEarned}
           onRestart={handleRestart}
+          onRetryWrong={handleRetryWrong}
         />
       ) : (
         <>
+          {/* Progress Section */}
           <div className="mb-6">
-            <div className="flex justify-between text-sm text-muted-foreground mb-2">
-              <span>{currentIndex + 1} / {questions.length}</span>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-muted-foreground">
+                {currentIndex + 1} / {activeQuestions.length}
+              </span>
               <Badge variant="outline">
-                {currentQuestion.type === 'multiple'
-                  ? '객관식'
-                  : currentQuestion.type === 'ox'
-                  ? 'OX퀴즈'
-                  : '단답형'}
+                {TYPE_LABELS[currentQuestion.type as keyof typeof TYPE_LABELS] ?? currentQuestion.type}
               </Badge>
             </div>
-            <Progress value={progress} className="h-2" />
+            <ProgressDots
+              total={activeQuestions.length}
+              currentIndex={currentIndex}
+              answers={answers}
+            />
           </div>
 
           <Card className="mb-6">
             <CardHeader>
+              {currentQuestion.caseContext && (
+                <CaseContextBox caseContext={currentQuestion.caseContext} />
+              )}
               <CardTitle className="text-base font-medium leading-relaxed">
                 {currentQuestion.question}
               </CardTitle>
@@ -503,21 +666,21 @@ export function QuizClient({
                 <MultipleChoice
                   key={currentIndex}
                   question={currentQuestion}
-                  onAnswer={(ans) => handleAnswer(ans)}
+                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
                 />
               )}
               {currentQuestion.type === 'ox' && (
                 <OXChoice
                   key={currentIndex}
                   question={currentQuestion}
-                  onAnswer={(ans) => handleAnswer(ans)}
+                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
                 />
               )}
               {currentQuestion.type === 'fill_in' && (
                 <FillInChoice
                   key={currentIndex}
                   question={currentQuestion}
-                  onAnswer={(ans) => handleAnswer(ans)}
+                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
                 />
               )}
             </CardContent>

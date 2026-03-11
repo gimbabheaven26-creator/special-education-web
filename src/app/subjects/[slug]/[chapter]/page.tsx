@@ -14,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { ChapterTracker } from '@/components/chapter/ChapterTracker';
 import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 
@@ -94,6 +95,14 @@ export default async function ChapterPage({
           <p className="text-muted-foreground text-lg">콘텐츠 준비 중입니다.</p>
         </div>
       )}
+
+      {/* 학습 완료 트래커 */}
+      <ChapterTracker
+        subjectSlug={slug}
+        subjectTitle={subject.title}
+        chapterSlug={chapterSlug}
+        chapterTitle={chapter.title}
+      />
 
       {/* 이전/다음 챕터 이동 */}
       <div className="flex justify-between items-center gap-4">
