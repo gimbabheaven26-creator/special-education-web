@@ -15,6 +15,18 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "특수교육 공부방",
   description: "특수교육 임용시험 대비 학습 플랫폼",
+  openGraph: {
+    title: "특수교육 공부방",
+    description: "특수교육 임용시험 대비 학습 플랫폼",
+    type: "website",
+    locale: "ko_KR",
+    siteName: "특수교육 공부방",
+  },
+  twitter: {
+    card: "summary",
+    title: "특수교육 공부방",
+    description: "특수교육 임용시험 대비 학습 플랫폼",
+  },
 };
 
 export default function RootLayout({
@@ -24,6 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+      </head>
       <body className="font-sans antialiased">
         <ThemeProvider>
           <Header />
