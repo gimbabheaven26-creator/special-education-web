@@ -1,6 +1,19 @@
+import dynamic from 'next/dynamic';
 import { getSubjectBySlug, getQuizzesBySubject } from '@/lib/db';
-import { QuizClient } from './QuizClient';
 import Link from 'next/link';
+
+const QuizClient = dynamic(
+  () => import('./QuizClient').then((mod) => ({ default: mod.QuizClient })),
+  {
+    loading: () => (
+      <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
+        <div className="h-8 w-48 bg-muted animate-pulse rounded mb-6" />
+        <div className="h-4 w-24 bg-muted animate-pulse rounded mb-4" />
+        <div className="h-64 bg-muted animate-pulse rounded" />
+      </div>
+    ),
+  }
+);
 
 export default async function SubjectQuizPage({
   params,

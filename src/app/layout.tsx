@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomTabBar } from "@/components/layout/BottomTabBar";
-import { ReviewPanel } from "@/components/ReviewPanel";
+import { ConditionalReviewPanel } from "@/components/layout/ConditionalReviewPanel";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -47,7 +47,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <BottomTabBar />
-          <ReviewPanel />
+          <ConditionalReviewPanel />
         </ThemeProvider>
       </body>
     </html>
