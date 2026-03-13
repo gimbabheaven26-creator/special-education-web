@@ -20,7 +20,11 @@ function groupBySubject(notes: WrongNote[]): Record<string, WrongNote[]> {
   }, {});
 }
 
-export default function WrongNotesClient() {
+interface WrongNotesClientProps {
+  readonly subjectTitleMap: Readonly<Record<string, string>>;
+}
+
+export default function WrongNotesClient({ subjectTitleMap }: WrongNotesClientProps) {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const markMastered = useQuizStore((s) => s.markMastered);
   const unmarkMastered = useQuizStore((s) => s.unmarkMastered);
@@ -147,7 +151,7 @@ export default function WrongNotesClient() {
         >
           <option value="all">전체 과목</option>
           {subjects.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>{subjectTitleMap[s] || s}</option>
           ))}
         </select>
 
@@ -185,7 +189,7 @@ export default function WrongNotesClient() {
                 className="flex w-full items-center justify-between py-2 min-h-[44px]"
                 onClick={() => toggleCollapse(subject)}
               >
-                <h2 className="text-lg font-semibold">{subject}</h2>
+                <h2 className="text-lg font-semibold">{subjectTitleMap[subject] || subject}</h2>
                 <Badge variant="outline">{notes.length}개</Badge>
               </button>
               {!collapsedSubjects.has(subject) && (
