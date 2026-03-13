@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import type { QuizQuestion } from '@/types/quiz';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,19 +16,88 @@ import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice } from './Questi
 
 const XP_CORRECT = 15;
 const XP_WRONG = 10;
+const QUESTIONS_PER_SESSION = 10;
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function shuffleAndPick(questions: QuizQuestion[], count: number): QuizQuestion[] {
+  const shuffled = [...questions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}
+
+// ─── Question Nav (소제목 네비게이션) ────────────────────────────────────────
+
+function QuestionNav({
+  questions,
+  chapterMap,
+  currentIndex,
+  answers,
+  onJump,
+}: {
+  questions: ReadonlyArray<QuizQuestion>;
+  chapterMap: Record<string, string>;
+  currentIndex: number;
+  answers: ReadonlyArray<AnswerRecord>;
+  onJump: (index: number) => void;
+}) {
+  const answeredMap = new Map(answers.map((a) => [a.questionIndex, a.isCorrect]));
+
+  return (
+    <div className="flex flex-wrap gap-2 mb-4">
+      {questions.map((q, i) => {
+        const chapterTitle = chapterMap[q.chapter] || q.chapter;
+        const isCurrent = i === currentIndex;
+        const result = answeredMap.get(i);
+
+        let pillClass =
+          'text-xs px-3 py-1.5 rounded-full cursor-pointer transition-all font-medium truncate max-w-[200px]';
+
+        if (isCurrent) {
+          pillClass += ' bg-primary text-primary-foreground ring-2 ring-primary/40';
+        } else if (result === true) {
+          pillClass += ' bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400';
+        } else if (result === false) {
+          pillClass += ' bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
+        } else {
+          pillClass += ' bg-muted text-muted-foreground hover:bg-muted/80';
+        }
+
+        return (
+          <button
+            key={i}
+            className={pillClass}
+            onClick={() => onJump(i)}
+            title={`${i + 1}. ${chapterTitle}`}
+          >
+            {i + 1}. {chapterTitle}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 // ─── Main QuizClient ─────────────────────────────────────────────────────────
 
 export function QuizClient({
   subjectTitle,
   questions,
+  chapterMap,
 }: {
   subjectTitle: string;
   questions: QuizQuestion[];
+  chapterMap: Record<string, string>;
 }) {
-  const [activeQuestions, setActiveQuestions] = useState<ReadonlyArray<QuizQuestion>>(questions);
+  const [activeQuestions, setActiveQuestions] = useState<ReadonlyArray<QuizQuestion>>(() =>
+    shuffleAndPick(questions, QUESTIONS_PER_SESSION)
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<ReadonlyArray<AnswerRecord>>([]);
+  const [skipped, setSkipped] = useState<ReadonlySet<number>>(new Set());
   const [finished, setFinished] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
   const [xpToast, setXpToast] = useState<{ amount: number; visible: boolean }>({
@@ -57,6 +126,19 @@ export function QuizClient({
     };
   }, []);
 
+  // Check if all questions are answered or skipped
+  const allHandled = useMemo(() => {
+    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
+    return activeQuestions.every((_, i) => answeredIndices.has(i) || skipped.has(i));
+  }, [answers, skipped, activeQuestions]);
+
+  // Auto-finish when all questions are handled
+  useEffect(() => {
+    if (allHandled && activeQuestions.length > 0 && answers.length > 0) {
+      setFinished(true);
+    }
+  }, [allHandled, activeQuestions.length, answers.length]);
+
   if (activeQuestions.length === 0) {
     return (
       <div className="max-w-2xl mx-auto px-4 md:px-8 py-8 text-center">
@@ -77,9 +159,10 @@ export function QuizClient({
   }
 
   const handleRestart = () => {
-    setActiveQuestions(questions);
+    setActiveQuestions(shuffleAndPick(questions, QUESTIONS_PER_SESSION));
     setCurrentIndex(0);
     setAnswers([]);
+    setSkipped(new Set());
     setFinished(false);
     setXpEarned(0);
   };
@@ -92,6 +175,7 @@ export function QuizClient({
     setActiveQuestions(wrongQuestions);
     setCurrentIndex(0);
     setAnswers([]);
+    setSkipped(new Set());
     setFinished(false);
     setXpEarned(0);
   };
@@ -129,10 +213,40 @@ export function QuizClient({
 
     setAnswers(updatedAnswers);
 
-    if (currentIndex + 1 >= activeQuestions.length) {
+    // Move to next unanswered/unskipped question, or finish
+    const answeredIndices = new Set(updatedAnswers.map((a) => a.questionIndex));
+    const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, skipped);
+
+    if (nextIndex === -1) {
       setFinished(true);
     } else {
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex(nextIndex);
+    }
+  };
+
+  const handleSkip = () => {
+    const newSkipped = new Set(skipped);
+    newSkipped.add(currentIndex);
+    setSkipped(newSkipped);
+
+    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
+    const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, newSkipped);
+
+    if (nextIndex === -1) {
+      // All remaining are skipped — if we have at least 1 answer, finish
+      if (answers.length > 0) {
+        setFinished(true);
+      }
+    } else {
+      setCurrentIndex(nextIndex);
+    }
+  };
+
+  const handleJump = (index: number) => {
+    // Allow jumping to any question that hasn't been answered yet
+    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
+    if (!answeredIndices.has(index)) {
+      setCurrentIndex(index);
     }
   };
 
@@ -142,7 +256,7 @@ export function QuizClient({
     <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
       <XPToast amount={xpToast.amount} visible={xpToast.visible} />
 
-      <h1 className="text-2xl font-bold text-foreground mb-6">{subjectTitle} 퀴즈</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-4">{subjectTitle} 퀴즈</h1>
 
       {finished ? (
         <QuizResultScreen
@@ -154,6 +268,15 @@ export function QuizClient({
         />
       ) : (
         <>
+          {/* 소제목 네비게이션 */}
+          <QuestionNav
+            questions={activeQuestions}
+            chapterMap={chapterMap}
+            currentIndex={currentIndex}
+            answers={answers}
+            onJump={handleJump}
+          />
+
           {/* Progress Section */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
@@ -171,7 +294,12 @@ export function QuizClient({
             />
           </div>
 
-          <Card className="mb-6">
+          {/* 현재 문제의 소제목 */}
+          <p className="text-sm text-muted-foreground mb-2">
+            📌 {chapterMap[currentQuestion.chapter] || currentQuestion.chapter}
+          </p>
+
+          <Card className="mb-4">
             <CardHeader>
               {currentQuestion.caseContext && (
                 <CaseContextBox caseContext={currentQuestion.caseContext} />
@@ -204,8 +332,37 @@ export function QuizClient({
               )}
             </CardContent>
           </Card>
+
+          {/* 건너뛰기 버튼 */}
+          <div className="flex justify-end">
+            <button
+              onClick={handleSkip}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-muted"
+            >
+              건너뛰기 →
+            </button>
+          </div>
         </>
       )}
     </div>
   );
+}
+
+// ─── Utilities ───────────────────────────────────────────────────────────────
+
+function findNextUnanswered(
+  currentIndex: number,
+  total: number,
+  answeredIndices: Set<number>,
+  skippedIndices: ReadonlySet<number>
+): number {
+  // Look forward first
+  for (let i = currentIndex + 1; i < total; i++) {
+    if (!answeredIndices.has(i) && !skippedIndices.has(i)) return i;
+  }
+  // Wrap around
+  for (let i = 0; i < currentIndex; i++) {
+    if (!answeredIndices.has(i) && !skippedIndices.has(i)) return i;
+  }
+  return -1;
 }

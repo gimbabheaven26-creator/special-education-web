@@ -42,10 +42,17 @@ export default async function SubjectQuizPage({
     );
   }
 
+  // Build chapter slug → title map for subtitle display
+  const chapterMap: Record<string, string> = {};
+  for (const ch of subject.chapters) {
+    chapterMap[ch.slug] = ch.title;
+  }
+
   return (
     <QuizClient
       subjectTitle={subject.title}
       questions={questions}
+      chapterMap={chapterMap}
     />
   );
 }
