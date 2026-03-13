@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
+import { useStudyStore } from '@/stores/useStudyStore';
 import type { WrongNote } from '@/types/study';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,8 @@ export default function WrongNotesQuizPage() {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const addWrongNote = useQuizStore((s) => s.addWrongNote);
   const markMastered = useQuizStore((s) => s.markMastered);
+  const addQuizResult = useQuizStore((s) => s.addQuizResult);
+  const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
 
   const unmasteredNotes = useMemo(
     () => wrongNotes.filter((n) => !n.mastered),
@@ -50,6 +53,19 @@ export default function WrongNotesQuizPage() {
       };
       const updatedAnswers = [...answers, newAnswer];
       setAnswers(updatedAnswers);
+
+      // Record in study store (XP, streak, daily stats)
+      recordQuizResult(isCorrect);
+
+      // Record in quiz store (history)
+      addQuizResult({
+        questionId: currentNote.questionId,
+        userAnswer,
+        isCorrect,
+        timestamp: Date.now(),
+        subject: currentNote.question.subject,
+        chapter: currentNote.question.chapter,
+      });
 
       if (isCorrect) {
         markMastered(currentNote.questionId);

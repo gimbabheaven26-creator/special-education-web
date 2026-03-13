@@ -17,16 +17,31 @@ import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoi
 const XP_CORRECT = 15;
 const XP_WRONG = 10;
 const QUESTIONS_PER_SESSION = 10;
+const REVIEW_MIX_COUNT = 3;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function shuffleAndPick(questions: QuizQuestion[], count: number): QuizQuestion[] {
-  const shuffled = [...questions];
-  for (let i = shuffled.length - 1; i > 0; i--) {
+function shuffle<T>(arr: readonly T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [result[i], result[j]] = [result[j], result[i]];
   }
-  return shuffled.slice(0, count);
+  return result;
+}
+
+/** Mix review questions (from wrong notes) into a fresh session */
+function buildSessionWithReview(
+  allQuestions: QuizQuestion[],
+  reviewQuestions: QuizQuestion[],
+  total: number,
+  reviewMax: number,
+): QuizQuestion[] {
+  const reviewPool = shuffle(reviewQuestions).slice(0, reviewMax);
+  const reviewIds = new Set(reviewPool.map((q) => q.id));
+  const freshPool = allQuestions.filter((q) => !reviewIds.has(q.id));
+  const freshPick = shuffle(freshPool).slice(0, total - reviewPool.length);
+  return shuffle([...reviewPool, ...freshPick]);
 }
 
 // ─── Question Nav (소제목 네비게이션) ────────────────────────────────────────
@@ -84,16 +99,27 @@ function QuestionNav({
 // ─── Main QuizClient ─────────────────────────────────────────────────────────
 
 export function QuizClient({
+  subjectSlug,
   subjectTitle,
   questions,
   chapterMap,
 }: {
+  subjectSlug: string;
   subjectTitle: string;
   questions: QuizQuestion[];
   chapterMap: Record<string, string>;
 }) {
+  // Get unmastered wrong notes for this subject to mix into sessions
+  const wrongNotes = useQuizStore((s) => s.wrongNotes);
+  const reviewQuestions = useMemo(
+    () => wrongNotes
+      .filter((n) => !n.mastered && n.question.subject === subjectSlug)
+      .map((n) => n.question),
+    [wrongNotes, subjectSlug],
+  );
+
   const [activeQuestions, setActiveQuestions] = useState<ReadonlyArray<QuizQuestion>>(() =>
-    shuffleAndPick(questions, QUESTIONS_PER_SESSION)
+    buildSessionWithReview(questions, reviewQuestions, QUESTIONS_PER_SESSION, REVIEW_MIX_COUNT)
   );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<ReadonlyArray<AnswerRecord>>([]);
@@ -159,7 +185,7 @@ export function QuizClient({
   }
 
   const handleRestart = () => {
-    setActiveQuestions(shuffleAndPick(questions, QUESTIONS_PER_SESSION));
+    setActiveQuestions(buildSessionWithReview(questions, reviewQuestions, QUESTIONS_PER_SESSION, REVIEW_MIX_COUNT));
     setCurrentIndex(0);
     setAnswers([]);
     setSkipped(new Set());
@@ -263,6 +289,8 @@ export function QuizClient({
           questions={activeQuestions}
           answers={answers}
           totalXPEarned={xpEarned}
+          subjectSlug={subjectSlug}
+          chapterMap={chapterMap}
           onRestart={handleRestart}
           onRetryWrong={handleRetryWrong}
         />

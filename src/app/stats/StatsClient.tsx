@@ -11,6 +11,8 @@ import {
   identifyWeakAreas,
   computeTrend,
   computeStudyDays,
+  computeWrongNoteSummary,
+  computeWeeklySummary,
 } from '@/lib/stats-utils';
 import { Badge } from '@/components/ui/badge';
 import OverallAccuracy from './OverallAccuracy';
@@ -18,9 +20,12 @@ import SubjectAccuracyBars from './SubjectAccuracyBars';
 import StudyVolumeChart from './StudyVolumeChart';
 import WeakAreas from './WeakAreas';
 import StreakHistory from './StreakHistory';
+import WrongNoteSummary from './WrongNoteSummary';
+import WeeklySummary from './WeeklySummary';
 
 export default function StatsClient() {
   const quizHistory = useQuizStore((s) => s.quizHistory);
+  const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const currentStreak = useStudyStore((s) => s.currentStreak);
   const longestStreak = useStudyStore((s) => s.longestStreak);
   const totalXP = useStudyStore((s) => s.totalXP);
@@ -64,6 +69,16 @@ export default function StatsClient() {
   const studyDays = useMemo(
     () => computeStudyDays(dailyHistory),
     [dailyHistory],
+  );
+
+  const wrongNoteSummary = useMemo(
+    () => computeWrongNoteSummary(wrongNotes),
+    [wrongNotes],
+  );
+
+  const weeklySummary = useMemo(
+    () => computeWeeklySummary(quizHistory),
+    [quizHistory],
   );
 
   if (quizHistory.length === 0) {
@@ -117,6 +132,9 @@ export default function StatsClient() {
         </Badge>
       </div>
 
+      {/* Weekly Summary */}
+      <WeeklySummary summary={weeklySummary} />
+
       {/* Subject Accuracy Bars */}
       <SubjectAccuracyBars
         subjectStats={subjectStats}
@@ -127,7 +145,10 @@ export default function StatsClient() {
       <StudyVolumeChart volume7={volume7} volume30={volume30} />
 
       {/* Weak Areas */}
-      <WeakAreas weakAreas={weakAreas} />
+      <WeakAreas weakAreas={weakAreas} chapterStats={chapterStats} />
+
+      {/* Wrong Note Summary */}
+      <WrongNoteSummary summary={wrongNoteSummary} />
 
       {/* Streak & Trend */}
       <StreakHistory

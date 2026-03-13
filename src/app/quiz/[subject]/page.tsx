@@ -50,6 +50,7 @@ export default async function SubjectQuizPage({
 
   return (
     <QuizClient
+      subjectSlug={subjectSlug}
       subjectTitle={subject.title}
       questions={questions}
       chapterMap={chapterMap}

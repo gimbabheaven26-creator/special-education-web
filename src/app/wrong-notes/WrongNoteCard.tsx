@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import type { WrongNote } from '@/types/study';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { BookOpen } from 'lucide-react';
 
 const TYPE_LABELS: Record<string, string> = {
   ox: 'OX',
@@ -89,6 +91,16 @@ export default function WrongNoteCard({
             {formatAnswer(question.answer, note)}
           </p>
         </div>
+
+        {question.subject && question.chapter && (
+          <Link
+            href={`/subjects/${question.subject}/${question.chapter}`}
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+          >
+            <BookOpen className="h-3.5 w-3.5" />
+            챕터 보기
+          </Link>
+        )}
 
         <div className="flex gap-2">
           {note.mastered ? (

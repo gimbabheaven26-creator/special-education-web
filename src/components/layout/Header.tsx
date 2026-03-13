@@ -10,8 +10,9 @@ const navLinks = [
   { href: '/subjects', label: '학습' },
   { href: '/quiz', label: '퀴즈' },
   { href: '/worksheets', label: '문제지' },
-  { href: '/flashcards', label: '플래시카드' },
-  { href: '/bookmarks', label: '북마크' },
+  { href: '/flashcards', label: '카드' },
+  { href: '/wrong-notes', label: '오답노트' },
+  { href: '/stats', label: '통계' },
 ];
 
 function ThemeToggle() {

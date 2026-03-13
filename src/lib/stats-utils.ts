@@ -1,5 +1,5 @@
 import type { QuizResult } from '@/types/quiz';
-import type { DailyHistoryEntry } from '@/types/study';
+import type { DailyHistoryEntry, WrongNote } from '@/types/study';
 
 export interface SubjectStats {
   subject: string;
@@ -154,6 +154,108 @@ export function computeTrend(
   if (diff < -5) return 'declining';
   return 'stable';
 }
+
+// ─── Wrong Note Summary ──────────────────────────────────────────────────────
+
+export interface WrongNoteSummaryData {
+  total: number;
+  mastered: number;
+  unmastered: number;
+  resolutionRate: number;
+  bySubject: ReadonlyArray<{
+    subject: string;
+    total: number;
+    mastered: number;
+    unmastered: number;
+  }>;
+}
+
+export function computeWrongNoteSummary(
+  wrongNotes: ReadonlyArray<WrongNote>,
+): WrongNoteSummaryData {
+  const total = wrongNotes.length;
+  const mastered = wrongNotes.filter((n) => n.mastered).length;
+  const unmastered = total - mastered;
+  const resolutionRate = total === 0 ? 0 : Math.round((mastered / total) * 100);
+
+  const subjectMap = new Map<string, { total: number; mastered: number }>();
+  for (const n of wrongNotes) {
+    const subject = n.question.subject;
+    const prev = subjectMap.get(subject) ?? { total: 0, mastered: 0 };
+    subjectMap.set(subject, {
+      total: prev.total + 1,
+      mastered: prev.mastered + (n.mastered ? 1 : 0),
+    });
+  }
+
+  const bySubject = Array.from(subjectMap.entries())
+    .map(([subject, s]) => ({
+      subject,
+      total: s.total,
+      mastered: s.mastered,
+      unmastered: s.total - s.mastered,
+    }))
+    .sort((a, b) => b.unmastered - a.unmastered);
+
+  return { total, mastered, unmastered, resolutionRate, bySubject };
+}
+
+// ─── Weekly Summary ──────────────────────────────────────────────────────────
+
+export interface WeeklyStatsData {
+  count: number;
+  correct: number;
+  rate: number;
+  xp: number;
+}
+
+export interface WeeklySummaryData {
+  thisWeek: WeeklyStatsData;
+  lastWeek: WeeklyStatsData;
+}
+
+function getMondayOfWeek(date: Date): Date {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const day = d.getDay();
+  const mondayOffset = day === 0 ? 6 : day - 1;
+  return new Date(d.getTime() - mondayOffset * 86_400_000);
+}
+
+function weekStatsFromResults(results: ReadonlyArray<QuizResult>): WeeklyStatsData {
+  const count = results.length;
+  const correct = results.filter((r) => r.isCorrect).length;
+  const XP_PER_QUIZ = 10;
+  const XP_PER_CORRECT = 5;
+  return {
+    count,
+    correct,
+    rate: count === 0 ? 0 : Math.round((correct / count) * 100),
+    xp: count * XP_PER_QUIZ + correct * XP_PER_CORRECT,
+  };
+}
+
+export function computeWeeklySummary(
+  history: ReadonlyArray<QuizResult>,
+): WeeklySummaryData {
+  const now = new Date();
+  const thisMonday = getMondayOfWeek(now);
+  const lastMonday = new Date(thisMonday.getTime() - 7 * 86_400_000);
+
+  const thisWeekStart = thisMonday.getTime();
+  const lastWeekStart = lastMonday.getTime();
+
+  const thisWeekResults = history.filter((r) => r.timestamp >= thisWeekStart);
+  const lastWeekResults = history.filter(
+    (r) => r.timestamp >= lastWeekStart && r.timestamp < thisWeekStart,
+  );
+
+  return {
+    thisWeek: weekStatsFromResults(thisWeekResults),
+    lastWeek: weekStatsFromResults(lastWeekResults),
+  };
+}
+
+// ─── Study Days ──────────────────────────────────────────────────────────────
 
 export function computeStudyDays(
   dailyHistory: DailyHistoryEntry[],

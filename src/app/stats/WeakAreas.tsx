@@ -1,12 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import type { SubjectStats } from '@/lib/stats-utils';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import type { SubjectStats, ChapterStats } from '@/lib/stats-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 interface WeakAreasProps {
   readonly weakAreas: ReadonlyArray<SubjectStats>;
+  readonly chapterStats: ReadonlyArray<ChapterStats>;
 }
 
 function rateColorClass(rate: number): string {
@@ -14,7 +17,80 @@ function rateColorClass(rate: number): string {
   return 'text-red-600 dark:text-red-400';
 }
 
-export default function WeakAreas({ weakAreas }: WeakAreasProps) {
+function WeakSubjectRow({
+  area,
+  chapters,
+}: {
+  area: SubjectStats;
+  chapters: ReadonlyArray<ChapterStats>;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const weakChapters = chapters
+    .filter((c) => c.subject === area.subject && c.rate < 60)
+    .sort((a, b) => a.rate - b.rate);
+
+  return (
+    <li>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          {area.rate < 40 && (
+            <span className="flex-shrink-0" aria-label="경고">
+              <Badge variant="destructive" className="text-xs px-1.5 py-0.5">
+                주의
+              </Badge>
+            </span>
+          )}
+          <span className="text-sm truncate">{area.subject}</span>
+          {weakChapters.length > 0 && (
+            <button
+              onClick={() => setExpanded((prev) => !prev)}
+              className="flex-shrink-0 p-0.5 rounded hover:bg-muted transition-colors"
+              aria-label={expanded ? '접기' : '펼치기'}
+            >
+              {expanded ? (
+                <ChevronUp className="h-3.5 w-3.5 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+              )}
+            </button>
+          )}
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <span className={`text-sm font-medium ${rateColorClass(area.rate)}`}>
+            {area.rate}%
+          </span>
+          <Link
+            href={`/quiz/${area.subject}`}
+            className="text-xs text-primary hover:underline whitespace-nowrap"
+          >
+            연습하기
+          </Link>
+        </div>
+      </div>
+
+      {/* Chapter drill-down */}
+      {expanded && weakChapters.length > 0 && (
+        <ul className="ml-6 mt-1.5 space-y-1 border-l-2 border-border pl-3">
+          {weakChapters.map((ch) => (
+            <li
+              key={`${ch.subject}::${ch.chapter}`}
+              className="flex items-center justify-between text-xs gap-2"
+            >
+              <span className="text-muted-foreground truncate">
+                {ch.chapter}
+              </span>
+              <span className={`font-medium flex-shrink-0 ${rateColorClass(ch.rate)}`}>
+                {ch.correct}/{ch.total} ({ch.rate}%)
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+export default function WeakAreas({ weakAreas, chapterStats }: WeakAreasProps) {
   return (
     <Card>
       <CardHeader>
@@ -28,32 +104,11 @@ export default function WeakAreas({ weakAreas }: WeakAreasProps) {
         ) : (
           <ul className="space-y-3">
             {weakAreas.map((area) => (
-              <li
+              <WeakSubjectRow
                 key={area.subject}
-                className="flex items-center justify-between gap-2"
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  {area.rate < 40 && (
-                    <span className="flex-shrink-0" aria-label="경고">
-                      <Badge variant="destructive" className="text-xs px-1.5 py-0.5">
-                        주의
-                      </Badge>
-                    </span>
-                  )}
-                  <span className="text-sm truncate">{area.subject}</span>
-                </div>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className={`text-sm font-medium ${rateColorClass(area.rate)}`}>
-                    {area.rate}%
-                  </span>
-                  <Link
-                    href="/quiz"
-                    className="text-xs text-primary hover:underline whitespace-nowrap"
-                  >
-                    연습하기
-                  </Link>
-                </div>
-              </li>
+                area={area}
+                chapters={chapterStats}
+              />
             ))}
           </ul>
         )}
