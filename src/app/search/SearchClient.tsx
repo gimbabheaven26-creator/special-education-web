@@ -4,13 +4,19 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import Fuse from 'fuse.js';
 import type { Subject, SearchItem } from '@/types/content';
-import type { QuizQuestion } from '@/types/quiz';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search } from 'lucide-react';
 
-function buildSearchIndex(subjects: Subject[], quizzes: QuizQuestion[]): SearchItem[] {
+export interface QuizSearchItem {
+  question: string;
+  explanation: string;
+  subject: string;
+  disability?: string;
+}
+
+function buildSearchIndex(subjects: Subject[], quizItems: QuizSearchItem[]): SearchItem[] {
   const items: SearchItem[] = [];
 
   const subjectTitleMap: Record<string, string> = {};
@@ -37,11 +43,11 @@ function buildSearchIndex(subjects: Subject[], quizzes: QuizQuestion[]): SearchI
     }
   }
 
-  for (const quiz of quizzes) {
+  for (const quiz of quizItems) {
     items.push({
       title: quiz.question,
       description: quiz.explanation,
-      keywords: quiz.tags?.disability ? [quiz.tags.disability] : [],
+      keywords: quiz.disability ? [quiz.disability] : [],
       path: `/quiz/${quiz.subject}`,
       subject: subjectTitleMap[quiz.subject] || quiz.subject,
       type: 'quiz',
@@ -53,14 +59,14 @@ function buildSearchIndex(subjects: Subject[], quizzes: QuizQuestion[]): SearchI
 
 interface SearchClientProps {
   readonly subjects: ReadonlyArray<Subject>;
-  readonly quizzes: ReadonlyArray<QuizQuestion>;
+  readonly quizItems: ReadonlyArray<QuizSearchItem>;
 }
 
-export default function SearchClient({ subjects, quizzes }: SearchClientProps) {
+export default function SearchClient({ subjects, quizItems }: SearchClientProps) {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const searchIndex = useMemo(() => buildSearchIndex([...subjects], [...quizzes]), [subjects, quizzes]);
+  const searchIndex = useMemo(() => buildSearchIndex([...subjects], [...quizItems]), [subjects, quizItems]);
 
   const fuse = useMemo(
     () =>

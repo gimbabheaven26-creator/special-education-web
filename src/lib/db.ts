@@ -35,8 +35,31 @@ export async function getSubjects(): Promise<Subject[]> {
 }
 
 export async function getSubjectBySlug(slug: string): Promise<Subject | null> {
-  const subjects = await getSubjects();
-  return subjects.find((s) => s.slug === slug) || null;
+  const [subjectResult, chaptersResult] = await Promise.all([
+    supabase.from('subjects').select('*').eq('slug', slug).single(),
+    supabase.from('chapters').select('*').eq('subject_slug', slug).order('sort_order'),
+  ]);
+
+  const { data: s, error: sErr } = subjectResult;
+  const { data: chapterRows, error: cErr } = chaptersResult;
+
+  if (sErr || !s) return null;
+
+  return {
+    slug: s.slug,
+    title: s.title,
+    description: s.description,
+    icon: s.icon,
+    color: s.color,
+    order: s.sort_order,
+    chapters: (cErr || !chapterRows ? [] : chapterRows).map((c) => ({
+      slug: c.slug,
+      title: c.title,
+      description: c.description,
+      keywords: c.keywords || [],
+      order: c.sort_order,
+    })),
+  };
 }
 
 // ─── Quiz Questions ───
