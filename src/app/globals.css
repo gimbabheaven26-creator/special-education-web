@@ -226,4 +226,25 @@ html, body {
   .border-dashed {
     border-color: #999 !important;
   }
+
+  /* One-page forced layout: scale content to fit A4 */
+  .worksheet-onepage {
+    max-height: 100vh;
+    overflow: hidden;
+  }
+
+  .worksheet-onepage .worksheet-question {
+    margin-bottom: 0.5rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .worksheet-onepage .worksheet-fillin {
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .worksheet-onepage .worksheet-descriptive {
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.3rem;
+  }
 }

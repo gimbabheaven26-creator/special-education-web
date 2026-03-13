@@ -29,60 +29,51 @@ function PrintModeQuestions({
   worksheet: WorksheetConfig;
   showAnswers: boolean;
 }) {
+  // Calculate answer lines for descriptive based on question count to fit one page
+  const descLines = worksheet.questionCount <= 5 ? 5 : worksheet.questionCount <= 8 ? 3 : 2;
+
   return (
-    <div className="space-y-6 print:space-y-4">
+    <div className="worksheet-onepage space-y-4 print:space-y-2">
       {worksheet.questions.map((q, idx) => (
         <div
           key={q.id}
-          className={`worksheet-question rounded-lg p-4 border border-border ${
+          className={`worksheet-question rounded-lg p-3 border border-border ${
             q.type === 'descriptive' ? 'worksheet-descriptive' : 'worksheet-fillin'
           }`}
         >
-          <div className="flex items-start gap-3">
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <span className="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center text-sm font-bold text-foreground print:bg-transparent print:border print:border-foreground/30">
-                {idx + 1}
-              </span>
-            </div>
+          <div className="flex items-start gap-2">
+            <span className="w-7 h-7 rounded-full bg-foreground/10 flex items-center justify-center text-sm font-bold text-foreground shrink-0 print:bg-transparent print:border print:border-foreground/30">
+              {idx + 1}
+            </span>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-1">
                 <Badge variant="outline" className="text-xs">
                   {q.type === 'fill_in' ? '기입형 (2점)' : '서술형 (4점)'}
                 </Badge>
               </div>
-              <p className="text-base leading-relaxed text-foreground whitespace-pre-wrap print:text-sm">
+              <p className="text-sm leading-relaxed text-foreground whitespace-pre-wrap">
                 {q.question}
               </p>
 
               {q.type === 'fill_in' && !showAnswers && (
-                <div className="mt-3 border-b-2 border-dashed border-foreground/30 w-full max-w-64 h-8" />
+                <div className="mt-2 border-b-2 border-dashed border-foreground/30 w-full max-w-64 h-7" />
               )}
               {q.type === 'descriptive' && !showAnswers && (
-                <div className="mt-3 space-y-3">
-                  {[1, 2, 3, 4, 5].map((line) => (
+                <div className="mt-2 space-y-2">
+                  {Array.from({ length: descLines }, (_, i) => (
                     <div
-                      key={line}
-                      className="border-b border-dashed border-foreground/20 h-6"
+                      key={i}
+                      className="border-b border-dashed border-foreground/20 h-5"
                     />
                   ))}
                 </div>
               )}
               {showAnswers && (
-                <div className="mt-3 p-4 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800">
-                  <p className="text-sm font-medium text-green-800 dark:text-green-300 mb-1">
+                <div className="mt-2 p-3 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800">
+                  <p className="text-xs font-medium text-green-800 dark:text-green-300 mb-0.5">
                     정답
                   </p>
-                  <p className="text-sm text-green-700 dark:text-green-400">{q.answer}</p>
-                  {q.explanation && (
-                    <>
-                      <p className="text-sm font-medium text-green-800 dark:text-green-300 mt-3 mb-1">
-                        해설
-                      </p>
-                      <p className="text-sm text-green-700 dark:text-green-400">
-                        {q.explanation}
-                      </p>
-                    </>
-                  )}
+                  <p className="text-xs text-green-700 dark:text-green-400">{q.answer}</p>
                 </div>
               )}
             </div>

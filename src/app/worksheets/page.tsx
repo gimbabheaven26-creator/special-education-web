@@ -8,13 +8,7 @@ import type { WorksheetConfig } from '@/lib/worksheet-utils';
 import { buildWorksheet, saveWorksheet } from '@/lib/worksheet-utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { FileText, AlertTriangle } from 'lucide-react';
-import {
-  WorksheetConfigPanel,
-  applyConfig,
-  type Difficulty,
-  type QuestionCountOption,
-} from './WorksheetConfigPanel';
+import { FileText, AlertTriangle, PenLine, Printer } from 'lucide-react';
 import { WorksheetPreview } from './WorksheetPreview';
 
 // ─── Main Page ──────────────────────────────────────────────────────────────
@@ -28,10 +22,6 @@ export default function WorksheetsPage() {
   const [worksheet, setWorksheet] = useState<WorksheetConfig | null>(null);
   const [noQuestionsError, setNoQuestionsError] = useState(false);
   const [origin, setOrigin] = useState('');
-
-  // Config preferences
-  const [questionCount, setQuestionCount] = useState<QuestionCountOption>(10);
-  const [difficulty, setDifficulty] = useState<Difficulty>('mixed');
 
   // DB data
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -99,7 +89,7 @@ export default function WorksheetsPage() {
     setWorksheet(null);
   };
 
-  const generateWorksheet = useCallback(async () => {
+  const generate = useCallback(async (targetMode: 'solve' | 'print') => {
     if (!selectedSubject || !selectedTopic) return;
 
     const wsTopicMatch = worksheetTopics.find((t) => t.id === selectedTopic);
@@ -108,34 +98,29 @@ export default function WorksheetsPage() {
       currentSubject?.chapters.find((c) => c.slug === selectedTopic)?.title ??
       selectedTopic;
 
-    const rawWs = await buildWorksheet(
+    const ws = await buildWorksheet(
       selectedSubject,
       selectedTopic,
       topicName,
       selectedType,
     );
 
-    if (!rawWs) {
+    if (!ws) {
       setNoQuestionsError(true);
       setWorksheet(null);
       return;
     }
 
-    const configuredWs = applyConfig(rawWs, questionCount, difficulty);
     setNoQuestionsError(false);
-    saveWorksheet(configuredWs);
-    setWorksheet(configuredWs);
+    saveWorksheet(ws);
+    setWorksheet(ws);
+    setMode(targetMode);
     setShowPrintAnswers(false);
     setSolverKey((prev) => prev + 1);
-  }, [
-    selectedSubject,
-    selectedTopic,
-    selectedType,
-    worksheetTopics,
-    currentSubject,
-    questionCount,
-    difficulty,
-  ]);
+  }, [selectedSubject, selectedTopic, selectedType, worksheetTopics, currentSubject]);
+
+  const handleSolveMode = useCallback(() => generate('solve'), [generate]);
+  const handlePrintMode = useCallback(() => generate('print'), [generate]);
 
   const handleRetry = useCallback(() => {
     setSolverKey((prev) => prev + 1);
@@ -146,6 +131,7 @@ export default function WorksheetsPage() {
   }, []);
 
   const subjectTitle = currentSubject?.title ?? '';
+  const canGenerate = !!selectedSubject && !!selectedTopic;
 
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
@@ -240,26 +226,28 @@ export default function WorksheetsPage() {
             </p>
           )}
 
-          <Button
-            onClick={generateWorksheet}
-            disabled={!selectedSubject || !selectedTopic}
-            className="w-full sm:w-auto min-h-[44px]"
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            문제지 생성
-          </Button>
+          {/* 두 개의 생성 버튼 */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              onClick={handleSolveMode}
+              disabled={!canGenerate}
+              className="flex-1 min-h-[44px] gap-2"
+            >
+              <PenLine className="h-4 w-4" />
+              여기서 풀기
+            </Button>
+            <Button
+              onClick={handlePrintMode}
+              disabled={!canGenerate}
+              variant="outline"
+              className="flex-1 min-h-[44px] gap-2"
+            >
+              <Printer className="h-4 w-4" />
+              출력해서 풀기
+            </Button>
+          </div>
         </CardContent>
       </Card>
-
-      {/* Config Step (before generation, after selection) */}
-      {selectedSubject && selectedTopic && !worksheet && (
-        <WorksheetConfigPanel
-          questionCount={questionCount}
-          onQuestionCountChange={setQuestionCount}
-          difficulty={difficulty}
-          onDifficultyChange={setDifficulty}
-        />
-      )}
 
       {/* No questions error */}
       {noQuestionsError && (
@@ -286,7 +274,7 @@ export default function WorksheetsPage() {
           onTogglePrintAnswers={handleTogglePrintAnswers}
           solverKey={solverKey}
           onRetry={handleRetry}
-          onNewWorksheet={generateWorksheet}
+          onNewWorksheet={handleSolveMode}
         />
       )}
     </div>
