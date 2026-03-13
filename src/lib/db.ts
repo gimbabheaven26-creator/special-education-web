@@ -77,6 +77,8 @@ function mapQuizRow(row: Record<string, unknown>): QuizQuestion {
     difficulty: row.difficulty as 1 | 2 | 3,
     source: (row.source as string) || undefined,
     tags: (row.tags as QuizQuestion['tags']) || undefined,
+    subQuestions: (row.sub_questions as QuizQuestion['subQuestions']) || undefined,
+    imageUrl: (row.image_url as string) || undefined,
   };
 }
 

@@ -10,7 +10,7 @@ import { useQuizStore } from '@/stores/useQuizStore';
 import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
-import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice } from './QuestionCard';
+import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice, ScenarioCompositeChoice } from './QuestionCard';
 import { XP_TOAST_CORRECT, XP_TOAST_WRONG } from '@/lib/xp-constants';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -359,6 +359,13 @@ export function QuizClient({
               )}
               {currentQuestion.type === 'descriptive' && (
                 <DescriptiveChoice
+                  key={currentIndex}
+                  question={currentQuestion}
+                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+                />
+              )}
+              {currentQuestion.type === 'scenario_composite' && (
+                <ScenarioCompositeChoice
                   key={currentIndex}
                   question={currentQuestion}
                   onAnswer={(ans, correct) => handleAnswer(ans, correct)}

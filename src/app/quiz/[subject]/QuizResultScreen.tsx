@@ -14,12 +14,14 @@ export interface AnswerRecord {
   userAnswer: string | number;
 }
 
-type QuestionTypeLabel = 'multiple' | 'ox' | 'fill_in';
+type QuestionTypeLabel = 'multiple' | 'ox' | 'fill_in' | 'descriptive' | 'scenario_composite';
 
 export const TYPE_LABELS: Record<QuestionTypeLabel, string> = {
   multiple: '객관식',
   ox: 'OX퀴즈',
   fill_in: '단답형',
+  descriptive: '서술형',
+  scenario_composite: '시나리오형',
 };
 
 // ─── Circular Progress Ring (SVG) ────────────────────────────────────────────

@@ -1,4 +1,12 @@
-export type QuizType = 'multiple' | 'ox' | 'fill_in' | 'descriptive';
+export type QuizType = 'multiple' | 'ox' | 'fill_in' | 'descriptive' | 'scenario_composite';
+
+export interface SubQuestion {
+  id: string;
+  question: string;
+  type: 'fill_in' | 'descriptive';
+  answer: string;
+  explanation?: string;
+}
 
 export interface QuizQuestion {
   id: string;
@@ -18,6 +26,8 @@ export interface QuizQuestion {
     year?: number;
     round?: number;
   };
+  subQuestions?: SubQuestion[];
+  imageUrl?: string;
 }
 
 export interface QuizResult {

@@ -82,6 +82,17 @@
 - **상세**: `docs/cloudy-issues-for-kangsaem.md`의 Issue #1 + #2 해결.
 - **완료 기준**: 시각/청각/지체/의사소통 퀴즈 최소 18문제 + introduction 20문제
 
+### REQ-007: quiz_questions 테이블에 시나리오형 컬럼 추가
+
+- **요청일**: 2026-03-14
+- **우선순위**: P1
+- **상태**: 대기
+- **상세**: Issue #3 (KICE 실전형 퀴즈 포맷) UI 구현 완료. DB에 다음 컬럼 추가 필요:
+  - `sub_questions JSONB DEFAULT NULL` — 하위 질문 배열 `[{id, question, type, answer, explanation?}]`
+  - `image_url TEXT DEFAULT NULL` — 도표/그래프 이미지 URL
+  - `type` 컬럼의 허용값에 `scenario_composite` 추가 (CHECK 제약이 있다면)
+- **완료 기준**: `type='scenario_composite'`인 퀴즈를 `sub_questions`와 함께 INSERT 가능
+
 ---
 
 ## 실행 순서 권장
