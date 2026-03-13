@@ -34,5 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-/data/
+/data/*
+!/data/kice-기출/
 reviews.json
