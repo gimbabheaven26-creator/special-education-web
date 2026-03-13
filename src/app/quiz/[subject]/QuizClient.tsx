@@ -11,11 +11,10 @@ import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
 import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice } from './QuestionCard';
+import { XP_TOAST_CORRECT, XP_TOAST_WRONG } from '@/lib/xp-constants';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const XP_CORRECT = 15;
-const XP_WRONG = 10;
 const QUESTIONS_PER_SESSION = 10;
 const REVIEW_MIX_COUNT = 3;
 
@@ -233,7 +232,7 @@ export function QuizClient({
     }
 
     // XP toast
-    const earned = isCorrect ? XP_CORRECT : XP_WRONG;
+    const earned = isCorrect ? XP_TOAST_CORRECT : XP_TOAST_WRONG;
     setXpEarned((prev) => prev + earned);
     showXPToast(earned);
 
