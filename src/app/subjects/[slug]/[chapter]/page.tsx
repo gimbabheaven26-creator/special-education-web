@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import fs from 'fs';
 import path from 'path';
-import { getSubjectBySlug } from '@/lib/db';
+import { getSubjectBySlug, getQuizzesByChapter } from '@/lib/db';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,14 +17,40 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';
+import { SelfCheckSection } from '@/components/chapter/SelfCheckSection';
 import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
+
+// ─── MDX helpers ─────────────────────────────────────────────────────────────
 
 function getMdxSource(slug: string, chapterSlug: string): string | null {
   const mdxPath = path.join(process.cwd(), 'content', slug, `${chapterSlug}.mdx`);
   if (!fs.existsSync(mdxPath)) return null;
   return fs.readFileSync(mdxPath, 'utf-8');
 }
+
+/** Split MDX into body (without self-check) and self-check items */
+function extractSelfCheck(mdx: string): { body: string; items: string[] } {
+  const marker = /^##\s*자가점검\s*$/m;
+  const match = mdx.match(marker);
+
+  if (!match || match.index === undefined) {
+    return { body: mdx, items: [] };
+  }
+
+  const body = mdx.slice(0, match.index).trimEnd();
+  const selfCheckBlock = mdx.slice(match.index + match[0].length);
+
+  // Parse "- [ ] text" or "- [x] text" lines
+  const items = selfCheckBlock
+    .split('\n')
+    .map((line) => line.match(/^-\s*\[[ x]]\s*(.+)/)?.[1]?.trim())
+    .filter((text): text is string => !!text);
+
+  return { body, items };
+}
+
+// ─── Page ────────────────────────────────────────────────────────────────────
 
 export default async function ChapterPage({
   params,
@@ -48,6 +74,15 @@ export default async function ChapterPage({
   const prevChapter = chapterIndex > 0 ? subject.chapters[chapterIndex - 1] : null;
   const nextChapter = chapterIndex < subject.chapters.length - 1 ? subject.chapters[chapterIndex + 1] : null;
   const mdxSource = getMdxSource(slug, chapterSlug);
+
+  // Extract self-check items and fetch related quizzes
+  const { body: mdxBody, items: selfCheckItems } = mdxSource
+    ? extractSelfCheck(mdxSource)
+    : { body: '', items: [] };
+
+  const chapterQuizzes = selfCheckItems.length > 0
+    ? await getQuizzesByChapter(slug, chapterSlug)
+    : [];
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
@@ -80,11 +115,11 @@ export default async function ChapterPage({
         <p className="text-lg text-muted-foreground">{chapter.description}</p>
       </div>
 
-      {/* 본문 영역 */}
+      {/* 본문 영역 (자가점검 섹션 제외) */}
       {mdxSource ? (
         <article className="prose prose-neutral dark:prose-invert max-w-none mb-8">
           <MDXRemote
-            source={mdxSource}
+            source={mdxBody}
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm, remarkFrontmatter],
@@ -96,6 +131,11 @@ export default async function ChapterPage({
         <div className="min-h-64 flex items-center justify-center border border-dashed border-border rounded-xl bg-muted/30 mb-8">
           <p className="text-muted-foreground text-lg">콘텐츠 준비 중입니다.</p>
         </div>
+      )}
+
+      {/* 자가점검 (인터랙티브) */}
+      {selfCheckItems.length > 0 && (
+        <SelfCheckSection items={selfCheckItems} quizzes={chapterQuizzes} />
       )}
 
       {/* 학습 완료 트래커 */}
