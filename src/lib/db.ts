@@ -42,10 +42,12 @@ export async function getSubjectBySlug(slug: string): Promise<Subject | null> {
 // ─── Quiz Questions ───
 
 export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQuestion[]> {
+  // TODO: After REQ-008 (subjects column added), restore multi-tag search:
+  // .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`)
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
-    .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`);
+    .eq('subject', subjectSlug);
 
   if (error || !data) return [];
 
@@ -214,7 +216,7 @@ export async function getQuizCount(): Promise<Record<string, number>> {
 // ─── Search ───
 
 export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
-  const sanitized = query.replace(/[%_\\]/g, (c) => `\\${c}`);
+  const sanitized = query.replace(/[%_\\(),."]/g, (c) => `\\${c}`);
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')

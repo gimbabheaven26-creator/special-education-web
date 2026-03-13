@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 interface SubjectAccuracyBarsProps {
   readonly subjectStats: ReadonlyArray<SubjectStats>;
   readonly chapterStats: ReadonlyArray<ChapterStats>;
+  readonly subjectTitleMap: Readonly<Record<string, string>>;
+  readonly chapterTitleMap: Readonly<Record<string, string>>;
 }
 
 function barColor(rate: number): string {
@@ -25,6 +27,8 @@ function rateTextColor(rate: number): string {
 export default function SubjectAccuracyBars({
   subjectStats,
   chapterStats,
+  subjectTitleMap,
+  chapterTitleMap,
 }: SubjectAccuracyBarsProps) {
   const [expandedSubject, setExpandedSubject] = useState<string | null>(null);
 
@@ -63,7 +67,7 @@ export default function SubjectAccuracyBars({
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-sm w-24 truncate flex-shrink-0">
-                      {stat.subject}
+                      {subjectTitleMap[stat.subject] || stat.subject}
                     </span>
                     <div className="flex-1 h-5 bg-muted rounded-full overflow-hidden">
                       <div
@@ -87,7 +91,7 @@ export default function SubjectAccuracyBars({
                     {chapters.map((ch) => (
                       <div key={`${ch.subject}::${ch.chapter}`} className="flex items-center gap-2">
                         <span className="text-xs text-muted-foreground w-28 truncate flex-shrink-0">
-                          {ch.chapter}
+                          {chapterTitleMap[`${ch.subject}::${ch.chapter}`] || ch.chapter}
                         </span>
                         <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden">
                           <div

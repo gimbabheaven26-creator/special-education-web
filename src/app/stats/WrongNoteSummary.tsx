@@ -7,9 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface WrongNoteSummaryProps {
   readonly summary: WrongNoteSummaryData;
+  readonly subjectTitleMap: Readonly<Record<string, string>>;
 }
 
-export default function WrongNoteSummary({ summary }: WrongNoteSummaryProps) {
+export default function WrongNoteSummary({ summary, subjectTitleMap }: WrongNoteSummaryProps) {
   if (summary.total === 0) return null;
 
   const top3 = summary.bySubject.filter((s) => s.unmastered > 0).slice(0, 3);
@@ -68,7 +69,7 @@ export default function WrongNoteSummary({ summary }: WrongNoteSummaryProps) {
                   ) : (
                     <CheckCircle className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
                   )}
-                  <span className="truncate">{s.subject}</span>
+                  <span className="truncate">{subjectTitleMap[s.subject] || s.subject}</span>
                 </div>
                 <span className="text-muted-foreground flex-shrink-0">
                   {s.unmastered}개 남음

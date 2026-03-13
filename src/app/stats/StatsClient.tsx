@@ -24,10 +24,11 @@ import WrongNoteSummary from './WrongNoteSummary';
 import WeeklySummary from './WeeklySummary';
 
 interface StatsClientProps {
+  readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
 }
 
-export default function StatsClient({ chapterTitleMap }: StatsClientProps) {
+export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsClientProps) {
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const currentStreak = useStudyStore((s) => s.currentStreak);
@@ -143,16 +144,18 @@ export default function StatsClient({ chapterTitleMap }: StatsClientProps) {
       <SubjectAccuracyBars
         subjectStats={subjectStats}
         chapterStats={chapterStats}
+        subjectTitleMap={subjectTitleMap}
+        chapterTitleMap={chapterTitleMap}
       />
 
       {/* Study Volume Chart */}
       <StudyVolumeChart volume7={volume7} volume30={volume30} />
 
       {/* Weak Areas */}
-      <WeakAreas weakAreas={weakAreas} chapterStats={chapterStats} chapterTitleMap={chapterTitleMap} />
+      <WeakAreas weakAreas={weakAreas} chapterStats={chapterStats} subjectTitleMap={subjectTitleMap} chapterTitleMap={chapterTitleMap} />
 
       {/* Wrong Note Summary */}
-      <WrongNoteSummary summary={wrongNoteSummary} />
+      <WrongNoteSummary summary={wrongNoteSummary} subjectTitleMap={subjectTitleMap} />
 
       {/* Streak & Trend */}
       <StreakHistory

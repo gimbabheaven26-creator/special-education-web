@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 interface WeakAreasProps {
   readonly weakAreas: ReadonlyArray<SubjectStats>;
   readonly chapterStats: ReadonlyArray<ChapterStats>;
+  readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
 }
 
@@ -21,10 +22,12 @@ function rateColorClass(rate: number): string {
 function WeakSubjectRow({
   area,
   chapters,
+  subjectTitleMap,
   chapterTitleMap,
 }: {
   area: SubjectStats;
   chapters: ReadonlyArray<ChapterStats>;
+  subjectTitleMap: Readonly<Record<string, string>>;
   chapterTitleMap: Readonly<Record<string, string>>;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -43,7 +46,7 @@ function WeakSubjectRow({
               </Badge>
             </span>
           )}
-          <span className="text-sm truncate">{area.subject}</span>
+          <span className="text-sm truncate">{subjectTitleMap[area.subject] || area.subject}</span>
           {weakChapters.length > 0 && (
             <button
               onClick={() => setExpanded((prev) => !prev)}
@@ -93,7 +96,7 @@ function WeakSubjectRow({
   );
 }
 
-export default function WeakAreas({ weakAreas, chapterStats, chapterTitleMap }: WeakAreasProps) {
+export default function WeakAreas({ weakAreas, chapterStats, subjectTitleMap, chapterTitleMap }: WeakAreasProps) {
   return (
     <Card>
       <CardHeader>
@@ -111,6 +114,7 @@ export default function WeakAreas({ weakAreas, chapterStats, chapterTitleMap }: 
                 key={area.subject}
                 area={area}
                 chapters={chapterStats}
+                subjectTitleMap={subjectTitleMap}
                 chapterTitleMap={chapterTitleMap}
               />
             ))}
