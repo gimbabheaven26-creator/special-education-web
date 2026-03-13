@@ -6,6 +6,7 @@ import type { QuizQuestion } from '@/types/quiz';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useStudyStore } from '@/stores/useStudyStore';
+import { useQuizStore } from '@/stores/useQuizStore';
 import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
@@ -37,6 +38,8 @@ export function QuizClient({
 
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
+  const addQuizResult = useQuizStore((s) => s.addQuizResult);
+  const addWrongNote = useQuizStore((s) => s.addWrongNote);
 
   const showXPToast = useCallback((amount: number) => {
     if (toastTimerRef.current) {
@@ -103,6 +106,21 @@ export function QuizClient({
 
     // Record in study store
     recordQuizResult(isCorrect);
+
+    // Record in quiz store (history + wrong notes)
+    const currentQ = activeQuestions[currentIndex];
+    addQuizResult({
+      questionId: currentQ.id,
+      userAnswer: _answer,
+      isCorrect,
+      timestamp: Date.now(),
+      subject: currentQ.subject,
+      chapter: currentQ.chapter,
+    });
+
+    if (!isCorrect) {
+      addWrongNote(currentQ, _answer);
+    }
 
     // XP toast
     const earned = isCorrect ? XP_CORRECT : XP_WRONG;

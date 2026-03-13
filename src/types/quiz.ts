@@ -25,6 +25,8 @@ export interface QuizResult {
   userAnswer: string | number;
   isCorrect: boolean;
   timestamp: number;
+  subject: string;
+  chapter: string;
 }
 
 export interface ExamQuestion extends QuizQuestion {

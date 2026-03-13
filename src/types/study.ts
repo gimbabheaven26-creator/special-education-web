@@ -25,6 +25,13 @@ export interface WrongNote {
   mastered: boolean;
 }
 
+export interface DailyHistoryEntry {
+  date: string;              // 'YYYY-MM-DD'
+  questionsAttempted: number;
+  questionsCorrect: number;
+  xpEarned: number;
+}
+
 export interface DailyGoal {
   date: string;
   targetChapters: number;

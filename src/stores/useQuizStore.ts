@@ -25,6 +25,7 @@ interface QuizStore {
   quizHistory: QuizResult[];
   addWrongNote: (question: QuizQuestion, userAnswer: string | number) => void;
   markMastered: (questionId: string) => void;
+  unmarkMastered: (questionId: string) => void;
   removeWrongNote: (questionId: string) => void;
   addQuizResult: (result: QuizResult) => void;
   getWrongNotesBySubject: (subject: string) => WrongNote[];
@@ -108,15 +109,27 @@ export const useQuizStore = create<QuizStore>()(
           ),
         })),
 
+      unmarkMastered: (questionId) =>
+        set((state) => ({
+          wrongNotes: state.wrongNotes.map((n) =>
+            n.questionId === questionId ? { ...n, mastered: false } : n
+          ),
+        })),
+
       removeWrongNote: (questionId) =>
         set((state) => ({
           wrongNotes: state.wrongNotes.filter((n) => n.questionId !== questionId),
         })),
 
       addQuizResult: (result) =>
-        set((state) => ({
-          quizHistory: [...state.quizHistory, result],
-        })),
+        set((state) => {
+          const MAX_HISTORY = 5000;
+          const updated = [...state.quizHistory, result];
+          const evicted = updated.length > MAX_HISTORY
+            ? updated.slice(updated.length - MAX_HISTORY)
+            : updated;
+          return { quizHistory: evicted };
+        }),
 
       getWrongNotesBySubject: (subject) =>
         get().wrongNotes.filter((n) => n.question.subject === subject),
@@ -178,7 +191,7 @@ export const useQuizStore = create<QuizStore>()(
     }),
     {
       name: 'quiz-data',
-      version: 1,
+      version: 2,
       migrate: (persistedState, version) => {
         const state = persistedState as Record<string, unknown>;
 
@@ -189,6 +202,19 @@ export const useQuizStore = create<QuizStore>()(
             ...state,
             feedbacks: legacy.feedbacks ?? [],
             errorReports: legacy.errorReports ?? [],
+          };
+        }
+
+        if (version === 1) {
+          // v1 -> v2: add subject/chapter to existing QuizResult entries
+          const history = Array.isArray(state.quizHistory) ? state.quizHistory : [];
+          return {
+            ...state,
+            quizHistory: history.map((entry: Record<string, unknown>) => ({
+              ...entry,
+              subject: entry.subject ?? '',
+              chapter: entry.chapter ?? '',
+            })),
           };
         }
 

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { DailyHistoryEntry } from '@/types/study';
 
 interface RecentActivity {
   subjectSlug: string;
@@ -36,6 +37,9 @@ interface StudyState {
   totalXP: number;
   totalQuizzes: number;
   totalCorrect: number;
+
+  // Daily history for statistics
+  dailyHistory: DailyHistoryEntry[];
 }
 
 interface StudyActions {
@@ -43,6 +47,7 @@ interface StudyActions {
   recordQuizResult: (correct: boolean) => void;
   recordChapterComplete: () => void;
   setDailyGoal: (chapters: number, quizzes: number) => void;
+  getDailyHistory: (days: number) => DailyHistoryEntry[];
 }
 
 function getKSTDate(date: Date = new Date()): string {
@@ -97,7 +102,7 @@ const XP_PER_CHAPTER = 20;
 
 export const useStudyStore = create<StudyState & StudyActions>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       currentStreak: 0,
       longestStreak: 0,
       lastActiveDate: null,
@@ -107,6 +112,7 @@ export const useStudyStore = create<StudyState & StudyActions>()(
       totalXP: 0,
       totalQuizzes: 0,
       totalCorrect: 0,
+      dailyHistory: [],
 
       recordActivity: (activity) =>
         set((state) => {
@@ -126,6 +132,42 @@ export const useStudyStore = create<StudyState & StudyActions>()(
         set((state) => {
           const streakUpdate = updateStreak(state);
           const dailyProgress = ensureTodayProgress(state);
+          const xpEarned = XP_PER_QUIZ + (correct ? XP_PER_CORRECT : 0);
+
+          // Update dailyHistory
+          const today = getToday();
+          const existingIndex = state.dailyHistory.findIndex((e) => e.date === today);
+          const MAX_DAILY_HISTORY = 365;
+
+          let updatedHistory: DailyHistoryEntry[];
+          if (existingIndex >= 0) {
+            const existing = state.dailyHistory[existingIndex];
+            updatedHistory = state.dailyHistory.map((entry, i) =>
+              i === existingIndex
+                ? {
+                    ...existing,
+                    questionsAttempted: existing.questionsAttempted + 1,
+                    questionsCorrect: existing.questionsCorrect + (correct ? 1 : 0),
+                    xpEarned: existing.xpEarned + xpEarned,
+                  }
+                : entry
+            );
+          } else {
+            updatedHistory = [
+              ...state.dailyHistory,
+              {
+                date: today,
+                questionsAttempted: 1,
+                questionsCorrect: correct ? 1 : 0,
+                xpEarned,
+              },
+            ];
+          }
+
+          // Cap at MAX_DAILY_HISTORY (evict oldest)
+          const cappedHistory = updatedHistory.length > MAX_DAILY_HISTORY
+            ? updatedHistory.slice(updatedHistory.length - MAX_DAILY_HISTORY)
+            : updatedHistory;
 
           return {
             ...streakUpdate,
@@ -134,9 +176,10 @@ export const useStudyStore = create<StudyState & StudyActions>()(
               quizzesCompleted: dailyProgress.quizzesCompleted + 1,
               quizzesCorrect: dailyProgress.quizzesCorrect + (correct ? 1 : 0),
             },
-            totalXP: state.totalXP + XP_PER_QUIZ + (correct ? XP_PER_CORRECT : 0),
+            totalXP: state.totalXP + xpEarned,
             totalQuizzes: state.totalQuizzes + 1,
             totalCorrect: state.totalCorrect + (correct ? 1 : 0),
+            dailyHistory: cappedHistory,
           };
         }),
 
@@ -155,6 +198,12 @@ export const useStudyStore = create<StudyState & StudyActions>()(
           };
         }),
 
+      getDailyHistory: (days) => {
+        const history = get().dailyHistory;
+        if (days <= 0) return [];
+        return history.slice(-days);
+      },
+
       setDailyGoal: (chapters, quizzes) =>
         set(() => ({
           dailyGoal: {
@@ -165,7 +214,20 @@ export const useStudyStore = create<StudyState & StudyActions>()(
     }),
     {
       name: 'special-edu-study',
-      version: 1,
+      version: 2,
+      migrate: (persistedState, version) => {
+        const state = persistedState as Record<string, unknown>;
+
+        if (version === 1) {
+          // v1 -> v2: add dailyHistory array
+          return {
+            ...state,
+            dailyHistory: [],
+          };
+        }
+
+        return state;
+      },
     }
   )
 );

@@ -12,6 +12,8 @@ import {
   Bookmark,
   Search,
   X,
+  BarChart3,
+  ClipboardX,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -24,6 +26,8 @@ const tabs = [
 
 const moreLinks = [
   { href: '/worksheets', icon: FileText, label: '문제지' },
+  { href: '/wrong-notes', icon: ClipboardX, label: '오답노트' },
+  { href: '/stats', icon: BarChart3, label: '통계' },
   { href: '/bookmarks', icon: Bookmark, label: '북마크' },
   { href: '/search', icon: Search, label: '검색' },
 ];
