@@ -79,7 +79,7 @@ export default function WrongNotesQuizPage() {
         setCurrentIndex((prev) => prev + 1);
       }
     },
-    [currentNote, answers, currentIndex, questions.length, markMastered, addWrongNote],
+    [currentNote, answers, currentIndex, questions.length, markMastered, addWrongNote, recordQuizResult, addQuizResult],
   );
 
   // Empty state

@@ -96,9 +96,7 @@ function updateStreak(state: StudyState): Pick<StudyState, 'currentStreak' | 'lo
   };
 }
 
-const XP_PER_QUIZ = 10;
-const XP_PER_CORRECT = 5;
-const XP_PER_CHAPTER = 20;
+import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
 
 export const useStudyStore = create<StudyState & StudyActions>()(
   persist(

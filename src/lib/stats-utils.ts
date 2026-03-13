@@ -1,5 +1,6 @@
 import type { QuizResult } from '@/types/quiz';
 import type { DailyHistoryEntry, WrongNote } from '@/types/study';
+import { XP_PER_QUIZ, XP_PER_CORRECT } from '@/lib/xp-constants';
 
 export interface SubjectStats {
   subject: string;
@@ -31,11 +32,7 @@ function accuracy(correct: number, total: number): number {
 }
 
 function toDateString(ts: number): string {
-  const d = new Date(ts);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
+  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date(ts));
 }
 
 export function computeOverallAccuracy(
@@ -224,8 +221,6 @@ function getMondayOfWeek(date: Date): Date {
 function weekStatsFromResults(results: ReadonlyArray<QuizResult>): WeeklyStatsData {
   const count = results.length;
   const correct = results.filter((r) => r.isCorrect).length;
-  const XP_PER_QUIZ = 10;
-  const XP_PER_CORRECT = 5;
   return {
     count,
     correct,
