@@ -1,8 +1,10 @@
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-dynamic';
+
+import nextDynamic from 'next/dynamic';
 import { getSubjectBySlug, getQuizzesBySubject } from '@/lib/db';
 import Link from 'next/link';
 
-const QuizClient = dynamic(
+const QuizClient = nextDynamic(
   () => import('./QuizClient').then((mod) => ({ default: mod.QuizClient })),
   {
     loading: () => (

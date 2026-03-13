@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getSubjects } from '@/lib/db';
 import AddFlashcardClient from './AddFlashcardClient';
 

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { Brain, FileText, Layers, ClipboardX, BarChart3 } from 'lucide-react';
 import { getSubjects } from '@/lib/db';
