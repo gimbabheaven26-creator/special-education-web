@@ -10,7 +10,7 @@ import { useQuizStore } from '@/stores/useQuizStore';
 import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
-import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice } from './QuestionCard';
+import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice } from './QuestionCard';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -325,6 +325,13 @@ export function QuizClient({
               )}
               {currentQuestion.type === 'fill_in' && (
                 <FillInChoice
+                  key={currentIndex}
+                  question={currentQuestion}
+                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+                />
+              )}
+              {currentQuestion.type === 'descriptive' && (
+                <DescriptiveChoice
                   key={currentIndex}
                   question={currentQuestion}
                   onAnswer={(ans, correct) => handleAnswer(ans, correct)}

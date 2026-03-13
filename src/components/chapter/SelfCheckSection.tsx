@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { checkFillInAnswer } from '@/lib/answer-checker';
-import { CheckCircle, XCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle, XCircle, ChevronDown, ChevronUp, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -31,10 +31,14 @@ function InlineQuiz({ question }: { question: QuizQuestion }) {
   const [selected, setSelected] = useState<number | string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [fillInput, setFillInput] = useState('');
+  const [descInput, setDescInput] = useState('');
+  const [showModelAnswer, setShowModelAnswer] = useState(false);
+  const [selfGraded, setSelfGraded] = useState<boolean | null>(null);
 
   const correctAnswer = question.answer;
 
   const isCorrect = useMemo(() => {
+    if (question.type === 'descriptive') return selfGraded === true;
     if (!submitted) return false;
     if (question.type === 'multiple') {
       return selected === Number(correctAnswer);
@@ -46,7 +50,7 @@ function InlineQuiz({ question }: { question: QuizQuestion }) {
       return checkFillInAnswer(fillInput, String(correctAnswer));
     }
     return false;
-  }, [submitted, selected, fillInput, correctAnswer, question.type]);
+  }, [submitted, selected, fillInput, correctAnswer, question.type, selfGraded]);
 
   const handleMultipleSelect = (index: number) => {
     if (submitted) return;
@@ -153,8 +157,57 @@ function InlineQuiz({ question }: { question: QuizQuestion }) {
         </div>
       )}
 
-      {/* Result */}
-      {submitted && (
+      {/* Descriptive */}
+      {question.type === 'descriptive' && (
+        <div className="mb-3">
+          <textarea
+            value={descInput}
+            onChange={(e) => setDescInput(e.target.value)}
+            placeholder="답안을 작성하세요..."
+            disabled={showModelAnswer}
+            rows={4}
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm leading-relaxed placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60 resize-y mb-2"
+          />
+          {!showModelAnswer && (
+            <Button
+              onClick={() => { if (descInput.trim()) setShowModelAnswer(true); }}
+              disabled={!descInput.trim()}
+              size="sm"
+              className="w-full gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              모범답안 보기
+            </Button>
+          )}
+          {showModelAnswer && (
+            <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-3 dark:border-emerald-700 dark:bg-emerald-950/20 mb-2">
+              <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 mb-1">모범답안</p>
+              <p className="text-sm leading-relaxed text-emerald-900 dark:text-emerald-200 whitespace-pre-wrap">
+                {String(correctAnswer)}
+              </p>
+            </div>
+          )}
+          {showModelAnswer && selfGraded === null && (
+            <div className="flex gap-2">
+              <button
+                onClick={() => setSelfGraded(true)}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-green-300 text-green-700 text-sm font-medium hover:bg-green-50 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-950/20"
+              >
+                <CheckCircle className="h-4 w-4" /> 맞았어요
+              </button>
+              <button
+                onClick={() => setSelfGraded(false)}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-red-300 text-red-700 text-sm font-medium hover:bg-red-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950/20"
+              >
+                <XCircle className="h-4 w-4" /> 틀렸어요
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Result (non-descriptive) */}
+      {submitted && question.type !== 'descriptive' && (
         <div className="flex items-center gap-2 text-sm">
           {isCorrect ? (
             <>
@@ -172,8 +225,25 @@ function InlineQuiz({ question }: { question: QuizQuestion }) {
         </div>
       )}
 
+      {/* Descriptive result */}
+      {question.type === 'descriptive' && selfGraded !== null && (
+        <div className="flex items-center gap-2 text-sm">
+          {selfGraded ? (
+            <>
+              <CheckCircle className="h-4 w-4 text-green-600" />
+              <span className="text-green-700 dark:text-green-400 font-medium">정답 처리</span>
+            </>
+          ) : (
+            <>
+              <XCircle className="h-4 w-4 text-red-600" />
+              <span className="text-red-700 dark:text-red-400 font-medium">오답 처리</span>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Explanation */}
-      {submitted && question.explanation && (
+      {((submitted && question.type !== 'descriptive') || (question.type === 'descriptive' && selfGraded !== null)) && question.explanation && (
         <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
           💡 {question.explanation}
         </p>
