@@ -1,0 +1,369 @@
+[
+  {
+    "id": "vi-q21",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "fill_in",
+    "question": "인도보행에서 닫힌 문을 통과할 때, 시각장애인은 안내자가 잡힌 팔 쪽에 위치한 (   )으로 문의 경첩 쪽을 확인한 뒤, 문을 잡고 통과한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "손(자유로운 손 / free hand)",
+    "explanation": "인도보행 중 문 통과법에서 시각장애인은 안내자의 팔을 잡고 있지 않은 자유로운 손(free hand)으로 문의 위치와 경첩 방향을 확인한다. 안내자는 문이 있음을 알리고, 시각장애인이 경첩 쪽에 위치하도록 필요시 좌우를 바꾼다. 문을 통과한 뒤에는 시각장애인이 뒤쪽 손으로 문을 닫는다. Hill & Ponder(1976)의 O&M 교육 원리에 기반한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q22",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "fill_in",
+    "question": "흰지팡이 보행 기법 중, 지팡이를 지면에서 떼지 않고 좌우로 미끄러뜨리며 노면의 변화를 감지하는 기법을 (   )이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "슬라이드법(slide technique)",
+    "explanation": "슬라이드법(slide technique, constant contact technique)은 지팡이 끝(tip)을 지면에서 떼지 않고 좌우로 미끄러뜨리며 이동하는 기법이다. 터치법과 달리 지면과의 접촉을 유지하므로 노면의 질감 변화(포장 → 잔디, 평면 → 경사 등)를 민감하게 감지할 수 있다. 주로 노면 상태 파악이 중요한 환경(울퉁불퉁한 보도, 경사로 등)에서 사용한다. 터치법보다 탐지 범위가 넓어 바닥의 작은 장애물도 놓치지 않는 장점이 있다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q23",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "ox",
+    "question": "사선법(diagonal technique)은 실외 독립보행 시 가장 많이 사용되는 흰지팡이 기법이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "사선법(diagonal technique, diagonal cane technique)은 주로 실내나 익숙한 환경에서 사용하는 기법이다. 지팡이를 몸 앞 대각선 방향으로 고정하여 발 앞쪽 장애물을 탐지한다. 실외 독립보행에서 가장 많이 사용되는 기법은 터치법(touch technique)이다. 터치법은 좌우로 호를 그리며 어깨 너비보다 넓은 범위를 탐지하므로 실외의 다양한 장애물과 노면 변화를 효과적으로 감지할 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q24",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "multiple",
+    "question": "인도보행(sighted guide)에서 계단을 내려갈 때의 방법으로 가장 적절한 것은?",
+    "case_context": null,
+    "options": [
+      "안내자가 계단 시작 전에 멈추고, 시각장애인이 발끝으로 계단 모서리를 확인한 뒤 안내자가 먼저 한 칸 내려간다.",
+      "안내자와 시각장애인이 동시에 같은 계단에 발을 딛고 나란히 내려간다.",
+      "시각장애인이 안내자보다 먼저 한 칸 내려가고, 안내자가 뒤따른다.",
+      "안내자가 시각장애인의 허리를 잡고 뒤에서 밀어주며 내려간다."
+    ],
+    "answer": "1",
+    "explanation": "인도보행 시 계단(상행·하행 모두)에서는 안내자가 계단 시작점에서 일단 정지하여 계단이 있음을 알린다. 시각장애인은 발끝으로 계단의 모서리(edge)를 확인한다. 안내자가 먼저 한 칸 내려가고, 시각장애인이 한 칸 뒤에서 따라 내려간다. 이 반 보 차이를 유지하면 안내자의 신체 움직임(어깨 높이 변화)을 통해 다음 계단의 정보를 미리 파악할 수 있다.",
+    "wrong_explanations": {
+      "2": "나란히 같은 계단에 서서 내려가면 안내자의 신체 움직임을 통한 정보 전달이 불가능하고, 균형 유지가 어렵다.",
+      "3": "시각장애인이 먼저 내려가는 것은 인도보행의 기본 원칙(안내자가 선행)에 위배되며, 안전하지 않다.",
+      "4": "뒤에서 밀어주는 것은 인도보행 원칙에 위배된다. 시각장애인이 안내자의 팔을 잡고 안내자의 움직임을 촉각으로 감지하는 것이 원칙이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q25",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "전맹 중학생 K는 최근 흰지팡이 보행 훈련을 시작했다. K는 터치법은 어느 정도 익혔지만 실외 보행 시 연석(curb)이나 경사로를 만나면 당황하여 멈춘다. 보행 훈련 교사 L은 K에게 다양한 지형에서의 보행 기술을 체계적으로 지도하려 한다.\n\n(1) 터치법 수행 시 지팡이 호(arc)의 적정 너비와 보행 리듬(step-touch coordination)을 설명하시오.\n(2) 연석(curb) 상행 시와 하행 시의 흰지팡이 탐지 방법을 각각 서술하시오.\n(3) 실외 보행에서 쇼어라인(shoreline) 기법의 정의와 활용 상황을 설명하시오.",
+    "options": null,
+    "answer": "(1) 터치법의 호 너비는 양쪽 어깨 바깥으로 약 2.5cm(1인치)씩 넘는 정도가 적정하다. 보행 리듬은 왼발을 내딛을 때 오른쪽 지면을 터치하고, 오른발을 내딛을 때 왼쪽 지면을 터치하는 반대 보행 리듬(in-step)을 유지한다. 이로써 발이 닿기 전에 해당 지면의 안전을 먼저 확인할 수 있다.\n(2) 상행 시: 지팡이 끝이 연석의 수직면에 부딪히면 상승 연석임을 감지한다. 지팡이로 연석 높이와 윗면을 확인한 뒤 발을 올려 딛는다. 하행 시: 지팡이 끝이 지면에서 갑자기 아래로 떨어지는 감각(drop-off)을 통해 하강 연석임을 감지한다. 지팡이로 아래 지면의 상태를 확인한 뒤 내려선다.\n(3) 쇼어라인(shoreline) 기법은 보도와 잔디, 포장도로와 비포장도로 등 두 가지 노면이 만나는 경계선을 지팡이로 추적하며 방향을 유지하는 기법이다. 실외에서 직선 보행을 유지하기 어려울 때 노면 경계선을 단서(cue)로 활용하여 일정한 방향으로 이동할 수 있게 해준다.",
+    "explanation": "터치법의 보행 리듬(in-step pattern)과 연석 탐지는 독립보행의 핵심 기술이며, 쇼어라인 기법은 실외 보행에서 방향 정위를 유지하는 중요한 전략이다. Jacobson(1993)의 O&M 교수법에 근거한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q26",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "ox",
+    "question": "방향정위(orientation)의 세 가지 기본 요소는 자기 위치(self-to-object), 대상 간 관계(object-to-object), 환경 내 방향 체계(environmental directions) 파악이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "방향정위(orientation)는 환경 속에서 자신의 위치를 파악하는 인지적 과정으로, 세 가지 기본 요소로 구성된다. ① 자기와 대상의 관계(self-to-object): 자신과 주변 대상 간의 거리·방향을 파악한다. ② 대상 간 관계(object-to-object): 환경 내 사물들의 상호 위치 관계를 파악한다. ③ 방향 체계(environmental directions): 동서남북, 실내 좌표 등 환경의 방향 체계를 이해한다. Hill & Ponder(1976)는 이 세 요소가 효과적인 독립 보행의 인지적 기반이라고 설명했다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q27",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "시각장애 특수학교 초등부 교사 M은 전맹 학생 N(초등 3학년)에게 학교에서 집까지의 독립보행을 훈련시키려 한다. 경로에는 인도, 횡단보도 1개소, 주거 단지 진입로가 포함된다.\n\n(1) 독립보행 훈련의 3단계(실내 → 반통제 환경 → 실외)를 설명하시오.\n(2) 정신지도(mental map / cognitive map)의 개념과, 학생 N이 경로의 정신지도를 형성하기 위한 교수 전략 2가지를 서술하시오.",
+    "options": null,
+    "answer": "(1) ① 실내 단계: 교실, 복도 등 통제된 실내 환경에서 자기보호법, 벽 따라 걷기(trailing), 방향 전환 등 기본 기술을 훈련한다. ② 반통제 환경 단계: 학교 운동장, 교내 야외 공간 등 통제 가능하지만 변수가 있는 환경에서 흰지팡이 기법을 연습한다. ③ 실외 단계: 실제 도로, 횡단보도 등 통제되지 않은 환경에서 교통 소리 분석, 독립 횡단, 경로 탐색을 실시한다.\n(2) 정신지도(cognitive map)란 환경의 공간적 배치를 머릿속에 표상한 것으로, 자신의 위치·방향·경로를 인지적으로 파악하는 기반이 된다. 교수 전략: ① 경로 분석(route analysis): 출발지에서 목적지까지의 경로를 랜드마크(촉각·청각·후각 단서)와 전환점(turn) 중심으로 분절하여 언어적으로 설명하고, 촉각 지도(tactile map)로 제시한다. ② 체계적 반복 보행: 교사와 동행하여 경로를 반복 보행하면서 각 구간의 감각 단서를 확인하고, 점차 교사의 지원을 줄여 독립 보행으로 전이한다.",
+    "explanation": "독립보행 훈련은 실내→반통제→실외의 위계적 단계를 따르며, 정신지도(cognitive map)는 Tolman(1948)이 제안하고 O&M 분야에서 핵심 개념으로 활용되고 있다. 임용시험에서 보행 훈련 단계와 정신지도 관련 문항이 반복 출제된다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q28",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "fill_in",
+    "question": "한글 점자에서 초성 'ㄱ'은 (   )점, 초성 'ㄴ'은 (   )점으로 표기한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "4 / 1-4",
+    "explanation": "한국점자규정(문화체육관광부 고시)에 따르면 한글 점자의 초성 자음은 다음과 같다: ㄱ=4점, ㄴ=1-4점, ㄷ=2-4점, ㄹ=5점, ㅁ=1-5점, ㅂ=4-5점, ㅅ=6점(초성), ㅇ=1-2-4-5점, ㅈ=4-6점, ㅊ=5-6점, ㅋ=1-2-4점, ㅌ=1-2-5점, ㅍ=1-4-5점, ㅎ=2-4-5점이다. 쌍자음은 된소리표(6점)를 앞에 붙여 표기한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q29",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "fill_in",
+    "question": "한글 점자에서 모음 'ㅓ'는 (   )점, 모음 'ㅜ'는 (   )점으로 표기한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "2-3-4 / 1-4-5-6",
+    "explanation": "한국점자규정에 따른 한글 점자 모음(중성): ㅏ=1-2-6점, ㅑ=3-4-5점, ㅓ=2-3-4점, ㅕ=1-5-6점, ㅗ=1-3-6점, ㅛ=3-4-6점, ㅜ=1-4-5-6점, ㅠ=1-3-4-6점, ㅡ=2-4-6점, ㅣ=1-3-5점. 복모음은 기본 모음의 조합으로 표기한다. 예를 들어 ㅐ=1-2-3-5-6점, ㅔ=1-3-4-5점이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q30",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "한글 점자에서 약어 '그래서'는 1-2-3-4-5-6점(풀칸, full cell)으로 표기한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "한국점자규정에서 '그래서'의 약어는 1-2-3-4-5-6점(풀칸)이 아니다. '그래서'의 약어는 별도의 점형이 배정되어 있다. 풀칸(1-2-3-4-5-6점)은 약어가 아니라 특수 용도로 사용된다. 한글 점자 약어는 접속부사('그러나'=1-2-4-5-6점, '그리고'=1-2-4-5점, '그래서', '그러면', '그러므로' 등)와 의존명사('것', '수' 등)에 배정되어 있으며, 각각 고유한 점형을 가진다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q31",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "multiple",
+    "question": "점자 악보(braille music notation)에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "점자 악보는 일반 점자와 완전히 다른 6점 이상의 셀 체계를 사용한다.",
+      "점자 악보에서 음의 높낮이(음높이)와 음길이(음가)는 하나의 점자 셀에 함께 표기된다.",
+      "점자 악보는 악보를 그대로 점 형태로 양각하여 촉각으로 읽는 방식이다.",
+      "점자 악보는 오선보와 동일한 공간 배치(위아래 위치)로 음높이를 나타낸다."
+    ],
+    "answer": "2",
+    "explanation": "점자 악보(braille music)는 Louis Braille가 1829년에 개발한 체계로, 동일한 6점 셀을 사용한다. 핵심 원리는 하나의 점자 셀에 음높이(도레미파솔라시)와 음가(온음표, 2분음표, 4분음표, 8분음표 등)를 동시에 표기하는 것이다. 상위 4점(1-2-4-5점)으로 음높이를, 하위 2점(3-6점)으로 음가를 나타낸다. 옥타브 표시는 별도의 옥타브 기호로 지정한다.",
+    "wrong_explanations": {
+      "1": "점자 악보는 일반 점자와 동일한 6점 셀 체계를 사용한다. 별도의 확장 셀이 아니라 기존 6점 셀 내에서 음악 기호를 표현한다.",
+      "3": "점자 악보는 악보의 시각적 형태를 양각으로 복제하는 것이 아니라, 음악 정보를 점자 코드로 변환하여 선형적으로 표기하는 고유한 코드 체계이다.",
+      "4": "점자 악보는 오선보와 같은 2차원 공간 배치를 사용하지 않는다. 점자는 본질적으로 선형(한 줄로 이어지는) 체계이므로, 음높이는 옥타브 기호와 음이름 조합으로 표기한다."
+    },
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q32",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "시각장애학교 초등부 4학년 전맹 학생 P는 수학 시간에 점자로 수식을 읽고 쓰는 데 어려움을 보인다. 특히 분수, 괄호, 지수 표기에서 오류가 빈번하다. 수학 교사 Q는 한글 점자 수학 기호 체계를 활용한 체계적 지도를 계획하고 있다.\n\n(1) 한글 점자에서 수표(number indicator)의 점번호와 역할을 설명하시오.\n(2) 네메스 코드(Nemeth Code)와 한글 점자 수학 기호 체계의 공통점 1가지와 차이점 1가지를 서술하시오.\n(3) 학생 P에게 점자 수학 기호를 지도할 때 효과적인 교수 전략 2가지를 서술하시오.",
+    "options": null,
+    "answer": "(1) 수표는 3-4-5-6점이며, 숫자가 나올 것임을 알리는 표시(number indicator)이다. 수표 뒤에 오는 점형은 알파벳이 아닌 숫자로 해석된다. 예를 들어 수표+1점(a)=1, 수표+1-2점(b)=2, ..., 수표+2-4-5점(j)=0이다.\n(2) 공통점: 두 체계 모두 수표(number indicator)를 사용하여 숫자 앞에 숫자임을 표시하며, 동일한 3-4-5-6점을 수표로 사용한다. 차이점: 한글 점자 수학 기호와 네메스 코드는 연산 기호의 점형이 다르다. 예를 들어 덧셈(+)은 한글 점자에서 2-6점이지만 네메스 코드에서는 3-4-6점이다.\n(3) ① 촉각 자료 활용: 수식의 구조(분자-분수선-분모, 괄호 열기-내용-괄호 닫기)를 촉각 모형이나 조작 교구로 먼저 이해시킨 뒤 점자 기호로 전이한다. ② 단계적 기호 도입: 한 번에 여러 기호를 가르치지 않고, 사칙연산 → 분수 → 괄호 → 지수 순서로 단계적으로 도입하며, 각 단계에서 충분한 읽기·쓰기 연습을 실시한다.",
+    "explanation": "점자 수학 기호 체계는 임용시험에서 빈출되는 영역이다. 수표(3-4-5-6점)는 한글 점자와 UEB·네메스 코드 모두에서 사용되는 핵심 기호이며, 연산 기호의 점형 차이는 자주 출제되는 비교 포인트이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q33",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "fill_in",
+    "question": "한글 점자에서 쌍자음(된소리)을 표기할 때, 해당 자음 앞에 (   )점으로 된 된소리표를 붙인다. 예를 들어 'ㄲ'은 이 표시 + ㄱ(4점)으로 쓴다.",
+    "case_context": null,
+    "options": null,
+    "answer": "6",
+    "explanation": "한국점자규정에 따르면 쌍자음(된소리: ㄲ, ㄸ, ㅃ, ㅆ, ㅉ)은 된소리표(6점)를 해당 자음 앞에 붙여 표기한다. 예: ㄲ=6점+4점, ㄸ=6점+2-4점, ㅃ=6점+4-5점, ㅆ=6점+6점(초성 ㅅ가 6점이므로 6점이 두 번), ㅉ=6점+4-6점. 된소리표(6점)는 초성 ㅅ(6점)과 같은 점형이지만 문맥에 따라 구별된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q34",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "한글 점자에서 종성(받침) 'ㄱ'의 점형은 초성 'ㄱ'의 점형과 동일하다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "한글 점자에서 초성과 종성의 점형은 서로 다르다. 초성 'ㄱ'은 4점이지만, 종성 'ㄱ'은 1점이다. 한글 점자는 초성·중성·종성을 셀의 다른 영역에 배치하는 것이 아니라, 초성은 점자 셀의 왼쪽 열(1-2점 열)과 중간 열(4-5점 열)을 사용하고, 종성은 별도의 점형 배정 체계를 따른다. 이 구별을 통해 같은 자음이라도 위치(초성/종성)에 따라 점형이 달라진다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q35",
+    "subject": "visual-impairment",
+    "chapter": "visual-acuity",
+    "type": "fill_in",
+    "question": "스넬렌 시력 20/200은 소수 시력으로 (   )에 해당하며, 미국에서 법적 맹(legal blindness)의 기준이 된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "0.1",
+    "explanation": "스넬렌 시력은 분수로 표기하며 소수로 환산할 수 있다. 20/200 = 20÷200 = 0.1이다. 미국에서는 좋은 눈의 최대 교정시력이 20/200(0.1) 이하이거나 시야가 20도 이하인 경우 법적 맹(legal blindness)으로 정의한다. 미터법으로는 6/60에 해당한다(6÷60=0.1). 한국의 장애인복지법에서도 좋은 눈의 교정시력 0.1 이하를 시각장애의 주요 기준으로 사용한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q36",
+    "subject": "visual-impairment",
+    "chapter": "visual-acuity",
+    "type": "multiple",
+    "question": "골드만 시야계(Goldmann perimeter)에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "반구형 스크린을 사용하여 주변 시야부터 중심 시야까지 검사할 수 있다.",
+      "검사자가 수동으로 시표를 이동시키는 동적 시야 검사(kinetic perimetry)이다.",
+      "자동시야계(Humphrey)보다 주변 시야 평가에 유리하다.",
+      "피검자가 버튼을 눌러 자동으로 시표가 제시되는 정적 시야 검사(static perimetry)이다."
+    ],
+    "answer": "4",
+    "explanation": "골드만 시야계는 검사자가 수동으로 반구형 스크린의 주변부에서 중심부로 시표를 이동시키며 피검자의 반응을 기록하는 동적 시야 검사(kinetic perimetry) 장비이다. 자동시야계(예: Humphrey Visual Field Analyzer)가 정적 시야 검사(static perimetry)에 해당하며, 고정된 위치에서 빛의 밝기를 변화시키는 방식이다. 골드만 시야계는 전체 시야(120도 이상)를 평가할 수 있어 주변 시야 결손 파악에 유리하다.",
+    "wrong_explanations": {
+      "1": "정답: 골드만 시야계는 반구형(bowl-shaped) 스크린을 사용하여 중심부부터 주변부까지 넓은 범위의 시야를 검사할 수 있다.",
+      "2": "정답: 골드만 시야계는 검사자가 직접 시표(light stimulus)를 주변부에서 중심부로 이동시키며 피검자의 반응을 관찰하는 동적 시야 검사(kinetic perimetry)이다.",
+      "3": "정답: 자동시야계(Humphrey)는 중심 30도 시야 검사에 특화되어 있어, 골드만 시야계가 전체 주변 시야 평가에 더 유리하다."
+    },
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q37",
+    "subject": "visual-impairment",
+    "chapter": "visual-acuity",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "저시력 학생 R(중학 2학년, 교정시력 우안 0.12, 좌안 0.05)는 수업 중 확대 교과서를 사용하고 있으나, 읽기 속도가 느리고 눈의 피로를 자주 호소한다. 안과 검사 결과 황반 변성이 진행 중이며, 중심 시야에 암점(scotoma)이 있다. 특수교사 S는 R에게 적합한 확대경을 선정하려 한다.\n\n(1) 확대경의 두 가지 주요 유형(손잡이형, 스탠드형)의 특성과 각각의 장단점을 비교하시오.\n(2) 확대경 배율 계산 공식(M = D/4 또는 M = F/25)을 설명하고, +20D 렌즈의 배율을 계산하시오.\n(3) 중심 암점이 있는 학생 R에게 편심주시(eccentric viewing) 훈련이 필요한 이유와 훈련 방법을 설명하시오.",
+    "options": null,
+    "answer": "(1) 손잡이형 확대경(hand-held magnifier): 렌즈에 손잡이가 달린 형태로 손에 들고 사용한다. 장점은 휴대가 간편하고 눈과 렌즈 사이 거리를 자유롭게 조절할 수 있다. 단점은 손이 떨리면 상이 흔들리고, 장시간 사용 시 팔이 피로해진다. 스탠드형 확대경(stand magnifier): 렌즈가 고정 다리 위에 올려진 형태로 읽을 자료 위에 놓고 사용한다. 장점은 렌즈와 자료 간 거리가 고정되어 초점이 안정적이고, 손떨림의 영향을 받지 않으며 장시간 사용에 유리하다. 단점은 휴대성이 낮고 시야가 상대적으로 좁다.\n(2) 확대경 배율 공식: M = D/4 (D: 렌즈의 디옵터). 이는 기준 거리 25cm(정상적인 근거리 독서 거리)에서의 확대 배율이다. +20D 렌즈의 배율: M = 20/4 = 5배. 즉, +20D 렌즈는 5배 확대 효과를 제공한다.\n(3) 중심 암점이 있으면 주시점(fovea)의 시세포가 손상되어 정면을 볼 때 상이 보이지 않는다. 편심주시(eccentric viewing)는 암점을 피해 망막의 건강한 주변 부위(preferred retinal locus, PRL)로 대상을 보는 기술이다. 훈련 방법: ① 시표를 제시하고 정면에서 상하좌우로 시선을 이동하면서 가장 잘 보이는 방향(PRL)을 찾도록 한다. ② PRL을 찾은 뒤, 그 방향으로 시선을 고정하는 연습을 반복하여 새로운 주시점을 안정화시킨다.",
+    "explanation": "확대경 배율 계산(M=D/4)은 임용시험 빈출 공식이며, 편심주시(eccentric viewing)는 황반 변성 학생 지도의 핵심 전략이다. Brilliant(1999)의 저시력 광학 보조기구 처방 원리와 Crossland et al.(2005)의 편심주시 훈련 연구에 근거한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q38",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "fill_in",
+    "question": "CVI(피질시각장애)의 10대 특성 중 하나인 '시각 지연(visual latency)'이란 시각 자극이 제시된 후 반응까지 (   )이 비정상적으로 길어지는 현상을 말한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "반응 시간(잠복기 / latency)",
+    "explanation": "시각 지연(visual latency)은 Roman-Lantzy(2007)의 CVI 10대 특성 중 하나로, 시각 자극이 제시된 후 대상을 인식하기까지의 반응 시간(잠복기)이 비정상적으로 길어지는 현상이다. CVI 아동은 시각 자극에 반응하기까지 수초~수십 초가 걸릴 수 있으며, 교사는 자극 제시 후 최소 10~20초의 반응 시간을 보장해야 한다. 이는 뇌의 시각 정보 처리 속도가 느려진 것으로, 안구 자체의 문제가 아닌 피질 수준의 처리 지연이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q39",
+    "subject": "visual-impairment",
+    "chapter": "visual-acuity",
+    "type": "ox",
+    "question": "스넬렌 시력표의 시표(optotype)는 란돌트 C(Landolt C) 고리를 사용한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "스넬렌 시력표(Snellen chart)는 알파벳 문자(E, F, P, T, O, Z 등)를 시표(optotype)로 사용한다. 란돌트 C(Landolt C) 고리는 별도의 시력 검사 체계로, 한쪽이 열린 원(C 모양)의 열린 방향을 식별하는 방식이다. 란돌트 C는 국제표준시력표(ISO 8596)로 채택되어 있으며, 문해력과 무관하게 검사할 수 있어 소아나 외국인에게 유리하다. 한국에서는 한천석 시력표(숫자·란돌트 C 병용)가 널리 사용된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  },
+  {
+    "id": "vi-q40",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "특수학교 유치부 학생 T(6세)는 뇌손상 후 CVI(피질시각장애)로 진단받았다. CVI Range 평가 결과 Phase II(Integrating vision with function) 단계에 해당한다. T는 빨간색과 노란색 물체에 가장 잘 반응하고, 움직이는 대상에 시선을 돌리는 반응이 나타나기 시작했지만, 정지된 대상에 대한 시각적 주의는 3~5초에 불과하다.\n\n(1) CVI Range Phase II의 특성과 Phase I, Phase III과의 차이를 설명하시오.\n(2) 학생 T의 현재 시기능 수준을 고려하여, 시각적 주의 시간을 연장하기 위한 중재 전략 3가지를 서술하시오.",
+    "options": null,
+    "answer": "(1) Phase II(Integrating vision with function): 시각 반응이 나타나기 시작하지만 일관성이 부족한 단계이다. 특정 조건(선호 색상, 움직임, 단순 배경)에서만 시각을 사용하며, 시각을 기능적 활동에 점차 통합해 가는 과정이다. Phase I(Building visual behavior)은 시각 반응이 거의 없거나 매우 불안정하여 환경을 최대한 단순화하고 시각적 주의를 유도하는 데 집중하는 단계이다. Phase III(Resolution of CVI characteristics)은 CVI 특성이 점차 해소되어 더 복잡한 시각 환경에서도 시각을 활용할 수 있으며, 2차원 시각 과제(그림, 사진 등)에 접근 가능해지는 단계이다.\n(2) ① 선호 감각 통합: T가 반응하는 움직임 자극을 활용하여, 움직이는 물체를 점차 느리게 하고 최종적으로 정지 상태에서도 주시를 유지하도록 점진적으로 전이한다. ② 환경 통제: 배경을 단색(검정)으로 유지하고, 시각 자극을 1~2개로 제한하며, 조명을 조절하여 시각적 복잡성을 최소화함으로써 주의 지속 시간을 연장한다. ③ 간격 강화 전략: 시각적 주의가 유지되는 시간(현재 3~5초)을 기준으로, 그 시간 내에 보상(좋아하는 소리, 촉각 자극)을 제공하고, 점차 보상 간격을 늘려 주의 시간을 체계적으로 확장한다.",
+    "explanation": "CVI Range는 Roman-Lantzy(2007)가 개발한 평가 도구로, CVI 아동의 시기능 수준을 0~10점으로 평가하여 Phase I(0~3), Phase II(3~7), Phase III(7~10)으로 분류한다. Phase II에서는 시각을 기능적 활동에 통합하는 것이 핵심 목표이며, 점진적 환경 복잡성 증가와 주의 시간 연장이 주요 중재 전략이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "시각장애"
+    }
+  }
+]

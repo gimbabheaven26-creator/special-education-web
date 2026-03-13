@@ -1,0 +1,369 @@
+[
+  {
+    "id": "hi-q1",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "fill_in",
+    "question": "순음청력검사에서 기도청력역치와 골도청력역치의 차이를 ( )(이)라 하며, 이 값이 10dB 이상일 경우 전음성 난청을 의심할 수 있다.",
+    "case_context": null,
+    "options": null,
+    "answer": "기도-골도 차이(air-bone gap)",
+    "explanation": "기도검사는 외이→중이→내이를 거치는 전체 청각 경로를, 골도검사는 중이를 우회하여 내이 기능만을 평가한다. 따라서 기도-골도 차이(air-bone gap)가 10dB 이상이면 중이에 문제가 있는 전음성 난청을 시사한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q2",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "fill_in",
+    "question": "청력손실 정도 분류에서 순음청력역치 평균이 71~90dB HL인 경우 ( ) 난청으로 분류한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "고도(severe)",
+    "explanation": "청력손실 정도 분류: 경도 26~40dB, 중등도 41~55dB, 중고도 56~70dB, 고도 71~90dB, 최고도 91dB 이상이다. 고도 난청 학생은 보청기를 착용해도 말소리 지각에 상당한 어려움이 있어 시각적 의사소통 수단의 보완이 필요하다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q3",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "multiple",
+    "question": "다음 중 감각신경성 난청의 청력도 특성으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "기도역치는 정상이나 골도역치만 저하되어 있다.",
+      "기도역치와 골도역치가 모두 저하되어 있으며, 기도-골도 차이가 거의 없다.",
+      "기도역치만 저하되어 있고 골도역치는 정상 범위이다.",
+      "저주파 영역에서만 역치가 저하되고 고주파는 정상이다."
+    ],
+    "answer": "기도역치와 골도역치가 모두 저하되어 있으며, 기도-골도 차이가 거의 없다.",
+    "explanation": "감각신경성 난청은 내이(와우) 또는 청신경의 손상으로 발생하므로, 기도와 골도 모두 역치가 저하되며 기도-골도 차이가 10dB 미만으로 거의 나타나지 않는다. 선택지 ③은 전음성 난청의 특성이고, 선택지 ①은 검사상 나타날 수 없는 패턴이다.",
+    "wrong_explanations": {
+      "기도역치는 정상이나 골도역치만 저하되어 있다.": "골도역치가 기도역치보다 나쁠 수 없다. 골도는 중이를 우회하므로 기도역치보다 항상 같거나 더 좋다.",
+      "기도역치만 저하되어 있고 골도역치는 정상 범위이다.": "이는 전음성 난청의 전형적 패턴이다. 감각신경성 난청에서는 골도역치도 함께 저하된다.",
+      "저주파 영역에서만 역치가 저하되고 고주파는 정상이다.": "감각신경성 난청은 오히려 고주파 영역에서 역치 저하가 심한 경우가 많으며, 전 주파수에 걸쳐 나타날 수 있다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q4",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "초등학교 3학년 민수의 순음청력검사 결과, 우측 귀의 기도청력역치는 500Hz 55dB, 1000Hz 60dB, 2000Hz 65dB이고, 골도청력역치는 500Hz 50dB, 1000Hz 55dB, 2000Hz 60dB이다. 좌측 귀의 기도청력역치는 500Hz 30dB, 1000Hz 35dB, 2000Hz 40dB이고, 골도청력역치는 500Hz 15dB, 1000Hz 15dB, 2000Hz 20dB이다.",
+    "options": null,
+    "answer": "(1) 우측 귀: 3분법 평균 청력역치 = (55+60+65)/3 = 60dB → 중고도 난청. 기도-골도 차이가 5dB로 감각신경성 난청이다.\n(2) 좌측 귀: 3분법 평균 청력역치 = (30+35+40)/3 = 35dB → 경도 난청. 기도-골도 차이가 15~20dB로 전음성 요소가 포함된 혼합성 난청이다.\n(3) 양 귀의 난청 유형이 다르므로, 좌측 귀의 전음성 요소에 대해 이비인후과적 치료 가능성을 탐색하고, 우측 귀에는 보청기 적합을 우선 고려해야 한다.",
+    "explanation": "3분법(500Hz, 1000Hz, 2000Hz 평균)은 어음 주파수대 청력을 대표하는 지표이다. 기도-골도 차이가 10dB 이상이면 전음성 요소가 있음을 의미하며, 좌측 귀는 혼합성 난청으로 판단한다. 양이 비대칭 난청인 경우 각 귀에 대한 개별적 중재 계획이 필요하다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q5",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "ox",
+    "question": "순음청력검사에서 주파수(Hz)는 청력도의 세로축에, 청력역치(dB HL)는 가로축에 표시한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "청력도(audiogram)에서 가로축은 주파수(Hz)를, 세로축은 청력역치(dB HL)를 나타낸다. 세로축은 위쪽이 0dB(좋은 청력)이고 아래로 갈수록 숫자가 커져 청력손실이 심함을 의미한다. 가로축은 왼쪽에서 오른쪽으로 갈수록 저주파에서 고주파로 이동한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q6",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "fill_in",
+    "question": "인공와우 수술 후 외부장치의 전극별 자극량을 청각적 반응에 맞추어 조절하는 과정을 ( )(이)라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "매핑(mapping)",
+    "explanation": "매핑(mapping)은 인공와우 착용자가 편안하고 적절한 소리를 들을 수 있도록 각 전극의 최소 자극량(T-level)과 최대 안락 수준(C-level)을 설정하는 과정이다. 수술 후 초기에는 자주, 이후 점차 간격을 두고 실시하며, 특히 영유아의 경우 행동반응 관찰이 중요하다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q7",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "만 2세 영아 지은이는 양측 고도 감각신경성 난청(양이 평균 95dB HL)으로 진단받았다. 6개월간 보청기를 착용하였으나 어음변별력이 10% 미만이다. 부모는 인공와우 수술을 고려하고 있으며, 특수교사에게 인공와우에 대한 정보를 요청하였다.",
+    "options": null,
+    "answer": "(1) 인공와우 적응증: 양측 고도 이상 난청, 보청기로 충분한 효과를 얻지 못하는 경우, 청각재활 의지가 있는 경우에 해당하며 지은이는 이 조건을 충족한다.\n(2) 조기 수술의 이점: 청각 발달의 결정적 시기(3세 이전)에 수술하면 청각 피질의 가소성을 활용하여 듣기 및 구어 발달에 유리하다.\n(3) 수술 후 재활: 매핑을 통한 기기 조절, 청각구어법(AVT) 등 체계적인 청능훈련이 필수적이며, 가정에서의 풍부한 언어 입력 환경 조성이 중요하다.\n(4) 부모에게 안내할 사항: 인공와우는 정상 청력을 회복시키는 것이 아니며, 장기적인 재활과 기기 관리가 필요하다는 현실적 기대를 갖도록 안내한다.",
+    "explanation": "인공와우는 와우 내 전극을 삽입하여 청신경을 직접 전기 자극하는 장치이다. 보청기와 달리 소리를 증폭하는 것이 아니라 전기 신호로 변환하여 전달한다. 영유아기 조기 이식은 청각-언어 발달의 결정적 시기를 활용할 수 있어 효과적이며, 수술 후 체계적인 청능재활이 성과를 좌우한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q8",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "ox",
+    "question": "인공와우는 소리를 증폭하여 잔존 유모세포를 자극하는 원리로 작동한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "인공와우는 소리를 증폭하는 것이 아니라, 음향 신호를 전기 신호로 변환하여 와우 내 삽입된 전극을 통해 청신경을 직접 자극하는 장치이다. 유모세포를 우회(bypass)하여 작동하므로 유모세포의 손상 여부와 관계없이 청신경이 기능하면 사용할 수 있다. 소리를 증폭하여 유모세포를 자극하는 것은 보청기의 원리이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q9",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "fill_in",
+    "question": "보청기 이득(gain) 계산에서, 청력역치의 1/2에 해당하는 이득을 처방하는 방식을 ( ) 규칙이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "1/2 이득 규칙(half-gain rule)",
+    "explanation": "1/2 이득 규칙은 Lybarger가 제안한 보청기 이득 처방 공식으로, 각 주파수에서 청력역치의 절반에 해당하는 이득을 제공한다. 예를 들어 1000Hz에서 역치가 60dB이면 30dB의 이득을 처방한다. 간편하여 널리 사용되나, 개인의 쾌적 수준과 어음 명료도를 고려한 미세 조정이 필요하다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q10",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "fill_in",
+    "question": "보청기 유형 중 귀걸이형 보청기의 본체에서 리시버(수화기)를 분리하여 외이도 내에 직접 배치하는 방식을 ( ) 보청기라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "RIC(Receiver-In-Canal)",
+    "explanation": "RIC(Receiver-In-Canal) 보청기는 귀걸이형(BTE)과 유사하지만, 리시버를 본체에서 분리하여 외이도 안에 배치한다. 이로써 본체가 소형화되고, 음향 피드백(하울링)이 감소하며, 자연스러운 음질을 제공할 수 있다. 현재 가장 많이 처방되는 보청기 유형 중 하나이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q11",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "multiple",
+    "question": "보청기 관리에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "이어몰드는 미지근한 비눗물로 세척한 후 완전히 건조시킨다.",
+      "보청기 본체는 물로 세척하지 않고 부드러운 천으로 닦는다.",
+      "사용하지 않을 때는 배터리를 넣은 채 배터리 문을 닫아 보관한다.",
+      "습기 제거를 위해 건조기(드라이 키트)에 보관하는 것이 좋다."
+    ],
+    "answer": "사용하지 않을 때는 배터리를 넣은 채 배터리 문을 닫아 보관한다.",
+    "explanation": "보청기를 사용하지 않을 때는 배터리 문을 열어두거나 배터리를 분리하여 보관해야 한다. 배터리 문을 닫아두면 전력이 소모되고 습기가 차서 내부 부품이 손상될 수 있다. 이어몰드는 보청기 본체에서 분리한 후 비눗물로 세척 가능하나, 보청기 본체 자체는 물에 접촉시키면 안 된다.",
+    "wrong_explanations": {
+      "이어몰드는 미지근한 비눗물로 세척한 후 완전히 건조시킨다.": "이어몰드는 보청기 본체에서 분리하여 비눗물로 세척할 수 있다. 완전 건조 후 다시 연결한다.",
+      "보청기 본체는 물로 세척하지 않고 부드러운 천으로 닦는다.": "보청기 본체에는 전자 부품이 있어 물에 접촉하면 고장의 원인이 된다. 부드러운 천이나 전용 브러시로 관리한다.",
+      "습기 제거를 위해 건조기(드라이 키트)에 보관하는 것이 좋다.": "보청기는 습기에 취약하므로 매일 밤 건조기에 넣어 습기를 제거하는 것이 권장된다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q12",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "descriptive",
+    "question": "보청기의 주요 유형(BTE, RIC, ITE, ITC, CIC) 중 3가지를 선택하여 각각의 특징, 장점, 적합 대상을 비교·설명하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "(1) BTE(귀걸이형): 본체가 귓바퀴 뒤에 위치하며 튜브를 통해 이어몰드와 연결된다. 출력이 크고 조작이 용이하여 경도~최고도 난청까지 폭넓게 적합하다. 소아는 귀 성장에 따라 이어몰드만 교체하면 되므로 경제적이다.\n(2) RIC(외이도 내 리시버형): 리시버가 외이도 안에 위치하여 BTE보다 소형이고 음질이 자연스럽다. 경도~고도 난청에 적합하며 피드백이 적다.\n(3) CIC(고막형): 외이도 깊숙이 삽입되어 외부에서 거의 보이지 않는다. 미용적 장점이 크나 출력이 제한적이어서 경도~중등도 난청에 적합하고, 소형이라 조작과 관리가 어려울 수 있다.",
+    "explanation": "보청기 유형 선택 시 난청 정도, 외이도 크기, 조작 능력, 미용적 선호도, 연령 등을 종합적으로 고려해야 한다. 소아에게는 안전성과 성장 대응이 용이한 BTE가 주로 권장되며, 성인은 생활양식과 난청 정도에 따라 RIC, ITE, CIC 등을 선택한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q13",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "fill_in",
+    "question": "한국수어의 음운에 해당하는 5가지 매개변수는 수형, 수위, 수동, ( ), 비수지 신호이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "수향(手向, palm orientation)",
+    "explanation": "한국수어의 수어소(cheremes)는 수형(handshape), 수위(location), 수동(movement), 수향(palm orientation), 비수지 신호(non-manual signals)의 5가지 매개변수로 구성된다. 수향은 손바닥이 향하는 방향을 의미하며, 동일한 수형·수위·수동이라도 수향이 달라지면 다른 의미를 나타낼 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q14",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "fill_in",
+    "question": "청각장애인이 고유명사, 외래어 등 수어 어휘가 없는 단어를 표현할 때 자모 하나하나를 손 모양으로 나타내는 것을 ( )(이)라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "지문자(fingerspelling)",
+    "explanation": "지문자는 한글 자모(ㄱ, ㄴ, ㄷ… / ㅏ, ㅓ, ㅗ…)를 각각 고유한 손 모양으로 표현하는 체계이다. 한국 지문자는 한 손으로 표현하며, 수어 어휘가 존재하지 않는 고유명사, 외래어, 전문 용어 등을 표기할 때 주로 사용한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q15",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "multiple",
+    "question": "한국수어에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "한국수어는 한국어의 어순을 그대로 따르는 수단적 체계이다.",
+      "한국수어법(2016)에 의해 한국수어는 한국어와 동등한 자격을 가진 농인의 공용어로 인정되었다.",
+      "한국수어는 음운에 해당하는 변별적 단위가 존재하지 않는 몸짓 언어이다.",
+      "한국수어의 문법은 영어 수어(ASL)와 동일한 구조를 가진다."
+    ],
+    "answer": "한국수어법(2016)에 의해 한국수어는 한국어와 동등한 자격을 가진 농인의 공용어로 인정되었다.",
+    "explanation": "2016년 제정된 한국수어법은 한국수어를 대한민국 농인의 공용어로 인정하고, 한국어와 동등한 자격을 부여하였다. 한국수어는 한국어와 독립된 문법 체계(SOV 경향이 있으나 한국어와 다른 어순 규칙)를 가진 자연언어이며, 수형·수위·수동·수향·비수지 신호라는 변별적 단위(수어소)를 갖추고 있다.",
+    "wrong_explanations": {
+      "한국수어는 한국어의 어순을 그대로 따르는 수단적 체계이다.": "한국어 어순을 따르는 것은 한국어 대응 수어(수지한국어)이다. 한국수어는 독자적 문법 구조를 가진 자연언어이다.",
+      "한국수어는 음운에 해당하는 변별적 단위가 존재하지 않는 몸짓 언어이다.": "한국수어는 수형, 수위, 수동, 수향, 비수지 신호의 5가지 매개변수로 구성된 이중분절 체계를 갖춘 자연언어이다.",
+      "한국수어의 문법은 영어 수어(ASL)와 동일한 구조를 가진다.": "각 나라의 수어는 독립적으로 발달한 자연언어로, 한국수어와 ASL은 서로 다른 문법 구조를 가진다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q16",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "descriptive",
+    "question": "청각장애 학생의 의사소통 교육 접근법인 구화법, 수어법, 토탈커뮤니케이션(TC)을 각각 설명하고, 장단점을 비교하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "(1) 구화법(oral method): 독화(입 읽기), 잔존청력 활용, 발화 훈련을 통해 음성언어로 의사소통하는 방법이다. 장점은 건청인과의 직접 소통이 가능하다는 것이나, 고도 이상 난청 학생에게는 습득이 어렵고 독화만으로는 정보 수용에 한계가 있다.\n(2) 수어법(manual method): 수어와 지문자를 주된 의사소통 수단으로 사용한다. 시각 언어이므로 청력 수준과 관계없이 습득 가능하고, 농문화 정체성 형성에 기여한다. 그러나 건청인 사회와의 소통에 통역이 필요하고, 한국어 문해력과 직접 연결되지 않을 수 있다.\n(3) 토탈커뮤니케이션(TC): 구어, 수어, 지문자, 독화, 필담, 몸짓 등 활용 가능한 모든 의사소통 수단을 사용하는 접근법이다. 학생의 개별 요구에 유연하게 대응할 수 있으나, 두 언어를 동시에 제시하면 각각의 완전한 모형 입력이 어려울 수 있다.",
+    "explanation": "의사소통 접근법 선택은 학생의 청력 수준, 보장구 착용 효과, 인지 능력, 가정 환경, 농문화 정체성 등을 종합적으로 고려해야 한다. 최근에는 이중언어-이중문화(Bi-Bi) 접근이 주목받고 있으며, 수어를 제1언어로, 한국어(문어)를 제2언어로 교육하는 방법이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q17",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "descriptive",
+    "question": "이중언어-이중문화(Bi-Bi) 접근법의 개념과 원리를 설명하고, 청각장애 학생 교육에서의 적용 방안을 2가지 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "(1) 개념: 이중언어-이중문화(Bilingual-Bicultural, Bi-Bi) 접근법은 수어를 청각장애 학생의 제1언어(L1)로, 해당 국가의 음성/문자 언어(한국어)를 제2언어(L2)로 교육하는 방법이다. 동시에 농문화와 건청 문화 모두에 대한 이해와 정체성을 형성하도록 한다.\n(2) 적용 방안 ①: 수어를 교수 언어로 사용하여 교과 내용을 전달하고, 한국어 문해력은 읽기·쓰기를 통해 별도로 지도한다. L1의 언어 능력이 L2 학습의 기반이 된다는 상호의존가설(Cummins)에 근거한다.\n(3) 적용 방안 ②: 농인 교사 또는 농인 보조인력을 배치하여 수어 모형(language model)을 제공하고, 건청 교사는 한국어 문해력 지도를 담당하는 협력 교수 체계를 구축한다.",
+    "explanation": "Bi-Bi 접근은 농인을 언어적·문화적 소수자로 보는 관점에 기반하며, 수어를 결함 보상 수단이 아닌 완전한 자연언어로 인정한다. 한국수어법(2016) 제정 이후 이중언어 교육에 대한 법적 근거가 마련되었다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q18",
+    "subject": "hearing-impairment",
+    "chapter": "classroom",
+    "type": "fill_in",
+    "question": "교실에서 청각장애 학생의 말소리 지각을 돕기 위해 교사의 음성을 무선으로 전달하여 ( )를 개선하는 보조공학 기기를 FM 보청시스템이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "신호대잡음비(SNR, Signal-to-Noise Ratio)",
+    "explanation": "FM 보청시스템은 교사가 송신기(마이크)를 착용하고 학생이 수신기를 보청기/인공와우에 연결하여 사용한다. 교사의 음성(신호)을 직접 전달함으로써 교실 소음(잡음)에 비해 신호를 크게 하여 신호대잡음비(SNR)를 약 15~20dB 개선한다. 이를 통해 거리와 소음으로 인한 말소리 왜곡 문제를 극복할 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q19",
+    "subject": "hearing-impairment",
+    "chapter": "classroom",
+    "type": "ox",
+    "question": "청각장애 학생의 좌석은 교실 맨 뒷자리에 배치하여 전체 학급 학생의 입 모양을 볼 수 있도록 하는 것이 가장 효과적이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "청각장애 학생은 교사의 얼굴(입 모양, 표정)을 가까이에서 명확하게 볼 수 있도록 교실 앞쪽에 배치하는 것이 원칙이다. 말소리 강도는 거리의 제곱에 반비례하여 감소하므로(역자승 법칙), 뒷자리에서는 신호대잡음비가 크게 저하된다. 또한 교사와 급우의 발언을 모두 볼 수 있는 반원형(말굽형) 좌석 배치가 효과적이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  },
+  {
+    "id": "hi-q20",
+    "subject": "hearing-impairment",
+    "chapter": "classroom",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.",
+    "case_context": "통합학급 담임교사 김 교사는 중고도 난청(양이 평균 62dB HL)으로 보청기를 착용한 초등 4학년 수진이를 담당하고 있다. 교실은 30명 학생이 있으며, 복도 쪽 창문을 열어두면 소음이 유입된다. 김 교사는 수진이의 수업 참여도가 낮다는 것을 발견하였다.",
+    "options": null,
+    "answer": "(1) 물리적 환경 조성: 복도 쪽 창문에 방음 조치를 하거나 수업 중 창문을 닫아 외부 소음을 차단한다. 교실 바닥에 카펫을 깔거나 의자 다리에 테니스공을 부착하여 실내 소음을 감소시킨다.\n(2) 보조공학 활용: FM 보청시스템을 도입하여 교사 음성을 직접 전달함으로써 신호대잡음비를 개선한다. 사운드필드 시스템도 학급 전체에 도움이 된다.\n(3) 좌석 배치: 수진이를 교사 가까이 앞쪽에 배치하되, 교사의 얼굴을 정면으로 볼 수 있는 위치에 둔다. 토론 시에는 반원형 배치로 전환한다.\n(4) 교수 전략: 핵심 어휘를 칠판에 미리 판서하고, 시각 자료(PPT, 그림, 자막)를 적극 활용한다. 또래 노트테이커를 지정하여 수업 내용을 보완한다.",
+    "explanation": "청각장애 학생의 통합교육에서는 음향 환경 개선, 보조공학 활용, 좌석 배치, 교수 방법 수정 등 다차원적 지원이 필요하다. 소음 관리는 가장 기본적이면서도 효과적인 지원이며, 교실 소음을 35dB(A) 이하로 유지하고 잔향 시간을 0.6초 이내로 관리하는 것이 권장된다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "청각장애"
+    }
+  }
+]

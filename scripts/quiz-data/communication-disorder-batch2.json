@@ -1,0 +1,387 @@
+[
+  {
+    "id": "cd-q21",
+    "subject": "communication-disorder",
+    "chapter": "articulation",
+    "type": "fill_in",
+    "question": "아동이 '사탕'을 '타탕'으로, '소리'를 '토리'로 발음할 때, 이 음운변동의 유형은 무엇인가?",
+    "case_context": null,
+    "options": null,
+    "answer": "파열음화",
+    "explanation": "파열음화는 마찰음이나 파찰음이 파열음으로 대치되는 음운변동이다. 사탕→타탕에서 /ㅅ/→/ㅌ/, 소리→토리에서 /ㅅ/→/ㅌ/로 마찰음이 파열음으로 대치되었다. 이는 조음 방법의 변화에 해당하며, 일반적으로 2세 6개월 이후에는 소거되어야 하는 음운변동이다. 마찰음은 기류를 좁은 틈 사이로 통과시켜야 하므로 조음 난이도가 높아 파열음으로 대치하는 경향이 나타난다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q22",
+    "subject": "communication-disorder",
+    "chapter": "articulation",
+    "type": "multiple",
+    "question": "다음 중 음운변동 유형과 예시가 올바르게 연결된 것은?",
+    "case_context": null,
+    "options": [
+      "생략 - '풍선'을 '풍썬'으로 발음",
+      "대치 - '기차'를 '디차'로 발음",
+      "왜곡 - '사과'를 '과'로 발음",
+      "첨가 - '코'를 '토'로 발음"
+    ],
+    "answer": "2",
+    "explanation": "대치는 목표 음소가 다른 음소로 바뀌는 현상이다. '기차'→'디차'에서 /ㄱ/이 /ㄷ/으로 대치된 것은 연구개음의 치조음화에 해당한다. 선택지 1은 첨가의 예시가 아닌 대치에 해당하고, 선택지 3은 생략의 예시이며, 선택지 4도 대치의 예시이다. 음운변동 분석 시 목표 음소와 실현 음소를 정확히 비교하는 것이 중요하다.",
+    "wrong_explanations": {
+      "1": "'풍선'을 '풍썬'으로 발음하는 것은 생략이 아니라 경음화(긴장음화)에 해당한다.",
+      "3": "'사과'를 '과'로 발음하는 것은 왜곡이 아니라 음절 생략에 해당한다.",
+      "4": "'코'를 '토'로 발음하는 것은 첨가가 아니라 연구개음의 치조음화(대치)에 해당한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q23",
+    "subject": "communication-disorder",
+    "chapter": "articulation",
+    "type": "ox",
+    "question": "한국어 말소리 발달에서 파열음(/ㅂ, ㅃ, ㅍ, ㄷ, ㄸ, ㅌ, ㄱ, ㄲ, ㅋ/)은 마찰음(/ㅅ, ㅆ/)보다 먼저 습득된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "한국어 말소리 발달 순서에서 파열음은 비교적 이른 시기인 2세경에 습득되기 시작하며, 마찰음(/ㅅ, ㅆ/)은 상대적으로 늦은 시기인 3세 6개월~4세 이후에 완전히 습득된다. 이는 마찰음이 기류를 좁은 통로로 정밀하게 조절해야 하므로 조음 운동의 난이도가 높기 때문이다. 일반적으로 비음, 파열음이 가장 먼저 습득되고, 유음과 마찰음이 가장 늦게 습득된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q24",
+    "subject": "communication-disorder",
+    "chapter": "articulation",
+    "type": "descriptive",
+    "question": "음운인식(phonological awareness)의 정의를 설명하고, 음운인식 능력을 평가하기 위한 과제 유형 3가지를 예시와 함께 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "음운인식이란 말소리의 구조를 인식하고 조작할 수 있는 메타언어적 능력을 말한다. 평가 과제 유형으로는 첫째, 음절 합성 과제(예: '사'와 '과'를 합치면 '사과')가 있다. 둘째, 음소 탈락 과제(예: '바람'에서 /ㅂ/을 빼면 '아람')가 있다. 셋째, 음소 변별 과제(예: '달'과 '발' 중 첫소리가 다른 것 찾기)가 있다. 이 외에도 각운 인식, 음소 분리, 음소 대치 과제 등이 활용된다. 음운인식은 읽기 발달의 핵심 선행 능력으로, 조음음운장애 아동은 이 능력에 어려움을 보이는 경우가 많다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    },
+    "explanation": "음운인식이란 말소리의 구조를 인식하고 조작할 수 있는 메타언어적 능력을 말한다. 평가 과제 유형으로는 첫째, 음절 합성 과제(예: '사'와 '과'를 합치면 '사과')가 있다. 둘째, 음소 탈락 과제(예: '바람'에서 /ㅂ/을 빼면 '아람')가 있다. 셋째, 음소 변별 과제(예: '달'과 '발' 중 첫소리가 다른 것 찾기)가 있다. 이 외에도 각운 인식, 음 (자동 생성 해설)"
+  },
+  {
+    "id": "cd-q25",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "PECS(그림교환 의사소통 체계)의 6단계 중 3단계에서 학습하는 핵심 내용은?",
+    "case_context": null,
+    "options": [
+      "그림 카드를 의사소통 상대에게 건네기",
+      "의사소통판에서 그림을 변별하여 선택하기",
+      "문장 띠를 사용하여 '나는 ~을/를 원해요' 구성하기",
+      "속성어(색깔, 크기 등)를 사용하여 문장 확장하기"
+    ],
+    "answer": "2",
+    "explanation": "PECS 3단계(그림 변별)에서는 여러 그림 카드 중에서 원하는 항목의 그림을 정확하게 변별하여 선택하는 것을 학습한다. 1단계는 그림 교환의 기본(물리적 교환), 2단계는 거리와 지속성 확장, 4단계는 문장 띠 사용, 5단계는 '뭐 원해?' 질문에 반응하기, 6단계는 자발적 논평이다. 단계별 체계적 교수가 PECS의 핵심 원리이다.",
+    "wrong_explanations": {
+      "1": "그림 카드를 상대에게 건네는 것은 PECS 1단계(물리적 교환)의 핵심 내용이다.",
+      "3": "문장 띠를 사용하여 '나는 ~을/를 원해요'를 구성하는 것은 PECS 4단계(문장 구조)의 핵심 내용이다.",
+      "4": "속성어를 사용한 문장 확장은 PECS 6단계 또는 4단계 확장 과정에서 다루어지는 내용이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q26",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "하이테크 AAC 기기는 음성출력장치(SGD)를 포함하며, 의사소통판과 그림카드는 로우테크 AAC에 해당한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "AAC 도구는 테크놀로지 수준에 따라 분류된다. 로우테크(low-tech)는 전자 장치가 필요 없는 도구로 의사소통판, 그림카드, 의사소통 책 등이 해당한다. 하이테크(high-tech)는 전자 기술을 활용하는 도구로 음성출력장치(SGD), 태블릿 기반 AAC 앱, 시선추적 장치 등이 포함된다. 중간 수준인 미드테크(mid-tech)로 녹음 버튼형 기기 등도 있다. 아동의 능력과 환경에 맞는 적절한 기술 수준을 선택하는 것이 중요하다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q27",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "fill_in",
+    "question": "AAC 상징체계에서 실제 사물이나 사진처럼 지시 대상과 유사성이 높은 상징을 ( ) 상징이라 하고, 글자처럼 지시 대상과 유사성이 없는 상징을 ( ) 상징이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "도상적(iconic), 자의적(arbitrary)",
+    "explanation": "AAC 상징체계는 도상성(iconicity)의 정도에 따라 분류된다. 도상적(iconic) 상징은 지시 대상과의 시각적 유사성이 높아 의미를 추측하기 쉬우며, 실물, 사진, 그림 등이 이에 해당한다. 자의적(arbitrary) 상징은 지시 대상과의 유사성이 없어 학습이 필요하며, 문자, 블리스심볼(일부) 등이 이에 해당한다. AAC 중재 시 사용자의 인지 수준에 따라 도상성이 높은 상징에서 낮은 상징으로 점진적으로 전환하는 것이 권장된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q28",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "descriptive",
+    "question": "의사소통판(communication board) 구성 시 고려해야 할 요소 4가지를 설명하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "의사소통판 구성 시 고려해야 할 요소는 다음과 같다. 첫째, 어휘 선정으로 사용자의 일상생활에서 빈번하게 필요한 핵심어휘(core vocabulary)와 개인적으로 의미 있는 부수어휘(fringe vocabulary)를 균형 있게 포함해야 한다. 둘째, 배치 방식으로 자주 사용하는 어휘는 접근이 쉬운 위치에, 의미 범주별로 색상 코딩(Fitzgerald Key 등)을 적용하여 탐색 효율성을 높인다. 셋째, 상징 유형으로 사용자의 인지 및 시지각 수준에 맞는 상징(사진, PCS, 글자 등)을 선택한다. 넷째, 물리적 접근성으로 사용자의 운동 능력을 고려하여 칸의 크기, 간격, 보호대(keyguard) 사용 여부를 결정한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    },
+    "explanation": "의사소통판 구성 시 고려해야 할 요소는 다음과 같다. 첫째, 어휘 선정으로 사용자의 일상생활에서 빈번하게 필요한 핵심어휘(core vocabulary)와 개인적으로 의미 있는 부수어휘(fringe vocabulary)를 균형 있게 포함해야 한다. 둘째, 배치 방식으로 자주 사용하는 어휘는 접근이 쉬운 위치에, 의미 범주별로 색상 코딩(Fitzgerald K (자동 생성 해설)"
+  },
+  {
+    "id": "cd-q29",
+    "subject": "communication-disorder",
+    "chapter": "spontaneous-speech",
+    "type": "multiple",
+    "question": "평균발화길이(MLU)를 형태소 단위로 계산할 때, 다음 발화의 MLU 값은? \n발화 1: 엄마 밥 줘 (3형태소)\n발화 2: 나 학교 갔어 (4형태소)\n발화 3: 이거 뭐야 (3형태소)",
+    "case_context": null,
+    "options": [
+      "2.33",
+      "3.00",
+      "3.33",
+      "4.00"
+    ],
+    "answer": "3",
+    "explanation": "MLU(Mean Length of Utterance)는 총 형태소 수를 총 발화 수로 나누어 계산한다. 발화 1은 '엄마/밥/줘'로 3형태소, 발화 2는 '나/학교/가/았/어' 중 '갔어'를 '가+았+어'로 분석하면 5형태소이나, 문제에서 4형태소로 제시되었으므로 이를 따른다. 발화 3은 '이거/뭐/야'로 3형태소이다. 따라서 MLU = (3+4+3) / 3 = 10 / 3 = 3.33이다. MLU는 아동의 표현언어 발달 수준을 나타내는 대표적인 양적 지표이다.",
+    "wrong_explanations": {
+      "1": "2.33은 총 형태소 수를 잘못 계산하거나 형태소가 아닌 낱말 단위로 일부를 계산한 경우의 오답이다.",
+      "2": "3.00은 각 발화의 형태소 수를 모두 3으로 동일하게 계산한 경우의 오답이다.",
+      "4": "4.00은 총 형태소 수를 12로 잘못 계산하거나 발화 수를 잘못 적용한 경우의 오답이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q30",
+    "subject": "communication-disorder",
+    "chapter": "spontaneous-speech",
+    "type": "fill_in",
+    "question": "언어표본 분석에서 아동이 사용한 서로 다른 낱말 수(NDW)를 전체 낱말 수(TNW)로 나눈 비율을 ( )(이)라 하며, 어휘 다양도를 나타내는 지표이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "어휘다양도(TTR, Type-Token Ratio)",
+    "explanation": "TTR(Type-Token Ratio, 어휘다양도)은 아동의 표현어휘 다양성을 측정하는 지표이다. 서로 다른 낱말 유형(type)의 수를 전체 낱말(token) 수로 나누어 계산한다. 예를 들어 50개 낱말 중 서로 다른 낱말이 30개이면 TTR은 0.6이다. TTR이 높을수록 어휘 사용이 다양하다는 것을 의미한다. 다만 TTR은 발화 표본의 크기에 영향을 받으므로, 동일한 크기의 표본으로 비교해야 한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q31",
+    "subject": "communication-disorder",
+    "chapter": "spontaneous-speech",
+    "type": "ox",
+    "question": "자발화 언어표본 수집 시 최소 50개 이상의 완전하고 이해 가능한 발화를 수집하는 것이 권장된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "자발화 언어표본 분석의 신뢰도를 확보하기 위해서는 최소 50~100개의 완전하고 이해 가능한 발화를 수집하는 것이 권장된다. 불완전한 발화, 모방 발화, 노래 가사 등은 분석 대상에서 제외한다. 표본 수집 시 자연스러운 대화 상황을 유도하며, 다양한 의사소통 기능이 나타나도록 놀이, 일상 활동, 그림 설명 등 복수의 맥락에서 수집하는 것이 바람직하다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q32",
+    "subject": "communication-disorder",
+    "chapter": "spontaneous-speech",
+    "type": "descriptive",
+    "question": "자발화 언어표본 분석의 절차를 수집부터 해석까지 단계별로 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "자발화 언어표본 분석은 다음 단계로 진행된다. 첫째, 수집 단계에서 자연스러운 대화 상황(자유놀이, 일상 대화 등)에서 최소 50~100개의 발화를 녹음 및 녹화한다. 둘째, 전사(transcription) 단계에서 녹음된 자료를 문자로 옮기되, 발화 경계, 비유창성, 비언어적 행동도 기록한다. 셋째, 분석 단계에서 MLU(평균발화길이), TTR(어휘다양도), 구문 구조, 의미관계, 화용 기능 등 다양한 지표를 산출한다. 넷째, 해석 단계에서 또래 규준과 비교하여 언어 발달 수준을 판단하고, 강점과 약점을 파악하여 중재 목표 수립에 반영한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    },
+    "explanation": "자발화 언어표본 분석은 다음 단계로 진행된다. 첫째, 수집 단계에서 자연스러운 대화 상황(자유놀이, 일상 대화 등)에서 최소 50~100개의 발화를 녹음 및 녹화한다. 둘째, 전사(transcription) 단계에서 녹음된 자료를 문자로 옮기되, 발화 경계, 비유창성, 비언어적 행동도 기록한다. 셋째, 분석 단계에서 MLU(평균발화길이), TTR(어휘다양도 (자동 생성 해설)"
+  },
+  {
+    "id": "cd-q33",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "multiple",
+    "question": "환경중심 언어중재(EMT)의 4가지 전략에 해당하지 않는 것은?",
+    "case_context": null,
+    "options": [
+      "모방(modeling)",
+      "요구-모방(mand-model)",
+      "시간지연(time delay)",
+      "직접교수(direct instruction)"
+    ],
+    "answer": "4",
+    "explanation": "환경중심 언어중재(EMT)의 4가지 핵심 전략은 모방(modeling), 요구-모방(mand-model), 시간지연(time delay), 우발교수(incidental teaching)이다. 직접교수(direct instruction)는 구조화된 교수 방법으로 EMT의 전략에 포함되지 않는다. EMT는 아동의 자연스러운 의사소통 시도를 활용하여 일상 환경에서 언어를 촉진하는 자연주의적 중재 접근이다.",
+    "wrong_explanations": {
+      "1": "모방(modeling)은 EMT의 핵심 전략 중 하나로, 성인이 아동의 관심사에 맞춰 목표 언어 모델을 제시하는 방법이다.",
+      "2": "요구-모방(mand-model)은 EMT의 핵심 전략 중 하나로, 아동에게 언어적 반응을 요구한 후 모델을 제시하는 방법이다.",
+      "3": "시간지연(time delay)은 EMT의 핵심 전략 중 하나로, 아동이 원하는 것을 제공하기 전에 의도적으로 기다려 의사소통을 유도하는 방법이다."
+    },
+    "difficulty": 1,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q34",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "fill_in",
+    "question": "EMT에서 ( ) 전략은 아동이 원하는 물건이나 활동이 있을 때 성인이 의도적으로 반응을 지연시켜 아동이 먼저 의사소통을 시도하도록 유도하는 방법이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "시간지연(time delay)",
+    "explanation": "시간지연(time delay) 전략은 아동이 원하는 사물이나 활동에 대한 동기가 있을 때 성인이 의도적으로 5~15초 정도 기다리면서 기대하는 표정으로 아동을 바라보는 방법이다. 이를 통해 아동이 자발적으로 의사소통을 시도하도록 유도한다. 아동이 반응하지 않으면 모델링이나 요구-모방 등 다른 전략으로 전환한다. 이 전략은 아동의 의사소통 주도성을 높이는 데 효과적이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q35",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "ox",
+    "question": "우발교수(incidental teaching)는 성인이 미리 계획한 활동에서 구조화된 반복 연습을 통해 언어를 교수하는 전략이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "우발교수(incidental teaching)는 구조화된 반복 연습이 아니라 아동이 자연스러운 환경에서 자발적으로 의사소통을 시도할 때 이를 활용하여 언어를 확장하는 전략이다. 성인은 아동의 관심과 주도를 따르며, 아동이 시작한 상호작용에서 보다 정교한 언어 사용을 촉진한다. 미리 정해진 시행(trial)을 반복하는 것이 아니라 일상 맥락에서 자연스럽게 교수 기회를 포착하는 것이 핵심이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q36",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "descriptive",
+    "question": "환경중심 언어중재(EMT)의 요구-모방(mand-model) 전략의 실행 절차를 구체적인 예시 상황과 함께 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "요구-모방(mand-model) 전략은 다음 절차로 실행된다. 먼저, 아동이 관심을 보이는 사물이나 활동이 있는 상황을 확인한다. 예를 들어 아동이 선반 위의 장난감 자동차를 쳐다보고 있을 때, 성인이 '뭐 갖고 싶어?'라고 요구(mand)한다. 아동이 적절하게 '자동차'라고 반응하면 즉시 자동차를 제공하며 '자동차 줄게, 빨간 자동차!'와 같이 확장된 모델을 제시한다. 아동이 반응하지 않거나 부적절하게 반응하면 '자동차'라고 모델(model)을 제시하고 아동의 모방을 유도한다. 아동이 모방하면 즉시 강화(자동차 제공)하고, 모방하지 못하면 자동차를 제공하면서 다시 모델을 들려준다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    },
+    "explanation": "요구-모방(mand-model) 전략은 다음 절차로 실행된다. 먼저, 아동이 관심을 보이는 사물이나 활동이 있는 상황을 확인한다. 예를 들어 아동이 선반 위의 장난감 자동차를 쳐다보고 있을 때, 성인이 '뭐 갖고 싶어?'라고 요구(mand)한다. 아동이 적절하게 '자동차'라고 반응하면 즉시 자동차를 제공하며 '자동차 줄게, 빨간 자동차!'와 같이 확장된 모 (자동 생성 해설)"
+  },
+  {
+    "id": "cd-q37",
+    "subject": "communication-disorder",
+    "chapter": "fluency",
+    "type": "multiple",
+    "question": "말더듬의 핵심행동(core behavior)에 해당하는 것을 모두 고른 것은?\nㄱ. 반복(repetition)\nㄴ. 연장(prolongation)\nㄷ. 회피(avoidance)\nㄹ. 막힘(block)",
+    "case_context": null,
+    "options": [
+      "ㄱ, ㄴ",
+      "ㄱ, ㄴ, ㄹ",
+      "ㄱ, ㄷ, ㄹ",
+      "ㄱ, ㄴ, ㄷ, ㄹ"
+    ],
+    "answer": "2",
+    "explanation": "말더듬의 핵심행동(core behavior)은 반복(소리, 음절, 단어의 반복), 연장(소리를 길게 늘임), 막힘(기류나 발성이 차단되는 현상)의 세 가지이다. 회피(avoidance)는 핵심행동이 아니라 부수행동(secondary behavior)에 해당하며, 말더듬에 대한 부정적 반응으로 나타나는 학습된 행동이다. 핵심행동은 말더듬의 본질적 특성이며, 부수행동은 핵심행동에 대한 대처로 발전하는 것이다.",
+    "wrong_explanations": {
+      "1": "반복과 연장만 포함하고 막힘(block)을 빠뜨렸다. 막힘도 핵심행동에 해당한다.",
+      "3": "회피(avoidance)는 핵심행동이 아니라 부수행동에 해당한다.",
+      "4": "회피(avoidance)가 포함되어 있으나 이는 부수행동이므로 핵심행동에 해당하지 않는다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q38",
+    "subject": "communication-disorder",
+    "chapter": "fluency",
+    "type": "fill_in",
+    "question": "유창성장애 치료에서 ( )은/는 말더듬이 발생한 후 이를 수정하는 접근법으로, '취소하기(cancellation)', '빼기(pull-out)', '준비하기(preparatory set)'의 세 가지 기법을 포함한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "말더듬 수정법(stuttering modification)",
+    "explanation": "말더듬 수정법은 Van Riper가 개발한 치료 접근법으로, 말더듬을 완전히 없애는 것이 아니라 보다 쉬운 말더듬(easier stuttering)으로 변화시키는 것을 목표로 한다. 취소하기는 말더듬이 끝난 후 잠시 멈추고 부드럽게 다시 말하는 기법이다. 빼기는 말더듬이 진행 중일 때 긴장을 줄이면서 빠져나오는 기법이다. 준비하기는 말더듬이 예상될 때 미리 조음기관의 긴장을 줄이고 부드럽게 시작하는 기법이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q39",
+    "subject": "communication-disorder",
+    "chapter": "fluency",
+    "type": "ox",
+    "question": "유창성완성법(fluency shaping)은 말더듬 발생 자체를 예방하여 처음부터 유창하게 말하는 것을 목표로 하는 치료 접근법이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "유창성완성법(fluency shaping)은 말더듬 발생 자체를 예방하고 처음부터 유창한 말을 산출하는 것을 목표로 한다. 이 접근법에서는 부드러운 발성 시작(gentle onset), 느린 말속도, 연속적 발성(continuous phonation), 가벼운 조음 접촉(light articulatory contact) 등의 기법을 사용한다. 말더듬 수정법이 말더듬을 수정하는 데 초점을 두는 반면, 유창성완성법은 유창한 말 산출 기술을 체계적으로 훈련하는 데 초점을 둔다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "교재 참고",
+    "tags": {
+      "disability": "의사소통장애"
+    }
+  },
+  {
+    "id": "cd-q40",
+    "subject": "communication-disorder",
+    "chapter": "fluency",
+    "type": "descriptive",
+    "question": "말더듬의 부수행동(secondary behavior)의 유형을 탈출행동과 회피행동으로 나누어 각각의 정의와 구체적인 예시를 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "말더듬의 부수행동은 핵심행동(반복, 연장, 막힘)에 대한 반응으로 학습된 행동이며, 탈출행동과 회피행동으로 나뉜다. 탈출행동(escape behavior)은 말더듬이 발생하고 있는 순간에 그 상태에서 벗어나기 위해 나타나는 행동이다. 예를 들어 말더듬 중에 눈을 감거나, 고개를 흔들거나, 발을 구르거나, '음', '그' 같은 삽입어를 넣는 것이 해당한다. 회피행동(avoidance behavior)은 말더듬이 발생하기 전에 이를 예방하기 위해 나타나는 행동이다. 예를 들어 특정 단어를 다른 단어로 바꾸어 말하거나(단어 대치), 말해야 할 상황 자체를 피하거나(상황 회피), 말하기 전에 불필요한 소리나 단어를 삽입하는 것(시작 지연) 등이 해당한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "의사소통장애"
+    },
+    "explanation": "말더듬의 부수행동은 핵심행동(반복, 연장, 막힘)에 대한 반응으로 학습된 행동이며, 탈출행동과 회피행동으로 나뉜다. 탈출행동(escape behavior)은 말더듬이 발생하고 있는 순간에 그 상태에서 벗어나기 위해 나타나는 행동이다. 예를 들어 말더듬 중에 눈을 감거나, 고개를 흔들거나, 발을 구르거나, '음', '그' 같은 삽입어를 넣는 것이 해당한다.  (자동 생성 해설)"
+  }
+]

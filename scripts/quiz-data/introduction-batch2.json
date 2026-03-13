@@ -1,0 +1,343 @@
+[
+  {
+    "id": "intro-q31",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "「장애인 등에 대한 특수교육법」 제2조에서 정의하는 통합교육이란, 특수교육대상자가 일반학교에서 장애 유형·장애 정도에 따라 차별을 받지 아니하고 ( )과/와 함께 개개인의 교육적 요구에 적합한 교육을 받는 것을 말한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "또래",
+    "explanation": "「장애인 등에 대한 특수교육법」 제2조 제6호에 따르면, 통합교육이란 특수교육대상자가 일반학교에서 장애 유형·장애 정도에 따라 차별을 받지 아니하고 또래와 함께 개개인의 교육적 요구에 적합한 교육을 받는 것을 의미한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "장애인 등에 대한 특수교육법 제2조",
+    "tags": {}
+  },
+  {
+    "id": "intro-q32",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "multiple",
+    "question": "개별화교육계획(IEP)의 법적 구성요소로 「장애인 등에 대한 특수교육법」 시행규칙에 명시되지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "특수교육대상자의 인적사항과 현재 학습 수행 수준",
+      "장·단기 교육목표와 교육의 시작일 및 종료일",
+      "특수교육 관련서비스의 내용과 방법",
+      "특수교육대상자의 지능지수 및 적응행동 검사 원점수"
+    ],
+    "answer": "3",
+    "explanation": "IEP의 법적 구성요소에는 인적사항, 현재 학습 수행 수준, 장·단기 교육목표, 교육 시작·종료일, 특수교육 관련서비스의 내용과 방법, 교육목표 달성 평가방법 등이 포함된다. 지능지수나 적응행동 검사의 원점수는 IEP 구성요소에 해당하지 않으며, 이는 선정·배치 과정에서 활용되는 정보이다.",
+    "wrong_explanations": {
+      "0": "인적사항과 현재 학습 수행 수준은 IEP의 핵심 구성요소로 시행규칙에 명시되어 있다.",
+      "1": "장·단기 교육목표와 교육 기간은 IEP의 필수 구성요소이다.",
+      "2": "특수교육 관련서비스의 내용과 방법은 IEP에 반드시 포함되어야 하는 법적 구성요소이다."
+    },
+    "difficulty": 2,
+    "source": "장애인 등에 대한 특수교육법 시행규칙 제4조",
+    "tags": {}
+  },
+  {
+    "id": "intro-q33",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "「장애인 등에 대한 특수교육법」에 따르면, 특수교육대상자의 선정은 보호자 또는 각급학교의 장이 진단·평가를 교육장 또는 교육감에게 의뢰하고, 특수교육지원센터에서 진단·평가를 실시한 후 교육장 또는 교육감이 특수교육대상자 선정 여부 및 학교 지정·배치를 결정한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "「장애인 등에 대한 특수교육법」 제15~17조에 따르면, 보호자 또는 각급학교의 장이 교육장 또는 교육감에게 진단·평가를 의뢰하면, 특수교육지원센터가 진단·평가를 실시하고, 그 결과를 바탕으로 교육장 또는 교육감이 특수교육대상자 선정 여부 및 학교 지정·배치를 결정한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "장애인 등에 대한 특수교육법 제15~17조",
+    "tags": {}
+  },
+  {
+    "id": "intro-q34",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "descriptive",
+    "question": "정상화 원리(Normalization Principle)의 개념과 특수교육에의 시사점을 설명하시오.",
+    "case_context": "Wolfensberger(1972)는 정상화 원리를 재개념화하여 '사회적 역할 가치화(Social Role Valorization)'라는 개념을 제시하였다. 그는 장애인에 대한 사회적 인식 변화가 통합의 전제 조건임을 강조하였다.",
+    "options": null,
+    "answer": "1. 정상화 원리의 개념: Bank-Mikkelsen(1969)이 처음 제안하고, Nirje(1969)가 체계화한 원리로, 장애인의 일상생활 조건과 양식을 사회의 주류 규범과 가능한 한 가깝게 만드는 것을 의미한다.\n2. Wolfensberger의 재개념화: 정상화 원리를 '사회적 역할 가치화(SRV)'로 발전시켜, 사회적으로 가치 있는 역할을 부여함으로써 장애인의 사회적 이미지를 향상시키는 것을 강조하였다.\n3. 특수교육에의 시사점:\n  (1) 분리교육에서 통합교육으로의 전환 근거 제공\n  (2) 장애인도 비장애인과 동일한 생활 리듬, 일과, 환경을 경험할 권리가 있음을 강조\n  (3) 탈시설화와 지역사회 중심 서비스의 이론적 기반\n  (4) 장애 학생에게 사회적으로 가치 있는 역할을 부여하는 교육과정 운영의 필요성",
+    "explanation": "정상화 원리는 통합교육의 이론적 토대가 된 핵심 개념으로, 장애인의 생활 조건을 비장애인의 그것과 가능한 한 유사하게 만들 것을 주장한다. 이는 탈시설화, 최소제한환경(LRE), 통합교육의 철학적 기반이 되었다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "intro-q35",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "「장애인 등에 대한 특수교육법」에서 규정하는 특수교육대상자의 장애 유형 10가지는 시각장애, 청각장애, 지적장애, 지체장애, 정서·행동장애, 자폐성장애, 의사소통장애, 학습장애, 건강장애, ( )이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "발달지체",
+    "explanation": "「장애인 등에 대한 특수교육법」 제15조에 따른 특수교육대상자의 장애 유형은 시각장애, 청각장애, 지적장애, 지체장애, 정서·행동장애, 자폐성장애, 의사소통장애, 학습장애, 건강장애, 발달지체의 10가지이다. 발달지체는 만 9세 미만의 아동에게 적용된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "장애인 등에 대한 특수교육법 제15조",
+    "tags": {}
+  },
+  {
+    "id": "intro-q36",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "IDEA(Individuals with Disabilities Education Act)에서 규정하는 13가지 장애 범주 중, 한국의 「장애인 등에 대한 특수교육법」에는 별도 범주로 포함되지 않는 것은 ( ), 중복장애(Multiple Disabilities), 외상성 뇌손상(Traumatic Brain Injury)이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "농-맹(Deaf-Blindness)",
+    "explanation": "IDEA의 13가지 장애 범주는 학습장애, 지적장애, 정서장애, 언어장애, 자폐, 청각장애, 시각장애, 농-맹, 지체장애, 기타 건강장애, 중복장애, 외상성 뇌손상, 발달지체이다. 이 중 농-맹, 중복장애, 외상성 뇌손상은 한국 특수교육법에 별도 범주로 규정되어 있지 않다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "IDEA 2004",
+    "tags": {}
+  },
+  {
+    "id": "intro-q37",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "개별화교육계획(IEP)은 매 학기 시작일로부터 30일 이내에 작성하여야 하며, 매 학기마다 개별화교육지원팀에서 평가하여야 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "「장애인 등에 대한 특수교육법」 제22조 제2항에 따르면, 개별화교육계획은 매 학기 시작일로부터 30일 이내가 아니라 14일 이내에 각각의 특수교육대상자에 대한 개별화교육계획을 작성하여야 한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "장애인 등에 대한 특수교육법 제22조",
+    "tags": {}
+  },
+  {
+    "id": "intro-q38",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "미국지적및발달장애학회(AAIDD)의 12차 정의(2021)에 따르면, 지적장애는 지적 기능과 ( ) 모두에서 유의미한 제한이 있으며, 이러한 제한은 22세 이전의 발달기에 나타나는 것을 특징으로 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "적응행동",
+    "explanation": "AAIDD 12차 정의(Schalock et al., 2021)에서 지적장애는 지적 기능(intellectual functioning)과 적응행동(adaptive behavior) 모두에서 유의미한 제한이 있으며, 이는 22세 이전 발달기에 나타나는 것으로 정의된다. 적응행동은 개념적, 사회적, 실제적 적응기술로 구성된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "AAIDD 12th Edition (2021)",
+    "tags": {
+      "disability": "intellectual"
+    }
+  },
+  {
+    "id": "intro-q39",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "DSM-5에서 자폐스펙트럼장애(ASD)의 진단기준에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "사회적 의사소통 및 사회적 상호작용, 제한적·반복적 행동의 두 가지 핵심 영역에서 결함을 보여야 한다.",
+      "DSM-IV와 동일하게 사회적 상호작용, 의사소통, 제한적·반복적 행동의 세 가지 영역으로 구분된다.",
+      "감각 자극에 대한 과잉 또는 과소 반응성은 진단기준에 포함되지 않는다.",
+      "증상은 반드시 만 3세 이전에 나타나야 진단이 가능하다."
+    ],
+    "answer": "0",
+    "explanation": "DSM-5에서 자폐스펙트럼장애는 기존 DSM-IV의 세 영역(사회적 상호작용, 의사소통, 제한적·반복적 행동)에서 두 영역(사회적 의사소통 및 사회적 상호작용의 결함, 제한적·반복적 행동·관심·활동)으로 재구조화되었다. 감각 반응 이상은 제한적·반복적 행동 영역의 하위 기준에 새롭게 포함되었으며, 증상은 '초기 발달기'에 나타나야 하지만 만 3세라는 구체적 연령 제한은 삭제되었다.",
+    "wrong_explanations": {
+      "1": "DSM-5에서는 세 영역이 아닌 두 영역으로 재구조화되었다. 사회적 상호작용과 의사소통이 하나의 영역으로 통합되었다.",
+      "2": "감각 자극에 대한 과잉·과소 반응성은 DSM-5에서 제한적·반복적 행동 영역의 하위 기준으로 새롭게 추가되었다.",
+      "3": "DSM-5에서는 '만 3세 이전'이라는 구체적 연령 제한 대신 '초기 발달기(early developmental period)'라는 표현을 사용한다."
+    },
+    "difficulty": 2,
+    "source": "DSM-5 (APA, 2013)",
+    "tags": {
+      "disability": "autism"
+    }
+  },
+  {
+    "id": "intro-q40",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "학습장애의 판별 모델 중 ( ) 모델은 학생의 지능과 학업 성취 간의 유의미한 차이를 기준으로 학습장애를 판별하며, ( ) 모델은 과학적 근거에 기반한 중재를 제공한 후에도 반응하지 않는 학생을 학습장애로 판별한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "능력-성취 불일치(IQ-Achievement Discrepancy) / 중재반응(RTI)",
+    "explanation": "능력-성취 불일치 모델은 지능검사 점수와 학업 성취도 간의 유의미한 차이(보통 1~2 표준편차)를 학습장애 판별 기준으로 사용한다. 중재반응(RTI) 모델은 다층적 중재(보통 3단계)를 체계적으로 제공하고, 중재에 적절히 반응하지 않는 학생을 학습장애로 판별한다. IDEA 2004에서는 RTI를 학습장애 판별의 대안적 방법으로 허용하였다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "learning"
+    }
+  },
+  {
+    "id": "intro-q41",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "descriptive",
+    "question": "IDEA와 한국 「장애인 등에 대한 특수교육법」에서의 정서·행동장애 정의를 비교하여 설명하시오.",
+    "case_context": "미국에서는 1975년 전장애아교육법(PL 94-142) 이래로 '심한 정서장애(Seriously Emotionally Disturbed)'라는 용어를 사용하다가 IDEA 1997에서 'Emotional Disturbance'로 변경하였다. 한국에서는 2007년 「장애인 등에 대한 특수교육법」에서 '정서·행동장애'라는 용어를 사용하기 시작하였다.",
+    "options": null,
+    "answer": "1. IDEA의 정서장애(Emotional Disturbance) 정의:\n  (1) 장기간에 걸쳐, 현저한 정도로 교육적 수행에 불리한 영향을 미치는 다음 특성 중 하나 이상을 보이는 상태\n  (2) 5가지 특성: ① 지적·감각적·건강 요인으로 설명할 수 없는 학습 무능력, ② 또래·교사와 만족스러운 대인관계를 형성·유지하지 못함, ③ 정상적 상황에서 부적절한 행동이나 감정, ④ 전반적인 불행감이나 우울, ⑤ 개인적·학교 문제에 관련된 신체적 증상이나 공포\n  (3) 조현병(schizophrenia) 포함, 사회적 부적응(socially maladjusted)만 해당하는 아동은 제외\n2. 한국법의 정서·행동장애 정의:\n  (1) 지적·감각적·건강상의 이유로 설명할 수 없는 학습상의 어려움\n  (2) 또래나 교사와의 대인관계에 어려움\n  (3) 일반적인 상황에서 부적절한 행동이나 감정\n  (4) 전반적인 불행감이나 우울증\n  (5) 학교나 개인 문제에 관련된 신체적인 통증이나 공포\n3. 주요 비교:\n  (1) 한국법은 IDEA의 정의를 상당 부분 수용하되, '사회적 부적응 제외' 조항이 명시적으로 없음\n  (2) 용어 차이: 미국 'Emotional Disturbance' vs 한국 '정서·행동장애'로, 한국이 행동 측면을 더 명시적으로 포함\n  (3) 두 정의 모두 장기간, 현저한 정도, 교육적 수행에의 부정적 영향을 공통 요건으로 함",
+    "explanation": "정서·행동장애의 정의는 미국 IDEA의 영향을 크게 받았으나, 한국법에서는 '사회적 부적응 제외' 조항이 명시되지 않은 것이 주요 차이점이다. 이 조항의 부재는 정서·행동장애 판별 시 논쟁의 여지를 남긴다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "emotional-behavioral"
+    }
+  },
+  {
+    "id": "intro-q42",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "AAIDD 12차 정의(2021)에서 지적장애의 적응행동은 개념적 기술, 사회적 기술, 실제적 기술의 세 가지 유형으로 구분되며, 세 유형 모두에서 유의미한 제한이 있어야 지적장애로 진단된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "AAIDD 12차 정의에서 적응행동은 개념적, 사회적, 실제적 기술의 세 유형으로 구분되지만, 세 유형 모두에서 제한을 보일 필요는 없다. 적응행동 전체(overall adaptive behavior)에서 유의미한 제한이 있으면 되며, 이는 세 유형 중 하나 또는 전체 적응행동 표준화 점수에서 평균보다 약 2 표준편차 이하인 경우에 해당한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "AAIDD 12th Edition (2021)",
+    "tags": {
+      "disability": "intellectual"
+    }
+  },
+  {
+    "id": "intro-q43",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "학습장애의 중재반응(RTI) 모델은 일반적으로 3단계로 구성된다. 1단계는 ( )에서의 보편적 중재, 2단계는 소집단 보충 중재, 3단계는 집중적 개별화 중재이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "일반학급(일반교육)",
+    "explanation": "RTI의 3단계 모델에서 1단계는 일반학급에서 과학적 근거 기반의 질 높은 교수를 모든 학생에게 제공하는 보편적 중재이다. 2단계는 1단계에서 충분히 반응하지 못한 학생에게 소집단 보충 중재를 제공하며, 3단계는 2단계에서도 반응하지 못한 학생에게 집중적이고 개별화된 중재를 제공한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "learning"
+    }
+  },
+  {
+    "id": "intro-q44",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "descriptive",
+    "question": "DSM-5의 자폐스펙트럼장애(ASD) 진단기준에서 제시하는 두 가지 핵심 영역과 각 영역의 하위 기준을 설명하시오.",
+    "case_context": "DSM-5(APA, 2013)에서는 기존의 자폐성 장애, 아스퍼거 장애, PDD-NOS를 자폐스펙트럼장애(ASD)라는 단일 진단명으로 통합하고, 심각도를 3단계(Level 1~3)로 구분하였다.",
+    "options": null,
+    "answer": "1. 영역 A: 사회적 의사소통 및 사회적 상호작용의 지속적 결함 (3가지 하위 기준 모두 충족)\n  (1) 사회적-정서적 상호성의 결함: 비정상적인 사회적 접근, 정상적인 대화의 실패, 관심·감정·정서의 공유 감소\n  (2) 사회적 상호작용에 사용되는 비언어적 의사소통 행동의 결함: 언어적·비언어적 의사소통의 통합 부족, 눈 맞춤과 신체 언어의 이상, 제스처 이해와 사용의 결함, 표정과 비언어적 의사소통의 전반적 부재\n  (3) 관계 발전, 유지 및 이해의 결함: 다양한 사회적 맥락에 적합한 행동 조절의 어려움, 상상놀이 공유나 친구 사귀기의 어려움, 또래에 대한 관심 부재\n2. 영역 B: 제한적·반복적 행동, 관심, 활동 (4가지 중 2가지 이상 충족)\n  (1) 상동적이거나 반복적인 운동 동작, 사물 사용, 또는 말\n  (2) 동일성에 대한 고집, 일상의 변화에 대한 저항, 의례적인 언어적·비언어적 행동 패턴\n  (3) 강도나 초점에서 비정상적으로 제한적이고 고정된 관심\n  (4) 감각 입력에 대한 과잉 또는 과소 반응성, 환경의 감각적 측면에 대한 비정상적 관심",
+    "explanation": "DSM-5에서 ASD는 두 핵심 영역으로 구성된다. 영역 A(사회적 의사소통)의 3가지 하위 기준은 모두 충족해야 하고, 영역 B(제한적·반복적 행동)의 4가지 중 2가지 이상 충족해야 한다. 특히 감각 반응 이상이 영역 B에 새롭게 추가된 것이 DSM-IV와의 주요 차이점이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "DSM-5 (APA, 2013)",
+    "tags": {
+      "disability": "autism"
+    }
+  },
+  {
+    "id": "intro-q45",
+    "subject": "introduction",
+    "chapter": "history",
+    "type": "fill_in",
+    "question": "장애 패러다임의 변천에서, ( ) 모델은 장애를 개인의 병리로 보고 치료·재활을 강조하는 반면, ( ) 모델은 장애를 사회적 장벽과 차별의 결과로 보고 환경의 변화를 강조한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "의료(의학) / 사회",
+    "explanation": "의료 모델(Medical Model)은 장애를 개인의 신체적·정신적 손상으로 보고, 전문가 주도의 치료·재활을 통해 개인을 '정상'에 가깝게 만드는 것을 목표로 한다. 사회 모델(Social Model)은 장애를 사회적·환경적 장벽의 결과로 보고, 물리적·제도적 장벽의 제거를 통해 장애인의 완전한 사회 참여를 추구한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "intro-q46",
+    "subject": "introduction",
+    "chapter": "history",
+    "type": "multiple",
+    "question": "WHO의 ICIDH(1980)와 ICF(2001)에 대한 비교 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "ICIDH는 손상(Impairment)-능력장애(Disability)-사회적 불리(Handicap)의 일방향적 모델을 제시한다.",
+      "ICF는 신체 기능 및 구조, 활동, 참여의 세 차원과 환경요인·개인요인을 포함하는 상호작용 모델이다.",
+      "ICF는 장애를 부정적 용어 대신 중립적·긍정적 용어로 기술하며, 건강 상태의 구성요소를 분류한다.",
+      "ICIDH는 환경적 요인과 개인적 요인을 모두 포함하여 장애의 사회적 맥락을 충분히 반영한다."
+    ],
+    "answer": "3",
+    "explanation": "ICIDH(국제장애분류)는 손상→능력장애→사회적 불리의 일방향적(선형적) 모델로, 환경적 요인을 체계적으로 포함하지 않았다는 한계가 있다. 이를 보완하여 ICF(국제기능장애건강분류)는 건강 상태, 신체 기능 및 구조, 활동, 참여, 환경요인, 개인요인 간의 상호작용 모델을 제시하였다.",
+    "wrong_explanations": {
+      "0": "ICIDH는 실제로 손상-능력장애-사회적 불리의 일방향적(선형적) 인과관계 모델을 제시한 것이 맞다.",
+      "1": "ICF는 신체 기능 및 구조, 활동, 참여를 핵심 차원으로 하고, 맥락 요인(환경요인, 개인요인)을 포함하는 상호작용 모델이 맞다.",
+      "2": "ICF는 ICIDH의 부정적 용어(장애, 불리) 대신 중립적 용어(활동, 참여)를 사용하며, 장애뿐 아니라 모든 사람의 건강 상태를 분류하는 보편적 틀이 맞다."
+    },
+    "difficulty": 2,
+    "source": "WHO ICF (2001)",
+    "tags": {}
+  },
+  {
+    "id": "intro-q47",
+    "subject": "introduction",
+    "chapter": "history",
+    "type": "descriptive",
+    "question": "ICIDH와 ICF의 장애 개념 모델을 비교하고, ICF 모델이 특수교육에 미친 영향을 서술하시오.",
+    "case_context": "WHO는 1980년 ICIDH(국제장애분류)를 발표하여 장애를 손상, 능력장애, 사회적 불리의 세 차원으로 분류하였다. 이후 2001년 ICF(국제기능장애건강분류)를 발표하여 장애 개념을 전면 개편하였다.",
+    "options": null,
+    "answer": "1. ICIDH(1980) 모델:\n  (1) 구성: 손상(Impairment) → 능력장애(Disability) → 사회적 불리(Handicap)\n  (2) 특성: 일방향적(선형적) 인과관계 모델\n  (3) 관점: 의료 모델 중심, 장애를 개인의 문제로 봄\n  (4) 한계: 환경적 요인 미반영, 부정적 용어 사용, 장애인만을 대상으로 한 분류\n2. ICF(2001) 모델:\n  (1) 구성: 건강 상태, 신체 기능 및 구조, 활동, 참여, 환경요인, 개인요인의 6개 요소\n  (2) 특성: 상호작용적(양방향) 모델, 각 요소가 서로 영향을 주고받음\n  (3) 관점: 생물심리사회적 모델(Bio-Psycho-Social Model), 의료 모델과 사회 모델의 통합\n  (4) 용어: 중립적·긍정적 용어 사용 (능력장애→활동, 사회적 불리→참여)\n3. ICF가 특수교육에 미친 영향:\n  (1) 장애 학생의 교육적 요구를 기능적 관점에서 파악하는 틀 제공\n  (2) 환경요인(물리적·사회적·태도적)의 중요성을 강조하여 통합교육 환경 조성의 근거 마련\n  (3) 참여(Participation) 개념을 통해 교육 성과를 학업 성취뿐 아니라 사회 참여까지 확대\n  (4) 개별화교육계획(IEP)에서 환경 수정 및 지원 계획의 이론적 근거 제공",
+    "explanation": "ICIDH에서 ICF로의 전환은 장애를 보는 관점의 근본적 변화를 반영한다. ICF의 상호작용 모델은 장애를 개인과 환경의 상호작용 결과로 보며, 이는 특수교육에서 환경 수정과 지원 중심의 접근을 강화하는 데 기여하였다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "intro-q48",
+    "subject": "introduction",
+    "chapter": "history",
+    "type": "fill_in",
+    "question": "미국 특수교육 관련 법률의 발전 과정에서, 1975년에 제정된 ( )(PL 94-142)는 모든 장애 아동에게 무상의 적절한 공교육(FAPE)과 최소제한환경(LRE)을 보장하였으며, 이후 1990년에 ( )(으)로 명칭이 변경되었다.",
+    "case_context": null,
+    "options": null,
+    "answer": "전장애아교육법(Education for All Handicapped Children Act) / 장애인교육법(IDEA, Individuals with Disabilities Education Act)",
+    "explanation": "1975년 전장애아교육법(EHA, PL 94-142)은 미국 특수교육의 기본 원리인 FAPE, LRE, IEP, 비차별 평가, 적법 절차, 부모 참여를 확립하였다. 1990년 PL 101-476으로 IDEA로 명칭이 변경되면서 자폐와 외상성 뇌손상이 별도 장애 범주로 추가되었으며, 전환교육 계획이 의무화되었다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "intro-q49",
+    "subject": "introduction",
+    "chapter": "history",
+    "type": "ox",
+    "question": "Wolfensberger의 사회적 역할 가치화(Social Role Valorization)는 장애인에게 사회적으로 가치 있는 역할을 부여함으로써 사회적 이미지와 개인적 능력을 동시에 향상시키는 것을 목표로 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "Wolfensberger(1983)는 정상화 원리를 발전시켜 사회적 역할 가치화(SRV) 이론을 제시하였다. SRV는 사회적으로 가치 절하된 사람들에게 가치 있는 사회적 역할을 부여·지원함으로써, 두 가지 목표를 달성하고자 한다: (1) 사회적 이미지(social image)의 향상, (2) 개인적 역량(personal competencies)의 향상.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "Wolfensberger (1983)",
+    "tags": {}
+  },
+  {
+    "id": "intro-q50",
+    "subject": "introduction",
+    "chapter": "history",
+    "type": "descriptive",
+    "question": "한국 특수교육의 법적 발전 과정을 시대순으로 정리하고, 각 법률의 주요 의의를 설명하시오.",
+    "case_context": "한국의 특수교육은 1977년 「특수교육진흥법」 제정을 시작으로, 1994년 전면 개정, 2007년 「장애인 등에 대한 특수교육법」 제정에 이르기까지 큰 변화를 거쳐왔다.",
+    "options": null,
+    "answer": "1. 1977년 「특수교육진흥법」 제정:\n  (1) 한국 최초의 특수교육 단독 법률\n  (2) 특수교육의 법적 기반 마련\n  (3) 한계: 의무교육 규정 미비, 통합교육 개념 부재\n2. 1994년 「특수교육진흥법」 전면 개정:\n  (1) 통합교육 개념 최초 도입\n  (2) 개별화교육계획(IEP) 의무화\n  (3) 특수교육대상자의 범위 확대\n  (4) 특수교육 관련서비스 규정\n3. 2007년 「장애인 등에 대한 특수교육법」 제정 (2008년 시행):\n  (1) 장애 영유아(만 3세 미만) 무상교육 규정\n  (2) 의무교육 대상 확대: 유치원~고등학교(만 3세~17세)\n  (3) 장애인 고등교육 및 평생교육 지원 근거 마련\n  (4) 특수교육지원센터 설치·운영 법제화\n  (5) 장애 유형 10가지 명시 (발달지체 포함)\n  (6) 통합교육의 법적 정의와 시행 의무 강화\n  (7) 순회교육, 진로 및 직업교육 규정 강화",
+    "explanation": "한국 특수교육법의 발전은 특수교육의 대상과 범위가 점진적으로 확대되어 온 과정이다. 1977년 법적 기반 마련, 1994년 통합교육과 IEP 도입, 2007년 영유아~고등학교 의무교육 및 고등교육·평생교육까지 확대되었다. 현행 「장애인 등에 대한 특수교육법」은 특수교육의 권리성을 강화한 것이 핵심 의의이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  }
+]

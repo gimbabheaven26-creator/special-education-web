@@ -1,0 +1,4336 @@
+{
+  "generatedAt": "2026-03-11T14:05:43.888Z",
+  "model": {
+    "weights": {
+      "frequency": 0.25,
+      "pointWeight": 0.3,
+      "continuity": 0.25,
+      "recency": 0.2
+    },
+    "decayRate": 0.85,
+    "description": "4차원 가중치: 빈도(0.25) + 배점(0.30) + 연속성(0.25) + 최근성(0.20)"
+  },
+  "compositeScores": [
+    {
+      "keyword": "교육과정",
+      "composite": 0.9636,
+      "frequency": 1,
+      "pointWeight": 1,
+      "continuity": 0.8545,
+      "recency": 1
+    },
+    {
+      "keyword": "점자",
+      "composite": 0.6694,
+      "frequency": 0.5267,
+      "pointWeight": 0.6317,
+      "continuity": 1,
+      "recency": 0.491
+    },
+    {
+      "keyword": "통합학급",
+      "composite": 0.6594,
+      "frequency": 0.7333,
+      "pointWeight": 0.8554,
+      "continuity": 0.2909,
+      "recency": 0.7335
+    },
+    {
+      "keyword": "의사소통",
+      "composite": 0.6428,
+      "frequency": 0.4867,
+      "pointWeight": 0.5347,
+      "continuity": 1,
+      "recency": 0.5536
+    },
+    {
+      "keyword": "특수학교",
+      "composite": 0.5075,
+      "frequency": 0.36,
+      "pointWeight": 0.3822,
+      "continuity": 0.8545,
+      "recency": 0.4462
+    },
+    {
+      "keyword": "지적장애",
+      "composite": 0.4793,
+      "frequency": 0.3333,
+      "pointWeight": 0.3723,
+      "continuity": 0.8545,
+      "recency": 0.3531
+    },
+    {
+      "keyword": "선정",
+      "composite": 0.466,
+      "frequency": 0.3,
+      "pointWeight": 0.2812,
+      "continuity": 1,
+      "recency": 0.2834
+    },
+    {
+      "keyword": "강화",
+      "composite": 0.4558,
+      "frequency": 0.2533,
+      "pointWeight": 0.2851,
+      "continuity": 1,
+      "recency": 0.2844
+    },
+    {
+      "keyword": "자폐",
+      "composite": 0.4473,
+      "frequency": 0.2467,
+      "pointWeight": 0.2871,
+      "continuity": 1,
+      "recency": 0.2476
+    },
+    {
+      "keyword": "진단",
+      "composite": 0.4402,
+      "frequency": 0.3333,
+      "pointWeight": 0.3564,
+      "continuity": 0.6727,
+      "recency": 0.4087
+    },
+    {
+      "keyword": "시각장애",
+      "composite": 0.4283,
+      "frequency": 0.2667,
+      "pointWeight": 0.3109,
+      "continuity": 0.8545,
+      "recency": 0.2734
+    },
+    {
+      "keyword": "자폐성장애",
+      "composite": 0.4203,
+      "frequency": 0.2067,
+      "pointWeight": 0.2594,
+      "continuity": 1,
+      "recency": 0.204
+    },
+    {
+      "keyword": "중복장애",
+      "composite": 0.3817,
+      "frequency": 0.1733,
+      "pointWeight": 0.196,
+      "continuity": 1,
+      "recency": 0.1479
+    },
+    {
+      "keyword": "접근",
+      "composite": 0.3806,
+      "frequency": 0.2133,
+      "pointWeight": 0.2376,
+      "continuity": 0.8545,
+      "recency": 0.2116
+    },
+    {
+      "keyword": "학습장애",
+      "composite": 0.3802,
+      "frequency": 0.1733,
+      "pointWeight": 0.1703,
+      "continuity": 1,
+      "recency": 0.1787
+    },
+    {
+      "keyword": "특수교육법",
+      "composite": 0.3547,
+      "frequency": 0.2,
+      "pointWeight": 0.1624,
+      "continuity": 0.8545,
+      "recency": 0.2119
+    },
+    {
+      "keyword": "장애인등에대한특수교육법",
+      "composite": 0.3512,
+      "frequency": 0.1933,
+      "pointWeight": 0.1584,
+      "continuity": 0.8545,
+      "recency": 0.2084
+    },
+    {
+      "keyword": "청각장애",
+      "composite": 0.3504,
+      "frequency": 0.2,
+      "pointWeight": 0.2277,
+      "continuity": 0.7636,
+      "recency": 0.2057
+    },
+    {
+      "keyword": "지체장애",
+      "composite": 0.309,
+      "frequency": 0.1,
+      "pointWeight": 0.1168,
+      "continuity": 0.9091,
+      "recency": 0.1083
+    },
+    {
+      "keyword": "보청기",
+      "composite": 0.3011,
+      "frequency": 0.1533,
+      "pointWeight": 0.1782,
+      "continuity": 0.6727,
+      "recency": 0.2054
+    },
+    {
+      "keyword": "시력",
+      "composite": 0.2884,
+      "frequency": 0.2267,
+      "pointWeight": 0.2792,
+      "continuity": 0.4182,
+      "recency": 0.2173
+    },
+    {
+      "keyword": "건강장애",
+      "composite": 0.2839,
+      "frequency": 0.28,
+      "pointWeight": 0.2693,
+      "continuity": 0.2909,
+      "recency": 0.3017
+    },
+    {
+      "keyword": "발화",
+      "composite": 0.2806,
+      "frequency": 0.24,
+      "pointWeight": 0.2891,
+      "continuity": 0.2727,
+      "recency": 0.3287
+    },
+    {
+      "keyword": "일반화",
+      "composite": 0.2729,
+      "frequency": 0.1267,
+      "pointWeight": 0.2337,
+      "continuity": 0.5818,
+      "recency": 0.1284
+    },
+    {
+      "keyword": "교육과정편성",
+      "composite": 0.2647,
+      "frequency": 0.1867,
+      "pointWeight": 0.1624,
+      "continuity": 0.5091,
+      "recency": 0.2103
+    },
+    {
+      "keyword": "특수학급",
+      "composite": 0.2627,
+      "frequency": 0.14,
+      "pointWeight": 0.1426,
+      "continuity": 0.6182,
+      "recency": 0.1521
+    },
+    {
+      "keyword": "뇌성마비",
+      "composite": 0.2598,
+      "frequency": 0.2133,
+      "pointWeight": 0.2653,
+      "continuity": 0.3636,
+      "recency": 0.1797
+    },
+    {
+      "keyword": "관찰기록",
+      "composite": 0.2523,
+      "frequency": 0.1467,
+      "pointWeight": 0.1743,
+      "continuity": 0.5273,
+      "recency": 0.1577
+    },
+    {
+      "keyword": "수어",
+      "composite": 0.2499,
+      "frequency": 0.22,
+      "pointWeight": 0.2614,
+      "continuity": 0.2909,
+      "recency": 0.2187
+    },
+    {
+      "keyword": "보조공학",
+      "composite": 0.2181,
+      "frequency": 0.18,
+      "pointWeight": 0.1941,
+      "continuity": 0.2909,
+      "recency": 0.2108
+    },
+    {
+      "keyword": "기본교육과정",
+      "composite": 0.2145,
+      "frequency": 0.1267,
+      "pointWeight": 0.1327,
+      "continuity": 0.4909,
+      "recency": 0.1017
+    },
+    {
+      "keyword": "2015개정",
+      "composite": 0.1942,
+      "frequency": 0.18,
+      "pointWeight": 0.1861,
+      "continuity": 0.2545,
+      "recency": 0.1488
+    },
+    {
+      "keyword": "주시",
+      "composite": 0.1918,
+      "frequency": 0.1467,
+      "pointWeight": 0.1624,
+      "continuity": 0.3091,
+      "recency": 0.1457
+    },
+    {
+      "keyword": "주의",
+      "composite": 0.1874,
+      "frequency": 0.1533,
+      "pointWeight": 0.1921,
+      "continuity": 0.2545,
+      "recency": 0.1389
+    },
+    {
+      "keyword": "직업교육",
+      "composite": 0.1781,
+      "frequency": 0.12,
+      "pointWeight": 0.099,
+      "continuity": 0.3818,
+      "recency": 0.1149
+    },
+    {
+      "keyword": "통합교육",
+      "composite": 0.1755,
+      "frequency": 0.1267,
+      "pointWeight": 0.1861,
+      "continuity": 0.2727,
+      "recency": 0.0992
+    },
+    {
+      "keyword": "dB",
+      "composite": 0.1695,
+      "frequency": 0.1333,
+      "pointWeight": 0.1545,
+      "continuity": 0.2545,
+      "recency": 0.1311
+    },
+    {
+      "keyword": "유지",
+      "composite": 0.1661,
+      "frequency": 0.1133,
+      "pointWeight": 0.1584,
+      "continuity": 0.2909,
+      "recency": 0.0877
+    },
+    {
+      "keyword": "지문자",
+      "composite": 0.1655,
+      "frequency": 0.12,
+      "pointWeight": 0.1465,
+      "continuity": 0.2364,
+      "recency": 0.162
+    },
+    {
+      "keyword": "지수",
+      "composite": 0.1594,
+      "frequency": 0.1133,
+      "pointWeight": 0.1347,
+      "continuity": 0.2364,
+      "recency": 0.1581
+    },
+    {
+      "keyword": "단서",
+      "composite": 0.1546,
+      "frequency": 0.12,
+      "pointWeight": 0.1386,
+      "continuity": 0.2545,
+      "recency": 0.0968
+    },
+    {
+      "keyword": "평가방법",
+      "composite": 0.1538,
+      "frequency": 0.12,
+      "pointWeight": 0.1307,
+      "continuity": 0.2545,
+      "recency": 0.1049
+    },
+    {
+      "keyword": "배치",
+      "composite": 0.1487,
+      "frequency": 0.1133,
+      "pointWeight": 0.1347,
+      "continuity": 0.2364,
+      "recency": 0.1045
+    },
+    {
+      "keyword": "안전",
+      "composite": 0.1457,
+      "frequency": 0.0533,
+      "pointWeight": 0.0594,
+      "continuity": 0.4,
+      "recency": 0.0728
+    },
+    {
+      "keyword": "2022개정",
+      "composite": 0.1435,
+      "frequency": 0.0933,
+      "pointWeight": 0.0752,
+      "continuity": 0.2727,
+      "recency": 0.1471
+    },
+    {
+      "keyword": "경직형",
+      "composite": 0.1425,
+      "frequency": 0.1,
+      "pointWeight": 0.1228,
+      "continuity": 0.2545,
+      "recency": 0.0854
+    },
+    {
+      "keyword": "특수교육지원센터",
+      "composite": 0.1401,
+      "frequency": 0.1,
+      "pointWeight": 0.0871,
+      "continuity": 0.2727,
+      "recency": 0.104
+    },
+    {
+      "keyword": "AAC",
+      "composite": 0.1393,
+      "frequency": 0.0733,
+      "pointWeight": 0.0832,
+      "continuity": 0.3091,
+      "recency": 0.0937
+    },
+    {
+      "keyword": "스위치",
+      "composite": 0.1326,
+      "frequency": 0.1333,
+      "pointWeight": 0.1584,
+      "continuity": 0.1091,
+      "recency": 0.1223
+    },
+    {
+      "keyword": "고정",
+      "composite": 0.119,
+      "frequency": 0.04,
+      "pointWeight": 0.0436,
+      "continuity": 0.3455,
+      "recency": 0.0479
+    },
+    {
+      "keyword": "개별화교육",
+      "composite": 0.1146,
+      "frequency": 0.0867,
+      "pointWeight": 0.0931,
+      "continuity": 0.1818,
+      "recency": 0.0979
+    },
+    {
+      "keyword": "인공와우",
+      "composite": 0.111,
+      "frequency": 0.0667,
+      "pointWeight": 0.0871,
+      "continuity": 0.2,
+      "recency": 0.0909
+    },
+    {
+      "keyword": "K-WISC",
+      "composite": 0.1104,
+      "frequency": 0.0733,
+      "pointWeight": 0.0832,
+      "continuity": 0.2,
+      "recency": 0.0858
+    },
+    {
+      "keyword": "묵자",
+      "composite": 0.1098,
+      "frequency": 0.0733,
+      "pointWeight": 0.0891,
+      "continuity": 0.2182,
+      "recency": 0.0511
+    },
+    {
+      "keyword": "시행령",
+      "composite": 0.1093,
+      "frequency": 0.0733,
+      "pointWeight": 0.0673,
+      "continuity": 0.2182,
+      "recency": 0.0809
+    },
+    {
+      "keyword": "교수방법",
+      "composite": 0.1076,
+      "frequency": 0.04,
+      "pointWeight": 0.0515,
+      "continuity": 0.2909,
+      "recency": 0.0473
+    },
+    {
+      "keyword": "사회성",
+      "composite": 0.1056,
+      "frequency": 0.0933,
+      "pointWeight": 0.099,
+      "continuity": 0.1455,
+      "recency": 0.0809
+    },
+    {
+      "keyword": "교수적수정",
+      "composite": 0.1052,
+      "frequency": 0.0667,
+      "pointWeight": 0.1743,
+      "continuity": 0.1091,
+      "recency": 0.0451
+    },
+    {
+      "keyword": "점자정보단말기",
+      "composite": 0.0987,
+      "frequency": 0.06,
+      "pointWeight": 0.0713,
+      "continuity": 0.2,
+      "recency": 0.0618
+    },
+    {
+      "keyword": "독화",
+      "composite": 0.0975,
+      "frequency": 0.0667,
+      "pointWeight": 0.0792,
+      "continuity": 0.1818,
+      "recency": 0.058
+    },
+    {
+      "keyword": "청력검사",
+      "composite": 0.0939,
+      "frequency": 0.0667,
+      "pointWeight": 0.0673,
+      "continuity": 0.1818,
+      "recency": 0.0581
+    },
+    {
+      "keyword": "학교스포츠클럽",
+      "composite": 0.0926,
+      "frequency": 0.06,
+      "pointWeight": 0.0673,
+      "continuity": 0.1636,
+      "recency": 0.0825
+    },
+    {
+      "keyword": "SIS",
+      "composite": 0.0912,
+      "frequency": 0.04,
+      "pointWeight": 0.0455,
+      "continuity": 0.2364,
+      "recency": 0.0422
+    },
+    {
+      "keyword": "병원학교",
+      "composite": 0.0911,
+      "frequency": 0.08,
+      "pointWeight": 0.0634,
+      "continuity": 0.1455,
+      "recency": 0.0786
+    },
+    {
+      "keyword": "차별강화",
+      "composite": 0.0907,
+      "frequency": 0.04,
+      "pointWeight": 0.0436,
+      "continuity": 0.2364,
+      "recency": 0.0427
+    },
+    {
+      "keyword": "원시반사",
+      "composite": 0.0905,
+      "frequency": 0.0533,
+      "pointWeight": 0.0693,
+      "continuity": 0.1818,
+      "recency": 0.0548
+    },
+    {
+      "keyword": "자발화",
+      "composite": 0.0896,
+      "frequency": 0.06,
+      "pointWeight": 0.0733,
+      "continuity": 0.1273,
+      "recency": 0.1041
+    },
+    {
+      "keyword": "평가조정",
+      "composite": 0.0867,
+      "frequency": 0.0533,
+      "pointWeight": 0.0594,
+      "continuity": 0.1636,
+      "recency": 0.0733
+    },
+    {
+      "keyword": "시행규칙",
+      "composite": 0.0846,
+      "frequency": 0.0267,
+      "pointWeight": 0.0238,
+      "continuity": 0.2545,
+      "recency": 0.0357
+    },
+    {
+      "keyword": "특수교육운영위원회",
+      "composite": 0.082,
+      "frequency": 0.0467,
+      "pointWeight": 0.0317,
+      "continuity": 0.2,
+      "recency": 0.0542
+    },
+    {
+      "keyword": "시야",
+      "composite": 0.0804,
+      "frequency": 0.0533,
+      "pointWeight": 0.0653,
+      "continuity": 0.1455,
+      "recency": 0.0553
+    },
+    {
+      "keyword": "순회교육",
+      "composite": 0.0789,
+      "frequency": 0.06,
+      "pointWeight": 0.0396,
+      "continuity": 0.1455,
+      "recency": 0.0784
+    },
+    {
+      "keyword": "인지전략",
+      "composite": 0.0771,
+      "frequency": 0.0467,
+      "pointWeight": 0.0436,
+      "continuity": 0.1636,
+      "recency": 0.0572
+    },
+    {
+      "keyword": "청력도",
+      "composite": 0.0769,
+      "frequency": 0.0533,
+      "pointWeight": 0.0614,
+      "continuity": 0.1455,
+      "recency": 0.044
+    },
+    {
+      "keyword": "의사소통장애",
+      "composite": 0.0769,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.2182,
+      "recency": 0.0367
+    },
+    {
+      "keyword": "보완대체의사소통",
+      "composite": 0.0761,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.2182,
+      "recency": 0.0331
+    },
+    {
+      "keyword": "보완대체",
+      "composite": 0.0761,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.2182,
+      "recency": 0.0331
+    },
+    {
+      "keyword": "개별화교육계획",
+      "composite": 0.076,
+      "frequency": 0.0467,
+      "pointWeight": 0.0574,
+      "continuity": 0.1455,
+      "recency": 0.0539
+    },
+    {
+      "keyword": "보행훈련",
+      "composite": 0.0757,
+      "frequency": 0.0467,
+      "pointWeight": 0.0554,
+      "continuity": 0.1636,
+      "recency": 0.0325
+    },
+    {
+      "keyword": "방향정위",
+      "composite": 0.0752,
+      "frequency": 0.06,
+      "pointWeight": 0.0713,
+      "continuity": 0.1091,
+      "recency": 0.0575
+    },
+    {
+      "keyword": "약자",
+      "composite": 0.075,
+      "frequency": 0.0533,
+      "pointWeight": 0.0634,
+      "continuity": 0.1455,
+      "recency": 0.0317
+    },
+    {
+      "keyword": "CAI",
+      "composite": 0.0722,
+      "frequency": 0.0467,
+      "pointWeight": 0.0554,
+      "continuity": 0.1273,
+      "recency": 0.0606
+    },
+    {
+      "keyword": "광각",
+      "composite": 0.072,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.2,
+      "recency": 0.029
+    },
+    {
+      "keyword": "선택중심교육과정",
+      "composite": 0.072,
+      "frequency": 0.0467,
+      "pointWeight": 0.0436,
+      "continuity": 0.1455,
+      "recency": 0.0545
+    },
+    {
+      "keyword": "GMFCS",
+      "composite": 0.0705,
+      "frequency": 0.04,
+      "pointWeight": 0.0475,
+      "continuity": 0.1455,
+      "recency": 0.0495
+    },
+    {
+      "keyword": "교육과정운영",
+      "composite": 0.0701,
+      "frequency": 0.0533,
+      "pointWeight": 0.0554,
+      "continuity": 0.1091,
+      "recency": 0.0641
+    },
+    {
+      "keyword": "성취기준",
+      "composite": 0.07,
+      "frequency": 0.04,
+      "pointWeight": 0.0356,
+      "continuity": 0.1636,
+      "recency": 0.0419
+    },
+    {
+      "keyword": "보편적학습설계",
+      "composite": 0.0671,
+      "frequency": 0.04,
+      "pointWeight": 0.0713,
+      "continuity": 0.1091,
+      "recency": 0.0421
+    },
+    {
+      "keyword": "전문교과",
+      "composite": 0.0665,
+      "frequency": 0.04,
+      "pointWeight": 0.0317,
+      "continuity": 0.1455,
+      "recency": 0.053
+    },
+    {
+      "keyword": "타당도",
+      "composite": 0.0646,
+      "frequency": 0.0467,
+      "pointWeight": 0.0356,
+      "continuity": 0.1455,
+      "recency": 0.0296
+    },
+    {
+      "keyword": "전환교육",
+      "composite": 0.064,
+      "frequency": 0.0333,
+      "pointWeight": 0.0238,
+      "continuity": 0.1636,
+      "recency": 0.0379
+    },
+    {
+      "keyword": "자기점검",
+      "composite": 0.0633,
+      "frequency": 0.04,
+      "pointWeight": 0.0752,
+      "continuity": 0.1091,
+      "recency": 0.0174
+    },
+    {
+      "keyword": "회피",
+      "composite": 0.0622,
+      "frequency": 0.0267,
+      "pointWeight": 0.0238,
+      "continuity": 0.1636,
+      "recency": 0.0376
+    },
+    {
+      "keyword": "청능훈련",
+      "composite": 0.0618,
+      "frequency": 0.0467,
+      "pointWeight": 0.0475,
+      "continuity": 0.1091,
+      "recency": 0.0428
+    },
+    {
+      "keyword": "협력교수",
+      "composite": 0.0609,
+      "frequency": 0.0333,
+      "pointWeight": 0.0634,
+      "continuity": 0.1091,
+      "recency": 0.0314
+    },
+    {
+      "keyword": "근긴장도",
+      "composite": 0.0598,
+      "frequency": 0.0333,
+      "pointWeight": 0.0376,
+      "continuity": 0.1455,
+      "recency": 0.0192
+    },
+    {
+      "keyword": "DRL",
+      "composite": 0.0595,
+      "frequency": 0.0333,
+      "pointWeight": 0.0317,
+      "continuity": 0.1273,
+      "recency": 0.0493
+    },
+    {
+      "keyword": "STNR",
+      "composite": 0.0578,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.1636,
+      "recency": 0.0239
+    },
+    {
+      "keyword": "어음명료도",
+      "composite": 0.0577,
+      "frequency": 0.04,
+      "pointWeight": 0.0436,
+      "continuity": 0.1091,
+      "recency": 0.0366
+    },
+    {
+      "keyword": "선별",
+      "composite": 0.055,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.1455,
+      "recency": 0.0182
+    },
+    {
+      "keyword": "개별화교육지원팀",
+      "composite": 0.0531,
+      "frequency": 0.0333,
+      "pointWeight": 0.0317,
+      "continuity": 0.1091,
+      "recency": 0.0399
+    },
+    {
+      "keyword": "전환평가",
+      "composite": 0.0506,
+      "frequency": 0.04,
+      "pointWeight": 0.0475,
+      "continuity": 0.0727,
+      "recency": 0.0409
+    },
+    {
+      "keyword": "중도중복장애",
+      "composite": 0.0504,
+      "frequency": 0.04,
+      "pointWeight": 0.0436,
+      "continuity": 0.0727,
+      "recency": 0.0456
+    },
+    {
+      "keyword": "직업평가",
+      "composite": 0.05,
+      "frequency": 0.0333,
+      "pointWeight": 0.0198,
+      "continuity": 0.1091,
+      "recency": 0.0421
+    },
+    {
+      "keyword": "TAI",
+      "composite": 0.0497,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.1273,
+      "recency": 0.0288
+    },
+    {
+      "keyword": "팀보조개별학습",
+      "composite": 0.0497,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.1273,
+      "recency": 0.0288
+    },
+    {
+      "keyword": "자기결정",
+      "composite": 0.0492,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.1091,
+      "recency": 0.0288
+    },
+    {
+      "keyword": "지원고용",
+      "composite": 0.0478,
+      "frequency": 0.0267,
+      "pointWeight": 0.0257,
+      "continuity": 0.1091,
+      "recency": 0.0307
+    },
+    {
+      "keyword": "순음청력검사",
+      "composite": 0.0477,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.1091,
+      "recency": 0.0212
+    },
+    {
+      "keyword": "공통교육과정",
+      "composite": 0.0474,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.1091,
+      "recency": 0.0198
+    },
+    {
+      "keyword": "수행수준",
+      "composite": 0.0467,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.1091,
+      "recency": 0.0164
+    },
+    {
+      "keyword": "전환계획",
+      "composite": 0.0461,
+      "frequency": 0.0333,
+      "pointWeight": 0.0436,
+      "continuity": 0.0727,
+      "recency": 0.0325
+    },
+    {
+      "keyword": "진로연계교육",
+      "composite": 0.0443,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0219
+    },
+    {
+      "keyword": "후속결과",
+      "composite": 0.044,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.1091,
+      "recency": 0.023
+    },
+    {
+      "keyword": "EMT",
+      "composite": 0.0438,
+      "frequency": 0.0333,
+      "pointWeight": 0.0396,
+      "continuity": 0.0727,
+      "recency": 0.0271
+    },
+    {
+      "keyword": "핸드트레일링",
+      "composite": 0.0433,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0168
+    },
+    {
+      "keyword": "상부보호법",
+      "composite": 0.0431,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0162
+    },
+    {
+      "keyword": "랜드마크",
+      "composite": 0.0431,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0162
+    },
+    {
+      "keyword": "용암",
+      "composite": 0.0431,
+      "frequency": 0.02,
+      "pointWeight": 0.0257,
+      "continuity": 0.1091,
+      "recency": 0.0153
+    },
+    {
+      "keyword": "간격기록",
+      "composite": 0.0427,
+      "frequency": 0.04,
+      "pointWeight": 0.0475,
+      "continuity": 0.0364,
+      "recency": 0.0468
+    },
+    {
+      "keyword": "자기옹호",
+      "composite": 0.0427,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.0727,
+      "recency": 0.0415
+    },
+    {
+      "keyword": "PRT",
+      "composite": 0.0404,
+      "frequency": 0.0267,
+      "pointWeight": 0.0337,
+      "continuity": 0.0727,
+      "recency": 0.0275
+    },
+    {
+      "keyword": "안내법",
+      "composite": 0.0394,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.0727,
+      "recency": 0.0253
+    },
+    {
+      "keyword": "일치도",
+      "composite": 0.0392,
+      "frequency": 0.0333,
+      "pointWeight": 0.0277,
+      "continuity": 0.0727,
+      "recency": 0.0216
+    },
+    {
+      "keyword": "강화계획",
+      "composite": 0.0376,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.0727,
+      "recency": 0.0222
+    },
+    {
+      "keyword": "스캐닝",
+      "composite": 0.0359,
+      "frequency": 0.0333,
+      "pointWeight": 0.0396,
+      "continuity": 0.0364,
+      "recency": 0.0331
+    },
+    {
+      "keyword": "수신기",
+      "composite": 0.0359,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0909,
+      "recency": 0.0254
+    },
+    {
+      "keyword": "전극",
+      "composite": 0.0359,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0909,
+      "recency": 0.0254
+    },
+    {
+      "keyword": "중재반응모델",
+      "composite": 0.0359,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0909,
+      "recency": 0.0254
+    },
+    {
+      "keyword": "ABA",
+      "composite": 0.0358,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0727,
+      "recency": 0.0272
+    },
+    {
+      "keyword": "선행사건",
+      "composite": 0.0347,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0727,
+      "recency": 0.0221
+    },
+    {
+      "keyword": "행동계약",
+      "composite": 0.0341,
+      "frequency": 0.0333,
+      "pointWeight": 0.0396,
+      "continuity": 0.0364,
+      "recency": 0.0239
+    },
+    {
+      "keyword": "시기능",
+      "composite": 0.0339,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.0364,
+      "recency": 0.0432
+    },
+    {
+      "keyword": "관찰학습",
+      "composite": 0.0339,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.0364,
+      "recency": 0.0432
+    },
+    {
+      "keyword": "환경중심언어중재",
+      "composite": 0.0335,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0727,
+      "recency": 0.0158
+    },
+    {
+      "keyword": "공동관심",
+      "composite": 0.0334,
+      "frequency": 0.0333,
+      "pointWeight": 0.0396,
+      "continuity": 0.0364,
+      "recency": 0.0203
+    },
+    {
+      "keyword": "행동연쇄",
+      "composite": 0.0327,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0727,
+      "recency": 0.0117
+    },
+    {
+      "keyword": "긍정적행동지원",
+      "composite": 0.0326,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0727,
+      "recency": 0.0116
+    },
+    {
+      "keyword": "DRA",
+      "composite": 0.0324,
+      "frequency": 0.02,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0222
+    },
+    {
+      "keyword": "사회적기술",
+      "composite": 0.0314,
+      "frequency": 0.02,
+      "pointWeight": 0.0198,
+      "continuity": 0.0727,
+      "recency": 0.0116
+    },
+    {
+      "keyword": "직업재활",
+      "composite": 0.0314,
+      "frequency": 0.02,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0173
+    },
+    {
+      "keyword": "표준화검사",
+      "composite": 0.031,
+      "frequency": 0.02,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0153
+    },
+    {
+      "keyword": "사회상황이야기",
+      "composite": 0.0306,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.0364,
+      "recency": 0.0265
+    },
+    {
+      "keyword": "수동",
+      "composite": 0.0294,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0158
+    },
+    {
+      "keyword": "다운증후군",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "프래더-윌리",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "프래더윌리",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "윌리엄스",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "구문론",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "평균발화길이",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "자기교수",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "자기교수법",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "시뮬레이션",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "가위자세",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "중심축반응훈련",
+      "composite": 0.0292,
+      "frequency": 0.0133,
+      "pointWeight": 0.0178,
+      "continuity": 0.0727,
+      "recency": 0.0119
+    },
+    {
+      "keyword": "ATNR",
+      "composite": 0.0292,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0144
+    },
+    {
+      "keyword": "토큰",
+      "composite": 0.0291,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.014
+    },
+    {
+      "keyword": "강화된환경중심",
+      "composite": 0.0289,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0133
+    },
+    {
+      "keyword": "사회적타당도",
+      "composite": 0.0289,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0132
+    },
+    {
+      "keyword": "원격수업",
+      "composite": 0.0288,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0126
+    },
+    {
+      "keyword": "6분법",
+      "composite": 0.0285,
+      "frequency": 0.0133,
+      "pointWeight": 0.0178,
+      "continuity": 0.0727,
+      "recency": 0.0082
+    },
+    {
+      "keyword": "지팡이보행",
+      "composite": 0.0283,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0101
+    },
+    {
+      "keyword": "사지마비",
+      "composite": 0.0282,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0096
+    },
+    {
+      "keyword": "할펀",
+      "composite": 0.0281,
+      "frequency": 0.0067,
+      "pointWeight": 0.004,
+      "continuity": 0.0909,
+      "recency": 0.0127
+    },
+    {
+      "keyword": "직접교수",
+      "composite": 0.0279,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0081
+    },
+    {
+      "keyword": "교수적합화",
+      "composite": 0.0279,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0082
+    },
+    {
+      "keyword": "사회적상호작용",
+      "composite": 0.0277,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.0073
+    },
+    {
+      "keyword": "음운론",
+      "composite": 0.0277,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.007
+    },
+    {
+      "keyword": "자연적지원",
+      "composite": 0.0277,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0364,
+      "recency": 0.0324
+    },
+    {
+      "keyword": "자기조절",
+      "composite": 0.0276,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.0364,
+      "recency": 0.0118
+    },
+    {
+      "keyword": "편마비",
+      "composite": 0.0275,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0727,
+      "recency": 0.006
+    },
+    {
+      "keyword": "규준참조",
+      "composite": 0.0275,
+      "frequency": 0.0133,
+      "pointWeight": 0.0119,
+      "continuity": 0.0727,
+      "recency": 0.0119
+    },
+    {
+      "keyword": "비디오모델링",
+      "composite": 0.0267,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0364,
+      "recency": 0.0275
+    },
+    {
+      "keyword": "화상키보드",
+      "composite": 0.0259,
+      "frequency": 0.0333,
+      "pointWeight": 0.0198,
+      "continuity": 0.0364,
+      "recency": 0.0125
+    },
+    {
+      "keyword": "스테이션",
+      "composite": 0.0253,
+      "frequency": 0.0133,
+      "pointWeight": 0.0396,
+      "continuity": 0.0364,
+      "recency": 0.005
+    },
+    {
+      "keyword": "어음청취역치",
+      "composite": 0.0241,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0364,
+      "recency": 0.0144
+    },
+    {
+      "keyword": "지역사회중심교수",
+      "composite": 0.0241,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0364,
+      "recency": 0.0144
+    },
+    {
+      "keyword": "범교과학습주제",
+      "composite": 0.0237,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.0364,
+      "recency": 0.0122
+    },
+    {
+      "keyword": "POW",
+      "composite": 0.0215,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0364,
+      "recency": 0.0216
+    },
+    {
+      "keyword": "WWW",
+      "composite": 0.0215,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0364,
+      "recency": 0.0216
+    },
+    {
+      "keyword": "무정위운동형",
+      "composite": 0.02,
+      "frequency": 0.0133,
+      "pointWeight": 0.0198,
+      "continuity": 0.0364,
+      "recency": 0.0081
+    },
+    {
+      "keyword": "관찰자간일치도",
+      "composite": 0.0197,
+      "frequency": 0.02,
+      "pointWeight": 0.0119,
+      "continuity": 0.0364,
+      "recency": 0.0104
+    },
+    {
+      "keyword": "IEP",
+      "composite": 0.0194,
+      "frequency": 0.0133,
+      "pointWeight": 0.0198,
+      "continuity": 0.0364,
+      "recency": 0.005
+    },
+    {
+      "keyword": "구조화된교수",
+      "composite": 0.0194,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0364,
+      "recency": 0.0113
+    },
+    {
+      "keyword": "CBM",
+      "composite": 0.0194,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0364,
+      "recency": 0.0113
+    },
+    {
+      "keyword": "파워카드",
+      "composite": 0.0191,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0364,
+      "recency": 0.0096
+    },
+    {
+      "keyword": "촉구",
+      "composite": 0.0186,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0364,
+      "recency": 0.0069
+    },
+    {
+      "keyword": "자폐스펙트럼",
+      "composite": 0.0174,
+      "frequency": 0.0133,
+      "pointWeight": 0.0119,
+      "continuity": 0.0364,
+      "recency": 0.0069
+    },
+    {
+      "keyword": "자극일반화",
+      "composite": 0.0174,
+      "frequency": 0.0067,
+      "pointWeight": 0.0198,
+      "continuity": 0.0364,
+      "recency": 0.0035
+    },
+    {
+      "keyword": "반응일반화",
+      "composite": 0.0174,
+      "frequency": 0.0067,
+      "pointWeight": 0.0198,
+      "continuity": 0.0364,
+      "recency": 0.0035
+    },
+    {
+      "keyword": "반두라",
+      "composite": 0.0153,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0108
+    },
+    {
+      "keyword": "재생",
+      "composite": 0.0153,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0108
+    },
+    {
+      "keyword": "동기화",
+      "composite": 0.0153,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0108
+    },
+    {
+      "keyword": "초학문적",
+      "composite": 0.0153,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0108
+    },
+    {
+      "keyword": "추적",
+      "composite": 0.015,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0092
+    },
+    {
+      "keyword": "시간지연",
+      "composite": 0.0145,
+      "frequency": 0.0067,
+      "pointWeight": 0.0099,
+      "continuity": 0.0364,
+      "recency": 0.0041
+    },
+    {
+      "keyword": "DTT",
+      "composite": 0.0145,
+      "frequency": 0.0067,
+      "pointWeight": 0.0099,
+      "continuity": 0.0364,
+      "recency": 0.0041
+    },
+    {
+      "keyword": "기능적의사소통",
+      "composite": 0.0145,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0066
+    },
+    {
+      "keyword": "배경사건",
+      "composite": 0.0145,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0066
+    },
+    {
+      "keyword": "도피",
+      "composite": 0.0145,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0066
+    },
+    {
+      "keyword": "진단평가",
+      "composite": 0.0145,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0066
+    },
+    {
+      "keyword": "또래지원",
+      "composite": 0.0143,
+      "frequency": 0.0067,
+      "pointWeight": 0.0099,
+      "continuity": 0.0364,
+      "recency": 0.0029
+    },
+    {
+      "keyword": "잔존청력",
+      "composite": 0.0143,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0056
+    },
+    {
+      "keyword": "DRO",
+      "composite": 0.0143,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0056
+    },
+    {
+      "keyword": "TEACCH",
+      "composite": 0.0143,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0056
+    },
+    {
+      "keyword": "자유학기제",
+      "composite": 0.0143,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0056
+    },
+    {
+      "keyword": "교육과정중심측정",
+      "composite": 0.0143,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0056
+    },
+    {
+      "keyword": "웹접근성",
+      "composite": 0.0143,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0056
+    },
+    {
+      "keyword": "경쟁고용",
+      "composite": 0.0142,
+      "frequency": 0.0067,
+      "pointWeight": 0.0099,
+      "continuity": 0.0364,
+      "recency": 0.0025
+    },
+    {
+      "keyword": "개인중심계획",
+      "composite": 0.0142,
+      "frequency": 0.0067,
+      "pointWeight": 0.0099,
+      "continuity": 0.0364,
+      "recency": 0.0025
+    },
+    {
+      "keyword": "PCP",
+      "composite": 0.0142,
+      "frequency": 0.0067,
+      "pointWeight": 0.0099,
+      "continuity": 0.0364,
+      "recency": 0.0025
+    },
+    {
+      "keyword": "간질",
+      "composite": 0.0141,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0048
+    },
+    {
+      "keyword": "복식학급",
+      "composite": 0.0141,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0048
+    },
+    {
+      "keyword": "포트폴리오",
+      "composite": 0.0141,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0048
+    },
+    {
+      "keyword": "교수-지원",
+      "composite": 0.0141,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0048
+    },
+    {
+      "keyword": "기능적행동평가",
+      "composite": 0.0139,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0041
+    },
+    {
+      "keyword": "대발작",
+      "composite": 0.0138,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0035
+    },
+    {
+      "keyword": "하부보호법",
+      "composite": 0.0138,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0035
+    },
+    {
+      "keyword": "반향어",
+      "composite": 0.0138,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0035
+    },
+    {
+      "keyword": "RTI",
+      "composite": 0.0138,
+      "frequency": 0.0067,
+      "pointWeight": 0.004,
+      "continuity": 0.0364,
+      "recency": 0.0092
+    },
+    {
+      "keyword": "DRI",
+      "composite": 0.0137,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0029
+    },
+    {
+      "keyword": "CBI",
+      "composite": 0.0137,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0029
+    },
+    {
+      "keyword": "4분법",
+      "composite": 0.0136,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0364,
+      "recency": 0.0025
+    },
+    {
+      "keyword": "불일치모델",
+      "composite": 0.0131,
+      "frequency": 0.0067,
+      "pointWeight": 0.004,
+      "continuity": 0.0364,
+      "recency": 0.0056
+    },
+    {
+      "keyword": "대안평가",
+      "composite": 0.0128,
+      "frequency": 0.0067,
+      "pointWeight": 0.004,
+      "continuity": 0.0364,
+      "recency": 0.0041
+    }
+  ],
+  "predictions": [
+    {
+      "keyword": "교육과정",
+      "composite": 0.9636,
+      "frequency": 1,
+      "pointWeight": 1,
+      "continuity": 0.8545,
+      "recency": 1,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 9,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "점자",
+      "composite": 0.6694,
+      "frequency": 0.5267,
+      "pointWeight": 0.6317,
+      "continuity": 1,
+      "recency": 0.491,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "의사소통",
+      "composite": 0.6428,
+      "frequency": 0.4867,
+      "pointWeight": 0.5347,
+      "continuity": 1,
+      "recency": 0.5536,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "특수학교",
+      "composite": 0.5075,
+      "frequency": 0.36,
+      "pointWeight": 0.3822,
+      "continuity": 0.8545,
+      "recency": 0.4462,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 9,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "지적장애",
+      "composite": 0.4793,
+      "frequency": 0.3333,
+      "pointWeight": 0.3723,
+      "continuity": 0.8545,
+      "recency": 0.3531,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 9,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "선정",
+      "composite": 0.466,
+      "frequency": 0.3,
+      "pointWeight": 0.2812,
+      "continuity": 1,
+      "recency": 0.2834,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "강화",
+      "composite": 0.4558,
+      "frequency": 0.2533,
+      "pointWeight": 0.2851,
+      "continuity": 1,
+      "recency": 0.2844,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "자폐",
+      "composite": 0.4473,
+      "frequency": 0.2467,
+      "pointWeight": 0.2871,
+      "continuity": 1,
+      "recency": 0.2476,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "진단",
+      "composite": 0.4402,
+      "frequency": 0.3333,
+      "pointWeight": 0.3564,
+      "continuity": 0.6727,
+      "recency": 0.4087,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 7,
+      "totalYears": 8,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "시각장애",
+      "composite": 0.4283,
+      "frequency": 0.2667,
+      "pointWeight": 0.3109,
+      "continuity": 0.8545,
+      "recency": 0.2734,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 9,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "자폐성장애",
+      "composite": 0.4203,
+      "frequency": 0.2067,
+      "pointWeight": 0.2594,
+      "continuity": 1,
+      "recency": 0.204,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "중복장애",
+      "composite": 0.3817,
+      "frequency": 0.1733,
+      "pointWeight": 0.196,
+      "continuity": 1,
+      "recency": 0.1479,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "접근",
+      "composite": 0.3806,
+      "frequency": 0.2133,
+      "pointWeight": 0.2376,
+      "continuity": 0.8545,
+      "recency": 0.2116,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 9,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "학습장애",
+      "composite": 0.3802,
+      "frequency": 0.1733,
+      "pointWeight": 0.1703,
+      "continuity": 1,
+      "recency": 0.1787,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 11,
+      "totalYears": 11,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "특수교육법",
+      "composite": 0.3547,
+      "frequency": 0.2,
+      "pointWeight": 0.1624,
+      "continuity": 0.8545,
+      "recency": 0.2119,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 9,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "장애인등에대한특수교육법",
+      "composite": 0.3512,
+      "frequency": 0.1933,
+      "pointWeight": 0.1584,
+      "continuity": 0.8545,
+      "recency": 0.2084,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 9,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "청각장애",
+      "composite": 0.3504,
+      "frequency": 0.2,
+      "pointWeight": 0.2277,
+      "continuity": 0.7636,
+      "recency": 0.2057,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 8,
+      "totalYears": 9,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "지체장애",
+      "composite": 0.309,
+      "frequency": 0.1,
+      "pointWeight": 0.1168,
+      "continuity": 0.9091,
+      "recency": 0.1083,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 10,
+      "totalYears": 10,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "보청기",
+      "composite": 0.3011,
+      "frequency": 0.1533,
+      "pointWeight": 0.1782,
+      "continuity": 0.6727,
+      "recency": 0.2054,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 7,
+      "totalYears": 8,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "일반화",
+      "composite": 0.2729,
+      "frequency": 0.1267,
+      "pointWeight": 0.2337,
+      "continuity": 0.5818,
+      "recency": 0.1284,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 6,
+      "totalYears": 7,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "교육과정편성",
+      "composite": 0.2647,
+      "frequency": 0.1867,
+      "pointWeight": 0.1624,
+      "continuity": 0.5091,
+      "recency": 0.2103,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 4,
+      "totalYears": 8,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "특수학급",
+      "composite": 0.2627,
+      "frequency": 0.14,
+      "pointWeight": 0.1426,
+      "continuity": 0.6182,
+      "recency": 0.1521,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 6,
+      "totalYears": 8,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "관찰기록",
+      "composite": 0.2523,
+      "frequency": 0.1467,
+      "pointWeight": 0.1743,
+      "continuity": 0.5273,
+      "recency": 0.1577,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 5,
+      "totalYears": 7,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "수어",
+      "composite": 0.2499,
+      "frequency": 0.22,
+      "pointWeight": 0.2614,
+      "continuity": 0.2909,
+      "recency": 0.2187,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 2,
+      "totalYears": 5,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "보조공학",
+      "composite": 0.2181,
+      "frequency": 0.18,
+      "pointWeight": 0.1941,
+      "continuity": 0.2909,
+      "recency": 0.2108,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 2,
+      "totalYears": 5,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "기본교육과정",
+      "composite": 0.2145,
+      "frequency": 0.1267,
+      "pointWeight": 0.1327,
+      "continuity": 0.4909,
+      "recency": 0.1017,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 3,
+      "totalYears": 9,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "직업교육",
+      "composite": 0.1781,
+      "frequency": 0.12,
+      "pointWeight": 0.099,
+      "continuity": 0.3818,
+      "recency": 0.1149,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 3,
+      "totalYears": 6,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "안전",
+      "composite": 0.1457,
+      "frequency": 0.0533,
+      "pointWeight": 0.0594,
+      "continuity": 0.4,
+      "recency": 0.0728,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 4,
+      "totalYears": 5,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "2022개정",
+      "composite": 0.1435,
+      "frequency": 0.0933,
+      "pointWeight": 0.0752,
+      "continuity": 0.2727,
+      "recency": 0.1471,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 3,
+      "totalYears": 3,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "AAC",
+      "composite": 0.1393,
+      "frequency": 0.0733,
+      "pointWeight": 0.0832,
+      "continuity": 0.3091,
+      "recency": 0.0937,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 3,
+      "totalYears": 4,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "고정",
+      "composite": 0.119,
+      "frequency": 0.04,
+      "pointWeight": 0.0436,
+      "continuity": 0.3455,
+      "recency": 0.0479,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 3,
+      "totalYears": 5,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "교수방법",
+      "composite": 0.1076,
+      "frequency": 0.04,
+      "pointWeight": 0.0515,
+      "continuity": 0.2909,
+      "recency": 0.0473,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 2,
+      "totalYears": 5,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "시행규칙",
+      "composite": 0.0846,
+      "frequency": 0.0267,
+      "pointWeight": 0.0238,
+      "continuity": 0.2545,
+      "recency": 0.0357,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 2,
+      "totalYears": 4,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "의사소통장애",
+      "composite": 0.0769,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.2182,
+      "recency": 0.0367,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 2,
+      "totalYears": 3,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "보완대체의사소통",
+      "composite": 0.0761,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.2182,
+      "recency": 0.0331,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 2,
+      "totalYears": 3,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "보완대체",
+      "composite": 0.0761,
+      "frequency": 0.0267,
+      "pointWeight": 0.0277,
+      "continuity": 0.2182,
+      "recency": 0.0331,
+      "in2025": true,
+      "in2026": true,
+      "consecutiveYears": 2,
+      "totalYears": 3,
+      "probability2027": 0.908
+    },
+    {
+      "keyword": "시력",
+      "composite": 0.2884,
+      "frequency": 0.2267,
+      "pointWeight": 0.2792,
+      "continuity": 0.4182,
+      "recency": 0.2173,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 10,
+      "probability2027": 0.9
+    },
+    {
+      "keyword": "뇌성마비",
+      "composite": 0.2598,
+      "frequency": 0.2133,
+      "pointWeight": 0.2653,
+      "continuity": 0.3636,
+      "recency": 0.1797,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 10,
+      "probability2027": 0.9
+    },
+    {
+      "keyword": "통합학급",
+      "composite": 0.6594,
+      "frequency": 0.7333,
+      "pointWeight": 0.8554,
+      "continuity": 0.2909,
+      "recency": 0.7335,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 8,
+      "probability2027": 0.396
+    },
+    {
+      "keyword": "발화",
+      "composite": 0.2806,
+      "frequency": 0.24,
+      "pointWeight": 0.2891,
+      "continuity": 0.2727,
+      "recency": 0.3287,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 6,
+      "probability2027": 0.268
+    },
+    {
+      "keyword": "주시",
+      "composite": 0.1918,
+      "frequency": 0.1467,
+      "pointWeight": 0.1624,
+      "continuity": 0.3091,
+      "recency": 0.1457,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 7,
+      "probability2027": 0.215
+    },
+    {
+      "keyword": "통합교육",
+      "composite": 0.1755,
+      "frequency": 0.1267,
+      "pointWeight": 0.1861,
+      "continuity": 0.2727,
+      "recency": 0.0992,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 6,
+      "probability2027": 0.205
+    },
+    {
+      "keyword": "지문자",
+      "composite": 0.1655,
+      "frequency": 0.12,
+      "pointWeight": 0.1465,
+      "continuity": 0.2364,
+      "recency": 0.162,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 5,
+      "probability2027": 0.199
+    },
+    {
+      "keyword": "지수",
+      "composite": 0.1594,
+      "frequency": 0.1133,
+      "pointWeight": 0.1347,
+      "continuity": 0.2364,
+      "recency": 0.1581,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 5,
+      "probability2027": 0.196
+    },
+    {
+      "keyword": "배치",
+      "composite": 0.1487,
+      "frequency": 0.1133,
+      "pointWeight": 0.1347,
+      "continuity": 0.2364,
+      "recency": 0.1045,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 5,
+      "probability2027": 0.189
+    },
+    {
+      "keyword": "특수교육지원센터",
+      "composite": 0.1401,
+      "frequency": 0.1,
+      "pointWeight": 0.0871,
+      "continuity": 0.2727,
+      "recency": 0.104,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 6,
+      "probability2027": 0.184
+    },
+    {
+      "keyword": "건강장애",
+      "composite": 0.2839,
+      "frequency": 0.28,
+      "pointWeight": 0.2693,
+      "continuity": 0.2909,
+      "recency": 0.3017,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 8,
+      "probability2027": 0.17
+    },
+    {
+      "keyword": "인공와우",
+      "composite": 0.111,
+      "frequency": 0.0667,
+      "pointWeight": 0.0871,
+      "continuity": 0.2,
+      "recency": 0.0909,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 4,
+      "probability2027": 0.167
+    },
+    {
+      "keyword": "K-WISC",
+      "composite": 0.1104,
+      "frequency": 0.0733,
+      "pointWeight": 0.0832,
+      "continuity": 0.2,
+      "recency": 0.0858,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 4,
+      "probability2027": 0.166
+    },
+    {
+      "keyword": "점자정보단말기",
+      "composite": 0.0987,
+      "frequency": 0.06,
+      "pointWeight": 0.0713,
+      "continuity": 0.2,
+      "recency": 0.0618,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 4,
+      "probability2027": 0.159
+    },
+    {
+      "keyword": "학교스포츠클럽",
+      "composite": 0.0926,
+      "frequency": 0.06,
+      "pointWeight": 0.0673,
+      "continuity": 0.1636,
+      "recency": 0.0825,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.156
+    },
+    {
+      "keyword": "SIS",
+      "composite": 0.0912,
+      "frequency": 0.04,
+      "pointWeight": 0.0455,
+      "continuity": 0.2364,
+      "recency": 0.0422,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 5,
+      "probability2027": 0.155
+    },
+    {
+      "keyword": "차별강화",
+      "composite": 0.0907,
+      "frequency": 0.04,
+      "pointWeight": 0.0436,
+      "continuity": 0.2364,
+      "recency": 0.0427,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 5,
+      "probability2027": 0.154
+    },
+    {
+      "keyword": "자발화",
+      "composite": 0.0896,
+      "frequency": 0.06,
+      "pointWeight": 0.0733,
+      "continuity": 0.1273,
+      "recency": 0.1041,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.154
+    },
+    {
+      "keyword": "평가조정",
+      "composite": 0.0867,
+      "frequency": 0.0533,
+      "pointWeight": 0.0594,
+      "continuity": 0.1636,
+      "recency": 0.0733,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.152
+    },
+    {
+      "keyword": "특수교육운영위원회",
+      "composite": 0.082,
+      "frequency": 0.0467,
+      "pointWeight": 0.0317,
+      "continuity": 0.2,
+      "recency": 0.0542,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 4,
+      "probability2027": 0.149
+    },
+    {
+      "keyword": "인지전략",
+      "composite": 0.0771,
+      "frequency": 0.0467,
+      "pointWeight": 0.0436,
+      "continuity": 0.1636,
+      "recency": 0.0572,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.146
+    },
+    {
+      "keyword": "보행훈련",
+      "composite": 0.0757,
+      "frequency": 0.0467,
+      "pointWeight": 0.0554,
+      "continuity": 0.1636,
+      "recency": 0.0325,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.145
+    },
+    {
+      "keyword": "CAI",
+      "composite": 0.0722,
+      "frequency": 0.0467,
+      "pointWeight": 0.0554,
+      "continuity": 0.1273,
+      "recency": 0.0606,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.143
+    },
+    {
+      "keyword": "광각",
+      "composite": 0.072,
+      "frequency": 0.0267,
+      "pointWeight": 0.0317,
+      "continuity": 0.2,
+      "recency": 0.029,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 4,
+      "probability2027": 0.143
+    },
+    {
+      "keyword": "성취기준",
+      "composite": 0.07,
+      "frequency": 0.04,
+      "pointWeight": 0.0356,
+      "continuity": 0.1636,
+      "recency": 0.0419,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.142
+    },
+    {
+      "keyword": "전환교육",
+      "composite": 0.064,
+      "frequency": 0.0333,
+      "pointWeight": 0.0238,
+      "continuity": 0.1636,
+      "recency": 0.0379,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.138
+    },
+    {
+      "keyword": "회피",
+      "composite": 0.0622,
+      "frequency": 0.0267,
+      "pointWeight": 0.0238,
+      "continuity": 0.1636,
+      "recency": 0.0376,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.137
+    },
+    {
+      "keyword": "DRL",
+      "composite": 0.0595,
+      "frequency": 0.0333,
+      "pointWeight": 0.0317,
+      "continuity": 0.1273,
+      "recency": 0.0493,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.136
+    },
+    {
+      "keyword": "STNR",
+      "composite": 0.0578,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.1636,
+      "recency": 0.0239,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 3,
+      "probability2027": 0.135
+    },
+    {
+      "keyword": "TAI",
+      "composite": 0.0497,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.1273,
+      "recency": 0.0288,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.13
+    },
+    {
+      "keyword": "팀보조개별학습",
+      "composite": 0.0497,
+      "frequency": 0.02,
+      "pointWeight": 0.0238,
+      "continuity": 0.1273,
+      "recency": 0.0288,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.13
+    },
+    {
+      "keyword": "진로연계교육",
+      "composite": 0.0443,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0219,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.127
+    },
+    {
+      "keyword": "핸드트레일링",
+      "composite": 0.0433,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0168,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.126
+    },
+    {
+      "keyword": "상부보호법",
+      "composite": 0.0431,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0162,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.126
+    },
+    {
+      "keyword": "랜드마크",
+      "composite": 0.0431,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.1273,
+      "recency": 0.0162,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 2,
+      "probability2027": 0.126
+    },
+    {
+      "keyword": "수신기",
+      "composite": 0.0359,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0909,
+      "recency": 0.0254,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.122
+    },
+    {
+      "keyword": "전극",
+      "composite": 0.0359,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0909,
+      "recency": 0.0254,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.122
+    },
+    {
+      "keyword": "중재반응모델",
+      "composite": 0.0359,
+      "frequency": 0.0133,
+      "pointWeight": 0.0158,
+      "continuity": 0.0909,
+      "recency": 0.0254,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.122
+    },
+    {
+      "keyword": "다운증후군",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "프래더-윌리",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "프래더윌리",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "윌리엄스",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "구문론",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "평균발화길이",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "자기교수",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "자기교수법",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "시뮬레이션",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "가위자세",
+      "composite": 0.0293,
+      "frequency": 0.0067,
+      "pointWeight": 0.0079,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.118
+    },
+    {
+      "keyword": "2015개정",
+      "composite": 0.1942,
+      "frequency": 0.18,
+      "pointWeight": 0.1861,
+      "continuity": 0.2545,
+      "recency": 0.1488,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 7,
+      "probability2027": 0.117
+    },
+    {
+      "keyword": "할펀",
+      "composite": 0.0281,
+      "frequency": 0.0067,
+      "pointWeight": 0.004,
+      "continuity": 0.0909,
+      "recency": 0.0127,
+      "in2025": false,
+      "in2026": true,
+      "consecutiveYears": 1,
+      "totalYears": 1,
+      "probability2027": 0.117
+    },
+    {
+      "keyword": "주의",
+      "composite": 0.1874,
+      "frequency": 0.1533,
+      "pointWeight": 0.1921,
+      "continuity": 0.2545,
+      "recency": 0.1389,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 7,
+      "probability2027": 0.112
+    },
+    {
+      "keyword": "dB",
+      "composite": 0.1695,
+      "frequency": 0.1333,
+      "pointWeight": 0.1545,
+      "continuity": 0.2545,
+      "recency": 0.1311,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 7,
+      "probability2027": 0.102
+    },
+    {
+      "keyword": "유지",
+      "composite": 0.1661,
+      "frequency": 0.1133,
+      "pointWeight": 0.1584,
+      "continuity": 0.2909,
+      "recency": 0.0877,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 8,
+      "probability2027": 0.1
+    },
+    {
+      "keyword": "평가방법",
+      "composite": 0.1538,
+      "frequency": 0.12,
+      "pointWeight": 0.1307,
+      "continuity": 0.2545,
+      "recency": 0.1049,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 7,
+      "probability2027": 0.092
+    },
+    {
+      "keyword": "경직형",
+      "composite": 0.1425,
+      "frequency": 0.1,
+      "pointWeight": 0.1228,
+      "continuity": 0.2545,
+      "recency": 0.0854,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 7,
+      "probability2027": 0.085
+    },
+    {
+      "keyword": "개별화교육",
+      "composite": 0.1146,
+      "frequency": 0.0867,
+      "pointWeight": 0.0931,
+      "continuity": 0.1818,
+      "recency": 0.0979,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 5,
+      "probability2027": 0.069
+    },
+    {
+      "keyword": "묵자",
+      "composite": 0.1098,
+      "frequency": 0.0733,
+      "pointWeight": 0.0891,
+      "continuity": 0.2182,
+      "recency": 0.0511,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 6,
+      "probability2027": 0.066
+    },
+    {
+      "keyword": "시행령",
+      "composite": 0.1093,
+      "frequency": 0.0733,
+      "pointWeight": 0.0673,
+      "continuity": 0.2182,
+      "recency": 0.0809,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 6,
+      "probability2027": 0.066
+    },
+    {
+      "keyword": "청력검사",
+      "composite": 0.0939,
+      "frequency": 0.0667,
+      "pointWeight": 0.0673,
+      "continuity": 0.1818,
+      "recency": 0.0581,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 5,
+      "probability2027": 0.056
+    },
+    {
+      "keyword": "병원학교",
+      "composite": 0.0911,
+      "frequency": 0.08,
+      "pointWeight": 0.0634,
+      "continuity": 0.1455,
+      "recency": 0.0786,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 4,
+      "probability2027": 0.055
+    },
+    {
+      "keyword": "원시반사",
+      "composite": 0.0905,
+      "frequency": 0.0533,
+      "pointWeight": 0.0693,
+      "continuity": 0.1818,
+      "recency": 0.0548,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 5,
+      "probability2027": 0.054
+    },
+    {
+      "keyword": "시야",
+      "composite": 0.0804,
+      "frequency": 0.0533,
+      "pointWeight": 0.0653,
+      "continuity": 0.1455,
+      "recency": 0.0553,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 4,
+      "probability2027": 0.048
+    },
+    {
+      "keyword": "순회교육",
+      "composite": 0.0789,
+      "frequency": 0.06,
+      "pointWeight": 0.0396,
+      "continuity": 0.1455,
+      "recency": 0.0784,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 4,
+      "probability2027": 0.047
+    },
+    {
+      "keyword": "청력도",
+      "composite": 0.0769,
+      "frequency": 0.0533,
+      "pointWeight": 0.0614,
+      "continuity": 0.1455,
+      "recency": 0.044,
+      "in2025": true,
+      "in2026": false,
+      "consecutiveYears": 0,
+      "totalYears": 4,
+      "probability2027": 0.046
+    }
+  ],
+  "clusters": {
+    "fillIn2pt": {
+      "특수교육법": 19,
+      "장애인등에대한특수교육법": 18,
+      "시행령": 5,
+      "발화": 1,
+      "지적장애": 9,
+      "선정": 19,
+      "자기점검": 2,
+      "주의": 3,
+      "타당도": 5,
+      "화상키보드": 5,
+      "접근": 10,
+      "근긴장도": 1,
+      "시력": 1,
+      "유지": 3,
+      "청능훈련": 2,
+      "청각장애": 6,
+      "인공와우": 1,
+      "보청기": 1,
+      "의사소통": 12,
+      "특수학급": 9,
+      "개별화교육": 3,
+      "개별화교육지원팀": 2,
+      "일치도": 3,
+      "관찰자간일치도": 3,
+      "주시": 6,
+      "전환교육": 4,
+      "SIS": 1,
+      "병원학교": 8,
+      "건강장애": 16,
+      "자폐": 6,
+      "자폐스펙트럼": 1,
+      "학습장애": 10,
+      "시각장애": 5,
+      "점자": 2,
+      "보조공학": 5,
+      "통합교육": 6,
+      "교육과정": 45,
+      "교육과정운영": 2,
+      "교육과정편성": 14,
+      "2015개정": 7,
+      "특수학교": 12,
+      "평가방법": 5,
+      "K-WISC": 1,
+      "규준참조": 1,
+      "대안평가": 1,
+      "직업교육": 11,
+      "특수교육지원센터": 8,
+      "배치": 9,
+      "직업재활": 2,
+      "직업평가": 5,
+      "순회교육": 8,
+      "사회성": 3,
+      "평가조정": 1,
+      "특수교육운영위원회": 6,
+      "중복장애": 3,
+      "선택중심교육과정": 3,
+      "전문교과": 4,
+      "진단": 10,
+      "통합학급": 16,
+      "고정": 1,
+      "교수방법": 2,
+      "표준화검사": 2,
+      "단서": 1,
+      "강화": 5,
+      "DRL": 2,
+      "자폐성장애": 1,
+      "차별강화": 1,
+      "성취기준": 3,
+      "기본교육과정": 4,
+      "불일치모델": 1,
+      "선별": 1,
+      "시행규칙": 2,
+      "중도중복장애": 1,
+      "사회적기술": 1,
+      "의사소통장애": 1,
+      "지체장애": 1,
+      "안전": 1,
+      "강화계획": 1,
+      "dB": 2,
+      "청력검사": 3,
+      "어음명료도": 1,
+      "DRA": 2,
+      "2022개정": 8,
+      "학교스포츠클럽": 1,
+      "RTI": 1,
+      "AAC": 1,
+      "보완대체의사소통": 1,
+      "보완대체": 1,
+      "청력도": 2,
+      "지원고용": 2,
+      "회피": 2,
+      "할펀": 1,
+      "인지전략": 3
+    },
+    "essay4pt": {
+      "의사소통": 61,
+      "뇌성마비": 32,
+      "경직형": 15,
+      "편마비": 2,
+      "수행수준": 4,
+      "교육과정": 105,
+      "중복장애": 23,
+      "환경중심언어중재": 3,
+      "기본교육과정": 15,
+      "발화": 35,
+      "강화된환경중심": 2,
+      "강화": 33,
+      "접근": 22,
+      "통합학급": 94,
+      "학습장애": 16,
+      "단서": 17,
+      "직접교수": 2,
+      "청각장애": 24,
+      "청력검사": 7,
+      "배치": 8,
+      "자폐성장애": 30,
+      "자폐": 31,
+      "청력도": 6,
+      "순음청력검사": 4,
+      "4분법": 1,
+      "인공와우": 9,
+      "보청기": 22,
+      "독화": 10,
+      "선별": 3,
+      "시각장애": 35,
+      "시력": 33,
+      "묵자": 11,
+      "점자": 77,
+      "보행훈련": 7,
+      "지문자": 18,
+      "평가방법": 13,
+      "사회적기술": 2,
+      "사회성": 11,
+      "사회적상호작용": 2,
+      "공통교육과정": 4,
+      "특수학교": 42,
+      "약자": 8,
+      "선정": 26,
+      "지수": 17,
+      "근긴장도": 4,
+      "유지": 14,
+      "특수학급": 12,
+      "자발화": 9,
+      "IEP": 2,
+      "전환계획": 5,
+      "개별화교육": 10,
+      "개별화교육계획": 7,
+      "지원고용": 2,
+      "경쟁고용": 1,
+      "개인중심계획": 1,
+      "PCP": 1,
+      "협력교수": 5,
+      "스테이션": 2,
+      "자기점검": 4,
+      "지체장애": 14,
+      "GMFCS": 6,
+      "사지마비": 2,
+      "DRI": 1,
+      "주의": 20,
+      "CBI": 1,
+      "차별강화": 5,
+      "음운론": 2,
+      "자기조절": 4,
+      "인지전략": 4,
+      "시야": 8,
+      "SIS": 5,
+      "또래지원": 1,
+      "지적장애": 41,
+      "교육과정편성": 14,
+      "2015개정": 20,
+      "보조공학": 22,
+      "진단": 40,
+      "관찰기록": 22,
+      "긍정적행동지원": 3,
+      "AAC": 10,
+      "특수교육지원센터": 7,
+      "대발작": 1,
+      "통합교육": 13,
+      "자폐스펙트럼": 1,
+      "반향어": 1,
+      "TAI": 3,
+      "팀보조개별학습": 3,
+      "교수적합화": 2,
+      "STNR": 3,
+      "방향정위": 9,
+      "안내법": 4,
+      "지팡이보행": 2,
+      "상부보호법": 2,
+      "하부보호법": 1,
+      "랜드마크": 2,
+      "행동연쇄": 3,
+      "촉구": 2,
+      "용암": 3,
+      "dB": 18,
+      "6분법": 2,
+      "일반화": 19,
+      "주시": 16,
+      "교수방법": 4,
+      "자극일반화": 1,
+      "반응일반화": 1,
+      "범교과학습주제": 3,
+      "안전": 7,
+      "핸드트레일링": 2,
+      "사회적타당도": 2,
+      "표준화검사": 1,
+      "타당도": 2,
+      "공동관심": 5,
+      "EMT": 5,
+      "기능적행동평가": 1,
+      "자기결정": 4,
+      "수어": 33,
+      "직업교육": 7,
+      "스위치": 20,
+      "점자정보단말기": 9,
+      "광각": 4,
+      "원시반사": 8,
+      "무정위운동형": 2,
+      "시간지연": 1,
+      "DTT": 1,
+      "PRT": 4,
+      "중심축반응훈련": 2,
+      "교수적수정": 10,
+      "보편적학습설계": 6,
+      "파워카드": 2,
+      "복식학급": 1,
+      "보완대체의사소통": 3,
+      "보완대체": 3,
+      "K-WISC": 10,
+      "건강장애": 26,
+      "순회교육": 1,
+      "원격수업": 2,
+      "강화계획": 3,
+      "토큰": 2,
+      "교수-지원": 1,
+      "지역사회중심교수": 3,
+      "포트폴리오": 1,
+      "간질": 1,
+      "고정": 5,
+      "행동계약": 5,
+      "어음청취역치": 3,
+      "어음명료도": 5,
+      "성취기준": 3,
+      "전환평가": 6,
+      "전환교육": 1,
+      "회피": 2,
+      "구조화된교수": 2,
+      "TEACCH": 1,
+      "선행사건": 3,
+      "후속결과": 3,
+      "잔존청력": 1,
+      "학교스포츠클럽": 8,
+      "자유학기제": 1,
+      "ABA": 3,
+      "DRO": 1,
+      "CBM": 2,
+      "교육과정중심측정": 1,
+      "일치도": 2,
+      "CAI": 7,
+      "웹접근성": 1,
+      "선택중심교육과정": 4,
+      "도피": 1,
+      "전문교과": 2,
+      "수동": 2,
+      "ATNR": 2,
+      "청능훈련": 5,
+      "스캐닝": 5,
+      "기능적의사소통": 1,
+      "배경사건": 1,
+      "사회상황이야기": 4,
+      "DRA": 1,
+      "병원학교": 4,
+      "특수교육법": 11,
+      "장애인등에대한특수교육법": 11,
+      "시행규칙": 2,
+      "특수교육운영위원회": 1,
+      "진단평가": 1,
+      "의사소통장애": 3,
+      "간격기록": 6,
+      "교육과정운영": 6,
+      "규준참조": 1,
+      "중도중복장애": 5,
+      "시행령": 6,
+      "평가조정": 7,
+      "2022개정": 6,
+      "직업재활": 1,
+      "추적": 1,
+      "자기옹호": 4,
+      "진로연계교육": 2,
+      "비디오모델링": 3,
+      "개별화교육지원팀": 3,
+      "시기능": 4,
+      "POW": 2,
+      "WWW": 2,
+      "관찰학습": 4,
+      "자연적지원": 3,
+      "반두라": 1,
+      "재생": 1,
+      "동기화": 1,
+      "초학문적": 1,
+      "구문론": 1,
+      "평균발화길이": 1,
+      "중재반응모델": 2,
+      "수신기": 2,
+      "전극": 2,
+      "가위자세": 1,
+      "시뮬레이션": 1,
+      "자기교수": 1,
+      "자기교수법": 1,
+      "DRL": 3,
+      "다운증후군": 1,
+      "프래더-윌리": 1,
+      "프래더윌리": 1,
+      "윌리엄스": 1
+    }
+  },
+  "trends": {
+    "지적장애": {
+      "slope": 0.427,
+      "direction": "↑ 상승"
+    },
+    "자폐성장애": {
+      "slope": 0.009,
+      "direction": "→ 안정"
+    },
+    "자폐": {
+      "slope": 0.064,
+      "direction": "→ 안정"
+    },
+    "청각장애": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "시각장애": {
+      "slope": 0.136,
+      "direction": "↗ 소폭 상승"
+    },
+    "학습장애": {
+      "slope": 0.136,
+      "direction": "↗ 소폭 상승"
+    },
+    "중복장애": {
+      "slope": -0.191,
+      "direction": "↘ 소폭 하락"
+    },
+    "뇌성마비": {
+      "slope": -0.164,
+      "direction": "↘ 소폭 하락"
+    },
+    "경직형": {
+      "slope": -0.091,
+      "direction": "→ 안정"
+    },
+    "근긴장도": {
+      "slope": -0.127,
+      "direction": "↘ 소폭 하락"
+    },
+    "편마비": {
+      "slope": -0.073,
+      "direction": "→ 안정"
+    },
+    "점자": {
+      "slope": 0.018,
+      "direction": "→ 안정"
+    },
+    "약자": {
+      "slope": -0.209,
+      "direction": "↘ 소폭 하락"
+    },
+    "묵자": {
+      "slope": -0.209,
+      "direction": "↘ 소폭 하락"
+    },
+    "보행훈련": {
+      "slope": -0.136,
+      "direction": "↘ 소폭 하락"
+    },
+    "단서": {
+      "slope": -0.145,
+      "direction": "↘ 소폭 하락"
+    },
+    "시력": {
+      "slope": 0.027,
+      "direction": "→ 안정"
+    },
+    "지수": {
+      "slope": 0.373,
+      "direction": "↑ 상승"
+    },
+    "청력도": {
+      "slope": -0.073,
+      "direction": "→ 안정"
+    },
+    "청력검사": {
+      "slope": -0.082,
+      "direction": "→ 안정"
+    },
+    "순음청력검사": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "4분법": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "인공와우": {
+      "slope": 0.164,
+      "direction": "↗ 소폭 상승"
+    },
+    "보청기": {
+      "slope": 0.482,
+      "direction": "↑ 상승"
+    },
+    "지문자": {
+      "slope": 0.364,
+      "direction": "↑ 상승"
+    },
+    "독화": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "청능훈련": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "의사소통": {
+      "slope": 0.736,
+      "direction": "↑ 상승"
+    },
+    "자발화": {
+      "slope": 0.318,
+      "direction": "↑ 상승"
+    },
+    "발화": {
+      "slope": 0.655,
+      "direction": "↑ 상승"
+    },
+    "환경중심언어중재": {
+      "slope": -0.055,
+      "direction": "→ 안정"
+    },
+    "강화된환경중심": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "강화": {
+      "slope": 0.4,
+      "direction": "↑ 상승"
+    },
+    "자기점검": {
+      "slope": -0.227,
+      "direction": "↘ 소폭 하락"
+    },
+    "접근": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "직접교수": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "주의": {
+      "slope": -0.118,
+      "direction": "↘ 소폭 하락"
+    },
+    "평가방법": {
+      "slope": -0.073,
+      "direction": "→ 안정"
+    },
+    "화상키보드": {
+      "slope": -0.227,
+      "direction": "↘ 소폭 하락"
+    },
+    "교육과정": {
+      "slope": 0.418,
+      "direction": "↑ 상승"
+    },
+    "기본교육과정": {
+      "slope": -0.209,
+      "direction": "↘ 소폭 하락"
+    },
+    "공통교육과정": {
+      "slope": -0.064,
+      "direction": "→ 안정"
+    },
+    "개별화교육": {
+      "slope": 0.118,
+      "direction": "↗ 소폭 상승"
+    },
+    "IEP": {
+      "slope": -0.091,
+      "direction": "→ 안정"
+    },
+    "개별화교육계획": {
+      "slope": 0.073,
+      "direction": "→ 안정"
+    },
+    "타당도": {
+      "slope": -0.145,
+      "direction": "↘ 소폭 하락"
+    },
+    "선별": {
+      "slope": -0.064,
+      "direction": "→ 안정"
+    },
+    "수행수준": {
+      "slope": -0.091,
+      "direction": "→ 안정"
+    },
+    "통합학급": {
+      "slope": 0.309,
+      "direction": "↑ 상승"
+    },
+    "협력교수": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "스테이션": {
+      "slope": -0.091,
+      "direction": "→ 안정"
+    },
+    "전환계획": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "지원고용": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "경쟁고용": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "개인중심계획": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "PCP": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "유지": {
+      "slope": -0.173,
+      "direction": "↘ 소폭 하락"
+    },
+    "특수교육법": {
+      "slope": 0.255,
+      "direction": "↗ 소폭 상승"
+    },
+    "장애인등에대한특수교육법": {
+      "slope": 0.282,
+      "direction": "↗ 소폭 상승"
+    },
+    "시행령": {
+      "slope": 0.118,
+      "direction": "↗ 소폭 상승"
+    },
+    "특수학급": {
+      "slope": 0.155,
+      "direction": "↗ 소폭 상승"
+    },
+    "특수학교": {
+      "slope": 0.9,
+      "direction": "↑ 상승"
+    },
+    "배치": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "선정": {
+      "slope": 0.018,
+      "direction": "→ 안정"
+    },
+    "사회적기술": {
+      "slope": -0.082,
+      "direction": "→ 안정"
+    },
+    "사회성": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "사회적상호작용": {
+      "slope": -0.055,
+      "direction": "→ 안정"
+    },
+    "지체장애": {
+      "slope": 0.145,
+      "direction": "↗ 소폭 상승"
+    },
+    "GMFCS": {
+      "slope": 0.1,
+      "direction": "→ 안정"
+    },
+    "사지마비": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "시야": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "음운론": {
+      "slope": -0.055,
+      "direction": "→ 안정"
+    },
+    "차별강화": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "DRI": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "자기조절": {
+      "slope": -0.145,
+      "direction": "↘ 소폭 하락"
+    },
+    "인지전략": {
+      "slope": 0.082,
+      "direction": "→ 안정"
+    },
+    "SIS": {
+      "slope": 0.018,
+      "direction": "→ 안정"
+    },
+    "또래지원": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "CBI": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "자폐스펙트럼": {
+      "slope": -0.055,
+      "direction": "→ 안정"
+    },
+    "건강장애": {
+      "slope": 0.436,
+      "direction": "↑ 상승"
+    },
+    "대발작": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "방향정위": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "지팡이보행": {
+      "slope": -0.018,
+      "direction": "→ 안정"
+    },
+    "안내법": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "상부보호법": {
+      "slope": 0.018,
+      "direction": "→ 안정"
+    },
+    "하부보호법": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "랜드마크": {
+      "slope": 0.018,
+      "direction": "→ 안정"
+    },
+    "주시": {
+      "slope": 0.127,
+      "direction": "↗ 소폭 상승"
+    },
+    "6분법": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "dB": {
+      "slope": 0.1,
+      "direction": "→ 안정"
+    },
+    "AAC": {
+      "slope": 0.164,
+      "direction": "↗ 소폭 상승"
+    },
+    "반향어": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "행동연쇄": {
+      "slope": -0.064,
+      "direction": "→ 안정"
+    },
+    "촉구": {
+      "slope": -0.055,
+      "direction": "→ 안정"
+    },
+    "용암": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "긍정적행동지원": {
+      "slope": -0.064,
+      "direction": "→ 안정"
+    },
+    "TAI": {
+      "slope": 0.064,
+      "direction": "→ 안정"
+    },
+    "팀보조개별학습": {
+      "slope": 0.064,
+      "direction": "→ 안정"
+    },
+    "교수적합화": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "교수방법": {
+      "slope": 0.082,
+      "direction": "→ 안정"
+    },
+    "보조공학": {
+      "slope": 0.364,
+      "direction": "↑ 상승"
+    },
+    "교육과정편성": {
+      "slope": 0.336,
+      "direction": "↑ 상승"
+    },
+    "개별화교육지원팀": {
+      "slope": 0.064,
+      "direction": "→ 안정"
+    },
+    "2015개정": {
+      "slope": -0.091,
+      "direction": "→ 안정"
+    },
+    "관찰기록": {
+      "slope": 0.182,
+      "direction": "↗ 소폭 상승"
+    },
+    "일치도": {
+      "slope": -0.082,
+      "direction": "→ 안정"
+    },
+    "관찰자간일치도": {
+      "slope": -0.082,
+      "direction": "→ 안정"
+    },
+    "진단": {
+      "slope": 0.791,
+      "direction": "↑ 상승"
+    },
+    "통합교육": {
+      "slope": -0.155,
+      "direction": "↘ 소폭 하락"
+    },
+    "전환교육": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "일반화": {
+      "slope": 0.073,
+      "direction": "→ 안정"
+    },
+    "자극일반화": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "반응일반화": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "특수교육지원센터": {
+      "slope": 0.082,
+      "direction": "→ 안정"
+    },
+    "병원학교": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "STNR": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "무정위운동형": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "원시반사": {
+      "slope": 0.055,
+      "direction": "→ 안정"
+    },
+    "점자정보단말기": {
+      "slope": 0.073,
+      "direction": "→ 안정"
+    },
+    "핸드트레일링": {
+      "slope": 0.027,
+      "direction": "→ 안정"
+    },
+    "광각": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "안전": {
+      "slope": 0.191,
+      "direction": "↗ 소폭 상승"
+    },
+    "수어": {
+      "slope": 0.173,
+      "direction": "↗ 소폭 상승"
+    },
+    "EMT": {
+      "slope": -0.036,
+      "direction": "→ 안정"
+    },
+    "시간지연": {
+      "slope": -0.018,
+      "direction": "→ 안정"
+    },
+    "기능적행동평가": {
+      "slope": -0.018,
+      "direction": "→ 안정"
+    },
+    "사회적타당도": {
+      "slope": 0.009,
+      "direction": "→ 안정"
+    },
+    "DTT": {
+      "slope": -0.018,
+      "direction": "→ 안정"
+    },
+    "PRT": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "중심축반응훈련": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "교수적수정": {
+      "slope": -0.136,
+      "direction": "↘ 소폭 하락"
+    },
+    "스위치": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "교육과정운영": {
+      "slope": 0.145,
+      "direction": "↗ 소폭 상승"
+    },
+    "범교과학습주제": {
+      "slope": -0.055,
+      "direction": "→ 안정"
+    },
+    "K-WISC": {
+      "slope": 0.164,
+      "direction": "↗ 소폭 상승"
+    },
+    "규준참조": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "표준화검사": {
+      "slope": -0.018,
+      "direction": "→ 안정"
+    },
+    "대안평가": {
+      "slope": -0.018,
+      "direction": "→ 안정"
+    },
+    "평가조정": {
+      "slope": 0.191,
+      "direction": "↗ 소폭 상승"
+    },
+    "보편적학습설계": {
+      "slope": 0.055,
+      "direction": "→ 안정"
+    },
+    "자기결정": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "직업교육": {
+      "slope": 0.064,
+      "direction": "→ 안정"
+    },
+    "직업재활": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "직업평가": {
+      "slope": 0.091,
+      "direction": "→ 안정"
+    },
+    "순회교육": {
+      "slope": 0.191,
+      "direction": "↗ 소폭 상승"
+    },
+    "공동관심": {
+      "slope": -0.091,
+      "direction": "→ 안정"
+    },
+    "간질": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "고정": {
+      "slope": 0.091,
+      "direction": "→ 안정"
+    },
+    "어음청취역치": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "어음명료도": {
+      "slope": 0.018,
+      "direction": "→ 안정"
+    },
+    "보완대체의사소통": {
+      "slope": 0.064,
+      "direction": "→ 안정"
+    },
+    "보완대체": {
+      "slope": 0.064,
+      "direction": "→ 안정"
+    },
+    "강화계획": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "토큰": {
+      "slope": 0.018,
+      "direction": "→ 안정"
+    },
+    "행동계약": {
+      "slope": -0.045,
+      "direction": "→ 안정"
+    },
+    "파워카드": {
+      "slope": -0.018,
+      "direction": "→ 안정"
+    },
+    "선택중심교육과정": {
+      "slope": 0.109,
+      "direction": "↗ 소폭 상승"
+    },
+    "복식학급": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "전문교과": {
+      "slope": 0.136,
+      "direction": "↗ 소폭 상승"
+    },
+    "포트폴리오": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "교수-지원": {
+      "slope": -0.009,
+      "direction": "→ 안정"
+    },
+    "지역사회중심교수": {
+      "slope": -0.027,
+      "direction": "→ 안정"
+    },
+    "특수교육운영위원회": {
+      "slope": 0.091,
+      "direction": "→ 안정"
+    },
+    "원격수업": {
+      "slope": 0.009,
+      "direction": "→ 안정"
+    },
+    "잔존청력": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "ABA": {
+      "slope": 0.073,
+      "direction": "→ 안정"
+    },
+    "DRL": {
+      "slope": 0.136,
+      "direction": "↗ 소폭 상승"
+    },
+    "DRO": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "선행사건": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "후속결과": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "회피": {
+      "slope": 0.1,
+      "direction": "→ 안정"
+    },
+    "TEACCH": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "구조화된교수": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "CAI": {
+      "slope": 0.136,
+      "direction": "↗ 소폭 상승"
+    },
+    "성취기준": {
+      "slope": 0.055,
+      "direction": "→ 안정"
+    },
+    "자유학기제": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "학교스포츠클럽": {
+      "slope": 0.209,
+      "direction": "↗ 소폭 상승"
+    },
+    "CBM": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "교육과정중심측정": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "불일치모델": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "전환평가": {
+      "slope": 0.055,
+      "direction": "→ 안정"
+    },
+    "시행규칙": {
+      "slope": 0.091,
+      "direction": "→ 안정"
+    },
+    "웹접근성": {
+      "slope": 0,
+      "direction": "→ 안정"
+    },
+    "의사소통장애": {
+      "slope": 0.1,
+      "direction": "→ 안정"
+    },
+    "중도중복장애": {
+      "slope": 0.1,
+      "direction": "→ 안정"
+    },
+    "수동": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "기능적의사소통": {
+      "slope": 0.009,
+      "direction": "→ 안정"
+    },
+    "DRA": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "배경사건": {
+      "slope": 0.009,
+      "direction": "→ 안정"
+    },
+    "도피": {
+      "slope": 0.009,
+      "direction": "→ 안정"
+    },
+    "사회상황이야기": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "스캐닝": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "진단평가": {
+      "slope": 0.009,
+      "direction": "→ 안정"
+    },
+    "ATNR": {
+      "slope": 0.027,
+      "direction": "→ 안정"
+    },
+    "간격기록": {
+      "slope": 0.109,
+      "direction": "↗ 소폭 상승"
+    },
+    "추적": {
+      "slope": 0.027,
+      "direction": "→ 안정"
+    },
+    "비디오모델링": {
+      "slope": 0.082,
+      "direction": "→ 안정"
+    },
+    "2022개정": {
+      "slope": 0.482,
+      "direction": "↑ 상승"
+    },
+    "RTI": {
+      "slope": 0.027,
+      "direction": "→ 안정"
+    },
+    "자기옹호": {
+      "slope": 0.136,
+      "direction": "↗ 소폭 상승"
+    },
+    "진로연계교육": {
+      "slope": 0.073,
+      "direction": "→ 안정"
+    },
+    "시기능": {
+      "slope": 0.145,
+      "direction": "↗ 소폭 상승"
+    },
+    "관찰학습": {
+      "slope": 0.145,
+      "direction": "↗ 소폭 상승"
+    },
+    "반두라": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "재생": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "동기화": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "POW": {
+      "slope": 0.073,
+      "direction": "→ 안정"
+    },
+    "WWW": {
+      "slope": 0.073,
+      "direction": "→ 안정"
+    },
+    "초학문적": {
+      "slope": 0.036,
+      "direction": "→ 안정"
+    },
+    "자연적지원": {
+      "slope": 0.109,
+      "direction": "↗ 소폭 상승"
+    },
+    "다운증후군": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "프래더-윌리": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "프래더윌리": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "윌리엄스": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "수신기": {
+      "slope": 0.091,
+      "direction": "→ 안정"
+    },
+    "전극": {
+      "slope": 0.091,
+      "direction": "→ 안정"
+    },
+    "구문론": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "평균발화길이": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "자기교수": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "자기교수법": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "시뮬레이션": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "중재반응모델": {
+      "slope": 0.091,
+      "direction": "→ 안정"
+    },
+    "할펀": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    },
+    "가위자세": {
+      "slope": 0.045,
+      "direction": "→ 안정"
+    }
+  }
+}

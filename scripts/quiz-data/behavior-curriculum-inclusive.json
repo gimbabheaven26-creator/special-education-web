@@ -1,0 +1,338 @@
+[
+  {
+    "id": "bs-q31",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "fill_in",
+    "question": "DRL(낮은 비율의 차별강화)에서 반응간 시간(IRT) 기반 DRL을 적용할 때, 학생이 수업 중 질문 행동을 1시간에 20회 보이고 있다. 목표를 1시간에 10회로 줄이려면, IRT 타이머를 최소 ( )분으로 설정해야 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "6",
+    "explanation": "IRT 기반 DRL에서 타이머 설정은 '목표 시간 ÷ 목표 반응 수'로 계산합니다. 60분 ÷ 10회 = 6분. 즉, 이전 반응 후 최소 6분이 경과한 뒤에 나타난 반응만 강화합니다. DRL은 행동을 완전히 제거하지 않고 적절한 수준으로 감소시킬 때 사용합니다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "bs-q32",
+    "subject": "behavior-support",
+    "chapter": "strategies",
+    "type": "descriptive",
+    "question": "자기교수법(self-instruction)의 5단계를 순서대로 나열하고, 각 단계에서 교사와 학생의 역할을 설명하시오.",
+    "case_context": "초등학교 특수학급의 박 교사는 ADHD 학생에게 수학 문장제 풀이 시 자기교수법을 적용하려 한다. 학생은 문제를 읽지 않고 바로 숫자만 보고 연산하는 경향이 있다.",
+    "options": null,
+    "answer": "[모범 답안]\n\n자기교수법 5단계:\n\n1단계. 인지적 모델링(cognitive modeling)\n- 교사가 과제를 수행하면서 자기교수 내용을 소리 내어 말함\n- 학생은 교사의 시범을 관찰\n\n2단계. 외현적 외적 안내(overt external guidance)\n- 학생이 과제를 수행하면서 교사가 언어적으로 안내함\n- 교사가 자기교수 내용을 말해주고 학생이 따라 수행\n\n3단계. 외현적 자기 안내(overt self-guidance)\n- 학생이 스스로 소리 내어 자기교수를 말하면서 과제 수행\n- 교사는 필요시 교정적 피드백 제공\n\n4단계. 약화된 자기 안내(faded self-guidance)\n- 학생이 속삭이며 자기교수를 말하면서 과제 수행\n- 외현적 언어가 점차 약화됨\n\n5단계. 내현적 자기교수(covert self-instruction)\n- 학생이 마음속으로 자기교수를 하면서 독립적으로 과제 수행\n- 교사 지원 없이 자기조절적으로 수행",
+    "explanation": "Meichenbaum의 자기교수법은 교사의 외적 언어 통제가 점진적으로 학생의 내적 언어 통제로 전이되는 과정입니다. 인지적 모델링→외현적 외적 안내→외현적 자기 안내→약화된 자기 안내→내현적 자기교수의 5단계로 구성되며, ADHD, 학습장애 학생의 충동성 조절과 과제 수행 전략 습득에 효과적입니다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "ADHD"
+    }
+  },
+  {
+    "id": "bs-q33",
+    "subject": "behavior-support",
+    "chapter": "assessment",
+    "type": "ox",
+    "question": "기초선 자료 수집 시, 자료의 경향이 불안정하더라도 최소 3회 이상 측정하였다면 중재를 시작해도 된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "기초선 자료는 안정적 경향(stable trend)을 보일 때까지 수집해야 합니다. 단순히 측정 횟수가 아니라, 자료의 수준(level)과 경향(trend)이 안정적이어야 중재 효과를 비교할 수 있는 기준점이 됩니다. 불안정한 기초선에서 중재를 시작하면 행동 변화가 중재 때문인지 자연적 변동인지 판단할 수 없습니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "bs-q34",
+    "subject": "behavior-support",
+    "chapter": "strategies",
+    "type": "fill_in",
+    "question": "토큰경제의 구성요소 3가지는 ( ㉠ ), ( ㉡ ), ( ㉢ )이다. ㉠은 목표행동 수행 시 즉시 제공되는 조건강화제이고, ㉡은 토큰과 교환할 수 있는 활동이나 물건이며, ㉢은 토큰과 후원강화제의 교환 기준이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "토큰(token) / 후원강화제(backup reinforcer) / 교환비율(exchange rate)",
+    "explanation": "토큰경제는 ①토큰(조건강화제로서 즉각 제공), ②후원강화제(토큰으로 교환 가능한 실제 강화제), ③교환비율(몇 개의 토큰으로 후원강화제를 교환하는지)로 구성됩니다. 토큰은 일반화된 조건강화제로 기능하며, 포만(satiation)에 대한 저항력이 높다는 장점이 있습니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "bs-q35",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "multiple",
+    "question": "촉진(prompting) 위계에서 '최소 촉진법(least-to-most prompting)'의 올바른 순서는?",
+    "options": [
+      "신체적 촉진 → 모델링 → 언어적 촉진 → 제스처 촉진 → 자연적 단서",
+      "자연적 단서 → 언어적 촉진 → 제스처 촉진 → 모델링 → 신체적 촉진",
+      "자연적 단서 → 제스처 촉진 → 언어적 촉진 → 모델링 → 신체적 촉진",
+      "신체적 촉진 → 제스처 촉진 → 모델링 → 언어적 촉진 → 자연적 단서"
+    ],
+    "answer": 1,
+    "explanation": "최소 촉진법은 가장 적은 도움에서 시작하여 점차 강한 촉진으로 이동합니다. 자연적 단서 → 언어적 촉진 → 제스처 촉진 → 모델링 → 신체적 촉진 순서입니다. 이는 학습자의 독립성을 최대화하기 위한 전략으로, 학생이 최소한의 도움으로 반응할 기회를 먼저 제공합니다.",
+    "wrong_explanations": {
+      "0": "이것은 최대 촉진법(most-to-least)의 순서입니다.",
+      "2": "언어적 촉진과 제스처 촉진의 순서가 뒤바뀌었습니다. 언어적 촉진이 제스처보다 덜 침습적입니다.",
+      "3": "이것은 최대 촉진법의 순서이며, 언어적 촉진과 모델링의 위치도 정확하지 않습니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "bs-q36",
+    "subject": "behavior-support",
+    "chapter": "strategies",
+    "type": "fill_in",
+    "question": "과제분석 후 교수법 중, 과제의 마지막 단계부터 먼저 가르치고 나머지 단계는 교사가 수행해 주는 방법을 ( ㉠ )이라 하고, 모든 단계를 매 시행마다 연습하되 독립적으로 수행하지 못하는 단계에서 촉진을 제공하는 방법을 ( ㉡ )이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "후진연쇄법(backward chaining) / 총과제제시법(total task presentation)",
+    "explanation": "연쇄법에는 전진연쇄(첫 단계부터 순서대로), 후진연쇄(마지막 단계부터 역순으로), 총과제제시법(모든 단계를 매 시행마다 연습)이 있습니다. 후진연쇄는 과제 완성의 성취감을 빨리 경험하게 해주고, 총과제제시법은 과제의 전체 흐름을 매번 경험하게 해주는 장점이 있습니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "bs-q37",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "descriptive",
+    "question": "간헐강화 스케줄 4가지(FR, VR, FI, VI)를 비교하여 설명하고, 각 스케줄의 반응 패턴 특성을 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "[모범 답안]\n\n1. 고정비율(FR: Fixed Ratio)\n- 정해진 반응 횟수마다 강화 제공 (예: FR5 = 5회 반응 후 강화)\n- 반응 패턴: 강화 직후 짧은 휴지(post-reinforcement pause) 후 높은 비율로 반응\n\n2. 변동비율(VR: Variable Ratio)\n- 평균 반응 횟수를 기준으로 불규칙하게 강화 (예: VR5 = 평균 5회)\n- 반응 패턴: 높고 안정적인 반응률, 휴지 거의 없음, 소거 저항 가장 높음\n\n3. 고정간격(FI: Fixed Interval)\n- 정해진 시간 경과 후 첫 반응에 강화 (예: FI3분 = 3분 후 첫 반응)\n- 반응 패턴: 가리비 형태(scallop pattern), 간격 초반 낮은 반응→간격 말미 급증\n\n4. 변동간격(VI: Variable Interval)\n- 평균 시간 간격을 기준으로 불규칙하게 강화 (예: VI3분)\n- 반응 패턴: 낮지만 안정적인 반응률, 소거 저항 비교적 높음",
+    "explanation": "간헐강화 스케줄은 비율(ratio)과 간격(interval), 고정(fixed)과 변동(variable)의 조합으로 4가지입니다. 비율 스케줄이 간격 스케줄보다 높은 반응률을 산출하고, 변동 스케줄이 고정 스케줄보다 소거 저항이 높습니다. 임용고시에서 각 스케줄의 반응 패턴 그래프와 실제 사례를 연결하는 문제가 자주 출제됩니다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "cur-q31",
+    "subject": "curriculum",
+    "chapter": "theory",
+    "type": "fill_in",
+    "question": "2022 개정 특수교육 교육과정에서 초등학교 1~2학년은 ( ㉠ ) 교육과정, 고등학교 학생이 기본교육과정을 적용받을 경우 ( ㉡ ) 교육과정을 편성하며, 기본교육과정의 교과는 교과(군)별로 수업 시수의 ( ㉢ )% 범위 내에서 시수를 증감할 수 있다.",
+    "case_context": null,
+    "options": null,
+    "answer": "공통 / 기본 / 20",
+    "explanation": "2022 개정 교육과정에서 초1~2는 공통교육과정, 초3~고교는 공통·선택중심·기본교육과정 중 선택 가능합니다. 기본교육과정은 특수교육대상자를 위한 것으로, 교과(군)별 20% 범위 내 시수 증감이 가능하며, 이는 학생의 장애 특성과 요구에 맞춘 유연한 편성을 위함입니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "cur-q32",
+    "subject": "curriculum",
+    "chapter": "planning",
+    "type": "multiple",
+    "question": "다음 중 2022 개정 교육과정에서 제시하는 '범교과 학습 주제'에 해당하지 않는 것은?",
+    "options": [
+      "안전·건강 교육",
+      "인성 교육",
+      "경제·금융 교육",
+      "직업재활 교육"
+    ],
+    "answer": 3,
+    "explanation": "2022 개정 교육과정의 범교과 학습 주제에는 안전·건강, 인성, 진로, 민주시민, 인권, 다문화, 통일, 독도, 경제·금융, 환경·지속가능발전 등이 포함됩니다. '직업재활 교육'은 범교과 학습 주제가 아니라 특수교육 전환교육 영역에 해당합니다.",
+    "wrong_explanations": {
+      "0": "안전·건강 교육은 범교과 학습 주제에 포함됩니다.",
+      "1": "인성 교육은 범교과 학습 주제에 포함됩니다.",
+      "2": "경제·금융 교육은 2022 개정에서 새롭게 강조된 범교과 학습 주제입니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "cur-q33",
+    "subject": "curriculum",
+    "chapter": "theory",
+    "type": "descriptive",
+    "question": "컴퓨터 보조 수업(CAI)의 5가지 유형을 제시하고, 각 유형의 특징과 적합한 학습 장면을 설명하시오.",
+    "case_context": "특수학교 교사 이 모씨는 지적장애 학생들에게 수학 교과를 지도하기 위해 CAI를 활용하고자 한다.",
+    "options": null,
+    "answer": "[모범 답안]\n\nCAI 5가지 유형:\n\n1. 개인교수형(Tutorial)\n- 특징: 새로운 개념이나 원리를 단계적으로 제시하고 학습자의 반응에 따라 피드백 제공\n- 적합 장면: 새로운 수 개념(덧셈 원리) 도입 시\n\n2. 반복연습형(Drill and Practice)\n- 특징: 이미 학습한 내용을 반복 연습하여 자동화(유창성) 달성\n- 적합 장면: 구구단 암기, 기본 연산 유창성 훈련\n\n3. 시뮬레이션형(Simulation)\n- 특징: 실제 상황을 가상으로 재현하여 의사결정 연습\n- 적합 장면: 가상 마트에서 물건 구매하며 화폐 사용 연습\n\n4. 게임형(Instructional Game)\n- 특징: 게임 요소(경쟁, 보상)를 활용하여 학습 동기 유발\n- 적합 장면: 수 크기 비교 게임, 연산 속도 챌린지\n\n5. 문제해결형(Problem Solving)\n- 특징: 상위인지 전략을 활용한 복합적 문제 해결 과정\n- 적합 장면: 수학 문장제 해결 과정에서 전략 선택 연습",
+    "explanation": "CAI는 컴퓨터를 매개로 한 교수 방법으로, 학습 목적에 따라 5가지 유형으로 분류됩니다. 지적장애 학생에게는 즉각적 피드백과 반복 기회를 제공하는 반복연습형과 개인교수형이 특히 효과적이며, 시뮬레이션형은 일반화에 유리합니다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "지적장애"
+    }
+  },
+  {
+    "id": "cur-q34",
+    "subject": "curriculum",
+    "chapter": "planning",
+    "type": "fill_in",
+    "question": "보편적 학습설계(UDL)의 3가지 원리는 다양한 ( ㉠ ) 수단의 제공, 다양한 ( ㉡ ) 수단의 제공, 다양한 ( ㉢ ) 수단의 제공이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "표상(representation) / 행동과 표현(action and expression) / 참여(engagement)",
+    "explanation": "UDL(Universal Design for Learning)은 CAST에서 개발한 교육과정 설계 원리로, ①표상(정보 제시 방법의 다양화 - What), ②행동과 표현(학습 결과 표현 방법의 다양화 - How), ③참여(학습 동기 유발 방법의 다양화 - Why)의 3원리로 구성됩니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "cur-q35",
+    "subject": "curriculum",
+    "chapter": "planning",
+    "type": "ox",
+    "question": "교수적 수정(instructional modification)의 4요소는 교수환경, 교수방법, 교수내용, 평가방법이며, 이 중 교수내용 수정은 교육과정 자체를 변경하는 것이므로 통합학급에서는 적용할 수 없다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "교수적 수정의 4요소(교수환경, 교수방법, 교수내용, 평가방법)는 모두 통합학급에서 적용 가능합니다. 교수내용 수정은 교육과정 자체의 변경이 아니라, 학습량 조절, 내용의 난이도 조절, 대안적 교육과정 활용 등을 통해 동일한 교육과정 내에서 학생의 수준에 맞게 내용을 조정하는 것입니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "cur-q36",
+    "subject": "curriculum",
+    "chapter": "theory",
+    "type": "descriptive",
+    "question": "스키마 기반 교수(SBI)의 절차를 단계별로 설명하고, 학습장애 학생의 수학 문장제 해결에 SBI가 효과적인 이유를 서술하시오.",
+    "case_context": "학습장애 학생 민수는 수학 연산 능력은 보통 수준이나, 문장제 문제에서 어떤 연산을 적용해야 하는지 파악하지 못하여 정답률이 매우 낮다.",
+    "options": null,
+    "answer": "[모범 답안]\n\n1. SBI 절차\n① 문제 유형 파악: 문장제를 변화형(change), 집합형(group), 비교형(compare) 등으로 분류\n② 도식(schema) 선택: 문제 유형에 맞는 도식(그림/다이어그램)을 선택\n③ 도식에 정보 매핑: 문제에서 주어진 수량 정보를 도식에 배치\n④ 미지수 확인 및 연산 계획: 빈칸(미지수)을 확인하고 필요한 연산 결정\n⑤ 연산 수행 및 검증: 계산 후 문제로 돌아가 답의 합리성 확인\n\n2. 학습장애 학생에게 효과적인 이유\n- 문제의 의미적 구조를 시각적으로 표상하여 언어 이해 부담 감소\n- 문제 유형별 도식이 연산 선택의 단서를 제공\n- 반복 가능한 절차로 전략의 자동화와 일반화 촉진\n- 작업기억 부담을 외적 도식으로 분산",
+    "explanation": "SBI는 Jitendra 등이 개발한 교수법으로, 문장제의 의미적 구조(schema)를 파악하는 것에 초점을 둡니다. 학습장애 학생이 문장제에서 어려움을 겪는 주된 이유가 문제의 구조를 파악하지 못하는 것이므로, 도식을 통한 구조 파악이 연산 선택의 핵심 단서가 됩니다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "학습장애"
+    }
+  },
+  {
+    "id": "cur-q37",
+    "subject": "curriculum",
+    "chapter": "evaluation",
+    "type": "fill_in",
+    "question": "RAP 전략은 읽기 이해 전략으로, R은 ( ㉠ ), A는 ( ㉡ ), P는 ( ㉢ )을 의미한다. 이 전략은 ( ㉣ ) 장애 학생의 읽기 이해력 향상에 효과적이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "Read(읽기) / Ask(질문하기) / Paraphrase(자기 말로 바꾸기) / 학습",
+    "explanation": "RAP 전략은 Schumaker 등이 개발한 읽기 이해 전략으로, Read(단락 읽기) → Ask(주요 아이디어와 세부사항에 대해 자문하기) → Paraphrase(자기 말로 바꾸어 표현하기)의 3단계로 구성됩니다. 학습장애 학생의 읽기 이해, 특히 의미 파악과 정보 재구성 능력 향상에 효과적인 학습전략교수(learning strategy instruction)의 대표적 예입니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "학습장애"
+    }
+  },
+  {
+    "id": "inc-q31",
+    "subject": "inclusive-education",
+    "chapter": "practices",
+    "type": "descriptive",
+    "question": "협력교수(co-teaching)의 6가지 유형을 제시하고, 각 유형의 특징과 적용 상황을 설명하시오.",
+    "case_context": "통합학급 운영 시 일반교사와 특수교사가 협력교수를 실시하려 한다. 학급에는 학습장애 학생 2명, 지적장애 학생 1명이 통합되어 있다.",
+    "options": null,
+    "answer": "[모범 답안]\n\n협력교수 6유형:\n\n1. 교수-관찰(one teach, one observe)\n- 한 교사가 수업, 다른 교사가 특정 학생의 행동/학습 자료 수집\n- 적용: 학기 초 학생 관찰 및 기초선 자료 수집 시\n\n2. 교수-보조(one teach, one assist)\n- 한 교사가 수업, 다른 교사가 순회하며 개별 지원\n- 적용: 강의식 수업에서 특수교육대상학생에게 보조 제공 시\n\n3. 스테이션 교수(station teaching)\n- 학습 내용을 여러 영역으로 나누어 교사별 스테이션에서 교수\n- 적용: 수학 단원에서 연산, 문장제, 도형을 스테이션으로 운영 시\n\n4. 평행교수(parallel teaching)\n- 학급을 2그룹으로 나누어 동일 내용을 동시에 교수\n- 적용: 소그룹 토의, 실험 활동에서 학생 참여 기회 확대 시\n\n5. 대안교수(alternative teaching)\n- 소그룹을 분리하여 보충/심화 수업 제공\n- 적용: 특수교육대상학생에게 선수학습 보충이 필요한 경우\n\n6. 팀티칭(team teaching)\n- 두 교사가 동등하게 수업을 함께 진행\n- 적용: 두 교사의 전문성이 모두 필요한 융합 수업 시",
+    "explanation": "협력교수는 Friend & Cook이 체계화한 모델로, 일반교사와 특수교사가 동일 교실에서 함께 수업하는 방식입니다. 6유형은 교수-관찰, 교수-보조, 스테이션, 평행, 대안, 팀티칭이며, 학생의 요구와 수업 목표에 따라 적절한 유형을 선택합니다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "inc-q32",
+    "subject": "inclusive-education",
+    "chapter": "strategies",
+    "type": "fill_in",
+    "question": "학급전체또래교수(CWPT)에서 학급을 두 팀으로 나누어 ( ㉠ ) 역할을 교대로 수행하며, 또래중재학습전략(PALS)은 ( ㉡ ) 수준의 학생과 ( ㉢ ) 수준의 학생을 짝지어 구조화된 활동을 수행한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "교수자-학습자(tutor-tutee) / 상위 / 하위",
+    "explanation": "CWPT(Classwide Peer Tutoring)는 Greenwood 등이 개발한 방법으로, 학급 전체가 교수자-학습자 역할을 교대하며 팀 경쟁 요소를 포함합니다. PALS(Peer-Assisted Learning Strategies)는 Fuchs 등이 개발하였으며, 상위 수준과 하위 수준의 학생을 짝지어 구조화된 읽기/수학 활동을 수행합니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "inc-q33",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "fill_in",
+    "question": "자폐성장애의 인지적 특성 중, 세부 정보 처리에는 강하나 전체적 맥락이나 의미를 통합하는 데 어려움을 보이는 특성을 ( )이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "약한 중심통합(weak central coherence)",
+    "explanation": "약한 중심통합(weak central coherence)은 Frith(1989)가 제안한 자폐성장애의 인지 이론으로, 정보를 전체적 맥락에서 통합하기보다 부분적·세부적으로 처리하는 경향을 설명합니다. 이로 인해 퍼즐 맞추기나 숨은그림찾기에는 뛰어나지만, 이야기의 주제 파악이나 사회적 맥락 이해에는 어려움을 보입니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "자폐성장애"
+    }
+  },
+  {
+    "id": "inc-q34",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "multiple",
+    "question": "자기결정(self-determination)의 4가지 본질적 특성에 해당하지 않는 것은?",
+    "options": [
+      "자율성(autonomy)",
+      "자기조절(self-regulation)",
+      "자기효능감(self-efficacy)",
+      "심리적 역량강화(psychological empowerment)"
+    ],
+    "answer": 2,
+    "explanation": "Wehmeyer가 제시한 자기결정의 4가지 본질적 특성은 자율성(autonomy), 자기조절(self-regulation), 심리적 역량강화(psychological empowerment), 자기실현(self-realization)입니다. 자기효능감은 Bandura의 사회학습이론 개념으로 자기결정의 본질적 특성에는 포함되지 않습니다.",
+    "wrong_explanations": {
+      "0": "자율성은 자기결정의 4가지 본질적 특성 중 하나입니다.",
+      "1": "자기조절은 자기결정의 4가지 본질적 특성 중 하나입니다.",
+      "3": "심리적 역량강화는 자기결정의 4가지 본질적 특성 중 하나입니다."
+    },
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "inc-q35",
+    "subject": "inclusive-education",
+    "chapter": "strategies",
+    "type": "ox",
+    "question": "긍정적 행동지원(PBS)의 3단계 모형에서 1단계(보편적 지원)는 전체 학생의 약 80%를 대상으로 하며, 3단계(개별적 지원)는 약 5%의 학생에게 집중적으로 적용된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "PBS의 3단계(RTI와 동일 구조) 모형에서 1단계(보편적/전체) 지원은 전체 학생의 약 80%에게 적용되는 예방적 차원이고, 2단계(소그룹/표적) 지원은 약 15%의 위험군 학생, 3단계(개별적/집중) 지원은 약 5%의 고위험 학생에게 개별화된 집중 지원을 제공합니다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {}
+  },
+  {
+    "id": "inc-q36",
+    "subject": "inclusive-education",
+    "chapter": "practices",
+    "type": "descriptive",
+    "question": "전환교육(transition education)에서 '자기옹호(self-advocacy)'의 개념을 설명하고, 지역사회 기반 교수(community-based instruction)가 전환교육에서 중요한 이유를 서술하시오.",
+    "case_context": "고등학교 특수학급의 최 교사는 졸업을 앞둔 지적장애 학생의 전환교육 계획을 수립하고 있다. 학생은 지역사회 내 카페에서 바리스타로 취업하기를 희망하고 있다.",
+    "options": null,
+    "answer": "[모범 답안]\n\n1. 자기옹호의 개념\n자기옹호(self-advocacy)란 자신의 권리, 필요, 관심사를 인식하고 이를 타인에게 효과적으로 표현·주장하는 능력이다. 구체적으로:\n- 자신의 강점과 약점, 장애 특성에 대한 이해\n- 필요한 지원이나 편의를 요청하는 의사소통 능력\n- 자신의 권리를 알고 부당한 상황에 대처하는 능력\n\n2. 지역사회 기반 교수의 중요성\n① 일반화 촉진: 교실에서 학습한 기술을 실제 환경에서 연습하여 일반화 문제 해결\n② 생태학적 타당도: 실제 직무 환경에서의 교수로 현실적 요구 반영\n③ 자연적 단서 활용: 실제 환경의 자연적 단서와 결과를 활용한 학습\n④ 직업 적합성 평가: 실제 작업 수행을 통해 직업 매칭의 적절성 확인\n⑤ 사회적 통합: 지역사회 구성원과의 자연스러운 상호작용 기회 제공",
+    "explanation": "전환교육은 학교에서 성인기 생활로의 이행을 체계적으로 준비하는 교육입니다. 자기옹호는 자기결정의 핵심 하위 기술이며, 지역사회 기반 교수는 교실 내 교수의 일반화 한계를 극복하는 핵심 전략입니다. 카페 취업 희망 사례에서 실제 카페 환경에서의 현장 실습이 대표적인 지역사회 기반 교수에 해당합니다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {
+      "disability": "지적장애"
+    }
+  }
+]
