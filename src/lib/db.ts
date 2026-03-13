@@ -45,7 +45,7 @@ export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQues
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
-    .eq('subject', subjectSlug);
+    .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`);
 
   if (error || !data) return [];
 
@@ -79,6 +79,7 @@ function mapQuizRow(row: Record<string, unknown>): QuizQuestion {
     tags: (row.tags as QuizQuestion['tags']) || undefined,
     subQuestions: (row.sub_questions as QuizQuestion['subQuestions']) || undefined,
     imageUrl: (row.image_url as string) || undefined,
+    subjects: (row.subjects as string[]) || undefined,
   };
 }
 

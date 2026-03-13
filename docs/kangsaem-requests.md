@@ -93,6 +93,17 @@
   - `type` 컬럼의 허용값에 `scenario_composite` 추가 (CHECK 제약이 있다면)
 - **완료 기준**: `type='scenario_composite'`인 퀴즈를 `sub_questions`와 함께 INSERT 가능
 
+### REQ-008: quiz_questions 테이블에 복합영역 태그 컬럼 추가
+
+- **요청일**: 2026-03-14
+- **우선순위**: P2
+- **상태**: 대기
+- **상세**: Issue #6 (복합영역 태그 시스템) UI/쿼리 구현 완료. DB에 다음 컬럼 추가 필요:
+  - `subjects TEXT[] DEFAULT NULL` — 복합영역 다중 태그 배열 (기존 subject는 주 영역으로 유지)
+  - getQuizzesBySubject가 `subjects.cs.{slug}` 조건으로도 검색하므로, 컬럼이 있어야 쿼리 동작
+  - 기존 난이도 3 퀴즈에 대해 복합 태그 매핑 권장 (예: curriculum 문제에 `["inclusive","assessment"]` 추가)
+- **완료 기준**: `subjects` 컬럼 추가 + 최소 5문제에 다중 태그 설정
+
 ---
 
 ## 실행 순서 권장

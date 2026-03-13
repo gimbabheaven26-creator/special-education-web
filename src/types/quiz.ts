@@ -28,6 +28,7 @@ export interface QuizQuestion {
   };
   subQuestions?: SubQuestion[];
   imageUrl?: string;
+  subjects?: string[];  // 복합영역 다중 태그 (기존 subject는 주 영역으로 유지)
 }
 
 export interface QuizResult {
