@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { DailyHistoryEntry } from '@/types/study';
+import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
 
 interface RecentActivity {
   subjectSlug: string;
@@ -95,8 +96,6 @@ function updateStreak(state: StudyState): Pick<StudyState, 'currentStreak' | 'lo
     lastActiveDate: today,
   };
 }
-
-import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
 
 export const useStudyStore = create<StudyState & StudyActions>()(
   persist(
