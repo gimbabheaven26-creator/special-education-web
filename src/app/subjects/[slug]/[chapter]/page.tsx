@@ -18,6 +18,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';
 import { SelfCheckSection } from '@/components/chapter/SelfCheckSection';
+import { BookmarkButton } from '@/components/chapter/BookmarkButton';
 import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 
@@ -111,7 +112,14 @@ export default async function ChapterPage({
 
       {/* 챕터 헤더 */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">{chapter.title}</h1>
+        <div className="flex items-start justify-between gap-2">
+          <h1 className="text-3xl font-bold text-foreground mb-2">{chapter.title}</h1>
+          <BookmarkButton
+            path={`/subjects/${slug}/${chapterSlug}`}
+            title={chapter.title}
+            subject={subject.title}
+          />
+        </div>
         <p className="text-lg text-muted-foreground">{chapter.description}</p>
       </div>
 
