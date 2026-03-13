@@ -23,7 +23,11 @@ import StreakHistory from './StreakHistory';
 import WrongNoteSummary from './WrongNoteSummary';
 import WeeklySummary from './WeeklySummary';
 
-export default function StatsClient() {
+interface StatsClientProps {
+  readonly chapterTitleMap: Readonly<Record<string, string>>;
+}
+
+export default function StatsClient({ chapterTitleMap }: StatsClientProps) {
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const currentStreak = useStudyStore((s) => s.currentStreak);
@@ -145,7 +149,7 @@ export default function StatsClient() {
       <StudyVolumeChart volume7={volume7} volume30={volume30} />
 
       {/* Weak Areas */}
-      <WeakAreas weakAreas={weakAreas} chapterStats={chapterStats} />
+      <WeakAreas weakAreas={weakAreas} chapterStats={chapterStats} chapterTitleMap={chapterTitleMap} />
 
       {/* Wrong Note Summary */}
       <WrongNoteSummary summary={wrongNoteSummary} />

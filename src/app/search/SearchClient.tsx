@@ -4,21 +4,25 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import Fuse from 'fuse.js';
 import type { Subject, SearchItem } from '@/types/content';
+import type { QuizQuestion } from '@/types/quiz';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search } from 'lucide-react';
 
-function buildSearchIndex(subjects: Subject[]): SearchItem[] {
+function buildSearchIndex(subjects: Subject[], quizzes: QuizQuestion[]): SearchItem[] {
   const items: SearchItem[] = [];
 
+  const subjectTitleMap: Record<string, string> = {};
   for (const subject of subjects) {
+    subjectTitleMap[subject.slug] = subject.title;
     items.push({
       title: subject.title,
       description: subject.description,
       keywords: [],
       path: `/subjects/${subject.slug}`,
       subject: subject.title,
+      type: 'subject',
     });
 
     for (const chapter of subject.chapters) {
@@ -28,18 +32,35 @@ function buildSearchIndex(subjects: Subject[]): SearchItem[] {
         keywords: chapter.keywords,
         path: `/subjects/${subject.slug}/${chapter.slug}`,
         subject: subject.title,
+        type: 'chapter',
       });
     }
+  }
+
+  for (const quiz of quizzes) {
+    items.push({
+      title: quiz.question,
+      description: quiz.explanation,
+      keywords: quiz.tags?.disability ? [quiz.tags.disability] : [],
+      path: `/quiz/${quiz.subject}`,
+      subject: subjectTitleMap[quiz.subject] || quiz.subject,
+      type: 'quiz',
+    });
   }
 
   return items;
 }
 
-export default function SearchClient({ subjects }: { subjects: Subject[] }) {
+interface SearchClientProps {
+  readonly subjects: ReadonlyArray<Subject>;
+  readonly quizzes: ReadonlyArray<QuizQuestion>;
+}
+
+export default function SearchClient({ subjects, quizzes }: SearchClientProps) {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const searchIndex = useMemo(() => buildSearchIndex(subjects), [subjects]);
+  const searchIndex = useMemo(() => buildSearchIndex([...subjects], [...quizzes]), [subjects, quizzes]);
 
   const fuse = useMemo(
     () =>
@@ -73,7 +94,7 @@ export default function SearchClient({ subjects }: { subjects: Subject[] }) {
           ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="과목이나 챕터를 검색하세요..."
+          placeholder="과목, 챕터, 퀴즈 문제를 검색하세요..."
           className="pl-10 h-12 text-base"
         />
       </div>
@@ -92,15 +113,18 @@ export default function SearchClient({ subjects }: { subjects: Subject[] }) {
                 {results.length}개의 결과
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {results.map((item) => (
-                  <Link key={item.path} href={item.path} className="block">
+                {results.map((item, idx) => (
+                  <Link key={`${item.type}-${item.path}-${idx}`} href={item.path} className="block">
                     <Card className="h-full transition-shadow duration-200 hover:shadow-md cursor-pointer">
                       <CardHeader>
-                        <CardTitle className="text-base">{item.title}</CardTitle>
-                        <CardDescription>{item.description}</CardDescription>
+                        <CardTitle className="text-base line-clamp-2">{item.title}</CardTitle>
+                        <CardDescription className="line-clamp-2">{item.description}</CardDescription>
                       </CardHeader>
-                      <CardContent>
+                      <CardContent className="flex gap-2 flex-wrap">
                         <Badge variant="secondary">{item.subject}</Badge>
+                        {item.type === 'quiz' && (
+                          <Badge variant="outline" className="text-xs">퀴즈</Badge>
+                        )}
                       </CardContent>
                     </Card>
                   </Link>
@@ -114,7 +138,7 @@ export default function SearchClient({ subjects }: { subjects: Subject[] }) {
       {!query.trim() && (
         <div className="text-center py-16">
           <Search className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
-          <p className="text-muted-foreground">검색어를 입력하면 과목과 챕터를 검색할 수 있습니다.</p>
+          <p className="text-muted-foreground">검색어를 입력하면 과목, 챕터, 퀴즈 문제를 검색할 수 있습니다.</p>
         </div>
       )}
     </div>

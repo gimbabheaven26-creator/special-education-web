@@ -1,10 +1,13 @@
 export const dynamic = 'force-dynamic';
 
-import { getSubjects } from '@/lib/db';
+import { getSubjects, getAllQuizzes } from '@/lib/db';
 import SearchClient from './SearchClient';
 
 export default async function SearchPage() {
-  const subjects = await getSubjects();
+  const [subjects, quizzes] = await Promise.all([
+    getSubjects(),
+    getAllQuizzes(),
+  ]);
 
-  return <SearchClient subjects={subjects} />;
+  return <SearchClient subjects={subjects} quizzes={quizzes} />;
 }

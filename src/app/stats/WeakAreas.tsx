@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 interface WeakAreasProps {
   readonly weakAreas: ReadonlyArray<SubjectStats>;
   readonly chapterStats: ReadonlyArray<ChapterStats>;
+  readonly chapterTitleMap: Readonly<Record<string, string>>;
 }
 
 function rateColorClass(rate: number): string {
@@ -20,9 +21,11 @@ function rateColorClass(rate: number): string {
 function WeakSubjectRow({
   area,
   chapters,
+  chapterTitleMap,
 }: {
   area: SubjectStats;
   chapters: ReadonlyArray<ChapterStats>;
+  chapterTitleMap: Readonly<Record<string, string>>;
 }) {
   const [expanded, setExpanded] = useState(false);
   const weakChapters = chapters
@@ -77,7 +80,7 @@ function WeakSubjectRow({
               className="flex items-center justify-between text-xs gap-2"
             >
               <span className="text-muted-foreground truncate">
-                {ch.chapter}
+                {chapterTitleMap[`${ch.subject}::${ch.chapter}`] || ch.chapter}
               </span>
               <span className={`font-medium flex-shrink-0 ${rateColorClass(ch.rate)}`}>
                 {ch.correct}/{ch.total} ({ch.rate}%)
@@ -90,7 +93,7 @@ function WeakSubjectRow({
   );
 }
 
-export default function WeakAreas({ weakAreas, chapterStats }: WeakAreasProps) {
+export default function WeakAreas({ weakAreas, chapterStats, chapterTitleMap }: WeakAreasProps) {
   return (
     <Card>
       <CardHeader>
@@ -108,6 +111,7 @@ export default function WeakAreas({ weakAreas, chapterStats }: WeakAreasProps) {
                 key={area.subject}
                 area={area}
                 chapters={chapterStats}
+                chapterTitleMap={chapterTitleMap}
               />
             ))}
           </ul>

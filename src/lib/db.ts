@@ -5,19 +5,15 @@ import type { QuizQuestion } from '@/types/quiz';
 // ─── Subjects ───
 
 export async function getSubjects(): Promise<Subject[]> {
-  const { data: subjectRows, error: sErr } = await supabase
-    .from('subjects')
-    .select('*')
-    .order('sort_order');
+  const [subjectsResult, chaptersResult] = await Promise.all([
+    supabase.from('subjects').select('*').order('sort_order'),
+    supabase.from('chapters').select('*').order('sort_order'),
+  ]);
 
-  if (sErr || !subjectRows) return [];
+  const { data: subjectRows, error: sErr } = subjectsResult;
+  const { data: chapterRows, error: cErr } = chaptersResult;
 
-  const { data: chapterRows, error: cErr } = await supabase
-    .from('chapters')
-    .select('*')
-    .order('sort_order');
-
-  if (cErr || !chapterRows) return [];
+  if (sErr || !subjectRows || cErr || !chapterRows) return [];
 
   return subjectRows.map((s) => ({
     slug: s.slug,
