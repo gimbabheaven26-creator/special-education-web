@@ -193,22 +193,23 @@ export const useQuizStore = create<QuizStore>()(
       name: 'quiz-data',
       version: 2,
       migrate: (persistedState, version) => {
-        const state = persistedState as Record<string, unknown>;
+        let state = persistedState as Record<string, unknown>;
 
-        if (version === 0) {
+        // Cascading migrations: each step falls through to the next
+        if (version < 1) {
           // v0 -> v1: merge legacy quiz-feedback data
           const legacy = migrateLegacyFeedbackData();
-          return {
+          state = {
             ...state,
             feedbacks: legacy.feedbacks ?? [],
             errorReports: legacy.errorReports ?? [],
           };
         }
 
-        if (version === 1) {
+        if (version < 2) {
           // v1 -> v2: add subject/chapter to existing QuizResult entries
           const history = Array.isArray(state.quizHistory) ? state.quizHistory : [];
-          return {
+          state = {
             ...state,
             quizHistory: history.map((entry: Record<string, unknown>) => ({
               ...entry,

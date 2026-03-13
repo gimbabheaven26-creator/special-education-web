@@ -216,13 +216,14 @@ export const useStudyStore = create<StudyState & StudyActions>()(
       name: 'special-edu-study',
       version: 2,
       migrate: (persistedState, version) => {
-        const state = persistedState as Record<string, unknown>;
+        let state = persistedState as Record<string, unknown>;
 
-        if (version === 1) {
-          // v1 -> v2: add dailyHistory array
-          return {
+        // Cascading migrations: each step falls through to the next
+        if (version < 2) {
+          // v0/v1 -> v2: add dailyHistory array
+          state = {
             ...state,
-            dailyHistory: [],
+            dailyHistory: Array.isArray(state.dailyHistory) ? state.dailyHistory : [],
           };
         }
 
