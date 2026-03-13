@@ -1,8 +1,8 @@
 # Interface Contract
 
 > 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
-> 최종 수정: 2026-03-11 | 버전: 2.0
-> v2: 그린 검증 결과 반영, 이상적 구조 재설계
+> 최종 수정: 2026-03-14 | 버전: 2.1
+> v2.1: Phase 4 신규 컴포넌트/유틸 반영
 
 ## 변경 프로토콜
 
@@ -236,6 +236,7 @@ saveReview(path: string, content: string): Promise<boolean>
 | src/lib/db.ts | 강선생 | 클루디가 db.ts 수정 |
 | src/types/*.ts | 강선생 | 클루디가 타입 수정 |
 | UI 컴포넌트 | 강선생 | 클루디가 src/components 수정 |
+| 공유 상수 (xp-constants.ts) | 강선생 | 클루디가 상수값 변경 |
 | 콘텐츠 리서치 | 클루디 | 강선생이 KICE 분석 |
 | 마이그레이션 스크립트 | 클루디 | 강선생이 scripts/ 수정 |
 | data-validator 실행 | 클루디 (데이터 변경 후) | — |
