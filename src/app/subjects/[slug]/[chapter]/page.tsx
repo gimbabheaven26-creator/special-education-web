@@ -117,7 +117,7 @@ export default async function ChapterPage({
 
       {/* 본문 영역 (자가점검 섹션 제외) */}
       {mdxSource ? (
-        <article className="prose prose-neutral dark:prose-invert max-w-none mb-8">
+        <article id="chapter-content" className="prose prose-neutral dark:prose-invert max-w-none mb-8">
           <MDXRemote
             source={mdxBody}
             options={{

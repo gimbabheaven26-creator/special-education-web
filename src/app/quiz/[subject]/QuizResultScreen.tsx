@@ -4,7 +4,7 @@ import Link from 'next/link';
 import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { RotateCcw, XCircle } from 'lucide-react';
+import { RotateCcw, XCircle, BookOpen } from 'lucide-react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -93,12 +93,16 @@ export function QuizResultScreen({
   questions,
   answers,
   totalXPEarned,
+  subjectSlug,
+  chapterMap,
   onRestart,
   onRetryWrong,
 }: {
   questions: ReadonlyArray<QuizQuestion>;
   answers: ReadonlyArray<AnswerRecord>;
   totalXPEarned: number;
+  subjectSlug: string;
+  chapterMap: Record<string, string>;
   onRestart: () => void;
   onRetryWrong: () => void;
 }) {
@@ -179,9 +183,19 @@ export function QuizResultScreen({
         <CardContent className="space-y-2">
           {Object.entries(chapterBreakdown).map(([chapter, stats]) => {
             const chapterRate = Math.round((stats.correct / stats.total) * 100);
+            const chapterTitle = chapterMap[chapter] || chapter;
             return (
-              <div key={chapter} className="flex items-center justify-between text-sm">
-                <span className="truncate mr-3 text-muted-foreground">{chapter}</span>
+              <div key={chapter} className="flex items-center justify-between text-sm gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="truncate text-muted-foreground">{chapterTitle}</span>
+                  <Link
+                    href={`/subjects/${subjectSlug}/${chapter}`}
+                    className="shrink-0 text-primary hover:text-primary/80 transition-colors"
+                    title="챕터 보기"
+                  >
+                    <BookOpen className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
                 <span className={`font-medium flex-shrink-0 ${rateColorClass(chapterRate)}`}>
                   {stats.correct}/{stats.total} ({chapterRate}%)
                 </span>

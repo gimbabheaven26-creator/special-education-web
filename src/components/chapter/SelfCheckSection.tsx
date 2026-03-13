@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { checkFillInAnswer } from '@/lib/answer-checker';
-import { CheckCircle, XCircle, ChevronDown, ChevronUp, Eye } from 'lucide-react';
+import { CheckCircle, XCircle, ChevronDown, ChevronUp, Eye, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -36,6 +36,17 @@ function InlineQuiz({ question }: { question: QuizQuestion }) {
   const [selfGraded, setSelfGraded] = useState<boolean | null>(null);
 
   const correctAnswer = question.answer;
+
+  const isCompleted =
+    (submitted && question.type !== 'descriptive') ||
+    (question.type === 'descriptive' && selfGraded !== null);
+
+  const handleScrollToContent = () => {
+    const el = document.getElementById('chapter-content');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const isCorrect = useMemo(() => {
     if (question.type === 'descriptive') return selfGraded === true;
@@ -243,10 +254,21 @@ function InlineQuiz({ question }: { question: QuizQuestion }) {
       )}
 
       {/* Explanation */}
-      {((submitted && question.type !== 'descriptive') || (question.type === 'descriptive' && selfGraded !== null)) && question.explanation && (
+      {isCompleted && question.explanation && (
         <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
           💡 {question.explanation}
         </p>
+      )}
+
+      {/* 다시 공부하기 */}
+      {isCompleted && (
+        <button
+          onClick={handleScrollToContent}
+          className="mt-3 flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+        >
+          <BookOpen className="h-3.5 w-3.5" />
+          다시 공부하기
+        </button>
       )}
     </div>
   );
