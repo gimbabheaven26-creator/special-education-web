@@ -45,6 +45,49 @@
 
 ---
 
+## [2026-03-14] 강선생 — Phase 4 세션 2: 차트, 필터링, 플래시카드 통합 + 버그 8건 수정
+
+### 변경 내용
+- **학습 활동 히트맵** — DailyHeatmap (12주 GitHub-style 히트맵) + computeHeatmapData 유틸
+- **주간 학습 추이 차트** — WeeklyTrendChart (8주 바 차트 + 정답률) + computeWeeklyTrend 유틸
+- **플래시카드 진행률** — FlashcardStats (Leitner Box 분포 차트, 오늘 복습 카드 수)
+- **오답 노트 챕터 필터링** — 과목 선택 시 챕터 드롭다운 + URL params 딥링크 지원
+- **오래된순 정렬** — wrong-notes 정렬에 'oldest' 옵션 추가 (spaced repetition 활용)
+- **취약 영역 → 오답 딥링크** — WeakAreas에서 /wrong-notes?subject=... 바로가기
+- **오답 → 플래시카드 원클릭 저장** — WrongNoteCard에 Leitner 자동 저장 버튼
+- **버그 8건 수정** — OX 대소문자, ScenarioComposite allFilled, handleSkip 데드엔드, wrongNotes eviction overflow, duplicate setFinished, WrongNotesQuizClient 누락 타입, notFound() 미호출, wrongCount 계산 오류
+
+### 신규/수정 파일
+| 파일 | 작업 |
+|------|------|
+| `src/app/stats/DailyHeatmap.tsx` | 신규 |
+| `src/app/stats/WeeklyTrendChart.tsx` | 신규 |
+| `src/app/stats/FlashcardStats.tsx` | 신규 |
+| `src/app/wrong-notes/quiz/WrongNotesQuizClient.tsx` | 신규 (page.tsx에서 분리) |
+| `src/app/stats/StatsClient.tsx` | 수정 (3개 차트 연결) |
+| `src/app/stats/WeakAreas.tsx` | 수정 (오답 딥링크) |
+| `src/app/wrong-notes/WrongNoteCard.tsx` | 수정 (플래시카드 저장 버튼) |
+| `src/app/wrong-notes/WrongNotesClient.tsx` | 수정 (챕터 필터 + URL params) |
+| `src/app/wrong-notes/page.tsx` | 수정 (chapterTitleMap 전달) |
+| `src/lib/stats-utils.ts` | 수정 (heatmap + weekly trend 유틸) |
+| `src/stores/useQuizStore.ts` | 수정 (wrongNotes 500개 제한 + eviction) |
+| `src/app/quiz/[subject]/QuestionCard.tsx` | 수정 (OX toUpperCase, allFilled) |
+| `src/app/quiz/[subject]/QuizClient.tsx` | 수정 (handleSkip, setFinished) |
+| `src/app/quiz/[subject]/QuizResultScreen.tsx` | 수정 (answeredCount 기반 rate) |
+| `src/app/quiz/[subject]/page.tsx` | 수정 (notFound() 호출) |
+| `src/app/error.tsx` + 4개 error.tsx | 수정 (console.error 제거) |
+
+### 영향 범위
+- 강선생: 통계 페이지 전면 확장, 오답 노트 UX 개선, 퀴즈 버그 수정
+- 클루디: 없음 (DB 무관, 클라이언트 상태만 변경)
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 성공 (TypeScript 0 errors)
+- [x] 커밋 & 푸시 완료 (894bb12 + 이전 5개 커밋)
+
+---
+
 ## [2026-03-14] 강선생 — Phase 4: 학습 경험 고도화
 
 ### 변경 내용
