@@ -6,11 +6,11 @@
  * and updates them in Supabase.
  *
  * Usage:
- *   node scripts/fix-orphan-chapters.mjs <SUPABASE_SERVICE_ROLE_KEY>
+ *   SUPABASE_SERVICE_ROLE_KEY=xxx node scripts/fix-orphan-chapters.mjs
  */
 
 const SUPABASE_URL = "https://ssluhxvbyzqmdkbjwoke.supabase.co";
-const SERVICE_KEY = process.argv[2];
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SERVICE_KEY) {
   throw new Error("Usage: node scripts/fix-orphan-chapters.mjs <SERVICE_ROLE_KEY>");

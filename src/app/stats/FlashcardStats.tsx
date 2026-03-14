@@ -34,11 +34,11 @@ export default function FlashcardStats() {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Box distribution */}
-        <div className="flex items-end gap-2">
+        <div className="flex items-end gap-2" role="img" aria-label={`Leitner Box 분포: ${boxes.map((c, i) => `Box ${i + 1}: ${c}장`).join(', ')}`}>
           {boxes.map((count, i) => {
             const height = Math.max(Math.round((count / maxBox) * 60), count > 0 ? 8 : 2);
             return (
-              <div key={i} className="flex flex-col items-center flex-1">
+              <div key={i} className="flex flex-col items-center flex-1" aria-hidden="true">
                 {count > 0 && (
                   <span className="text-[10px] text-muted-foreground mb-1">{count}</span>
                 )}

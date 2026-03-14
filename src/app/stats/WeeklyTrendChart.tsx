@@ -27,7 +27,7 @@ export default function WeeklyTrendChart({ data }: WeeklyTrendChartProps) {
         <CardTitle className="text-base">주간 학습 추이</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex items-end gap-2">
+        <div className="flex items-end gap-2" role="img" aria-label={`최근 ${data.length}주 학습 추이 차트: ${data.filter((d) => d.count > 0).length}주 활동`}>
           {data.map((week) => {
             const totalHeight = Math.round((week.count / maxCount) * BAR_MAX_HEIGHT);
             const correctHeight = week.count > 0
@@ -36,7 +36,7 @@ export default function WeeklyTrendChart({ data }: WeeklyTrendChartProps) {
             const wrongHeight = totalHeight - correctHeight;
 
             return (
-              <div key={week.weekLabel} className="flex flex-col items-center flex-1">
+              <div key={week.weekLabel} className="flex flex-col items-center flex-1" aria-label={week.count > 0 ? `${week.weekLabel}주: ${week.count}문제, 정답률 ${week.rate}%` : `${week.weekLabel}주: 활동 없음`}>
                 {week.count > 0 && (
                   <span className={`text-[10px] font-medium mb-0.5 ${rateColor(week.rate)}`}>
                     {week.rate}%

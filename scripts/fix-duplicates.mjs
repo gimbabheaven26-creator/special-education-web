@@ -3,16 +3,13 @@
  * Analyzes and fixes duplicate quiz questions in Supabase.
  *
  * Usage: SUPABASE_SERVICE_ROLE_KEY=<key> node scripts/fix-duplicates.mjs
- *   or pass key as CLI arg: node scripts/fix-duplicates.mjs <key>
  */
 
 const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co'
-const SERVICE_ROLE_KEY =
-  process.argv[2] ||
-  process.env.SUPABASE_SERVICE_ROLE_KEY
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 if (!SERVICE_ROLE_KEY) {
-  throw new Error('Service role key required (env or CLI arg)')
+  throw new Error('SUPABASE_SERVICE_ROLE_KEY env var required')
 }
 
 const headers = {

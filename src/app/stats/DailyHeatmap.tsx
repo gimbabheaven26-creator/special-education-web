@@ -64,7 +64,7 @@ export default function DailyHeatmap({ days, maxCount, totalWeeks }: DailyHeatma
         </div>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" role="img" aria-label={`최근 ${totalWeeks}주 학습 활동 히트맵: ${totalDays}일 활동, 총 ${totalCount}문제 풀이`}>
           <div className="inline-block">
             {/* Month labels */}
             <div className="flex ml-7" style={{ gap: `${GAP}px` }}>
@@ -97,6 +97,7 @@ export default function DailyHeatmap({ days, maxCount, totalWeeks }: DailyHeatma
                       className={`rounded-sm ${cell ? intensityClass(cell.count, maxCount) : 'bg-muted'}`}
                       style={{ width: `${CELL_SIZE}px`, height: `${CELL_SIZE}px` }}
                       title={cell ? `${cell.date}: ${cell.count}문제` : ''}
+                      aria-hidden="true"
                     />
                   ))}
                 </div>

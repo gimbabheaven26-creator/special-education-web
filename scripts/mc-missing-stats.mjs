@@ -2,16 +2,16 @@
  * mc-missing-stats.mjs
  * Analyze multiple-choice questions missing wrong_explanations, grouped by subject.
  *
- * Usage: SUPABASE_SERVICE_KEY=<key> node scripts/mc-missing-stats.mjs
+ * Usage: SUPABASE_SERVICE_ROLE_KEY=<key> node scripts/mc-missing-stats.mjs
  */
 
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co';
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SERVICE_KEY) {
-  throw new Error('SUPABASE_SERVICE_KEY environment variable is required');
+  throw new Error('SUPABASE_SERVICE_ROLE_KEY environment variable is required');
 }
 
 const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
