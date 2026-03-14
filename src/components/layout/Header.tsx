@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/flashcards', label: '카드' },
   { href: '/wrong-notes', label: '오답노트' },
   { href: '/stats', label: '통계' },
+  { href: '/kice', label: '기출' },
 ];
 
 function ThemeToggle() {
