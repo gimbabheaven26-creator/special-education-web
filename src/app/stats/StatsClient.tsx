@@ -13,6 +13,8 @@ import {
   computeStudyDays,
   computeWrongNoteSummary,
   computeWeeklySummary,
+  computeWeeklyTrend,
+  computeHeatmapData,
 } from '@/lib/stats-utils';
 import { Badge } from '@/components/ui/badge';
 import OverallAccuracy from './OverallAccuracy';
@@ -22,6 +24,9 @@ import WeakAreas from './WeakAreas';
 import StreakHistory from './StreakHistory';
 import WrongNoteSummary from './WrongNoteSummary';
 import WeeklySummary from './WeeklySummary';
+import WeeklyTrendChart from './WeeklyTrendChart';
+import DailyHeatmap from './DailyHeatmap';
+import FlashcardStats from './FlashcardStats';
 
 interface StatsClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
@@ -86,6 +91,16 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
     [quizHistory],
   );
 
+  const weeklyTrend = useMemo(
+    () => computeWeeklyTrend(quizHistory, 8),
+    [quizHistory],
+  );
+
+  const heatmap = useMemo(
+    () => computeHeatmapData(quizHistory, 12),
+    [quizHistory],
+  );
+
   if (quizHistory.length === 0) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
@@ -140,6 +155,9 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
       {/* Weekly Summary */}
       <WeeklySummary summary={weeklySummary} />
 
+      {/* Daily Activity Heatmap */}
+      <DailyHeatmap days={heatmap.days} maxCount={heatmap.maxCount} totalWeeks={heatmap.totalWeeks} />
+
       {/* Subject Accuracy Bars */}
       <SubjectAccuracyBars
         subjectStats={subjectStats}
@@ -151,11 +169,17 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
       {/* Study Volume Chart */}
       <StudyVolumeChart volume7={volume7} volume30={volume30} />
 
+      {/* Weekly Trend Chart */}
+      <WeeklyTrendChart data={weeklyTrend} />
+
       {/* Weak Areas */}
       <WeakAreas weakAreas={weakAreas} chapterStats={chapterStats} subjectTitleMap={subjectTitleMap} chapterTitleMap={chapterTitleMap} />
 
       {/* Wrong Note Summary */}
       <WrongNoteSummary summary={wrongNoteSummary} subjectTitleMap={subjectTitleMap} />
+
+      {/* Flashcard Stats */}
+      <FlashcardStats />
 
       {/* Streak & Trend */}
       <StreakHistory

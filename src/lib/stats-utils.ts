@@ -250,6 +250,86 @@ export function computeWeeklySummary(
   };
 }
 
+// ─── Weekly Trend (past N weeks) ─────────────────────────────────────────
+
+export interface WeeklyTrendEntry {
+  weekLabel: string;   // e.g. "03/03"
+  weekStart: number;   // timestamp
+  count: number;
+  correct: number;
+  rate: number;
+}
+
+export function computeWeeklyTrend(
+  history: ReadonlyArray<QuizResult>,
+  weeks: number = 8,
+): WeeklyTrendEntry[] {
+  const now = new Date();
+  const thisMonday = getMondayOfWeek(now);
+  const msPerWeek = 7 * 86_400_000;
+
+  const entries: WeeklyTrendEntry[] = [];
+  for (let i = weeks - 1; i >= 0; i--) {
+    const weekStart = new Date(thisMonday.getTime() - i * msPerWeek);
+    const weekEnd = new Date(weekStart.getTime() + msPerWeek);
+    const weekResults = history.filter(
+      (r) => r.timestamp >= weekStart.getTime() && r.timestamp < weekEnd.getTime(),
+    );
+    const correct = weekResults.filter((r) => r.isCorrect).length;
+    entries.push({
+      weekLabel: `${String(weekStart.getMonth() + 1).padStart(2, '0')}/${String(weekStart.getDate()).padStart(2, '0')}`,
+      weekStart: weekStart.getTime(),
+      count: weekResults.length,
+      correct,
+      rate: accuracy(correct, weekResults.length),
+    });
+  }
+
+  return entries;
+}
+
+// ─── Daily Heatmap (past N weeks) ────────────────────────────────────────
+
+export interface HeatmapDay {
+  date: string;    // YYYY-MM-DD
+  count: number;
+  dayOfWeek: number; // 0=Sun, 1=Mon, ...6=Sat
+  weekIndex: number;
+}
+
+export function computeHeatmapData(
+  history: ReadonlyArray<QuizResult>,
+  weeks: number = 12,
+): { days: HeatmapDay[]; maxCount: number; totalWeeks: number } {
+  const totalDays = weeks * 7;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  // Count by date
+  const countMap = new Map<string, number>();
+  for (const r of history) {
+    const date = toDateString(r.timestamp);
+    countMap.set(date, (countMap.get(date) ?? 0) + 1);
+  }
+
+  const days: HeatmapDay[] = [];
+  let maxCount = 0;
+
+  for (let i = totalDays - 1; i >= 0; i--) {
+    const d = new Date(today.getTime() - i * 86_400_000);
+    const dateStr = toDateString(d.getTime());
+    const count = countMap.get(dateStr) ?? 0;
+    const dayOfWeek = d.getDay();
+    const weekIndex = Math.floor((totalDays - 1 - i) / 7);
+
+    if (count > maxCount) maxCount = count;
+
+    days.push({ date: dateStr, count, dayOfWeek, weekIndex });
+  }
+
+  return { days, maxCount, totalWeeks: weeks };
+}
+
 // ─── Study Days ──────────────────────────────────────────────────────────────
 
 export function computeStudyDays(

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import type { WrongNote } from '@/types/study';
@@ -8,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import WrongNoteCard from './WrongNoteCard';
 
-type SortMode = 'recent' | 'attempts';
+type SortMode = 'recent' | 'attempts' | 'oldest';
 
 function groupBySubject(notes: WrongNote[]): Record<string, WrongNote[]> {
   return notes.reduce<Record<string, WrongNote[]>>((acc, note) => {
@@ -22,15 +23,22 @@ function groupBySubject(notes: WrongNote[]): Record<string, WrongNote[]> {
 
 interface WrongNotesClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
+  readonly chapterTitleMap: Readonly<Record<string, string>>;
 }
 
-export default function WrongNotesClient({ subjectTitleMap }: WrongNotesClientProps) {
+export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: WrongNotesClientProps) {
+  const searchParams = useSearchParams();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const markMastered = useQuizStore((s) => s.markMastered);
   const unmarkMastered = useQuizStore((s) => s.unmarkMastered);
   const removeWrongNote = useQuizStore((s) => s.removeWrongNote);
 
-  const [subjectFilter, setSubjectFilter] = useState<string>('all');
+  const [subjectFilter, setSubjectFilter] = useState<string>(
+    () => searchParams.get('subject') ?? 'all',
+  );
+  const [chapterFilter, setChapterFilter] = useState<string>(
+    () => searchParams.get('chapter') ?? 'all',
+  );
   const [showMastered, setShowMastered] = useState(true);
   const [sortMode, setSortMode] = useState<SortMode>('recent');
   const [collapsedSubjects, setCollapsedSubjects] = useState<Set<string>>(new Set());
@@ -40,11 +48,24 @@ export default function WrongNotesClient({ subjectTitleMap }: WrongNotesClientPr
     return Array.from(set).sort();
   }, [wrongNotes]);
 
+  const chapters = useMemo(() => {
+    if (subjectFilter === 'all') return [];
+    const set = new Set(
+      wrongNotes
+        .filter((n) => n.question.subject === subjectFilter)
+        .map((n) => n.question.chapter),
+    );
+    return Array.from(set).sort();
+  }, [wrongNotes, subjectFilter]);
+
   const filteredNotes = useMemo(() => {
     let notes = wrongNotes;
 
     if (subjectFilter !== 'all') {
       notes = notes.filter((n) => n.question.subject === subjectFilter);
+    }
+    if (chapterFilter !== 'all') {
+      notes = notes.filter((n) => n.question.chapter === chapterFilter);
     }
     if (!showMastered) {
       notes = notes.filter((n) => !n.mastered);
@@ -52,11 +73,12 @@ export default function WrongNotesClient({ subjectTitleMap }: WrongNotesClientPr
 
     const sorted = [...notes].sort((a, b) => {
       if (sortMode === 'recent') return b.lastAttempt - a.lastAttempt;
+      if (sortMode === 'oldest') return a.lastAttempt - b.lastAttempt;
       return b.attempts - a.attempts;
     });
 
     return sorted;
-  }, [wrongNotes, subjectFilter, showMastered, sortMode]);
+  }, [wrongNotes, subjectFilter, chapterFilter, showMastered, sortMode]);
 
   const stats = useMemo(() => {
     const total = wrongNotes.length;
@@ -146,7 +168,10 @@ export default function WrongNotesClient({ subjectTitleMap }: WrongNotesClientPr
       <div className="flex flex-wrap gap-3">
         <select
           value={subjectFilter}
-          onChange={(e) => setSubjectFilter(e.target.value)}
+          onChange={(e) => {
+            setSubjectFilter(e.target.value);
+            setChapterFilter('all');
+          }}
           className="min-h-[44px] rounded-lg border border-border bg-background px-3 text-sm"
         >
           <option value="all">전체 과목</option>
@@ -155,12 +180,28 @@ export default function WrongNotesClient({ subjectTitleMap }: WrongNotesClientPr
           ))}
         </select>
 
+        {chapters.length > 0 && (
+          <select
+            value={chapterFilter}
+            onChange={(e) => setChapterFilter(e.target.value)}
+            className="min-h-[44px] rounded-lg border border-border bg-background px-3 text-sm"
+          >
+            <option value="all">전체 챕터</option>
+            {chapters.map((ch) => (
+              <option key={ch} value={ch}>
+                {chapterTitleMap[`${subjectFilter}::${ch}`] || ch}
+              </option>
+            ))}
+          </select>
+        )}
+
         <select
           value={sortMode}
           onChange={(e) => setSortMode(e.target.value as SortMode)}
           className="min-h-[44px] rounded-lg border border-border bg-background px-3 text-sm"
         >
           <option value="recent">최신순</option>
+          <option value="oldest">오래된순</option>
           <option value="attempts">시도 횟수순</option>
         </select>
 

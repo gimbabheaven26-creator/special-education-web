@@ -66,6 +66,12 @@ function WeakSubjectRow({
             {area.rate}%
           </span>
           <Link
+            href={`/wrong-notes?subject=${area.subject}`}
+            className="text-xs text-muted-foreground hover:text-primary hover:underline whitespace-nowrap"
+          >
+            오답
+          </Link>
+          <Link
             href={`/quiz/${area.subject}`}
             className="text-xs text-primary hover:underline whitespace-nowrap"
           >
