@@ -175,6 +175,8 @@ export interface ReviewRow {
   id?: number;
   path: string;
   content: string;
+  reviewer_name?: string;
+  status?: 'pending' | 'discussing' | 'accepted' | 'rejected';
   updated_at?: string;
 }
 
@@ -188,21 +190,41 @@ export async function getReviews(): Promise<ReviewRow[]> {
   return data as ReviewRow[];
 }
 
-export async function saveReview(path: string, content: string): Promise<boolean> {
+export async function saveReview(
+  path: string,
+  content: string,
+  reviewerName: string = '',
+): Promise<boolean> {
   if (!content.trim()) {
-    const { error } = await supabase
-      .from('reviews')
-      .delete()
-      .eq('path', path);
+    const query = supabase.from('reviews').delete().eq('path', path);
+    const { error } = reviewerName
+      ? await query.eq('reviewer_name', reviewerName)
+      : await query;
     return !error;
   }
 
   const { error } = await supabase
     .from('reviews')
     .upsert(
-      { path, content: content.trim(), updated_at: new Date().toISOString() },
-      { onConflict: 'path' }
+      {
+        path,
+        content: content.trim(),
+        reviewer_name: reviewerName,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'path,reviewer_name' },
     );
+  return !error;
+}
+
+export async function updateReviewStatus(
+  id: number,
+  status: ReviewRow['status'],
+): Promise<boolean> {
+  const { error } = await supabase
+    .from('reviews')
+    .update({ status })
+    .eq('id', id);
   return !error;
 }
 

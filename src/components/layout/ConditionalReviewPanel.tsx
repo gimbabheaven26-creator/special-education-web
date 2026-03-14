@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 const ReviewPanel = dynamic(
@@ -8,13 +7,6 @@ const ReviewPanel = dynamic(
   { ssr: false }
 );
 
-const REVIEW_ROUTES = ['/quiz', '/subjects', '/worksheets'];
-
 export function ConditionalReviewPanel() {
-  const pathname = usePathname();
-  const shouldShow = REVIEW_ROUTES.some((route) => pathname.startsWith(route));
-
-  if (!shouldShow) return null;
-
   return <ReviewPanel />;
 }

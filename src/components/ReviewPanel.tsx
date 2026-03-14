@@ -11,12 +11,12 @@ interface Review {
 }
 
 // 서버 API로 저장 (실패 시 false 반환)
-async function saveToServer(path: string, content: string): Promise<boolean> {
+async function saveToServer(path: string, content: string, reviewerName: string): Promise<boolean> {
   try {
     const res = await fetch('/api/reviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path, content }),
+      body: JSON.stringify({ path, content, reviewer_name: reviewerName }),
     });
     return res.ok;
   } catch {
@@ -36,6 +36,7 @@ async function fetchAllReviews(): Promise<Review[]> {
 
 // localStorage 헬퍼 (오프라인 백업)
 const STORAGE_KEY = 'se-review-notes';
+const REVIEWER_NAME_KEY = 'se-reviewer-name';
 
 function getLocalNotes(): Record<string, string> {
   if (typeof window === 'undefined') return {};
@@ -59,8 +60,20 @@ export function ReviewPanel() {
   const [saved, setSaved] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [allReviews, setAllReviews] = useState<Review[]>([]);
+  const [reviewerName, setReviewerName] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 리뷰어 이름 로드/저장
+  useEffect(() => {
+    const stored = localStorage.getItem(REVIEWER_NAME_KEY);
+    if (stored) setReviewerName(stored);
+  }, []);
+
+  const handleNameChange = (name: string) => {
+    setReviewerName(name);
+    localStorage.setItem(REVIEWER_NAME_KEY, name);
+  };
 
   // 페이지 변경 시 해당 페이지의 노트 로드
   useEffect(() => {
@@ -80,12 +93,12 @@ export function ReviewPanel() {
         delete notes[pathname];
       }
       saveLocalNotes(notes);
-      saveToServer(pathname, value).then((ok) => {
+      saveToServer(pathname, value, reviewerName).then((ok) => {
         setServerError(!ok);
       });
       setSaved(true);
     },
-    [pathname],
+    [pathname, reviewerName],
   );
 
   // 자동 저장 (1초 debounce)
@@ -212,7 +225,16 @@ export function ReviewPanel() {
           {/* 편집 뷰 */}
           {view === 'edit' && (
             <>
-              <div className="flex-1 p-4 overflow-y-auto">
+              <div className="flex-1 p-4 overflow-y-auto space-y-3">
+                {/* 리뷰어 이름 */}
+                <input
+                  type="text"
+                  value={reviewerName}
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  placeholder="이름 (예: 카이란)"
+                  maxLength={50}
+                  className="w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-ring focus:ring-2 focus:ring-ring/50"
+                />
                 <textarea
                   ref={textareaRef}
                   value={note}
