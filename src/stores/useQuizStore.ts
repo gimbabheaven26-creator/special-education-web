@@ -94,12 +94,22 @@ export const useQuizStore = create<QuizStore>()(
               ),
             };
           }
-          return {
-            wrongNotes: [
-              ...state.wrongNotes,
-              { questionId: question.id, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
-            ],
-          };
+          const MAX_WRONG_NOTES = 500;
+          const updated = [
+            ...state.wrongNotes,
+            { questionId: question.id, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
+          ];
+          // 초과 시 mastered된 가장 오래된 항목부터 제거
+          if (updated.length > MAX_WRONG_NOTES) {
+            const masteredOldest = updated
+              .filter((n) => n.mastered)
+              .sort((a, b) => a.lastAttempt - b.lastAttempt);
+            const removeIds = new Set(
+              masteredOldest.slice(0, updated.length - MAX_WRONG_NOTES).map((n) => n.questionId)
+            );
+            return { wrongNotes: updated.filter((n) => !removeIds.has(n.questionId)) };
+          }
+          return { wrongNotes: updated };
         }),
 
       markMastered: (questionId) =>
