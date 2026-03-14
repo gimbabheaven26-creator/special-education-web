@@ -24,6 +24,46 @@
 
 ---
 
+## [2026-03-15] 강선생 — 클로즈드 베타 리뷰 시스템 + KICE 기출 뷰어
+
+### 변경 내용
+- **리뷰 시스템 v2** — reviews 테이블에 reviewer_name, status 컬럼 추가
+- **리뷰 대시보드** — `/reviews` 페이지 (필터링, 상태 관리: pending/discussing/accepted/rejected)
+- **ReviewPanel 확장** — reviewer_name 입력 필드, 전체 페이지 활성화
+- **API 확장** — `/api/reviews` PATCH 메서드 (상태 변경), POST에 reviewer_name 지원
+- **KICE 기출 뷰어** — `/kice` 페이지 (연도/세션 선택, 원본/동형/예상 비교, 키워드 검색)
+- **contract.md v2.2** — reviews 스키마 업데이트
+
+### 신규/수정 파일
+| 파일 | 작업 |
+|------|------|
+| `src/app/reviews/page.tsx` | 신규 |
+| `src/app/kice/page.tsx` | 신규 |
+| `src/app/kice/KiceClient.tsx` | 신규 |
+| `src/components/kice/*.tsx` | 신규 (4파일) |
+| `src/lib/kice.ts` | 신규 |
+| `src/types/kice.ts` | 신규 |
+| `scripts/migrate-reviews-v2.sql` | 신규 |
+| `src/lib/db.ts` | 수정 (saveReview + updateReviewStatus) |
+| `src/app/api/reviews/route.ts` | 수정 (PATCH + reviewer_name) |
+| `src/components/ReviewPanel.tsx` | 수정 (reviewer_name 입력) |
+| `src/components/layout/ConditionalReviewPanel.tsx` | 수정 (전페이지 활성화) |
+| `src/components/layout/Header.tsx` | 수정 (기출 네비 링크) |
+| `docs/contract.md` | 수정 (v2.2) |
+
+### 영향 범위
+- 강선생: UI 전반 (리뷰 시스템, 기출 뷰어)
+- 클루디: reviews 테이블 마이그레이션 필요 (`scripts/migrate-reviews-v2.sql`)
+
+### 상태
+- [x] contract.md 업데이트
+- [ ] 카이란 승인 (마이그레이션 실행)
+- [x] 구현 완료
+- [x] 빌드 성공 + 24 tests passed
+- [x] 커밋 & 푸시 완료 (de74660, 8cebc9b)
+
+---
+
 ## [2026-03-11] 초기 세팅 — contract.md v1.0 작성
 
 ### 변경 내용

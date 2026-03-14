@@ -1,8 +1,8 @@
 # Interface Contract
 
 > 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
-> 최종 수정: 2026-03-14 | 버전: 2.1
-> v2.1: Phase 4 신규 컴포넌트/유틸 반영
+> 최종 수정: 2026-03-15 | 버전: 2.2
+> v2.2: reviews 테이블 클로즈드 베타 확장 (reviewer_name, status)
 
 ## 변경 프로토콜
 
@@ -156,11 +156,16 @@ communication-disorder:
 | 컬럼 | 타입 | 제약 | 설명 |
 |------|------|------|------|
 | id | serial | **PK** | 자동 증가 ID |
-| path | text | UNIQUE, NOT NULL | 리뷰 대상 경로 |
+| path | text | NOT NULL | 리뷰 대상 경로 |
 | content | text | NOT NULL | 리뷰 내용 |
+| reviewer_name | text | DEFAULT '' | 리뷰어 이름 (클로즈드 베타) |
+| status | text | DEFAULT 'pending' | `pending` \| `discussing` \| `accepted` \| `rejected` |
 | updated_at | timestamptz | DEFAULT now() | 수정 시간 |
 
 - RLS: 읽기/쓰기 모두 공개
+- **UNIQUE(path, reviewer_name)** — 같은 페이지에 리뷰어별 하나의 리뷰
+- **CHECK**: status IN ('pending', 'discussing', 'accepted', 'rejected')
+- **마이그레이션**: `scripts/migrate-reviews-v2.sql` (Supabase SQL Editor에서 실행)
 
 ---
 
@@ -190,7 +195,8 @@ getAllWorksheetTopics(): Promise<WorksheetTopicRow[]>
 
 // 리뷰
 getReviews(): Promise<ReviewRow[]>
-saveReview(path: string, content: string): Promise<boolean>
+saveReview(path: string, content: string, reviewerName?: string): Promise<boolean>
+updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
 ```
 
 ### 타입 매핑 규칙
