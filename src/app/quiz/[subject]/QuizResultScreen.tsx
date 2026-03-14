@@ -109,9 +109,10 @@ export function QuizResultScreen({
   onRetryWrong: () => void;
 }) {
   const total = questions.length;
+  const answeredCount = answers.length;
   const correctCount = answers.filter((a) => a.isCorrect).length;
-  const rate = Math.round((correctCount / total) * 100);
-  const wrongCount = total - correctCount;
+  const wrongAnswerCount = answers.filter((a) => !a.isCorrect).length;
+  const rate = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
 
   // Chapter breakdown
   const chapterBreakdown = questions.reduce<
@@ -153,7 +154,12 @@ export function QuizResultScreen({
           <CircularProgressRing percentage={rate} />
         </div>
         <p className="mt-3 text-lg text-muted-foreground">
-          {total}문제 중 <span className="font-bold text-foreground">{correctCount}문제</span> 정답
+          {answeredCount > 0
+            ? <>{answeredCount}문제 중 <span className="font-bold text-foreground">{correctCount}문제</span> 정답</>
+            : '풀이한 문제가 없습니다'}
+          {total - answeredCount > 0 && (
+            <span className="text-sm ml-1">({total - answeredCount}문제 건너뜀)</span>
+          )}
         </p>
         {rate >= 80 ? (
           <p className="mt-1 text-emerald-600 dark:text-emerald-400 font-medium">
@@ -236,10 +242,10 @@ export function QuizResultScreen({
 
       {/* Action Buttons */}
       <div className="flex gap-3 flex-wrap justify-center">
-        {wrongCount > 0 && (
+        {wrongAnswerCount > 0 && (
           <Button onClick={onRetryWrong} variant="outline" className="flex items-center gap-2 min-h-[44px]">
             <XCircle className="h-4 w-4" />
-            틀린 문제 다시 풀기 ({wrongCount}문제)
+            틀린 문제 다시 풀기 ({wrongAnswerCount}문제)
           </Button>
         )}
         <Button onClick={onRestart} className="flex items-center gap-2 min-h-[44px]">

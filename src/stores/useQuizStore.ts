@@ -99,13 +99,17 @@ export const useQuizStore = create<QuizStore>()(
             ...state.wrongNotes,
             { questionId: question.id, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
           ];
-          // 초과 시 mastered된 가장 오래된 항목부터 제거
+          // 초과 시 mastered → unmastered 순으로 가장 오래된 항목 제거
           if (updated.length > MAX_WRONG_NOTES) {
-            const masteredOldest = updated
-              .filter((n) => n.mastered)
-              .sort((a, b) => a.lastAttempt - b.lastAttempt);
+            const excess = updated.length - MAX_WRONG_NOTES;
+            const sortedByPriority = [...updated]
+              .sort((a, b) => {
+                // mastered 우선 제거, 같으면 오래된 것 우선
+                if (a.mastered !== b.mastered) return a.mastered ? -1 : 1;
+                return a.lastAttempt - b.lastAttempt;
+              });
             const removeIds = new Set(
-              masteredOldest.slice(0, updated.length - MAX_WRONG_NOTES).map((n) => n.questionId)
+              sortedByPriority.slice(0, excess).map((n) => n.questionId)
             );
             return { wrongNotes: updated.filter((n) => !removeIds.has(n.questionId)) };
           }

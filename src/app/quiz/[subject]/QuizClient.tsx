@@ -151,18 +151,7 @@ export function QuizClient({
     };
   }, []);
 
-  // Check if all questions are answered or skipped
-  const allHandled = useMemo(() => {
-    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
-    return activeQuestions.every((_, i) => answeredIndices.has(i) || skipped.has(i));
-  }, [answers, skipped, activeQuestions]);
-
-  // Auto-finish when all questions are handled
-  useEffect(() => {
-    if (allHandled && activeQuestions.length > 0 && answers.length > 0) {
-      setFinished(true);
-    }
-  }, [allHandled, activeQuestions.length, answers.length]);
+  // allHandled is managed directly in handleAnswer and handleSkip via findNextUnanswered
 
   if (activeQuestions.length === 0) {
     return (
@@ -258,10 +247,8 @@ export function QuizClient({
     const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, newSkipped);
 
     if (nextIndex === -1) {
-      // All remaining are skipped — if we have at least 1 answer, finish
-      if (answers.length > 0) {
-        setFinished(true);
-      }
+      // All remaining are skipped — finish regardless of answer count
+      setFinished(true);
     } else {
       setCurrentIndex(nextIndex);
     }

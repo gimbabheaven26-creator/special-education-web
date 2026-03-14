@@ -123,7 +123,8 @@ export function OXChoice({
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
-  const isCorrect = submitted && selected === String(question.answer);
+  const normalizedAnswer = String(question.answer).toUpperCase();
+  const isCorrect = submitted && selected === normalizedAnswer;
 
   const handleSelect = (choice: string) => {
     if (submitted) return;
@@ -133,7 +134,7 @@ export function OXChoice({
 
   const handleNext = () => {
     if (!selected) return;
-    onAnswer(selected, selected === String(question.answer));
+    onAnswer(selected, selected === normalizedAnswer);
   };
 
   return (
@@ -143,9 +144,9 @@ export function OXChoice({
           let className =
             'flex-1 h-20 text-3xl font-bold rounded-xl border border-border transition-colors cursor-pointer';
           if (submitted) {
-            if (choice === String(question.answer)) {
+            if (choice === normalizedAnswer) {
               className += ' border-green-500 bg-green-50 dark:bg-green-950/20 text-green-600';
-            } else if (choice === selected && choice !== String(question.answer)) {
+            } else if (choice === selected && choice !== normalizedAnswer) {
               className += ' border-red-500 bg-red-50 dark:bg-red-950/20 text-red-600';
             } else {
               className += ' bg-muted/30 text-muted-foreground';
@@ -176,7 +177,7 @@ export function OXChoice({
             <XCircle className="h-5 w-5 text-red-600" />
           )}
           <span className="text-sm font-medium">
-            {isCorrect ? '정답입니다!' : `오답 (정답: ${String(question.answer)})`}
+            {isCorrect ? '정답입니다!' : `오답 (정답: ${normalizedAnswer})`}
           </span>
         </div>
       )}
@@ -522,7 +523,7 @@ export function ScenarioCompositeChoice({
     subQs.map(() => null)
   );
 
-  const allFilled = subAnswers.some((a) => a.trim().length > 0);
+  const allFilled = subAnswers.every((a) => a.trim().length > 0);
   const allGraded = subGrades.every((g) => g !== null);
 
   const handleSubAnswerChange = (index: number, value: string) => {

@@ -12,6 +12,8 @@ import {
   MultipleChoice,
   OXChoice,
   FillInChoice,
+  DescriptiveChoice,
+  ScenarioCompositeChoice,
   CaseContextBox,
 } from '@/app/quiz/[subject]/QuestionCard';
 
@@ -225,8 +227,22 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
               onAnswer={(answer, isCorrect) => handleAnswer(answer, isCorrect)}
             />
           )}
-          {(question.type === 'fill_in' || question.type === 'descriptive') && (
+          {question.type === 'fill_in' && (
             <FillInChoice
+              key={question.id}
+              question={question}
+              onAnswer={(answer, isCorrect) => handleAnswer(answer, isCorrect)}
+            />
+          )}
+          {question.type === 'descriptive' && (
+            <DescriptiveChoice
+              key={question.id}
+              question={question}
+              onAnswer={(answer, isCorrect) => handleAnswer(answer, isCorrect)}
+            />
+          )}
+          {question.type === 'scenario_composite' && (
+            <ScenarioCompositeChoice
               key={question.id}
               question={question}
               onAnswer={(answer, isCorrect) => handleAnswer(answer, isCorrect)}
