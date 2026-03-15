@@ -29,8 +29,9 @@ function PrintModeQuestions({
   worksheet: WorksheetConfig;
   showAnswers: boolean;
 }) {
-  // Calculate answer lines for descriptive based on question count to fit one page
-  const descLines = worksheet.questionCount <= 5 ? 5 : worksheet.questionCount <= 8 ? 3 : 2;
+  // Calculate answer lines for descriptive based on descriptive question count (not total)
+  const descCount = worksheet.questions.filter((q) => q.type === 'descriptive').length;
+  const descLines = descCount <= 3 ? 5 : descCount <= 5 ? 3 : 2;
 
   return (
     <div className="worksheet-onepage space-y-4 print:space-y-2">
