@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import type { QuizQuestion } from '@/types/quiz';
+import type { QuizQuestion, Confidence } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen } from 'lucide-react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type Confidence = 'sure' | 'unsure';
+export type { Confidence };
 
 export interface AnswerRecord {
   questionIndex: number;

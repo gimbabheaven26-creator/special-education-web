@@ -353,6 +353,7 @@ export function QuizClient({
       timestamp: Date.now(),
       subject: currentQ.subject,
       chapter: currentQ.chapter,
+      confidence,
     });
 
     if (!isCorrect) {

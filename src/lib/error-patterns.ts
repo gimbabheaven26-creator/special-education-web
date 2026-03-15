@@ -72,5 +72,13 @@ export function detectErrorPatterns(
     }
   }
 
+  // 4. Lucky correct: answered correctly but with low confidence
+  const luckyCount = questionHistory.filter(
+    (r) => r.isCorrect && r.confidence === 'unsure',
+  ).length;
+  if (luckyCount >= 1) {
+    patterns.push('lucky_correct');
+  }
+
   return patterns;
 }

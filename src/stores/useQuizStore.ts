@@ -213,7 +213,7 @@ export const useQuizStore = create<QuizStore>()(
     }),
     {
       name: 'quiz-data',
-      version: 2,
+      version: 3,
       migrate: (persistedState, version) => {
         let state = persistedState as Record<string, unknown>;
 
@@ -239,6 +239,10 @@ export const useQuizStore = create<QuizStore>()(
               chapter: entry.chapter ?? '',
             })),
           };
+        }
+
+        if (version < 3) {
+          // v2 -> v3: confidence field added to QuizResult (optional, no data migration needed)
         }
 
         return state;

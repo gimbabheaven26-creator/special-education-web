@@ -37,7 +37,7 @@ function todayStr(): string {
 interface LeitnerStore {
   cards: LeitnerCard[];
   addCard: (card: Omit<LeitnerCard, 'box' | 'lastReviewed' | 'nextReview' | 'createdAt'>) => void;
-  answerCard: (cardId: string, correct: boolean) => void;
+  answerCard: (cardId: string, correct: boolean, confidence?: 'sure' | 'unsure') => void;
   getDueCards: (subjectSlug?: string) => LeitnerCard[];
   getCardsByBox: (box: number) => LeitnerCard[];
   getStats: () => {
@@ -69,7 +69,7 @@ export const useLeitnerStore = create<LeitnerStore>()(
         set((state) => ({ cards: [...state.cards, newCard] }));
       },
 
-      answerCard: (cardId, correct) => {
+      answerCard: (cardId, correct, confidence) => {
         set((state) => ({
           cards: state.cards.map((card) => {
             if (card.id !== cardId) return card;
@@ -78,7 +78,10 @@ export const useLeitnerStore = create<LeitnerStore>()(
             let newBox: 1 | 2 | 3 | 4 | 5;
 
             if (correct) {
-              newBox = (Math.min(card.box + 1, 5) as 1 | 2 | 3 | 4 | 5);
+              // unsure + correct → stay in current box (no promotion)
+              newBox = confidence === 'unsure'
+                ? card.box
+                : (Math.min(card.box + 1, 5) as 1 | 2 | 3 | 4 | 5);
             } else {
               newBox = 1;
             }

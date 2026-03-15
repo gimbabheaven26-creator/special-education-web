@@ -1,10 +1,11 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
 import type { WrongNote } from '@/types/study';
+import type { Confidence } from '@/types/quiz';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +17,10 @@ import {
   ScenarioCompositeChoice,
   CaseContextBox,
 } from '@/app/quiz/[subject]/QuestionCard';
+import { XPToast } from '@/app/quiz/[subject]/ProgressDots';
+import { ComboIndicator } from '@/components/quiz/ComboIndicator';
+import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
+import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/xp-constants';
 
 interface QuizAnswer {
   questionId: string;
@@ -42,6 +47,14 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
   const [finished, setFinished] = useState(false);
+  const [comboStreak, setComboStreak] = useState(0);
+  const [confidence, setConfidence] = useState<Confidence>('sure');
+  const [xpEarned, setXpEarned] = useState(0);
+  const [xpToast, setXpToast] = useState<{ amount: number; visible: boolean }>({
+    amount: 0,
+    visible: false,
+  });
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Snapshot the questions at mount to avoid shifting indices
   const [questions] = useState(() =>
@@ -49,6 +62,14 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
   );
 
   const currentNote: WrongNote | undefined = questions[currentIndex];
+
+  const showXPToast = useCallback((amount: number) => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setXpToast({ amount, visible: true });
+    toastTimerRef.current = setTimeout(() => {
+      setXpToast((prev) => ({ ...prev, visible: false }));
+    }, 1200);
+  }, []);
 
   const handleAnswer = useCallback(
     (userAnswer: string | number, isCorrect: boolean) => {
@@ -64,7 +85,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
       // Record in study store (XP, streak, daily stats)
       recordQuizResult(isCorrect);
 
-      // Record in quiz store (history)
+      // Record in quiz store (history) with confidence
       addQuizResult({
         questionId: currentNote.questionId,
         userAnswer,
@@ -72,6 +93,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
         timestamp: Date.now(),
         subject: currentNote.question.subject,
         chapter: currentNote.question.chapter,
+        confidence,
       });
 
       if (isCorrect) {
@@ -80,13 +102,29 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
         addWrongNote(currentNote.question, userAnswer);
       }
 
+      // Reset confidence for next question
+      setConfidence('sure');
+
+      // Combo tracking
+      const newCombo = isCorrect ? comboStreak + 1 : 0;
+      setComboStreak(newCombo);
+
+      // XP calculation
+      let earned = isCorrect ? XP_TOAST_CORRECT : XP_TOAST_WRONG;
+      const combo = isCorrect ? getComboBonus(newCombo) : null;
+      if (combo) {
+        earned += combo.bonus;
+      }
+      setXpEarned((prev) => prev + earned);
+      showXPToast(earned);
+
       if (currentIndex + 1 >= questions.length) {
         setFinished(true);
       } else {
         setCurrentIndex((prev) => prev + 1);
       }
     },
-    [currentNote, answers, currentIndex, questions.length, markMastered, addWrongNote, recordQuizResult, addQuizResult],
+    [currentNote, answers, currentIndex, questions.length, comboStreak, confidence, markMastered, addWrongNote, recordQuizResult, addQuizResult, showXPToast],
   );
 
   // Empty state
@@ -148,6 +186,11 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
                 <p className="text-sm text-muted-foreground">정답률</p>
               </div>
             </div>
+            {xpEarned > 0 && (
+              <p className="text-center text-sm text-primary font-medium">
+                +{xpEarned} XP 획득!
+              </p>
+            )}
             {correctCount > 0 && (
               <p className="text-center text-sm text-green-600">
                 맞은 문제 {correctCount}개가 완료 처리되었습니다.
@@ -187,12 +230,18 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10 space-y-6">
+      <XPToast amount={xpToast.amount} visible={xpToast.visible} />
+
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold tracking-tight">오답 재시험</h1>
         <Badge variant="outline">
           {currentIndex + 1} / {questions.length}
         </Badge>
       </div>
+
+      {comboStreak >= 3 && (
+        <ComboIndicator streak={comboStreak} />
+      )}
 
       <Card>
         <CardContent className="space-y-4">
@@ -251,14 +300,17 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
         </CardContent>
       </Card>
 
-      <Button
-        render={<Link href="/wrong-notes" />}
-        variant="ghost"
-        size="sm"
-        className="min-h-[44px]"
-      >
-        오답 노트로 돌아가기
-      </Button>
+      <div className="flex items-center justify-between">
+        <ConfidenceToggle value={confidence} onChange={setConfidence} />
+        <Button
+          render={<Link href="/wrong-notes" />}
+          variant="ghost"
+          size="sm"
+          className="min-h-[44px]"
+        >
+          오답 노트로 돌아가기
+        </Button>
+      </div>
     </main>
   );
 }

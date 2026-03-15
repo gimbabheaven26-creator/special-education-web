@@ -12,6 +12,7 @@ import WeeklySummary from './WeeklySummary';
 import WeeklyTrendChart from './WeeklyTrendChart';
 import DailyHeatmap from './DailyHeatmap';
 import FlashcardStats from './FlashcardStats';
+import LevelProgress from './LevelProgress';
 
 interface StatsClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
@@ -76,6 +77,9 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
         total={overall.total}
         correct={overall.correct}
       />
+
+      {/* Level Progress */}
+      <LevelProgress totalXP={totalXP} />
 
       {/* Quick Stats Row */}
       <div className="flex flex-wrap gap-3 justify-center">
