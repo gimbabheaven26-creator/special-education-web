@@ -8,10 +8,13 @@ import { RotateCcw, XCircle, BookOpen } from 'lucide-react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
+export type Confidence = 'sure' | 'unsure';
+
 export interface AnswerRecord {
   questionIndex: number;
   isCorrect: boolean;
   userAnswer: string | number;
+  confidence?: Confidence;
 }
 
 type QuestionTypeLabel = 'multiple' | 'ox' | 'fill_in' | 'descriptive' | 'scenario_composite';

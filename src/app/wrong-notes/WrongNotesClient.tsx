@@ -8,6 +8,7 @@ import type { WrongNote } from '@/types/study';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import WrongNoteCard from './WrongNoteCard';
+import { detectErrorPatterns } from '@/lib/error-patterns';
 
 type SortMode = 'recent' | 'attempts' | 'oldest';
 
@@ -29,9 +30,18 @@ interface WrongNotesClientProps {
 export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: WrongNotesClientProps) {
   const searchParams = useSearchParams();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
+  const quizHistory = useQuizStore((s) => s.quizHistory);
   const markMastered = useQuizStore((s) => s.markMastered);
   const unmarkMastered = useQuizStore((s) => s.unmarkMastered);
   const removeWrongNote = useQuizStore((s) => s.removeWrongNote);
+
+  const errorPatternsMap = useMemo(() => {
+    const map = new Map<string, ReturnType<typeof detectErrorPatterns>>();
+    for (const note of wrongNotes) {
+      map.set(note.questionId, detectErrorPatterns(note, quizHistory));
+    }
+    return map;
+  }, [wrongNotes, quizHistory]);
 
   const [subjectFilter, setSubjectFilter] = useState<string>(
     () => searchParams.get('subject') ?? 'all',
@@ -239,6 +249,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
                     <WrongNoteCard
                       key={note.questionId}
                       note={note}
+                      errorPatterns={errorPatternsMap.get(note.questionId)}
                       onMarkMastered={markMastered}
                       onUnmarkMastered={unmarkMastered}
                       onDelete={removeWrongNote}

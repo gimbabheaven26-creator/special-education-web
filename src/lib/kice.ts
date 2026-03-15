@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync, existsSync } from 'fs'
 import { join } from 'path'
-import type { KiceExam, ExamEntry } from '@/types/kice'
+import type { KiceExam, KiceQuestion, ExamEntry } from '@/types/kice'
 
 const KICE_DIR = join(process.cwd(), 'data', 'kice-기출')
 
@@ -44,6 +44,35 @@ export function getExam(year: number, session: string): KiceExam | null {
   } catch {
     return null
   }
+}
+
+/** Deterministically pick one KICE question based on date string (YYYY-MM-DD) */
+export function getQuestionOfTheDay(dateStr: string): {
+  question: KiceQuestion;
+  year: number;
+  session: string;
+} | null {
+  const entries = getAvailableExams().filter((e) => !e.isIsomorphic && !e.isPredicted)
+  if (entries.length === 0) return null
+
+  const allQuestions: Array<{ question: KiceQuestion; year: number; session: string }> = []
+  for (const entry of entries) {
+    const exam = getExam(entry.year, entry.session)
+    if (!exam) continue
+    for (const q of exam.questions) {
+      allQuestions.push({ question: q, year: entry.year, session: entry.session })
+    }
+  }
+
+  if (allQuestions.length === 0) return null
+
+  // Simple deterministic hash from date string
+  let hash = 0
+  for (let i = 0; i < dateStr.length; i++) {
+    hash = (hash * 31 + dateStr.charCodeAt(i)) | 0
+  }
+  const index = Math.abs(hash) % allQuestions.length
+  return allQuestions[index]
 }
 
 export function getAllKeywords(): string[] {

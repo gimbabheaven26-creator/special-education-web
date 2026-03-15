@@ -11,9 +11,20 @@ import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
 import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice, ScenarioCompositeChoice } from './QuestionCard';
-import { XP_TOAST_CORRECT, XP_TOAST_WRONG } from '@/lib/xp-constants';
+import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/xp-constants';
 import { SessionSetup, type SessionConfig, type SessionPreset } from './SessionSetup';
 import { saveSession, loadSession, clearSession, type SavedSession } from '@/lib/session-recovery';
+import { ComboIndicator } from '@/components/quiz/ComboIndicator';
+import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
+import type { Confidence } from './QuizResultScreen';
+import { PenLine, FileText } from 'lucide-react';
+
+// ─── Question type categories ────────────────────────────────────────────────
+
+type QuizTab = 'short' | 'essay';
+
+const SHORT_ANSWER_TYPES = new Set(['multiple', 'ox', 'fill_in']);
+const ESSAY_TYPES = new Set(['descriptive', 'scenario_composite']);
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -169,11 +180,22 @@ export function QuizClient({
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const quizHistory = useQuizStore((s) => s.quizHistory);
 
+  // Tab state
+  const [activeTab, setActiveTab] = useState<QuizTab>('short');
+
+  // Filter questions by tab
+  const typeSet = activeTab === 'short' ? SHORT_ANSWER_TYPES : ESSAY_TYPES;
+
+  const filteredQuestions = useMemo(
+    () => questions.filter((q) => typeSet.has(q.type)),
+    [questions, typeSet],
+  );
+
   const reviewQuestions = useMemo(
     () => wrongNotes
-      .filter((n) => !n.mastered && n.question.subject === subjectSlug)
+      .filter((n) => !n.mastered && n.question.subject === subjectSlug && typeSet.has(n.question.type))
       .map((n) => n.question),
-    [wrongNotes, subjectSlug],
+    [wrongNotes, subjectSlug, typeSet],
   );
 
   const subjectHistory = useMemo(
@@ -194,6 +216,8 @@ export function QuizClient({
   });
   const [currentPreset, setCurrentPreset] = useState<SessionPreset>('review');
   const [currentQuestionCount, setCurrentQuestionCount] = useState(10);
+  const [comboStreak, setComboStreak] = useState(0);
+  const [confidence, setConfidence] = useState<Confidence>('sure');
 
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
@@ -244,7 +268,7 @@ export function QuizClient({
 
   const handleStart = useCallback((config: SessionConfig) => {
     const sessionQuestions = buildSession(
-      questions,
+      filteredQuestions,
       reviewQuestions,
       subjectHistory,
       config,
@@ -254,11 +278,12 @@ export function QuizClient({
     setAnswers([]);
     setSkipped(new Set());
     setXpEarned(0);
+    setComboStreak(0);
     setCurrentPreset(config.preset);
     setCurrentQuestionCount(config.questionCount);
     setPhase('quiz');
     clearSession();
-  }, [questions, reviewQuestions, subjectHistory]);
+  }, [filteredQuestions, reviewQuestions, subjectHistory]);
 
   const handleResume = useCallback(() => {
     if (!savedSession) return;
@@ -311,6 +336,7 @@ export function QuizClient({
       questionIndex: currentIndex,
       isCorrect,
       userAnswer: _answer,
+      confidence,
     };
     const updatedAnswers = [...answers, newAnswer];
 
@@ -330,7 +356,18 @@ export function QuizClient({
       addWrongNote(currentQ, _answer);
     }
 
-    const earned = isCorrect ? XP_TOAST_CORRECT : XP_TOAST_WRONG;
+    // Reset confidence for next question
+    setConfidence('sure');
+
+    // Combo tracking
+    const newCombo = isCorrect ? comboStreak + 1 : 0;
+    setComboStreak(newCombo);
+
+    let earned = isCorrect ? XP_TOAST_CORRECT : XP_TOAST_WRONG;
+    const combo = isCorrect ? getComboBonus(newCombo) : null;
+    if (combo) {
+      earned += combo.bonus;
+    }
     setXpEarned((prev) => prev + earned);
     showXPToast(earned);
 
@@ -374,15 +411,43 @@ export function QuizClient({
 
   if (phase === 'setup') {
     return (
-      <SessionSetup
-        subjectSlug={subjectSlug}
-        subjectTitle={subjectTitle}
-        questions={questions}
-        chapterMap={chapterMap}
-        savedSession={savedSession}
-        onStart={handleStart}
-        onResume={handleResume}
-      />
+      <div className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
+        {/* Tab Switcher */}
+        <div className="flex rounded-xl bg-muted p-1 gap-1">
+          <button
+            onClick={() => setActiveTab('short')}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+              activeTab === 'short'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <PenLine className="h-4 w-4" />
+            단답형 문제
+          </button>
+          <button
+            onClick={() => setActiveTab('essay')}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+              activeTab === 'essay'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <FileText className="h-4 w-4" />
+            서술형 문제
+          </button>
+        </div>
+
+        <SessionSetup
+          subjectSlug={subjectSlug}
+          subjectTitle={subjectTitle}
+          questions={filteredQuestions}
+          chapterMap={chapterMap}
+          savedSession={savedSession}
+          onStart={handleStart}
+          onResume={handleResume}
+        />
+      </div>
     );
   }
 
@@ -456,6 +521,13 @@ export function QuizClient({
         />
       </div>
 
+      {/* 콤보 표시 */}
+      {comboStreak >= 3 && (
+        <div className="mb-3">
+          <ComboIndicator streak={comboStreak} />
+        </div>
+      )}
+
       {/* 현재 문제의 소제목 */}
       <p className="text-sm text-muted-foreground mb-2">
         📌 {chapterMap[currentQuestion.chapter] || currentQuestion.chapter}
@@ -509,8 +581,9 @@ export function QuizClient({
         </CardContent>
       </Card>
 
-      {/* 건너뛰기 버튼 */}
-      <div className="flex justify-end">
+      {/* 확신도 + 건너뛰기 */}
+      <div className="flex items-center justify-between mt-2">
+        <ConfidenceToggle value={confidence} onChange={setConfidence} />
         <button
           onClick={handleSkip}
           className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-muted"

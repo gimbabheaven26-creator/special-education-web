@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BookOpen, CopyPlus } from 'lucide-react';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import type { ErrorPattern } from '@/lib/error-patterns';
+import { ErrorPatternBadge } from './ErrorPatternBadge';
 
 const TYPE_LABELS: Record<string, string> = {
   ox: 'OX',
@@ -33,6 +35,7 @@ function formatAnswer(answer: string | number, note: WrongNote): string {
 
 interface WrongNoteCardProps {
   note: WrongNote;
+  errorPatterns?: ErrorPattern[];
   onMarkMastered: (questionId: string) => void;
   onUnmarkMastered: (questionId: string) => void;
   onDelete: (questionId: string) => void;
@@ -40,6 +43,7 @@ interface WrongNoteCardProps {
 
 export default function WrongNoteCard({
   note,
+  errorPatterns,
   onMarkMastered,
   onUnmarkMastered,
   onDelete,
@@ -80,6 +84,10 @@ export default function WrongNoteCard({
             {formatDate(note.lastAttempt)}
           </span>
         </div>
+
+        {errorPatterns && errorPatterns.length > 0 && (
+          <ErrorPatternBadge patterns={errorPatterns} />
+        )}
 
         <button
           type="button"

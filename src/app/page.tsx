@@ -3,11 +3,13 @@ export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { Brain, FileText, Layers, ClipboardX, BarChart3 } from 'lucide-react';
 import { getSubjects } from '@/lib/db';
+import { getQuestionOfTheDay } from '@/lib/kice';
 import { StreakBanner } from '@/components/dashboard/StreakBanner';
 import { DailyGoalCard } from '@/components/dashboard/DailyGoalCard';
 import { ContinueLearning } from '@/components/dashboard/ContinueLearning';
 import { TodayStudyPlan } from '@/components/dashboard/TodayStudyPlan';
 import { SubjectGrid } from '@/components/dashboard/SubjectGrid';
+import { QuestionOfTheDay } from '@/components/dashboard/QuestionOfTheDay';
 
 const quickActions = [
   { href: '/quiz', icon: Brain, label: '퀴즈', color: 'bg-xp/10 text-xp' },
@@ -19,6 +21,10 @@ const quickActions = [
 
 export default async function HomePage() {
   const subjects = await getSubjects();
+
+  // KST date for deterministic daily question
+  const todayKST = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
+  const qotd = getQuestionOfTheDay(todayKST);
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
@@ -41,6 +47,16 @@ export default async function HomePage() {
 
       {/* 오늘의 학습 추천 (온보딩 기반) */}
       <TodayStudyPlan />
+
+      {/* 오늘의 기출 */}
+      {qotd && (
+        <QuestionOfTheDay
+          question={qotd.question}
+          year={qotd.year}
+          session={qotd.session}
+          dateStr={todayKST}
+        />
+      )}
 
       {/* 오늘의 목표 + 이어서 학습하기 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -2,6 +2,7 @@
 
 import { Flame } from 'lucide-react';
 import { useStudyStore } from '@/stores/useStudyStore';
+import { getLevel, getLevelProgress, getLevelName } from '@/lib/xp-constants';
 import { useEffect, useState } from 'react';
 
 export function StreakBanner() {
@@ -55,8 +56,19 @@ export function StreakBanner() {
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold">{totalXP.toLocaleString()}</div>
-            <div className="text-xs opacity-80">총 XP</div>
+            <div className="text-lg font-bold flex items-center gap-1 justify-end">
+              <span>{getLevelName(getLevel(totalXP)).emoji}</span>
+              <span>{getLevelName(getLevel(totalXP)).name}</span>
+            </div>
+            <div className="text-xs opacity-80 mt-0.5">
+              Lv.{getLevel(totalXP)} · {totalXP.toLocaleString()} XP
+            </div>
+            <div className="mt-1.5 h-1.5 w-24 rounded-full bg-white/20 ml-auto">
+              <div
+                className="h-full rounded-full bg-white/80 transition-all"
+                style={{ width: `${getLevelProgress(totalXP).percent}%` }}
+              />
+            </div>
           </div>
         </div>
       )}
