@@ -2,13 +2,13 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, GraduationCap, AlertTriangle, Rocket } from 'lucide-react';
+import { GraduationCap, AlertTriangle, Rocket } from 'lucide-react';
 import { useOnboardingStore, type StudyLevel } from '@/stores/useOnboardingStore';
-import { generateStudyPlan, getSubjectTitle, getAllSubjectSlugs } from '@/lib/study-planner';
+import { generateStudyPlan, getSubjectTitle, getAllSubjectSlugs, getNextExamDate } from '@/lib/study-planner';
 
-type Step = 'exam-date' | 'level' | 'weak-subjects' | 'confirm';
+type Step = 'level' | 'weak-subjects' | 'confirm';
 
-const STEPS: Step[] = ['exam-date', 'level', 'weak-subjects', 'confirm'];
+const STEPS: Step[] = ['level', 'weak-subjects', 'confirm'];
 
 const LEVEL_OPTIONS: { value: StudyLevel; label: string; description: string; icon: string }[] = [
   { value: 'beginner', label: '입문 (0회독)', description: '아직 공부를 시작하지 않았거나 막 시작했어요', icon: '🌱' },
@@ -35,64 +35,18 @@ function StepIndicator({ currentStep }: { currentStep: Step }) {
   );
 }
 
-function ExamDateStep({
-  value,
-  onChange,
-  onNext,
-}: {
-  value: string;
-  onChange: (date: string) => void;
-  onNext: () => void;
-}) {
-  return (
-    <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-2">
-          <Calendar className="h-8 w-8 text-primary" />
-        </div>
-        <h2 className="text-xl font-bold">시험까지 며칠 남았나요?</h2>
-        <p className="text-sm text-muted-foreground">
-          시험일을 입력하면 맞춤 학습 계획을 만들어드려요
-        </p>
-      </div>
-
-      <div className="space-y-3">
-        <label className="text-sm font-medium">시험 예정일</label>
-        <input
-          type="date"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          min={new Date().toISOString().split('T')[0]}
-          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-        {value && (
-          <p className="text-sm text-muted-foreground text-center">
-            D-{Math.max(0, Math.ceil((new Date(value).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))}일 남았어요
-          </p>
-        )}
-      </div>
-
-      <button
-        onClick={onNext}
-        disabled={!value}
-        className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
-      >
-        다음
-      </button>
-    </div>
-  );
-}
-
 function LevelStep({
   value,
   onChange,
   onNext,
-  onBack,
+  examDate,
+  dday,
 }: {
   value: StudyLevel | null;
   onChange: (level: StudyLevel) => void;
   onNext: () => void;
-  onBack: () => void;
+  examDate: string;
+  dday: number;
 }) {
   return (
     <div className="space-y-6">
@@ -102,7 +56,8 @@ function LevelStep({
         </div>
         <h2 className="text-xl font-bold">현재 어느 단계인가요?</h2>
         <p className="text-sm text-muted-foreground">
-          학습 수준에 맞는 계획을 세워드릴게요
+          {examDate} 시험까지 <span className="font-semibold text-primary">D-{dday}</span>일!
+          학습 수준에 맞는 계획을 세워드릴게요.
         </p>
       </div>
 
@@ -128,21 +83,13 @@ function LevelStep({
         ))}
       </div>
 
-      <div className="flex gap-3">
-        <button
-          onClick={onBack}
-          className="flex-1 py-3 rounded-xl border border-border font-semibold hover:bg-muted/50 transition-colors"
-        >
-          이전
-        </button>
-        <button
-          onClick={onNext}
-          disabled={!value}
-          className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
-        >
-          다음
-        </button>
-      </div>
+      <button
+        onClick={onNext}
+        disabled={!value}
+        className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+      >
+        다음
+      </button>
     </div>
   );
 }
@@ -223,18 +170,19 @@ function WeakSubjectsStep({
 
 function ConfirmStep({
   examDate,
+  dday,
   level,
   weakSubjects,
   onBack,
   onConfirm,
 }: {
   examDate: string;
+  dday: number;
   level: StudyLevel;
   weakSubjects: string[];
   onBack: () => void;
   onConfirm: () => void;
 }) {
-  const dday = Math.max(0, Math.ceil((new Date(examDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
   const levelLabel = LEVEL_OPTIONS.find((o) => o.value === level)?.label ?? level;
 
   return (
@@ -295,8 +243,10 @@ export default function OnboardingPage() {
   const router = useRouter();
   const completeOnboarding = useOnboardingStore((s) => s.completeOnboarding);
 
-  const [step, setStep] = useState<Step>('exam-date');
-  const [examDate, setExamDate] = useState('');
+  const examDate = getNextExamDate();
+  const dday = Math.max(0, Math.ceil((new Date(examDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+
+  const [step, setStep] = useState<Step>('level');
   const [level, setLevel] = useState<StudyLevel | null>(null);
   const [weakSubjects, setWeakSubjects] = useState<string[]>([]);
 
@@ -326,11 +276,8 @@ export default function OnboardingPage() {
       <div className="w-full max-w-md">
         <StepIndicator currentStep={step} />
 
-        {step === 'exam-date' && (
-          <ExamDateStep value={examDate} onChange={setExamDate} onNext={goNext} />
-        )}
         {step === 'level' && (
-          <LevelStep value={level} onChange={setLevel} onNext={goNext} onBack={goBack} />
+          <LevelStep value={level} onChange={setLevel} onNext={goNext} examDate={examDate} dday={dday} />
         )}
         {step === 'weak-subjects' && (
           <WeakSubjectsStep selected={weakSubjects} onChange={setWeakSubjects} onNext={goNext} onBack={goBack} />
@@ -338,6 +285,7 @@ export default function OnboardingPage() {
         {step === 'confirm' && level && (
           <ConfirmStep
             examDate={examDate}
+            dday={dday}
             level={level}
             weakSubjects={weakSubjects}
             onBack={goBack}

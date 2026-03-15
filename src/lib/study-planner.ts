@@ -158,3 +158,34 @@ export function getSubjectWeight(slug: string): number {
 export function getAllSubjectSlugs(): string[] {
   return Object.keys(subjectWeights);
 }
+
+/**
+ * 다음 임용고시 1차 시험일을 자동 계산한다.
+ * 임용고시 1차는 매년 11월 셋째 주 토요일에 실시.
+ * 이미 지났으면 다음 해 시험일을 반환한다.
+ */
+export function getNextExamDate(): string {
+  const today = new Date(getKSTDate() + 'T00:00:00+09:00');
+  const year = today.getFullYear();
+
+  function thirdSaturdayOfNovember(y: number): Date {
+    // 11월 1일의 요일 구하기
+    const nov1 = new Date(`${y}-11-01T00:00:00+09:00`);
+    const dayOfWeek = nov1.getDay(); // 0=Sun, 6=Sat
+    // 첫 번째 토요일까지 남은 일수
+    const daysToFirstSat = (6 - dayOfWeek + 7) % 7;
+    const firstSat = daysToFirstSat === 0 ? 1 : 1 + daysToFirstSat;
+    // 셋째 주 토요일 = 첫 번째 토요일 + 14일
+    const thirdSatDay = firstSat + 14;
+    return new Date(`${y}-11-${String(thirdSatDay).padStart(2, '0')}T00:00:00+09:00`);
+  }
+
+  const thisYearExam = thirdSaturdayOfNovember(year);
+
+  // 오늘 기준으로 이번 해 시험이 아직 안 지났으면 이번 해, 지났으면 내년
+  const examDate = today <= thisYearExam
+    ? thisYearExam
+    : thirdSaturdayOfNovember(year + 1);
+
+  return getKSTDate(examDate);
+}
