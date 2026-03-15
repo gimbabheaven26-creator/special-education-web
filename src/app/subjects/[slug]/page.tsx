@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 import { getSubjectBySlug } from '@/lib/db';
 import {
   Breadcrumb,
@@ -55,6 +56,17 @@ export default async function SubjectDetailPage({
         subjectSlug={subject.slug}
         chapters={subject.chapters}
       />
+
+      {/* 돌아가기 */}
+      <div className="mt-8 flex justify-center">
+        <Link
+          href="/subjects"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-sm font-semibold hover:bg-muted/50 transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          과목 목록으로 돌아가기
+        </Link>
+      </div>
     </div>
   );
 }

@@ -122,6 +122,8 @@ export function ReviewPanel() {
   const handleSaveNow = () => {
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     persistNote(note);
+    // 저장 후 패널 닫기
+    setTimeout(() => setIsOpen(false), 300);
   };
 
   // 히스토리 로드

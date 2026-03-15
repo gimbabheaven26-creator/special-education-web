@@ -37,37 +37,77 @@ export default function FlashcardsPage() {
         </p>
       </div>
 
-      {/* Stats summary */}
-      <div className="flex flex-wrap gap-3 items-center">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">전체 카드</span>
-          <Badge variant="secondary">{stats.total}장</Badge>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">오늘 복습 대상</span>
-          <Badge variant={stats.dueToday > 0 ? 'default' : 'outline'}>
-            {stats.dueToday}장
-          </Badge>
-        </div>
-      </div>
-
-      {/* 5 Boxes */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-        {boxes.map((box) => {
-          const count = stats[`box${box}` as keyof typeof stats] as number;
-          return (
-            <div
-              key={box}
-              className={`rounded-xl border-2 p-4 flex flex-col items-center gap-2 transition-colors ${BOX_COLORS[box]}`}
-            >
-              <span className="text-2xl font-bold">{count}</span>
-              <span className="text-xs font-medium text-center leading-tight">
-                {BOX_LABELS[box]}
-              </span>
+      {/* Empty state */}
+      {stats.total === 0 && (
+        <Card className="border-dashed border-2 border-primary/30">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10">
+                <span className="text-2xl">📇</span>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg">아직 플래시카드가 없어요</h3>
+                <p className="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
+                  플래시카드를 추가하면 라이트너 간격반복 시스템으로 효율적으로 암기할 수 있어요.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">카드를 추가하는 방법</p>
+                <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                  <Link
+                    href="/flashcards/add"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+                  >
+                    직접 카드 만들기
+                  </Link>
+                  <Link
+                    href="/wrong-notes"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted/50 transition-colors"
+                  >
+                    오답 노트에서 추가하기
+                  </Link>
+                </div>
+              </div>
             </div>
-          );
-        })}
-      </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Stats summary (only when cards exist) */}
+      {stats.total > 0 && (
+        <div className="flex flex-wrap gap-3 items-center">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">전체 카드</span>
+            <Badge variant="secondary">{stats.total}장</Badge>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">오늘 복습 대상</span>
+            <Badge variant={stats.dueToday > 0 ? 'default' : 'outline'}>
+              {stats.dueToday}장
+            </Badge>
+          </div>
+        </div>
+      )}
+
+      {/* 5 Boxes (only when cards exist) */}
+      {stats.total > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          {boxes.map((box) => {
+            const count = stats[`box${box}` as keyof typeof stats] as number;
+            return (
+              <div
+                key={box}
+                className={`rounded-xl border-2 p-4 flex flex-col items-center gap-2 transition-colors ${BOX_COLORS[box]}`}
+              >
+                <span className="text-2xl font-bold">{count}</span>
+                <span className="text-xs font-medium text-center leading-tight">
+                  {BOX_LABELS[box]}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Leitner rules explanation */}
       <Card>
@@ -88,7 +128,7 @@ export default function FlashcardsPage() {
 
       {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-3">
-        {stats.dueToday > 0 ? (
+        {stats.total > 0 && stats.dueToday > 0 ? (
           <Button
             size="lg"
             className="flex-1"
@@ -96,11 +136,11 @@ export default function FlashcardsPage() {
           >
             오늘의 복습 시작 ({stats.dueToday}장)
           </Button>
-        ) : (
+        ) : stats.total > 0 ? (
           <Button size="lg" className="flex-1" disabled>
             오늘 복습할 카드가 없어요
           </Button>
-        )}
+        ) : null}
         <Button
           variant="outline"
           size="lg"

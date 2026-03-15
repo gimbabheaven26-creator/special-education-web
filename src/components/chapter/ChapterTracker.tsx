@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
@@ -18,6 +19,7 @@ export function ChapterTracker({
   chapterSlug,
   chapterTitle,
 }: ChapterTrackerProps) {
+  const router = useRouter();
   const [completed, setCompleted] = useState(false);
   const [showXP, setShowXP] = useState(false);
 
@@ -37,12 +39,14 @@ export function ChapterTracker({
     setCompleted(true);
     setShowXP(true);
 
+    // XP 애니메이션 후 과목 페이지로 자동 이동
     const timer = setTimeout(() => {
       setShowXP(false);
-    }, 2000);
+      router.push(`/subjects/${subjectSlug}`);
+    }, 1500);
 
     return () => clearTimeout(timer);
-  }, [completed]);
+  }, [completed, router, subjectSlug]);
 
   return (
     <div className="flex flex-col items-center gap-3 py-6">

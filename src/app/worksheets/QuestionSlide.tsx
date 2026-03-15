@@ -103,13 +103,16 @@ export function QuestionSlide({
         </div>
 
         {/* Question text */}
-        <p className="text-base leading-relaxed text-foreground whitespace-pre-wrap mb-4">
+        <div className="text-base leading-relaxed text-foreground whitespace-pre-wrap mb-4 p-3 rounded-lg bg-muted/30 border border-border/50">
           {question.question}
-        </p>
+        </div>
 
         {/* Answer input */}
         {!isReview && (
-          <div>
+          <div className="border-l-4 border-primary/30 pl-4">
+            <p className="text-xs font-medium text-muted-foreground mb-2">
+              {question.type === 'fill_in' ? '답안 입력' : '서술형 답안'}
+            </p>
             {question.type === 'fill_in' ? (
               <Input
                 value={answer}
