@@ -16,6 +16,7 @@ import {
   ClipboardX,
   GraduationCap,
   Gamepad2,
+  TreePine,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -31,6 +32,7 @@ const moreLinks = [
   { href: '/kice', icon: GraduationCap, label: '기출' },
   { href: '/scenarios', icon: Gamepad2, label: '시뮬레이터' },
   { href: '/wrong-notes', icon: ClipboardX, label: '오답노트' },
+  { href: '/mastery', icon: TreePine, label: '마스터리' },
   { href: '/stats', icon: BarChart3, label: '통계' },
   { href: '/bookmarks', icon: Bookmark, label: '북마크' },
   { href: '/search', icon: Search, label: '검색' },
