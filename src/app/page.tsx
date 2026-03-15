@@ -6,6 +6,7 @@ import { getSubjects } from '@/lib/db';
 import { StreakBanner } from '@/components/dashboard/StreakBanner';
 import { DailyGoalCard } from '@/components/dashboard/DailyGoalCard';
 import { ContinueLearning } from '@/components/dashboard/ContinueLearning';
+import { TodayStudyPlan } from '@/components/dashboard/TodayStudyPlan';
 import { SubjectGrid } from '@/components/dashboard/SubjectGrid';
 
 const quickActions = [
@@ -37,6 +38,9 @@ export default async function HomePage() {
           </Link>
         ))}
       </div>
+
+      {/* 오늘의 학습 추천 (온보딩 기반) */}
+      <TodayStudyPlan />
 
       {/* 오늘의 목표 + 이어서 학습하기 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

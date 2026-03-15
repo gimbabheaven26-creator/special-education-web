@@ -14,6 +14,7 @@ import {
   X,
   BarChart3,
   ClipboardX,
+  GraduationCap,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -26,6 +27,7 @@ const tabs = [
 
 const moreLinks = [
   { href: '/worksheets', icon: FileText, label: '문제지' },
+  { href: '/kice', icon: GraduationCap, label: '기출' },
   { href: '/wrong-notes', icon: ClipboardX, label: '오답노트' },
   { href: '/stats', icon: BarChart3, label: '통계' },
   { href: '/bookmarks', icon: Bookmark, label: '북마크' },

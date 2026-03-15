@@ -20,14 +20,18 @@ const BOX_INTERVALS: Record<number, number> = {
   5: 16,
 };
 
+function getKSTDate(date: Date = new Date()): string {
+  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
+}
+
 function addDays(dateStr: string, days: number): string {
-  const date = new Date(dateStr);
-  date.setDate(date.getDate() + days);
-  return date.toISOString().split('T')[0];
+  const date = new Date(dateStr + 'T00:00:00+09:00');
+  const result = new Date(date.getTime() + days * 86400000);
+  return getKSTDate(result);
 }
 
 function todayStr(): string {
-  return new Date().toISOString().split('T')[0];
+  return getKSTDate();
 }
 
 interface LeitnerStore {

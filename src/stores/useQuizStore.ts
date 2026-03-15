@@ -169,12 +169,15 @@ export const useQuizStore = create<QuizStore>()(
               ),
             };
           }
-          return {
-            feedbacks: [
-              ...state.feedbacks,
-              { questionId, type, timestamp: new Date().toISOString() },
-            ],
-          };
+          const MAX_FEEDBACKS = 200;
+          const updated = [
+            ...state.feedbacks,
+            { questionId, type, timestamp: new Date().toISOString() },
+          ];
+          const evicted = updated.length > MAX_FEEDBACKS
+            ? updated.slice(updated.length - MAX_FEEDBACKS)
+            : updated;
+          return { feedbacks: evicted };
         }),
 
       getFeedback: (questionId) => {
@@ -192,12 +195,17 @@ export const useQuizStore = create<QuizStore>()(
       },
 
       addErrorReport: (questionId, message) =>
-        set((state) => ({
-          errorReports: [
+        set((state) => {
+          const MAX_ERROR_REPORTS = 200;
+          const updated = [
             ...state.errorReports,
             { questionId, message, timestamp: new Date().toISOString() },
-          ],
-        })),
+          ];
+          const evicted = updated.length > MAX_ERROR_REPORTS
+            ? updated.slice(updated.length - MAX_ERROR_REPORTS)
+            : updated;
+          return { errorReports: evicted };
+        }),
 
       getErrorReports: () => get().errorReports,
 
