@@ -12,11 +12,12 @@ import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
 import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice, ScenarioCompositeChoice } from './QuestionCard';
 import { XP_TOAST_CORRECT, XP_TOAST_WRONG } from '@/lib/xp-constants';
+import { SessionSetup, type SessionConfig, type SessionPreset } from './SessionSetup';
+import { saveSession, loadSession, clearSession, type SavedSession } from '@/lib/session-recovery';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const QUESTIONS_PER_SESSION = 10;
-const REVIEW_MIX_COUNT = 3;
+const REVIEW_MIX_RATIO = 0.7; // 빠른 복습 프리셋에서 오답 비율
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -29,21 +30,78 @@ function shuffle<T>(arr: readonly T[]): T[] {
   return result;
 }
 
-/** Mix review questions (from wrong notes) into a fresh session */
-function buildSessionWithReview(
+/** Build session questions based on preset configuration */
+function buildSession(
   allQuestions: QuizQuestion[],
   reviewQuestions: QuizQuestion[],
-  total: number,
-  reviewMax: number,
+  quizHistory: Array<{ questionId: string; isCorrect: boolean; chapter: string }>,
+  config: SessionConfig,
 ): QuizQuestion[] {
-  const reviewPool = shuffle(reviewQuestions).slice(0, reviewMax);
-  const reviewIds = new Set(reviewPool.map((q) => q.id));
-  const freshPool = allQuestions.filter((q) => !reviewIds.has(q.id));
-  const freshPick = shuffle(freshPool).slice(0, total - reviewPool.length);
-  return shuffle([...reviewPool, ...freshPick]);
+  const { preset, questionCount, chapters, difficulty } = config;
+
+  // Filter by chapter
+  let pool = chapters.length > 0
+    ? allQuestions.filter((q) => chapters.includes(q.chapter))
+    : allQuestions;
+
+  // Filter by difficulty
+  if (difficulty !== 'all') {
+    const diffMap: Record<string, number[]> = {
+      basic: [1],
+      intermediate: [2],
+      advanced: [3],
+    };
+    const levels = diffMap[difficulty] ?? [];
+    const filtered = pool.filter((q) => levels.includes(q.difficulty ?? 2));
+    if (filtered.length > 0) pool = filtered;
+  }
+
+  if (preset === 'review') {
+    // 빠른 복습: 오답 중심 + 나머지 채움
+    const reviewMax = Math.ceil(questionCount * REVIEW_MIX_RATIO);
+    const reviewPool = shuffle(reviewQuestions).slice(0, reviewMax);
+    const reviewIds = new Set(reviewPool.map((q) => q.id));
+    const freshPool = pool.filter((q) => !reviewIds.has(q.id));
+    const freshPick = shuffle(freshPool).slice(0, questionCount - reviewPool.length);
+    return shuffle([...reviewPool, ...freshPick]);
+  }
+
+  if (preset === 'weak') {
+    // 취약 집중: 정답률 60% 미만 챕터에서 출제
+    const chapterAccuracy: Record<string, { correct: number; total: number }> = {};
+    for (const r of quizHistory) {
+      if (!chapterAccuracy[r.chapter]) chapterAccuracy[r.chapter] = { correct: 0, total: 0 };
+      chapterAccuracy[r.chapter].total++;
+      if (r.isCorrect) chapterAccuracy[r.chapter].correct++;
+    }
+    const weakChapters = new Set(
+      Object.entries(chapterAccuracy)
+        .filter(([, stats]) => stats.total >= 3 && stats.correct / stats.total < 0.6)
+        .map(([ch]) => ch)
+    );
+
+    if (weakChapters.size > 0) {
+      const weakPool = pool.filter((q) => weakChapters.has(q.chapter));
+      if (weakPool.length >= questionCount) {
+        return shuffle(weakPool).slice(0, questionCount);
+      }
+      const rest = pool.filter((q) => !weakChapters.has(q.chapter));
+      return shuffle([...weakPool, ...shuffle(rest).slice(0, questionCount - weakPool.length)]);
+    }
+    return shuffle(pool).slice(0, questionCount);
+  }
+
+  // 'new': 아직 안 푼 문제 우선
+  const answeredIds = new Set(quizHistory.map((r) => r.questionId));
+  const newPool = pool.filter((q) => !answeredIds.has(q.id));
+  if (newPool.length >= questionCount) {
+    return shuffle(newPool).slice(0, questionCount);
+  }
+  const oldPool = pool.filter((q) => answeredIds.has(q.id));
+  return shuffle([...newPool, ...shuffle(oldPool).slice(0, questionCount - newPool.length)]);
 }
 
-// ─── Question Nav (소제목 네비게이션) ────────────────────────────────────────
+// ─── Question Nav ────────────────────────────────────────────────────────────
 
 function QuestionNav({
   questions,
@@ -108,8 +166,9 @@ export function QuizClient({
   questions: QuizQuestion[];
   chapterMap: Record<string, string>;
 }) {
-  // Get unmastered wrong notes for this subject to mix into sessions
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
+  const quizHistory = useQuizStore((s) => s.quizHistory);
+
   const reviewQuestions = useMemo(
     () => wrongNotes
       .filter((n) => !n.mastered && n.question.subject === subjectSlug)
@@ -117,28 +176,38 @@ export function QuizClient({
     [wrongNotes, subjectSlug],
   );
 
-  const [activeQuestions, setActiveQuestions] = useState<ReadonlyArray<QuizQuestion>>(() =>
-    buildSessionWithReview(questions, reviewQuestions, QUESTIONS_PER_SESSION, REVIEW_MIX_COUNT)
+  const subjectHistory = useMemo(
+    () => quizHistory.filter((r) => r.subject === subjectSlug),
+    [quizHistory, subjectSlug],
   );
+
+  // Session state
+  const [phase, setPhase] = useState<'setup' | 'quiz' | 'result'>('setup');
+  const [activeQuestions, setActiveQuestions] = useState<ReadonlyArray<QuizQuestion>>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<ReadonlyArray<AnswerRecord>>([]);
   const [skipped, setSkipped] = useState<ReadonlySet<number>>(new Set());
-  const [finished, setFinished] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
   const [xpToast, setXpToast] = useState<{ amount: number; visible: boolean }>({
     amount: 0,
     visible: false,
   });
+  const [currentPreset, setCurrentPreset] = useState<SessionPreset>('review');
+  const [currentQuestionCount, setCurrentQuestionCount] = useState(10);
 
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
   const addQuizResult = useQuizStore((s) => s.addQuizResult);
   const addWrongNote = useQuizStore((s) => s.addWrongNote);
 
+  // Load saved session on mount
+  const [savedSession, setSavedSession] = useState<SavedSession | null>(null);
+  useEffect(() => {
+    setSavedSession(loadSession(subjectSlug));
+  }, [subjectSlug]);
+
   const showXPToast = useCallback((amount: number) => {
-    if (toastTimerRef.current) {
-      clearTimeout(toastTimerRef.current);
-    }
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     setXpToast({ amount, visible: true });
     toastTimerRef.current = setTimeout(() => {
       setXpToast((prev) => ({ ...prev, visible: false }));
@@ -151,7 +220,171 @@ export function QuizClient({
     };
   }, []);
 
-  // allHandled is managed directly in handleAnswer and handleSkip via findNextUnanswered
+  // Auto-save session progress
+  useEffect(() => {
+    if (phase !== 'quiz' || activeQuestions.length === 0) return;
+
+    saveSession({
+      subjectSlug,
+      questionIds: activeQuestions.map((q) => q.id),
+      answers: answers.map((a) => ({
+        questionIndex: a.questionIndex,
+        isCorrect: a.isCorrect,
+        userAnswer: a.userAnswer,
+      })),
+      skippedIndices: Array.from(skipped),
+      currentIndex,
+      xpEarned,
+      preset: currentPreset,
+      questionCount: currentQuestionCount,
+    });
+  }, [phase, activeQuestions, answers, skipped, currentIndex, xpEarned, subjectSlug, currentPreset, currentQuestionCount]);
+
+  // ─── Session Start ──────────────────────────────────────────────────────────
+
+  const handleStart = useCallback((config: SessionConfig) => {
+    const sessionQuestions = buildSession(
+      questions,
+      reviewQuestions,
+      subjectHistory,
+      config,
+    );
+    setActiveQuestions(sessionQuestions);
+    setCurrentIndex(0);
+    setAnswers([]);
+    setSkipped(new Set());
+    setXpEarned(0);
+    setCurrentPreset(config.preset);
+    setCurrentQuestionCount(config.questionCount);
+    setPhase('quiz');
+    clearSession();
+  }, [questions, reviewQuestions, subjectHistory]);
+
+  const handleResume = useCallback(() => {
+    if (!savedSession) return;
+
+    const questionMap = new Map(questions.map((q) => [q.id, q]));
+    const restored = savedSession.questionIds
+      .map((id) => questionMap.get(id))
+      .filter((q): q is QuizQuestion => q != null);
+
+    if (restored.length === 0) {
+      clearSession();
+      setSavedSession(null);
+      return;
+    }
+
+    setActiveQuestions(restored);
+    setAnswers(savedSession.answers);
+    setSkipped(new Set(savedSession.skippedIndices));
+    setCurrentIndex(savedSession.currentIndex);
+    setXpEarned(savedSession.xpEarned);
+    setCurrentPreset(savedSession.preset as SessionPreset);
+    setCurrentQuestionCount(savedSession.questionCount);
+    setPhase('quiz');
+  }, [savedSession, questions]);
+
+  // ─── Quiz Actions ───────────────────────────────────────────────────────────
+
+  const handleRestart = () => {
+    clearSession();
+    setSavedSession(null);
+    setPhase('setup');
+  };
+
+  const handleRetryWrong = () => {
+    const wrongIndices = new Set(
+      answers.filter((a) => !a.isCorrect).map((a) => a.questionIndex)
+    );
+    const wrongQuestions = activeQuestions.filter((_, i) => wrongIndices.has(i));
+    setActiveQuestions(wrongQuestions);
+    setCurrentIndex(0);
+    setAnswers([]);
+    setSkipped(new Set());
+    setXpEarned(0);
+    setPhase('quiz');
+    clearSession();
+  };
+
+  const handleAnswer = (_answer: string | number, isCorrect: boolean) => {
+    const newAnswer: AnswerRecord = {
+      questionIndex: currentIndex,
+      isCorrect,
+      userAnswer: _answer,
+    };
+    const updatedAnswers = [...answers, newAnswer];
+
+    recordQuizResult(isCorrect);
+
+    const currentQ = activeQuestions[currentIndex];
+    addQuizResult({
+      questionId: currentQ.id,
+      userAnswer: _answer,
+      isCorrect,
+      timestamp: Date.now(),
+      subject: currentQ.subject,
+      chapter: currentQ.chapter,
+    });
+
+    if (!isCorrect) {
+      addWrongNote(currentQ, _answer);
+    }
+
+    const earned = isCorrect ? XP_TOAST_CORRECT : XP_TOAST_WRONG;
+    setXpEarned((prev) => prev + earned);
+    showXPToast(earned);
+
+    setAnswers(updatedAnswers);
+
+    const answeredIndices = new Set(updatedAnswers.map((a) => a.questionIndex));
+    const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, skipped);
+
+    if (nextIndex === -1) {
+      setPhase('result');
+      clearSession();
+    } else {
+      setCurrentIndex(nextIndex);
+    }
+  };
+
+  const handleSkip = () => {
+    const newSkipped = new Set(skipped);
+    newSkipped.add(currentIndex);
+    setSkipped(newSkipped);
+
+    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
+    const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, newSkipped);
+
+    if (nextIndex === -1) {
+      setPhase('result');
+      clearSession();
+    } else {
+      setCurrentIndex(nextIndex);
+    }
+  };
+
+  const handleJump = (index: number) => {
+    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
+    if (!answeredIndices.has(index)) {
+      setCurrentIndex(index);
+    }
+  };
+
+  // ─── Render ─────────────────────────────────────────────────────────────────
+
+  if (phase === 'setup') {
+    return (
+      <SessionSetup
+        subjectSlug={subjectSlug}
+        subjectTitle={subjectTitle}
+        questions={questions}
+        chapterMap={chapterMap}
+        savedSession={savedSession}
+        onStart={handleStart}
+        onResume={handleResume}
+      />
+    );
+  }
 
   if (activeQuestions.length === 0) {
     return (
@@ -172,105 +405,10 @@ export function QuizClient({
     );
   }
 
-  const handleRestart = () => {
-    setActiveQuestions(buildSessionWithReview(questions, reviewQuestions, QUESTIONS_PER_SESSION, REVIEW_MIX_COUNT));
-    setCurrentIndex(0);
-    setAnswers([]);
-    setSkipped(new Set());
-    setFinished(false);
-    setXpEarned(0);
-  };
-
-  const handleRetryWrong = () => {
-    const wrongIndices = new Set(
-      answers.filter((a) => !a.isCorrect).map((a) => a.questionIndex)
-    );
-    const wrongQuestions = activeQuestions.filter((_, i) => wrongIndices.has(i));
-    setActiveQuestions(wrongQuestions);
-    setCurrentIndex(0);
-    setAnswers([]);
-    setSkipped(new Set());
-    setFinished(false);
-    setXpEarned(0);
-  };
-
-  const handleAnswer = (_answer: string | number, isCorrect: boolean) => {
-    const newAnswer: AnswerRecord = {
-      questionIndex: currentIndex,
-      isCorrect,
-      userAnswer: _answer,
-    };
-    const updatedAnswers = [...answers, newAnswer];
-
-    // Record in study store
-    recordQuizResult(isCorrect);
-
-    // Record in quiz store (history + wrong notes)
-    const currentQ = activeQuestions[currentIndex];
-    addQuizResult({
-      questionId: currentQ.id,
-      userAnswer: _answer,
-      isCorrect,
-      timestamp: Date.now(),
-      subject: currentQ.subject,
-      chapter: currentQ.chapter,
-    });
-
-    if (!isCorrect) {
-      addWrongNote(currentQ, _answer);
-    }
-
-    // XP toast
-    const earned = isCorrect ? XP_TOAST_CORRECT : XP_TOAST_WRONG;
-    setXpEarned((prev) => prev + earned);
-    showXPToast(earned);
-
-    setAnswers(updatedAnswers);
-
-    // Move to next unanswered/unskipped question, or finish
-    const answeredIndices = new Set(updatedAnswers.map((a) => a.questionIndex));
-    const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, skipped);
-
-    if (nextIndex === -1) {
-      setFinished(true);
-    } else {
-      setCurrentIndex(nextIndex);
-    }
-  };
-
-  const handleSkip = () => {
-    const newSkipped = new Set(skipped);
-    newSkipped.add(currentIndex);
-    setSkipped(newSkipped);
-
-    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
-    const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, newSkipped);
-
-    if (nextIndex === -1) {
-      // All remaining are skipped — finish regardless of answer count
-      setFinished(true);
-    } else {
-      setCurrentIndex(nextIndex);
-    }
-  };
-
-  const handleJump = (index: number) => {
-    // Allow jumping to any question that hasn't been answered yet
-    const answeredIndices = new Set(answers.map((a) => a.questionIndex));
-    if (!answeredIndices.has(index)) {
-      setCurrentIndex(index);
-    }
-  };
-
-  const currentQuestion = activeQuestions[currentIndex];
-
-  return (
-    <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
-      <XPToast amount={xpToast.amount} visible={xpToast.visible} />
-
-      <h1 className="text-2xl font-bold text-foreground mb-4">{subjectTitle} 퀴즈</h1>
-
-      {finished ? (
+  if (phase === 'result') {
+    return (
+      <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
+        <h1 className="text-2xl font-bold text-foreground mb-4">{subjectTitle} 퀴즈</h1>
         <QuizResultScreen
           questions={activeQuestions}
           answers={answers}
@@ -280,98 +418,106 @@ export function QuizClient({
           onRestart={handleRestart}
           onRetryWrong={handleRetryWrong}
         />
-      ) : (
-        <>
-          {/* 소제목 네비게이션 */}
-          <QuestionNav
-            questions={activeQuestions}
-            chapterMap={chapterMap}
-            currentIndex={currentIndex}
-            answers={answers}
-            onJump={handleJump}
-          />
+      </div>
+    );
+  }
 
-          {/* Progress Section */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-muted-foreground">
-                {currentIndex + 1} / {activeQuestions.length}
-              </span>
-              <Badge variant="outline">
-                {TYPE_LABELS[currentQuestion.type as keyof typeof TYPE_LABELS] ?? currentQuestion.type}
-              </Badge>
-            </div>
-            <ProgressDots
-              total={activeQuestions.length}
-              currentIndex={currentIndex}
-              answers={answers}
+  const currentQuestion = activeQuestions[currentIndex];
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
+      <XPToast amount={xpToast.amount} visible={xpToast.visible} />
+
+      <h1 className="text-2xl font-bold text-foreground mb-4">{subjectTitle} 퀴즈</h1>
+
+      {/* 소제목 네비게이션 */}
+      <QuestionNav
+        questions={activeQuestions}
+        chapterMap={chapterMap}
+        currentIndex={currentIndex}
+        answers={answers}
+        onJump={handleJump}
+      />
+
+      {/* Progress Section */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-muted-foreground">
+            {currentIndex + 1} / {activeQuestions.length}
+          </span>
+          <Badge variant="outline">
+            {TYPE_LABELS[currentQuestion.type as keyof typeof TYPE_LABELS] ?? currentQuestion.type}
+          </Badge>
+        </div>
+        <ProgressDots
+          total={activeQuestions.length}
+          currentIndex={currentIndex}
+          answers={answers}
+        />
+      </div>
+
+      {/* 현재 문제의 소제목 */}
+      <p className="text-sm text-muted-foreground mb-2">
+        📌 {chapterMap[currentQuestion.chapter] || currentQuestion.chapter}
+      </p>
+
+      <Card className="mb-4">
+        <CardHeader>
+          {currentQuestion.caseContext && (
+            <CaseContextBox caseContext={currentQuestion.caseContext} />
+          )}
+          <CardTitle className="text-base font-medium leading-relaxed">
+            {currentQuestion.question}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {currentQuestion.type === 'multiple' && (
+            <MultipleChoice
+              key={currentIndex}
+              question={currentQuestion}
+              onAnswer={(ans, correct) => handleAnswer(ans, correct)}
             />
-          </div>
+          )}
+          {currentQuestion.type === 'ox' && (
+            <OXChoice
+              key={currentIndex}
+              question={currentQuestion}
+              onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+            />
+          )}
+          {currentQuestion.type === 'fill_in' && (
+            <FillInChoice
+              key={currentIndex}
+              question={currentQuestion}
+              onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+            />
+          )}
+          {currentQuestion.type === 'descriptive' && (
+            <DescriptiveChoice
+              key={currentIndex}
+              question={currentQuestion}
+              onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+            />
+          )}
+          {currentQuestion.type === 'scenario_composite' && (
+            <ScenarioCompositeChoice
+              key={currentIndex}
+              question={currentQuestion}
+              onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+            />
+          )}
+        </CardContent>
+      </Card>
 
-          {/* 현재 문제의 소제목 */}
-          <p className="text-sm text-muted-foreground mb-2">
-            📌 {chapterMap[currentQuestion.chapter] || currentQuestion.chapter}
-          </p>
-
-          <Card className="mb-4">
-            <CardHeader>
-              {currentQuestion.caseContext && (
-                <CaseContextBox caseContext={currentQuestion.caseContext} />
-              )}
-              <CardTitle className="text-base font-medium leading-relaxed">
-                {currentQuestion.question}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {currentQuestion.type === 'multiple' && (
-                <MultipleChoice
-                  key={currentIndex}
-                  question={currentQuestion}
-                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
-                />
-              )}
-              {currentQuestion.type === 'ox' && (
-                <OXChoice
-                  key={currentIndex}
-                  question={currentQuestion}
-                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
-                />
-              )}
-              {currentQuestion.type === 'fill_in' && (
-                <FillInChoice
-                  key={currentIndex}
-                  question={currentQuestion}
-                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
-                />
-              )}
-              {currentQuestion.type === 'descriptive' && (
-                <DescriptiveChoice
-                  key={currentIndex}
-                  question={currentQuestion}
-                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
-                />
-              )}
-              {currentQuestion.type === 'scenario_composite' && (
-                <ScenarioCompositeChoice
-                  key={currentIndex}
-                  question={currentQuestion}
-                  onAnswer={(ans, correct) => handleAnswer(ans, correct)}
-                />
-              )}
-            </CardContent>
-          </Card>
-
-          {/* 건너뛰기 버튼 */}
-          <div className="flex justify-end">
-            <button
-              onClick={handleSkip}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-muted"
-            >
-              건너뛰기 →
-            </button>
-          </div>
-        </>
-      )}
+      {/* 건너뛰기 버튼 */}
+      <div className="flex justify-end">
+        <button
+          onClick={handleSkip}
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-muted"
+        >
+          건너뛰기 →
+        </button>
+      </div>
     </div>
   );
 }
@@ -384,11 +530,9 @@ function findNextUnanswered(
   answeredIndices: Set<number>,
   skippedIndices: ReadonlySet<number>
 ): number {
-  // Look forward first
   for (let i = currentIndex + 1; i < total; i++) {
     if (!answeredIndices.has(i) && !skippedIndices.has(i)) return i;
   }
-  // Wrap around
   for (let i = 0; i < currentIndex; i++) {
     if (!answeredIndices.has(i) && !skippedIndices.has(i)) return i;
   }
