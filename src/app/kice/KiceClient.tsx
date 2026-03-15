@@ -2,8 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import { useState, useMemo, Suspense } from 'react'
-import { Search, FileText, Clock, Award, GitFork, Sparkles } from 'lucide-react'
+import Link from 'next/link'
+import { Search, FileText, Clock, Award, GitFork, Sparkles, Play } from 'lucide-react'
 import { QuestionCard } from '@/components/kice/QuestionCard'
+import { Button } from '@/components/ui/button'
 import type { KiceExam, ExamEntry } from '@/types/kice'
 
 interface KiceClientProps {
@@ -221,6 +223,20 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
             </div>
           )}
         </div>
+      )}
+
+      {/* 모의고사 모드 */}
+      {exam && (
+        <Button
+          render={
+            <Link href={`/kice/exam?year=${selectedYear}&session=${encodeURIComponent(selectedSession)}`} />
+          }
+          size="lg"
+          className="w-full min-h-[48px]"
+        >
+          <Play className="h-5 w-5 mr-2" />
+          모의고사 모드로 풀기
+        </Button>
       )}
 
       {/* 키워드 검색 */}
