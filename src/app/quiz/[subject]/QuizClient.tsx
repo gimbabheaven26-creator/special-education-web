@@ -19,6 +19,8 @@ import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import type { Confidence } from './QuizResultScreen';
 import { PenLine, FileText } from 'lucide-react';
 import { sortByAdaptiveDifficulty } from '@/lib/adaptive-difficulty';
+import { shouldTriggerElaboration } from '@/lib/elaboration';
+import ElaborationPrompt from '@/components/quiz/ElaborationPrompt';
 
 // ─── Question type categories ────────────────────────────────────────────────
 
@@ -221,6 +223,7 @@ export function QuizClient({
   const [currentQuestionCount, setCurrentQuestionCount] = useState(10);
   const [comboStreak, setComboStreak] = useState(0);
   const [confidence, setConfidence] = useState<Confidence>('sure');
+  const [elaborationQuestion, setElaborationQuestion] = useState<QuizQuestion | null>(null);
 
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
@@ -377,7 +380,17 @@ export function QuizClient({
 
     setAnswers(updatedAnswers);
 
-    const answeredIndices = new Set(updatedAnswers.map((a) => a.questionIndex));
+    // Check for elaboration trigger
+    if (isCorrect && shouldTriggerElaboration(true, currentQ.difficulty ?? 2, confidence)) {
+      setElaborationQuestion(currentQ);
+      return;
+    }
+
+    advanceToNext(updatedAnswers);
+  };
+
+  const advanceToNext = (currentAnswers: ReadonlyArray<AnswerRecord>) => {
+    const answeredIndices = new Set(currentAnswers.map((a) => a.questionIndex));
     const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, skipped);
 
     if (nextIndex === -1) {
@@ -386,6 +399,11 @@ export function QuizClient({
     } else {
       setCurrentIndex(nextIndex);
     }
+  };
+
+  const handleElaborationDone = () => {
+    setElaborationQuestion(null);
+    advanceToNext(answers);
   };
 
   const handleSkip = () => {
@@ -585,16 +603,29 @@ export function QuizClient({
         </CardContent>
       </Card>
 
+      {/* 정교화 질문 */}
+      {elaborationQuestion && (
+        <div className="mb-4">
+          <ElaborationPrompt
+            explanation={elaborationQuestion.explanation}
+            onComplete={handleElaborationDone}
+            onSkip={handleElaborationDone}
+          />
+        </div>
+      )}
+
       {/* 확신도 + 건너뛰기 */}
-      <div className="flex items-center justify-between mt-2">
-        <ConfidenceToggle value={confidence} onChange={setConfidence} />
-        <button
-          onClick={handleSkip}
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-muted"
-        >
-          건너뛰기 →
-        </button>
-      </div>
+      {!elaborationQuestion && (
+        <div className="flex items-center justify-between mt-2">
+          <ConfidenceToggle value={confidence} onChange={setConfidence} />
+          <button
+            onClick={handleSkip}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-muted"
+          >
+            건너뛰기 →
+          </button>
+        </div>
+      )}
     </div>
   );
 }
