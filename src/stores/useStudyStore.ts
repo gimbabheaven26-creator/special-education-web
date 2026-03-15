@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { DailyHistoryEntry } from '@/types/study';
+import type { ScenarioProgress } from '@/types/scenario';
 import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
 
 interface RecentActivity {
@@ -41,6 +42,9 @@ interface StudyState {
 
   // Daily history for statistics
   dailyHistory: DailyHistoryEntry[];
+
+  // Scenario progress
+  scenarioProgress: Record<string, ScenarioProgress>;
 }
 
 interface StudyActions {
@@ -50,6 +54,7 @@ interface StudyActions {
   recordStudyTime: (minutes: number) => void;
   setDailyGoal: (chapters: number, quizzes: number) => void;
   getDailyHistory: (days: number) => DailyHistoryEntry[];
+  saveScenarioProgress: (progress: ScenarioProgress) => void;
 }
 
 function getKSTDate(date: Date = new Date()): string {
@@ -111,6 +116,7 @@ export const useStudyStore = create<StudyState & StudyActions>()(
       totalQuizzes: 0,
       totalCorrect: 0,
       dailyHistory: [],
+      scenarioProgress: {},
 
       recordActivity: (activity) =>
         set((state) => {
@@ -233,19 +239,45 @@ export const useStudyStore = create<StudyState & StudyActions>()(
             quizzes: Math.max(1, Math.round(quizzes)),
           },
         })),
+
+      saveScenarioProgress: (progress) =>
+        set((state) => {
+          const existing = state.scenarioProgress[progress.scenarioId];
+          // Keep best score
+          const shouldUpdate = !existing
+            || existing.completedAt == null
+            || (progress.totalChoices > 0 &&
+                progress.optimalCount / progress.totalChoices >
+                  existing.optimalCount / Math.max(existing.totalChoices, 1));
+
+          if (!shouldUpdate) return state;
+
+          return {
+            scenarioProgress: {
+              ...state.scenarioProgress,
+              [progress.scenarioId]: progress,
+            },
+          };
+        }),
     }),
     {
       name: 'special-edu-study',
-      version: 2,
+      version: 3,
       migrate: (persistedState, version) => {
         let state = persistedState as Record<string, unknown>;
 
-        // Cascading migrations: each step falls through to the next
         if (version < 2) {
-          // v0/v1 -> v2: add dailyHistory array
           state = {
             ...state,
             dailyHistory: Array.isArray(state.dailyHistory) ? state.dailyHistory : [],
+          };
+        }
+
+        if (version < 3) {
+          // v2 -> v3: add scenarioProgress
+          state = {
+            ...state,
+            scenarioProgress: state.scenarioProgress ?? {},
           };
         }
 

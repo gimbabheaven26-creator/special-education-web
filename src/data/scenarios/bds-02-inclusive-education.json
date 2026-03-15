@@ -1,0 +1,257 @@
+{
+  "id": "bds-02-inclusive-education",
+  "title": "통합학급 수업 설계와 교수적 수정",
+  "description": "통합학급에서 지적장애 학생의 교육과정 접근성을 높이기 위한 교수적 수정 전략을 선택합니다. 교수적 수정의 4가지 유형을 실제 수업 상황에 적용하세요.",
+  "subject": "inclusive-education",
+  "chapter": "instructional-adaptation",
+  "difficulty": 2,
+  "estimatedMinutes": 7,
+  "tags": ["통합교육", "교수적 수정", "교육과정 수정", "보편적 학습설계"],
+  "startNodeId": "situation-1",
+  "nodes": {
+    "situation-1": {
+      "id": "situation-1",
+      "type": "situation",
+      "content": "4학년 통합학급 담임입니다. 경도 지적장애 학생 서현이가 있습니다. 다음 주 사회과에서 '우리 지역의 문화유산' 단원을 시작합니다.\n\n서현이의 현행 수준:\n- 읽기: 2학년 수준 (긴 문장 독해 어려움)\n- 쓰기: 단답형 가능, 서술형 어려움\n- 이해력: 구체적 사례 중심으로 이해\n- 사회성: 또래와 상호작용 양호\n\n수업을 어떻게 준비하시겠습니까?",
+      "relatedConcepts": ["교수적 수정", "통합학급 운영", "교육과정 접근성"],
+      "choices": [
+        {
+          "label": "서현이만을 위한 별도의 교육과정(대안교육과정)을 준비한다",
+          "nextNodeId": "feedback-wrong-1a",
+          "isOptimal": false,
+          "feedback": "경도 지적장애이고 사회성이 양호한 학생에게 완전히 별도의 교육과정을 적용하는 것은 과도한 분리입니다. 같은 주제를 다루되 접근 방식을 수정하는 '교수적 수정'이 적절합니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "같은 교육과정 내에서 교수적 수정(교수 환경·방법·내용·평가 수정)을 적용한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "정확합니다! 통합교육에서는 가능한 한 일반교육과정에 접근하되, 학생의 수준에 맞게 교수적 수정을 적용합니다. 교수적 수정의 4가지 유형을 구체적으로 계획해봅시다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "특수교사에게 서현이의 수업을 전적으로 위임한다",
+          "nextNodeId": "feedback-wrong-1b",
+          "isOptimal": false,
+          "feedback": "통합학급 운영의 1차 책임은 담임교사에게 있습니다. 특수교사와 '협력교수'는 할 수 있지만, 전적인 위임은 통합교육의 취지에 맞지 않습니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-1a": {
+      "id": "feedback-wrong-1a",
+      "type": "feedback",
+      "content": "「장애인 등에 대한 특수교육법」 제21조에 따르면 통합교육 대상 학생에게는 일반교육과정에 대한 접근을 최대한 보장해야 합니다.\n\n📌 **교수적 수정의 연속체**:\n1. 교수 환경 수정 (물리적 배치)\n2. 교수 방법 수정 (교수 전략)\n3. 교수 내용 수정 (과제 수준)\n4. 평가 수정 (평가 방식)\n\n서현이는 경도 지적장애이므로 대안교육과정이 아닌 교수적 수정이 적합합니다.",
+      "relatedConcepts": ["최소 제한 환경", "교수적 수정 연속체"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제21조(통합교육)",
+      "choices": [
+        {
+          "label": "교수적 수정을 적용하여 같은 교육과정 내에서 지원한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "올바른 방향으로 수정했습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-1b": {
+      "id": "feedback-wrong-1b",
+      "type": "feedback",
+      "content": "통합학급에서 특수교사는 '자문' 또는 '협력교수'의 역할을 합니다.\n\n📌 **협력교수 유형**:\n- 일교수-일지원: 한 교사가 수업, 다른 교사가 순회 지원\n- 스테이션 교수: 학습 코너를 나눠 운영\n- 병행교수: 같은 내용을 두 그룹으로 나눠 가르침\n- 대안교수: 소그룹을 잠시 분리하여 보충\n\n담임교사가 주도하되, 특수교사와 협력하는 것이 바람직합니다.",
+      "relatedConcepts": ["협력교수", "특수교사의 역할"],
+      "choices": [
+        {
+          "label": "담임으로서 교수적 수정을 계획하고 특수교사와 협력한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "통합교육의 올바른 접근입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-2": {
+      "id": "situation-2",
+      "type": "situation",
+      "content": "교수적 수정을 계획합니다. '우리 지역의 문화유산' 단원에서 학생들이 문화유산을 조사하고 보고서를 작성하는 활동이 있습니다.\n\n서현이에게 가장 먼저 적용할 교수적 수정의 유형은?",
+      "relatedConcepts": ["교수 내용 수정", "교수 방법 수정", "교수 환경 수정", "평가 수정"],
+      "choices": [
+        {
+          "label": "교수 내용 수정: 조사할 문화유산 수를 3개→1개로 줄이고, 핵심 정보만 정리하도록 한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "좋은 선택입니다! 교수 내용 수정은 학습량과 복잡도를 학생 수준에 맞게 조절합니다. 같은 '문화유산' 주제를 다루되, 범위를 축소하고 핵심에 집중합니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "평가 수정: 먼저 서현이의 평가 기준을 별도로 만든다",
+          "nextNodeId": "feedback-wrong-2a",
+          "isOptimal": false,
+          "feedback": "평가 수정도 필요하지만, 수업 설계 단계에서는 교수 내용과 방법 수정이 먼저입니다. 평가는 학습 활동에 맞춰 조정합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "교수 환경 수정: 서현이를 교사 근처 자리로 옮긴다",
+          "nextNodeId": "feedback-wrong-2b",
+          "isOptimal": false,
+          "feedback": "교수 환경 수정(좌석 배치)은 보조 전략입니다. 서현이의 핵심 어려움은 읽기와 쓰기 수준이므로, 내용과 방법 수정이 우선입니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-2a": {
+      "id": "feedback-wrong-2a",
+      "type": "feedback",
+      "content": "평가 수정은 교수 활동 설계 후에 결정하는 것이 논리적입니다.\n\n📌 **교수적 수정 적용 순서** (일반적):\n1. 교수 내용 수정 (무엇을 배울 것인가)\n2. 교수 방법 수정 (어떻게 가르칠 것인가)\n3. 교수 환경 수정 (어디서/어떤 배치로)\n4. 평가 수정 (어떻게 확인할 것인가)",
+      "relatedConcepts": ["교수적 수정 순서", "평가 수정"],
+      "choices": [
+        {
+          "label": "교수 내용 수정부터 시작한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "순서를 바로잡았습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-2b": {
+      "id": "feedback-wrong-2b",
+      "type": "feedback",
+      "content": "좌석 배치는 수업 집중도를 높이는 데 도움이 되지만, 서현이의 근본적 어려움(2학년 수준 읽기, 서술형 쓰기 어려움)을 해결하지 못합니다.\n\n💡 **원칙**: 가장 큰 장벽을 먼저 제거합니다.\n- 서현이의 장벽: 과제의 양과 복잡도 > 물리적 환경",
+      "relatedConcepts": ["교수 환경 수정", "좌석 배치"],
+      "choices": [
+        {
+          "label": "교수 내용 수정부터 시작한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "핵심 장벽 해결이 우선입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-3": {
+      "id": "situation-3",
+      "type": "situation",
+      "content": "교수 내용 수정을 적용했습니다. 이제 수업 방법을 계획합니다.\n\n서현이가 '문화유산' 보고서를 작성할 때, 가장 효과적인 교수 방법 수정은?",
+      "relatedConcepts": ["교수 방법 수정", "시각적 지원", "또래 지원"],
+      "choices": [
+        {
+          "label": "보고서 틀(템플릿)을 제공하고, 핵심 단어를 미리 워드뱅크로 준비한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 구조화된 템플릿과 워드뱅크는 '보편적 학습설계(UDL)'의 핵심 전략입니다. 서현이뿐 아니라 다른 학생들에게도 도움이 되므로, 특별한 분리 없이 자연스러운 지원이 가능합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "교사가 서현이 옆에서 1:1로 받아쓰기를 해준다",
+          "nextNodeId": "feedback-wrong-3a",
+          "isOptimal": false,
+          "feedback": "1:1 지원은 효과적이지만, 서현이의 자립성을 키우지 못하고 또래와의 상호작용을 방해합니다. 학생이 스스로 할 수 있도록 구조적 지원을 제공하는 것이 바람직합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "서현이만 그림 그리기로 대체하고 글쓰기는 면제한다",
+          "nextNodeId": "feedback-wrong-3b",
+          "isOptimal": false,
+          "feedback": "완전한 대체는 교수 '내용' 수정의 범위를 넘어 교육과정 축소입니다. 서현이는 단답형 쓰기가 가능하므로, 쓰기 기회를 유지하면서 지원하는 것이 적절합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-3a": {
+      "id": "feedback-wrong-3a",
+      "type": "feedback",
+      "content": "교사 1:1 지원의 한계:\n- 교사가 다른 학생을 지도할 수 없음\n- 서현이가 교사에게 의존하게 됨\n- 또래 관계에서 '다른 학생'으로 부각될 수 있음\n\n💡 **대안**: 구조화된 지원 도구(템플릿, 워드뱅크, 체크리스트)는 학생의 자립적 참여를 촉진합니다.",
+      "relatedConcepts": ["자립성 촉진", "보편적 학습설계"],
+      "choices": [
+        {
+          "label": "보고서 템플릿 + 워드뱅크를 활용한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "학생의 자립성을 키우는 좋은 선택입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-3b": {
+      "id": "feedback-wrong-3b",
+      "type": "feedback",
+      "content": "서현이는 단답형 쓰기가 가능합니다. 쓰기를 완전히 면제하면 '할 수 있는 것'도 시도하지 않게 됩니다.\n\n📌 **교수적 수정의 원칙**: 학생의 현행 수준에서 최대한 참여하도록 지원하되, 불가능한 부분만 조정합니다.\n\n서현이에게는: 서술형 → 단답형 + 보기 제공으로 수정하면 됩니다.",
+      "relatedConcepts": ["참여 극대화", "현행 수준 기반"],
+      "choices": [
+        {
+          "label": "쓰기를 유지하되 템플릿과 워드뱅크로 지원한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "참여를 유지하면서 지원하는 올바른 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-4": {
+      "id": "situation-4",
+      "type": "situation",
+      "content": "수업이 잘 진행되었습니다. 이제 평가를 계획합니다.\n\n서현이의 학습 성과를 평가할 때 가장 적절한 방법은?",
+      "relatedConcepts": ["평가 수정", "대안적 평가", "포트폴리오 평가"],
+      "choices": [
+        {
+          "label": "같은 시험을 보되, 시간 연장 + 읽어주기 편의를 제공한다",
+          "nextNodeId": "feedback-partial-4",
+          "isOptimal": false,
+          "feedback": "시간 연장과 읽어주기는 좋은 편의 제공이지만, 서술형 시험 자체가 서현이의 수준에 맞지 않을 수 있습니다. 평가 형식 자체의 수정도 고려해야 합니다.",
+          "xpBonus": 10
+        },
+        {
+          "label": "IEP 목표에 기반한 수행평가(보고서 + 구술 발표)로 평가하되, 평가 기준을 서현이의 수준에 맞게 조정한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! IEP 목표와 연계된 평가가 가장 적절합니다. 다양한 평가 방식(수행평가, 구술, 포트폴리오)을 통해 학생의 실제 이해도를 확인할 수 있습니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "서현이는 평가에서 제외하고, 별도의 시기에 특수교사가 평가한다",
+          "nextNodeId": "feedback-wrong-4",
+          "isOptimal": false,
+          "feedback": "통합학급 평가에서 특수교육 대상 학생을 배제하는 것은 통합교육 원칙에 반합니다. 같은 수업에 참여했으므로 같은 맥락에서 평가해야 합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-partial-4": {
+      "id": "feedback-partial-4",
+      "type": "feedback",
+      "content": "시간 연장과 읽어주기는 '편의 제공(accommodation)'입니다. 이것만으로 부족할 수 있습니다.\n\n📌 **평가 수정의 유형**:\n- 편의 제공: 시간/장소/방법 조절 (내용 동일)\n- 수정: 평가 내용/형식 자체를 변경\n- 대안 평가: 완전히 다른 방식의 평가\n\n서현이처럼 교수 내용이 수정된 경우, 평가도 수정되어야 합리적입니다.",
+      "relatedConcepts": ["편의 제공 vs 수정", "대안 평가"],
+      "choices": [
+        {
+          "label": "IEP 목표 기반 수행평가로 전환한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "교수 내용 수정과 평가 수정이 일관되게 연결됩니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-4": {
+      "id": "feedback-wrong-4",
+      "type": "feedback",
+      "content": "통합교육에서 특수교육 대상 학생을 평가에서 배제하면:\n- 학생의 학습 참여 동기가 저하됩니다\n- 또래와의 관계에서 소외감을 느낍니다\n- 교사가 학생의 성취를 파악하기 어렵습니다\n\n💡 **원칙**: '다르게 평가한다'는 것은 '평가하지 않는다'가 아닙니다.",
+      "relatedConcepts": ["통합교육 원칙", "참여권 보장"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제21조(통합교육)",
+      "choices": [
+        {
+          "label": "IEP 목표 기반 수행평가를 적용한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "통합교육 안에서 적절한 평가 방법을 찾았습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "assessment-final": {
+      "id": "assessment-final",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n서현이의 통합학급 수업 설계를 통해 교수적 수정의 전 과정을 경험했습니다.\n\n### 핵심 정리\n1. **통합교육 원칙**: 일반교육과정 접근을 최대한 보장, 분리는 최소화\n2. **교수적 수정 4유형**: 환경·방법·내용·평가 수정\n3. **UDL(보편적 학습설계)**: 모든 학생에게 도움이 되는 구조적 지원\n4. **협력교수**: 담임교사 주도 + 특수교사 협력\n5. **IEP 연계 평가**: 개별화교육계획 목표와 일치하는 평가",
+      "relatedConcepts": ["통합교육", "교수적 수정", "UDL", "협력교수", "IEP"]
+    }
+  }
+}

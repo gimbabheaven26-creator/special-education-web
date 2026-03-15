@@ -1,0 +1,257 @@
+{
+  "id": "bds-01-fba-self-injury",
+  "title": "자해행동의 기능 분석과 중재",
+  "description": "자폐스펙트럼 3학년 학생이 수업 중 자해행동(손으로 머리 치기)을 반복합니다. FBA 절차에 따라 행동의 기능을 분석하고 적절한 중재를 선택하세요.",
+  "subject": "behavior-support",
+  "chapter": "functional-behavior-assessment",
+  "difficulty": 2,
+  "estimatedMinutes": 8,
+  "tags": ["FBA", "자해행동", "ABC 분석", "기능분석", "행동중재계획"],
+  "startNodeId": "situation-1",
+  "nodes": {
+    "situation-1": {
+      "id": "situation-1",
+      "type": "situation",
+      "content": "3학년 자폐스펙트럼 학생 민수가 수학 시간에 손으로 머리를 반복적으로 치고 있습니다. 이 행동은 최근 2주간 하루 평균 5~7회 발생하고 있으며, 주로 수학과 국어 시간에 집중됩니다. 담임교사로서 첫 번째로 취해야 할 조치는 무엇인가요?",
+      "relatedConcepts": ["기능적 행동분석", "문제행동", "자해행동"],
+      "choices": [
+        {
+          "label": "즉시 물리적으로 제지한다",
+          "nextNodeId": "feedback-wrong-1a",
+          "isOptimal": false,
+          "feedback": "물리적 제지는 응급 상황에서만 사용합니다. 지속적인 자해행동의 근본 원인을 먼저 파악해야 합니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "ABC 데이터를 수집하여 행동의 패턴을 파악한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "정확합니다! FBA의 첫 단계는 ABC(선행사건-행동-후속결과) 데이터 수집입니다. 행동의 기능을 파악해야 효과적인 중재가 가능합니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "즉시 대체행동을 가르친다",
+          "nextNodeId": "feedback-wrong-1b",
+          "isOptimal": false,
+          "feedback": "대체행동 교수는 중요하지만, 행동의 기능을 먼저 파악하지 않으면 부적절한 대체행동을 선택할 수 있습니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-1a": {
+      "id": "feedback-wrong-1a",
+      "type": "feedback",
+      "content": "물리적 제지는 학생의 안전이 즉각적으로 위협받을 때만 사용하는 최후의 수단입니다. 「장애인 등에 대한 특수교육법」 제4조에 따르면 특수교육대상자의 인권을 보호해야 합니다.\n\n💡 다시 생각해보세요: 지속적인 문제행동의 원인을 파악하는 체계적 절차가 있습니다.",
+      "relatedConcepts": ["인권 보호", "긍정적 행동지원"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제4조(차별의 금지)",
+      "choices": [
+        {
+          "label": "ABC 데이터를 수집하여 행동의 패턴을 파악한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "좋습니다. FBA의 첫 단계로 돌아왔습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-1b": {
+      "id": "feedback-wrong-1b",
+      "type": "feedback",
+      "content": "대체행동 교수(FCT: Functional Communication Training)는 효과적인 중재 전략이지만, 행동의 기능을 모르면 적절한 대체행동을 선택할 수 없습니다.\n\n예: 감각 자극이 기능이면 감각 대체를, 과제 회피가 기능이면 도움 요청을 가르쳐야 합니다.",
+      "relatedConcepts": ["기능적 의사소통 훈련", "대체행동"],
+      "choices": [
+        {
+          "label": "먼저 ABC 데이터를 수집한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "순서를 바로잡았습니다. 기능 파악이 먼저입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-2": {
+      "id": "situation-2",
+      "type": "situation",
+      "content": "2주간 ABC 데이터를 수집한 결과입니다:\n\n📋 **ABC 분석 결과**\n• **선행사건(A)**: 수학 문제 풀기 지시, 국어 받아쓰기 시작\n• **행동(B)**: 손으로 머리 치기 (3~5초 간격, 평균 10회 연속)\n• **후속결과(C)**: 교사가 과제를 중단하고 민수에게 다가감 → 과제 일시 중지\n\n이 데이터를 바탕으로, 민수의 자해행동의 기능은 무엇이라고 판단하시나요?",
+      "relatedConcepts": ["ABC 분석", "행동의 기능", "선행사건", "후속결과"],
+      "choices": [
+        {
+          "label": "감각적 자극 (자동강화)",
+          "nextNodeId": "feedback-wrong-2a",
+          "isOptimal": false,
+          "feedback": "감각적 자극이 기능인 경우, 행동은 환경 변수(선행사건/후속결과)와 무관하게 일정하게 나타납니다. 하지만 민수의 행동은 특정 과제 상황에서 집중되고 있습니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "과제 회피 (부적 강화)",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "정확합니다! 선행사건이 '어려운 과제 지시'이고, 후속결과가 '과제 중단'입니다. 행동을 통해 비선호 과제를 회피하고 있으므로, 이는 부적 강화에 의해 유지되는 과제 회피 기능입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "관심 끌기 (정적 강화)",
+          "nextNodeId": "feedback-wrong-2b",
+          "isOptimal": false,
+          "feedback": "교사의 관심이 후속결과에 포함되어 있지만, 핵심은 '과제 중단'입니다. 관심 기능이라면 교사가 다른 학생에게 집중할 때에도 행동이 나타나야 합니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-2a": {
+      "id": "feedback-wrong-2a",
+      "type": "feedback",
+      "content": "감각적 자극(자동강화)은 행동 자체가 감각적 만족을 제공하는 경우입니다.\n\n🔍 **구별 포인트**:\n- 자동강화: 혼자 있을 때도 동일한 빈도로 발생\n- 과제 회피: 특정 상황(과제)에서만 증가\n\n민수의 행동은 수학/국어 시간에 집중되므로 환경 변수의 영향이 큽니다.",
+      "relatedConcepts": ["자동강화", "감각적 기능", "기능 구별"],
+      "choices": [
+        {
+          "label": "과제 회피 (부적 강화)로 재판단한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "맞습니다. 선행사건과 후속결과를 연결하면 과제 회피가 명확합니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-2b": {
+      "id": "feedback-wrong-2b",
+      "type": "feedback",
+      "content": "관심 기능(정적 강화)은 사회적 관심을 얻기 위한 행동입니다.\n\n🔍 **구별 포인트**:\n- 관심 기능: 교사가 다른 학생과 대화할 때 증가\n- 과제 회피: 어려운 과제가 주어질 때 증가\n\n민수의 행동은 '과제 지시' 직후에 시작되고, 후속결과의 핵심은 '과제 중단'입니다.",
+      "relatedConcepts": ["정적 강화", "관심 기능", "사회적 강화"],
+      "choices": [
+        {
+          "label": "과제 회피 (부적 강화)로 재판단한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "올바른 판단입니다. ABC 데이터의 패턴이 과제 회피를 지지합니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-3": {
+      "id": "situation-3",
+      "type": "situation",
+      "content": "민수의 자해행동 기능이 **과제 회피(부적 강화)**임을 확인했습니다.\n\n이제 행동지원계획(BSP)을 작성해야 합니다. 과제 회피 기능의 자해행동에 가장 적절한 중재 전략의 조합은 무엇인가요?",
+      "relatedConcepts": ["행동지원계획", "BSP", "중재 전략"],
+      "choices": [
+        {
+          "label": "과제 난이도 조절(선행사건 중재) + 도움 요청 카드 사용 훈련(대체행동 교수)",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 선행사건 중재(과제 수정)로 문제 상황의 발생을 줄이고, FCT(기능적 의사소통 훈련)로 적절한 대체행동을 가르치는 것이 최선의 조합입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "자해 시 타임아웃(후속결과 중재) + 정적 강화 철회",
+          "nextNodeId": "feedback-wrong-3a",
+          "isOptimal": false,
+          "feedback": "타임아웃은 오히려 과제 회피를 강화할 수 있습니다! 교실에서 빠져나가는 것 자체가 과제 회피이기 때문입니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "정적 강화(과제 완수 시 보상) + 소거(자해행동 무시)",
+          "nextNodeId": "feedback-wrong-3b",
+          "isOptimal": false,
+          "feedback": "보상은 보조 전략으로 유효하지만, 자해행동을 단순히 무시(소거)하면 소거 폭발이 일어나 행동이 일시적으로 악화될 수 있습니다. 안전 문제가 있는 행동에는 소거를 단독으로 사용하면 안 됩니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-3a": {
+      "id": "feedback-wrong-3a",
+      "type": "feedback",
+      "content": "⚠️ **핵심 오류**: 과제 회피 기능의 행동에 타임아웃을 적용하면, 학생은 '자해행동 → 교실 밖으로 나갈 수 있음'을 학습합니다. 이는 과제 회피를 강화합니다!\n\n**원칙**: 중재 전략은 반드시 행동의 기능과 일치해야 합니다.\n- 과제 회피 기능 → 과제를 조절하고, 적절한 회피 방법을 가르쳐야 합니다.",
+      "relatedConcepts": ["타임아웃의 오남용", "기능 기반 중재", "부적 강화 트랩"],
+      "choices": [
+        {
+          "label": "과제 난이도 조절 + 도움 요청 카드 사용 훈련으로 변경한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "올바른 방향으로 수정했습니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-3b": {
+      "id": "feedback-wrong-3b",
+      "type": "feedback",
+      "content": "정적 강화(DRA)는 좋은 보조 전략입니다. 하지만 자해행동 같은 위험한 행동을 단순히 무시하는 것은 윤리적·안전상 문제가 있습니다.\n\n💡 **소거 폭발(extinction burst)**: 소거 초기에 행동이 일시적으로 증가합니다. 자해행동이 폭발적으로 증가하면 학생이 다칠 수 있습니다.\n\n**대안**: 선행사건 중재로 문제 상황 자체를 줄이는 것이 더 안전합니다.",
+      "relatedConcepts": ["소거 폭발", "DRA", "안전 고려"],
+      "choices": [
+        {
+          "label": "과제 난이도 조절 + 도움 요청 카드 사용 훈련으로 변경한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "안전을 고려한 올바른 선택입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-4": {
+      "id": "situation-4",
+      "type": "situation",
+      "content": "BSP를 실행한 지 3주가 지났습니다.\n\n📊 **중재 결과**:\n- 자해행동 빈도: 일 5~7회 → 일 1~2회 (71% 감소)\n- 도움 요청 카드 사용: 일 0회 → 일 3~4회\n- 과제 완수율: 30% → 65%\n\n이 결과에 대한 다음 조치로 가장 적절한 것은?",
+      "relatedConcepts": ["중재 효과 평가", "데이터 기반 의사결정", "BSP 수정"],
+      "choices": [
+        {
+          "label": "효과적이므로 현재 BSP를 유지하면서, 과제 난이도를 점진적으로 높인다 (체계적 페이딩)",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 중재가 효과적일 때는 갑자기 지원을 철회하지 않고, 점진적으로 일반화와 유지를 계획합니다. 과제 수정을 서서히 줄이면서(페이딩) 학생의 독립적 과제 수행을 늘려갑니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "문제가 해결되었으므로 BSP를 종료한다",
+          "nextNodeId": "feedback-wrong-4a",
+          "isOptimal": false,
+          "feedback": "아직 자해행동이 완전히 소거되지 않았고(일 1~2회), 과제 완수율도 65%입니다. 조기 종료하면 행동이 재발할 수 있습니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "감소가 충분하지 않으므로 더 강력한 후속결과 중재를 추가한다",
+          "nextNodeId": "feedback-wrong-4b",
+          "isOptimal": false,
+          "feedback": "71% 감소는 의미 있는 진전입니다. 3주 만에 문제행동이 0이 되길 기대하는 것은 비현실적입니다. 긍정적 행동지원의 원칙은 점진적 개선입니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-4a": {
+      "id": "feedback-wrong-4a",
+      "type": "feedback",
+      "content": "행동 중재는 단기간에 완료되는 것이 아닙니다.\n\n📌 **BSP 유지/수정 기준**:\n- 행동 감소 추세가 유지되는가? → 유지 + 점진적 페이딩\n- 행동이 정체되거나 증가하는가? → BSP 수정 필요\n- 완전히 소거되었는가? → 유지 계획(maintenance plan) 수립 후 모니터링",
+      "relatedConcepts": ["유지 계획", "페이딩", "일반화"],
+      "choices": [
+        {
+          "label": "BSP를 유지하면서 점진적 페이딩을 적용한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "데이터 기반 의사결정의 핵심을 이해했습니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-4b": {
+      "id": "feedback-wrong-4b",
+      "type": "feedback",
+      "content": "긍정적 행동지원(PBS)의 핵심 원칙은 **벌이 아닌 예방과 교수**입니다.\n\n3주간 71% 감소는 BSP가 올바른 방향임을 보여줍니다. 이때 후속결과 중재를 강화하면 선행사건 중재의 효과를 약화시킬 수 있습니다.\n\n💡 **원칙**: 효과가 있으면 유지하되, 지원을 서서히 줄여 학생의 자립도를 높입니다.",
+      "relatedConcepts": ["긍정적 행동지원", "PBS", "최소 제한 환경"],
+      "legalBasis": "장애인 등에 대한 특수교육법 시행령 제21조(개별화교육지원팀)",
+      "choices": [
+        {
+          "label": "현재 BSP를 유지하면서 점진적 페이딩을 적용한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "PBS의 원칙에 맞는 판단입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "assessment-final": {
+      "id": "assessment-final",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n민수의 자해행동 사례를 통해 FBA → BSP → 평가의 전체 과정을 경험했습니다.\n\n### 핵심 정리\n1. **FBA 절차**: ABC 데이터 수집 → 행동 기능 파악 → 가설 수립\n2. **행동의 4가지 기능**: 관심 획득, 과제/상황 회피, 실물/활동 획득, 감각 자극\n3. **기능 기반 중재**: 중재 전략은 행동의 기능과 반드시 일치해야 함\n4. **데이터 기반 의사결정**: 중재 효과를 지속적으로 모니터링하고 조정\n5. **PBS 원칙**: 예방 → 교수 → 강화 (벌은 최후 수단)",
+      "relatedConcepts": ["FBA", "BSP", "PBS", "ABC 분석", "기능 기반 중재", "데이터 기반 의사결정"]
+    }
+  }
+}

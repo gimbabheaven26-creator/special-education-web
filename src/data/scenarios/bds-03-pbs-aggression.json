@@ -1,0 +1,316 @@
+{
+  "id": "bds-03-pbs-aggression",
+  "title": "공격행동과 긍정적 행동지원(PBS)",
+  "description": "지적장애 중학생이 보이는 또래 공격행동에 대해 학교 차원의 긍정적 행동지원(PBS) 절차를 적용합니다. 개별 → 학급 → 학교 차원의 3층 지원 체계를 경험하세요.",
+  "subject": "behavior-support",
+  "chapter": "positive-behavior-support",
+  "difficulty": 3,
+  "estimatedMinutes": 10,
+  "tags": ["PBS", "공격행동", "3층 지원", "위기 관리", "사회적 기술 훈련"],
+  "startNodeId": "situation-1",
+  "nodes": {
+    "situation-1": {
+      "id": "situation-1",
+      "type": "situation",
+      "content": "중학교 특수학급 담당입니다. 경도 지적장애 학생 준호(중2)가 최근 통합학급(체육, 미술)에서 또래를 밀거나 때리는 공격행동이 증가했습니다.\n\n📋 **상황 정보**:\n- 빈도: 주 3~4회 (지난 달 주 1회에서 증가)\n- 장소: 주로 체육 시간, 가끔 미술 시간\n- 강도: 밀기, 팔 때리기 (심각한 부상은 아직 없음)\n- 통합학급 교사의 보고: \"준호가 갑자기 옆 학생을 밀어요\"\n\n첫 번째 단계로 무엇을 하시겠습니까?",
+      "relatedConcepts": ["공격행동", "긍정적 행동지원", "PBS 3층 지원"],
+      "choices": [
+        {
+          "label": "준호의 통합학급 배치를 재검토하고 특수학급으로의 전환을 고려한다",
+          "nextNodeId": "feedback-wrong-1a",
+          "isOptimal": false,
+          "feedback": "통합교육 배치는 IEP팀의 결정사항이며, 문제행동만으로 배치를 변경하는 것은 적절하지 않습니다. 먼저 행동의 원인을 파악하고 지원해야 합니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "직접 관찰과 면담을 통해 행동 패턴과 맥락을 파악한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "정확합니다! PBS의 첫 단계는 행동에 대한 이해입니다. 직접 관찰(ABC 기록), 교사 면담, 학생 면담을 통해 행동의 맥락과 기능을 파악합니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "준호에게 공격행동의 결과(정학 등)를 경고한다",
+          "nextNodeId": "feedback-wrong-1b",
+          "isOptimal": false,
+          "feedback": "벌이나 경고는 PBS의 접근법이 아닙니다. 공격행동의 원인을 이해하지 않고 벌만 적용하면, 행동은 일시적으로 줄지만 다른 형태로 나타나거나 상황이 악화될 수 있습니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-1a": {
+      "id": "feedback-wrong-1a",
+      "type": "feedback",
+      "content": "「장애인 등에 대한 특수교육법」 제17조에 따라 배치 변경은 IEP팀이 결정하며, 문제행동 자체가 배치 변경의 사유가 되어서는 안 됩니다.\n\n📌 **원칙**: 행동 문제 → 환경 제거가 아니라 → 행동 지원 제공\n\n미국 IDEA법에서도 'manifestation determination(징후 판단)'을 통해 장애와 관련된 행동은 벌이 아닌 지원으로 대응합니다.",
+      "relatedConcepts": ["배치 결정", "IEP팀", "최소 제한 환경"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제17조(특수교육대상자의 배치 등)",
+      "choices": [
+        {
+          "label": "먼저 행동 패턴과 맥락을 파악한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "올바른 접근입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-1b": {
+      "id": "feedback-wrong-1b",
+      "type": "feedback",
+      "content": "PBS(긍정적 행동지원)의 핵심 철학:\n\n❌ 전통적 접근: 문제행동 → 벌 → 행동 억제\n✅ PBS 접근: 문제행동 → 기능 이해 → 환경 재구성 + 기술 교수 + 강화\n\n벌(정학, 퇴학)은:\n- 특수교육대상자에게 교육권 침해\n- 행동의 원인을 해결하지 못함\n- 학교 복귀 시 행동 재발",
+      "relatedConcepts": ["PBS 철학", "벌의 한계", "교육권"],
+      "choices": [
+        {
+          "label": "행동을 이해하기 위해 관찰과 면담부터 시작한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "PBS의 기본으로 돌아왔습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-2": {
+      "id": "situation-2",
+      "type": "situation",
+      "content": "2주간 관찰과 면담 결과입니다:\n\n📋 **관찰 데이터**:\n- **선행사건**: 체육 시간 팀 활동에서 규칙 설명이 복잡할 때, 또래가 준호를 무시하거나 팀에서 배제할 때\n- **행동**: 가장 가까운 또래를 밀거나 팔을 때림\n- **후속결과**: 교사 개입 → 준호 분리 → 체육 활동 참여 불가\n\n📋 **면담 결과**:\n- 준호: \"얘들이 나 빼고 해요\" \"규칙 모르겠어요\"\n- 통합학급 교사: \"팀 활동 시 준호를 어디에 넣을지 고민됨\"\n- 또래: \"준호가 무서워요\" \"같이 하기 싫어요\"\n\n이 데이터에서 행동의 주요 기능은 무엇인가요?",
+      "relatedConcepts": ["행동의 기능", "사회적 맥락", "또래 관계"],
+      "choices": [
+        {
+          "label": "또래 관심/상호작용 획득 (정적 강화) — 상호작용을 원하지만 적절한 방법을 모름",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "정확합니다! 준호의 \"나 빼고 해요\"라는 말과 팀 활동에서 배제되는 선행사건을 종합하면, 공격행동은 또래와의 상호작용을 원하지만 적절한 사회적 기술이 부족해서 나타나는 행동입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "체육 활동 회피 (부적 강화) — 어려운 활동을 회피하려 함",
+          "nextNodeId": "feedback-wrong-2",
+          "isOptimal": false,
+          "feedback": "회피 기능도 일부 포함될 수 있지만, 준호의 \"나 빼고 해요\"라는 발언과 팀 활동에서 배제될 때 발생한다는 패턴은 '참여하고 싶은데 방법을 모르는' 상황을 더 강하게 시사합니다.",
+          "xpBonus": 10
+        },
+        {
+          "label": "감각적 자극 (자동강화) — 감각적 필요를 충족하려 함",
+          "nextNodeId": "feedback-wrong-2b",
+          "isOptimal": false,
+          "feedback": "감각 기능이라면 환경과 무관하게 일정하게 나타나야 합니다. 준호의 행동은 특정 사회적 맥락(팀 활동, 배제)에서만 발생하므로 감각 기능이 아닙니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-2": {
+      "id": "feedback-wrong-2",
+      "type": "feedback",
+      "content": "회피 기능과 관심 획득 기능을 구별하는 핵심:\n\n🔍 **회피 기능이면**: 행동 후 '활동에서 빠지는 것'이 강화제 → 준호가 분리되면 안도\n🔍 **관심 획득이면**: 행동 후 '상호작용이 생기는 것'이 강화제 → 분리되면 오히려 불만\n\n준호는 \"나 빼고 해요\"라고 했습니다. 활동을 피하고 싶은 게 아니라, 함께 하고 싶은데 배제되어 좌절한 것입니다.",
+      "relatedConcepts": ["기능 구별", "부적 강화 vs 정적 강화"],
+      "choices": [
+        {
+          "label": "또래 상호작용 획득 기능으로 재판단한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "문맥을 종합한 올바른 판단입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-2b": {
+      "id": "feedback-wrong-2b",
+      "type": "feedback",
+      "content": "자동강화(감각 기능) 판별 기준:\n- 혼자 있을 때도 동일한 빈도로 발생하는가? → No (준호는 특수학급에서 발생 없음)\n- 환경 변수와 무관하게 일정한가? → No (팀 활동 시에만 증가)\n- 타인의 반응과 무관한가? → No (배제 상황에서 촉발)\n\n이 모든 답이 No이므로 감각 기능이 아닙니다.",
+      "relatedConcepts": ["자동강화 판별", "기능분석"],
+      "choices": [
+        {
+          "label": "또래 상호작용 획득 기능으로 재판단한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "기능 판별의 논리를 이해했습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-3": {
+      "id": "situation-3",
+      "type": "situation",
+      "content": "행동 기능이 **또래 상호작용 획득**임을 확인했습니다.\n\nPBS의 3층 지원 체계에서 준호에게 필요한 지원 조합은?",
+      "relatedConcepts": ["PBS 3층 지원", "1층 보편적 지원", "2층 표적집단 지원", "3층 개별 집중 지원"],
+      "choices": [
+        {
+          "label": "3층(개별 집중): 준호에게만 1:1 사회적 기술 훈련을 실시한다",
+          "nextNodeId": "feedback-wrong-3a",
+          "isOptimal": false,
+          "feedback": "개별 사회적 기술 훈련은 3층 지원으로 중요하지만, 준호만 훈련받으면 환경은 바뀌지 않습니다. 또래도 준호를 받아들이는 환경이 함께 조성되어야 합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "1층(보편적) + 2층(표적집단) + 3층(개별) 통합 적용: 학급 규칙 재설정 + 구조화된 팀 활동 + 준호 사회적 기술 훈련",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "완벽합니다! PBS의 핵심은 단일 수준이 아닌 다층적 지원입니다.\n\n- 1층: 학급 전체의 긍정적 행동 기대(규칙, 강화)\n- 2층: 위험군 대상 소그룹 사회적 기술 훈련\n- 3층: 준호 개별 BSP + 위기 관리 계획",
+          "xpBonus": 20
+        },
+        {
+          "label": "1층(보편적): 학급 전체에 폭력 금지 규칙을 강화하고 위반 시 벌점을 준다",
+          "nextNodeId": "feedback-wrong-3b",
+          "isOptimal": false,
+          "feedback": "규칙 강화는 1층 보편적 지원의 일부이지만, '벌점'은 PBS 접근이 아닙니다. 또한 1층만으로는 준호의 사회적 기술 부족과 또래 배제 문제를 해결하지 못합니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-3a": {
+      "id": "feedback-wrong-3a",
+      "type": "feedback",
+      "content": "준호에게만 훈련하면 생기는 문제:\n\n1. 또래는 여전히 준호를 배제 → 사회적 기술을 배워도 적용할 기회 없음\n2. 통합학급 환경이 바뀌지 않음 → 선행사건(배제)이 지속\n3. 준호만 '문제 학생'으로 낙인\n\n💡 **PBS 원칙**: 학생을 바꾸려 하기 전에 환경을 바꿔라\n- 1층: 학급 전체 긍정적 분위기\n- 2층: 또래 관계 촉진 프로그램\n- 3층: 개별 사회적 기술 훈련",
+      "relatedConcepts": ["환경 중심 접근", "다층 지원"],
+      "choices": [
+        {
+          "label": "3층 지원 체계를 통합적으로 적용한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "다층적 접근으로 전환했습니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-3b": {
+      "id": "feedback-wrong-3b",
+      "type": "feedback",
+      "content": "PBS에서 1층 보편적 지원은:\n\n✅ 긍정적 행동 기대 설정 (\"우리 반은 서로 존중합니다\")\n✅ 기대 행동에 대한 강화 (\"도움 줄 때 칭찬\")\n✅ 명시적 사회적 기술 교수\n\n❌ 벌점, 경고, 부정적 결과 강조\n\n1층만으로 해결되지 않는 학생(준호)에게는 2층, 3층 추가 지원이 필요합니다.",
+      "relatedConcepts": ["1층 보편적 지원", "긍정적 강화", "다층 지원"],
+      "choices": [
+        {
+          "label": "3층 지원 체계를 통합적으로 적용한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "PBS의 다층적 구조를 이해했습니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-4": {
+      "id": "situation-4",
+      "type": "situation",
+      "content": "3층 지원을 실행 중입니다. 체육 시간에 준호가 갑자기 옆 학생을 세게 밀어 넘어뜨렸습니다. 밀린 학생은 울고 있습니다.\n\n🚨 **위기 상황!** 즉각적으로 취해야 할 행동은?",
+      "relatedConcepts": ["위기 관리", "안전 확보", "위기 중재"],
+      "choices": [
+        {
+          "label": "준호를 큰 소리로 꾸짖어 다시는 하지 않도록 한다",
+          "nextNodeId": "feedback-wrong-4a",
+          "isOptimal": false,
+          "feedback": "위기 상황에서 큰 소리나 꾸짖기는 상황을 악화시킵니다. 흥분 상태의 학생은 언어적 지시를 처리하기 어렵고, 교사의 분노가 추가 자극이 될 수 있습니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "침착하게 밀린 학생의 안전을 확인하고, 준호를 안전한 장소(쿨다운 공간)로 안내한다",
+          "nextNodeId": "situation-5",
+          "isOptimal": true,
+          "feedback": "정확합니다! 위기 관리의 우선순위: ① 피해 학생 안전 확보 ② 가해 학생 안전한 장소로 이동 ③ 나머지 학생 안전 ④ 흥분 가라앉은 후 대화",
+          "xpBonus": 15
+        },
+        {
+          "label": "보건실에 데려가고 학부모에게 연락하여 조기 귀가시킨다",
+          "nextNodeId": "feedback-wrong-4b",
+          "isOptimal": false,
+          "feedback": "학부모 연락은 필요할 수 있지만, 조기 귀가는 '과제/상황 회피' 강화가 될 수 있습니다. 또한 위기 직후 바로 귀가시키면 사후 대화와 학습 기회를 놓칩니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-4a": {
+      "id": "feedback-wrong-4a",
+      "type": "feedback",
+      "content": "위기 상황에서의 교사 대응 원칙:\n\n❌ 하지 말 것:\n- 큰 소리로 꾸짖기\n- 신체적 제지 (최후의 수단)\n- 공개적 훈계 (자존감 손상)\n- 즉각적 벌 선언\n\n✅ 해야 할 것:\n- 낮고 차분한 목소리\n- 짧고 명확한 지시 (\"여기로 와\", \"앉아\")\n- 안전 확보 우선\n- 사후 회복적 대화",
+      "relatedConcepts": ["위기 대응", "디에스컬레이션"],
+      "choices": [
+        {
+          "label": "침착하게 안전 확보 후 쿨다운 공간으로 안내한다",
+          "nextNodeId": "situation-5",
+          "isOptimal": true,
+          "feedback": "위기 관리의 기본으로 돌아왔습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-4b": {
+      "id": "feedback-wrong-4b",
+      "type": "feedback",
+      "content": "조기 귀가의 문제점:\n\n1. 체육 시간 회피가 강화될 수 있음\n2. 사후 교육적 대화 기회 상실\n3. 반복되면 출석률 저하 → 교육권 침해\n\n💡 **대안**: 쿨다운 후 같은 날 통합학급에 복귀하는 것이 바람직합니다. 학부모 연락은 상황 전달 차원에서 하되, 귀가는 위기 관리 수단이 아닙니다.",
+      "relatedConcepts": ["교육권", "출석 유지", "위기 후 복귀"],
+      "choices": [
+        {
+          "label": "쿨다운 공간에서 진정시킨 후 적절히 대응한다",
+          "nextNodeId": "situation-5",
+          "isOptimal": true,
+          "feedback": "교육적 맥락을 유지하는 좋은 판단입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-5": {
+      "id": "situation-5",
+      "type": "situation",
+      "content": "준호가 쿨다운 공간에서 10분 후 진정되었습니다. 밀린 학생도 괜찮습니다.\n\n이 사건 이후 장기적으로 가장 중요한 조치는?",
+      "relatedConcepts": ["사후 처리", "회복적 접근", "BSP 수정"],
+      "choices": [
+        {
+          "label": "BSP에 위기 관리 계획을 추가하고, 선행사건 중재를 강화한다 (팀 구성 시 또래 서포터 배치)",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 위기 발생은 BSP를 수정해야 한다는 신호입니다. 위기 관리 프로토콜을 BSP에 포함시키고, 선행사건 중재(또래 서포터, 규칙 사전 연습, 역할 사전 배정)를 강화합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "준호와 밀린 학생 사이에 화해를 시도하고 끝낸다",
+          "nextNodeId": "feedback-wrong-5a",
+          "isOptimal": false,
+          "feedback": "화해는 중요하지만, 그것만으로는 근본적 해결이 되지 않습니다. 같은 상황이 반복되면 또 같은 행동이 나타날 것입니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "체육 통합수업 참여를 당분간 중단하고 특수학급에서 체육을 실시한다",
+          "nextNodeId": "feedback-wrong-5b",
+          "isOptimal": false,
+          "feedback": "통합수업 배제는 최소 제한 환경 원칙에 반합니다. 문제 상황을 피하는 것이 아니라, 지원을 통해 성공적으로 참여하도록 해야 합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-5a": {
+      "id": "feedback-wrong-5a",
+      "type": "feedback",
+      "content": "화해(회복적 대화)는 사후 처리의 한 부분이지만, BSP를 업데이트하지 않으면:\n\n- 같은 선행사건(팀에서 배제) → 같은 행동(공격) 반복\n- 또래가 준호를 더 피하게 됨 → 배제 심화\n- 악순환 고착\n\n💡 **PBS 데이터 기반 의사결정**: 위기 사건 후에는 BSP를 검토하고 선행사건 중재를 강화해야 합니다.",
+      "relatedConcepts": ["BSP 수정", "데이터 기반 의사결정", "회복적 접근"],
+      "choices": [
+        {
+          "label": "BSP를 수정하고 선행사건 중재를 강화한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "구조적 접근으로 전환했습니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-5b": {
+      "id": "feedback-wrong-5b",
+      "type": "feedback",
+      "content": "통합수업 배제의 문제:\n\n1. 준호의 사회적 기술 연습 기회 상실\n2. 또래와의 관계 회복 불가\n3. 준호 스스로 \"나는 통합에 실패했다\"는 인식\n4. 최소 제한 환경(LRE) 원칙 위반\n\n💡 **대안**: 지원을 강화하여 통합 환경에서 성공 경험을 쌓게 합니다.\n- 또래 서포터 배치\n- 체육 규칙 시각적 카드\n- 역할 사전 연습(리허설)",
+      "relatedConcepts": ["최소 제한 환경", "통합교육 유지", "지원 강화"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제21조(통합교육)",
+      "choices": [
+        {
+          "label": "통합수업은 유지하되, BSP와 선행사건 중재를 강화한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "통합교육 유지와 지원 강화를 양립하는 올바른 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "assessment-final": {
+      "id": "assessment-final",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n준호의 공격행동 사례를 통해 PBS 3층 지원 체계와 위기 관리를 경험했습니다.\n\n### 핵심 정리\n1. **PBS 3층 지원**: 1층(학급 전체) + 2층(위험군 소그룹) + 3층(개별 BSP)\n2. **기능 파악의 중요성**: 같은 공격행동이라도 기능(관심 획득, 회피, 실물 획득, 감각)에 따라 중재가 다름\n3. **환경 중심 접근**: 학생만 바꾸지 말고, 환경(또래 관계, 수업 구조)도 함께 변화\n4. **위기 관리**: 안전 확보 → 진정 → 사후 대화 → BSP 수정\n5. **최소 제한 환경**: 문제가 있어도 통합 유지 + 지원 강화",
+      "relatedConcepts": ["PBS", "3층 지원", "위기 관리", "최소 제한 환경", "BSP", "사회적 기술"]
+    }
+  }
+}
