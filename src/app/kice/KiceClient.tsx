@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState, useMemo, Suspense } from 'react'
 import Link from 'next/link'
-import { Search, FileText, Clock, Award, GitFork, Sparkles, Play } from 'lucide-react'
+import { Search, FileText, Clock, Award, GitFork, Sparkles, Play, BarChart3 } from 'lucide-react'
 import { QuestionCard } from '@/components/kice/QuestionCard'
 import { Button } from '@/components/ui/button'
 import type { KiceExam, ExamEntry } from '@/types/kice'
@@ -225,18 +225,29 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
         </div>
       )}
 
-      {/* 모의고사 모드 */}
+      {/* 모의고사 + 분석 */}
       {exam && (
-        <Button
-          render={
-            <Link href={`/kice/exam?year=${selectedYear}&session=${encodeURIComponent(selectedSession)}`} />
-          }
-          size="lg"
-          className="w-full min-h-[48px]"
-        >
-          <Play className="h-5 w-5 mr-2" />
-          모의고사 모드로 풀기
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            render={
+              <Link href={`/kice/exam?year=${selectedYear}&session=${encodeURIComponent(selectedSession)}`} />
+            }
+            size="lg"
+            className="flex-1 min-h-[48px]"
+          >
+            <Play className="h-5 w-5 mr-2" />
+            모의고사 모드
+          </Button>
+          <Button
+            render={<Link href="/kice/analytics" />}
+            variant="outline"
+            size="lg"
+            className="flex-1 min-h-[48px]"
+          >
+            <BarChart3 className="h-5 w-5 mr-2" />
+            출제 경향 분석
+          </Button>
+        </div>
       )}
 
       {/* 키워드 검색 */}
