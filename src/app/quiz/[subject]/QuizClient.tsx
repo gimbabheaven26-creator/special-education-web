@@ -18,6 +18,7 @@ import { ComboIndicator } from '@/components/quiz/ComboIndicator';
 import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import type { Confidence } from './QuizResultScreen';
 import { PenLine, FileText } from 'lucide-react';
+import { sortByAdaptiveDifficulty } from '@/lib/adaptive-difficulty';
 
 // ─── Question type categories ────────────────────────────────────────────────
 
@@ -56,7 +57,9 @@ function buildSession(
     : allQuestions;
 
   // Filter by difficulty
-  if (difficulty !== 'all') {
+  if (difficulty === 'adaptive') {
+    pool = sortByAdaptiveDifficulty(pool, quizHistory);
+  } else if (difficulty !== 'all') {
     const diffMap: Record<string, number[]> = {
       basic: [1],
       intermediate: [2],

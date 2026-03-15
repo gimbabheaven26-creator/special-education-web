@@ -36,6 +36,7 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
     currentStreak,
     longestStreak,
     totalXP,
+    totalStudyTimeMinutes,
   } = useStatsData();
 
   if (quizHistory.length === 0) {
@@ -87,6 +88,13 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
         <Badge variant="secondary" className="text-sm px-3 py-1.5">
           {totalXP.toLocaleString()} XP
         </Badge>
+        {totalStudyTimeMinutes > 0 && (
+          <Badge variant="secondary" className="text-sm px-3 py-1.5">
+            {totalStudyTimeMinutes >= 60
+              ? `${Math.floor(totalStudyTimeMinutes / 60)}시간 ${totalStudyTimeMinutes % 60}분`
+              : `${totalStudyTimeMinutes}분`} 학습
+          </Badge>
+        )}
       </div>
 
       {/* Weekly Summary */}

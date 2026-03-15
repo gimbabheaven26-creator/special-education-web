@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomTabBar } from "@/components/layout/BottomTabBar";
 import { ConditionalReviewPanel } from "@/components/layout/ConditionalReviewPanel";
+import { StudySessionTracker } from "@/components/StudySessionTracker";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -48,6 +49,7 @@ export default function RootLayout({
           <Footer />
           <BottomTabBar />
           <ConditionalReviewPanel />
+          <StudySessionTracker />
         </ThemeProvider>
       </body>
     </html>

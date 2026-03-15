@@ -85,6 +85,11 @@ export function useStatsData() {
     [quizHistory],
   );
 
+  const totalStudyTimeMinutes = useMemo(
+    () => dailyHistory.reduce((sum, d) => sum + (d.studyTimeMinutes ?? 0), 0),
+    [dailyHistory],
+  );
+
   return {
     quizHistory,
     overall,
@@ -102,5 +107,6 @@ export function useStatsData() {
     currentStreak,
     longestStreak,
     totalXP,
+    totalStudyTimeMinutes,
   };
 }

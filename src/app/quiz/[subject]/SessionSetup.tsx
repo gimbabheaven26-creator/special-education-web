@@ -6,8 +6,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useQuizStore } from '@/stores/useQuizStore';
-import { RefreshCw, Target, Sparkles, ChevronDown, ChevronUp, Play } from 'lucide-react';
+import { RefreshCw, Target, Sparkles, ChevronDown, ChevronUp, Play, Zap } from 'lucide-react';
 import type { SavedSession } from '@/lib/session-recovery';
+import { getSubjectProficiency, getProficiencyLabel } from '@/lib/adaptive-difficulty';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -17,7 +18,7 @@ export interface SessionConfig {
   preset: SessionPreset;
   questionCount: number;
   chapters: string[];
-  difficulty: 'all' | 'basic' | 'intermediate' | 'advanced';
+  difficulty: 'all' | 'basic' | 'intermediate' | 'advanced' | 'adaptive';
 }
 
 interface SessionSetupProps {
@@ -64,8 +65,9 @@ const PRESETS: Array<{
 
 const QUESTION_COUNTS = [5, 10, 20] as const;
 
-const DIFFICULTY_OPTIONS: Array<{ value: SessionConfig['difficulty']; label: string }> = [
+const DIFFICULTY_OPTIONS: Array<{ value: SessionConfig['difficulty']; label: string; icon?: typeof Zap }> = [
   { value: 'all', label: '전체' },
+  { value: 'adaptive', label: '적응형', icon: Zap },
   { value: 'basic', label: '기초' },
   { value: 'intermediate', label: '중급' },
   { value: 'advanced', label: '심화' },
@@ -90,6 +92,12 @@ export function SessionSetup({
 
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
+
+  // Subject proficiency
+  const proficiency = useMemo(
+    () => getSubjectProficiency(subjectSlug, quizHistory),
+    [subjectSlug, quizHistory],
+  );
 
   // Stats for this subject
   const subjectStats = useMemo(() => {
@@ -150,9 +158,19 @@ export function SessionSetup({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">{subjectTitle} 퀴즈</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground">{subjectTitle} 퀴즈</h1>
+          {proficiency.totalAttempts >= 3 && (
+            <Badge className={`text-xs ${proficiency.color}`}>
+              {getProficiencyLabel(proficiency.level)}
+            </Badge>
+          )}
+        </div>
         <p className="text-sm text-muted-foreground mt-1">
           전체 {subjectStats.totalQuestions}문제 중 {subjectStats.totalAnswered}문제 풀었어요
+          {proficiency.totalAttempts >= 3 && (
+            <span> · 정답률 {Math.round(proficiency.accuracy * 100)}%</span>
+          )}
         </p>
       </div>
 

@@ -30,6 +30,7 @@ export interface DailyHistoryEntry {
   questionsAttempted: number;
   questionsCorrect: number;
   xpEarned: number;
+  studyTimeMinutes?: number; // 자동 추적된 학습 시간 (분)
 }
 
 export interface DailyGoal {

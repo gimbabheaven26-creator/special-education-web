@@ -47,6 +47,7 @@ interface StudyActions {
   recordActivity: (activity: Omit<RecentActivity, 'timestamp'>) => void;
   recordQuizResult: (correct: boolean) => void;
   recordChapterComplete: () => void;
+  recordStudyTime: (minutes: number) => void;
   setDailyGoal: (chapters: number, quizzes: number) => void;
   getDailyHistory: (days: number) => DailyHistoryEntry[];
 }
@@ -193,6 +194,30 @@ export const useStudyStore = create<StudyState & StudyActions>()(
             },
             totalXP: state.totalXP + XP_PER_CHAPTER,
           };
+        }),
+
+      recordStudyTime: (minutes) =>
+        set((state) => {
+          if (minutes <= 0) return state;
+          const today = getToday();
+          const existingIndex = state.dailyHistory.findIndex((e) => e.date === today);
+
+          let updatedHistory: DailyHistoryEntry[];
+          if (existingIndex >= 0) {
+            const existing = state.dailyHistory[existingIndex];
+            updatedHistory = state.dailyHistory.map((entry, i) =>
+              i === existingIndex
+                ? { ...existing, studyTimeMinutes: (existing.studyTimeMinutes ?? 0) + minutes }
+                : entry,
+            );
+          } else {
+            updatedHistory = [
+              ...state.dailyHistory,
+              { date: today, questionsAttempted: 0, questionsCorrect: 0, xpEarned: 0, studyTimeMinutes: minutes },
+            ];
+          }
+
+          return { dailyHistory: updatedHistory };
         }),
 
       getDailyHistory: (days) => {
