@@ -176,6 +176,7 @@ export interface ReviewRow {
   path: string;
   content: string;
   reviewer_name?: string;
+  image_urls?: string[];
   status?: 'pending' | 'discussing' | 'accepted' | 'rejected';
   updated_at?: string;
 }
@@ -194,8 +195,9 @@ export async function saveReview(
   path: string,
   content: string,
   reviewerName: string = '',
+  imageUrls: string[] = [],
 ): Promise<boolean> {
-  if (!content.trim()) {
+  if (!content.trim() && imageUrls.length === 0) {
     const query = supabase.from('reviews').delete().eq('path', path);
     const { error } = reviewerName
       ? await query.eq('reviewer_name', reviewerName)
@@ -210,6 +212,7 @@ export async function saveReview(
         path,
         content: content.trim(),
         reviewer_name: reviewerName,
+        image_urls: imageUrls,
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'path,reviewer_name' },

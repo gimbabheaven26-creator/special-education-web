@@ -2,25 +2,46 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { MessageSquarePlus, X, Save, Trash2, History, ArrowLeft, ExternalLink } from 'lucide-react';
+import { MessageSquarePlus, X, Save, Trash2, History, ArrowLeft, ExternalLink, ImagePlus, Loader2 } from 'lucide-react';
 
 interface Review {
   path: string;
   content: string;
   updatedAt: string;
+  image_urls?: string[];
 }
 
+const MAX_IMAGES = 5;
+
 // 서버 API로 저장 (실패 시 false 반환)
-async function saveToServer(path: string, content: string, reviewerName: string): Promise<boolean> {
+async function saveToServer(
+  path: string,
+  content: string,
+  reviewerName: string,
+  imageUrls: string[],
+): Promise<boolean> {
   try {
     const res = await fetch('/api/reviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path, content, reviewer_name: reviewerName }),
+      body: JSON.stringify({ path, content, reviewer_name: reviewerName, image_urls: imageUrls }),
     });
     return res.ok;
   } catch {
     return false;
+  }
+}
+
+async function uploadImage(file: File): Promise<string | null> {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch('/api/reviews/upload', { method: 'POST', body: formData });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.url ?? null;
+  } catch {
+    return null;
   }
 }
 
@@ -36,6 +57,7 @@ async function fetchAllReviews(): Promise<Review[]> {
 
 // localStorage 헬퍼 (오프라인 백업)
 const STORAGE_KEY = 'se-review-notes';
+const IMAGES_STORAGE_KEY = 'se-review-images';
 const REVIEWER_NAME_KEY = 'se-reviewer-name';
 
 function getLocalNotes(): Record<string, string> {
@@ -51,17 +73,34 @@ function saveLocalNotes(notes: Record<string, string>) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
 }
 
+function getLocalImages(): Record<string, string[]> {
+  if (typeof window === 'undefined') return {};
+  try {
+    return JSON.parse(localStorage.getItem(IMAGES_STORAGE_KEY) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function saveLocalImages(images: Record<string, string[]>) {
+  localStorage.setItem(IMAGES_STORAGE_KEY, JSON.stringify(images));
+}
+
 export function ReviewPanel() {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState<'edit' | 'history'>('edit');
   const [note, setNote] = useState('');
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
   const [saved, setSaved] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [allReviews, setAllReviews] = useState<Review[]>([]);
   const [reviewerName, setReviewerName] = useState('');
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // 리뷰어 이름 로드/저장
@@ -78,22 +117,29 @@ export function ReviewPanel() {
   // 페이지 변경 시 해당 페이지의 노트 로드
   useEffect(() => {
     const notes = getLocalNotes();
+    const images = getLocalImages();
     setNote(notes[pathname] || '');
+    setImageUrls(images[pathname] || []);
     setSaved(false);
     setView('edit');
+    setPreviewImage(null);
   }, [pathname]);
 
   // 저장 (localStorage + 서버)
   const persistNote = useCallback(
-    (value: string) => {
+    (value: string, images: string[]) => {
       const notes = getLocalNotes();
-      if (value.trim()) {
+      const localImages = getLocalImages();
+      if (value.trim() || images.length > 0) {
         notes[pathname] = value;
+        localImages[pathname] = images;
       } else {
         delete notes[pathname];
+        delete localImages[pathname];
       }
       saveLocalNotes(notes);
-      saveToServer(pathname, value, reviewerName).then((ok) => {
+      saveLocalImages(localImages);
+      saveToServer(pathname, value, reviewerName, images).then((ok) => {
         setServerError(!ok);
       });
       setSaved(true);
@@ -107,22 +153,57 @@ export function ReviewPanel() {
       setNote(value);
       setSaved(false);
       if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-      saveTimeoutRef.current = setTimeout(() => persistNote(value), 1000);
+      saveTimeoutRef.current = setTimeout(() => persistNote(value, imageUrls), 1000);
     },
-    [persistNote],
+    [persistNote, imageUrls],
   );
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const remainingSlots = MAX_IMAGES - imageUrls.length;
+    if (remainingSlots <= 0) return;
+
+    const filesToUpload = Array.from(files).slice(0, remainingSlots);
+    setUploading(true);
+
+    const newUrls: string[] = [];
+    for (const file of filesToUpload) {
+      const url = await uploadImage(file);
+      if (url) newUrls.push(url);
+    }
+
+    if (newUrls.length > 0) {
+      const updated = [...imageUrls, ...newUrls];
+      setImageUrls(updated);
+      persistNote(note, updated);
+    }
+
+    setUploading(false);
+    // reset input
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const removeImage = (index: number) => {
+    const updated = imageUrls.filter((_, i) => i !== index);
+    setImageUrls(updated);
+    persistNote(note, updated);
+    if (previewImage === imageUrls[index]) setPreviewImage(null);
+  };
 
   const handleDelete = () => {
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-    persistNote('');
+    persistNote('', []);
     setNote('');
+    setImageUrls([]);
     setSaved(false);
+    setPreviewImage(null);
   };
 
   const handleSaveNow = () => {
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-    persistNote(note);
-    // 저장 후 패널 닫기
+    persistNote(note, imageUrls);
     setTimeout(() => setIsOpen(false), 300);
   };
 
@@ -130,7 +211,6 @@ export function ReviewPanel() {
   const loadHistory = async () => {
     setView('history');
     const reviews = await fetchAllReviews();
-    // 최신순 정렬
     reviews.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
     setAllReviews(reviews);
   };
@@ -141,7 +221,7 @@ export function ReviewPanel() {
     router.push(path);
   };
 
-  const hasNote = note.trim().length > 0;
+  const hasNote = note.trim().length > 0 || imageUrls.length > 0;
   const [noteCount, setNoteCount] = useState(0);
   useEffect(() => {
     setNoteCount(Object.keys(getLocalNotes()).length);
@@ -184,6 +264,20 @@ export function ReviewPanel() {
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
           )}
         </button>
+      )}
+
+      {/* 이미지 프리뷰 모달 */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4"
+          onClick={() => setPreviewImage(null)}
+        >
+          <img
+            src={previewImage}
+            alt="리뷰 이미지 확대"
+            className="max-w-full max-h-full rounded-lg object-contain"
+          />
+        </div>
       )}
 
       {/* 리뷰 패널 */}
@@ -243,6 +337,54 @@ export function ReviewPanel() {
                   onChange={(e) => handleChange(e.target.value)}
                   placeholder="이 페이지에 대한 메모, 리뷰, 중요 포인트를 적어보세요..."
                   className="w-full h-full min-h-[200px] resize-none rounded-lg border border-input bg-transparent px-3 py-2 text-sm leading-relaxed placeholder:text-muted-foreground focus:outline-none focus:border-ring focus:ring-2 focus:ring-ring/50"
+                />
+
+                {/* 이미지 섹션 */}
+                {imageUrls.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2">
+                    {imageUrls.map((url, i) => (
+                      <div key={url} className="relative group aspect-square rounded-lg overflow-hidden border border-border">
+                        <img
+                          src={url}
+                          alt={`첨부 이미지 ${i + 1}`}
+                          className="w-full h-full object-cover cursor-pointer"
+                          onClick={() => setPreviewImage(url)}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(i)}
+                          className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* 이미지 업로드 버튼 */}
+                {imageUrls.length < MAX_IMAGES && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    className="inline-flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg border border-dashed border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors disabled:opacity-50 min-h-[44px]"
+                  >
+                    {uploading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <ImagePlus className="h-4 w-4" />
+                    )}
+                    {uploading ? '업로드 중...' : `사진 추가 (${imageUrls.length}/${MAX_IMAGES})`}
+                  </button>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif,image/webp"
+                  multiple
+                  onChange={handleImageUpload}
+                  className="hidden"
                 />
               </div>
 
@@ -306,6 +448,12 @@ export function ReviewPanel() {
                       <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
                         {review.content}
                       </p>
+                      {review.image_urls && review.image_urls.length > 0 && (
+                        <p className="text-[10px] text-muted-foreground mt-0.5">
+                          <ImagePlus className="inline h-3 w-3 mr-0.5" />
+                          사진 {review.image_urls.length}장
+                        </p>
+                      )}
                     </div>
                     <span className="text-[10px] text-muted-foreground shrink-0 mt-0.5">
                       {formatDate(review.updatedAt)}

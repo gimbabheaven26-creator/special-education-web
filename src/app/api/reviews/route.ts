@@ -3,6 +3,7 @@ import { getReviews, saveReview, updateReviewStatus } from '@/lib/db';
 
 const MAX_CONTENT_LENGTH = 10000;
 const MAX_NAME_LENGTH = 50;
+const MAX_IMAGES = 5;
 const PATH_PATTERN = /^\/[a-z0-9\-\/]*$/;
 const VALID_STATUSES = ['pending', 'discussing', 'accepted', 'rejected'] as const;
 
@@ -19,14 +20,14 @@ export async function GET() {
 
 // POST: 리뷰 저장/업데이트
 export async function POST(req: NextRequest) {
-  let body: { path?: unknown; content?: unknown; reviewer_name?: unknown };
+  let body: { path?: unknown; content?: unknown; reviewer_name?: unknown; image_urls?: unknown };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: 'invalid JSON' }, { status: 400 });
   }
 
-  const { path, content, reviewer_name } = body;
+  const { path, content, reviewer_name, image_urls } = body;
 
   if (!path || typeof path !== 'string' || !PATH_PATTERN.test(path)) {
     return NextResponse.json({ error: 'invalid path' }, { status: 400 });
@@ -40,19 +41,26 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'reviewer_name must be string' }, { status: 400 });
   }
 
+  if (image_urls !== undefined && !Array.isArray(image_urls)) {
+    return NextResponse.json({ error: 'image_urls must be array' }, { status: 400 });
+  }
+
   const contentStr = typeof content === 'string' ? content : '';
   const nameStr = typeof reviewer_name === 'string' ? reviewer_name.trim().slice(0, MAX_NAME_LENGTH) : '';
+  const imageUrlsArr = Array.isArray(image_urls)
+    ? image_urls.filter((u): u is string => typeof u === 'string').slice(0, MAX_IMAGES)
+    : [];
 
   if (contentStr.length > MAX_CONTENT_LENGTH) {
     return NextResponse.json({ error: 'content too long' }, { status: 400 });
   }
 
   try {
-    const success = await saveReview(path, contentStr, nameStr);
+    const success = await saveReview(path, contentStr, nameStr, imageUrlsArr);
     if (!success) {
       return NextResponse.json({ error: 'failed to save review' }, { status: 500 });
     }
-    const action = contentStr.trim() ? 'saved' : 'deleted';
+    const action = contentStr.trim() || imageUrlsArr.length > 0 ? 'saved' : 'deleted';
     return NextResponse.json({ ok: true, action });
   } catch (error) {
     console.error('Failed to save review:', error);
