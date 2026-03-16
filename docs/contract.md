@@ -1,7 +1,8 @@
 # Interface Contract
 
 > 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
-> 최종 수정: 2026-03-15 | 버전: 2.2
+> 최종 수정: 2026-03-16 | 버전: 2.3
+> v2.3: Supabase Auth + 서버 동기화 (profiles, user_data 테이블)
 > v2.2: reviews 테이블 클로즈드 베타 확장 (reviewer_name, status)
 
 ## 변경 프로토콜
@@ -151,6 +152,47 @@ communication-disorder:
 | source | text | NULL | 출처 |
 | tags | text[] | DEFAULT '{}' | 태그 |
 
+### profiles (v2.3 신규 — Supabase Auth)
+
+| 컬럼 | 타입 | 제약 | 설명 |
+|------|------|------|------|
+| id | uuid | **PK**, FK → auth.users.id ON DELETE CASCADE | Supabase Auth 사용자 ID |
+| display_name | text | DEFAULT '' | 표시 이름 |
+| created_at | timestamptz | DEFAULT now() | 가입 시간 |
+| updated_at | timestamptz | DEFAULT now() | 수정 시간 |
+
+- RLS: 본인만 읽기/수정 (`auth.uid() = id`)
+- 트리거: `auth.users` INSERT 시 자동 생성 (`handle_new_user` 함수)
+
+### user_data (v2.3 신규 — Zustand 서버 동기화)
+
+| 컬럼 | 타입 | 제약 | 설명 |
+|------|------|------|------|
+| id | uuid | **PK**, DEFAULT gen_random_uuid() | 행 ID |
+| user_id | uuid | NOT NULL, **FK → profiles.id ON DELETE CASCADE** | 사용자 |
+| store_key | text | NOT NULL | `study` \| `leitner` \| `quiz` \| `bookmark` |
+| data | jsonb | NOT NULL, DEFAULT '{}' | 스토어 전체 상태 |
+| updated_at | timestamptz | NOT NULL, DEFAULT now() | 최종 동기화 시간 |
+
+- **UNIQUE(user_id, store_key)** — 사용자당 스토어별 1행
+- RLS: 본인 데이터만 CRUD (`auth.uid() = user_id`)
+- **CHECK**: store_key IN ('study', 'leitner', 'quiz', 'bookmark')
+
+#### 동기화 전략
+
+```
+인증 사용자:
+  쓰기: localStorage 즉시 반영 → 백그라운드 UPSERT (optimistic update)
+  읽기: 마운트 시 서버 fetch → updated_at 비교 → 최신 데이터 채택
+  충돌: 서버 updated_at > 로컬 → 서버 우선 (last-write-wins)
+
+게스트 모드:
+  기존대로 localStorage만 사용 (서버 동기화 없음)
+
+게스트 → 로그인 전환:
+  localStorage 데이터를 서버로 merge (서버 비어있으면 로컬 업로드)
+```
+
 ### reviews
 
 | 컬럼 | 타입 | 제약 | 설명 |
@@ -197,6 +239,16 @@ getAllWorksheetTopics(): Promise<WorksheetTopicRow[]>
 getReviews(): Promise<ReviewRow[]>
 saveReview(path: string, content: string, reviewerName?: string): Promise<boolean>
 updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
+
+// Auth (v2.3)
+getProfile(userId: string): Promise<Profile | null>
+updateProfile(userId: string, data: Partial<Profile>): Promise<boolean>
+
+// 동기화 (v2.3)
+type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark'
+getUserData(userId: string, storeKey: StoreKey): Promise<{ data: JsonValue; updatedAt: string } | null>
+upsertUserData(userId: string, storeKey: StoreKey, data: JsonValue): Promise<boolean>
+getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; updatedAt: string }>>
 ```
 
 ### 타입 매핑 규칙
@@ -208,6 +260,9 @@ updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
 | wrong_explanations | wrongExplanations | db.ts (mapQuizRow) |
 | subject_slug | (chapters 조인 시 사용) | db.ts (getSubjects) |
 | topic_id | topicId | db.ts (mapWorksheetRow) |
+| display_name | displayName | db.ts (mapProfile) |
+| store_key | storeKey | db.ts (getUserData) |
+| updated_at | updatedAt | db.ts (getUserData) |
 
 ---
 
@@ -220,6 +275,8 @@ updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
 3. `worksheet_topics.subject` → `subjects.slug` ON DELETE CASCADE
 4. `worksheet_questions.topic_id` → `worksheet_topics.id` ON DELETE CASCADE
 5. `worksheet_questions.subject` → `subjects.slug` ON DELETE CASCADE
+6. `profiles.id` → `auth.users.id` ON DELETE CASCADE
+7. `user_data.user_id` → `profiles.id` ON DELETE CASCADE
 
 ### 값 제약
 
@@ -246,6 +303,10 @@ updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
 | 콘텐츠 리서치 | 클루디 | 강선생이 KICE 분석 |
 | 마이그레이션 스크립트 | 클루디 | 강선생이 scripts/ 수정 |
 | data-validator 실행 | 클루디 (데이터 변경 후) | — |
+| profiles, user_data 테이블 + RLS | 클루디 | 강선생이 직접 DDL |
+| src/lib/supabase/auth.ts (신규) | 강선생 | 클루디가 auth 코드 수정 |
+| src/lib/sync.ts (신규) | 강선생 | 클루디가 sync 코드 수정 |
+| 미들웨어 (세션 관리) | 강선생 | 클루디가 middleware 수정 |
 
 ---
 
@@ -260,3 +321,6 @@ updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
 5. **4개 과목 워크시트 데이터 생성** — 시각/청각/지체/의사소통
 6. **마이그레이션 스크립트 키 제거** — .env.local 사용으로 전환
 7. **data-validator 실행** — 모든 작업 완료 후 검증
+8. **profiles 테이블 생성** — auth.users 연결 + handle_new_user 트리거
+9. **user_data 테이블 생성** — JSONB 동기화 + RLS 정책
+10. **Auth 마이그레이션 SQL** — `scripts/migrate-auth-v2.3.sql` 작성

@@ -94,10 +94,26 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
     <div className="max-w-5xl mx-auto px-4 md:px-8 py-6 space-y-6">
       {/* 헤더 */}
       <div>
-        <h1 className="text-xl md:text-2xl font-bold text-foreground">KICE 기출 뷰어</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-foreground">기출문제</h1>
         <p className="text-sm text-muted-foreground mt-1">
           특수교육 임용시험 기출문제 · 동형문제 · 모범답안
         </p>
+      </div>
+
+      {/* 탭 전환 */}
+      <div className="flex border-b border-border">
+        <Link
+          href="/kice?tab=by-year"
+          className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary"
+        >
+          연도별 기출
+        </Link>
+        <Link
+          href="/kice?tab=by-area"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+        >
+          영역별 기출
+        </Link>
       </div>
 
       {/* 연도 선택 */}
@@ -239,7 +255,7 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
             모의고사 모드
           </Button>
           <Button
-            render={<Link href="/kice/analytics" />}
+            render={<Link href="/analytics" />}
             variant="outline"
             size="lg"
             className="flex-1 min-h-[48px]"

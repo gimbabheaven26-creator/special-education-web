@@ -1,7 +1,5 @@
-import { computeAnalytics } from '@/lib/kice-analytics'
-import AnalyticsClient from './AnalyticsClient'
+import { redirect } from 'next/navigation';
 
-export default function AnalyticsPage() {
-  const data = computeAnalytics()
-  return <AnalyticsClient data={data} />
+export default function KiceAnalyticsPage() {
+  redirect('/analytics');
 }

@@ -24,6 +24,28 @@
 
 ---
 
+## [2026-03-16] 클루디 — Supabase Auth + 서버 동기화 스키마 설계 (v2.3)
+
+### 변경 내용
+- **profiles 테이블 신규** — Supabase Auth `auth.users`와 1:1 연결, display_name 저장
+- **user_data 테이블 신규** — 4개 Zustand 스토어(study/leitner/quiz/bookmark) JSONB 동기화
+- **동기화 전략** — optimistic update + last-write-wins + 게스트 모드 유지
+- **API 함수 추가** — getProfile, updateProfile, getUserData, upsertUserData, getAllUserData
+- **FK 제약 추가** — profiles.id → auth.users.id, user_data.user_id → profiles.id
+- **역할 분담 추가** — 테이블/RLS는 클루디, auth.ts/sync.ts/middleware는 강선생
+
+### 영향 범위
+- 강선생: `src/lib/supabase/auth.ts`, `src/lib/sync.ts` 신규 작성, 미들웨어 추가, db.ts에 Auth/Sync 함수 추가
+- 클루디: profiles + user_data 테이블 DDL, RLS 정책, handle_new_user 트리거, 마이그레이션 SQL
+
+### 상태
+- [x] contract.md 업데이트
+- [x] 카이란 승인
+- [ ] 구현 완료 (클루디: 테이블 생성, 강선생: 클라이언트 코드)
+- [ ] 상대 세션 전달
+
+---
+
 ## [2026-03-15] 강선생 — 클로즈드 베타 리뷰 시스템 + KICE 기출 뷰어
 
 ### 변경 내용

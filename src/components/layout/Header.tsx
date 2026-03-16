@@ -7,13 +7,11 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 
 const navLinks = [
-  { href: '/subjects', label: '학습' },
-  { href: '/quiz', label: '퀴즈' },
-  { href: '/worksheets', label: '문제지' },
-  { href: '/flashcards', label: '카드' },
+  { href: '/kice', label: '기출' },
+  { href: '/analytics', label: '출제경향' },
+  { href: '/structure', label: '구조도' },
   { href: '/wrong-notes', label: '오답노트' },
   { href: '/stats', label: '통계' },
-  { href: '/kice', label: '기출' },
 ];
 
 function ThemeToggle() {

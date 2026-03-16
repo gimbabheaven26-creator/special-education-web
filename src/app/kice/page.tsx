@@ -1,12 +1,22 @@
 import { getAvailableExams, getExam } from '@/lib/kice'
+import { getSubjects, getAllWorksheetTopics } from '@/lib/db'
 import KiceClient from './KiceClient'
+import KiceByArea from './KiceByArea'
 
 interface PageProps {
-  searchParams: Promise<{ year?: string; session?: string }>
+  searchParams: Promise<{ year?: string; session?: string; tab?: string }>
 }
 
 export default async function KicePage({ searchParams }: PageProps) {
   const params = await searchParams
+  const tab = params.tab ?? 'by-year'
+
+  if (tab === 'by-area') {
+    const subjects = await getSubjects()
+    const topics = await getAllWorksheetTopics()
+    return <KiceByArea subjects={subjects} topics={topics} />
+  }
+
   const entries = getAvailableExams()
 
   const selectedYear = params.year ? Number(params.year) : (entries[0]?.year ?? 2026)
