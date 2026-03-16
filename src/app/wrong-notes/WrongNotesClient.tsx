@@ -4,10 +4,12 @@ import { useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { WrongNote } from '@/types/study';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import WrongNoteCard from './WrongNoteCard';
+import SrsReviewMode from './SrsReviewMode';
 import { detectErrorPatterns } from '@/lib/error-patterns';
 
 type SortMode = 'recent' | 'attempts' | 'oldest';
@@ -34,6 +36,11 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
   const markMastered = useQuizStore((s) => s.markMastered);
   const unmarkMastered = useQuizStore((s) => s.unmarkMastered);
   const removeWrongNote = useQuizStore((s) => s.removeWrongNote);
+  const leitnerGetStats = useLeitnerStore((s) => s.getStats);
+
+  const initialTab = searchParams.get('tab') === 'srs' ? 'srs' : 'all';
+  const [activeTab, setActiveTab] = useState<'all' | 'srs'>(initialTab);
+  const srsStats = useMemo(() => leitnerGetStats(), [leitnerGetStats]);
 
   const errorPatternsMap = useMemo(() => {
     const map = new Map<string, ReturnType<typeof detectErrorPatterns>>();
@@ -143,6 +150,39 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
         </p>
       </div>
 
+      {/* 탭 전환 */}
+      <div className="flex border-b border-border">
+        <button
+          onClick={() => setActiveTab('all')}
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === 'all'
+              ? 'border-primary text-primary font-semibold'
+              : 'border-transparent text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          전체 오답
+        </button>
+        <button
+          onClick={() => setActiveTab('srs')}
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
+            activeTab === 'srs'
+              ? 'border-primary text-primary font-semibold'
+              : 'border-transparent text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          SRS 복습
+          {srsStats.dueToday > 0 && (
+            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+              {srsStats.dueToday}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {activeTab === 'srs' ? (
+        <SrsReviewMode />
+      ) : (
+      <>
       {/* Stats */}
       <div className="flex flex-wrap gap-3 items-center">
         <div className="flex items-center gap-2">
@@ -260,6 +300,8 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
             </section>
           ))}
         </div>
+      )}
+      </>
       )}
     </main>
   );

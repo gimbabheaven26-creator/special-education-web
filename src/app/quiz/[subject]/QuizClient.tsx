@@ -249,6 +249,7 @@ export function QuizClient({
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
   const addQuizResult = useQuizStore((s) => s.addQuizResult);
   const addWrongNote = useQuizStore((s) => s.addWrongNote);
+  const leitnerAddCard = useLeitnerStore((s) => s.addCard);
 
   // Load saved session on mount
   const [savedSession, setSavedSession] = useState<SavedSession | null>(null);
@@ -390,6 +391,17 @@ export function QuizClient({
 
     if (!isCorrect) {
       addWrongNote(currentQ, _answer);
+
+      // Auto-register to Leitner SRS (skip if already exists)
+      const cardId = `wrong-${currentQ.id}`;
+      if (!leitnerCards.some((c) => c.id === cardId)) {
+        leitnerAddCard({
+          id: cardId,
+          subjectSlug: currentQ.subject,
+          question: currentQ.question,
+          answer: String(currentQ.answer),
+        });
+      }
     }
 
     // Reset confidence for next question
