@@ -45,7 +45,7 @@ export function TodayStudyPlan() {
 
   const encouragement = useMemo(() => {
     if (!dday) return '';
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
     const hasStudiedToday = dailyProgress.date === today && dailyProgress.quizzesCompleted > 0;
     const missedYesterday = currentStreak === 0;
 

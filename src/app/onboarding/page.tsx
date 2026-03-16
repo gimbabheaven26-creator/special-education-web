@@ -2,13 +2,14 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { GraduationCap, AlertTriangle, Rocket } from 'lucide-react';
+import { CalendarDays, GraduationCap, AlertTriangle, Rocket } from 'lucide-react';
 import { useOnboardingStore, type StudyLevel } from '@/stores/useOnboardingStore';
+import { useStudyStore } from '@/stores/useStudyStore';
 import { generateStudyPlan, getSubjectTitle, getAllSubjectSlugs, getNextExamDate } from '@/lib/study-planner';
 
-type Step = 'level' | 'weak-subjects' | 'confirm';
+type Step = 'exam-date' | 'level' | 'weak-subjects' | 'confirm';
 
-const STEPS: Step[] = ['level', 'weak-subjects', 'confirm'];
+const STEPS: Step[] = ['exam-date', 'level', 'weak-subjects', 'confirm'];
 
 const LEVEL_OPTIONS: { value: StudyLevel; label: string; description: string; icon: string }[] = [
   { value: 'beginner', label: '입문 (0회독)', description: '아직 공부를 시작하지 않았거나 막 시작했어요', icon: '🌱' },
@@ -31,6 +32,112 @@ function StepIndicator({ currentStep }: { currentStep: Step }) {
           }`}
         />
       ))}
+    </div>
+  );
+}
+
+function calcDday(dateStr: string): number {
+  const today = new Date(
+    new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date())
+    + 'T00:00:00+09:00'
+  );
+  const exam = new Date(dateStr + 'T00:00:00+09:00');
+  return Math.max(0, Math.ceil((exam.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)));
+}
+
+function ExamDateStep({
+  value,
+  onChange,
+  onNext,
+}: {
+  value: string;
+  onChange: (date: string) => void;
+  onNext: () => void;
+}) {
+  const [mode, setMode] = useState<'auto' | 'custom'>('auto');
+  const autoDate = getNextExamDate();
+  const dday = calcDday(value);
+  const todayStr = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
+
+  const handleAutoSelect = () => {
+    setMode('auto');
+    onChange(autoDate);
+  };
+
+  const handleCustomSelect = () => {
+    setMode('custom');
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-2">
+          <CalendarDays className="h-8 w-8 text-primary" />
+        </div>
+        <h2 className="text-xl font-bold">시험은 언제인가요?</h2>
+        <p className="text-sm text-muted-foreground">
+          시험일에 맞춰 학습 계획을 설계합니다
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        <button
+          onClick={handleAutoSelect}
+          className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+            mode === 'auto'
+              ? 'border-primary bg-primary/5'
+              : 'border-border hover:border-primary/50'
+          }`}
+        >
+          <div className="font-semibold">다음 임용고시 자동 설정</div>
+          <div className="text-sm text-muted-foreground mt-0.5">
+            {autoDate} (D-{calcDday(autoDate)})
+          </div>
+        </button>
+
+        <button
+          onClick={handleCustomSelect}
+          className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+            mode === 'custom'
+              ? 'border-primary bg-primary/5'
+              : 'border-border hover:border-primary/50'
+          }`}
+        >
+          <div className="font-semibold">날짜 직접 입력</div>
+          <div className="text-sm text-muted-foreground mt-0.5">
+            다른 시험이나 목표 날짜가 있어요
+          </div>
+        </button>
+
+        {mode === 'custom' && (
+          <div className="px-4">
+            <input
+              type="date"
+              value={value}
+              min={todayStr}
+              onChange={(e) => onChange(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+            />
+          </div>
+        )}
+      </div>
+
+      {dday > 0 && (
+        <div className="text-center">
+          <span className="text-2xl font-bold text-primary">D-{dday}</span>
+          <span className="text-sm text-muted-foreground ml-2">
+            ({Math.max(1, Math.ceil(dday / 7))}주)
+          </span>
+        </div>
+      )}
+
+      <button
+        onClick={onNext}
+        disabled={dday <= 0}
+        className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+      >
+        다음
+      </button>
     </div>
   );
 }
@@ -242,11 +349,12 @@ function ConfirmStep({
 export default function OnboardingPage() {
   const router = useRouter();
   const completeOnboarding = useOnboardingStore((s) => s.completeOnboarding);
+  const setDailyGoal = useStudyStore((s) => s.setDailyGoal);
 
-  const examDate = getNextExamDate();
-  const dday = Math.max(0, Math.ceil((new Date(examDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+  const [examDate, setExamDate] = useState(getNextExamDate());
+  const dday = calcDday(examDate);
 
-  const [step, setStep] = useState<Step>('level');
+  const [step, setStep] = useState<Step>('exam-date');
   const [level, setLevel] = useState<StudyLevel | null>(null);
   const [weakSubjects, setWeakSubjects] = useState<string[]>([]);
 
@@ -268,14 +376,18 @@ export default function OnboardingPage() {
     if (!level) return;
     const plan = generateStudyPlan(examDate, level, weakSubjects);
     completeOnboarding(plan);
+    setDailyGoal(plan.dailyChapterTarget, plan.dailyQuizTarget);
     router.push('/');
-  }, [examDate, level, weakSubjects, completeOnboarding, router]);
+  }, [examDate, level, weakSubjects, completeOnboarding, setDailyGoal, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
         <StepIndicator currentStep={step} />
 
+        {step === 'exam-date' && (
+          <ExamDateStep value={examDate} onChange={setExamDate} onNext={goNext} />
+        )}
         {step === 'level' && (
           <LevelStep value={level} onChange={setLevel} onNext={goNext} examDate={examDate} dday={dday} />
         )}
