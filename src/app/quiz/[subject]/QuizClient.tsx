@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
@@ -50,6 +51,7 @@ function buildSession(
   reviewQuestions: QuizQuestion[],
   quizHistory: Array<{ questionId: string; isCorrect: boolean; chapter: string }>,
   config: SessionConfig,
+  leitnerDueIds?: ReadonlySet<string>,
 ): QuizQuestion[] {
   const { preset, questionCount, chapters, difficulty } = config;
 
@@ -73,11 +75,17 @@ function buildSession(
   }
 
   if (preset === 'review') {
-    // 빠른 복습: 오답 중심 + 나머지 채움
+    // 빠른 복습: 오답 + Leitner due 카드 중심 + 나머지 채움
     const reviewMax = Math.ceil(questionCount * REVIEW_MIX_RATIO);
-    const reviewPool = shuffle(reviewQuestions).slice(0, reviewMax);
-    const reviewIds = new Set(reviewPool.map((q) => q.id));
-    const freshPool = pool.filter((q) => !reviewIds.has(q.id));
+    const reviewIds = new Set(reviewQuestions.map((q) => q.id));
+    // Leitner due 카드 중 퀴즈 문제와 매핑 가능한 것 합산
+    const leitnerDueQuestions = leitnerDueIds
+      ? pool.filter((q) => leitnerDueIds.has(q.id) && !reviewIds.has(q.id))
+      : [];
+    const mergedReviewPool = [...reviewQuestions, ...leitnerDueQuestions];
+    const reviewPool = shuffle(mergedReviewPool).slice(0, reviewMax);
+    const selectedIds = new Set(reviewPool.map((q) => q.id));
+    const freshPool = pool.filter((q) => !selectedIds.has(q.id));
     const freshPick = shuffle(freshPool).slice(0, questionCount - reviewPool.length);
     return shuffle([...reviewPool, ...freshPick]);
   }
@@ -184,6 +192,18 @@ export function QuizClient({
 }) {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const quizHistory = useQuizStore((s) => s.quizHistory);
+  const leitnerCards = useLeitnerStore((s) => s.cards);
+  const leitnerGetDueCards = useLeitnerStore((s) => s.getDueCards);
+
+  // Leitner due card IDs mapped to quiz question IDs
+  const leitnerDueIds = useMemo(() => {
+    const dueCards = leitnerGetDueCards(subjectSlug);
+    return new Set(
+      dueCards
+        .map((c) => c.id.startsWith('wrong-') ? c.id.slice(6) : null)
+        .filter((id): id is string => id != null)
+    );
+  }, [leitnerGetDueCards, subjectSlug, leitnerCards]);
 
   // Tab state
   const [activeTab, setActiveTab] = useState<QuizTab>('short');
@@ -261,14 +281,16 @@ export function QuizClient({
         questionIndex: a.questionIndex,
         isCorrect: a.isCorrect,
         userAnswer: a.userAnswer,
+        confidence: a.confidence,
       })),
       skippedIndices: Array.from(skipped),
       currentIndex,
       xpEarned,
       preset: currentPreset,
       questionCount: currentQuestionCount,
+      activeTab,
     });
-  }, [phase, activeQuestions, answers, skipped, currentIndex, xpEarned, subjectSlug, currentPreset, currentQuestionCount]);
+  }, [phase, activeQuestions, answers, skipped, currentIndex, xpEarned, subjectSlug, currentPreset, currentQuestionCount, activeTab]);
 
   // ─── Session Start ──────────────────────────────────────────────────────────
 
@@ -278,6 +300,7 @@ export function QuizClient({
       reviewQuestions,
       subjectHistory,
       config,
+      leitnerDueIds,
     );
     setActiveQuestions(sessionQuestions);
     setCurrentIndex(0);
@@ -289,7 +312,7 @@ export function QuizClient({
     setCurrentQuestionCount(config.questionCount);
     setPhase('quiz');
     clearSession();
-  }, [filteredQuestions, reviewQuestions, subjectHistory]);
+  }, [filteredQuestions, reviewQuestions, subjectHistory, leitnerDueIds]);
 
   const handleResume = useCallback(() => {
     if (!savedSession) return;
@@ -306,12 +329,18 @@ export function QuizClient({
     }
 
     setActiveQuestions(restored);
-    setAnswers(savedSession.answers);
+    setAnswers(savedSession.answers.map((a) => ({
+      ...a,
+      confidence: (a.confidence as Confidence) ?? 'sure',
+    })));
     setSkipped(new Set(savedSession.skippedIndices));
     setCurrentIndex(savedSession.currentIndex);
     setXpEarned(savedSession.xpEarned);
     setCurrentPreset(savedSession.preset as SessionPreset);
     setCurrentQuestionCount(savedSession.questionCount);
+    if (savedSession.activeTab) {
+      setActiveTab(savedSession.activeTab);
+    }
     setPhase('quiz');
   }, [savedSession, questions]);
 

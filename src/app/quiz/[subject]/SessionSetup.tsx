@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useQuizStore } from '@/stores/useQuizStore';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { RefreshCw, Target, Sparkles, ChevronDown, ChevronUp, Play, Zap } from 'lucide-react';
 import type { SavedSession } from '@/lib/session-recovery';
 import { getSubjectProficiency, getProficiencyLabel } from '@/lib/adaptive-difficulty';
@@ -92,6 +93,14 @@ export function SessionSetup({
 
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
+  const leitnerCards = useLeitnerStore((s) => s.cards);
+  const leitnerGetDueCards = useLeitnerStore((s) => s.getDueCards);
+
+  // Leitner due count for this subject
+  const leitnerDueCount = useMemo(() => {
+    const dueCards = leitnerGetDueCards(subjectSlug);
+    return dueCards.filter((c) => c.id.startsWith('wrong-')).length;
+  }, [leitnerGetDueCards, subjectSlug, leitnerCards]);
 
   // Subject proficiency
   const proficiency = useMemo(
@@ -203,7 +212,7 @@ export function SessionSetup({
             const isActive = preset === p.id;
             const count =
               p.id === 'review'
-                ? subjectStats.wrongCount
+                ? subjectStats.wrongCount + leitnerDueCount
                 : p.id === 'weak'
                   ? subjectStats.weakChapters.length
                   : subjectStats.newCount;

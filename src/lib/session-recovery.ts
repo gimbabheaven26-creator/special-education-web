@@ -16,12 +16,14 @@ export interface SavedSession {
     questionIndex: number;
     isCorrect: boolean;
     userAnswer: string | number;
+    confidence?: string;
   }>;
   skippedIndices: number[];
   currentIndex: number;
   xpEarned: number;
   preset: string;
   questionCount: number;
+  activeTab?: 'short' | 'essay';
   savedAt: number;
 }
 
