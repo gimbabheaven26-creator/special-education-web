@@ -20,29 +20,29 @@
 
 ---
 
-## Tier 0: 즉시 수정 (버그/결함) — 다음 세션
+## Tier 0: ✅ 즉시 수정 (버그/결함) — 완료 (2026-03-16)
 
-코드 변경 최소, 즉각적 가치. 1세션 안에 전부 처리.
+코드 변경 최소, 즉각적 가치. 4건 모두 이미 수정됨.
 
-### 0-1. 오답노트 해설 표시
+### 0-1. ✅ 오답노트 해설 표시
 - **파일**: `src/app/wrong-notes/WrongNoteCard.tsx`
 - **현상**: `question.explanation` 필드가 존재하지만 렌더링 안 됨
 - **수정**: 카드 펼침 시 explanation + wrongExplanations 표시
 - **복잡도**: 10줄 추가
 
-### 0-2. Leitner 타임존 통일
+### 0-2. ✅ Leitner 타임존 통일
 - **파일**: `src/stores/useLeitnerStore.ts`
 - **현상**: `todayStr()` = UTC, `useStudyStore` = KST → 자정~9시 사이 날짜 불일치
 - **수정**: `todayStr()`를 `getKSTDate()` 패턴으로 교체
 - **복잡도**: 5줄 수정
 
-### 0-3. 기출 모바일 접근
+### 0-3. ✅ 기출 모바일 접근
 - **파일**: `src/components/layout/BottomTabBar.tsx`
 - **현상**: `/kice`가 모바일 하단 탭바에 없음
 - **수정**: "더보기" 시트에 기출 링크 추가 또는 탭바 재구성
 - **복잡도**: 5줄 수정
 
-### 0-4. errorReports 상한 추가
+### 0-4. ✅ errorReports 상한 추가
 - **파일**: `src/stores/useQuizStore.ts`
 - **현상**: feedbacks/errorReports에 eviction 정책 없어 무한 누적 가능
 - **수정**: MAX_ERROR_REPORTS = 200, 오래된 것 eviction
@@ -50,11 +50,11 @@
 
 ---
 
-## Tier 1: 단기 (Phase 5) — 신규 사용자 획득 + 학습 효율 극대화
+## Tier 1: ✅ 단기 (Phase 5) — 완료 (2026-03-16)
 
-신규 사용자 온보딩과 기존 사용자 효율 모두 잡는 기능들. 3~4세션.
+신규 사용자 온보딩과 기존 사용자 효율 모두 잡는 기능들. 전부 구현 완료.
 
-### 1-0. 🆕 학습 여정 온보딩 + D-day 플래너 (최우선)
+### 1-0. ✅ 학습 여정 온보딩 + D-day 플래너 (최우선)
 **개념**: "뭐부터 해야 할지 모르는" 초보 수험생을 위한 첫 경험 설계
 
 **온보딩 플로우** (첫 방문 또는 /onboarding):
@@ -94,7 +94,7 @@
 
 **차별화**: edumind/gosari에는 온보딩 없음. 시장의 어떤 앱도 "임용 공고문 → 맞춤 학습 계획"을 제공하지 않음.
 
-### 1-1. 퀴즈 세션 설정 (Session Setup)
+### 1-1. ✅ 퀴즈 세션 설정 (Session Setup)
 **개념**: 퀴즈 시작 전 "출발 준비" 화면
 - **3가지 프리셋** (edumind의 6모드를 단순화):
   - 🔄 **빠른 복습** — 오답 + Leitner due 카드 중심 (REVIEW_MIX 70%)
@@ -104,7 +104,7 @@
 - **파일**: `src/app/quiz/[subject]/SessionSetup.tsx` (신규), `QuizClient.tsx` (세션 빌드 로직 수정)
 - **참고**: edumind SessionSetup에서 영감, 하지만 **3프리셋 중심의 간결한 UX** (edumind은 7개 옵션으로 복잡)
 
-### 1-2. 퀴즈 세션 복구 (Session Recovery)
+### 1-2. ✅ 퀴즈 세션 복구 (Session Recovery)
 **개념**: 모바일에서 실수로 뒤로가기 → 진행 상황 보존
 - 답변/스킵/현재 인덱스를 localStorage에 자동 저장
 - 재방문 시 "이어서 풀까요?" 다이얼로그
@@ -112,14 +112,14 @@
 - **파일**: `src/lib/session-recovery.ts` (신규), `QuizClient.tsx` (useEffect 추가)
 - **참고**: edumind session-recovery.ts 패턴, 하지만 **워크시트 진행도도 함께 저장** (edumind에는 없음)
 
-### 1-3. 오늘의 문제 (Question of the Day)
+### 1-3. ✅ 오늘의 문제 (Question of the Day)
 **개념**: 대시보드에 매일 1문제 인라인 퀴즈
 - 날짜 해시로 결정적 문제 선택 (같은 날 같은 문제)
 - 바로 풀 수 있는 인라인 UI, 답변 후 해설 표시
 - **창조적 변형**: edumind은 랜덤이지만, 우리는 **KICE 기출에서 출제** → "오늘의 기출"
 - **파일**: `src/components/dashboard/QuestionOfTheDay.tsx` (신규)
 
-### 1-4. 콤보 시스템 + XP 레벨
+### 1-4. ✅ 콤보 시스템 + XP 레벨
 **개념**: 연속 정답에 보너스, XP에 의미 부여
 - 3/5/7/10 연속 정답 시 보너스 XP (5/10/15/20)
 - 색상 강도 상승 (초록 → 주황 → 빨강)
@@ -127,14 +127,14 @@
 - **창조적 변형**: edumind은 범용 레벨명이지만, 우리는 **임용 수험 여정 테마** 레벨명
 - **파일**: `src/components/quiz/ComboIndicator.tsx` (신규), `src/lib/xp-constants.ts` (레벨 추가)
 
-### 1-5. 오답 패턴 분류 — "왜 틀렸는지" 진단
+### 1-5. ✅ 오답 패턴 분류 — "왜 틀렸는지" 진단
 **개념**: 단순 나열 → 오답 원인 분석
 - 4가지 패턴: confusion(같은 오답 반복), careless(이전 정답→오답), conceptual_gap(챕터 정답률 50% 미만), lucky_correct(정답이지만 찍음)
 - **창조적 변형**: edumind은 일반 분류지만, 우리는 **특수교육 용어 혼동맵** 추가 — "DRO vs DRA vs DRI 혼동이 3회 감지됨" 같은 도메인 특화 진단
 - **파일**: `src/lib/error-patterns.ts` (신규), `src/app/wrong-notes/ErrorPatternBadge.tsx` (신규)
 - **전제**: 확신도(1-6 아래) 데이터 필요 → 1-6과 함께 구현
 
-### 1-6. 확신도 2단계 ("확실" / "불확실")
+### 1-6. ✅ 확신도 2단계 ("확실" / "불확실")
 **개념**: 정답/오답 2분법 → 실제 이해도 파악
 - edumind은 3단계(찍음/반반/확실)이지만, 우리는 **2단계로 시작** (확실 / 불확실)
 - 확실+정답 → Leitner 2단계 승급, 불확실+정답 → Leitner 1단계만 승급
@@ -143,11 +143,11 @@
 
 ---
 
-## Tier 2: 중기 (Phase 6) — 실전 대비 + 데이터 영속성
+## Tier 2: 중기 (Phase 6) — 실전 대비 + 데이터 영속성 (2-3 제외 완료)
 
-서비스의 성격을 "열람형"에서 "실전 대비형"으로 전환. 3~4세션.
+서비스의 성격을 "열람형"에서 "실전 대비형"으로 전환. Auth/동기화만 미구현.
 
-### 2-1. KICE 기출 모의고사 모드
+### 2-1. ✅ KICE 기출 모의고사 모드 — 완료 (2026-03-15)
 **개념**: 기출을 "보는" 것에서 "푸는" 것으로
 - 모범답안 숨김 → 답안 작성 → 비교 → 자기 채점
 - 전공A(기입형 2점×4 + 서술형 4점×2) / 전공B(기입형+서술형 혼합) 실제 배점 구조
@@ -156,7 +156,7 @@
 - **창조적 변형**: edumind 모의고사는 객관식 중심이지만, 우리는 **기입형+서술형 전용** (실제 임용시험 형식)
 - **파일**: `src/app/kice/exam/ExamClient.tsx` (신규), `src/app/kice/exam/ExamResultScreen.tsx` (신규)
 
-### 2-2. 기출 출제 경향 분석 엔진
+### 2-2. ✅ 기출 출제 경향 분석 엔진 — 완료 (2026-03-15)
 **개념**: 21개 KICE JSON에서 출제 패턴 자동 추출
 - 연도별 과목 출제 빈도 히트맵
 - 키워드별 출제 횟수 랭킹 + 미출제 키워드 목록
@@ -176,7 +176,7 @@
 - **참고**: gosari의 3-레이어 Supabase SSR 패턴 (browser/server/middleware 클라이언트 분리)
 - **contract.md 변경 필요**: users 테이블 + user_quiz_data 테이블 스키마 추가
 
-### 2-4. 학습 시간 자동 추적
+### 2-4. ✅ 학습 시간 자동 추적 — 완료 (2026-03-15)
 **개념**: "얼마나 공부했는지" 정량화
 - gosari의 **보이지 않는 트래커** 패턴 (`return null` 컴포넌트)
 - 페이지 마운트/언마운트 + beforeunload로 시간 측정
@@ -184,7 +184,7 @@
 - **창조적 변형**: gosari는 DB Generated Column이지만, 우리는 Auth 도입 전까지 **localStorage + useStudyStore.dailyHistory에 timeSpentMinutes 필드 추가**로 먼저 구현
 - **파일**: `src/components/StudySessionTracker.tsx` (신규), `useStudyStore.ts` (dailyHistory 확장)
 
-### 2-5. 적응형 난이도 추천
+### 2-5. ✅ 적응형 난이도 추천 — 완료 (2026-03-15)
 **개념**: 학습자 수준에 맞는 문제 자동 선별
 - 챕터별 정답률로 숙련도 자동 산출 (beginner < 50% / developing < 70% / proficient < 90% / mastered)
 - 퀴즈 세션에서 숙련도에 맞는 difficulty 자동 선택
