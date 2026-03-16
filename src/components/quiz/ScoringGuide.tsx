@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import type { ScoringResult } from '@/lib/descriptive-scoring';
 

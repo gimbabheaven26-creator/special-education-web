@@ -10,7 +10,6 @@ import { getScenarioById } from '@/data/scenarios';
 import { useStudyStore } from '@/stores/useStudyStore';
 import {
   createSchedule,
-  advanceSchedule,
   isDueToday,
   isGroupComplete,
   getNextScenarioId,
