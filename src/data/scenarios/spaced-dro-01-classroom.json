@@ -1,0 +1,196 @@
+{
+  "id": "spaced-dro-01-classroom",
+  "title": "DRO 적용: 교실에서 자해행동 (초등)",
+  "description": "자폐스펙트럼 초등학생이 교실에서 자해행동을 보입니다. DRO(다른 행동의 차별강화)를 적용하여 중재하세요.",
+  "subject": "behavior-support",
+  "chapter": "functional-behavior-assessment",
+  "difficulty": 1,
+  "estimatedMinutes": 6,
+  "tags": ["DRO", "차별강화", "자해행동", "교실", "초등"],
+  "startNodeId": "s1",
+  "nodes": {
+    "s1": {
+      "id": "s1",
+      "type": "situation",
+      "content": "초등 2학년 자폐스펙트럼 학생 수진이가 미술 시간에 손톱으로 팔을 긁는 자해행동을 보입니다.\n\nFBA 결과: 감각 자극(자동강화) 기능으로 확인되었습니다.\n\n가장 적절한 차별강화 전략은 무엇인가요?",
+      "relatedConcepts": ["DRO", "자동강화", "감각 자극 기능"],
+      "choices": [
+        {
+          "label": "DRO: 일정 시간 동안 자해행동이 없으면 강화를 제공한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "정확합니다! DRO(Differential Reinforcement of Other behavior)는 목표 행동이 일정 시간 동안 발생하지 않을 때 강화를 제공합니다. 감각 자극 기능의 자해에 효과적입니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "DRA: 적절한 대체행동(예: 스트레스볼 쥐기)을 가르치고 강화한다",
+          "nextNodeId": "fb-dra",
+          "isOptimal": false,
+          "feedback": "DRA도 유효한 전략이지만, 이 시나리오에서는 DRO의 적용을 연습합니다. DRO는 '자해하지 않는 모든 시간'을 강화하므로 초기 중재에 더 간단합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "DRI: 자해와 양립 불가능한 행동(예: 손으로 그리기)을 강화한다",
+          "nextNodeId": "fb-dri",
+          "isOptimal": false,
+          "feedback": "DRI는 좋은 전략이지만, 항상 양립 불가능한 행동을 찾을 수 있는 것은 아닙니다. DRO는 보다 범용적으로 적용 가능합니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "fb-dra": {
+      "id": "fb-dra",
+      "type": "feedback",
+      "content": "DRA(Differential Reinforcement of Alternative behavior)는 구체적인 대체행동을 강화합니다.\n\n💡 **DRO vs DRA 차이**:\n- DRO: '문제행동 안 하면' 강화 (행동 불특정)\n- DRA: '특정 대체행동 하면' 강화 (행동 특정)\n\nDRO가 더 단순하게 시작할 수 있으므로, 이 사례에서는 DRO를 먼저 적용해봅시다.",
+      "relatedConcepts": ["DRA", "DRO", "차별강화 비교"],
+      "choices": [
+        {
+          "label": "DRO를 먼저 적용한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "좋습니다. DRO부터 시작하겠습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-dri": {
+      "id": "fb-dri",
+      "type": "feedback",
+      "content": "DRI(Differential Reinforcement of Incompatible behavior)는 목표 행동과 물리적으로 양립 불가능한 행동을 강화합니다.\n\n💡 **DRO vs DRI 차이**:\n- DRO: 일정 시간 문제행동 부재 → 강화\n- DRI: 양립 불가 행동 수행 → 강화\n\nDRI는 적절한 양립 불가 행동을 찾아야 하므로 상황에 따라 적용이 어려울 수 있습니다.",
+      "relatedConcepts": ["DRI", "양립 불가능 행동", "차별강화"],
+      "choices": [
+        {
+          "label": "DRO를 먼저 적용한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "DRO부터 시작하는 것이 합리적입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "s2": {
+      "id": "s2",
+      "type": "situation",
+      "content": "DRO를 적용하기로 했습니다. DRO의 초기 간격(interval)을 설정해야 합니다.\n\n기준선 데이터: 수진이는 평균 3분마다 자해행동을 합니다.\n\n적절한 초기 DRO 간격은?",
+      "relatedConcepts": ["DRO 간격 설정", "기준선 데이터"],
+      "choices": [
+        {
+          "label": "2분 (기준선보다 짧게 시작하여 성공 경험을 쌓는다)",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "정확합니다! DRO 초기 간격은 기준선 IRT(Inter-Response Time)보다 짧게 설정하여 학생이 강화를 받을 기회를 높입니다. 점진적으로 간격을 늘려갑니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "5분 (기준선보다 길게 설정하여 도전적 목표를 준다)",
+          "nextNodeId": "fb-long-interval",
+          "isOptimal": false,
+          "feedback": "초기 간격을 기준선보다 길게 설정하면 학생이 강화를 거의 받지 못해 DRO가 효과를 발휘하기 어렵습니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "3분 (기준선과 동일하게 설정한다)",
+          "nextNodeId": "fb-same-interval",
+          "isOptimal": false,
+          "feedback": "기준선과 동일하면 강화 확률이 약 50%입니다. 초기에는 더 높은 성공률이 필요합니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "fb-long-interval": {
+      "id": "fb-long-interval",
+      "type": "feedback",
+      "content": "⚠️ DRO 간격 설정 원칙: 초기 간격은 기준선 IRT(평균 행동 간 시간)보다 **짧게** 설정합니다.\n\n이유: 학생이 강화를 자주 받아야 '행동하지 않으면 좋은 일이 생긴다'는 연합을 학습합니다.\n\n📌 권장: 기준선 IRT의 50~75% 수준으로 시작",
+      "relatedConcepts": ["IRT", "DRO 간격", "강화 스케줄"],
+      "choices": [
+        {
+          "label": "2분 간격으로 수정한다",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "올바른 수정입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-same-interval": {
+      "id": "fb-same-interval",
+      "type": "feedback",
+      "content": "기준선과 동일한 간격이면 학생이 강화를 받을 확률이 약 50%입니다.\n\n💡 **DRO 성공의 핵심**: 초기에 높은 강화율을 보장하여 '행동 부재 → 강화' 연합을 빠르게 형성하는 것입니다.\n\n권장: 기준선의 50~75% 수준으로 시작 후 점진적 증가",
+      "relatedConcepts": ["강화율", "DRO 효과"],
+      "choices": [
+        {
+          "label": "2분으로 줄여서 시작한다",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "좋습니다. 성공률을 높여 시작합니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "s3": {
+      "id": "s3",
+      "type": "situation",
+      "content": "DRO 2분 간격으로 1주일 실시한 결과:\n\n📊 **결과**\n- 자해행동: 일 8회 → 일 2회 (75% 감소)\n- 2분 간격 강화 성공률: 85%\n\n다음 단계는?",
+      "relatedConcepts": ["DRO 간격 증가", "체계적 페이딩"],
+      "choices": [
+        {
+          "label": "간격을 3분으로 늘린다 (점진적 페이딩)",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 성공률 80% 이상이면 간격을 점진적으로 늘립니다. 2분 → 3분 → 5분 → 10분으로 서서히 증가시켜 자연스러운 환경으로 전환합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "DRO를 종료한다",
+          "nextNodeId": "fb-early-stop",
+          "isOptimal": false,
+          "feedback": "아직 자해행동이 완전히 소거되지 않았습니다(일 2회). 조기 종료 시 재발 위험이 있습니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "간격을 10분으로 한 번에 늘린다",
+          "nextNodeId": "fb-too-fast",
+          "isOptimal": false,
+          "feedback": "급격한 간격 증가는 실패율을 높여 학생이 다시 자해행동으로 돌아갈 수 있습니다. 점진적 증가가 원칙입니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "fb-early-stop": {
+      "id": "fb-early-stop",
+      "type": "feedback",
+      "content": "DRO의 효과가 확인되었지만, 유지(maintenance) 단계 없이 종료하면 행동이 재발할 수 있습니다.\n\n📌 **DRO 페이딩 절차**:\n1. 성공률 80%+ → 간격 증가\n2. 간격이 자연스러운 수준(예: 수업 1교시)까지 도달\n3. 간헐적 점검으로 전환\n4. 비로소 DRO 종료",
+      "relatedConcepts": ["유지 단계", "페이딩", "재발 방지"],
+      "choices": [
+        {
+          "label": "간격을 3분으로 늘려 계속한다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "체계적 페이딩을 이해했습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-too-fast": {
+      "id": "fb-too-fast",
+      "type": "feedback",
+      "content": "2분에서 10분으로 5배 증가는 너무 급격합니다.\n\n💡 **DRO 간격 증가 원칙**:\n- 한 번에 50~100% 증가 (2분 → 3분 → 5분)\n- 각 단계에서 성공률 80% 이상 확인 후 다음 단계\n- 실패 시 이전 간격으로 되돌리기",
+      "relatedConcepts": ["점진적 페이딩", "DRO 간격 조절"],
+      "choices": [
+        {
+          "label": "3분으로 점진적으로 늘린다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "올바른 페이딩 속도입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "assessment": {
+      "id": "assessment",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n수진이의 자해행동 사례를 통해 DRO 적용의 기초를 연습했습니다.\n\n### 핵심 정리\n1. **DRO**: 일정 시간 동안 목표 행동이 발생하지 않으면 강화\n2. **초기 간격**: 기준선 IRT의 50~75%로 설정 (성공 경험 보장)\n3. **간격 증가**: 성공률 80%+ 시 점진적 증가 (50~100%씩)\n4. **DRO vs DRA vs DRI**: 상황에 따라 선택, DRO가 가장 범용적",
+      "relatedConcepts": ["DRO", "차별강화", "IRT", "페이딩", "기준선"]
+    }
+  }
+}

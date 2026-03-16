@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { DailyHistoryEntry } from '@/types/study';
-import type { ScenarioProgress } from '@/types/scenario';
+import type { ScenarioProgress, SpacedScenarioSchedule } from '@/types/scenario';
 import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
 
 interface RecentActivity {
@@ -45,6 +45,9 @@ interface StudyState {
 
   // Scenario progress
   scenarioProgress: Record<string, ScenarioProgress>;
+
+  // Spaced scenario schedules (by groupId)
+  spacedScenarioSchedules: Record<string, SpacedScenarioSchedule>;
 }
 
 interface StudyActions {
@@ -55,6 +58,7 @@ interface StudyActions {
   setDailyGoal: (chapters: number, quizzes: number) => void;
   getDailyHistory: (days: number) => DailyHistoryEntry[];
   saveScenarioProgress: (progress: ScenarioProgress) => void;
+  saveSpacedSchedule: (schedule: SpacedScenarioSchedule) => void;
 }
 
 function getKSTDate(date: Date = new Date()): string {
@@ -117,6 +121,7 @@ export const useStudyStore = create<StudyState & StudyActions>()(
       totalCorrect: 0,
       dailyHistory: [],
       scenarioProgress: {},
+      spacedScenarioSchedules: {},
 
       recordActivity: (activity) =>
         set((state) => {
@@ -259,10 +264,18 @@ export const useStudyStore = create<StudyState & StudyActions>()(
             },
           };
         }),
+
+      saveSpacedSchedule: (schedule) =>
+        set((state) => ({
+          spacedScenarioSchedules: {
+            ...state.spacedScenarioSchedules,
+            [schedule.groupId]: schedule,
+          },
+        })),
     }),
     {
       name: 'special-edu-study',
-      version: 3,
+      version: 4,
       migrate: (persistedState, version) => {
         let state = persistedState as Record<string, unknown>;
 
@@ -274,10 +287,16 @@ export const useStudyStore = create<StudyState & StudyActions>()(
         }
 
         if (version < 3) {
-          // v2 -> v3: add scenarioProgress
           state = {
             ...state,
             scenarioProgress: state.scenarioProgress ?? {},
+          };
+        }
+
+        if (version < 4) {
+          state = {
+            ...state,
+            spacedScenarioSchedules: state.spacedScenarioSchedules ?? {},
           };
         }
 

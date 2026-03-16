@@ -1,0 +1,196 @@
+{
+  "id": "spaced-dro-02-playground",
+  "title": "DRO 적용: 운동장에서 이탈행동 (중등)",
+  "description": "지적장애 중학생이 운동장 체육 시간에 이탈행동을 보입니다. DRO를 다른 맥락에서 적용하고, DRI와의 비교도 연습합니다.",
+  "subject": "behavior-support",
+  "chapter": "functional-behavior-assessment",
+  "difficulty": 2,
+  "estimatedMinutes": 7,
+  "tags": ["DRO", "DRI", "이탈행동", "운동장", "중등"],
+  "startNodeId": "s1",
+  "nodes": {
+    "s1": {
+      "id": "s1",
+      "type": "situation",
+      "content": "중학교 2학년 지적장애 학생 현우가 체육 시간에 운동장에서 반복적으로 이탈합니다. 체육관 뒤편으로 가서 혼자 앉아 있습니다.\n\nFBA 결과: 과제 회피(부적 강화) 기능. 현우는 달리기/줄넘기 같은 유산소 활동을 싫어하며, 이탈하면 교사가 잠시 내버려두는 패턴이 확인되었습니다.\n\n이 상황에서 DRO를 적용한다면, 강화 기준은?",
+      "relatedConcepts": ["DRO", "과제 회피", "이탈행동"],
+      "choices": [
+        {
+          "label": "체육 시간 중 이탈하지 않고 활동 영역에 머무르는 시간을 기준으로 강화",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "정확합니다! 이탈행동이 '없는' 시간 간격을 기준으로 DRO를 적용합니다. 이탈하지 않고 활동 영역에 있으면 강화를 제공합니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "체육 활동을 잘 수행하는 횟수를 기준으로 강화",
+          "nextNodeId": "fb-wrong-dra",
+          "isOptimal": false,
+          "feedback": "활동 수행 자체를 강화하는 것은 DRA에 가깝습니다. DRO는 '문제행동이 없는 것' 자체를 강화합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "체육 시간 전체를 기다렸다가 한 번에 평가",
+          "nextNodeId": "fb-wrong-whole",
+          "isOptimal": false,
+          "feedback": "전체 시간을 한 번에 평가하면 초기에 성공 가능성이 매우 낮아 강화를 거의 받지 못합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "fb-wrong-dra": {
+      "id": "fb-wrong-dra",
+      "type": "feedback",
+      "content": "활동 수행을 강화하면 DRA(대체행동 차별강화)입니다.\n\n💡 **이 사례에서 DRO의 장점**:\n- 현우가 체육을 잘 못해도 '그 자리에 있기만 하면' 강화받음\n- 수행 기대 없이 참여 자체를 격려\n- 수행 강화(DRA)는 DRO로 참여가 안정된 후 도입",
+      "relatedConcepts": ["DRO vs DRA", "참여 기반 강화"],
+      "choices": [
+        {
+          "label": "활동 영역에 머무르는 시간 기준 DRO로 시작한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "참여 안정화가 먼저입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-wrong-whole": {
+      "id": "fb-wrong-whole",
+      "type": "feedback",
+      "content": "체육 시간(40~50분) 전체를 한 번에 평가하면:\n- 이탈이 1번이라도 발생 → 강화 없음\n- 성공률 매우 낮음 → 동기 저하\n\n📌 **DRO 원칙**: 짧은 간격으로 시작하여 성공 경험을 쌓은 후 점진적으로 늘린다.",
+      "relatedConcepts": ["DRO 간격", "성공 경험"],
+      "choices": [
+        {
+          "label": "짧은 간격으로 나눠서 DRO를 적용한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "올바른 접근입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "s2": {
+      "id": "s2",
+      "type": "situation",
+      "content": "DRO 5분 간격으로 2주 실시 결과:\n\n📊 **결과**\n- 이탈행동: 수업당 4회 → 수업당 1회\n- 5분 간격 DRO 성공률: 82%\n\n이제 DRO와 DRI를 결합하려 합니다. 이 상황에서 DRI로 적절한 양립 불가능 행동은?",
+      "relatedConcepts": ["DRI", "양립 불가능 행동", "DRO+DRI 결합"],
+      "choices": [
+        {
+          "label": "짝과 함께 공 패스하기 (이탈과 물리적으로 양립 불가)",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 짝과 공 패스를 하려면 활동 영역에 있어야 하므로, 이탈과 물리적으로 양립 불가능합니다. DRI의 정의에 정확히 부합합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "선생님에게 '쉬고 싶어요' 말하기 (의사소통 대체행동)",
+          "nextNodeId": "fb-fct",
+          "isOptimal": false,
+          "feedback": "'쉬고 싶어요'라고 말하는 것은 FCT(기능적 의사소통 훈련)이자 DRA이지, DRI가 아닙니다. 말하면서도 이탈할 수 있으므로 양립 불가능하지 않습니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "운동장 벤치에 앉아서 친구들 응원하기",
+          "nextNodeId": "fb-bench",
+          "isOptimal": false,
+          "feedback": "벤치에 앉아 응원하는 것은 이탈하지 않는 대안이지만, '양립 불가능'하다고 보기 어렵습니다. 벤치에서도 이탈할 수 있습니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "fb-fct": {
+      "id": "fb-fct",
+      "type": "feedback",
+      "content": "'쉬고 싶어요'라고 말하는 것은 FCT(기능적 의사소통 훈련)로, DRA의 한 형태입니다.\n\n💡 **DRI vs DRA(FCT) 구분**:\n- DRI: 목표행동과 **물리적으로 동시에 할 수 없는** 행동\n- DRA/FCT: 기능적으로 동등한 **대체** 행동\n\n이 사례에서 DRI에 해당하는 행동은 물리적으로 활동 영역을 떠날 수 없게 만드는 행동입니다.",
+      "relatedConcepts": ["FCT", "DRA vs DRI"],
+      "choices": [
+        {
+          "label": "짝과 공 패스하기로 DRI를 설정한다",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "물리적 양립불가 행동을 올바르게 선택했습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-bench": {
+      "id": "fb-bench",
+      "type": "feedback",
+      "content": "벤치 응원은 좋은 아이디어이지만, 엄밀히 DRI의 기준(물리적 양립 불가능)을 충족하지 않습니다.\n\n벤치에서 일어나 이탈하는 것이 가능하기 때문입니다.\n\n💡 DRI의 양립 불가능 기준: '그 행동을 하면서 동시에 문제행동을 하는 것이 물리적으로 불가능한가?'",
+      "relatedConcepts": ["DRI 기준", "양립 불가능성"],
+      "choices": [
+        {
+          "label": "짝과 공 패스하기로 DRI를 설정한다",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "더 확실한 양립 불가 행동입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "s3": {
+      "id": "s3",
+      "type": "situation",
+      "content": "DRO + DRI(짝과 공 패스) 결합 전략 3주 실시 결과:\n\n📊 **결과**\n- 이탈행동: 수업당 1회 → 0~1회\n- 체육 활동 참여율: 40% → 75%\n- DRO 간격: 5분 → 10분으로 늘림\n\n현우의 체육교사가 '이제 다 나았으니 특별 지원을 중단해도 되지 않나요?'라고 합니다. 어떻게 대응하시겠습니까?",
+      "relatedConcepts": ["유지 계획", "교사 협력", "지원 페이딩"],
+      "choices": [
+        {
+          "label": "지원을 점진적으로 줄이되, 모니터링은 계속하겠다고 설명한다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 급격한 지원 중단은 재발 위험이 있습니다. DRO 간격을 더 늘리고, 자연적 강화(친구 관계, 운동 즐거움)로 전환하면서 모니터링을 유지합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "효과가 확인되었으니 즉시 중단한다",
+          "nextNodeId": "fb-sudden-stop",
+          "isOptimal": false,
+          "feedback": "급격한 중단은 행동 재발의 가장 큰 원인입니다. 지원은 점진적으로 줄여야 합니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "현재 수준의 지원을 무기한 유지한다",
+          "nextNodeId": "fb-no-fade",
+          "isOptimal": false,
+          "feedback": "영구적으로 동일 수준의 지원을 유지하면 학생의 독립성이 발달하지 않고, 교사 부담도 지속됩니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "fb-sudden-stop": {
+      "id": "fb-sudden-stop",
+      "type": "feedback",
+      "content": "⚠️ 지원의 급격한 중단은 행동 재발의 가장 큰 원인입니다.\n\n📌 **유지 계획(Maintenance Plan)**:\n1. DRO 간격 → 수업 전체 단위로 확장\n2. 인위적 강화 → 자연적 강화로 전환 (친구 관계, 성취감)\n3. 간헐적 모니터링 → 월 1회 체크\n4. 재발 시 이전 단계로 복귀",
+      "relatedConcepts": ["유지 계획", "자연적 강화", "재발 방지"],
+      "choices": [
+        {
+          "label": "점진적 페이딩 + 모니터링으로 전환한다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "유지 계획의 중요성을 이해했습니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-no-fade": {
+      "id": "fb-no-fade",
+      "type": "feedback",
+      "content": "영구 지원은 학생의 자립을 방해합니다.\n\n💡 **목표**: 인위적 강화에서 자연적 강화로의 전환\n- 인위적: 교사의 칭찬/토큰 (DRO)\n- 자연적: 친구와 함께하는 즐거움, 운동 성취감\n\n지원 수준은 반드시 점진적으로 줄여나가야 합니다.",
+      "relatedConcepts": ["자연적 강화", "자립", "페이딩"],
+      "choices": [
+        {
+          "label": "점진적으로 줄이면서 모니터링한다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "올바른 방향입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "assessment": {
+      "id": "assessment",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n현우의 이탈행동 사례를 통해 DRO와 DRI의 결합 적용을 연습했습니다.\n\n### 핵심 정리\n1. **DRO 적용 맥락 변화**: 교실(시나리오1) → 운동장(이번). 환경이 달라도 DRO 원칙은 동일\n2. **DRI 결합**: DRO(부재 강화)로 안정화 → DRI(양립 불가 행동)로 적극적 참여 유도\n3. **양립 불가능 판별**: '동시에 할 수 있는가?' 물리적 기준으로 판단\n4. **지원 페이딩**: 급격한 중단 금지, 인위적 → 자연적 강화로 점진 전환",
+      "relatedConcepts": ["DRO", "DRI", "양립 불가능 행동", "유지 계획", "자연적 강화"]
+    }
+  }
+}

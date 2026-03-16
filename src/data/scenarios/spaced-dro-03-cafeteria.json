@@ -1,0 +1,198 @@
+{
+  "id": "spaced-dro-03-cafeteria",
+  "title": "DRO 적용: 급식실에서 공격행동 (고등)",
+  "description": "정서행동장애 고등학생이 급식실에서 공격행동을 보입니다. DRO와 DRA의 비교 적용을 심화 연습합니다.",
+  "subject": "behavior-support",
+  "chapter": "functional-behavior-assessment",
+  "difficulty": 3,
+  "estimatedMinutes": 8,
+  "tags": ["DRO", "DRA", "공격행동", "급식실", "고등"],
+  "startNodeId": "s1",
+  "nodes": {
+    "s1": {
+      "id": "s1",
+      "type": "situation",
+      "content": "고등학교 1학년 정서행동장애 학생 민호가 급식실에서 다른 학생을 밀치는 공격행동을 보입니다.\n\nFBA 결과: 실물/활동 획득(정적 강화) 기능. 민호는 줄 서기를 싫어하며, 밀치면 앞으로 나갈 수 있다는 것을 학습했습니다.\n\n이 상황에 DRO를 적용할 때 고려해야 할 특수한 점은?",
+      "relatedConcepts": ["DRO", "정적 강화", "공격행동", "안전 고려"],
+      "choices": [
+        {
+          "label": "공격행동은 안전 문제가 있으므로, DRO와 동시에 위기 대응 계획을 수립해야 한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "정확합니다! 공격행동처럼 타인에게 위해를 가하는 행동은 DRO만으로 충분하지 않을 수 있습니다. 중재 효과가 나타나기 전까지의 위기 대응 계획(crisis plan)이 반드시 필요합니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "이전 사례들과 동일하게 DRO만 적용하면 된다",
+          "nextNodeId": "fb-no-crisis",
+          "isOptimal": false,
+          "feedback": "자해/이탈과 달리 공격행동은 타인의 안전을 위협합니다. DRO 효과가 나타나기까지의 기간에 다른 학생이 다칠 수 있으므로 위기 대응 계획이 필수입니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "공격행동에는 DRO보다 벌(punishment)이 더 효과적이다",
+          "nextNodeId": "fb-punishment",
+          "isOptimal": false,
+          "feedback": "PBS(긍정적 행동지원)의 원칙에 따르면, 벌은 최후의 수단입니다. 차별강화를 먼저 시도하되, 안전 관리 계획을 병행합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "fb-no-crisis": {
+      "id": "fb-no-crisis",
+      "type": "feedback",
+      "content": "⚠️ 공격행동의 특수성:\n- 자해: 본인만 위험 → 모니터링으로 관리 가능\n- 이탈: 안전 위험 낮음\n- **공격: 타인이 직접적 피해** → 위기 대응 필수\n\n📌 위기 대응 계획 포함 사항:\n1. 공격 발생 시 즉각 분리 절차\n2. 피해 학생 지원 방안\n3. 교직원 역할 분담\n4. 보호자 통보 기준",
+      "relatedConcepts": ["위기 대응", "안전 관리", "PBS"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제28조(특수교육 관련서비스)",
+      "choices": [
+        {
+          "label": "DRO + 위기 대응 계획을 함께 수립한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "안전을 고려한 포괄적 접근입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-punishment": {
+      "id": "fb-punishment",
+      "type": "feedback",
+      "content": "PBS 원칙에서 벌은 모든 긍정적 접근을 시도한 후의 최후 수단입니다.\n\n💡 **벌의 문제점**:\n- 일시적 억제일 뿐, 새로운 행동을 가르치지 않음\n- 벌의 강도가 점점 올라가는 '벌 에스컬레이션' 위험\n- 학생-교사 관계 손상\n- 윤리적/법적 문제\n\n**대안**: DRO + 위기 대응 계획으로 시작",
+      "relatedConcepts": ["벌의 부작용", "PBS 원칙", "최소 제한 환경"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제4조(차별의 금지)",
+      "choices": [
+        {
+          "label": "DRO + 위기 대응 계획을 먼저 시도한다",
+          "nextNodeId": "s2",
+          "isOptimal": true,
+          "feedback": "PBS의 원칙에 맞는 순서입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "s2": {
+      "id": "s2",
+      "type": "situation",
+      "content": "DRO(3분 간격, 줄 서기 중 밀치지 않으면 칭찬 + 선택권 부여) + 위기 대응 계획을 2주 실시한 결과:\n\n📊 **결과**\n- 공격행동: 주 5회 → 주 2회 (60% 감소)\n- DRO 성공률: 78%\n- 위기 대응 발동: 2회\n\n감소는 있지만 충분하지 않습니다. DRA를 추가로 적용하려 합니다. 이 상황에서 적절한 DRA 대체행동은?",
+      "relatedConcepts": ["DRA", "기능적 의사소통", "대체행동 선택"],
+      "choices": [
+        {
+          "label": "'순서 바꿔주세요'라고 교사에게 요청하는 카드 사용 (FCT)",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "정확합니다! 민호의 공격행동 기능은 '앞자리 획득'입니다. 같은 기능을 사회적으로 적절한 방법(요청 카드)으로 충족시키는 FCT가 가장 효과적인 DRA입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "급식 줄에서 심호흡하기",
+          "nextNodeId": "fb-deep-breath",
+          "isOptimal": false,
+          "feedback": "심호흡은 분노 조절 전략이지 기능적 대체행동이 아닙니다. 민호는 화가 나서 미는 것이 아니라, '앞으로 가기 위해' 밉니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "급식 줄 맨 뒤에서 기다리는 연습",
+          "nextNodeId": "fb-wait",
+          "isOptimal": false,
+          "feedback": "기다리는 것은 DRO(행동 부재)이지 DRA(대체행동)가 아닙니다. 또한 기능(앞자리 획득)을 충족시키지 못하므로 동기가 낮습니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "fb-deep-breath": {
+      "id": "fb-deep-breath",
+      "type": "feedback",
+      "content": "심호흡은 '자기조절 전략'이지 '기능적 대체행동'이 아닙니다.\n\n💡 **DRA 대체행동 선택 기준**:\n1. 문제행동과 **같은 기능**을 충족해야 함\n2. 사회적으로 적절해야 함\n3. 문제행동보다 **효율적**(더 빠르고 쉽게) 기능을 충족\n\n민호는 '앞으로 가고 싶어서' 밉니다. 적절한 방법으로 같은 결과를 얻게 해야 합니다.",
+      "relatedConcepts": ["기능 동등성", "DRA 선택 기준", "자기조절"],
+      "choices": [
+        {
+          "label": "'순서 바꿔주세요' 요청 카드 사용으로 변경한다",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "기능 동등성을 충족하는 대체행동입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-wait": {
+      "id": "fb-wait",
+      "type": "feedback",
+      "content": "'기다리기'는 DRO의 일부(행동 부재)이지, 새로운 대체행동(DRA)이 아닙니다.\n\n💡 **DRA vs DRO 재확인**:\n- DRO: '밀치지 않기' (부재 강화)\n- DRA: '요청하기' (대체행동 강화)\n\nDRA는 학생에게 **새로운 스킬**을 가르칩니다. 기다리기는 스킬이 아니라 행동 억제입니다.",
+      "relatedConcepts": ["DRA vs DRO", "스킬 교수"],
+      "choices": [
+        {
+          "label": "요청 카드 사용을 DRA로 설정한다",
+          "nextNodeId": "s3",
+          "isOptimal": true,
+          "feedback": "새로운 스킬을 가르치는 접근입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "s3": {
+      "id": "s3",
+      "type": "situation",
+      "content": "DRO + DRA(요청 카드) + 위기 대응 결합 3주 실시 결과:\n\n📊 **결과**\n- 공격행동: 주 2회 → 주 0~1회\n- 요청 카드 사용: 주 0회 → 주 4~5회\n- 위기 대응 발동: 0회\n\n이제 일반화(generalization)를 계획해야 합니다. 급식실에서 성공한 이 전략을, 다른 상황에서도 일반화하려면?",
+      "relatedConcepts": ["일반화", "상황 전이", "유지"],
+      "choices": [
+        {
+          "label": "줄 서기가 있는 다른 상황(매점, 도서관 대출)에서 같은 요청 카드를 연습시킨다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 일반화는 '다른 상황, 다른 사람, 다른 시간'에서도 동일한 적응행동이 나타나게 하는 것입니다. 줄 서기라는 유사 상황에서 요청 카드를 연습하면 자연스러운 일반화가 촉진됩니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "급식실에서만 계속 연습한다",
+          "nextNodeId": "fb-no-generalize",
+          "isOptimal": false,
+          "feedback": "한 장소에서만 연습하면 '급식실에서만' 적절한 행동을 하고, 다른 상황에서는 이전 행동으로 돌아갈 수 있습니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "모든 상황에서 동시에 시작한다",
+          "nextNodeId": "fb-too-broad",
+          "isOptimal": false,
+          "feedback": "너무 많은 상황에서 동시에 시작하면 학생에게 부담이 크고, 교사의 일관된 지원도 어렵습니다. 점진적으로 상황을 확대합니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "fb-no-generalize": {
+      "id": "fb-no-generalize",
+      "type": "feedback",
+      "content": "일반화 없이 한 상황에서만 중재하면 '자극 통제(stimulus control)'에 의해 그 상황에서만 적절한 행동이 나타납니다.\n\n📌 **일반화 전략**:\n1. 유사 상황 확대 (급식실 → 매점 → 도서관)\n2. 다른 사람과 연습 (담임 → 부담임 → 비담당 교사)\n3. 다양한 시간대 (점심 → 간식 시간 → 체육 줄 서기)",
+      "relatedConcepts": ["자극 통제", "일반화 전략"],
+      "choices": [
+        {
+          "label": "유사 상황으로 점진적으로 확대한다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "체계적 일반화 계획입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "fb-too-broad": {
+      "id": "fb-too-broad",
+      "type": "feedback",
+      "content": "모든 상황에 동시 적용은 비현실적입니다.\n\n💡 **점진적 일반화 원칙**:\n- 성공한 상황에서 시작 → 유사 상황 1~2개로 확대 → 점진 확장\n- 각 상황에서 80%+ 성공 확인 후 다음 상황으로\n- 실패 시 이전 성공 상황으로 복귀",
+      "relatedConcepts": ["점진적 일반화", "계층적 확장"],
+      "choices": [
+        {
+          "label": "유사 상황 1~2개로 점진 확대한다",
+          "nextNodeId": "assessment",
+          "isOptimal": true,
+          "feedback": "현실적인 일반화 계획입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "assessment": {
+      "id": "assessment",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n민호의 공격행동 사례를 통해 DRO+DRA 결합과 일반화를 연습했습니다.\n\n### DRO 시리즈 전체 핵심 정리\n1. **시나리오1 (교실)**: DRO 기초 — 간격 설정, 페이딩\n2. **시나리오2 (운동장)**: DRO + DRI — 양립 불가 행동 개념\n3. **시나리오3 (급식실)**: DRO + DRA + 위기 대응 + 일반화\n\n### 차별강화 체계\n- **DRO**: 행동 부재 강화 (가장 범용적)\n- **DRA**: 대체행동 강화 (기능 동등성 필수)\n- **DRI**: 양립 불가 행동 강화 (물리적 기준)\n- **DRL**: 행동 빈도 감소 강화 (완전 소거 불필요 시)\n\n### 맥락에 따른 추가 고려\n- 공격행동 → **위기 대응 계획** 필수\n- 일반화 → **유사 상황**에서 **점진적 확대**",
+      "relatedConcepts": ["DRO", "DRA", "DRI", "DRL", "차별강화 체계", "위기 대응", "일반화"]
+    }
+  }
+}

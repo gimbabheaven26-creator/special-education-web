@@ -40,3 +40,20 @@ export interface ScenarioProgress {
   readonly completedAt: number | null;
   readonly startedAt: number;
 }
+
+// ─── Spaced Scenarios Types ───
+
+export interface ScenarioGroup {
+  readonly groupId: string;
+  readonly principle: string;
+  readonly description: string;
+  readonly scenarioIds: readonly string[];
+}
+
+export interface SpacedScenarioSchedule {
+  readonly groupId: string;
+  readonly currentIndex: number;
+  readonly nextReviewDate: string;
+  readonly intervalDays: number;
+  readonly completedScenarioIds: readonly string[];
+}

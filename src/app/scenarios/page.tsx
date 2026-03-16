@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { ALL_SCENARIOS } from '@/data/scenarios';
+import { BDS_SCENARIOS, SCENARIO_GROUPS } from '@/data/scenarios';
 import { useStudyStore } from '@/stores/useStudyStore';
 
 const DIFFICULTY_LABELS: Record<number, { label: string; color: string }> = {
@@ -35,8 +35,38 @@ export default function ScenariosPage() {
         </p>
       </div>
 
+      {/* Spaced Scenarios Section */}
+      {SCENARIO_GROUPS.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-lg font-semibold tracking-tight">스페이스드 시나리오</h2>
+          <p className="text-muted-foreground text-xs">
+            같은 원리를 다른 맥락에서 간격을 두고 반복 연습합니다.
+          </p>
+          {SCENARIO_GROUPS.map((group) => (
+            <Link key={group.groupId} href={`/scenarios/spaced/${group.groupId}`}>
+              <Card className="hover:border-primary/50 transition-colors cursor-pointer">
+                <CardContent className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">🔄</span>
+                    <h3 className="text-base font-semibold">{group.principle}</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{group.description}</p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span>{group.scenarioIds.length}개 시나리오</span>
+                    <span>·</span>
+                    <span>간격반복 학습</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* BDS Scenarios Section */}
+      <h2 className="text-lg font-semibold tracking-tight">단일 시나리오</h2>
       <div className="space-y-4">
-        {ALL_SCENARIOS.map((scenario) => {
+        {BDS_SCENARIOS.map((scenario) => {
           const diff = DIFFICULTY_LABELS[scenario.difficulty];
           const progress = scenarioProgress?.[scenario.id];
           const isCompleted = progress?.completedAt != null;

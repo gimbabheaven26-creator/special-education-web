@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Scenario, ScenarioNode, ScenarioChoice, ScenarioProgress } from '@/types/scenario';
 import { useStudyStore } from '@/stores/useStudyStore';
+import { getGroupByScenarioId } from '@/data/scenarios';
+import { advanceSchedule, createSchedule } from '@/lib/spaced-scenario';
 
 interface ScenarioClientProps {
   readonly scenario: Scenario;
@@ -15,6 +17,8 @@ interface ScenarioClientProps {
 export default function ScenarioClient({ scenario }: ScenarioClientProps) {
   const saveScenarioProgress = useStudyStore((s) => s.saveScenarioProgress);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
+  const saveSpacedSchedule = useStudyStore((s) => s.saveSpacedSchedule);
+  const spacedSchedules = useStudyStore((s) => s.spacedScenarioSchedules);
 
   const [currentNodeId, setCurrentNodeId] = useState(scenario.startNodeId);
   const [visitedIds, setVisitedIds] = useState<string[]>([scenario.startNodeId]);
@@ -79,8 +83,17 @@ export default function ScenarioClient({ scenario }: ScenarioClientProps) {
       };
       saveScenarioProgress(progress);
       setIsFinished(true);
+
+      // Advance spaced scenario schedule if this scenario belongs to a group
+      const group = getGroupByScenarioId(scenario.id);
+      if (group) {
+        const currentSchedule = spacedSchedules[group.groupId] ?? createSchedule(group.groupId);
+        const score = totalChoices > 0 ? optimalCount / totalChoices : 0;
+        const updated = advanceSchedule(currentSchedule, group, scenario.id, score);
+        saveSpacedSchedule(updated);
+      }
     }
-  }, [selectedChoice, scenario, visitedIds, optimalCount, totalChoices, xpEarned, saveScenarioProgress]);
+  }, [selectedChoice, scenario, visitedIds, optimalCount, totalChoices, xpEarned, saveScenarioProgress, spacedSchedules, saveSpacedSchedule]);
 
   if (!currentNode) {
     return (
