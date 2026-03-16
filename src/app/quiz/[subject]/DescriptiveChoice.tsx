@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle, Eye } from 'lucide-react';
+import ScoringGuide from '@/components/quiz/ScoringGuide';
+import { scoreDescriptiveAnswer } from '@/lib/descriptive-scoring';
 
 export function DescriptiveChoice({
   question,
@@ -15,6 +17,12 @@ export function DescriptiveChoice({
   const [input, setInput] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
   const [selfGraded, setSelfGraded] = useState<boolean | null>(null);
+
+  const scoringResult = useMemo(() => {
+    if (!showAnswer || !input.trim()) return null;
+    const modelAnswer = String(question.answer);
+    return scoreDescriptiveAnswer(input.trim(), modelAnswer);
+  }, [showAnswer, input, question.answer]);
 
   const handleShowAnswer = () => {
     if (!input.trim()) return;
@@ -50,7 +58,7 @@ export function DescriptiveChoice({
           className="w-full min-h-[44px] gap-2"
         >
           <Eye className="h-4 w-4" />
-          모범답안 보기
+          채점 가이드 보기
         </Button>
       )}
 
@@ -76,9 +84,15 @@ export function DescriptiveChoice({
         </div>
       )}
 
+      {showAnswer && scoringResult && (
+        <div className="mb-4">
+          <ScoringGuide result={scoringResult} />
+        </div>
+      )}
+
       {showAnswer && selfGraded === null && (
         <div className="mb-4">
-          <p className="text-sm font-medium text-center mb-3">내 답안을 스스로 채점해 주세요</p>
+          <p className="text-sm font-medium text-center mb-3">키워드 분석을 참고하여 자기 채점해 주세요</p>
           <div className="flex gap-3">
             <Button
               variant="outline"
