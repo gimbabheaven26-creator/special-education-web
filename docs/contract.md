@@ -1,7 +1,10 @@
 # Interface Contract
 
 > 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
-> 최종 수정: 2026-03-16 | 버전: 2.3
+> 최종 수정: 2026-03-18 | 버전: 2.5
+> v2.5: profiles 테이블에 role(admin/user) + nickname 컬럼 추가
+> v2.4: Auth 역할 변경 — profiles/user_data 설정 강선생으로 이전 (클루디는 콘텐츠 데이터 전담)
+> v2.4: Auth 프로바이더 확정 — Kakao OAuth + Google OAuth + 이메일/비밀번호
 > v2.3: Supabase Auth + 서버 동기화 (profiles, user_data 테이블)
 > v2.2: reviews 테이블 클로즈드 베타 확장 (reviewer_name, status)
 
@@ -152,12 +155,14 @@ communication-disorder:
 | source | text | NULL | 출처 |
 | tags | text[] | DEFAULT '{}' | 태그 |
 
-### profiles (v2.3 신규 — Supabase Auth)
+### profiles (v2.3 신규 — v2.5 role/nickname 추가)
 
 | 컬럼 | 타입 | 제약 | 설명 |
 |------|------|------|------|
 | id | uuid | **PK**, FK → auth.users.id ON DELETE CASCADE | Supabase Auth 사용자 ID |
-| display_name | text | DEFAULT '' | 표시 이름 |
+| display_name | text | NOT NULL DEFAULT '' | 표시 이름 (OAuth meta에서 자동) |
+| nickname | text | NOT NULL DEFAULT '' | 사용자 입력 닉네임 (첫 로그인 수집) |
+| role | text | NOT NULL DEFAULT 'user' CHECK(role IN ('admin','user')) | 권한 |
 | created_at | timestamptz | DEFAULT now() | 가입 시간 |
 | updated_at | timestamptz | DEFAULT now() | 수정 시간 |
 
@@ -303,7 +308,7 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 | 콘텐츠 리서치 | 클루디 | 강선생이 KICE 분석 |
 | 마이그레이션 스크립트 | 클루디 | 강선생이 scripts/ 수정 |
 | data-validator 실행 | 클루디 (데이터 변경 후) | — |
-| profiles, user_data 테이블 + RLS | 클루디 | 강선생이 직접 DDL |
+| profiles, user_data 테이블 + RLS | **강선생** (v2.4 변경) | 클루디가 직접 DDL |
 | src/lib/supabase/auth.ts (신규) | 강선생 | 클루디가 auth 코드 수정 |
 | src/lib/sync.ts (신규) | 강선생 | 클루디가 sync 코드 수정 |
 | 미들웨어 (세션 관리) | 강선생 | 클루디가 middleware 수정 |
@@ -321,6 +326,6 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 5. **4개 과목 워크시트 데이터 생성** — 시각/청각/지체/의사소통
 6. **마이그레이션 스크립트 키 제거** — .env.local 사용으로 전환
 7. **data-validator 실행** — 모든 작업 완료 후 검증
-8. **profiles 테이블 생성** — auth.users 연결 + handle_new_user 트리거
-9. **user_data 테이블 생성** — JSONB 동기화 + RLS 정책
-10. **Auth 마이그레이션 SQL** — `scripts/migrate-auth-v2.3.sql` 작성
+8. ~~**profiles 테이블 생성**~~ — v2.4에서 강선생 담당으로 이전
+9. ~~**user_data 테이블 생성**~~ — v2.4에서 강선생 담당으로 이전
+10. ~~**Auth 마이그레이션 SQL**~~ — v2.4에서 강선생 담당으로 이전
