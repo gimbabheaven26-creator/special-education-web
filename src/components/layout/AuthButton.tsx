@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { User as UserIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { User } from '@supabase/supabase-js';
 import { Button } from '@/components/ui/button';
@@ -81,6 +82,14 @@ export function AuthButton() {
               <p className="text-xs text-muted-foreground truncate">{user.email}</p>
             </div>
             <div className="p-1">
+              <Link
+                href="/my"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 text-sm px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors"
+              >
+                <UserIcon className="h-4 w-4" />
+                마이페이지
+              </Link>
               <button
                 onClick={handleSignOut}
                 className="w-full text-left text-sm px-3 py-2 rounded-lg text-destructive hover:bg-destructive/10 transition-colors"
