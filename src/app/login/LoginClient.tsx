@@ -9,14 +9,6 @@ import { createClient } from '@/lib/supabase/browser';
 
 type Tab = 'login' | 'signup';
 
-function KakaoIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-      <path d="M12 3C7.03 3 3 6.36 3 10.5c0 2.67 1.63 5.01 4.1 6.4l-1.05 3.87c-.09.34.29.6.57.4L11.1 18.5c.29.03.6.05.9.05 4.97 0 9-3.36 9-7.5S16.97 3 12 3z" />
-    </svg>
-  );
-}
-
 function GoogleIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5">
