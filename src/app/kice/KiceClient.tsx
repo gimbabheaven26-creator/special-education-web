@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState, useMemo, Suspense } from 'react'
 import Link from 'next/link'
-import { Search, FileText, Clock, Award, GitFork, Sparkles, Play, BarChart3 } from 'lucide-react'
+import { Search, FileText, Clock, Award, GitFork, Sparkles, Play, BookOpen, ChevronLeft, ChevronRight as ChevronRightIcon } from 'lucide-react'
 import { QuestionCard } from '@/components/kice/QuestionCard'
 import { Button } from '@/components/ui/button'
 import type { KiceExam, ExamEntry } from '@/types/kice'
@@ -27,6 +27,7 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
   const router = useRouter()
   const [keywordFilter, setKeywordFilter] = useState('')
   const [compareMode, setCompareMode] = useState(false)
+  const [practiceIndex, setPracticeIndex] = useState<number | null>(null)
 
   const isIsomorphic = selectedSession.includes('동형')
   const isPredicted = selectedSession.includes('예상')
@@ -113,6 +114,12 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
           className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
         >
           영역별 기출
+        </Link>
+        <Link
+          href="/kice?tab=search"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+        >
+          키워드 검색
         </Link>
       </div>
 
@@ -241,7 +248,7 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
         </div>
       )}
 
-      {/* 모의고사 + 분석 */}
+      {/* 모의고사 + 한 문제씩 풀기 */}
       {exam && (
         <div className="flex gap-3">
           <Button
@@ -255,13 +262,13 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
             모의고사 모드
           </Button>
           <Button
-            render={<Link href="/analytics" />}
+            onClick={() => setPracticeIndex(0)}
             variant="outline"
             size="lg"
             className="flex-1 min-h-[48px]"
           >
-            <BarChart3 className="h-5 w-5 mr-2" />
-            출제 경향 분석
+            <BookOpen className="h-5 w-5 mr-2" />
+            한 문제씩 풀기
           </Button>
         </div>
       )}
@@ -283,39 +290,126 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
         )}
       </div>
 
-      {/* 문항 리스트 */}
-      {!exam ? (
-        <div className="text-center py-12 text-muted-foreground">
-          선택한 시험을 찾을 수 없습니다.
-        </div>
-      ) : filteredQuestions.length === 0 ? (
-        <div className="text-center py-12 text-muted-foreground">
-          검색 결과가 없습니다.
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {filteredQuestions.map(q => {
-            const originalQ = compareMode && originalExam
-              ? originalExam.questions.find(oq => oq.number === q.number)
-              : null
-
-            return (
-              <div key={q.number}>
-                {compareMode && originalQ && (
-                  <div className="mb-2 rounded-xl bg-blue-50 dark:bg-blue-950/20 ring-1 ring-blue-200 dark:ring-blue-800/30 p-3">
-                    <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-2">
-                      원본 Q{originalQ.number}
-                    </div>
-                    <p className="text-sm text-foreground/80 whitespace-pre-wrap line-clamp-4">
-                      {originalQ.context}
-                    </p>
-                  </div>
-                )}
-                <QuestionCard question={q} />
+      {/* 연습 모드 */}
+      {practiceIndex !== null && (
+        <>
+          {filteredQuestions.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              검색 결과가 없습니다.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {/* 상단 네비게이션 */}
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => setPracticeIndex(null)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  목록으로
+                </button>
+                <span className="text-sm font-medium text-muted-foreground">
+                  {practiceIndex + 1} / {filteredQuestions.length}
+                </span>
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => setPracticeIndex(i => Math.max(0, (i ?? 0) - 1))}
+                    disabled={practiceIndex === 0}
+                    className="p-1.5 rounded-lg bg-muted hover:bg-muted/80 transition-colors disabled:opacity-40"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => setPracticeIndex(i => Math.min(filteredQuestions.length - 1, (i ?? 0) + 1))}
+                    disabled={practiceIndex === filteredQuestions.length - 1}
+                    className="p-1.5 rounded-lg bg-muted hover:bg-muted/80 transition-colors disabled:opacity-40"
+                  >
+                    <ChevronRightIcon className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
-            )
-          })}
-        </div>
+
+              {/* 진행 바 */}
+              <div className="w-full bg-muted rounded-full h-1.5">
+                <div
+                  className="bg-primary h-1.5 rounded-full transition-all duration-300"
+                  style={{ width: `${((practiceIndex + 1) / filteredQuestions.length) * 100}%` }}
+                />
+              </div>
+
+              {/* 현재 문항 */}
+              <QuestionCard
+                question={filteredQuestions[practiceIndex]}
+                defaultAnswerOpen={false}
+              />
+
+              {/* 하단 네비게이션 */}
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => setPracticeIndex(i => Math.max(0, (i ?? 0) - 1))}
+                  disabled={practiceIndex === 0}
+                  className="flex-1 py-3 rounded-xl border border-border text-sm font-medium hover:bg-muted/50 transition-colors disabled:opacity-40"
+                >
+                  이전 문항
+                </button>
+                {practiceIndex < filteredQuestions.length - 1 ? (
+                  <button
+                    onClick={() => setPracticeIndex(i => (i ?? 0) + 1)}
+                    className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+                  >
+                    다음 문항
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setPracticeIndex(null)}
+                    className="flex-1 py-3 rounded-xl bg-green-600 text-white text-sm font-medium hover:opacity-90 transition-opacity"
+                  >
+                    완료 — 목록으로
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* 리스트 모드 */}
+      {practiceIndex === null && (
+        <>
+          {!exam ? (
+            <div className="text-center py-12 text-muted-foreground">
+              선택한 시험을 찾을 수 없습니다.
+            </div>
+          ) : filteredQuestions.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              검색 결과가 없습니다.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredQuestions.map(q => {
+                const originalQ = compareMode && originalExam
+                  ? originalExam.questions.find(oq => oq.number === q.number)
+                  : null
+
+                return (
+                  <div key={q.number}>
+                    {compareMode && originalQ && (
+                      <div className="mb-2 rounded-xl bg-blue-50 dark:bg-blue-950/20 ring-1 ring-blue-200 dark:ring-blue-800/30 p-3">
+                        <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-2">
+                          원본 Q{originalQ.number}
+                        </div>
+                        <p className="text-sm text-foreground/80 whitespace-pre-wrap line-clamp-4">
+                          {originalQ.context}
+                        </p>
+                      </div>
+                    )}
+                    <QuestionCard question={q} />
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </>
       )}
     </div>
   )

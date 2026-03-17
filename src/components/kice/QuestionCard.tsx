@@ -8,6 +8,7 @@ import type { KiceQuestion } from '@/types/kice'
 
 interface QuestionCardProps {
   question: KiceQuestion
+  defaultAnswerOpen?: boolean
 }
 
 const TYPE_LABEL: Record<string, string> = {
@@ -15,7 +16,7 @@ const TYPE_LABEL: Record<string, string> = {
   descriptive: '논술형',
 }
 
-export function QuestionCard({ question }: QuestionCardProps) {
+export function QuestionCard({ question, defaultAnswerOpen = false }: QuestionCardProps) {
   const scenarioDialogue = typeof question.scenario === 'object' && question.scenario?.dialogue
     ? question.scenario.dialogue
     : null
@@ -108,7 +109,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
         )}
 
         {/* 모범답안 */}
-        <ModelAnswers question={question} />
+        <ModelAnswers question={question} defaultOpen={defaultAnswerOpen} />
       </CardContent>
     </Card>
   )

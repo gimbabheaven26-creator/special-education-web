@@ -46,6 +46,12 @@ export default function KiceByArea({ subjects, topics }: KiceByAreaProps) {
         >
           영역별 기출
         </Link>
+        <Link
+          href="/kice?tab=search"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+        >
+          키워드 검색
+        </Link>
       </div>
 
       {/* 과목 선택 */}

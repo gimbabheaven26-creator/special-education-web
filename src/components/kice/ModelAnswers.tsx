@@ -6,10 +6,11 @@ import type { KiceQuestion } from '@/types/kice'
 
 interface ModelAnswersProps {
   question: KiceQuestion
+  defaultOpen?: boolean
 }
 
-export function ModelAnswers({ question }: ModelAnswersProps) {
-  const [open, setOpen] = useState(false)
+export function ModelAnswers({ question, defaultOpen = false }: ModelAnswersProps) {
+  const [open, setOpen] = useState(defaultOpen)
 
   const hasBlanks = question.blanks && Object.keys(question.blanks).length > 0
   const hasModelAnswers = question.model_answers && Object.keys(question.model_answers).length > 0
