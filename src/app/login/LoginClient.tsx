@@ -188,16 +188,7 @@ export function LoginClient() {
 
       {/* 소셜 로그인 */}
       <div className="space-y-2">
-        <Button
-          type="button"
-          variant="outline"
-          className="w-full gap-2"
-          onClick={() => handleOAuth('kakao')}
-          disabled={loading}
-        >
-          <KakaoIcon />
-          카카오로 계속하기
-        </Button>
+        {/* 카카오 로그인 — 준비 중 */}
         <Button
           type="button"
           variant="outline"
