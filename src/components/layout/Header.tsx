@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes';
 import { Sun, Moon, BookOpen, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
+import { AuthButton } from './AuthButton';
 
 const navLinks = [
   { href: '/kice', label: '기출' },
@@ -83,6 +84,7 @@ export function Header() {
             </Button>
           </Link>
           <ThemeToggle />
+          <AuthButton />
         </div>
       </div>
     </header>
