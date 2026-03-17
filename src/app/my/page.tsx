@@ -16,7 +16,9 @@ import {
   Layers,
   ChevronRight,
   CheckCircle2,
+  Map,
 } from 'lucide-react';
+import { NicknamePrompt } from '@/components/NicknamePrompt';
 import { createClient } from '@/lib/supabase/browser';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -27,6 +29,9 @@ export default function MyPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [nickname, setNickname] = useState<string | null>(null);
+  const [nicknameLoaded, setNicknameLoaded] = useState(false);
+  const [role, setRole] = useState<'admin' | 'user'>('user');
 
   const { currentStreak, totalXP, totalQuizzes, dailyProgress } = useStudyStore();
   const wrongNotesCount = useQuizStore((s) => s.wrongNotes.length);
@@ -35,11 +40,20 @@ export default function MyPage() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(async ({ data }) => {
       if (!data.user) {
         router.replace('/login');
       } else {
         setUser(data.user);
+        const res = await fetch('/api/profile');
+        if (res.ok) {
+          const { profile } = await res.json();
+          setNickname(profile?.nickname ?? '');
+          setRole(profile?.role ?? 'user');
+        } else {
+          setNickname('');
+        }
+        setNicknameLoaded(true);
       }
       setLoading(false);
     });
@@ -135,6 +149,19 @@ export default function MyPage() {
         </div>
       </div>
 
+      {/* 닉네임 프롬프트 */}
+      {nicknameLoaded && nickname === '' && (
+        <NicknamePrompt onComplete={(n) => setNickname(n)} />
+      )}
+
+      {/* 닉네임 표시 */}
+      {nicknameLoaded && nickname && nickname !== '' && (
+        <div className="flex items-center gap-2 px-1">
+          <span className="text-xs text-muted-foreground">닉네임</span>
+          <span className="text-sm font-medium text-foreground">{nickname}</span>
+        </div>
+      )}
+
       {/* 스트릭 알림 */}
       {currentStreak > 0 && streakMessage && (
         <div className="flex items-center gap-3 p-4 rounded-xl bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-900">
@@ -201,6 +228,28 @@ export default function MyPage() {
           ))}
         </div>
       </div>
+
+      {/* 관리자 메뉴 */}
+      {role === 'admin' && (
+        <div>
+          <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-1">관리자</h2>
+          <div className="space-y-2">
+            <Link
+              href="/structure"
+              className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors"
+            >
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 bg-slate-50 dark:bg-slate-950/30">
+                <Map className="h-5 w-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground">사이트 구조도</p>
+                <p className="text-xs text-muted-foreground">과목·챕터·문제 현황</p>
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
