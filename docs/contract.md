@@ -1,8 +1,9 @@
 # Interface Contract
 
 > 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
-> 최종 수정: 2026-03-18 | 버전: 2.5
-> v2.5: profiles 테이블에 role(admin/user) + nickname 컬럼 추가
+> 최종 수정: 2026-03-18 | 버전: 2.6
+> v2.6: community_questions + question_votes 테이블 추가 (커뮤니티 문제 제작)
+> v2.5: profiles — role + nickname 컬럼 추가 (권한 시스템, Plan B)
 > v2.4: Auth 역할 변경 — profiles/user_data 설정 강선생으로 이전 (클루디는 콘텐츠 데이터 전담)
 > v2.4: Auth 프로바이더 확정 — Kakao OAuth + Google OAuth + 이메일/비밀번호
 > v2.3: Supabase Auth + 서버 동기화 (profiles, user_data 테이블)
@@ -213,6 +214,41 @@ communication-disorder:
 - **UNIQUE(path, reviewer_name)** — 같은 페이지에 리뷰어별 하나의 리뷰
 - **CHECK**: status IN ('pending', 'discussing', 'accepted', 'rejected')
 - **마이그레이션**: `scripts/migrate-reviews-v2.sql` (Supabase SQL Editor에서 실행)
+
+### community_questions (v2.6 신규 — 커뮤니티 문제 제작)
+
+| 컬럼 | 타입 | 제약 | 설명 |
+|------|------|------|------|
+| id | uuid | **PK**, DEFAULT gen_random_uuid() | 문제 ID |
+| author_id | uuid | NOT NULL, FK → auth.users(id) ON DELETE CASCADE | 작성자 |
+| author_display_name | text | NOT NULL DEFAULT '' | 작성 시점 표시명 (비정규화 스냅샷) |
+| question_type | text | NOT NULL CHECK (IN 'multiple','ox','fill_in','descriptive') | 문제 유형 |
+| question_text | text | NOT NULL | 문제 본문 |
+| options | jsonb | NULL | 객관식 선택지 (multiple 유형만) |
+| correct_answer | text | NOT NULL | 정답 |
+| explanation | text | NOT NULL DEFAULT '' | 해설 |
+| subject_id | text | NOT NULL, FK → subjects(slug) | 과목 |
+| chapter_id | text | NULL | 챕터 slug (chapters.slug 참조, FK 없음) |
+| status | text | NOT NULL DEFAULT 'pending' CHECK (IN 'pending','official') | 승인 상태 |
+| created_at | timestamptz | NOT NULL DEFAULT now() | 작성 시간 |
+| updated_at | timestamptz | NOT NULL DEFAULT now() | 수정 시간 |
+
+- RLS: 읽기 공개; INSERT = 인증 사용자(author_id = auth.uid()); UPDATE/DELETE = 작성자 본인
+- `author_display_name`: profiles.nickname → profiles.display_name → email prefix 순서로 스냅샷
+- `chapter_id`: chapters 테이블이 복합 PK(subject_slug, slug)이므로 FK 없이 slug만 저장
+
+### question_votes (v2.6 신규)
+
+| 컬럼 | 타입 | 제약 | 설명 |
+|------|------|------|------|
+| id | uuid | **PK**, DEFAULT gen_random_uuid() | 투표 ID |
+| question_id | uuid | NOT NULL, FK → community_questions(id) ON DELETE CASCADE | 대상 문제 |
+| user_id | uuid | NOT NULL, FK → auth.users(id) ON DELETE CASCADE | 투표자 |
+| vote_type | text | NOT NULL CHECK (IN 'up','down') | 투표 유형 |
+| created_at | timestamptz | NOT NULL DEFAULT now() | 투표 시간 |
+
+- **UNIQUE(question_id, user_id)** — 사용자당 문제 1표
+- RLS: 읽기 공개; INSERT = 인증 사용자(user_id = auth.uid()); DELETE = 본인
 
 ---
 
