@@ -143,7 +143,7 @@
 
 ---
 
-## Tier 2: 중기 (Phase 6) — 실전 대비 + 데이터 영속성 (2-3 제외 완료)
+## Tier 2: ✅ 중기 (Phase 6) — 실전 대비 + 데이터 영속성 (전체 완료)
 
 서비스의 성격을 "열람형"에서 "실전 대비형"으로 전환. Auth/동기화만 미구현.
 
@@ -164,7 +164,7 @@
 - **창조적 변형**: 시장에 전무한 기능. 수험생이 가장 원하는 정보. KICE 데이터가 이미 있으므로 분석 로직만 추가.
 - **파일**: `src/lib/kice-analytics.ts` (신규), `src/app/kice/analytics/page.tsx` (신규)
 
-### 2-3. Supabase Auth + 서버 동기화
+### 2-3. ✅ Supabase Auth + 서버 동기화 — 완료 (2026-03-17)
 **개념**: localStorage → 서버 영속화 (가장 중요한 인프라 과제)
 - Supabase Auth (이메일/OAuth) 도입
 - 기존 4개 Zustand 스토어 → 서버 동기화 전략:
