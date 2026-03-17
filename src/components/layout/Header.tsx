@@ -10,7 +10,7 @@ import { AuthButton } from './AuthButton';
 const navLinks = [
   { href: '/kice', label: '기출' },
   { href: '/analytics', label: '출제경향' },
-  { href: '/structure', label: '구조도' },
+  { href: '/community', label: '커뮤니티' },
   { href: '/wrong-notes', label: '오답노트' },
   { href: '/stats', label: '통계' },
 ];
