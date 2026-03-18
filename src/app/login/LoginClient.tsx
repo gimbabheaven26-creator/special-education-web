@@ -180,7 +180,6 @@ export function LoginClient() {
 
       {/* 소셜 로그인 */}
       <div className="space-y-2">
-        {/* 카카오 로그인 — 준비 중 */}
         <Button
           type="button"
           variant="outline"
@@ -190,6 +189,17 @@ export function LoginClient() {
         >
           <GoogleIcon />
           Google로 계속하기
+        </Button>
+        <Button
+          type="button"
+          className="w-full gap-2 bg-[#FEE500] hover:bg-[#F0D800] text-[#191919] border-0"
+          onClick={() => handleOAuth('kakao')}
+          disabled={loading}
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="#191919">
+            <path d="M12 3C6.477 3 2 6.477 2 11c0 2.83 1.63 5.325 4.09 6.85L5.1 21l4.18-2.19A11.1 11.1 0 0 0 12 19c5.523 0 10-3.477 10-8S17.523 3 12 3z" />
+          </svg>
+          카카오로 계속하기
         </Button>
       </div>
 
