@@ -19,6 +19,7 @@ import {
   Map,
 } from 'lucide-react';
 import { NicknamePrompt } from '@/components/NicknamePrompt';
+import { ExamCountdown } from '@/components/ExamCountdown';
 import { createClient } from '@/lib/supabase/browser';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -148,6 +149,9 @@ export default function MyPage() {
           <p className="text-xs text-muted-foreground mt-0.5">데이터 자동 동기화 중</p>
         </div>
       </div>
+
+      {/* D-day 카운트다운 */}
+      <ExamCountdown />
 
       {/* 닉네임 프롬프트 */}
       {nicknameLoaded && nickname === '' && (
