@@ -3,13 +3,19 @@
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useState } from 'react';
 
-export function ExamCountdown() {
+interface ExamCountdownProps {
+  showPrompt?: boolean;
+}
+
+export function ExamCountdown({ showPrompt = true }: ExamCountdownProps) {
   const { examDate, setExamDate } = useStudyStore();
   const [editing, setEditing] = useState(false);
 
   const dDay = examDate
     ? Math.ceil((new Date(examDate + 'T00:00:00+09:00').getTime() - Date.now()) / (1000 * 60 * 60 * 24))
     : null;
+
+  if ((editing || !examDate) && !showPrompt) return null;
 
   if (editing || !examDate) {
     return (
