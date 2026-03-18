@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import WrongNoteCard from './WrongNoteCard';
 import SrsReviewMode from './SrsReviewMode';
 import { detectErrorPatterns } from '@/lib/error-patterns';
+import { WrongNoteAI } from '@/components/WrongNoteAI';
 
 type SortMode = 'recent' | 'attempts' | 'oldest';
 
@@ -102,6 +103,24 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
     const mastered = wrongNotes.filter((n) => n.mastered).length;
     return { total, mastered, unmastered: total - mastered };
   }, [wrongNotes]);
+
+  const weakChapters = useMemo(() => {
+    const map = new Map<string, { chapter: string; subject: string; wrongCount: number }>();
+    for (const note of wrongNotes) {
+      const key = `${note.question.subject}::${note.question.chapter}`;
+      const existing = map.get(key);
+      if (existing) {
+        existing.wrongCount += note.attempts;
+      } else {
+        map.set(key, {
+          chapter: chapterTitleMap[`${note.question.subject}::${note.question.chapter}`] || note.question.chapter,
+          subject: subjectTitleMap[note.question.subject] || note.question.subject,
+          wrongCount: note.attempts,
+        });
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => b.wrongCount - a.wrongCount).slice(0, 10);
+  }, [wrongNotes, subjectTitleMap, chapterTitleMap]);
 
   const grouped = useMemo(() => groupBySubject(filteredNotes), [filteredNotes]);
 
@@ -202,6 +221,9 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
           </Badge>
         </div>
       </div>
+
+      {/* AI 약점 분석 */}
+      <WrongNoteAI weakChapters={weakChapters} />
 
       {/* Re-quiz button */}
       {stats.unmastered > 0 && (
