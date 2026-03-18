@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getReviews, saveReview, deleteReview, updateAdminNote } from '@/lib/review-db';
+import { isAdmin } from '@/lib/profile';
 
 const MAX_CONTENT_LENGTH = 10000;
 const MAX_NAME_LENGTH = 50;
@@ -67,6 +68,10 @@ export async function POST(req: NextRequest) {
 
 // PATCH: admin_note 업데이트 (관리자 전용)
 export async function PATCH(req: NextRequest) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  }
+
   let body: { id?: unknown; admin_note?: unknown };
   try {
     body = await req.json();
@@ -100,6 +105,10 @@ export async function PATCH(req: NextRequest) {
 
 // DELETE: 리뷰 삭제 (관리자 전용)
 export async function DELETE(req: NextRequest) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  }
+
   let body: { id?: unknown };
   try {
     body = await req.json();

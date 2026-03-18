@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import {
   Home,
   GraduationCap,
-  TrendingUp,
   Network,
   BookX,
   BarChart3,
@@ -14,7 +13,6 @@ import {
 const tabs = [
   { href: '/', icon: Home, label: '홈' },
   { href: '/kice', icon: GraduationCap, label: '기출' },
-  { href: '/analytics', icon: TrendingUp, label: '출제경향' },
   { href: '/structure', icon: Network, label: '구조도' },
   { href: '/wrong-notes', icon: BookX, label: '오답노트' },
   { href: '/stats', icon: BarChart3, label: '통계' },

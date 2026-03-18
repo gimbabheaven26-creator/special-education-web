@@ -9,10 +9,13 @@ import { AuthButton } from './AuthButton';
 
 const navLinks = [
   { href: '/kice', label: '기출' },
-  { href: '/analytics', label: '출제경향' },
   { href: '/community', label: '커뮤니티' },
   { href: '/wrong-notes', label: '오답노트' },
   { href: '/stats', label: '통계' },
+];
+
+const adminNavLinks = [
+  { href: '/reviews', label: '리뷰' },
 ];
 
 function ThemeToggle() {
@@ -48,7 +51,7 @@ function ThemeToggle() {
   );
 }
 
-export function Header() {
+export function Header({ showAdminNav = false }: { showAdminNav?: boolean }) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 print:hidden">
       <div className="max-w-6xl mx-auto px-4 md:px-8 flex h-14 md:h-16 items-center justify-between">
@@ -66,6 +69,15 @@ export function Header() {
         {/* 데스크탑 네비게이션 */}
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground px-3 py-2 rounded-lg hover:bg-muted transition-colors"
+            >
+              {link.label}
+            </Link>
+          ))}
+          {showAdminNav && adminNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
