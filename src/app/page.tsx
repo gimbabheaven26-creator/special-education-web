@@ -3,10 +3,14 @@ import { DailyReviewCard } from '@/components/dashboard/DailyReviewCard';
 import { TodaySession } from '@/components/dashboard/TodaySession';
 import { LearningFlowGuide } from '@/components/dashboard/LearningFlowGuide';
 import { ExamCountdown } from '@/components/ExamCountdown';
+import { OnboardingGate } from '@/components/OnboardingGate';
 
 export default function HomePage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
+      {/* 미온보딩 유저 → /onboarding 리다이렉트 */}
+      <OnboardingGate />
+
       {/* 스트릭 배너 */}
       <StreakBanner />
 
