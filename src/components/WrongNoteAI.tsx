@@ -27,6 +27,8 @@ export function WrongNoteAI({ weakChapters }: WrongNoteAIProps) {
       });
       const data = await res.json();
       setAnalysis(data.analysis ?? '분석 실패');
+    } catch {
+      setAnalysis('분석 중 오류가 발생했습니다.');
     } finally {
       setLoading(false);
     }

@@ -1,14 +1,22 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 
+const MAX_FIELD_LENGTH = 200;
+
 export async function POST(request: Request) {
   if (!process.env.GEMINI_API_KEY) {
     return NextResponse.json({ analysis: null, error: 'AI 미설정' });
   }
 
-  const { weakChapters } = await request.json() as { weakChapters: Array<{ chapter: string; subject: string; wrongCount: number }> };
+  let weakChapters: Array<{ chapter: string; subject: string; wrongCount: number }>;
+  try {
+    const body = await request.json();
+    weakChapters = body.weakChapters ?? [];
+  } catch {
+    return NextResponse.json({ analysis: null, error: '요청 형식 오류' }, { status: 400 });
+  }
 
-  if (!weakChapters || weakChapters.length === 0) {
+  if (!Array.isArray(weakChapters) || weakChapters.length === 0) {
     return NextResponse.json({ analysis: '오답 데이터가 없습니다.' });
   }
 
@@ -17,7 +25,11 @@ export async function POST(request: Request) {
 
   const chapterList = weakChapters
     .slice(0, 10)
-    .map(c => `- ${c.subject} > ${c.chapter}: ${c.wrongCount}회 오답`)
+    .map(c => {
+      const subject = String(c.subject ?? '').slice(0, MAX_FIELD_LENGTH);
+      const chapter = String(c.chapter ?? '').slice(0, MAX_FIELD_LENGTH);
+      return `- ${subject} > ${chapter}: ${Number(c.wrongCount) || 0}회 오답`;
+    })
     .join('\n');
 
   const prompt = `당신은 특수교육학 임용시험 전문 학습 코치입니다.

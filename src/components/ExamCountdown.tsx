@@ -8,7 +8,7 @@ export function ExamCountdown() {
   const [editing, setEditing] = useState(false);
 
   const dDay = examDate
-    ? Math.ceil((new Date(examDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+    ? Math.ceil((new Date(examDate + 'T00:00:00+09:00').getTime() - Date.now()) / (1000 * 60 * 60 * 24))
     : null;
 
   if (editing || !examDate) {
@@ -45,7 +45,7 @@ export function ExamCountdown() {
         <p className="text-xs text-muted-foreground">임용시험까지</p>
         <p className="text-2xl font-bold text-primary">{label}</p>
         <p className="text-xs text-muted-foreground mt-0.5">
-          {new Date(examDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}
+          {new Date(examDate + 'T00:00:00+09:00').toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
       </div>
       <div className="text-right">
