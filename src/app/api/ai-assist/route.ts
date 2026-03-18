@@ -1,3 +1,4 @@
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 
 const MOCK_SUGGESTIONS = [
@@ -17,15 +18,39 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
-
-  if (apiKey) {
-    // TODO: Gemini Flash 실제 연동
-    // const suggestion = await callGeminiFlash(apiKey, body);
-    // return NextResponse.json({ suggestion });
-    void body; // 미사용 경고 방지
+  if (!apiKey) {
+    const suggestion = MOCK_SUGGESTIONS[Math.floor(Math.random() * MOCK_SUGGESTIONS.length)];
+    return NextResponse.json({ suggestion, mock: true });
   }
 
-  // Mock 응답 (키 없거나 미구현)
-  const suggestion = MOCK_SUGGESTIONS[Math.floor(Math.random() * MOCK_SUGGESTIONS.length)];
-  return NextResponse.json({ suggestion, mock: !apiKey });
+  const input = body as Record<string, unknown>;
+  const questionType = String(input.question_type ?? '');
+  const questionText = String(input.question_text ?? '');
+  const correctAnswer = String(input.correct_answer ?? '');
+  const explanation = String(input.explanation ?? '');
+
+  try {
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `당신은 특수교육학 임용시험 문제 검증 전문가입니다.
+다음 커뮤니티 제작 문제를 검토하고 개선 제안을 해주세요.
+
+문제 유형: ${questionType}
+문제 본문: ${questionText}
+정답: ${correctAnswer}
+해설: ${explanation}
+
+다음 기준으로 2~3문장 내로 간결하게 피드백해주세요:
+- 문제 명확성 (애매한 표현 있으면 지적)
+- 정답-해설 일관성
+- 특수교육학 임용시험 출제 경향 부합 여부`;
+
+    const result = await model.generateContent(prompt);
+    const suggestion = result.response.text();
+    return NextResponse.json({ suggestion, mock: false });
+  } catch (err) {
+    const suggestion = MOCK_SUGGESTIONS[Math.floor(Math.random() * MOCK_SUGGESTIONS.length)];
+    return NextResponse.json({ suggestion, mock: true, error: err instanceof Error ? err.message : 'Gemini 오류' });
+  }
 }
