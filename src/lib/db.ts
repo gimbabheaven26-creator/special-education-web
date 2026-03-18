@@ -169,68 +169,6 @@ export async function getAllWorksheetTopics(): Promise<WorksheetTopicRow[]> {
   return data as WorksheetTopicRow[];
 }
 
-// ─── Reviews ───
-
-export interface ReviewRow {
-  id?: number;
-  path: string;
-  content: string;
-  reviewer_name?: string;
-  image_urls?: string[];
-  status?: 'pending' | 'discussing' | 'accepted' | 'rejected';
-  updated_at?: string;
-}
-
-export async function getReviews(): Promise<ReviewRow[]> {
-  const { data, error } = await supabase
-    .from('reviews')
-    .select('*')
-    .order('updated_at', { ascending: false });
-
-  if (error || !data) return [];
-  return data as ReviewRow[];
-}
-
-export async function saveReview(
-  path: string,
-  content: string,
-  reviewerName: string = '',
-  imageUrls: string[] = [],
-): Promise<boolean> {
-  if (!content.trim() && imageUrls.length === 0) {
-    const query = supabase.from('reviews').delete().eq('path', path);
-    const { error } = reviewerName
-      ? await query.eq('reviewer_name', reviewerName)
-      : await query;
-    return !error;
-  }
-
-  const { error } = await supabase
-    .from('reviews')
-    .upsert(
-      {
-        path,
-        content: content.trim(),
-        reviewer_name: reviewerName,
-        image_urls: imageUrls,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'path,reviewer_name' },
-    );
-  return !error;
-}
-
-export async function updateReviewStatus(
-  id: number,
-  status: ReviewRow['status'],
-): Promise<boolean> {
-  const { error } = await supabase
-    .from('reviews')
-    .update({ status })
-    .eq('id', id);
-  return !error;
-}
-
 // ─── Quiz by Chapter ───
 
 export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: string): Promise<QuizQuestion[]> {
