@@ -12,6 +12,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#2563eb",
 };
 
 export const metadata: Metadata = {
@@ -28,6 +29,11 @@ export const metadata: Metadata = {
     card: "summary",
     title: "특수교육 공부방",
     description: "특수교육 임용시험 대비 학습 플랫폼",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "특수교육 공부방",
   },
 };
 

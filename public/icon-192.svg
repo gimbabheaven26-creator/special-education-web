@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="40" fill="#2563eb"/>
+  <!-- BookOpen icon -->
+  <path d="M40 56 C40 56 68 48 96 60 C124 48 152 56 152 56 L152 140 C152 140 124 132 96 144 C68 132 40 140 40 140 Z" fill="none" stroke="white" stroke-width="8" stroke-linejoin="round"/>
+  <line x1="96" y1="60" x2="96" y2="144" stroke="white" stroke-width="6"/>
+</svg>
