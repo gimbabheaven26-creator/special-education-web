@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getReviews, saveReview, updateReviewStatus } from '@/lib/db';
+import { getReviews, saveReview, deleteReview, updateAdminNote } from '@/lib/review-db';
 
 const MAX_CONTENT_LENGTH = 10000;
 const MAX_NAME_LENGTH = 50;
 const MAX_IMAGES = 5;
+const MAX_ADMIN_NOTE_LENGTH = 2000;
 const PATH_PATTERN = /^\/[a-z0-9\-\/]*$/;
-const VALID_STATUSES = ['pending', 'discussing', 'accepted', 'rejected'] as const;
 
 // GET: 전체 리뷰 목록
 export async function GET() {
@@ -32,15 +32,12 @@ export async function POST(req: NextRequest) {
   if (!path || typeof path !== 'string' || !PATH_PATTERN.test(path)) {
     return NextResponse.json({ error: 'invalid path' }, { status: 400 });
   }
-
   if (content !== undefined && typeof content !== 'string') {
     return NextResponse.json({ error: 'content must be string' }, { status: 400 });
   }
-
   if (reviewer_name !== undefined && typeof reviewer_name !== 'string') {
     return NextResponse.json({ error: 'reviewer_name must be string' }, { status: 400 });
   }
-
   if (image_urls !== undefined && !Array.isArray(image_urls)) {
     return NextResponse.json({ error: 'image_urls must be array' }, { status: 400 });
   }
@@ -68,33 +65,62 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PATCH: 리뷰 상태 변경 (대시보드용)
+// PATCH: admin_note 업데이트 (관리자 전용)
 export async function PATCH(req: NextRequest) {
-  let body: { id?: unknown; status?: unknown };
+  let body: { id?: unknown; admin_note?: unknown };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: 'invalid JSON' }, { status: 400 });
   }
 
-  const { id, status } = body;
+  const { id, admin_note } = body;
+
+  if (!id || typeof id !== 'number') {
+    return NextResponse.json({ error: 'invalid id' }, { status: 400 });
+  }
+  if (typeof admin_note !== 'string') {
+    return NextResponse.json({ error: 'admin_note must be string' }, { status: 400 });
+  }
+  if (admin_note.length > MAX_ADMIN_NOTE_LENGTH) {
+    return NextResponse.json({ error: 'admin_note too long' }, { status: 400 });
+  }
+
+  try {
+    const success = await updateAdminNote(id, admin_note);
+    if (!success) {
+      return NextResponse.json({ error: 'failed to update admin note' }, { status: 500 });
+    }
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error('Failed to update admin note:', error);
+    return NextResponse.json({ error: 'failed to update admin note' }, { status: 500 });
+  }
+}
+
+// DELETE: 리뷰 삭제 (관리자 전용)
+export async function DELETE(req: NextRequest) {
+  let body: { id?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'invalid JSON' }, { status: 400 });
+  }
+
+  const { id } = body;
 
   if (!id || typeof id !== 'number') {
     return NextResponse.json({ error: 'invalid id' }, { status: 400 });
   }
 
-  if (!status || typeof status !== 'string' || !VALID_STATUSES.includes(status as typeof VALID_STATUSES[number])) {
-    return NextResponse.json({ error: 'invalid status' }, { status: 400 });
-  }
-
   try {
-    const success = await updateReviewStatus(id, status as typeof VALID_STATUSES[number]);
+    const success = await deleteReview(id);
     if (!success) {
-      return NextResponse.json({ error: 'failed to update status' }, { status: 500 });
+      return NextResponse.json({ error: 'failed to delete review' }, { status: 500 });
     }
-    return NextResponse.json({ ok: true, status });
+    return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error('Failed to update review status:', error);
-    return NextResponse.json({ error: 'failed to update status' }, { status: 500 });
+    console.error('Failed to delete review:', error);
+    return NextResponse.json({ error: 'failed to delete review' }, { status: 500 });
   }
 }
