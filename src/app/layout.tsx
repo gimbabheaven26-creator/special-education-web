@@ -7,7 +7,6 @@ import { BottomTabBar } from "@/components/layout/BottomTabBar";
 import { ConditionalReviewPanel } from "@/components/layout/ConditionalReviewPanel";
 import { StudySessionTracker } from "@/components/StudySessionTracker";
 import { SyncManager } from "@/components/SyncManager";
-import { isAdmin } from "@/lib/profile";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -38,12 +37,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const adminUser = await isAdmin().catch(() => false);
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
@@ -51,7 +49,7 @@ export default async function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <ThemeProvider>
-          <Header showAdminNav={adminUser} />
+          <Header />
           <main className="min-h-screen pb-20 md:pb-0">
             {children}
           </main>

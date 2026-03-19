@@ -1,30 +1,19 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Sun, Moon, BookOpen, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AuthButton } from './AuthButton';
-
-const navLinks = [
-  { href: '/daily', label: '오늘학습' },
-  { href: '/community', label: '커뮤니티' },
-  { href: '/wrong-notes', label: '오답노트' },
-  { href: '/terms', label: '용어학습' },
-];
-
-const adminNavLinks = [
-  { href: '/reviews', label: '리뷰' },
-];
+import { NAV_GROUPS, getActiveGroupId } from '@/lib/nav-config';
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   if (!mounted) {
     return (
@@ -42,20 +31,77 @@ function ThemeToggle() {
       aria-label="테마 전환"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      {theme === 'dark' ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
+      {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
     </Button>
   );
 }
 
-export function Header({ showAdminNav = false }: { showAdminNav?: boolean }) {
+function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isActive: boolean }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const Icon = group.icon;
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        className={`flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
+          isActive
+            ? 'text-primary bg-primary/10'
+            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+        }`}
+        aria-haspopup="true"
+        aria-expanded={open}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v); }
+          if (e.key === 'Escape') setOpen(false);
+        }}
+      >
+        <Icon className="h-4 w-4" />
+        {group.label}
+        <span className="text-[10px] opacity-60">▾</span>
+      </button>
+
+      {open && (
+        <div className="absolute top-full left-0 mt-1 w-44 rounded-xl border border-border bg-background/95 backdrop-blur shadow-lg py-1 z-50 transition-all duration-150">
+          {group.items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function Header() {
+  const pathname = usePathname();
+  const activeGroupId = getActiveGroupId(pathname);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 print:hidden">
       <div className="max-w-6xl mx-auto px-4 md:px-8 flex h-14 md:h-16 items-center justify-between">
-        {/* 로고 */}
+        {/* 로고 = 홈 */}
         <Link
           href="/"
           className="flex items-center gap-2 font-bold text-foreground hover:text-primary transition-colors"
@@ -68,23 +114,12 @@ export function Header({ showAdminNav = false }: { showAdminNav?: boolean }) {
 
         {/* 데스크탑 네비게이션 */}
         <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground px-3 py-2 rounded-lg hover:bg-muted transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-          {showAdminNav && adminNavLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground px-3 py-2 rounded-lg hover:bg-muted transition-colors"
-            >
-              {link.label}
-            </Link>
+          {NAV_GROUPS.map((group) => (
+            <NavDropdown
+              key={group.id}
+              group={group}
+              isActive={activeGroupId === group.id}
+            />
           ))}
         </nav>
 
