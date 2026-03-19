@@ -50,7 +50,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ThemeProvider>
           <Header />
-          <main className="min-h-screen pb-20 md:pb-0">
+          <main className="min-h-screen pb-[calc(4.25rem+2.5rem+env(safe-area-inset-bottom))] md:pb-0">
             {children}
           </main>
           <Footer />
