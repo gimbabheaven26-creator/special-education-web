@@ -85,6 +85,12 @@ function OXQuestion({
         ? isCorrect ? 'border-green-500/50 bg-green-50/50 dark:bg-green-950/20' : 'border-red-400/50 bg-red-50/50 dark:bg-red-950/20'
         : 'border-border bg-card'
     }`}>
+      <Link
+        href={`/subjects/${question.subject}/${question.chapter}`}
+        className="inline-block text-xs text-muted-foreground hover:text-primary hover:underline mb-1.5 transition-colors"
+      >
+        {question.chapter}
+      </Link>
       <p className="text-sm text-foreground leading-relaxed mb-3">
         <span className="font-medium text-muted-foreground mr-1">{index}.</span>
         {question.question}
@@ -131,6 +137,12 @@ function TextQuestion({
 }) {
   return (
     <div className="p-4 rounded-xl border border-border bg-card">
+      <Link
+        href={`/subjects/${question.subject}/${question.chapter}`}
+        className="inline-block text-xs text-muted-foreground hover:text-primary hover:underline mb-1.5 transition-colors"
+      >
+        {question.chapter}
+      </Link>
       <p className="text-sm text-foreground leading-relaxed mb-2">
         <span className="font-medium text-muted-foreground mr-1">{index}.</span>
         {question.question}

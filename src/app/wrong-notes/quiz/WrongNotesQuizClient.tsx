@@ -40,7 +40,12 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
 
   const unmasteredNotes = useMemo(
-    () => wrongNotes.filter((n) => !n.mastered),
+    () => wrongNotes.filter((n) => {
+      if (n.mastered) return false;
+      // fill_in 중 지문 포함(caseContext 있음) 또는 300자 초과 긴 문제 제외
+      if (n.question.type === 'fill_in' && (n.question.caseContext || n.question.question.length > 300)) return false;
+      return true;
+    }),
     [wrongNotes],
   );
 
@@ -252,6 +257,11 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
             <Badge variant="outline">
               {chapterTitleMap[`${question.subject}::${question.chapter}`] || question.chapter}
             </Badge>
+            {question.type === 'descriptive' && question.source && (
+              <Badge variant="outline" className="text-muted-foreground font-normal">
+                {question.source}
+              </Badge>
+            )}
           </div>
 
           {question.caseContext && (

@@ -2,6 +2,7 @@ import { StreakBanner } from '@/components/dashboard/StreakBanner';
 import { DailyReviewCard } from '@/components/dashboard/DailyReviewCard';
 import { ExamCountdown } from '@/components/ExamCountdown';
 import { HomeQuizSection } from '@/components/HomeQuizSection';
+import { TodayTermCard } from '@/components/TodayTermCard';
 import { Suspense } from 'react';
 
 export default function HomePage() {
@@ -16,6 +17,9 @@ export default function HomePage() {
 
       {/* 스트릭 배너 */}
       <StreakBanner />
+
+      {/* 오늘의 단어 */}
+      <TodayTermCard />
 
       {/* 오늘의 문제 — OX 10 / 단답 5 / 서술 3 */}
       <Suspense fallback={
