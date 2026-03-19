@@ -71,6 +71,9 @@ export function ReviewPanel() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [note, setNote] = useState('');
+  const [dateLabel] = useState(() =>
+    new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' })
+  );
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -211,7 +214,10 @@ export function ReviewPanel() {
           {/* 헤더 */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50">
             <div>
-              <h3 className="text-sm font-semibold text-foreground">나의 리뷰</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-foreground">나의 리뷰</h3>
+                <span className="text-xs text-muted-foreground">{dateLabel}</span>
+              </div>
               <p className="text-xs text-muted-foreground truncate max-w-[240px]">
                 {pathname === '/' ? '홈' : pathname.replace(/^\//, '').replace(/\//g, ' > ').replace(/-/g, ' ')}
               </p>
