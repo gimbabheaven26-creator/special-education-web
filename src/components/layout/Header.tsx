@@ -57,6 +57,9 @@ function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isAct
       className="relative"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      onBlur={(e) => {
+        if (!ref.current?.contains(e.relatedTarget as Node)) setOpen(false);
+      }}
     >
       <button
         className={`flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
@@ -64,7 +67,7 @@ function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isAct
             ? 'text-primary bg-primary/10'
             : 'text-muted-foreground hover:text-foreground hover:bg-muted'
         }`}
-        aria-haspopup="true"
+        aria-haspopup="menu"
         aria-expanded={open}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v); }
@@ -113,7 +116,7 @@ export function Header() {
         </Link>
 
         {/* 데스크탑 네비게이션 */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-1" aria-label="주 메뉴">
           {NAV_GROUPS.map((group) => (
             <NavDropdown
               key={group.id}

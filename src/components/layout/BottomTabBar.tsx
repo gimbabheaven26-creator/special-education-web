@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home } from 'lucide-react';
-import { NAV_GROUPS, getActiveGroupId } from '@/lib/nav-config';
+import { NAV_GROUPS, getActiveGroupId, isPathMatch } from '@/lib/nav-config';
 
 export function BottomTabBar() {
   const pathname = usePathname();
@@ -14,12 +14,12 @@ export function BottomTabBar() {
   const subItems = activeGroup?.items ?? [];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 print:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 print:hidden" aria-label="모바일 하단 탭">
       {/* 서브메뉴 스트립 — 활성 탭의 서브 항목 수평 스크롤 */}
       {subItems.length > 0 && (
         <div className="flex items-center gap-1 px-3 h-10 border-b border-border overflow-x-auto scrollbar-hide">
           {subItems.map((item) => {
-            const isSubActive = pathname === item.href || pathname.startsWith(item.href + '/');
+            const isSubActive = isPathMatch(pathname, item.href);
             return (
               <Link
                 key={item.href}
@@ -59,7 +59,7 @@ export function BottomTabBar() {
         {NAV_GROUPS.map((group) => {
           const isActive = activeGroupId === group.id;
           const Icon = group.icon;
-          const firstHref = group.items[0].href;
+          const firstHref = group.items[0]?.href ?? '/';
           return (
             <Link
               key={group.id}
