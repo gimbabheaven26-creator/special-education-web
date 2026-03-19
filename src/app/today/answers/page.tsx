@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { makeSheetCode } from '@/lib/sheet-code';
 
 function dateSeed(dateStr: string): number {
   return dateStr.split('-').reduce((acc, part) => acc * 100 + Number(part), 0);
@@ -35,6 +36,7 @@ export default async function TodayAnswersPage({ searchParams }: Props) {
   // 날짜 형식 검증 (YYYY-MM-DD)
   const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(dateRaw);
   const safeDate = isValidDate ? dateRaw : getKSTDate();
+  const sheetCode = makeSheetCode(safeDate);
   const seed = dateSeed(safeDate);
 
   const dateLabel = new Date(safeDate + 'T00:00:00+09:00').toLocaleDateString('ko-KR', {
@@ -90,7 +92,12 @@ export default async function TodayAnswersPage({ searchParams }: Props) {
         {/* 헤더 */}
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-xl font-bold text-foreground">오늘의 문제 — 답안</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-xl font-bold text-foreground">오늘의 문제 — 답안</h1>
+              <span className="font-mono text-sm font-bold bg-primary/10 text-primary px-2.5 py-1 rounded border border-primary/20">
+                {sheetCode}
+              </span>
+            </div>
             <p className="text-sm text-muted-foreground mt-0.5">{dateLabel}</p>
           </div>
           <button
