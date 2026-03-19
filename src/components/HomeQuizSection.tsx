@@ -77,5 +77,5 @@ export async function HomeQuizSection() {
     weekday: 'short',
   });
 
-  return <HomeQuizSectionClient questions={questions} date={dateLabel} />;
+  return <HomeQuizSectionClient questions={questions} date={dateLabel} dateRaw={today} />;
 }

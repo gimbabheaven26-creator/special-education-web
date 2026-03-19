@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import { ChevronDown, ChevronUp, ArrowRight, Printer } from 'lucide-react';
+import QRCode from 'react-qr-code';
 
 interface DailyQuestion {
   id: string;
@@ -16,6 +17,7 @@ interface DailyQuestion {
 interface HomeQuizSectionClientProps {
   questions: DailyQuestion[];
   date: string;
+  dateRaw: string;
 }
 
 const TYPE_LABEL: Record<DailyQuestion['type'], string> = {
@@ -24,7 +26,7 @@ const TYPE_LABEL: Record<DailyQuestion['type'], string> = {
   descriptive: '서술',
 };
 
-export function HomeQuizSectionClient({ questions, date }: HomeQuizSectionClientProps) {
+export function HomeQuizSectionClient({ questions, date, dateRaw }: HomeQuizSectionClientProps) {
   const [showAnswers, setShowAnswers] = useState(false);
 
   if (questions.length === 0) {
@@ -38,6 +40,11 @@ export function HomeQuizSectionClient({ questions, date }: HomeQuizSectionClient
   const oxQuestions = questions.filter((q) => q.type === 'ox');
   const fillInQuestions = questions.filter((q) => q.type === 'fill_in');
   const descriptiveQuestions = questions.filter((q) => q.type === 'descriptive');
+  const answersUrl = `/today/answers?date=${dateRaw}`;
+
+  function handlePrint() {
+    window.open(answersUrl, '_blank');
+  }
 
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
@@ -48,6 +55,14 @@ export function HomeQuizSectionClient({ questions, date }: HomeQuizSectionClient
           <p className="text-xs text-muted-foreground">{date}</p>
         </div>
         <div className="flex items-center gap-2">
+          <button
+            onClick={handlePrint}
+            className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+            title="답안지 인쇄"
+          >
+            <Printer className="h-3.5 w-3.5" />
+            인쇄
+          </button>
           <button
             onClick={() => setShowAnswers((v) => !v)}
             className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
@@ -74,6 +89,14 @@ export function HomeQuizSectionClient({ questions, date }: HomeQuizSectionClient
               </span>
             </div>
           ))}
+
+          {/* QR 코드 — 모바일로 스캔하면 답안 페이지 이동 */}
+          <div className="flex flex-col items-center gap-2 pt-4 pb-1">
+            <div className="p-2 bg-white rounded-lg border border-border inline-block">
+              <QRCode value={`https://special-education-web.vercel.app${answersUrl}`} size={80} />
+            </div>
+            <p className="text-[10px] text-muted-foreground">QR 스캔 → 답안 확인</p>
+          </div>
         </div>
       )}
 
