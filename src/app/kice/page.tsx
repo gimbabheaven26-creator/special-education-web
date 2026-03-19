@@ -1,8 +1,10 @@
 import { getAvailableExams, getExam } from '@/lib/kice'
 import { getSubjects, getAllWorksheetTopics } from '@/lib/db'
+import { computeAnalytics } from '@/lib/kice-analytics'
 import KiceClient from './KiceClient'
 import KiceByArea from './KiceByArea'
 import KiceSearch, { type KiceSearchItem } from './KiceSearch'
+import AnalyticsClient from './analytics/AnalyticsClient'
 
 interface PageProps {
   searchParams: Promise<{ year?: string; session?: string; tab?: string }>
@@ -16,6 +18,11 @@ export default async function KicePage({ searchParams }: PageProps) {
     const subjects = await getSubjects()
     const topics = await getAllWorksheetTopics()
     return <KiceByArea subjects={subjects} topics={topics} />
+  }
+
+  if (tab === 'analytics') {
+    const data = computeAnalytics()
+    return <AnalyticsClient data={data} />
   }
 
   if (tab === 'search') {

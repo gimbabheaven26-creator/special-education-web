@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   Home,
   GraduationCap,
-  Network,
+  BookMarked,
   BookX,
   BarChart3,
 } from 'lucide-react';
@@ -13,8 +13,8 @@ import {
 const tabs = [
   { href: '/', icon: Home, label: '홈' },
   { href: '/kice', icon: GraduationCap, label: '기출' },
-  { href: '/structure', icon: Network, label: '구조도' },
   { href: '/wrong-notes', icon: BookX, label: '오답노트' },
+  { href: '/terms', icon: BookMarked, label: '용어학습' },
   { href: '/stats', icon: BarChart3, label: '통계' },
 ];
 

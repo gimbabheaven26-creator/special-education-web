@@ -11,7 +11,7 @@ const navLinks = [
   { href: '/kice', label: '기출' },
   { href: '/community', label: '커뮤니티' },
   { href: '/wrong-notes', label: '오답노트' },
-  { href: '/stats', label: '통계' },
+  { href: '/terms', label: '용어학습' },
 ];
 
 const adminNavLinks = [

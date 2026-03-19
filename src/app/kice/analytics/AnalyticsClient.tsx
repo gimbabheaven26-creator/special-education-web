@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, TrendingUp, Hash, AlertTriangle, Flame } from 'lucide-react'
+import { TrendingUp, Hash, AlertTriangle, Flame } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SUBJECT_LABELS } from '@/types/kice'
@@ -48,15 +48,33 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
   }, [data.topKeywords, selectedSubject])
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-10 space-y-8">
-      <div className="space-y-1">
+    <main className="max-w-5xl mx-auto px-4 py-6 space-y-6">
+      {/* 탭 */}
+      <div className="flex border-b border-border">
         <Link
-          href="/kice"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-2"
+          href="/kice?tab=by-year"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
         >
-          <ArrowLeft className="h-4 w-4" />
-          기출 목록
+          연도별 기출
         </Link>
+        <Link
+          href="/kice?tab=by-area"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+        >
+          영역별 기출
+        </Link>
+        <span className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary">
+          빈도분석
+        </span>
+        <Link
+          href="/kice?tab=search"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+        >
+          키워드 검색
+        </Link>
+      </div>
+
+      <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">출제 경향 분석</h1>
         <p className="text-muted-foreground text-sm">
           {data.allYears[0]}~{data.allYears[data.allYears.length - 1]}학년도 기출 데이터 기반

@@ -52,6 +52,12 @@ export default function KiceSearch({ items }: KiceSearchProps) {
         >
           영역별 기출
         </Link>
+        <Link
+          href="/kice?tab=analytics"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+        >
+          빈도분석
+        </Link>
         <span className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary">
           키워드 검색
         </span>

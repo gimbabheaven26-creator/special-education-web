@@ -47,6 +47,12 @@ export default function KiceByArea({ subjects, topics }: KiceByAreaProps) {
           영역별 기출
         </Link>
         <Link
+          href="/kice?tab=analytics"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+        >
+          빈도분석
+        </Link>
+        <Link
           href="/kice?tab=search"
           className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
         >
