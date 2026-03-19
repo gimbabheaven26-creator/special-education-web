@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronUp, ArrowRight, Printer } from 'lucide-react';
-import QRCode from 'react-qr-code';
+import { ArrowRight } from 'lucide-react';
+import { makeSheetCode } from '@/lib/sheet-code';
 
 interface DailyQuestion {
   id: string;
@@ -20,15 +19,7 @@ interface HomeQuizSectionClientProps {
   dateRaw: string;
 }
 
-const TYPE_LABEL: Record<DailyQuestion['type'], string> = {
-  ox: 'OX',
-  fill_in: '단답',
-  descriptive: '서술',
-};
-
 export function HomeQuizSectionClient({ questions, date, dateRaw }: HomeQuizSectionClientProps) {
-  const [showAnswers, setShowAnswers] = useState(false);
-
   if (questions.length === 0) {
     return (
       <div className="rounded-xl border border-border bg-card p-5 text-center">
@@ -37,14 +28,10 @@ export function HomeQuizSectionClient({ questions, date, dateRaw }: HomeQuizSect
     );
   }
 
-  const oxQuestions = questions.filter((q) => q.type === 'ox');
-  const fillInQuestions = questions.filter((q) => q.type === 'fill_in');
-  const descriptiveQuestions = questions.filter((q) => q.type === 'descriptive');
-  const answersUrl = `/today/answers?date=${dateRaw}`;
-
-  function handlePrint() {
-    window.open(answersUrl, '_blank');
-  }
+  const oxCount = questions.filter((q) => q.type === 'ox').length;
+  const fillInCount = questions.filter((q) => q.type === 'fill_in').length;
+  const descriptiveCount = questions.filter((q) => q.type === 'descriptive').length;
+  const sheetCode = makeSheetCode(dateRaw);
 
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
@@ -54,96 +41,23 @@ export function HomeQuizSectionClient({ questions, date, dateRaw }: HomeQuizSect
           <h2 className="text-sm font-semibold text-foreground">오늘의 문제</h2>
           <p className="text-xs text-muted-foreground">{date}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handlePrint}
-            className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
-            title="답안지 인쇄"
-          >
-            <Printer className="h-3.5 w-3.5" />
-            인쇄
-          </button>
-          <button
-            onClick={() => setShowAnswers((v) => !v)}
-            className="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
-          >
-            {showAnswers ? (
-              <>답안 닫기 <ChevronUp className="h-3.5 w-3.5" /></>
-            ) : (
-              <>답안 보기 <ChevronDown className="h-3.5 w-3.5" /></>
-            )}
-          </button>
-        </div>
+        <span className="text-[10px] font-mono text-muted-foreground bg-muted px-2 py-1 rounded">
+          {sheetCode}
+        </span>
       </div>
 
-      {/* 문제 목록 */}
-      {!showAnswers && (
-        <div className="p-4 space-y-1">
-          {questions.map((q) => (
-            <div key={q.id} className="flex items-start gap-2 py-1.5">
-              <span className="shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground mt-0.5 min-w-[32px] text-center">
-                {TYPE_LABEL[q.type]}
-              </span>
-              <span className="text-sm text-foreground leading-relaxed">
-                {q.number}. {q.question}
-              </span>
-            </div>
-          ))}
-
-          {/* QR 코드 — 모바일로 스캔하면 답안 페이지 이동 */}
-          <div className="flex flex-col items-center gap-2 pt-4 pb-1">
-            <div className="p-2 bg-white rounded-lg border border-border inline-block">
-              <QRCode value={`https://special-education-web.vercel.app${answersUrl}`} size={80} />
-            </div>
-            <p className="text-[10px] text-muted-foreground">QR 스캔 → 답안 확인</p>
-          </div>
-        </div>
-      )}
-
-      {/* 답안 표 */}
-      {showAnswers && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-muted/20">
-                <th className="text-left px-4 py-2 text-xs font-medium text-muted-foreground w-12">번호</th>
-                <th className="text-left px-2 py-2 text-xs font-medium text-muted-foreground w-14">유형</th>
-                <th className="text-left px-2 py-2 text-xs font-medium text-muted-foreground">정답</th>
-              </tr>
-            </thead>
-            <tbody>
-              {questions.map((q) => (
-                <tr key={q.id} className="border-b border-border/50 last:border-0">
-                  <td className="px-4 py-2 text-sm text-muted-foreground">{q.number}</td>
-                  <td className="px-2 py-2">
-                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
-                      {TYPE_LABEL[q.type]}
-                    </span>
-                  </td>
-                  <td className="px-2 py-2 text-sm text-foreground leading-relaxed max-w-[200px]">
-                    {q.type === 'descriptive'
-                      ? `핵심: ${String(q.answer).split(/[.。]/)[0].slice(0, 60)}${String(q.answer).length > 60 ? '...' : ''}`
-                      : String(q.answer)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* OX / 단답 / 서술 구성 표시 + 지금 풀기 */}
-      <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-muted/20">
+      {/* 구성 + CTA */}
+      <div className="px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
-          <span>OX {oxQuestions.length}</span>
-          <span>단답 {fillInQuestions.length}</span>
-          <span>서술 {descriptiveQuestions.length}</span>
+          <span>OX {oxCount}</span>
+          <span>단답 {fillInCount}</span>
+          <span>서술 {descriptiveCount}</span>
         </div>
         <Link
           href="/daily"
-          className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
         >
-          지금 풀기 <ArrowRight className="h-3.5 w-3.5" />
+          지금 풀기 <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     </div>
