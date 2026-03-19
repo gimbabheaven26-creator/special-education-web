@@ -36,4 +36,5 @@ yarn-error.log*
 next-env.d.ts
 /data/*
 !/data/kice-기출/
+!/data/terminology/
 reviews.json
