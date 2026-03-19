@@ -25,12 +25,6 @@ const OX_COUNT = 10;
 const FILL_IN_COUNT = 5;
 const DESCRIPTIVE_COUNT = 3;
 
-// 날짜 seed 기반 셔플
-function dateSeed(): number {
-  const d = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
-  return d.split('-').reduce((acc, p) => acc * 100 + Number(p), 0);
-}
-
 function seededRandom(seed: number, index: number): number {
   const s = (seed * 1664525 + 1013904223 + index * 22695477) & 0x7fffffff;
   return s / 0x7fffffff;
@@ -255,7 +249,7 @@ export default function DailyPage() {
   };
 
   const proceedToStep2 = useCallback((useWrongOnly: boolean) => {
-    const seed = dateSeed();
+    const seed = Date.now();
     if (useWrongOnly && wrongChaptersStep1.length > 0) {
       // 틀린 챕터에서 추가 OX 풀기 — 현재 세트 재사용 (챕터 필터)
       const wrongSet = oxQuestions.filter((q) => wrongChaptersStep1.includes(q.chapter));
@@ -281,7 +275,7 @@ export default function DailyPage() {
   };
 
   const proceedToStep3 = useCallback((retry: boolean) => {
-    const seed = dateSeed();
+    const seed = Date.now();
     if (retry) {
       // 같은 단답 문제 다시
       setRevealed(false);

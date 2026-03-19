@@ -1,11 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
-function dateSeed(): number {
-  const d = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
-  return d.split('-').reduce((acc, p) => acc * 100 + Number(p), 0);
-}
-
 function seededRandom(seed: number, index: number): number {
   const s = (seed * 1664525 + 1013904223 + index * 22695477) & 0x7fffffff;
   return s / 0x7fffffff;
@@ -30,7 +25,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to fetch questions' }, { status: 500 });
   }
 
-  const seed = dateSeed();
+  const seed = Date.now();
   const rows = data as {
     id: string;
     type: string;
