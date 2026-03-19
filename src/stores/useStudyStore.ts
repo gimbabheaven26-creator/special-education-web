@@ -49,8 +49,6 @@ interface StudyState {
   // Spaced scenario schedules (by groupId)
   spacedScenarioSchedules: Record<string, SpacedScenarioSchedule>;
 
-  // Exam date (ISO string, e.g. '2026-11-07')
-  examDate: string | null;
 }
 
 interface StudyActions {
@@ -62,7 +60,6 @@ interface StudyActions {
   getDailyHistory: (days: number) => DailyHistoryEntry[];
   saveScenarioProgress: (progress: ScenarioProgress) => void;
   saveSpacedSchedule: (schedule: SpacedScenarioSchedule) => void;
-  setExamDate: (date: string | null) => void;
 }
 
 function getKSTDate(date: Date = new Date()): string {
@@ -126,7 +123,6 @@ export const useStudyStore = create<StudyState & StudyActions>()(
       dailyHistory: [],
       scenarioProgress: {},
       spacedScenarioSchedules: {},
-      examDate: null,
 
       recordActivity: (activity) =>
         set((state) => {
@@ -278,7 +274,6 @@ export const useStudyStore = create<StudyState & StudyActions>()(
           },
         })),
 
-      setExamDate: (date) => set(() => ({ examDate: date })),
     }),
     {
       name: 'special-edu-study',
@@ -304,13 +299,6 @@ export const useStudyStore = create<StudyState & StudyActions>()(
           state = {
             ...state,
             spacedScenarioSchedules: state.spacedScenarioSchedules ?? {},
-          };
-        }
-
-        if (version < 5) {
-          state = {
-            ...state,
-            examDate: state.examDate ?? null,
           };
         }
 

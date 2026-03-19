@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { AuthButton } from './AuthButton';
 
 const navLinks = [
-  { href: '/kice', label: '기출' },
+  { href: '/daily', label: '오늘학습' },
   { href: '/community', label: '커뮤니티' },
   { href: '/wrong-notes', label: '오답노트' },
   { href: '/terms', label: '용어학습' },
