@@ -45,7 +45,8 @@ ${chapterList}
   try {
     const result = await model.generateContent(prompt);
     return NextResponse.json({ analysis: result.response.text() });
-  } catch {
+  } catch (e) {
+    console.error('[ai/weakness] Gemini 호출 실패:', e);
     return NextResponse.json({ analysis: null, error: 'AI 분석 실패' }, { status: 500 });
   }
 }
