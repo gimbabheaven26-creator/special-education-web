@@ -1,241 +1,289 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import {
-  ChevronRight,
-  GraduationCap,
-  FileText,
-  BookOpen,
   Home,
+  CalendarDays,
+  BookOpen,
+  FileQuestion,
+  GraduationCap,
+  Layers,
+  AlertCircle,
+  Bookmark,
+  BarChart2,
+  Brain,
+  Users,
+  Play,
+  Map,
+  User,
+  LogIn,
+  Settings,
+  ChevronRight,
+  ExternalLink,
 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import type { Subject } from '@/types/content';
-import type { KiceCounts } from '@/lib/structure-utils';
 
-interface StructureClientProps {
-  subjects: Subject[];
-  quizCounts: Record<string, number>;
-  kiceCounts: KiceCounts;
+interface PageNode {
+  title: string;
+  path: string;
+  desc: string;
+  icon: React.ElementType;
+  children?: Omit<PageNode, 'children'>[];
 }
 
-export default function StructureClient({
-  subjects,
-  quizCounts,
-  kiceCounts,
-}: StructureClientProps) {
-  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+interface SiteGroup {
+  title: string;
+  color: string;
+  iconColor: string;
+  pages: PageNode[];
+}
 
-  const currentSubject = subjects.find((s) => s.slug === selectedSubject);
+const SITE_MAP: SiteGroup[] = [
+  {
+    title: '메인',
+    color: 'border-blue-200 dark:border-blue-900/50',
+    iconColor: 'text-blue-500 bg-blue-50 dark:bg-blue-950/30',
+    pages: [
+      {
+        title: '홈',
+        path: '/',
+        desc: '오늘의 문제 · 스트릭 · 복습 카드',
+        icon: Home,
+        children: [
+          { title: '일일 학습', path: '/daily', desc: 'OX 10 + 단답 5 + 서술 3', icon: CalendarDays },
+          { title: '용어사전', path: '/terms', desc: 'NISE 1,100여 개 용어', icon: BookOpen },
+        ],
+      },
+    ],
+  },
+  {
+    title: '과목 학습',
+    color: 'border-indigo-200 dark:border-indigo-900/50',
+    iconColor: 'text-indigo-500 bg-indigo-50 dark:bg-indigo-950/30',
+    pages: [
+      {
+        title: '과목 목록',
+        path: '/subjects',
+        desc: '11개 과목 · 39개 챕터',
+        icon: BookOpen,
+        children: [
+          { title: '과목 페이지', path: '/subjects/[slug]', desc: '챕터 목록 + 학습 경로', icon: BookOpen },
+          { title: '챕터 학습', path: '/subjects/[slug]/[chapter]', desc: '퀴즈 · 플래시카드 · 워크시트', icon: GraduationCap },
+        ],
+      },
+      {
+        title: '퀴즈',
+        path: '/quiz',
+        desc: 'OX · 기입 · 서술 · 시나리오형',
+        icon: FileQuestion,
+      },
+      {
+        title: '워크시트',
+        path: '/worksheets',
+        desc: '단원별 종합 문제지',
+        icon: FileQuestion,
+        children: [
+          { title: '워크시트 풀기', path: '/worksheets/[id]', desc: '문제 풀기 + 채점', icon: FileQuestion },
+          { title: '워크시트 정답', path: '/worksheets/[id]/answers', desc: '해설 보기', icon: FileQuestion },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'KICE 기출',
+    color: 'border-amber-200 dark:border-amber-900/50',
+    iconColor: 'text-amber-500 bg-amber-50 dark:bg-amber-950/30',
+    pages: [
+      {
+        title: 'KICE 허브',
+        path: '/kice',
+        desc: '연도별 · 영역별 기출 브라우저',
+        icon: GraduationCap,
+        children: [
+          { title: '모의고사 모드', path: '/kice/exam', desc: '타이머 + 자동채점', icon: Play },
+          { title: '출제 경향 분석', path: '/kice/analytics', desc: '히트맵 + 연속출제 키워드', icon: BarChart2 },
+        ],
+      },
+    ],
+  },
+  {
+    title: '학습 도구',
+    color: 'border-purple-200 dark:border-purple-900/50',
+    iconColor: 'text-purple-500 bg-purple-50 dark:bg-purple-950/30',
+    pages: [
+      { title: '플래시카드', path: '/flashcards', desc: 'Leitner 간격 반복 학습', icon: Layers },
+      {
+        title: '오답노트',
+        path: '/wrong-notes',
+        desc: '틀린 문제 집중 복습',
+        icon: AlertCircle,
+        children: [
+          { title: '오답 퀴즈', path: '/wrong-notes/quiz', desc: '오답만 모아서 다시 풀기', icon: FileQuestion },
+        ],
+      },
+      { title: '북마크', path: '/bookmarks', desc: '저장한 문제·용어 모아보기', icon: Bookmark },
+      { title: '학습 통계', path: '/stats', desc: '히트맵 · 주간 추이 · 취약 영역', icon: BarChart2 },
+      { title: '마스터리 트리', path: '/mastery', desc: '챕터별 숙련도 + 합격 시뮬레이션', icon: Brain },
+    ],
+  },
+  {
+    title: '커뮤니티',
+    color: 'border-green-200 dark:border-green-900/50',
+    iconColor: 'text-green-500 bg-green-50 dark:bg-green-950/30',
+    pages: [
+      {
+        title: '커뮤니티',
+        path: '/community',
+        desc: '수험생 제작 문제 갤러리',
+        icon: Users,
+        children: [
+          { title: '문제 만들기', path: '/community/create', desc: '4단계 위저드 출제 도구', icon: FileQuestion },
+          { title: '문제 풀기', path: '/community/[id]', desc: '풀기 · 투표 · 해설', icon: Play },
+        ],
+      },
+    ],
+  },
+  {
+    title: '시뮬레이터',
+    color: 'border-rose-200 dark:border-rose-900/50',
+    iconColor: 'text-rose-500 bg-rose-50 dark:bg-rose-950/30',
+    pages: [
+      {
+        title: '행동 시뮬레이터',
+        path: '/scenarios',
+        desc: 'FBA·PBS·통합교육 의사결정',
+        icon: Play,
+        children: [
+          { title: '개별 시나리오', path: '/scenarios/[id]', desc: '단계별 선택지 + 피드백', icon: Play },
+          { title: '스페이스드 그룹', path: '/scenarios/groups/[id]', desc: '간격 반복 시나리오', icon: Layers },
+        ],
+      },
+    ],
+  },
+  {
+    title: '계정',
+    color: 'border-slate-200 dark:border-slate-800',
+    iconColor: 'text-slate-500 bg-slate-50 dark:bg-slate-950/30',
+    pages: [
+      { title: '마이페이지', path: '/my', desc: '프로필 · 학습 현황 · 관리자', icon: User },
+      { title: '로그인', path: '/login', desc: '이메일 · Google · Kakao OAuth', icon: LogIn },
+      { title: '인증 콜백', path: '/auth/callback', desc: 'OAuth 세션 처리 (자동)', icon: Settings },
+    ],
+  },
+  {
+    title: '관리자',
+    color: 'border-zinc-200 dark:border-zinc-800',
+    iconColor: 'text-zinc-500 bg-zinc-50 dark:bg-zinc-950/30',
+    pages: [
+      { title: '사이트맵', path: '/structure', desc: '전체 페이지 구조 (현재 페이지)', icon: Map },
+    ],
+  },
+];
+
+export default function StructureClient() {
+  const totalPages = SITE_MAP.reduce(
+    (acc, g) =>
+      acc +
+      g.pages.reduce((a, p) => a + 1 + (p.children?.length ?? 0), 0),
+    0,
+  );
 
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-8 py-6 space-y-6">
+    <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-8">
       {/* 헤더 */}
       <div>
-        <h1 className="text-xl md:text-2xl font-bold text-foreground">
-          구조도
+        <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
+          <Map className="h-6 w-6 text-primary" />
+          사이트맵
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          과목 · 챕터 · 기출 · 퀴즈 연결 지도
+          전체 {totalPages}개 페이지 · {SITE_MAP.length}개 카테고리
         </p>
       </div>
 
-      {/* 브레드크럼 */}
-      <Breadcrumb
-        currentSubject={currentSubject ?? null}
-        onReset={() => setSelectedSubject(null)}
-      />
-
-      {/* 과목 목록 */}
-      {!selectedSubject ? (
-        <SubjectTable
-          subjects={subjects}
-          quizCounts={quizCounts}
-          kiceCounts={kiceCounts}
-          onSelect={setSelectedSubject}
-        />
-      ) : (
-        <ChapterTable
-          subject={currentSubject!}
-          kiceCounts={kiceCounts}
-        />
-      )}
-    </div>
-  );
-}
-
-/* ─── Breadcrumb ─── */
-
-function Breadcrumb({
-  currentSubject,
-  onReset,
-}: {
-  currentSubject: Subject | null;
-  onReset: () => void;
-}) {
-  return (
-    <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
-      <button
-        onClick={onReset}
-        className={`flex items-center gap-1 hover:text-foreground transition-colors ${
-          !currentSubject ? 'text-foreground font-semibold' : ''
-        }`}
-      >
-        <Home className="h-3.5 w-3.5" />
-        전체 과목
-      </button>
-      {currentSubject && (
-        <>
-          <ChevronRight className="h-3 w-3" />
-          <span className="text-foreground font-semibold flex items-center gap-1">
-            <span>{currentSubject.icon}</span>
-            {currentSubject.title}
-          </span>
-        </>
-      )}
-    </nav>
-  );
-}
-
-/* ─── Subject Table ─── */
-
-function SubjectTable({
-  subjects,
-  quizCounts,
-  kiceCounts,
-  onSelect,
-}: {
-  subjects: Subject[];
-  quizCounts: Record<string, number>;
-  kiceCounts: KiceCounts;
-  onSelect: (slug: string) => void;
-}) {
-  return (
-    <div className="space-y-2">
-      {subjects.map((subject) => {
-        const qCount = quizCounts[subject.slug] || 0;
-        const kCount = kiceCounts.bySubject[subject.slug] || 0;
-        const chapterCount = subject.chapters.length;
-
-        return (
-          <button
-            key={subject.slug}
-            onClick={() => onSelect(subject.slug)}
-            className="w-full text-left"
+      {/* 카테고리별 그리드 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {SITE_MAP.map((group) => (
+          <section
+            key={group.title}
+            className={`rounded-2xl border-2 ${group.color} bg-card overflow-hidden`}
           >
-            <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
-              <CardContent className="flex items-center gap-3 py-3 px-4">
-                <span className="text-2xl flex-shrink-0">{subject.icon}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-semibold truncate">
-                    {subject.title}
-                  </div>
-                  <div className="flex items-center gap-3 mt-0.5">
-                    <span className="text-xs text-muted-foreground">
-                      {chapterCount}개 챕터
-                    </span>
-                    {kCount > 0 && (
-                      <span className="text-xs text-primary font-medium">
-                        기출 {kCount}건
-                      </span>
-                    )}
-                    {qCount > 0 && (
-                      <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-                        퀴즈 {qCount}건
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-              </CardContent>
-            </Card>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ─── Chapter Table ─── */
-
-function ChapterTable({
-  subject,
-  kiceCounts,
-}: {
-  subject: Subject;
-  kiceCounts: KiceCounts;
-}) {
-  return (
-    <div className="space-y-2">
-      {subject.chapters.length === 0 ? (
-        <div className="text-center py-12 text-muted-foreground">
-          이 과목에는 아직 챕터가 없습니다.
-        </div>
-      ) : (
-        subject.chapters.map((chapter) => {
-          const kCount = kiceCounts.byChapter[chapter.slug] || 0;
-
-          return (
-            <Card key={chapter.slug}>
-              <CardContent className="py-3 px-4 space-y-2">
-                <div className="flex items-start gap-3">
-                  <BookOpen className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-semibold">{chapter.title}</div>
-                    {chapter.description && (
-                      <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                        {chapter.description}
-                      </p>
-                    )}
-                    {chapter.keywords.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-1.5">
-                        {chapter.keywords.slice(0, 5).map((kw) => (
-                          <span
-                            key={kw}
-                            className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground"
-                          >
-                            {kw}
-                          </span>
-                        ))}
-                        {chapter.keywords.length > 5 && (
-                          <span className="text-[10px] text-muted-foreground">
-                            +{chapter.keywords.length - 5}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* 하이퍼링크 영역 */}
-                <div className="flex items-center gap-3 pl-7">
-                  <Link
-                    href={`/subjects/${subject.slug}/${chapter.slug}`}
-                    className="text-xs text-primary hover:underline flex items-center gap-1"
-                  >
-                    <FileText className="h-3 w-3" />
-                    학습하기
-                  </Link>
-                  <Link
-                    href={`/quiz?subject=${subject.slug}&chapter=${chapter.slug}`}
-                    className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
-                  >
-                    <GraduationCap className="h-3 w-3" />
-                    퀴즈 풀기
-                  </Link>
-                  {kCount > 0 && (
-                    <Link
-                      href={`/kice?tab=by-area`}
-                      className="text-xs text-primary hover:underline flex items-center gap-1"
-                    >
-                      기출 {kCount}건
-                    </Link>
+            <div className="px-4 py-3 border-b border-border/50 bg-muted/30">
+              <h2 className="text-sm font-semibold text-foreground">{group.title}</h2>
+            </div>
+            <div className="p-3 space-y-1">
+              {group.pages.map((page) => (
+                <div key={page.path}>
+                  <PageRow page={page} iconColor={group.iconColor} isRoot />
+                  {page.children && page.children.length > 0 && (
+                    <div className="ml-6 mt-1 space-y-1 border-l-2 border-border/50 pl-3">
+                      {page.children.map((child) => (
+                        <PageRow key={child.path} page={child} iconColor={group.iconColor} />
+                      ))}
+                    </div>
                   )}
                 </div>
-              </CardContent>
-            </Card>
-          );
-        })
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      {/* 범례 */}
+      <div className="flex flex-wrap gap-4 text-xs text-muted-foreground pt-4 border-t border-border">
+        <span className="flex items-center gap-1">
+          <ChevronRight className="h-3 w-3" />
+          루트 페이지
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="inline-block w-3 h-0.5 bg-border" />
+          하위 페이지
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="font-mono bg-muted px-1 rounded text-[10px]">[slug]</span>
+          동적 경로
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function PageRow({
+  page,
+  iconColor,
+  isRoot = false,
+}: {
+  page: Omit<PageNode, 'children'>;
+  iconColor: string;
+  isRoot?: boolean;
+}) {
+  const isDynamic = page.path.includes('[');
+
+  return (
+    <div className={`flex items-center gap-2.5 rounded-lg px-2 py-1.5 group hover:bg-muted/50 transition-colors ${isRoot ? '' : ''}`}>
+      <div className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center ${iconColor}`}>
+        <page.icon className="h-3.5 w-3.5" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-1.5">
+          <span className={`text-xs font-medium text-foreground ${isRoot ? '' : 'font-normal'}`}>
+            {page.title}
+          </span>
+          <span className={`font-mono text-[10px] px-1 rounded ${isDynamic ? 'bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400' : 'bg-muted text-muted-foreground'}`}>
+            {page.path}
+          </span>
+        </div>
+        <p className="text-[10px] text-muted-foreground leading-tight mt-0.5 line-clamp-1">
+          {page.desc}
+        </p>
+      </div>
+      {!isDynamic && (
+        <Link
+          href={page.path}
+          className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-primary shrink-0"
+          title={`${page.title} 열기`}
+        >
+          <ExternalLink className="h-3 w-3" />
+        </Link>
       )}
     </div>
   );

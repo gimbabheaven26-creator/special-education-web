@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
-import { Search, BookOpen, ChevronDown, ChevronUp, List } from 'lucide-react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { Search, BookOpen, ChevronDown, ChevronUp, List, ArrowUp, BarChart2 } from 'lucide-react';
 import type { Term } from './page';
 
 interface TermsClientProps {
@@ -50,13 +51,70 @@ function TermCard({ term }: { term: Term }) {
   );
 }
 
+function SubjectSection({
+  subject,
+  terms: subjectTerms,
+  sectionRef,
+}: {
+  subject: string;
+  terms: Term[];
+  sectionRef: (el: HTMLElement | null) => void;
+}) {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <section ref={sectionRef}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center gap-2 mb-3 pb-2 border-b border-border hover:text-primary transition-colors group"
+      >
+        <h2 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+          {subject}
+        </h2>
+        <span className="text-xs text-muted-foreground">{subjectTerms.length}개</span>
+        <span className="ml-auto text-muted-foreground">
+          {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </span>
+      </button>
+      {open && (
+        <div className="space-y-2">
+          {subjectTerms.map((term, i) => (
+            <TermCard key={`${term.subject}-${term.term_ko}-${i}`} term={term} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export default function TermsClient({ terms, subjects }: TermsClientProps) {
   const [query, setQuery] = useState('');
   const [activeSubject, setActiveSubject] = useState<string | null>(null);
   const [tocOpen, setTocOpen] = useState(false);
+  const [showTop, setShowTop] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const isSearching = query.trim() !== '' || activeSubject !== null;
+
+  // 상단 버튼 표시 + 활성 섹션 감지
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowTop(window.scrollY > 400);
+
+      // 현재 화면에 보이는 섹션 감지
+      const entries = Object.entries(sectionRefs.current);
+      let current: string | null = null;
+      for (const [subject, el] of entries) {
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 120) current = subject;
+      }
+      setActiveSection(current);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const filtered = useMemo(() => {
     let result = terms;
@@ -83,14 +141,16 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
     }));
   }, [terms, subjects]);
 
-  const scrollToSection = (subject: string) => {
+  const scrollToSection = useCallback((subject: string) => {
     setQuery('');
     setActiveSubject(null);
     setTocOpen(false);
     setTimeout(() => {
       sectionRefs.current[subject]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
-  };
+  }, []);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
@@ -153,9 +213,19 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
       {/* 메인 레이아웃 */}
       <div className="flex gap-6">
         {/* 좌측 목차 (데스크탑) */}
-        <aside className="hidden md:block w-44 shrink-0">
-          <div className="sticky top-20">
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2 px-2">목차</p>
+        <aside className="hidden md:block w-48 shrink-0">
+          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pr-1">
+            <div className="flex items-center justify-between mb-2 px-2">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">목차</p>
+              <Link
+                href="/kice/analytics"
+                className="flex items-center gap-1 text-[10px] text-primary/70 hover:text-primary transition-colors"
+                title="기출 출제 빈도 보기"
+              >
+                <BarChart2 className="h-3 w-3" />
+                빈도
+              </Link>
+            </div>
             <nav className="space-y-0.5">
               <button
                 onClick={() => { setQuery(''); setActiveSubject(null); }}
@@ -168,17 +238,25 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
                 전체
               </button>
               {subjects.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => scrollToSection(s)}
-                  className={`w-full text-left text-xs px-2 py-1.5 rounded-lg transition-colors truncate ${
-                    activeSubject === s
-                      ? 'bg-primary/10 text-primary font-medium'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`}
-                >
-                  {s}
-                </button>
+                <div key={s} className="flex items-center gap-1 group">
+                  <button
+                    onClick={() => scrollToSection(s)}
+                    className={`flex-1 text-left text-xs px-2 py-1.5 rounded-lg transition-colors truncate ${
+                      activeSection === s && !isSearching
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                  <Link
+                    href="/kice/analytics"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-muted-foreground hover:text-primary rounded"
+                    title={`${s} 기출 출제 빈도`}
+                  >
+                    <BarChart2 className="h-3 w-3" />
+                  </Link>
+                </div>
               ))}
             </nav>
           </div>
@@ -214,26 +292,29 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
               {groupedBySubject.map(({ subject, terms: subjectTerms }) => {
                 if (subjectTerms.length === 0) return null;
                 return (
-                  <section
+                  <SubjectSection
                     key={subject}
-                    ref={(el) => { sectionRefs.current[subject] = el; }}
-                  >
-                    <div className="flex items-baseline gap-2 mb-3 pb-2 border-b border-border">
-                      <h2 className="text-base font-bold text-foreground">{subject}</h2>
-                      <span className="text-xs text-muted-foreground">{subjectTerms.length}개</span>
-                    </div>
-                    <div className="space-y-2">
-                      {subjectTerms.map((term, i) => (
-                        <TermCard key={`${term.subject}-${term.term_ko}-${i}`} term={term} />
-                      ))}
-                    </div>
-                  </section>
+                    subject={subject}
+                    terms={subjectTerms}
+                    sectionRef={(el) => { sectionRefs.current[subject] = el; }}
+                  />
                 );
               })}
             </div>
           )}
         </main>
       </div>
+
+      {/* 상단으로 버튼 */}
+      {showTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed right-4 bottom-24 md:bottom-8 z-40 w-10 h-10 rounded-full bg-background border border-border shadow-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all print:hidden"
+          title="맨 위로"
+        >
+          <ArrowUp className="h-4 w-4" />
+        </button>
+      )}
     </div>
   );
 }

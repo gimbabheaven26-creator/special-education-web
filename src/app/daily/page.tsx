@@ -372,14 +372,16 @@ export default function DailyPage() {
         {/* 진행 표시 */}
         <div className="flex items-center gap-1">
           {([1, 2, 3] as Step[]).map((s) => (
-            <div
+            <button
               key={s}
+              onClick={() => s <= step && setStep(s)}
+              disabled={s > step}
               className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-colors ${
-                s < step ? 'bg-green-500 text-white' : s === step ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+                s < step ? 'bg-green-500 text-white hover:bg-green-600 cursor-pointer' : s === step ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground cursor-not-allowed opacity-50'
               }`}
             >
               {s < step ? '✓' : s}
-            </div>
+            </button>
           ))}
         </div>
       </div>
