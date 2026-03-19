@@ -3,6 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, ArrowRight, RotateCcw, ChevronRight, Loader2 } from 'lucide-react';
+import { makeSheetCode, getKSTDateRaw } from '@/lib/sheet-code';
+
+// 모듈 로드 시 1회 평가 — 자정 렌더 불일치 방지
+const TODAY_RAW = getKSTDateRaw();
+const TODAY_SHEET_CODE = makeSheetCode(TODAY_RAW);
 
 interface DailyQuestion {
   id: string;
@@ -308,6 +313,12 @@ export default function DailyPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
+      {/* 고유번호 배너 */}
+      <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+        <span>오늘의 학습</span>
+        <span className="font-mono bg-muted px-2 py-0.5 rounded">{TODAY_SHEET_CODE}</span>
+      </div>
+
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
