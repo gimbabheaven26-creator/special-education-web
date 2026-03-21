@@ -1,7 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useStatsData } from './useStatsData';
+import { WrongNoteAI } from '@/components/WrongNoteAI';
 import OverallAccuracy from './OverallAccuracy';
 import SubjectAccuracyBars from './SubjectAccuracyBars';
 import StudyVolumeChart from './StudyVolumeChart';
@@ -39,6 +41,20 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
     totalXP,
     totalStudyTimeMinutes,
   } = useStatsData();
+
+  const weakChaptersForAI = useMemo(
+    () =>
+      chapterStats
+        .filter((c) => c.rate < 60 && c.total >= 3)
+        .sort((a, b) => a.rate - b.rate)
+        .slice(0, 10)
+        .map((c) => ({
+          chapter: chapterTitleMap[`${c.subject}::${c.chapter}`] || c.chapter,
+          subject: subjectTitleMap[c.subject] || c.subject,
+          wrongCount: c.total - c.correct,
+        })),
+    [chapterStats, subjectTitleMap, chapterTitleMap],
+  );
 
   if (quizHistory.length === 0) {
     return (
@@ -123,6 +139,9 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
 
       {/* Weak Areas */}
       <WeakAreas weakAreas={weakAreas} chapterStats={chapterStats} subjectTitleMap={subjectTitleMap} chapterTitleMap={chapterTitleMap} />
+
+      {/* AI 약점 분석 */}
+      <WrongNoteAI weakChapters={weakChaptersForAI} />
 
       {/* Wrong Note Summary */}
       <WrongNoteSummary summary={wrongNoteSummary} subjectTitleMap={subjectTitleMap} />

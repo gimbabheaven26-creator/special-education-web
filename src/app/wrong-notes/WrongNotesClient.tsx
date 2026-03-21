@@ -222,6 +222,31 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
         </div>
       </div>
 
+      {/* 챕터 분포 차트 */}
+      {weakChapters.length > 0 && (
+        <div className="rounded-xl border border-border bg-card p-4 space-y-3">
+          <p className="text-sm font-semibold">챕터별 오답 분포</p>
+          <div className="space-y-1.5">
+            {weakChapters.slice(0, 5).map(({ chapter, subject, wrongCount }) => {
+              const maxCount = weakChapters[0].wrongCount;
+              const pct = Math.round((wrongCount / maxCount) * 100);
+              return (
+                <div key={`${subject}::${chapter}`} className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground w-28 truncate shrink-0">{chapter}</span>
+                  <div className="flex-1 h-4 rounded bg-muted overflow-hidden">
+                    <div
+                      className="h-full rounded bg-red-400 dark:bg-red-600 transition-all"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                  <span className="text-xs font-medium w-8 text-right shrink-0">{wrongCount}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* AI 약점 분석 */}
       <WrongNoteAI weakChapters={weakChapters} />
 

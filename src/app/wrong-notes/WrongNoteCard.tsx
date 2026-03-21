@@ -69,12 +69,19 @@ export default function WrongNoteCard({
     setSavedToFlashcard(true);
   }, [addCard, alreadyInFlashcard, savedToFlashcard, note.questionId, question.subject, questionText, question.answer]);
 
+  const isStreak = note.attempts >= 3 && !note.mastered;
+
   return (
-    <Card className={note.mastered ? 'opacity-60' : ''}>
+    <Card className={`${note.mastered ? 'opacity-60' : ''} ${isStreak ? 'border-red-400 dark:border-red-700' : ''}`}>
       <CardContent className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{TYPE_LABELS[question.type] ?? question.type}</Badge>
           <Badge variant="secondary">{note.attempts}회 시도</Badge>
+          {isStreak && (
+            <Badge className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+              {note.attempts}회 연속 오답
+            </Badge>
+          )}
           {note.mastered && (
             <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
               완료

@@ -1,8 +1,8 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Clock, Target, Flag, CheckCircle2, XCircle } from 'lucide-react'
+import { ArrowLeft, Clock, Target, Flag, CheckCircle2, XCircle, History } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,17 @@ interface ExamResultScreenProps {
   answers: UserAnswer[]
   elapsedSeconds: number
 }
+
+interface ExamHistoryEntry {
+  year: number
+  session: string
+  autoScore: number
+  autoMax: number
+  elapsedSeconds: number
+  date: string
+}
+
+const HISTORY_KEY = 'kice-exam-history'
 
 interface BlankResult {
   key: string
@@ -116,6 +127,30 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
 
     return { autoScore, autoMax, descriptiveCount, descriptiveMax, flaggedCount, answeredCount }
   }, [results])
+
+  const [previousHistory, setPreviousHistory] = useState<ExamHistoryEntry[]>([])
+
+  // Save result to history; load previous entries
+  useEffect(() => {
+    const entry: ExamHistoryEntry = {
+      year: exam.exam.year,
+      session: exam.exam.session,
+      autoScore: Math.round(stats.autoScore),
+      autoMax: stats.autoMax,
+      elapsedSeconds,
+      date: new Date().toISOString(),
+    }
+    try {
+      const raw = localStorage.getItem(HISTORY_KEY)
+      const prev: ExamHistoryEntry[] = raw ? JSON.parse(raw) : []
+      setPreviousHistory(prev.slice(0, 3))
+      const updated = [entry, ...prev].slice(0, 10)
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(updated))
+    } catch {
+      // ignore storage errors
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const subjectStats = useMemo(() => {
     const map = new Map<string, { correct: number; total: number; count: number }>()
@@ -348,6 +383,36 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
           </Card>
         ))}
       </div>
+
+      {/* 이전 성적 */}
+      {previousHistory.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <History className="h-4 w-4" />
+              이전 성적
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {previousHistory.map((h, i) => {
+              const pct = h.autoMax > 0 ? Math.round((h.autoScore / h.autoMax) * 100) : 0
+              const d = new Date(h.date)
+              const label = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
+              return (
+                <div key={i} className="flex items-center justify-between text-sm">
+                  <div>
+                    <span className="font-medium">{h.year}학년도 {h.session}</span>
+                    <span className="text-xs text-muted-foreground ml-2">{label}</span>
+                  </div>
+                  <span className={`font-semibold ${pct >= 70 ? 'text-green-600 dark:text-green-400' : pct >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'}`}>
+                    {h.autoScore}/{h.autoMax}점 ({pct}%)
+                  </span>
+                </div>
+              )
+            })}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Actions */}
       <div className="flex gap-3 pb-10">

@@ -306,6 +306,38 @@ export default function MasteryPage() {
           );
         })}
       </div>
+
+      {/* 핵심 액션 */}
+      <div className="grid grid-cols-2 gap-3 pb-6">
+        <Link
+          href="/daily"
+          className="flex flex-col items-center gap-1 py-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors text-center"
+        >
+          <span className="text-2xl">📅</span>
+          <span className="text-sm font-medium">오늘 학습</span>
+        </Link>
+        <Link
+          href="/quiz"
+          className="flex flex-col items-center gap-1 py-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors text-center"
+        >
+          <span className="text-2xl">🧠</span>
+          <span className="text-sm font-medium">퀴즈 시작</span>
+        </Link>
+        <Link
+          href="/wrong-notes"
+          className="flex flex-col items-center gap-1 py-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors text-center"
+        >
+          <span className="text-2xl">📝</span>
+          <span className="text-sm font-medium">오답 노트</span>
+        </Link>
+        <Link
+          href="/kice/exam"
+          className="flex flex-col items-center gap-1 py-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors text-center"
+        >
+          <span className="text-2xl">📋</span>
+          <span className="text-sm font-medium">모의고사</span>
+        </Link>
+      </div>
     </main>
   );
 }

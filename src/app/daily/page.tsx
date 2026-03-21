@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, ArrowRight, RotateCcw, ChevronRight, Loader2 } from 'lucide-react';
+import { RecommendedChapters } from '@/components/RecommendedChapters';
 import { makeSheetCode, getKSTDateRaw } from '@/lib/sheet-code';
 
 // 모듈 로드 시 1회 평가 — 자정 렌더 불일치 방지
@@ -346,6 +347,9 @@ export default function DailyPage() {
           >
             개념학습 보기
           </Link>
+        </div>
+        <div className="max-w-xs mx-auto w-full text-left">
+          <RecommendedChapters />
         </div>
       </div>
     );

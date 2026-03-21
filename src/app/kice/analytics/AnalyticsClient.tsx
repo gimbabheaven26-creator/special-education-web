@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Link from 'next/link'
 import { TrendingUp, Hash, AlertTriangle, Flame } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -49,31 +48,6 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-6 space-y-6">
-      {/* 탭 */}
-      <div className="flex border-b border-border">
-        <Link
-          href="/kice?tab=by-year"
-          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
-        >
-          연도별 기출
-        </Link>
-        <Link
-          href="/kice?tab=by-area"
-          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
-        >
-          영역별 기출
-        </Link>
-        <span className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary">
-          빈도분석
-        </span>
-        <Link
-          href="/kice?tab=search"
-          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
-        >
-          키워드 검색
-        </Link>
-      </div>
-
       <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">출제 경향 분석</h1>
         <p className="text-muted-foreground text-sm">

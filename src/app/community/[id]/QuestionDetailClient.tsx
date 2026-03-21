@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ThumbsUp, ThumbsDown, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, CheckCircle2, ArrowLeft, Flag } from 'lucide-react';
 import type { CommunityQuestionDetail, VoteType } from '@/types/community';
 
 interface Props {
@@ -24,6 +24,8 @@ export default function QuestionDetailClient({ question, isOwner, subjects }: Pr
   const [voteCount, setVoteCount] = useState(question.vote_count);
   const [userVote, setUserVote] = useState<VoteType | null>(question.user_vote);
   const [voteLoading, setVoteLoading] = useState(false);
+  const [reported, setReported] = useState(false);
+  const [reportLoading, setReportLoading] = useState(false);
 
   async function handleVote(type: VoteType) {
     if (isOwner) return;
@@ -48,6 +50,21 @@ export default function QuestionDetailClient({ question, isOwner, subjects }: Pr
       }
     } finally {
       setVoteLoading(false);
+    }
+  }
+
+  async function handleReport() {
+    if (reported || reportLoading || isOwner) return;
+    setReportLoading(true);
+    try {
+      await fetch(`/api/community/${question.id}/report`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reason: '부적절한 문제' }),
+      });
+      setReported(true);
+    } finally {
+      setReportLoading(false);
     }
   }
 
@@ -226,6 +243,16 @@ export default function QuestionDetailClient({ question, isOwner, subjects }: Pr
         >
           <ThumbsDown className="h-4 w-4" />
         </button>
+        {!isOwner && (
+          <button
+            onClick={handleReport}
+            disabled={reported || reportLoading}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs text-muted-foreground hover:text-red-500 hover:border-red-300 transition-colors disabled:opacity-50"
+          >
+            <Flag className="h-3.5 w-3.5" />
+            {reported ? '신고됨' : '신고'}
+          </button>
+        )}
       </div>
     </div>
   );

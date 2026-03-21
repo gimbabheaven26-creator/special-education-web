@@ -3,6 +3,7 @@ import { DailyReviewCard } from '@/components/dashboard/DailyReviewCard';
 import { ExamCountdown } from '@/components/ExamCountdown';
 import { HomeQuizSection } from '@/components/HomeQuizSection';
 import { TodayTermCard } from '@/components/TodayTermCard';
+import { AiBriefingCard } from '@/components/AiBriefingCard';
 import { Suspense } from 'react';
 
 export default function HomePage() {
@@ -20,6 +21,9 @@ export default function HomePage() {
 
       {/* 오늘의 단어 */}
       <TodayTermCard />
+
+      {/* AI 브리핑 */}
+      <AiBriefingCard />
 
       {/* 오늘의 문제 — OX 10 / 단답 5 / 서술 3 */}
       <Suspense fallback={

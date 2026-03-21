@@ -17,9 +17,11 @@ import {
   ChevronRight,
   CheckCircle2,
   Map,
+  Users,
 } from 'lucide-react';
 import { NicknamePrompt } from '@/components/NicknamePrompt';
 import { ExamCountdown } from '@/components/ExamCountdown';
+import { BadgeDisplay } from '@/components/BadgeDisplay';
 import { createClient } from '@/lib/supabase/browser';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -130,6 +132,13 @@ export default function MyPage() {
       desc: '퀴즈·플래시카드·워크시트',
       color: 'text-indigo-500 bg-indigo-50 dark:bg-indigo-950/30',
     },
+    {
+      href: '/community/mine',
+      icon: Users,
+      label: '내 제출 문제',
+      desc: '내가 만든 커뮤니티 문제',
+      color: 'text-cyan-500 bg-cyan-50 dark:bg-cyan-950/30',
+    },
   ];
 
   return (
@@ -209,6 +218,9 @@ export default function MyPage() {
           <p className="text-xs text-muted-foreground mt-1">총 문제</p>
         </div>
       </div>
+
+      {/* 배지 */}
+      <BadgeDisplay />
 
       {/* 기능 카드 */}
       <div>
