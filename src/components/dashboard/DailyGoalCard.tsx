@@ -3,7 +3,7 @@
 import { BookOpen, Brain, Trophy } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 
 function GoalRow({
   icon: Icon,
@@ -45,13 +45,9 @@ function GoalRow({
 }
 
 export function DailyGoalCard() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
   const dailyGoal = useStudyStore((s) => s.dailyGoal);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return (

@@ -3,16 +3,12 @@
 import { Flame } from 'lucide-react';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { getLevel, getLevelProgress, getLevelName } from '@/lib/xp-constants';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 
 export function StreakBanner() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const currentStreak = useStudyStore((s) => s.currentStreak);
   const totalXP = useStudyStore((s) => s.totalXP);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return (

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Clock, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 
 function timeAgo(timestamp: number): string {
   const diff = Date.now() - timestamp;
@@ -21,12 +21,8 @@ function timeAgo(timestamp: number): string {
 }
 
 export function ContinueLearning() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const recentActivities = useStudyStore((s) => s.recentActivities);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return (

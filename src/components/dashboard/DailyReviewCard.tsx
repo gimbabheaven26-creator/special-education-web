@@ -5,16 +5,12 @@ import { RefreshCw, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { useQuizStore } from '@/stores/useQuizStore';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 
 export function DailyReviewCard() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const leitnerGetStats = useLeitnerStore((s) => s.getStats);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return <div className="h-24 rounded-2xl bg-muted animate-pulse" />;

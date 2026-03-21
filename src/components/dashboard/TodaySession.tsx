@@ -5,17 +5,13 @@ import { Trophy, ArrowRight, Brain } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 
 export function TodaySession() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
   const dailyGoal = useStudyStore((s) => s.dailyGoal);
   const recentActivities = useStudyStore((s) => s.recentActivities);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return (

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { CalendarDays, BookOpen, Brain, ClipboardX, ArrowRight, Settings2 } from 'lucide-react';
+import { useMounted } from '@/hooks/useMounted';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useOnboardingStore } from '@/stores/useOnboardingStore';
 import { useStudyStore } from '@/stores/useStudyStore';
@@ -25,16 +26,12 @@ function DdayBadge({ dday }: { dday: number }) {
 }
 
 export function TodayStudyPlan() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const isOnboarded = useOnboardingStore((s) => s.isOnboarded);
   const studyPlan = useOnboardingStore((s) => s.studyPlan);
   const getDday = useOnboardingStore((s) => s.getDday);
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
   const currentStreak = useStudyStore((s) => s.currentStreak);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const dday = useMemo(() => getDday(), [getDday]);
 

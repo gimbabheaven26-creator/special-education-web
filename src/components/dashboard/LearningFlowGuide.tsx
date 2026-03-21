@@ -11,7 +11,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 
 interface FlowStep {
   number: number;
@@ -24,13 +24,9 @@ interface FlowStep {
 }
 
 export function LearningFlowGuide() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const leitnerGetStats = useLeitnerStore((s) => s.getStats);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return (
