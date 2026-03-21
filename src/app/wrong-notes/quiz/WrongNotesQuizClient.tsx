@@ -32,6 +32,15 @@ interface WrongNotesQuizClientProps {
   readonly chapterTitleMap: Readonly<Record<string, string>>;
 }
 
+/** "2024 전공A 11번" → "2024년도 기출 A형 11번" / "...동형" → "2024 A-11 동형" */
+function formatSourceBadge(source: string): string {
+  const m = source.match(/(\d{4})\s+전공([AB])\s+(\d+)번/);
+  if (!m) return source;
+  const [, year, type, num] = m;
+  if (source.includes('동형')) return `${year} ${type}-${num} 동형`;
+  return `${year}년도 기출 ${type}형 ${num}번`;
+}
+
 export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap }: WrongNotesQuizClientProps) {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const addWrongNote = useQuizStore((s) => s.addWrongNote);
@@ -42,8 +51,8 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
   const unmasteredNotes = useMemo(
     () => wrongNotes.filter((n) => {
       if (n.mastered) return false;
-      // fill_in 중 지문 포함(caseContext 있음) 또는 300자 초과 긴 문제 제외
-      if (n.question.type === 'fill_in' && (n.question.caseContext || n.question.question.length > 300)) return false;
+      // fill_in 중 지문 포함(caseContext 있음) 또는 100자 초과 긴 문제 제외
+      if (n.question.type === 'fill_in' && (n.question.caseContext || n.question.question.length > 100)) return false;
       return true;
     }),
     [wrongNotes],
@@ -257,9 +266,9 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
             <Badge variant="outline">
               {chapterTitleMap[`${question.subject}::${question.chapter}`] || question.chapter}
             </Badge>
-            {question.type === 'descriptive' && question.source && (
+            {question.source && (
               <Badge variant="outline" className="text-muted-foreground font-normal">
-                {question.source}
+                {formatSourceBadge(question.source)}
               </Badge>
             )}
           </div>
