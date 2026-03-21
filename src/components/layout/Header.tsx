@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 import { Sun, Moon, BookOpen, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect, useRef } from 'react';
-import { AuthButton } from './AuthButton';
+import { UserMenu } from '@/components/auth/UserMenu';
 import { NAV_GROUPS, getActiveGroupId } from '@/lib/nav-config';
 
 function ThemeToggle() {
@@ -134,7 +134,7 @@ export function Header() {
             </Button>
           </Link>
           <ThemeToggle />
-          <AuthButton />
+          <UserMenu />
         </div>
       </div>
     </header>
