@@ -61,7 +61,9 @@ function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isAct
         if (!ref.current?.contains(e.relatedTarget as Node)) setOpen(false);
       }}
     >
-      <button
+      {/* 상위 메뉴 — Link로 첫 번째 항목으로 이동 */}
+      <Link
+        href={group.items[0].href}
         className={`flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
           isActive
             ? 'text-primary bg-primary/10'
@@ -70,27 +72,30 @@ function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isAct
         aria-haspopup="menu"
         aria-expanded={open}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v); }
           if (e.key === 'Escape') setOpen(false);
         }}
+        onClick={() => setOpen(false)}
       >
         <Icon className="h-4 w-4" />
         {group.label}
         <span className="text-[10px] opacity-60">▾</span>
-      </button>
+      </Link>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 w-44 rounded-xl border border-border bg-background/95 backdrop-blur shadow-lg py-1 z-50 transition-all duration-150">
-          {group.items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-              onClick={() => setOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
+        /* pt-2: 버튼 하단~드롭다운 사이 투명 브리지 — mouseLeave 방지 */
+        <div className="absolute top-full left-0 w-44 pt-2 z-50">
+          <div className="rounded-xl border border-border bg-background/95 backdrop-blur shadow-lg py-1">
+            {group.items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>
