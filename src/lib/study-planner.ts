@@ -116,9 +116,11 @@ export function generateStudyPlan(
     examDate,
     level,
     weakSubjects: [...weakSubjects],
+    targetSubjects: [...weakSubjects],
     weeklyMilestones,
     dailyQuizTarget: levelConfig.dailyQuizTarget,
     dailyChapterTarget: levelConfig.dailyChapterTarget,
+    dailyQuestionsTarget: 20,
   };
 }
 

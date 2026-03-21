@@ -33,12 +33,12 @@ interface WrongNotesQuizClientProps {
 }
 
 /** "2024 전공A 11번" → "2024년도 기출 A형 11번" / "...동형" → "2024 A-11 동형" */
-function formatSourceBadge(source: string): string {
+function formatSourceBadge(source: string): { label: string; variant: 'kice' | 'similar' | 'none' } {
   const m = source.match(/(\d{4})\s+전공([AB])\s+(\d+)번/);
-  if (!m) return source;
+  if (!m) return { label: source, variant: 'none' };
   const [, year, type, num] = m;
-  if (source.includes('동형')) return `${year} ${type}-${num} 동형`;
-  return `${year}년도 기출 ${type}형 ${num}번`;
+  if (source.includes('동형')) return { label: `${year} ${type}-${num} 동형`, variant: 'similar' };
+  return { label: `${year}년도 기출 ${type}형 ${num}번`, variant: 'kice' };
 }
 
 export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap }: WrongNotesQuizClientProps) {
@@ -266,11 +266,20 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
             <Badge variant="outline">
               {chapterTitleMap[`${question.subject}::${question.chapter}`] || question.chapter}
             </Badge>
-            {question.source && (
-              <Badge variant="outline" className="text-muted-foreground font-normal">
-                {formatSourceBadge(question.source)}
-              </Badge>
-            )}
+            {question.source && (() => {
+              const { label, variant } = formatSourceBadge(question.source);
+              const cls =
+                variant === 'kice'
+                  ? 'border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300'
+                  : variant === 'similar'
+                  ? 'border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-950/40 dark:text-green-300'
+                  : 'text-muted-foreground';
+              return (
+                <Badge variant="outline" className={`font-normal ${cls}`}>
+                  {label}
+                </Badge>
+              );
+            })()}
           </div>
 
           {question.caseContext && (

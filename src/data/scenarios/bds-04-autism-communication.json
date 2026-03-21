@@ -1,0 +1,257 @@
+{
+  "id": "bds-04-autism-communication",
+  "title": "자폐스펙트럼 학생의 의사소통 지원",
+  "description": "비언어적 의사소통 수단을 주로 사용하는 자폐스펙트럼 초등 2학년 학생의 의사소통 체계를 구축하는 시나리오",
+  "subject": "autism-education",
+  "chapter": "communication-support",
+  "difficulty": 2,
+  "estimatedMinutes": 10,
+  "tags": ["AAC", "보완대체의사소통", "자폐스펙트럼", "PECS", "의사소통체계"],
+  "startNodeId": "situation-1",
+  "nodes": {
+    "situation-1": {
+      "id": "situation-1",
+      "type": "situation",
+      "content": "초등 2학년 자폐스펙트럼 학생 지훈이는 구어로 의사소통하는 데 어려움이 있으며, 주로 울음이나 신체적 행동(잡아당기기, 손 이끌기)으로 요구를 표현합니다. 담임 특수교사로서 의사소통 지원을 계획하기 위한 첫 번째 단계는 무엇인가요?",
+      "relatedConcepts": ["보완대체의사소통", "AAC", "의사소통 평가"],
+      "choices": [
+        {
+          "label": "즉시 PECS 1단계를 시작하여 그림 카드로 요구하기를 가르친다",
+          "nextNodeId": "feedback-wrong-1a",
+          "isOptimal": false,
+          "feedback": "중재 전에 반드시 현재 의사소통 능력 및 필요를 평가해야 합니다. PECS가 적합한지도 평가를 통해 결정해야 합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "의사소통 기능과 수단에 대한 기초 평가를 실시한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "정확합니다! AAC 중재의 첫 단계는 학생의 현재 의사소통 기능(요구하기, 거부하기, 언급하기 등)과 수단(제스처, 발성, 그림 등)을 체계적으로 평가하는 것입니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "언어치료사에게 의뢰하고 그 결과를 기다린다",
+          "nextNodeId": "feedback-wrong-1b",
+          "isOptimal": false,
+          "feedback": "언어치료사 협력은 중요하지만, 특수교사 역시 교실 맥락에서 독립적으로 의사소통 평가를 수행할 책임이 있습니다. 의뢰와 교사 평가는 병행해야 합니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-1a": {
+      "id": "feedback-wrong-1a",
+      "type": "feedback",
+      "content": "PECS(그림교환의사소통체계)는 자폐스펙트럼 학생에게 효과적인 AAC 방법이지만, 모든 학생에게 동일하게 적용되지 않습니다.\n\n💡 평가 없이 중재를 시작하면:\n- 학생의 실제 능력과 필요에 맞지 않을 수 있음\n- 이미 사용하는 효과적인 의사소통 수단을 간과할 수 있음\n- 중재 효과를 측정할 기준선이 없음",
+      "relatedConcepts": ["PECS", "기초 평가", "기준선 측정"],
+      "choices": [
+        {
+          "label": "의사소통 기능과 수단에 대한 기초 평가를 먼저 실시한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "올바른 순서입니다. 평가 후 중재 계획을 수립합니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-1b": {
+      "id": "feedback-wrong-1b",
+      "type": "feedback",
+      "content": "언어치료사는 AAC 팀의 핵심 구성원이지만, 특수교사는 교실에서 일상적으로 학생의 의사소통을 관찰하고 지원하는 1차 담당자입니다.\n\n「장애인 등에 대한 특수교육법」 제21조에 따르면, 의사소통 지원은 특수교육 서비스의 일부이며 특수교사가 주도적으로 계획해야 합니다.",
+      "relatedConcepts": ["협력 모델", "특수교사 역할", "팀 접근"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제21조(통합교육)",
+      "choices": [
+        {
+          "label": "교사 주도 기초 평가를 실시하면서 언어치료사와 협력한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "교사 평가와 전문가 협력의 병행이 가장 효과적입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-2": {
+      "id": "situation-2",
+      "type": "situation",
+      "content": "평가 결과, 지훈이는 다음과 같은 특성을 보입니다:\n\n📋 **의사소통 평가 결과**\n• 표현 어휘: 5개 미만 (단어 모방 가능)\n• 의사소통 기능: 요구하기 주로 신체적 행동으로\n• 그림 변별: 2개 중 1개 선택 가능\n• 모방 능력: 동작 모방 가능, 구어 모방 부분적\n• 주의집중: 선호 활동 시 3~5분\n\n지훈이의 초기 AAC 체계로 가장 적절한 것은 무엇인가요?",
+      "relatedConcepts": ["AAC 체계 선택", "PECS", "음성출력기기", "의사소통판"],
+      "choices": [
+        {
+          "label": "PECS(그림교환의사소통체계) 1단계부터 시작한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "정확합니다! PECS는 그림 변별 능력이 제한적이어도 1단계(그림 교환)부터 시작할 수 있으며, 동작 모방 능력을 활용합니다. 지훈이의 현재 수준에 적합한 증거 기반 실제입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "음성출력 의사소통기기(SGD)를 즉시 도입한다",
+          "nextNodeId": "feedback-wrong-2a",
+          "isOptimal": false,
+          "feedback": "음성출력기기는 강력한 AAC 도구이지만, 그림 변별이 2개 중 1개 수준인 초기에는 단순한 체계부터 시작하는 것이 적절합니다. 기기에 적응하는 것 자체가 부담이 될 수 있습니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "수화를 가르쳐 의사소통 수단으로 사용하게 한다",
+          "nextNodeId": "feedback-wrong-2b",
+          "isOptimal": false,
+          "feedback": "수화는 AAC의 한 형태이지만, 미세 운동 능력이 필요하고 상대방도 수화를 알아야 합니다. 지훈이의 동작 모방 능력은 있지만, 일반화 가능성이 낮을 수 있습니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-2a": {
+      "id": "feedback-wrong-2a",
+      "type": "feedback",
+      "content": "SGD(음성출력 의사소통기기)는 효과적이지만 학습 부담이 있습니다.\n\n🔍 **PECS 먼저 권장하는 이유**:\n- 별도 기기 없이 그림 카드만으로 시작\n- 교환 행동 자체가 의도적 의사소통의 기초\n- 그림 변별 능력이 발달하면 SGD로 전환 용이\n- 연구에서 PECS 후 구어 발달 촉진 효과 확인됨",
+      "relatedConcepts": ["PECS", "SGD", "AAC 연속체"],
+      "choices": [
+        {
+          "label": "PECS 1단계부터 시작하는 것으로 계획을 수정한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "단계적 접근이 지훈이 수준에 더 적합합니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-2b": {
+      "id": "feedback-wrong-2b",
+      "type": "feedback",
+      "content": "수화(key word sign)는 청각장애 학생뿐만 아니라 자폐스펙트럼 학생에게도 사용되지만, 몇 가지 제한이 있습니다.\n\n⚠️ **제한 사항**:\n- 의사소통 파트너도 수화를 알아야 함 (일반화 어려움)\n- 미세 운동 조절 능력 요구\n- 지훈이의 경우 동작 모방은 가능하나 정교한 손 동작 평가 필요\n\n그림 기반 AAC(PECS)는 누구나 사용 가능하고 일반화가 용이합니다.",
+      "relatedConcepts": ["수화", "일반화", "보완대체의사소통 유형"],
+      "choices": [
+        {
+          "label": "PECS 1단계부터 시작하는 것으로 결정한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "증거 기반 실제에 근거한 올바른 선택입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-3": {
+      "id": "situation-3",
+      "type": "situation",
+      "content": "PECS 1단계를 시작한 지 4주 후, 지훈이는 선호 물건의 그림 카드를 교사에게 전달하여 요구하기를 할 수 있게 되었습니다. 이제 가족과의 협력을 위해 가족 교육을 계획합니다. 어떤 접근이 가장 효과적인가요?",
+      "relatedConcepts": ["가족 교육", "가족 참여", "일반화"],
+      "choices": [
+        {
+          "label": "가족에게 PECS 프로토콜과 지원 전략을 직접 훈련하고 가정에서의 실행을 지원한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 가족을 의사소통 지원의 핵심 파트너로 교육하는 것은 일반화와 유지에 결정적입니다. 가정에서의 PECS 사용은 학교-가정 간 일관성을 확보합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "가족에게 PECS 안내 유인물만 제공한다",
+          "nextNodeId": "feedback-wrong-3a",
+          "isOptimal": false,
+          "feedback": "서면 안내만으로는 충분하지 않습니다. PECS는 정확한 프로토콜 적용이 중요하며, 직접 시범과 연습이 필요합니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "학교에서만 PECS를 사용하고 가정은 기존 방식을 유지한다",
+          "nextNodeId": "feedback-wrong-3b",
+          "isOptimal": false,
+          "feedback": "학교와 가정 간 의사소통 체계의 불일치는 학생에게 혼란을 줄 수 있습니다. 일관성 있는 환경 구성이 AAC 습득에 필수적입니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-3a": {
+      "id": "feedback-wrong-3a",
+      "type": "feedback",
+      "content": "가족 참여는 AAC 성공의 핵심 요인입니다.\n\n📌 **효과적인 가족 교육 요소**:\n1. PECS 각 단계의 프로토콜 직접 시범\n2. 가족이 직접 실습하는 역할극\n3. 오류 수정 방법 교육\n4. 가정에서의 실행 모니터링\n5. 어려움 발생 시 교사와 소통 채널\n\n서면 안내만으로는 기술 습득이 어렵습니다.",
+      "relatedConcepts": ["가족 코칭", "PECS 프로토콜", "가족 역량 강화"],
+      "choices": [
+        {
+          "label": "직접 훈련 및 가정 실행 지원으로 계획을 변경한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "가족 역량 강화가 핵심입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-3b": {
+      "id": "feedback-wrong-3b",
+      "type": "feedback",
+      "content": "AAC에서 환경 간 일관성(cross-environment consistency)은 매우 중요합니다.\n\n⚠️ **불일치의 문제**:\n- 학생이 어느 환경에서 어떤 방식을 써야 할지 혼란\n- 학교에서 배운 기술이 가정에서 강화되지 않으면 소거될 위험\n- 의사소통 기회 감소\n\n💡 학교-가정 일관성은 일반화의 기초입니다.",
+      "relatedConcepts": ["일반화", "환경 간 일관성", "AAC 팀"],
+      "choices": [
+        {
+          "label": "가족에게 직접 훈련하여 가정에서도 PECS를 사용하도록 지원한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "일관성 있는 지원 환경을 만드는 올바른 결정입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-4": {
+      "id": "situation-4",
+      "type": "situation",
+      "content": "지훈이는 현재 PECS 3단계(그림 변별)를 완료하고 4단계(문장 만들기)를 시작했습니다. 학교에서는 잘 사용하지만 지역사회(마트, 공원)에서는 거의 사용하지 않습니다. 일반화 전략으로 가장 적절한 것은 무엇인가요?",
+      "relatedConcepts": ["일반화", "AAC 일반화 전략", "지역사회 기반 교수"],
+      "choices": [
+        {
+          "label": "지역사회 환경에서 직접 AAC 사용을 연습하고, 자연적 의사소통 기회를 늘린다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "완벽합니다! 일반화는 훈련이 이루어진 맥락과 다른 환경에서도 기술을 사용할 수 있도록 자연적인 환경에서 직접 연습이 필요합니다. 지역사회 기반 교수(community-based instruction)와 자연적 교수 전략이 핵심입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "학교에서 지역사회 상황을 역할극으로 충분히 연습한다",
+          "nextNodeId": "feedback-wrong-4a",
+          "isOptimal": false,
+          "feedback": "역할극은 준비 단계로 유용하지만, 실제 지역사회 환경에서의 연습을 대체할 수 없습니다. 자폐스펙트럼 학생은 맥락 의존성이 높아 실제 환경에서의 연습이 중요합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "AAC 사용 빈도가 낮은 것은 학생의 능력 한계이므로 학교 내 사용만 목표로 한다",
+          "nextNodeId": "feedback-wrong-4b",
+          "isOptimal": false,
+          "feedback": "지역사회에서 사용하지 않는 것은 능력 부재가 아니라 일반화 지도의 미흡 때문입니다. 모든 환경에서의 의사소통 지원이 교육 목표여야 합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-4a": {
+      "id": "feedback-wrong-4a",
+      "type": "feedback",
+      "content": "역할극(role play)은 유용한 준비 전략이지만 충분하지 않습니다.\n\n🔍 **일반화를 위한 최선의 전략**:\n1. 실제 환경(마트, 버스, 공원)에서 직접 연습\n2. 다양한 의사소통 파트너와 연습 (교사, 가족, 낯선 사람)\n3. 자연적 교수(natural teaching strategies): 의사소통 기회가 생기면 즉각 활용\n4. 지역사회 기반 교수(CBI): 정기적으로 지역사회 환경 방문",
+      "relatedConcepts": ["지역사회 기반 교수", "자연적 교수", "일반화 촉진"],
+      "choices": [
+        {
+          "label": "지역사회 환경에서 직접 AAC 사용을 연습하는 것으로 변경한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "실제 환경에서의 연습이 일반화의 핵심입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-4b": {
+      "id": "feedback-wrong-4b",
+      "type": "feedback",
+      "content": "AAC 사용 범위를 학교로 제한하는 것은 교육적으로 부적절합니다.\n\n📌 **자립생활 관점**:\n- 의사소통은 모든 환경에서 필요한 핵심 기술\n- 지역사회 참여와 자립생활의 기초\n- 「장애인 등에 대한 특수교육법」 제21조는 사회통합과 지역사회 참여를 교육 목표로 명시\n\n💡 학교에서 잘 사용한다면 일반화 지도가 가능합니다.",
+      "relatedConcepts": ["사회통합", "지역사회 참여", "자립생활"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제21조(통합교육)",
+      "choices": [
+        {
+          "label": "지역사회 기반 교수로 일반화를 적극 지원한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "지역사회 참여까지 목표로 하는 올바른 관점입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "assessment-final": {
+      "id": "assessment-final",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n지훈이의 AAC 체계 구축 과정을 완료했습니다.\n\n### 핵심 정리\n1. **AAC 도입 절차**: 의사소통 평가 → 체계 선택 → 구현 → 가족 교육 → 일반화\n2. **PECS 적용**: 그림 변별이 제한적이어도 1단계부터 시작 가능, 총 6단계\n3. **가족 협력**: 직접 훈련과 가정 실행 지원이 유인물 제공보다 효과적\n4. **일반화 전략**: 다양한 환경, 다양한 파트너, 자연적 교수 기회 활용\n5. **법적 근거**: 특수교육법 제21조 — 의사소통 지원은 통합교육의 핵심 구성 요소",
+      "relatedConcepts": ["AAC", "PECS", "일반화", "가족 역량 강화", "지역사회 기반 교수"]
+    }
+  }
+}

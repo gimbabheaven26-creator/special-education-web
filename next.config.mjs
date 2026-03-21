@@ -1,4 +1,5 @@
 import createMDX from '@next/mdx'
+import withPWAInit from '@ducanh2912/next-pwa'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -15,4 +16,21 @@ const nextConfig = {
 
 const withMDX = createMDX({})
 
-export default withMDX(nextConfig)
+const withPWA = withPWAInit({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  runtimeCaching: [
+    {
+      urlPattern: /^https?.*/,
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'offlineCache',
+        expiration: { maxEntries: 200 },
+      },
+    },
+  ],
+})
+
+export default withPWA(withMDX(nextConfig))

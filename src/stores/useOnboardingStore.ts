@@ -16,9 +16,11 @@ export interface StudyPlan {
   examDate: string;
   level: StudyLevel;
   weakSubjects: string[];
+  targetSubjects: string[];
   weeklyMilestones: WeeklyMilestone[];
   dailyQuizTarget: number;
   dailyChapterTarget: number;
+  dailyQuestionsTarget: number;
 }
 
 interface OnboardingState {
@@ -26,6 +28,8 @@ interface OnboardingState {
   examDate: string | null;
   studyLevel: StudyLevel | null;
   weakSubjects: string[];
+  targetSubjects: string[];
+  dailyQuestionsTarget: number;
   studyPlan: StudyPlan | null;
 }
 
@@ -33,6 +37,8 @@ interface OnboardingActions {
   setExamDate: (date: string) => void;
   setStudyLevel: (level: StudyLevel) => void;
   setWeakSubjects: (subjects: string[]) => void;
+  setTargetSubjects: (subjects: string[]) => void;
+  setDailyQuestionsTarget: (count: number) => void;
   completeOnboarding: (plan: StudyPlan) => void;
   resetOnboarding: () => void;
   getDday: () => number | null;
@@ -49,6 +55,8 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>()(
       examDate: null,
       studyLevel: null,
       weakSubjects: [],
+      targetSubjects: [],
+      dailyQuestionsTarget: 20,
       studyPlan: null,
 
       setExamDate: (date) =>
@@ -60,12 +68,20 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>()(
       setWeakSubjects: (subjects) =>
         set(() => ({ weakSubjects: [...subjects] })),
 
+      setTargetSubjects: (subjects) =>
+        set(() => ({ targetSubjects: [...subjects] })),
+
+      setDailyQuestionsTarget: (count) =>
+        set(() => ({ dailyQuestionsTarget: count })),
+
       completeOnboarding: (plan) =>
         set(() => ({
           isOnboarded: true,
           examDate: plan.examDate,
           studyLevel: plan.level,
           weakSubjects: [...plan.weakSubjects],
+          targetSubjects: [...plan.targetSubjects],
+          dailyQuestionsTarget: plan.dailyQuestionsTarget,
           studyPlan: plan,
         })),
 
@@ -75,6 +91,8 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>()(
           examDate: null,
           studyLevel: null,
           weakSubjects: [],
+          targetSubjects: [],
+          dailyQuestionsTarget: 20,
           studyPlan: null,
         })),
 
@@ -89,7 +107,14 @@ export const useOnboardingStore = create<OnboardingState & OnboardingActions>()(
     }),
     {
       name: 'special-edu-onboarding',
-      version: 1,
+      version: 2,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 1) {
+          const s = persistedState as Partial<OnboardingState>;
+          return { ...s, targetSubjects: [], dailyQuestionsTarget: 20 };
+        }
+        return persistedState as OnboardingState;
+      },
     }
   )
 );

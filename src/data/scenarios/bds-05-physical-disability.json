@@ -1,0 +1,257 @@
+{
+  "id": "bds-05-physical-disability",
+  "title": "지체장애 학생의 교육환경 접근성 지원",
+  "description": "뇌성마비 중학교 1학년 학생의 교육 접근성을 위한 보조공학 및 환경 수정 계획 수립 시나리오",
+  "subject": "physical-disability",
+  "chapter": "assistive-technology",
+  "difficulty": 2,
+  "estimatedMinutes": 9,
+  "tags": ["지체장애", "보조공학", "접근성", "뇌성마비", "환경수정"],
+  "startNodeId": "situation-1",
+  "nodes": {
+    "situation-1": {
+      "id": "situation-1",
+      "type": "situation",
+      "content": "중학교 1학년 뇌성마비(경직형 양지마비) 학생 현수는 전동 휠체어를 사용하며, 양손 조작은 가능하나 정밀한 조작(쓰기, 키보드 입력)이 어렵습니다. 교사로서 보조공학 지원 계획을 세우기 위한 첫 번째 단계는 무엇인가요?",
+      "relatedConcepts": ["보조공학 평가", "뇌성마비", "기능 평가"],
+      "choices": [
+        {
+          "label": "바로 특수 키보드와 키가드를 구입하여 사용하게 한다",
+          "nextNodeId": "feedback-wrong-1a",
+          "isOptimal": false,
+          "feedback": "보조기기 구입 전에 반드시 학생의 기능적 능력과 필요를 평가해야 합니다. 맞지 않는 기기는 오히려 학습을 방해할 수 있습니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "작업치료사·보조공학사와 협력하여 기능 평가를 실시한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "정확합니다! 보조공학 지원은 작업치료사, 보조공학사, 특수교사의 팀 접근으로 학생의 기능 수준과 환경 요구를 평가한 후 기기를 선정해야 합니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "학부모에게 어떤 기기가 필요한지 직접 물어본다",
+          "nextNodeId": "feedback-wrong-1b",
+          "isOptimal": false,
+          "feedback": "학부모 의견은 중요하지만, 보조공학 선정은 전문적 기능 평가를 기반으로 해야 합니다. 학부모가 모든 기기 옵션을 알지 못할 수 있습니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-1a": {
+      "id": "feedback-wrong-1a",
+      "type": "feedback",
+      "content": "보조공학 기기를 평가 없이 구입하면 다음과 같은 문제가 발생할 수 있습니다:\n\n⚠️ **평가 없이 기기 선정 시 문제**:\n- 학생의 신체 기능에 맞지 않아 사용 불가\n- 과도하게 복잡하거나 단순한 기기 선정\n- 보조기기 포기율 30~40%의 주된 원인이 부적절한 평가\n\n💡 「특수교육법 시행령」 제20조에 따라 보조공학 지원은 팀 평가 기반으로 이루어져야 합니다.",
+      "relatedConcepts": ["보조기기 평가", "보조기기 포기율", "팀 접근"],
+      "legalBasis": "장애인 등에 대한 특수교육법 시행령 제20조(보조공학기기 지원)",
+      "choices": [
+        {
+          "label": "작업치료사·보조공학사와 협력하여 기능 평가를 먼저 실시한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "전문가 팀 평가가 선행되어야 합니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-1b": {
+      "id": "feedback-wrong-1b",
+      "type": "feedback",
+      "content": "학부모 참여는 매우 중요하지만 기기 선정의 유일한 근거가 될 수 없습니다.\n\n📌 **효과적인 팀 구성**:\n- 특수교사: 교육적 필요 및 교육과정 적용\n- 작업치료사: 운동 기능 및 자세 평가\n- 보조공학사: 기기 선정 및 적합화\n- 학부모·학생: 선호도 및 가정 환경\n\n모든 팀원의 의견이 통합되어야 적합한 기기를 선정할 수 있습니다.",
+      "relatedConcepts": ["IEP 팀", "보조공학 팀", "학부모 참여"],
+      "choices": [
+        {
+          "label": "전문가 팀 기능 평가를 실시하면서 학부모도 팀에 포함시킨다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "팀 접근이 올바른 방향입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-2": {
+      "id": "situation-2",
+      "type": "situation",
+      "content": "기능 평가 결과:\n\n📋 **평가 결과**\n• 상지 기능: 양손 사용 가능, 쥐기 약하고 움직임 느림\n• 필기: 손으로 쓰기 30분 후 피로도 높음, 가독성 60%\n• 타이핑: 표준 키보드 1분 5단어 (정확도 70%)\n• 인지: 학년 수준에 적합\n• 피로도: 오후 수업에서 집중도 감소\n\n현수에게 가장 적합한 보조기기 조합은 무엇인가요?",
+      "relatedConcepts": ["키가드", "음성인식 소프트웨어", "적응형 키보드", "AT 선정"],
+      "choices": [
+        {
+          "label": "키가드 부착 키보드 + 음성인식 소프트웨어(피로 시 전환)",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 키가드는 손 떨림과 오타를 줄여주고, 피로 시 음성인식으로 전환할 수 있어 현수의 기능적 수준과 피로 패턴에 최적입니다. 복수의 AT 전략을 상황에 따라 사용하는 것이 효과적입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "태블릿 PC와 스타일러스 펜만 사용하게 한다",
+          "nextNodeId": "feedback-wrong-2a",
+          "isOptimal": false,
+          "feedback": "스타일러스는 정밀한 조작을 요구하며, 현수의 약한 쥐기 능력에는 적합하지 않을 수 있습니다. 피로도 문제도 해결되지 않습니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "한 손 사용 키보드로 교체하고 일반 수업을 그대로 받게 한다",
+          "nextNodeId": "feedback-wrong-2b",
+          "isOptimal": false,
+          "feedback": "한 손 키보드는 한 손만 사용할 때 유용하지만, 현수는 양손을 사용할 수 있습니다. 피로도 문제와 오후 집중도 감소에 대한 고려가 없습니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-2a": {
+      "id": "feedback-wrong-2a",
+      "type": "feedback",
+      "content": "스타일러스 펜은 정밀한 손가락 조작을 요구합니다.\n\n🔍 **현수에게 맞지 않는 이유**:\n- 약한 쥐기 능력 → 스타일러스 쥐기 어려움\n- 정밀한 움직임 필요 → 뇌성마비 경직으로 어려움\n- 피로도 고려 없음\n\n**키가드**는 손가락이 잘못된 키를 누르는 것을 물리적으로 방지하여 오타와 인지적 부담을 동시에 줄여줍니다.",
+      "relatedConcepts": ["키가드", "AT 선정 기준", "기능적 능력"],
+      "choices": [
+        {
+          "label": "키가드 키보드와 음성인식 소프트웨어 조합으로 변경한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "기능적 수준에 맞는 적절한 선택입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-2b": {
+      "id": "feedback-wrong-2b",
+      "type": "feedback",
+      "content": "보조기기 선정에서 피로도는 중요한 고려 요소입니다.\n\n📌 **뇌성마비 학생의 피로 관리**:\n- 경직은 근육을 지속적으로 긴장시켜 일반 학생보다 에너지 소모가 2~3배\n- 오후 피로도 감소를 위한 에너지 보존 전략 필요\n- 음성인식 소프트웨어는 피로 시 상지 사용 없이 과제 수행 가능\n\n다중 AT 전략(multiple AT strategies)이 단일 기기보다 효과적입니다.",
+      "relatedConcepts": ["피로 관리", "에너지 보존", "다중 AT 전략"],
+      "choices": [
+        {
+          "label": "키가드 키보드와 음성인식 소프트웨어 조합을 선택한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "피로도와 기능적 능력을 모두 고려한 올바른 선택입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-3": {
+      "id": "situation-3",
+      "type": "situation",
+      "content": "보조기기 선정 후, 현수가 일반 수업에 참여할 수 있도록 교육과정 수정이 필요합니다. 수학 수업에서 문제 풀기 과제의 양이 많아 시간 내 완성이 어렵습니다. 가장 적절한 교육과정 수정 방법은 무엇인가요?",
+      "relatedConcepts": ["교육과정 수정", "편의 제공", "수정 vs 조정"],
+      "choices": [
+        {
+          "label": "핵심 문제만 선택하여 과제 수를 줄이고, 대신 추가 시간을 부여한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "정확합니다! 수량 조정(양 축소)과 시간 연장(추가 시간)은 지체장애 학생에게 가장 흔히 사용되는 합리적 편의 제공(reasonable accommodation)입니다. 학습 목표의 수준은 유지하면서 접근 방식을 조정하는 것이 핵심입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "수학 수준을 낮춰 쉬운 문제만 풀게 한다",
+          "nextNodeId": "feedback-wrong-3a",
+          "isOptimal": false,
+          "feedback": "현수의 인지 수준은 학년 수준에 적합합니다. 지체장애는 인지 장애가 아니므로 수학 수준을 낮추는 것은 부적절한 교육과정 수정입니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "수업 시간을 2배로 늘려 모든 문제를 다 풀게 한다",
+          "nextNodeId": "feedback-wrong-3b",
+          "isOptimal": false,
+          "feedback": "수업 시간을 2배로 늘리는 것은 현실적으로 불가능하며, 피로도를 오히려 증가시킬 수 있습니다. 핵심 학습 목표 달성에 초점을 맞춘 효율적인 방안이 필요합니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-3a": {
+      "id": "feedback-wrong-3a",
+      "type": "feedback",
+      "content": "⚠️ **핵심 오류**: 지체장애 = 지적장애가 아닙니다!\n\n현수는 인지 수준이 학년에 적합합니다. 수준을 낮추면:\n- 학습 기회 박탈\n- 잠재능력 발현 저해\n- 낮은 기대치로 인한 낙인\n\n**합리적 편의 제공의 원칙**: 학습 목표 수준은 유지하되, 목표에 도달하는 방법(접근성)을 조정합니다.",
+      "relatedConcepts": ["합리적 편의", "장애 유형별 이해", "기회 평등"],
+      "choices": [
+        {
+          "label": "핵심 문제 선택과 추가 시간 부여로 수정한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "학습 목표를 유지하면서 접근성을 높이는 올바른 방법입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-3b": {
+      "id": "feedback-wrong-3b",
+      "type": "feedback",
+      "content": "모든 문제를 다 풀게 하는 것이 목표라면, 그 방법은 학생에게 부담만 줄 수 있습니다.\n\n💡 **핵심 문제 선택의 교육적 의의**:\n- 학습 목표의 핵심 개념을 파악하는 문제를 선별\n- 같은 개념을 반복하는 문제는 줄임\n- 적은 문제로도 학습 목표 달성 가능\n\n**에너지 보존**: 피로도가 높은 학생에게 모든 과제 완성을 요구하는 것은 비교육적입니다.",
+      "relatedConcepts": ["핵심 문제 선별", "에너지 보존", "우선순위 교수"],
+      "choices": [
+        {
+          "label": "핵심 문제 선택 + 추가 시간 부여로 변경한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "효율적이고 현실적인 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-4": {
+      "id": "situation-4",
+      "type": "situation",
+      "content": "보조기기와 교육과정 수정이 준비되었습니다. 이제 현수가 또래와의 통합 수업에서 사회적으로도 잘 적응할 수 있도록 지원해야 합니다. 가장 적절한 접근은 무엇인가요?",
+      "relatedConcepts": ["통합교육", "또래 관계", "사회적 통합"],
+      "choices": [
+        {
+          "label": "또래 지원 프로그램을 운영하고, 현수가 도움을 받기만 하는 것이 아니라 기여할 수 있는 역할도 부여한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "완벽합니다! 통합교육에서 장애 학생이 단순히 도움을 받는 수혜자가 아니라 학급 공동체의 기여 구성원이 되는 것이 진정한 통합입니다. 또래 지원과 역할 부여가 사회적 통합을 촉진합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "수업 시간에 항상 보조교사가 옆에 붙어 1:1로 지원한다",
+          "nextNodeId": "feedback-wrong-4a",
+          "isOptimal": false,
+          "feedback": "지나친 1:1 지원은 또래와의 자연스러운 상호작용을 방해하고 의존성을 높입니다. 보조교사 지원은 필요한 시점에 최소한으로 제공해야 합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "현수를 위한 별도 학습 공간을 만들어 집중적으로 학습하게 한다",
+          "nextNodeId": "feedback-wrong-4b",
+          "isOptimal": false,
+          "feedback": "분리 공간은 통합교육의 원칙에 반합니다. 물리적 통합만으로는 충분하지 않지만, 불필요하게 분리하는 것은 사회적 통합을 저해합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-4a": {
+      "id": "feedback-wrong-4a",
+      "type": "feedback",
+      "content": "과잉 지원(over-support)은 여러 문제를 야기합니다.\n\n⚠️ **과잉 지원의 부작용**:\n- 또래와의 상호작용 차단 ('그림자 교사' 효과)\n- 학생의 의존성 증가\n- 장애 학생이 '다르다'는 인식 강화\n- 학생 자신의 자기결정력 약화\n\n💡 **단계적 지원 축소(fading)**: 필요한 만큼만 지원하고 점진적으로 독립성을 높입니다.",
+      "relatedConcepts": ["그림자 교사", "과잉 지원", "독립성", "자기결정"],
+      "choices": [
+        {
+          "label": "또래 지원과 역할 부여를 중심으로 지원 방식을 변경한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "자연스러운 통합을 위한 올바른 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-4b": {
+      "id": "feedback-wrong-4b",
+      "type": "feedback",
+      "content": "별도 공간은 물리적 분리를 의미합니다.\n\n📌 **통합교육의 의미**:\n- 물리적 통합: 같은 공간에 있음\n- 교수적 통합: 같은 교육과정에 참여\n- **사회적 통합**: 또래와 의미 있는 상호작용\n\n세 가지가 모두 이루어져야 진정한 통합입니다. 물리적 분리는 나머지 두 가지를 원천 차단합니다.\n\n「특수교육법 시행령」 제20조에 따라 최소 제한 환경(LRE)을 보장해야 합니다.",
+      "relatedConcepts": ["최소 제한 환경", "LRE", "통합교육 3요소"],
+      "legalBasis": "장애인 등에 대한 특수교육법 시행령 제20조(보조공학기기 지원)",
+      "choices": [
+        {
+          "label": "통합 학급에서 또래 지원 프로그램을 운영하는 것으로 변경한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "최소 제한 환경 원칙에 부합합니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "assessment-final": {
+      "id": "assessment-final",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n현수의 교육환경 접근성 지원 계획을 완성했습니다.\n\n### 핵심 정리\n1. **보조공학 평가**: 팀 접근(작업치료사·보조공학사·교사) → 기능 평가 → 기기 선정 순서\n2. **기기 선정 원칙**: 학생의 기능 수준, 피로도, 환경 요구를 종합적으로 고려\n3. **교육과정 수정**: 합리적 편의 제공 = 목표 수준 유지 + 접근 방법 조정\n4. **사회적 통합**: 또래 지원 + 역할 부여 → 기여하는 구성원으로서의 통합\n5. **법적 근거**: 특수교육법 시행령 제20조 — 보조공학기기 지원 및 최소 제한 환경 보장",
+      "relatedConcepts": ["보조공학", "합리적 편의", "통합교육", "최소 제한 환경", "팀 접근"]
+    }
+  }
+}

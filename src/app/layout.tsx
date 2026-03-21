@@ -18,6 +18,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "특수교육 공부방",
   description: "특수교육 임용시험 대비 학습 플랫폼",
+  manifest: "/manifest.json",
   openGraph: {
     title: "특수교육 공부방",
     description: "특수교육 임용시험 대비 학습 플랫폼",

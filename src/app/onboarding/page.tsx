@@ -7,9 +7,9 @@ import { useOnboardingStore, type StudyLevel } from '@/stores/useOnboardingStore
 import { useStudyStore } from '@/stores/useStudyStore';
 import { generateStudyPlan, getSubjectTitle, getAllSubjectSlugs, getNextExamDate } from '@/lib/study-planner';
 
-type Step = 'exam-date' | 'level' | 'weak-subjects' | 'confirm';
+type Step = 'exam-date' | 'level' | 'weak-subjects' | 'daily-questions' | 'confirm';
 
-const STEPS: Step[] = ['exam-date', 'level', 'weak-subjects', 'confirm'];
+const STEPS: Step[] = ['exam-date', 'level', 'weak-subjects', 'daily-questions', 'confirm'];
 
 const LEVEL_OPTIONS: { value: StudyLevel; label: string; description: string; icon: string }[] = [
   { value: 'beginner', label: '입문 (0회독)', description: '아직 공부를 시작하지 않았거나 막 시작했어요', icon: '🌱' },
@@ -275,11 +275,79 @@ function WeakSubjectsStep({
   );
 }
 
+const DAILY_QUESTION_OPTIONS: { value: number; label: string; desc: string }[] = [
+  { value: 10, label: '10문항', desc: '가볍게 시작 (~15분)' },
+  { value: 20, label: '20문항', desc: '표준 학습 (~30분)' },
+  { value: 30, label: '30문항', desc: '집중 학습 (~45분)' },
+  { value: 50, label: '50문항', desc: '고강도 훈련 (~75분)' },
+];
+
+function DailyQuestionsStep({
+  value,
+  onChange,
+  onNext,
+  onBack,
+}: {
+  value: number;
+  onChange: (count: number) => void;
+  onNext: () => void;
+  onBack: () => void;
+}) {
+  return (
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-2">
+          <GraduationCap className="h-8 w-8 text-primary" />
+        </div>
+        <h2 className="text-xl font-bold">하루 목표 학습량은?</h2>
+        <p className="text-sm text-muted-foreground">
+          꾸준히 유지할 수 있는 양을 선택하세요
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        {DAILY_QUESTION_OPTIONS.map((opt) => (
+          <button
+            key={opt.value}
+            onClick={() => onChange(opt.value)}
+            className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+              value === opt.value
+                ? 'border-primary bg-primary/5'
+                : 'border-border hover:border-primary/50'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">{opt.label}</span>
+              <span className="text-sm text-muted-foreground">{opt.desc}</span>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={onBack}
+          className="flex-1 py-3 rounded-xl border border-border font-semibold hover:bg-muted/50 transition-colors"
+        >
+          이전
+        </button>
+        <button
+          onClick={onNext}
+          className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity"
+        >
+          다음
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function ConfirmStep({
   examDate,
   dday,
   level,
   weakSubjects,
+  dailyQuestionsTarget,
   onBack,
   onConfirm,
 }: {
@@ -287,6 +355,7 @@ function ConfirmStep({
   dday: number;
   level: StudyLevel;
   weakSubjects: string[];
+  dailyQuestionsTarget: number;
   onBack: () => void;
   onConfirm: () => void;
 }) {
@@ -319,6 +388,10 @@ function ConfirmStep({
               ? weakSubjects.map(getSubjectTitle).join(', ')
               : '미선택'}
           </span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-muted-foreground">하루 목표</span>
+          <span className="text-sm font-semibold">{dailyQuestionsTarget}문항</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-sm text-muted-foreground">총 학습 주차</span>
@@ -357,6 +430,7 @@ export default function OnboardingPage() {
   const [step, setStep] = useState<Step>('exam-date');
   const [level, setLevel] = useState<StudyLevel | null>(null);
   const [weakSubjects, setWeakSubjects] = useState<string[]>([]);
+  const [dailyQuestionsTarget, setDailyQuestionsTarget] = useState(20);
 
   const goNext = useCallback(() => {
     const currentIndex = STEPS.indexOf(step);
@@ -375,10 +449,11 @@ export default function OnboardingPage() {
   const handleConfirm = useCallback(() => {
     if (!level) return;
     const plan = generateStudyPlan(examDate, level, weakSubjects);
-    completeOnboarding(plan);
+    const fullPlan = { ...plan, targetSubjects: weakSubjects, dailyQuestionsTarget };
+    completeOnboarding(fullPlan);
     setDailyGoal(plan.dailyChapterTarget, plan.dailyQuizTarget);
     router.push('/');
-  }, [examDate, level, weakSubjects, completeOnboarding, setDailyGoal, router]);
+  }, [examDate, level, weakSubjects, dailyQuestionsTarget, completeOnboarding, setDailyGoal, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-8">
@@ -394,12 +469,21 @@ export default function OnboardingPage() {
         {step === 'weak-subjects' && (
           <WeakSubjectsStep selected={weakSubjects} onChange={setWeakSubjects} onNext={goNext} onBack={goBack} />
         )}
+        {step === 'daily-questions' && (
+          <DailyQuestionsStep
+            value={dailyQuestionsTarget}
+            onChange={setDailyQuestionsTarget}
+            onNext={goNext}
+            onBack={goBack}
+          />
+        )}
         {step === 'confirm' && level && (
           <ConfirmStep
             examDate={examDate}
             dday={dday}
             level={level}
             weakSubjects={weakSubjects}
+            dailyQuestionsTarget={dailyQuestionsTarget}
             onBack={goBack}
             onConfirm={handleConfirm}
           />

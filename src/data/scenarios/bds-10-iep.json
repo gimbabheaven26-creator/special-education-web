@@ -1,0 +1,316 @@
+{
+  "id": "bds-10-iep",
+  "title": "IEP 목표 수립과 진도 모니터링",
+  "description": "개별화교육계획 연간 목표를 수립하고 분기별 진도를 평가하는 실제적 의사결정 시나리오",
+  "subject": "special-education-assessment",
+  "chapter": "iep-development",
+  "difficulty": 3,
+  "estimatedMinutes": 12,
+  "tags": ["IEP", "개별화교육계획", "목표수립", "진도모니터링", "개별화교육팀"],
+  "startNodeId": "situation-1",
+  "nodes": {
+    "situation-1": {
+      "id": "situation-1",
+      "type": "situation",
+      "content": "초등학교 4학년 학습장애 학생 은지의 IEP를 작성해야 합니다. 은지는 읽기 이해에 어려움이 있으며, 현재 2학년 수준의 글을 이해할 수 있습니다. IEP 목표 수립을 위해 첫 번째로 해야 할 것은 무엇인가요?",
+      "relatedConcepts": ["현행 수준", "IEP 구성 요소", "기준선 측정"],
+      "choices": [
+        {
+          "label": "동학년 교육과정을 기준으로 IEP 목표를 설정한다",
+          "nextNodeId": "feedback-wrong-1a",
+          "isOptimal": false,
+          "feedback": "IEP 목표는 동학년 기준이 아닌 학생의 현행 수준과 잠재적 성장 가능성을 기반으로 설정해야 합니다. 현행 수준을 먼저 정확히 파악해야 합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "은지의 읽기 이해 현행 수준을 표준화 검사와 교육과정 중심 측정으로 정확히 파악한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "정확합니다! IEP의 모든 목표는 현행 수준(present levels of performance, PLOP)에서 출발합니다. 정확한 기준선 없이는 의미 있는 목표를 설정할 수 없습니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "작년 IEP 목표를 그대로 사용한다",
+          "nextNodeId": "feedback-wrong-1b",
+          "isOptimal": false,
+          "feedback": "IEP는 매년 새로 작성해야 합니다. 학생이 성장했거나 필요가 변했을 수 있으므로, 현재 수준을 새로 평가하고 목표를 갱신해야 합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-1a": {
+      "id": "feedback-wrong-1a",
+      "type": "feedback",
+      "content": "동학년 기준 목표는 현재 은지의 수준에서 너무 멀거나 가까울 수 있습니다.\n\n📌 **IEP 목표의 원칙**:\n- 학생의 현재 수준(기준선)에서 출발\n- 1년 내 달성 가능한 현실적이면서도 도전적인 수준\n- 측정 가능한 형태로 작성\n\n4학년 학생이 2학년 수준에 있다면, 목표는 '3학년 수준'처럼 현실적인 성장을 반영해야 합니다.",
+      "relatedConcepts": ["현행 수준", "IEP 목표 설정 원칙", "측정 가능한 목표"],
+      "choices": [
+        {
+          "label": "먼저 은지의 읽기 이해 현행 수준을 정확히 파악한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "현행 수준 파악이 모든 목표 수립의 출발점입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-1b": {
+      "id": "feedback-wrong-1b",
+      "type": "feedback",
+      "content": "IEP는 매년 반드시 재검토하고 새로 작성해야 합니다.\n\n「특수교육법」 제22조에 따라 개별화교육계획은 매 학년도 초에 작성해야 하며, 학기마다 점검해야 합니다.\n\n💡 **IEP 재작성 이유**:\n- 학생의 성장 반영\n- 새로운 필요 추가\n- 달성된 목표 갱신\n- 달성 못한 목표 분석 및 수정",
+      "relatedConcepts": ["IEP 연간 갱신", "특수교육법 제22조", "정기 검토"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제22조(개별화교육지원팀의 구성 및 운영)",
+      "choices": [
+        {
+          "label": "새로 현행 수준을 평가하고 이번 학년도 IEP를 작성한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "매년 새로 작성하는 것이 법적 의무이자 교육적 최선입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-2": {
+      "id": "situation-2",
+      "type": "situation",
+      "content": "현행 수준 평가 결과:\n\n📋 **은지의 읽기 이해 현행 수준**\n• 텍스트 수준: 초등 2학년 말 수준 (국어교육과정 기준)\n• 글자 읽기: 유창성 분당 55단어 (같은 텍스트 수준 평균 80단어)\n• 주요 어려움: 추론적 이해, 글의 구조 파악\n• 명시적 내용 이해: 비교적 양호\n\n다음 중 가장 적절하게 작성된 IEP 연간 목표는 무엇인가요?",
+      "relatedConcepts": ["측정 가능한 IEP 목표", "SMART 목표", "연간 목표"],
+      "choices": [
+        {
+          "label": "2학년 수준 이야기 글을 읽고, 이야기의 원인과 결과를 80% 정확도로 4회 중 3회 이상 설명할 수 있다 (측정 기간: 1학년 말까지)",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 이 목표는 SMART(Specific, Measurable, Achievable, Relevant, Time-bound) 원칙을 충족합니다. 텍스트 수준, 기술(원인-결과), 정확도(80%), 준거(4회 중 3회), 시간 기한이 모두 포함되어 있습니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "읽기 이해 능력을 향상시킨다",
+          "nextNodeId": "feedback-wrong-2a",
+          "isOptimal": false,
+          "feedback": "이 목표는 측정이 불가능합니다. '향상시킨다'는 어느 수준이 되어야 달성인지 알 수 없습니다. IEP 목표는 반드시 관찰·측정 가능해야 합니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "4학년 수준의 글을 읽고 완전히 이해할 수 있다",
+          "nextNodeId": "feedback-wrong-2b",
+          "isOptimal": false,
+          "feedback": "4학년 수준은 현재 은지 수준(2학년)에서 너무 먼 목표입니다. 1년 내 달성하기 어려운 목표는 좌절감을 주고 의미 있는 진도 측정도 어렵습니다.",
+          "xpBonus": 5
+        }
+      ]
+    },
+    "feedback-wrong-2a": {
+      "id": "feedback-wrong-2a",
+      "type": "feedback",
+      "content": "측정 불가능한 목표는 IEP에 사용할 수 없습니다.\n\n📌 **SMART 목표 요소**:\n- **S**pecific (구체적): 어떤 기술, 어떤 조건\n- **M**easurable (측정 가능): 수치, 빈도, 정확도\n- **A**chievable (달성 가능): 현재 수준에서 1년 내 가능\n- **R**elevant (관련성): 학생의 필요와 연결\n- **T**ime-bound (시간 제한): 달성 시점 명시\n\n예시: '이야기 글을 읽고 원인-결과를 80% 정확도로 설명'처럼 구체적으로 작성해야 합니다.",
+      "relatedConcepts": ["SMART 목표", "측정 가능한 목표", "IEP 작성"],
+      "choices": [
+        {
+          "label": "구체적이고 측정 가능한 형태로 목표를 다시 작성한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "SMART 원칙 적용이 좋은 IEP 목표의 기본입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-2b": {
+      "id": "feedback-wrong-2b",
+      "type": "feedback",
+      "content": "현실적이지 않은 목표는 학생에게 해롭습니다.\n\n⚠️ **비현실적 목표의 문제**:\n- 1년 내 달성 불가능 → 항상 실패 경험\n- 진도 측정 의미 없음\n- 중간 과정의 성장을 인식하지 못함\n\n💡 **적절한 목표 수준**:\n- 현재 수준에서 1~1.5학년 성장이 1년 목표로 적절\n- 2학년 수준 → 2.5~3학년 수준 목표\n\n도전적이되 달성 가능한 목표가 동기를 높입니다.",
+      "relatedConcepts": ["달성 가능한 목표", "동기 부여", "성장 기대"],
+      "choices": [
+        {
+          "label": "현재 수준에서 1년간 현실적으로 달성 가능한 수준으로 목표를 수정한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "현실적이고 도전적인 균형이 좋은 IEP 목표의 핵심입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-3": {
+      "id": "situation-3",
+      "type": "situation",
+      "content": "연간 목표가 수립되었습니다. IEP에는 단기 목표(중간 목표)도 포함해야 합니다. 연간 목표 '2학년 수준 이야기 글에서 원인-결과 설명하기(80% 정확도)'를 위한 단기 목표의 적절한 순서는 무엇인가요?",
+      "relatedConcepts": ["단기 목표", "목표의 계열화", "교수 순서"],
+      "choices": [
+        {
+          "label": "① 원인-결과 어휘(왜냐하면, 그래서) 이해하기 → ② 명시된 원인-결과 찾기 → ③ 암시된 원인-결과 추론하기",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "정확합니다! 이 순서는 기초 어휘 이해 → 명시적 정보 처리 → 추론의 단계적 순서(task analysis)를 따릅니다. 어려운 기술을 작은 단계로 쪼개어 가르치는 것이 효과적인 교수 설계입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "① 추론적 이해 연습 → ② 명시된 원인-결과 찾기 → ③ 어휘 학습",
+          "nextNodeId": "feedback-wrong-3a",
+          "isOptimal": false,
+          "feedback": "이 순서는 역순입니다. 어렵고 고차원적인 기술(추론)을 먼저 가르치고 기초(어휘)를 나중에 가르치는 것은 비효율적입니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "단기 목표 없이 연간 목표만 있어도 충분하다",
+          "nextNodeId": "feedback-wrong-3b",
+          "isOptimal": false,
+          "feedback": "단기 목표는 연간 목표로 가는 중간 단계를 명시하여 진도를 모니터링할 수 있게 합니다. 연간 목표만 있으면 중간에 방향을 잃을 수 있습니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-3a": {
+      "id": "feedback-wrong-3a",
+      "type": "feedback",
+      "content": "교수 순서(task analysis)는 기초에서 심화로 진행해야 합니다.\n\n🔍 **읽기 이해 발달 순서**:\n1. 어휘 이해 (기초)\n2. 명시적 정보 파악 (글에 직접 제시된 내용)\n3. 추론적 이해 (글에 없는 내용을 논리적으로 파악)\n\n추론은 어휘와 명시적 이해가 기반이 된 후에 가능합니다. 기초 없이 추론을 가르치면 학생이 좌절하게 됩니다.",
+      "relatedConcepts": ["과제 분석", "교수 순서", "위계적 기술"],
+      "choices": [
+        {
+          "label": "어휘 이해 → 명시적 내용 → 추론 순서로 단기 목표를 수정한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "기초에서 심화로의 올바른 교수 순서를 파악했습니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-3b": {
+      "id": "feedback-wrong-3b",
+      "type": "feedback",
+      "content": "단기 목표는 IEP의 중요한 구성 요소입니다.\n\n📌 **단기 목표의 역할**:\n- 연간 목표를 향한 진도 점검 기준\n- 중간에 방향 수정 가능\n- 학생과 가족에게 성장을 보여주는 도구\n- 중재 효과를 판단하는 기준\n\n「특수교육법」 제22조에 따라 IEP에는 연간 목표와 단기 목표(중간 성취 기준)가 포함되어야 합니다.",
+      "relatedConcepts": ["단기 목표", "IEP 구성 요소", "진도 점검"],
+      "choices": [
+        {
+          "label": "기초부터 심화 순서로 단기 목표를 포함하여 IEP를 완성한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "단기 목표가 포함된 완성도 높은 IEP를 작성합니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-4": {
+      "id": "situation-4",
+      "type": "situation",
+      "content": "IEP를 실행한 지 1학기가 지났습니다. 분기별 점검 결과:\n\n📊 **1학기 진도 평가**\n• 단기 목표 1 (원인-결과 어휘 이해): **달성** (85% 정확도)\n• 단기 목표 2 (명시된 원인-결과 찾기): **부분 달성** (55%, 목표 80%)\n• 교수 방법: 소집단 직접 교수, 주 3회 40분\n• 은지 반응: 참여는 좋으나 정확도 정체\n\n분기 평가 후 가장 적절한 다음 조치는 무엇인가요?",
+      "relatedConcepts": ["IEP 수정", "분기 평가", "데이터 기반 교수 수정"],
+      "choices": [
+        {
+          "label": "교수 방법을 분석하고 추가 지원 전략을 도입하여 IEP를 수정한다",
+          "nextNodeId": "situation-5",
+          "isOptimal": true,
+          "feedback": "정확합니다! 데이터가 목표 미달을 나타낼 때 교사는 교수 방법을 검토하고 수정해야 합니다. IEP는 살아있는 문서로, 학생의 반응에 따라 수정되어야 합니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "목표 수준을 낮춰 55%를 달성 기준으로 수정한다",
+          "nextNodeId": "feedback-wrong-4a",
+          "isOptimal": false,
+          "feedback": "목표를 낮추는 것은 교수 방법을 개선하기 전에 할 수 없습니다. 참여도가 좋은데 정확도가 낮다면, 교수 전략의 문제일 가능성이 높습니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "1학기가 지난 것이므로 2학기에 저절로 향상될 것이다",
+          "nextNodeId": "feedback-wrong-4b",
+          "isOptimal": false,
+          "feedback": "데이터 없이 자연적 향상을 기대하는 것은 데이터 기반 교수의 원칙에 반합니다. 현재 데이터는 교수 수정이 필요하다는 신호입니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-4a": {
+      "id": "feedback-wrong-4a",
+      "type": "feedback",
+      "content": "목표를 낮추기 전에 교수 방법 개선을 먼저 시도해야 합니다.\n\n📌 **교수 수정 우선 순서**:\n1. 교수 전략 변경 (예: 그래픽 조직자, 협동학습)\n2. 교수 강도 증가 (빈도·시간 증가)\n3. 보조 자료 추가\n4. 소집단에서 개별 교수로 전환\n5. 목표 수준 재검토 (가장 마지막)\n\n은지의 참여도가 좋다는 것은 동기 문제가 아닌 교수 방법의 문제일 가능성을 시사합니다.",
+      "relatedConcepts": ["교수 수정", "단계적 중재 강화", "데이터 기반 결정"],
+      "choices": [
+        {
+          "label": "교수 방법을 분석하고 추가 전략을 도입하여 IEP를 수정한다",
+          "nextNodeId": "situation-5",
+          "isOptimal": true,
+          "feedback": "교수 수정이 목표 하향보다 항상 먼저입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-4b": {
+      "id": "feedback-wrong-4b",
+      "type": "feedback",
+      "content": "데이터에 근거하지 않은 낙관적 기대는 위험합니다.\n\n💡 **데이터 기반 교수의 핵심**:\n- 현재 데이터: 55% (목표 80%)는 유의미한 차이\n- 2학기도 같은 방법으로 가면 같은 결과 가능성 높음\n- 교수 방법 수정 없이 개선을 기대하는 것 = 비효율적\n\n**분기 평가의 목적**: 중간에 방향을 수정하여 연간 목표 달성 가능성을 높이는 것입니다.",
+      "relatedConcepts": ["분기 평가", "데이터 활용", "교수 방향 수정"],
+      "choices": [
+        {
+          "label": "지금 즉시 교수 방법을 분석하고 수정한다",
+          "nextNodeId": "situation-5",
+          "isOptimal": true,
+          "feedback": "데이터를 즉각적으로 교수에 반영하는 전문적 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-5": {
+      "id": "situation-5",
+      "type": "situation",
+      "content": "분석 결과, 기존 직접 교수에 더해 그래픽 조직자(원인-결과 도식)를 추가하기로 했습니다. IEP를 공식적으로 수정하려면 어떤 절차가 필요한가요?",
+      "relatedConcepts": ["IEP 수정 절차", "개별화교육팀 회의", "부모 동의"],
+      "choices": [
+        {
+          "label": "개별화교육지원팀 회의를 소집하고, 학부모에게 수정 사항을 설명하여 동의를 받은 후 IEP를 수정한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "완벽합니다! IEP 수정은 개별화교육지원팀 회의와 학부모 동의를 거쳐야 합니다. 「특수교육법」 제22조에 따라 학부모는 IEP 개발과 수정에 참여할 권리가 있습니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "교사가 판단하여 교수 방법만 바꾸고 공식 IEP는 그대로 둔다",
+          "nextNodeId": "feedback-wrong-5a",
+          "isOptimal": false,
+          "feedback": "교수 방법 변경이 IEP에 기록된 중재 방법과 다르다면, IEP를 공식 수정해야 합니다. IEP는 법적 문서로, 임의 변경 없이 절차를 따라야 합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "학부모 동의 없이 팀 회의만으로 IEP를 수정한다",
+          "nextNodeId": "feedback-wrong-5b",
+          "isOptimal": false,
+          "feedback": "학부모 동의는 IEP 수정의 법적 요건입니다. 학부모 배제는 권리 침해입니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-5a": {
+      "id": "feedback-wrong-5a",
+      "type": "feedback",
+      "content": "IEP는 법적 구속력이 있는 문서입니다.\n\n📌 **IEP 수정 시 필요한 절차**:\n1. 개별화교육지원팀 소집\n2. 수정 필요 근거(데이터) 제시\n3. 수정안 논의\n4. 학부모에게 설명 및 서면 동의\n5. 수정된 IEP 문서화 및 보관\n\n교사가 임의로 교수 방법을 바꿔도 IEP에는 기존 방법이 기록되어 있어 실제 교수와 불일치가 생깁니다.",
+      "relatedConcepts": ["IEP 법적 지위", "문서화", "절차적 보호"],
+      "choices": [
+        {
+          "label": "팀 회의와 학부모 동의를 거쳐 공식 IEP를 수정한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "법적 절차를 준수하는 전문적 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-5b": {
+      "id": "feedback-wrong-5b",
+      "type": "feedback",
+      "content": "학부모 동의는 IEP 절차의 핵심입니다.\n\n「특수교육법」 제22조에 따르면:\n- 학부모는 개별화교육지원팀의 필수 구성원\n- IEP 수정에 학부모 동의 필요\n- 학부모가 동의하지 않으면 수정 불가 (단, 이의 신청 절차 있음)\n\n학부모를 배제한 IEP 수정은 법적 무효이며, 이후 분쟁 시 교사·학교가 법적 책임을 질 수 있습니다.",
+      "relatedConcepts": ["학부모 권리", "동의 절차", "법적 책임"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제22조(개별화교육지원팀의 구성 및 운영)",
+      "choices": [
+        {
+          "label": "학부모를 포함한 팀 회의를 통해 동의를 받고 IEP를 수정한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "학부모 동의를 포함하는 올바른 절차입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "assessment-final": {
+      "id": "assessment-final",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n은지의 IEP 수립과 모니터링 과정을 완성했습니다.\n\n### 핵심 정리\n1. **현행 수준(PLOP)**: 모든 IEP 목표의 출발점 — 정확한 기준선 없이 의미 있는 목표 없음\n2. **SMART 목표**: 구체적·측정 가능·달성 가능·관련성·시간 제한 — 5요소 충족 필수\n3. **단기 목표**: 과제 분석 기반 단계적 순서 — 기초→심화 계열화\n4. **분기 평가**: 데이터가 목표 미달이면 교수 방법 수정 먼저 (목표 하향은 최후)\n5. **IEP 수정**: 팀 회의 + 학부모 서면 동의 → 공식 절차 필수\n6. **법적 근거**: 특수교육법 제22조 — 개별화교육지원팀 구성·운영 및 학부모 권리",
+      "relatedConcepts": ["현행 수준", "SMART 목표", "단기 목표", "분기 평가", "IEP 수정 절차", "학부모 권리"]
+    }
+  }
+}

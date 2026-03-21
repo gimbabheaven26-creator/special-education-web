@@ -1,0 +1,257 @@
+{
+  "id": "bds-09-transition",
+  "title": "고등학생의 전환교육 계획 수립",
+  "description": "지적장애 고등학교 2학년 학생의 졸업 후 자립생활을 위한 전환교육 계획 수립 시나리오",
+  "subject": "transition-education",
+  "chapter": "transition-planning",
+  "difficulty": 3,
+  "estimatedMinutes": 10,
+  "tags": ["전환교육", "지적장애", "개별화전환교육계획", "자립생활", "직업교육"],
+  "startNodeId": "situation-1",
+  "nodes": {
+    "situation-1": {
+      "id": "situation-1",
+      "type": "situation",
+      "content": "고등학교 2학년 지적장애(경도) 학생 종수는 졸업 후 2년이 남았습니다. 담임 특수교사로서 전환교육 계획을 수립해야 합니다. 가장 먼저 해야 할 것은 무엇인가요?",
+      "relatedConcepts": ["전환교육 계획", "전환 평가", "개별화전환교육계획"],
+      "choices": [
+        {
+          "label": "교사가 종수에게 적합한 직업을 선정하고 직업 훈련을 바로 시작한다",
+          "nextNodeId": "feedback-wrong-1a",
+          "isOptimal": false,
+          "feedback": "교사가 일방적으로 직업을 선정하는 것은 종수의 자기결정권을 침해합니다. 전환교육 계획은 학생의 흥미, 강점, 필요를 중심으로 수립해야 합니다.",
+          "xpBonus": 0
+        },
+        {
+          "label": "종수의 흥미, 강점, 필요, 선호도를 파악하는 전환 평가를 실시한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "정확합니다! 전환교육의 출발점은 개인 중심 계획(person-centered planning)입니다. 전환 평가를 통해 종수 자신이 원하는 미래를 파악하고, 그에 맞는 계획을 수립합니다.",
+          "xpBonus": 15
+        },
+        {
+          "label": "졸업 후 장애인 거주시설을 먼저 알아본다",
+          "nextNodeId": "feedback-wrong-1b",
+          "isOptimal": false,
+          "feedback": "시설 입소를 전환교육의 기본 경로로 설정하는 것은 자립생활을 목표로 하는 현대 특수교육의 방향과 맞지 않습니다. 개인의 선택과 가능성을 먼저 탐색해야 합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-1a": {
+      "id": "feedback-wrong-1a",
+      "type": "feedback",
+      "content": "교사 주도의 직업 선정은 전환교육의 핵심 원칙에 위배됩니다.\n\n📌 **전환교육의 핵심 원칙**:\n1. 학생 중심(student-centered): 학생의 선호와 목표 반영\n2. 가족 참여: 가족의 기대와 지원 포함\n3. 기관 간 협력: 직업재활, 복지관 등 연계\n4. 결과 지향: 고용, 중등 이후 교육, 지역사회 참여 결과 목표\n\n「특수교육법」 제23조는 학생 참여를 포함한 개별화전환교육계획 수립을 명시합니다.",
+      "relatedConcepts": ["자기결정", "학생 참여", "전환교육 원칙"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제23조(전환교육)",
+      "choices": [
+        {
+          "label": "먼저 전환 평가를 통해 종수의 희망과 강점을 파악한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "학생 중심 접근의 올바른 시작입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "feedback-wrong-1b": {
+      "id": "feedback-wrong-1b",
+      "type": "feedback",
+      "content": "시설 입소를 기본 경로로 설정하는 것은 지양해야 합니다.\n\n💡 **현대 특수교육의 전환 방향**:\n- 지역사회 통합 주거(그룹홈, 지원 주거)\n- 지원 고용(supported employment)\n- 자립생활 센터 이용\n- 가족과 함께 생활 + 지역사회 서비스\n\n시설 거주는 개인의 선택과 필요에 따라 최후에 고려되는 것이지, 장애인의 자동적 운명이 아닙니다.",
+      "relatedConcepts": ["지역사회 통합", "탈시설화", "자립생활"],
+      "choices": [
+        {
+          "label": "전환 평가를 통해 종수의 희망과 가능성부터 탐색한다",
+          "nextNodeId": "situation-2",
+          "isOptimal": true,
+          "feedback": "가능성 중심의 접근이 올바른 출발점입니다.",
+          "xpBonus": 10
+        }
+      ]
+    },
+    "situation-2": {
+      "id": "situation-2",
+      "type": "situation",
+      "content": "전환 평가 결과:\n\n📋 **종수의 전환 평가 결과**\n• 직업 흥미: 요리, 청소, 물건 정리에 관심\n• 직업 기능: 단순 반복 작업 수행 가능, 지시 따르기 양호\n• 독립 생활: 대중교통 이용 가능, 돈 관리 일부 가능\n• 사회성: 또래와 관계 형성 가능, 갈등 해결에 지원 필요\n• 가족 희망: 취업하여 독립 생활 희망\n• 본인 희망: 카페에서 일하고 싶다\n\n전환교육 목표 설정에서 가장 적절한 방향은 무엇인가요?",
+      "relatedConcepts": ["지원 고용", "직업재활", "전환 목표 설정"],
+      "choices": [
+        {
+          "label": "종수의 희망(카페 일)을 반영한 구체적 취업 목표를 설정하고, 직업재활기관과 연계한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 학생의 희망을 목표에 반영하는 것이 자기결정의 핵심입니다. 카페 관련 직업 훈련과 직업재활기관 연계는 지원 고용(supported employment)으로 이어질 수 있습니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "경쟁 취업이 어려우므로 보호 작업장 배치를 목표로 한다",
+          "nextNodeId": "feedback-wrong-2a",
+          "isOptimal": false,
+          "feedback": "경도 지적장애 학생이 카페 일을 원하고 반복 작업이 가능하다면, 지원 고용을 통한 일반 취업을 먼저 시도해야 합니다. 보호 작업장을 기본값으로 설정하는 것은 가능성을 제한합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "카페 일은 너무 어려우니 더 쉬운 직종으로 목표를 변경한다",
+          "nextNodeId": "feedback-wrong-2b",
+          "isOptimal": false,
+          "feedback": "학생의 희망을 교사가 일방적으로 변경하는 것은 자기결정을 침해합니다. 어렵다면 어떻게 지원할지를 고민해야 합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-2a": {
+      "id": "feedback-wrong-2a",
+      "type": "feedback",
+      "content": "보호 작업장 우선 배치는 현대 전환교육의 방향과 다릅니다.\n\n💡 **지원 고용(Supported Employment)의 원칙**:\n- 먼저 배치, 나중에 훈련(place-then-train 모델)\n- 직업 코치(job coach)가 현장에서 지원\n- 고용주·동료에게 장애 이해 교육\n- 점진적 지원 축소\n\n종수의 기능 수준과 카페 업무(청소, 정리, 음료 보조 등)는 잘 맞습니다. 시도해볼 충분한 근거가 있습니다.",
+      "relatedConcepts": ["지원 고용", "직업 코치", "일반 취업"],
+      "choices": [
+        {
+          "label": "카페 취업 목표를 유지하고 직업재활기관과 지원 고용을 연계한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "종수의 가능성을 최대한 실현하는 방향입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-2b": {
+      "id": "feedback-wrong-2b",
+      "type": "feedback",
+      "content": "자기결정(self-determination)은 특수교육의 핵심 목표입니다.\n\n📌 **자기결정의 구성 요소**:\n- 선택하기\n- 목표 설정\n- 문제 해결\n- 자기 옹호\n\n종수가 '카페에서 일하고 싶다'는 명확한 목표를 표현했습니다. 이 희망을 존중하고 어떻게 달성할지를 함께 계획하는 것이 교사의 역할입니다. 어렵다는 이유로 목표를 낮추는 것은 낮은 기대치(low expectation)입니다.",
+      "relatedConcepts": ["자기결정", "낮은 기대치", "개인 중심 계획"],
+      "choices": [
+        {
+          "label": "종수의 카페 취업 희망을 목표로 삼고 지원 방법을 계획한다",
+          "nextNodeId": "situation-3",
+          "isOptimal": true,
+          "feedback": "학생의 목표를 존중하는 진정한 자기결정 지원입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-3": {
+      "id": "situation-3",
+      "type": "situation",
+      "content": "취업 목표와 함께 종수가 독립적인 지역사회 생활을 할 수 있도록 기관 연계가 필요합니다. 졸업 후 지원을 위해 연계해야 할 기관으로 가장 포괄적인 선택은 무엇인가요?",
+      "relatedConcepts": ["기관 간 협력", "직업재활", "지역사회 지원 기관"],
+      "choices": [
+        {
+          "label": "직업재활센터(취업 지원) + 장애인 자립생활센터(독립 생활 기술) + 발달장애인 지원센터(지역사회 참여)를 동시에 연계한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "훌륭합니다! 전환교육에서 기관 간 협력(interagency collaboration)은 필수입니다. 취업, 독립 생활, 지역사회 참여를 각각 담당하는 기관을 동시에 연계하면 졸업 후 서비스 단절을 예방할 수 있습니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "직업재활센터만 연계하면 충분하다",
+          "nextNodeId": "feedback-wrong-3a",
+          "isOptimal": false,
+          "feedback": "직업재활만으로는 종수의 전체적인 지역사회 생활을 지원하기 어렵습니다. 독립 생활 기술, 사회 참여, 주거 등 다양한 영역의 지원이 필요합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "졸업 후에 알아봐도 충분하다",
+          "nextNodeId": "feedback-wrong-3b",
+          "isOptimal": false,
+          "feedback": "졸업 후 서비스 공백(transition gap)은 장애인에게 심각한 위기입니다. 전환 계획은 졸업 전에 기관과 연계하여 서비스가 즉시 연결되도록 사전 준비가 필수입니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-3a": {
+      "id": "feedback-wrong-3a",
+      "type": "feedback",
+      "content": "직업재활은 전환 지원의 중요한 축이지만 전부가 아닙니다.\n\n📊 **전환교육의 결과 영역 (IDEA)**:\n1. 중등 이후 교육/훈련\n2. **고용** (직업재활 담당)\n3. **독립 생활** (자립생활센터 담당)\n\n세 영역 모두 계획이 필요합니다. 특히 종수처럼 독립 생활을 원하는 학생에게는 독립 생활 기술 지원(돈 관리, 주거, 건강 관리 등)이 함께 이루어져야 합니다.",
+      "relatedConcepts": ["전환 결과 영역", "독립 생활", "중등 이후 지원"],
+      "choices": [
+        {
+          "label": "직업재활 + 자립생활센터 + 발달장애인 지원센터를 모두 연계한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "포괄적인 기관 연계가 서비스 단절을 방지합니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-3b": {
+      "id": "feedback-wrong-3b",
+      "type": "feedback",
+      "content": "졸업 후 서비스 공백은 전환교육의 가장 큰 위험입니다.\n\n⚠️ **전환 공백(transition gap)의 현실**:\n- 직업재활 서비스는 신청 후 대기 기간 존재 (수 개월~1년)\n- 자립생활센터도 사전 등록과 준비가 필요\n- 준비 없이 졸업하면 가족 부담 급증\n\n「특수교육법」 제23조는 전환교육이 학교 졸업 2년 전부터 시작되어야 함을 명시합니다. 지금이 바로 연계를 시작해야 할 시점입니다.",
+      "relatedConcepts": ["전환 공백", "서비스 연속성", "조기 기관 연계"],
+      "legalBasis": "장애인 등에 대한 특수교육법 제23조(전환교육)",
+      "choices": [
+        {
+          "label": "졸업 전에 미리 여러 기관을 연계하여 서비스가 즉시 연결되도록 준비한다",
+          "nextNodeId": "situation-4",
+          "isOptimal": true,
+          "feedback": "서비스 연속성을 위한 선제적 준비가 핵심입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "situation-4": {
+      "id": "situation-4",
+      "type": "situation",
+      "content": "종수 가족은 종수가 취업 후에도 독립 생활을 할 수 있을지 걱정이 많습니다. 가족 역량 강화를 위해 특수교사로서 어떤 지원을 제공하겠습니까?",
+      "relatedConcepts": ["가족 역량 강화", "가족 교육", "자립생활 준비"],
+      "choices": [
+        {
+          "label": "종수의 독립 생활 가능성과 지원 체계를 구체적으로 안내하고, 가족이 과도한 보호에서 벗어나 종수의 독립을 지원하는 방향으로 코칭한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "완벽합니다! 과잉 보호(overprotection)는 장애 자녀의 독립 가능성을 실제로 제한합니다. 가족에게 종수의 능력을 증거 기반으로 보여주고, 점진적 독립을 지원하는 방법을 코칭하는 것이 효과적입니다.",
+          "xpBonus": 20
+        },
+        {
+          "label": "가족의 걱정이 크므로 독립 생활 목표를 낮추고 가족과 함께 생활하는 것으로 조정한다",
+          "nextNodeId": "feedback-wrong-4a",
+          "isOptimal": false,
+          "feedback": "가족의 걱정에 공감하는 것은 중요하지만, 그것이 곧 종수의 목표를 낮추는 이유가 될 수 없습니다. 걱정을 해소할 구체적 정보와 지원이 필요합니다.",
+          "xpBonus": 5
+        },
+        {
+          "label": "가족에게 종수를 잘 돌봐달라고 요청하고 종수의 역량 향상보다 가족 지원을 우선한다",
+          "nextNodeId": "feedback-wrong-4b",
+          "isOptimal": false,
+          "feedback": "가족 지원도 중요하지만, 종수 본인의 독립 역량 강화가 궁극적 목표입니다. 가족에게 '잘 돌봐달라'는 것은 종수의 독립성을 오히려 저해합니다.",
+          "xpBonus": 0
+        }
+      ]
+    },
+    "feedback-wrong-4a": {
+      "id": "feedback-wrong-4a",
+      "type": "feedback",
+      "content": "가족의 걱정은 당연하지만, 이를 목표 하향의 근거로 삼으면 안 됩니다.\n\n💡 **가족 역량 강화 전략**:\n1. 종수의 현재 독립 기술 시연 (가족에게 직접 보여주기)\n2. 지원 주거, 그룹홈 등 중간 단계 옵션 안내\n3. 다른 비슷한 수준 장애인의 독립 성공 사례 공유\n4. 점진적 독립 연습 계획 수립\n\n걱정을 해소하려면 정보와 체험이 필요합니다.",
+      "relatedConcepts": ["가족 코칭", "과잉 보호", "점진적 독립"],
+      "choices": [
+        {
+          "label": "가족 걱정을 해소할 정보와 코칭으로 독립 목표를 유지한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "근거 기반 정보로 가족의 불안을 줄이는 전문적 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "feedback-wrong-4b": {
+      "id": "feedback-wrong-4b",
+      "type": "feedback",
+      "content": "종수를 '돌봄의 대상'으로만 보는 것은 자립생활 관점과 맞지 않습니다.\n\n📌 **자립생활 패러다임**:\n- 장애인은 스스로 삶을 결정하고 통제할 능력이 있음\n- '돌봄'이 아닌 '지원'이 올바른 접근\n- 가족도 보호자가 아닌 '지원자' 역할로 전환 필요\n\n가족이 종수를 '보호해야 할 무력한 존재'로 인식하면, 종수는 독립 기회를 얻지 못합니다. 가족의 인식 변화 지원이 중요합니다.",
+      "relatedConcepts": ["자립생활 패러다임", "돌봄에서 지원으로", "가족 인식 변화"],
+      "choices": [
+        {
+          "label": "종수의 능력을 보여주고 가족이 독립을 지원하도록 코칭한다",
+          "nextNodeId": "assessment-final",
+          "isOptimal": true,
+          "feedback": "자립생활 관점에서 가족을 지원자로 전환하는 올바른 접근입니다.",
+          "xpBonus": 15
+        }
+      ]
+    },
+    "assessment-final": {
+      "id": "assessment-final",
+      "type": "assessment",
+      "content": "## 시나리오 완료!\n\n종수의 전환교육 계획을 완성했습니다.\n\n### 핵심 정리\n1. **전환 평가**: 학생의 흥미·강점·선호도 파악이 개별화전환교육계획의 출발점\n2. **자기결정**: 학생의 희망을 목표에 반영, 교사가 일방적으로 목표 변경 금지\n3. **지원 고용**: 경도 지적장애 → 직업 코치 지원 하에 일반 취업 시도 먼저\n4. **기관 연계**: 직업재활 + 자립생활센터 + 발달장애인 지원센터 사전 연계 (졸업 2년 전)\n5. **법적 근거**: 특수교육법 제23조 — 전환교육 2년 전 시작 의무, 기관 간 협력",
+      "relatedConcepts": ["자기결정", "지원 고용", "기관 간 협력", "가족 역량 강화", "자립생활"]
+    }
+  }
+}

@@ -1,7 +1,8 @@
 # Interface Contract
 
 > 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
-> 최종 수정: 2026-03-18 | 버전: 2.6
+> 최종 수정: 2026-03-19 | 버전: 2.7
+> v2.7: reviews.admin_note 컬럼 추가 (관리자 내부 메모) — DB 확인 완료
 > v2.6: community_questions + question_votes 테이블 추가 (커뮤니티 문제 제작)
 > v2.5: profiles — role + nickname 컬럼 추가 (권한 시스템, Plan B)
 > v2.4: Auth 역할 변경 — profiles/user_data 설정 강선생으로 이전 (클루디는 콘텐츠 데이터 전담)
@@ -208,6 +209,7 @@ communication-disorder:
 | content | text | NOT NULL | 리뷰 내용 |
 | reviewer_name | text | DEFAULT '' | 리뷰어 이름 (클로즈드 베타) |
 | status | text | DEFAULT 'pending' | `pending` \| `discussing` \| `accepted` \| `rejected` |
+| admin_note | text | DEFAULT '' | 관리자 내부 메모 (v2.7 추가) |
 | updated_at | timestamptz | DEFAULT now() | 수정 시간 |
 
 - RLS: 읽기/쓰기 모두 공개
