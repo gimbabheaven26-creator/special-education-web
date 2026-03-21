@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/server';
 
 function seededRandom(seed: number, index: number): number {
   const s = (seed * 1664525 + 1013904223 + index * 22695477) & 0x7fffffff;
@@ -16,6 +16,10 @@ function seededSample<T>(arr: T[], n: number, seed: number): T[] {
 }
 
 export async function GET() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('id, type, question, answer, chapter, subject, explanation')
@@ -25,7 +29,8 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to fetch questions' }, { status: 500 });
   }
 
-  const seed = Date.now();
+  const today = new Date().toISOString().slice(0, 10);
+  const seed = today.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const rows = data as {
     id: string;
     type: string;

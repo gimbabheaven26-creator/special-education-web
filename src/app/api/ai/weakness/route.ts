@@ -1,9 +1,14 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 
 const MAX_FIELD_LENGTH = 200;
 
 export async function POST(request: Request) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   if (!process.env.GEMINI_API_KEY) {
     return NextResponse.json({ analysis: null, error: 'AI 미설정' });
   }

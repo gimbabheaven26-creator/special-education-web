@@ -85,8 +85,8 @@ describe('NAV_GROUPS 구조', () => {
     }
   });
 
-  it('총 서브 항목 수 (2+4+6+3 = 15)', () => {
+  it('총 서브 항목 수 (2+4+6+4 = 16)', () => {
     const total = NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
-    expect(total).toBe(15);
+    expect(total).toBe(16);
   });
 });
