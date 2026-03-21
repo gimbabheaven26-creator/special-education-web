@@ -321,14 +321,22 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
 
       <div className="flex items-center justify-between">
         <ConfidenceToggle value={confidence} onChange={setConfidence} />
-        <Button
-          render={<Link href="/wrong-notes" />}
-          variant="ghost"
-          size="sm"
-          className="min-h-[44px]"
-        >
-          오답 노트로 돌아가기
-        </Button>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/concepts/${encodeURIComponent(subjectTitleMap[question.subject] || question.subject)}`}
+            className="text-xs text-primary hover:underline px-2 py-1"
+          >
+            개념 보기
+          </Link>
+          <Button
+            render={<Link href="/wrong-notes" />}
+            variant="ghost"
+            size="sm"
+            className="min-h-[44px]"
+          >
+            오답 노트로 돌아가기
+          </Button>
+        </div>
       </div>
     </main>
   );

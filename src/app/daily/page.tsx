@@ -340,6 +340,12 @@ export default function DailyPage() {
           >
             오답노트 확인하기
           </Link>
+          <Link
+            href="/concepts"
+            className="w-full py-3 rounded-xl border border-border text-sm font-medium text-center hover:bg-muted transition-colors text-primary"
+          >
+            개념학습 보기
+          </Link>
         </div>
       </div>
     );
