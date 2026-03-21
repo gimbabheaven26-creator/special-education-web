@@ -217,11 +217,17 @@ export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
 export interface Profile {
   id: string;
   display_name: string;
+  nickname?: string;
+  role?: 'admin' | 'user';
+  /** Added in migration 20260322000001 — optional until migration applied */
+  email?: string;
+  avatar_url?: string;
+  exam_date?: string | null;
   created_at: string;
   updated_at: string;
 }
 
-export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark';
+export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding';
 
 export interface UserDataRow {
   id: string;
