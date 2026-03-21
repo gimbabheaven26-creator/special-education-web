@@ -24,11 +24,22 @@ const MAX_KEYWORDS = 5;
  */
 export function extractKeywords(explanation: string): string[] {
   // Remove markdown, parentheses content, special chars
-  const cleaned = explanation
+  // 법령 키워드(제N조/항/호)를 플레이스홀더로 보호 후 독립 숫자만 제거
+  const lawTokens: string[] = [];
+  const withPlaceholders = explanation
     .replace(/\*\*([^*]+)\*\*/g, '$1')
     .replace(/[()[\]{}「」『』""'']/g, ' ')
     .replace(/[.,;:!?~·…→←↑↓▶▷►]/g, ' ')
+    .replace(/(제\s*\d+\s*(?:조|항|호))/g, (m) => {
+      const normalized = m.replace(/\s/g, '');
+      const idx = String.fromCharCode(0xE000 + lawTokens.length); // PUA 문자로 인덱스 인코딩
+      lawTokens.push(normalized);
+      return ` \x01LAW${idx}\x01 `; // 공백으로 감싸서 붙는 조사 분리
+    });
+
+  const cleaned = withPlaceholders
     .replace(/\d+/g, ' ')
+    .replace(/\x01LAW([\uE000-\uE0FF])\x01/g, (_, c) => lawTokens[c.charCodeAt(0) - 0xE000])
     .trim();
 
   // Split into tokens
