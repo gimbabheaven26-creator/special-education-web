@@ -26,7 +26,14 @@ export async function middleware(request: NextRequest) {
   });
 
   // 세션 토큰 갱신 (로그인 유지)
-  await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // /my/* 보호: 미로그인 시 /login으로 리다이렉트
+  if (!user && request.nextUrl.pathname.startsWith('/my')) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = '/login';
+    return NextResponse.redirect(loginUrl);
+  }
 
   return supabaseResponse;
 }

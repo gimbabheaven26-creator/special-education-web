@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import type { SubjectStat } from './page';
 import {
   Home,
   CalendarDays,
@@ -18,6 +20,7 @@ import {
   User,
   LogIn,
   Settings,
+  Database,
   ChevronRight,
   ExternalLink,
 } from 'lucide-react';
@@ -179,29 +182,115 @@ const SITE_MAP: SiteGroup[] = [
   },
 ];
 
-export default function StructureClient() {
+export default function StructureClient({ dbStats }: { dbStats: SubjectStat[] }) {
+  const [tab, setTab] = useState<'sitemap' | 'data'>('sitemap');
+
   const totalPages = SITE_MAP.reduce(
     (acc, g) =>
       acc +
       g.pages.reduce((a, p) => a + 1 + (p.children?.length ?? 0), 0),
     0,
   );
+  const totalQuestions = dbStats.reduce((a, s) => a + s.total, 0);
+  const totalChapters = dbStats.reduce((a, s) => a + s.chapters, 0);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-8">
+    <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-6">
       {/* 헤더 */}
       <div>
         <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
           <Map className="h-6 w-6 text-primary" />
-          사이트맵
+          사이트 구조도
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          전체 {totalPages}개 페이지 · {SITE_MAP.length}개 카테고리
+          관리자 전용 · 전체 현황
         </p>
       </div>
 
-      {/* 카테고리별 그리드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* 탭 */}
+      <div className="flex gap-1 p-1 bg-muted rounded-xl w-fit">
+        <button
+          onClick={() => setTab('sitemap')}
+          className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
+            tab === 'sitemap' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          <Map className="h-3.5 w-3.5" />
+          사이트맵
+        </button>
+        <button
+          onClick={() => setTab('data')}
+          className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
+            tab === 'data' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          <Database className="h-3.5 w-3.5" />
+          데이터 현황
+        </button>
+      </div>
+
+      {/* 데이터 현황 탭 */}
+      {tab === 'data' && (
+        <div className="space-y-4">
+          {/* 요약 수치 */}
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: '과목', value: dbStats.length },
+              { label: '챕터', value: totalChapters },
+              { label: '총 문제', value: totalQuestions.toLocaleString() },
+            ].map(({ label, value }) => (
+              <div key={label} className="p-4 rounded-xl border border-border bg-card text-center">
+                <p className="text-2xl font-bold text-foreground">{value}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* 과목별 테이블 */}
+          <div className="rounded-xl border border-border overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/50">
+                <tr>
+                  <th className="text-left px-4 py-2.5 font-medium text-muted-foreground">과목</th>
+                  <th className="text-center px-3 py-2.5 font-medium text-muted-foreground">챕터</th>
+                  <th className="text-center px-3 py-2.5 font-medium text-muted-foreground">OX</th>
+                  <th className="text-center px-3 py-2.5 font-medium text-muted-foreground">단답</th>
+                  <th className="text-center px-3 py-2.5 font-medium text-muted-foreground">서술</th>
+                  <th className="text-center px-3 py-2.5 font-medium text-foreground">합계</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {dbStats.map((s) => (
+                  <tr key={s.slug} className="hover:bg-muted/30 transition-colors">
+                    <td className="px-4 py-2.5 font-medium text-foreground">{s.title}</td>
+                    <td className="px-3 py-2.5 text-center text-muted-foreground">{s.chapters}</td>
+                    <td className="px-3 py-2.5 text-center text-blue-600 dark:text-blue-400">{s.ox}</td>
+                    <td className="px-3 py-2.5 text-center text-green-600 dark:text-green-400">{s.fill_in}</td>
+                    <td className="px-3 py-2.5 text-center text-purple-600 dark:text-purple-400">{s.descriptive}</td>
+                    <td className="px-3 py-2.5 text-center font-semibold text-foreground">{s.total}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className="bg-muted/30 border-t-2 border-border">
+                <tr>
+                  <td className="px-4 py-2.5 font-bold text-foreground">합계</td>
+                  <td className="px-3 py-2.5 text-center font-bold">{totalChapters}</td>
+                  <td className="px-3 py-2.5 text-center font-bold text-blue-600 dark:text-blue-400">{dbStats.reduce((a,s)=>a+s.ox,0)}</td>
+                  <td className="px-3 py-2.5 text-center font-bold text-green-600 dark:text-green-400">{dbStats.reduce((a,s)=>a+s.fill_in,0)}</td>
+                  <td className="px-3 py-2.5 text-center font-bold text-purple-600 dark:text-purple-400">{dbStats.reduce((a,s)=>a+s.descriptive,0)}</td>
+                  <td className="px-3 py-2.5 text-center font-bold text-foreground">{totalQuestions.toLocaleString()}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* 사이트맵 탭 */}
+      {tab === 'sitemap' && (
+        <>
+          <p className="text-sm text-muted-foreground -mt-2">전체 {totalPages}개 페이지 · {SITE_MAP.length}개 카테고리</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {SITE_MAP.map((group) => (
           <section
             key={group.title}
@@ -243,6 +332,8 @@ export default function StructureClient() {
           동적 경로
         </span>
       </div>
+        </>
+      )}
     </div>
   );
 }
