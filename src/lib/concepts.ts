@@ -4,6 +4,30 @@ import matter from 'gray-matter';
 
 const CONCEPTS_DIR = path.join(process.cwd(), 'src', 'content', 'concepts');
 
+/** gray-matter가 YAML 날짜를 Date 객체로 파싱하는 경우를 처리 */
+function toDateString(val: unknown): string | undefined {
+  if (val == null) return undefined;
+  if (val instanceof Date) return val.toISOString().split('T')[0];
+  return String(val);
+}
+
+/**
+ * YAML에서 콜론(:) 포함 키워드가 key:value 객체로 파싱되는 경우를 복원
+ * e.g. {'고급 테크놀로지 (음성 출력 기기': '원버튼·다버튼·음성합성)'}
+ *      → '고급 테크놀로지 (음성 출력 기기: 원버튼·다버튼·음성합성)'
+ */
+function toKeywordString(kw: unknown): string {
+  if (typeof kw === 'string') return kw;
+  if (kw && typeof kw === 'object' && !Array.isArray(kw)) {
+    const entries = Object.entries(kw as Record<string, unknown>);
+    if (entries.length > 0) {
+      const [k, v] = entries[0];
+      return `${k}: ${v}`;
+    }
+  }
+  return String(kw);
+}
+
 export interface ConceptFrontmatter {
   title: string;
   description: string;
@@ -62,8 +86,8 @@ export function getSubjectFiles(subject: string): ConceptFile[] {
         title: fm.title ?? filename,
         description: fm.description ?? '',
         order: fm.order ?? 99,
-        kiceKeywords: fm.kiceKeywords ?? [],
-        lastUpdated: fm.lastUpdated,
+        kiceKeywords: (fm.kiceKeywords ?? []).map(toKeywordString),
+        lastUpdated: toDateString(fm.lastUpdated),
       } satisfies ConceptFile;
     })
     .sort((a, b) => a.order - b.order);
@@ -105,7 +129,7 @@ export function getMDXContent(subject: string, slug: string): ConceptContent | n
     description: fm.description ?? '',
     order: fm.order ?? 99,
     kiceKeywords: fm.kiceKeywords ?? [],
-    lastUpdated: fm.lastUpdated,
+    lastUpdated: toDateString(fm.lastUpdated),
     content,
     prev: prev ? { subject: prev.subject, slug: prev.slug, title: prev.title } : null,
     next: next ? { subject: next.subject, slug: next.slug, title: next.title } : null,

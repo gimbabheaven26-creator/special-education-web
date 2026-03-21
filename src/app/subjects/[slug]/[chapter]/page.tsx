@@ -14,9 +14,10 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';
+import { getAllSubjects } from '@/lib/concepts';
 import { SelfCheckSection } from '@/components/chapter/SelfCheckSection';
 import { BookmarkButton } from '@/components/chapter/BookmarkButton';
 import remarkGfm from 'remark-gfm';
@@ -85,6 +86,12 @@ export default async function ChapterPage({
     ? await getQuizzesByChapter(slug, chapterSlug)
     : [];
 
+  // 개념학습 링크: subject.title이 concepts 과목과 일치하면 직접 링크
+  const conceptSubjects = getAllSubjects();
+  const conceptHref = conceptSubjects.includes(subject.title)
+    ? `/concepts/${encodeURIComponent(subject.title)}`
+    : '/concepts';
+
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
       {/* 브레드크럼 */}
@@ -121,6 +128,15 @@ export default async function ChapterPage({
           />
         </div>
         <p className="text-lg text-muted-foreground">{chapter.description}</p>
+        <div className="mt-3">
+          <Link
+            href={conceptHref}
+            className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+          >
+            <BookOpen className="h-3.5 w-3.5" />
+            개념 자료 보기
+          </Link>
+        </div>
       </div>
 
       {/* 본문 영역 (자가점검 섹션 제외) */}
