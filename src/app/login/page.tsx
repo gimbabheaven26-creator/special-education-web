@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons';
+import { safeRedirectPath } from '@/lib/auth-utils';
 
 export const metadata = {
   title: '로그인 | 특수교육 공부방',
@@ -12,7 +13,7 @@ interface Props {
 }
 
 export default function LoginPage({ searchParams }: Props) {
-  const redirectTo = searchParams.next ?? '/';
+  const redirectTo = safeRedirectPath(searchParams.next);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-background">

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/browser';
+import { safeRedirectPath } from '@/lib/auth-utils';
 
 type Tab = 'login' | 'signup';
 
@@ -32,7 +33,7 @@ export function LoginForm({ redirectTo = '/' }: LoginFormProps) {
       if (signInError) {
         setError('이메일 또는 비밀번호가 올바르지 않습니다.');
       } else {
-        router.push(redirectTo);
+        router.push(safeRedirectPath(redirectTo));
         router.refresh();
       }
     } else {

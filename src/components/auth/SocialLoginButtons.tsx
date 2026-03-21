@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/browser';
+import { safeRedirectPath } from '@/lib/auth-utils';
 
 interface SocialLoginButtonsProps {
   redirectTo?: string;
@@ -12,15 +13,20 @@ export function SocialLoginButtons({ redirectTo = '/' }: SocialLoginButtonsProps
 
   async function handleGoogleLogin() {
     setLoadingProvider('google');
-    const supabase = createClient();
-    const origin = window.location.origin;
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
-      },
-    });
-    setLoadingProvider(null);
+    try {
+      const supabase = createClient();
+      const origin = window.location.origin;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(safeRedirectPath(redirectTo))}`,
+        },
+      });
+      if (error) setLoadingProvider(null);
+      // 성공 시 OAuth 제공자로 리다이렉트 → 여기 도달 안 함
+    } catch {
+      setLoadingProvider(null);
+    }
   }
 
   return (
