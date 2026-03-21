@@ -211,3 +211,83 @@ export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
   if (error || !data) return [];
   return data.map(mapQuizRow);
 }
+
+// ─── Auth: Profiles & User Data ───
+
+export interface Profile {
+  id: string;
+  display_name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark';
+
+export interface UserDataRow {
+  id: string;
+  user_id: string;
+  store_key: StoreKey;
+  data: Record<string, unknown>;
+  updated_at: string;
+}
+
+export async function getProfile(userId: string): Promise<Profile | null> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .single();
+  if (error || !data) return null;
+  return data as Profile;
+}
+
+export async function updateProfile(
+  userId: string,
+  updates: Partial<Pick<Profile, 'display_name'>>,
+): Promise<boolean> {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ ...updates, updated_at: new Date().toISOString() })
+    .eq('id', userId);
+  return !error;
+}
+
+export async function getUserData(
+  userId: string,
+  storeKey: StoreKey,
+): Promise<UserDataRow | null> {
+  const { data, error } = await supabase
+    .from('user_data')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('store_key', storeKey)
+    .single();
+  if (error || !data) return null;
+  return data as UserDataRow;
+}
+
+export async function upsertUserData(
+  userId: string,
+  storeKey: StoreKey,
+  data: Record<string, unknown>,
+): Promise<boolean> {
+  const { error } = await supabase.from('user_data').upsert(
+    {
+      user_id: userId,
+      store_key: storeKey,
+      data,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id,store_key' },
+  );
+  return !error;
+}
+
+export async function getAllUserData(userId: string): Promise<UserDataRow[]> {
+  const { data, error } = await supabase
+    .from('user_data')
+    .select('*')
+    .eq('user_id', userId);
+  if (error || !data) return [];
+  return data as UserDataRow[];
+}
