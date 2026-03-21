@@ -1,21 +1,28 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 const EXAM_DATE = '2026-11-21';
 
+function calcCountdown() {
+  const exam = new Date(EXAM_DATE + 'T00:00:00+09:00');
+  const now = new Date(
+    new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date()) + 'T00:00:00+09:00'
+  );
+  const diffMs = exam.getTime() - now.getTime();
+  const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  const label = days < 0 ? '시험 종료' : days === 0 ? 'D-Day!' : `D-${days}`;
+  const weeksLeft = days > 0 ? Math.ceil(days / 7) : null;
+  const dateLabel = exam.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+  return { label, weeksLeft, dateLabel };
+}
+
 export function ExamCountdown() {
-  const { label, weeksLeft, dateLabel } = useMemo(() => {
-    const exam = new Date(EXAM_DATE + 'T00:00:00+09:00');
-    const now = new Date(
-      new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date()) + 'T00:00:00+09:00'
-    );
-    const diffMs = exam.getTime() - now.getTime();
-    const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-    const label = days < 0 ? '시험 종료' : days === 0 ? 'D-Day!' : `D-${days}`;
-    const weeksLeft = days > 0 ? Math.ceil(days / 7) : null;
-    const dateLabel = exam.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-    return { label, weeksLeft, dateLabel };
+  const [{ label, weeksLeft, dateLabel }, setCountdown] = useState(calcCountdown);
+
+  useEffect(() => {
+    const timer = setInterval(() => setCountdown(calcCountdown()), 60_000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
