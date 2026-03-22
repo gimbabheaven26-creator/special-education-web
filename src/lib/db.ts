@@ -191,6 +191,18 @@ export async function getAllWorksheetTopics(): Promise<WorksheetTopicRow[]> {
   return data as WorksheetTopicRow[];
 }
 
+export async function getWorksheetTopicById(id: string): Promise<WorksheetTopicRow | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('worksheet_topics')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error || !data) return null;
+  return data as WorksheetTopicRow;
+}
+
 // ─── Quiz by Chapter ───
 
 export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: string): Promise<QuizQuestion[]> {
