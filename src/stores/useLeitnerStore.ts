@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { getKSTDate } from '@/lib/date-utils';
 
 export interface LeitnerCard {
   id: string;
@@ -19,10 +20,6 @@ const BOX_INTERVALS: Record<number, number> = {
   4: 8,
   5: 16,
 };
-
-function getKSTDate(date: Date = new Date()): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
-}
 
 function addDays(dateStr: string, days: number): string {
   const date = new Date(dateStr + 'T00:00:00+09:00');

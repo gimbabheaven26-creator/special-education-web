@@ -6,12 +6,9 @@
  */
 
 import type { SpacedScenarioSchedule, ScenarioGroup } from '@/types/scenario';
+import { getKSTDate } from '@/lib/date-utils';
 
 const INTERVALS = [1, 3, 7, 14] as const;
-
-function getKSTDate(date: Date = new Date()): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
-}
 
 function addDays(dateStr: string, days: number): string {
   const date = new Date(dateStr + 'T00:00:00+09:00');

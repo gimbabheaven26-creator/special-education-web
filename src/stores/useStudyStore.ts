@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { DailyHistoryEntry } from '@/types/study';
 import type { ScenarioProgress, SpacedScenarioSchedule } from '@/types/scenario';
 import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
+import { getKSTDate, getToday } from '@/lib/date-utils';
 
 interface RecentActivity {
   subjectSlug: string;
@@ -60,14 +61,6 @@ interface StudyActions {
   getDailyHistory: (days: number) => DailyHistoryEntry[];
   saveScenarioProgress: (progress: ScenarioProgress) => void;
   saveSpacedSchedule: (schedule: SpacedScenarioSchedule) => void;
-}
-
-function getKSTDate(date: Date = new Date()): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
-}
-
-function getToday(): string {
-  return getKSTDate();
 }
 
 function isYesterday(dateStr: string): boolean {

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { HomeQuizSectionClient } from './HomeQuizSectionClient';
+import { getKSTDate } from '@/lib/date-utils';
 
 type DailyQuestion = {
   id: string;
@@ -18,10 +19,6 @@ function dateSeed(dateStr: string): number {
 /** seed 기반 offset 계산 — 타입별 bucket size 내에서 순환 */
 function seededOffset(seed: number, multiplier: number, addend: number, bucketSize: number): number {
   return (seed * multiplier + addend) % bucketSize;
-}
-
-function getKSTDate(): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
 }
 
 export async function HomeQuizSection() {

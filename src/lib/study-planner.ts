@@ -17,12 +17,10 @@ type LevelConfig = {
   subjectOrder: string[];
 };
 
+import { getKSTDate } from '@/lib/date-utils';
+
 const subjectWeights = examStructure.subjectWeights as Record<string, SubjectWeight>;
 const studyLevels = examStructure.studyLevels as Record<string, LevelConfig>;
-
-function getKSTDate(date: Date = new Date()): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
-}
 
 function weeksUntil(targetDate: string): number {
   const today = new Date(getKSTDate() + 'T00:00:00+09:00');

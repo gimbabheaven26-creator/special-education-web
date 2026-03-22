@@ -13,3 +13,18 @@ export function getKSTDate(date: Date = new Date()): string {
 export function getToday(): string {
   return getKSTDate();
 }
+
+/** KST 기준 날짜에 일수를 더한 날짜 문자열 반환. */
+export function addDays(dateStr: string, days: number): string {
+  const date = new Date(dateStr + 'T00:00:00+09:00');
+  date.setDate(date.getDate() + days);
+  return getKSTDate(date);
+}
+
+/** KST 기준 어제 날짜인지 확인. */
+export function isYesterday(dateStr: string): boolean {
+  const today = getKSTDate();
+  const todayDate = new Date(today + 'T00:00:00+09:00');
+  const yesterday = new Date(todayDate.getTime() - 86400000);
+  return dateStr === getKSTDate(yesterday);
+}

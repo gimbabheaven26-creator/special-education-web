@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { getKSTDate } from '@/lib/date-utils';
 
 export type StudyLevel = 'beginner' | 'intermediate' | 'advanced';
 
@@ -44,9 +45,6 @@ interface OnboardingActions {
   getDday: () => number | null;
 }
 
-function getKSTDate(date: Date = new Date()): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
-}
 
 export const useOnboardingStore = create<OnboardingState & OnboardingActions>()(
   persist(

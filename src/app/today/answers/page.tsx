@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { makeSheetCode } from '@/lib/sheet-code';
+import { getKSTDate } from '@/lib/date-utils';
 
 function dateSeed(dateStr: string): number {
   return dateStr.split('-').reduce((acc, part) => acc * 100 + Number(part), 0);
@@ -17,10 +18,6 @@ function seededSample<T>(arr: T[], n: number, seed: number): T[] {
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy.slice(0, n);
-}
-
-function getKSTDate(): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
 }
 
 const TYPE_LABEL: Record<string, string> = { ox: 'OX', fill_in: '단답', descriptive: '서술' };
