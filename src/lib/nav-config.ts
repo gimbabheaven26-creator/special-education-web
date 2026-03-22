@@ -43,7 +43,7 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     id: 'metacognition',
-    label: '메타인지',
+    label: '내 기록',
     icon: Brain,
     items: [
       { href: '/mastery', label: '마스터리 트리' },

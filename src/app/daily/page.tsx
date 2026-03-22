@@ -317,6 +317,10 @@ export default function DailyPage() {
 
   // ─── 완료 화면 ───
   if (step3Done) {
+    const oxCorrect = oxQuestions.filter((q) => oxAnswers[q.id]?.toUpperCase() === String(q.answer).toUpperCase()).length;
+    const oxTotal = oxQuestions.length;
+    const oxPct = oxTotal > 0 ? Math.round((oxCorrect / oxTotal) * 100) : 0;
+
     return (
       <div className="max-w-2xl mx-auto px-4 py-12 text-center space-y-6">
         <div className="flex justify-center">
@@ -327,6 +331,21 @@ export default function DailyPage() {
           <p className="text-sm text-muted-foreground mt-2">
             OX {OX_COUNT} + 단답 {FILL_IN_COUNT} + 서술 {DESCRIPTIVE_COUNT} — 최소 경로 달성
           </p>
+        </div>
+        {/* 오늘 성과 */}
+        <div className="grid grid-cols-3 gap-3 max-w-xs mx-auto">
+          <div className="rounded-xl bg-card border border-border p-3">
+            <p className="text-2xl font-bold text-primary tabular-nums">{oxPct}%</p>
+            <p className="text-xs text-muted-foreground mt-0.5">OX 정답률</p>
+          </div>
+          <div className="rounded-xl bg-card border border-border p-3">
+            <p className="text-2xl font-bold text-foreground tabular-nums">{oxCorrect}/{oxTotal}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">OX 정답</p>
+          </div>
+          <div className="rounded-xl bg-card border border-border p-3">
+            <p className="text-2xl font-bold text-foreground tabular-nums">{FILL_IN_COUNT + DESCRIPTIVE_COUNT}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">서술 완료</p>
+          </div>
         </div>
         <div className="flex flex-col gap-3 max-w-xs mx-auto">
           <Link
