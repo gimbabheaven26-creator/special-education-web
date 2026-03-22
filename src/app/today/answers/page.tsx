@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/server';
 import { makeSheetCode } from '@/lib/sheet-code';
 
 function dateSeed(dateStr: string): number {
@@ -46,6 +46,7 @@ export default async function TodayAnswersPage({ searchParams }: Props) {
     weekday: 'long',
   });
 
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('id, type, question, answer, chapter')
