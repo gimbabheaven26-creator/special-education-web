@@ -9,7 +9,7 @@ interface Props {
 
 export async function generateStaticParams() {
   return getAllSubjects().map((subject) => ({
-    subject: encodeURIComponent(subject),
+    subject: subject,
   }));
 }
 

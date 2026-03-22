@@ -14,8 +14,8 @@ export async function generateStaticParams() {
   const subjects = getAllSubjects();
   return subjects.flatMap((subject) =>
     getSubjectFiles(subject).map((f) => ({
-      subject: encodeURIComponent(subject),
-      slug: encodeURIComponent(f.slug),
+      subject: subject,
+      slug: f.slug,
     })),
   );
 }
