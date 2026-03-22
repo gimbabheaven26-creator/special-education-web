@@ -17,8 +17,6 @@ function seededSample<T>(arr: T[], n: number, seed: number): T[] {
 
 export async function GET() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { data, error } = await supabase
     .from('quiz_questions')
@@ -29,7 +27,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to fetch questions' }, { status: 500 });
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
   const seed = today.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const rows = data as {
     id: string;
