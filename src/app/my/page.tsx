@@ -337,6 +337,13 @@ export default function MyPage() {
       desc: '내가 만든 커뮤니티 문제',
       color: 'text-cyan-500 bg-cyan-50 dark:bg-cyan-950/30',
     },
+    {
+      href: '/onboarding',
+      icon: RefreshCw,
+      label: '학습 계획 다시 설정',
+      desc: '시험일·목표 재설정',
+      color: 'text-slate-500 bg-slate-50 dark:bg-slate-950/30',
+    },
   ];
 
   return (

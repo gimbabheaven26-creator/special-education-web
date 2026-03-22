@@ -32,7 +32,13 @@ export default function BookmarksPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
+          <div className="flex justify-end">
+            <Button render={<Link href="/wrong-notes/quiz" />} size="sm">
+              북마크 퀴즈 풀기
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {bookmarks.map((bookmark) => (
             <Card key={bookmark.id} className="group">
               <CardHeader>
@@ -72,6 +78,7 @@ export default function BookmarksPage() {
               </CardContent>
             </Card>
           ))}
+          </div>
         </div>
       )}
     </div>
