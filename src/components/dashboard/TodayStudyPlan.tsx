@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CalendarDays, BookOpen, Brain, ClipboardX, ArrowRight, Settings2 } from 'lucide-react';
 import { useMounted } from '@/hooks/useMounted';
@@ -33,7 +33,11 @@ export function TodayStudyPlan() {
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
   const currentStreak = useStudyStore((s) => s.currentStreak);
 
-  const dday = useMemo(() => getDday(), [getDday]);
+  const [dday, setDday] = useState(() => getDday());
+  useEffect(() => {
+    const id = setInterval(() => setDday(getDday()), 60_000);
+    return () => clearInterval(id);
+  }, [getDday]);
 
   const milestone = useMemo(
     () => (studyPlan ? getCurrentWeekMilestone(studyPlan) : null),
