@@ -79,7 +79,7 @@ function SubjectProgressTab() {
   // Wrong note counts by subject
   const wrongBySubject: Record<string, number> = {};
   for (const n of wrongNotes) {
-    const subj = n.question.subject;
+    const subj = n.subject;
     wrongBySubject[subj] = (wrongBySubject[subj] ?? 0) + 1;
   }
 
@@ -157,7 +157,7 @@ function RecentWrongTab() {
         >
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
-              {note.question.subject}
+              {note.subject}
             </span>
             {note.attempts >= 3 && (
               <span className="text-xs px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950/30 dark:text-red-400">
@@ -165,7 +165,7 @@ function RecentWrongTab() {
               </span>
             )}
           </div>
-          <p className="text-sm line-clamp-2 text-foreground">{note.question.question}</p>
+          <p className="text-sm line-clamp-2 text-foreground text-muted-foreground">{note.questionId}</p>
         </Link>
       ))}
       <Link

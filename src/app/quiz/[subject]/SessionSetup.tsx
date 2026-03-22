@@ -113,7 +113,7 @@ export function SessionSetup({
     const subjectHistory = quizHistory.filter((r) => r.subject === subjectSlug);
     const answeredIds = new Set(subjectHistory.map((r) => r.questionId));
     const wrongCount = wrongNotes.filter(
-      (n) => !n.mastered && n.question.subject === subjectSlug
+      (n) => !n.mastered && n.subject === subjectSlug
     ).length;
 
     // Chapter accuracy

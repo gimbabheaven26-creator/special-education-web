@@ -79,10 +79,19 @@ export function calculateChapterMasteries(
     });
   }
 
+  const qIdToInfo = new Map<string, { subject: string; chapter: string }>();
+  for (const r of quizHistory) {
+    if (!qIdToInfo.has(r.questionId)) {
+      qIdToInfo.set(r.questionId, { subject: r.subject, chapter: r.chapter });
+    }
+  }
+
   const wrongNotesByChapter = new Map<string, number>();
   for (const note of wrongNotes) {
     if (note.mastered) continue;
-    const key = `${note.question.subject}::${note.question.chapter}`;
+    const info = qIdToInfo.get(note.questionId);
+    if (!info) continue;
+    const key = `${info.subject}::${info.chapter}`;
     wrongNotesByChapter.set(key, (wrongNotesByChapter.get(key) ?? 0) + 1);
   }
 

@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { checkFillInAnswer } from '@/lib/answer-checker';
+import { shuffle } from '@/lib/array-utils';
 import { CheckCircle, XCircle, ChevronDown, ChevronUp, Eye, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,16 +15,6 @@ interface SelfCheckSectionProps {
   quizzes: QuizQuestion[];
 }
 
-// ─── Shuffle helper ──────────────────────────────────────────────────────────
-
-function shuffle<T>(arr: readonly T[]): T[] {
-  const result = [...arr];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
 
 // ─── Inline Quiz (single question, self-contained) ──────────────────────────
 

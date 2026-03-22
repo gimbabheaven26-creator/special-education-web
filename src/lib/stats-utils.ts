@@ -177,7 +177,7 @@ export function computeWrongNoteSummary(
 
   const subjectMap = new Map<string, { total: number; mastered: number }>();
   for (const n of wrongNotes) {
-    const subject = n.question.subject;
+    const subject = n.subject;
     const prev = subjectMap.get(subject) ?? { total: 0, mastered: 0 };
     subjectMap.set(subject, {
       total: prev.total + 1,

@@ -203,30 +203,9 @@ describe('computeWrongNoteSummary', () => {
 
   it('calculates resolution rate and groups by subject', () => {
     const notes: WrongNote[] = [
-      {
-        questionId: 'q1',
-        question: { id: 'q1', subject: 'math', chapter: 'c1', type: 'ox', question: 'Q1', answer: 'O', explanation: '', difficulty: 1 },
-        userAnswer: 'X',
-        attempts: 2,
-        lastAttempt: Date.now(),
-        mastered: true,
-      },
-      {
-        questionId: 'q2',
-        question: { id: 'q2', subject: 'math', chapter: 'c1', type: 'ox', question: 'Q2', answer: 'O', explanation: '', difficulty: 1 },
-        userAnswer: 'X',
-        attempts: 1,
-        lastAttempt: Date.now(),
-        mastered: false,
-      },
-      {
-        questionId: 'q3',
-        question: { id: 'q3', subject: 'science', chapter: 'c1', type: 'ox', question: 'Q3', answer: 'O', explanation: '', difficulty: 1 },
-        userAnswer: 'X',
-        attempts: 1,
-        lastAttempt: Date.now(),
-        mastered: false,
-      },
+      { questionId: 'q1', subject: 'math', userAnswer: 'X', attempts: 2, lastAttempt: Date.now(), mastered: true },
+      { questionId: 'q2', subject: 'math', userAnswer: 'X', attempts: 1, lastAttempt: Date.now(), mastered: false },
+      { questionId: 'q3', subject: 'science', userAnswer: 'X', attempts: 1, lastAttempt: Date.now(), mastered: false },
     ];
     const result = computeWrongNoteSummary(notes);
     expect(result.total).toBe(3);
