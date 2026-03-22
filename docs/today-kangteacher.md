@@ -4,11 +4,26 @@
 
 | 커밋 | 내용 |
 |------|------|
+| `c6673ea` | refactor(wrongnote): WrongNote n.question.* 제거 + array-utils 공통화 |
+| `9e81fbe` | docs: 강선생 핸드오프 문서 업데이트 + PWA sw.js |
 | `4028e7d` | fix(dashboard): T-08 dday useMemo→setInterval 자정 갱신 |
 | `3cb4e80` | feat(pages): /bookmarks 퀴즈 버튼 + /my 학습계획 재설정 |
-| `492e1ad` | /stats↔/mastery 탭 통합 포함 (MDX 8파일과 같이 커밋) |
-| `2318236` | feat(leitner): 오답→SRS 화학적 통합 + AiBriefingCard 신규유저 |
-| `e84fb98` | fix(nav/db): analytics 리다이렉트 + /today/answers 싱글톤 |
+| `492e1ad` | /stats↔/mastery 탭 통합 포함 |
+
+## 강선생2 세션 (2026-03-22) 완료 내용
+
+- **WrongNote n.question.* 제거**: stats-utils.ts, SessionSetup.tsx → n.subject 직접 접근
+- **array-utils.ts 신규**: shuffle / dateSeed / seededShuffle export, QuizClient + SelfCheckSection inline 제거
+- **연쇄 수정**: error-patterns.ts, mastery.ts, AiBriefingCard, RecommendedChapters — quizHistory 역방향 조회 패턴
+- **테스트 픽스**: error-patterns.test.ts, stats-utils.test.ts WrongNote mock 업데이트
+- **180 테스트 PASS**
+
+## 잔여 TS 에러 (강선생1 처리 필요)
+
+- `WrongNoteCard.tsx`: question optional → TS18048 (강선생1 영역)
+- `WrongNotesClient.tsx`: HydratedWrongNote 타입 불일치 (prohibited)
+- `useHydratedWrongNotes.ts`: question null vs undefined (prohibited)
+- `빌드`: 위 파일 수정 후 통과 예정
 
 ## T-08/09/10 현황
 
