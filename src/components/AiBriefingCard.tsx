@@ -48,6 +48,9 @@ export function AiBriefingCard() {
     }
   }
 
+  // 오답 자체가 없는 신규 유저 — 카드 숨김
+  if (wrongNotes.length === 0) return null;
+
   return (
     <div className="rounded-xl border border-border bg-card p-4 space-y-3">
       <div className="flex items-center justify-between">

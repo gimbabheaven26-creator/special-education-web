@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { WrongNote } from '@/types/study';
 import type { Confidence } from '@/types/quiz';
 import { Badge } from '@/components/ui/badge';
@@ -112,6 +113,8 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
 
       if (isCorrect) {
         markMastered(currentNote.questionId);
+        // 정답 시 Leitner 박스 상승
+        useLeitnerStore.getState().answerCard(currentNote.questionId, true, confidence ?? undefined);
       } else {
         addWrongNote(currentNote.question, userAnswer);
       }

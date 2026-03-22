@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { QuizQuestion, QuizResult } from '@/types/quiz';
 import type { WrongNote } from '@/types/study';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 
 // ─── Feedback Types (merged from useQuizFeedbackStore) ──────────────────────
 
@@ -82,7 +83,7 @@ export const useQuizStore = create<QuizStore>()(
 
       // ── Wrong Notes ─────────────────────────────────────────────────────
 
-      addWrongNote: (question, userAnswer) =>
+      addWrongNote: (question, userAnswer) => {
         set((state) => {
           const existing = state.wrongNotes.find((n) => n.questionId === question.id);
           if (existing) {
@@ -99,12 +100,10 @@ export const useQuizStore = create<QuizStore>()(
             ...state.wrongNotes,
             { questionId: question.id, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
           ];
-          // 초과 시 mastered → unmastered 순으로 가장 오래된 항목 제거
           if (updated.length > MAX_WRONG_NOTES) {
             const excess = updated.length - MAX_WRONG_NOTES;
             const sortedByPriority = [...updated]
               .sort((a, b) => {
-                // mastered 우선 제거, 같으면 오래된 것 우선
                 if (a.mastered !== b.mastered) return a.mastered ? -1 : 1;
                 return a.lastAttempt - b.lastAttempt;
               });
@@ -114,7 +113,21 @@ export const useQuizStore = create<QuizStore>()(
             return { wrongNotes: updated.filter((n) => !removeIds.has(n.questionId)) };
           }
           return { wrongNotes: updated };
-        }),
+        });
+        // Leitner SRS 자동 연동 — 오답 발생 시 복습 큐 편입
+        const leitner = useLeitnerStore.getState();
+        const existingCard = leitner.cards.find((c) => c.id === question.id);
+        if (!existingCard) {
+          leitner.addCard({
+            id: question.id,
+            subjectSlug: question.subject,
+            question: question.question,
+            answer: String(question.answer),
+          });
+        } else {
+          leitner.answerCard(question.id, false);
+        }
+      },
 
       markMastered: (questionId) =>
         set((state) => ({
