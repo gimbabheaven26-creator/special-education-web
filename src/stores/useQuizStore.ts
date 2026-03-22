@@ -98,7 +98,7 @@ export const useQuizStore = create<QuizStore>()(
           const MAX_WRONG_NOTES = 500;
           const updated = [
             ...state.wrongNotes,
-            { questionId: question.id, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
+            { questionId: question.id, subject: question.subject, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
           ];
           if (updated.length > MAX_WRONG_NOTES) {
             const excess = updated.length - MAX_WRONG_NOTES;
@@ -159,7 +159,7 @@ export const useQuizStore = create<QuizStore>()(
         }),
 
       getWrongNotesBySubject: (subject) =>
-        get().wrongNotes.filter((n) => n.question.subject === subject),
+        get().wrongNotes.filter((n) => n.subject === subject),
 
       getQuizStats: () => {
         const history = get().quizHistory;
@@ -226,7 +226,7 @@ export const useQuizStore = create<QuizStore>()(
     }),
     {
       name: 'quiz-data',
-      version: 3,
+      version: 4,
       migrate: (persistedState, version) => {
         let state = persistedState as Record<string, unknown>;
 
@@ -256,6 +256,22 @@ export const useQuizStore = create<QuizStore>()(
 
         if (version < 3) {
           // v2 -> v3: confidence field added to QuizResult (optional, no data migration needed)
+        }
+
+        if (version < 4) {
+          // v3 -> v4: WrongNote.question (전체 객체) → subject (string)으로 교체
+          const wrongNotes = Array.isArray(state.wrongNotes) ? state.wrongNotes : [];
+          state = {
+            ...state,
+            wrongNotes: wrongNotes.map((n: Record<string, unknown>) => ({
+              questionId: n.questionId,
+              subject: (n.question as Record<string, unknown>)?.subject ?? '',
+              userAnswer: n.userAnswer,
+              attempts: n.attempts ?? 1,
+              lastAttempt: n.lastAttempt ?? Date.now(),
+              mastered: n.mastered ?? false,
+            })),
+          };
         }
 
         return state;

@@ -1,5 +1,3 @@
-import type { QuizQuestion } from './quiz';
-
 export interface StudyProgress {
   subjectSlug: string;
   chapterSlug: string;
@@ -18,7 +16,7 @@ export interface Bookmark {
 
 export interface WrongNote {
   questionId: string;
-  question: QuizQuestion;
+  subject: string;
   userAnswer: string | number;
   attempts: number;
   lastAttempt: number;

@@ -80,6 +80,18 @@ export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQues
   return data.map(mapQuizRow);
 }
 
+export async function getQuizzesByIds(ids: string[]): Promise<QuizQuestion[]> {
+  if (ids.length === 0) return [];
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('*')
+    .in('id', ids)
+    .limit(500);
+  if (error || !data) return [];
+  return data.map(mapQuizRow);
+}
+
 export async function getAllQuizzes(): Promise<QuizQuestion[]> {
   const supabase = await createClient();
   // Supabase/PostgREST default row limit is 1000 — override to fetch full dataset
