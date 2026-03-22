@@ -4,6 +4,7 @@ import { BookOpen, Brain, Trophy } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useMounted } from '@/hooks/useMounted';
+import { getToday } from '@/lib/date-utils';
 
 function GoalRow({
   icon: Icon,
@@ -67,7 +68,7 @@ export function DailyGoalCard() {
     );
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getToday();
   const isToday = dailyProgress.date === today;
   const chapters = isToday ? dailyProgress.chaptersCompleted : 0;
   const quizzes = isToday ? dailyProgress.quizzesCompleted : 0;

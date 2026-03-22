@@ -82,9 +82,11 @@ export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQues
 
 export async function getAllQuizzes(): Promise<QuizQuestion[]> {
   const supabase = await createClient();
+  // Supabase/PostgREST default row limit is 1000 — override to fetch full dataset
   const { data, error } = await supabase
     .from('quiz_questions')
-    .select('*');
+    .select('*')
+    .limit(10000);
 
   if (error || !data) return [];
 
@@ -195,9 +197,12 @@ export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: stri
 
 export async function getQuizCount(): Promise<Record<string, number>> {
   const supabase = await createClient();
+  // Fetch only the subject column — lightweight count aggregation on client side
+  // Limit ensures we don't hit PostgREST's 1000-row default ceiling
   const { data, error } = await supabase
     .from('quiz_questions')
-    .select('subject');
+    .select('subject')
+    .limit(10000);
 
   if (error || !data) return {};
 
@@ -217,7 +222,8 @@ export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
-    .or(`question.ilike.%${sanitized}%,explanation.ilike.%${sanitized}%`);
+    .or(`question.ilike.%${sanitized}%,explanation.ilike.%${sanitized}%`)
+    .limit(200);
 
   if (error || !data) return [];
   return data.map(mapQuizRow);

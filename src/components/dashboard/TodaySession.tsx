@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useMounted } from '@/hooks/useMounted';
+import { getToday } from '@/lib/date-utils';
 
 export function TodaySession() {
   const mounted = useMounted();
@@ -23,7 +24,7 @@ export function TodaySession() {
     );
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getToday();
   const isToday = dailyProgress.date === today;
   const quizzes = isToday ? dailyProgress.quizzesCompleted : 0;
   const chapters = isToday ? dailyProgress.chaptersCompleted : 0;

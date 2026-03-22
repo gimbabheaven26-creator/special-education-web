@@ -28,6 +28,12 @@ export async function POST(request: Request) {
   if (!input.question_text || typeof input.question_text !== 'string' || !input.question_text.trim()) {
     return NextResponse.json({ error: '문제 본문을 입력하세요.' }, { status: 400 });
   }
+  if ((input.question_text as string).length > 2000) {
+    return NextResponse.json({ error: '문제 본문은 2,000자 이하로 입력하세요.' }, { status: 400 });
+  }
+  if (typeof input.explanation === 'string' && input.explanation.length > 3000) {
+    return NextResponse.json({ error: '해설은 3,000자 이하로 입력하세요.' }, { status: 400 });
+  }
   if (!input.correct_answer || typeof input.correct_answer !== 'string') {
     return NextResponse.json({ error: '정답을 입력하세요.' }, { status: 400 });
   }
