@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function FlashcardsPage() {
-  redirect('/wrong-notes');
+  redirect('/flashcards/review');
 }
