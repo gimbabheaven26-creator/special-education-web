@@ -15,7 +15,7 @@ export default async function WorksheetViewPage({
   if (!topic) notFound();
 
   const questions = await getWorksheetsByTopic(topic.subject, id);
-  const qrUrl = `${SITE_URL}/worksheets/${id}`;
+  const qrUrl = `${SITE_URL}/worksheets/${id}/answers`;
 
   return (
     <WorksheetViewClient
