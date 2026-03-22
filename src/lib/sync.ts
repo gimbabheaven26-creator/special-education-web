@@ -134,7 +134,7 @@ export async function migrateGuestData(userId: string): Promise<void> {
     onboarding: 'special-edu-onboarding',
   };
 
-  const promises: Promise<void>[] = [];
+  const promises: Promise<unknown>[] = [];
   for (const [key, lsKey] of Object.entries(STORE_LS_KEYS) as [StoreKey, string][]) {
     try {
       const raw = localStorage.getItem(lsKey);

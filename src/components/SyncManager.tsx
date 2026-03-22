@@ -6,12 +6,19 @@
  * 전략:
  *  - SIGNED_IN: syncAllStores(userId) → 서버 데이터 pull → 스토어에 hydrate
  *  - 스토어 변경 시: 1500ms debounce 후 서버에 push (optimistic update)
+ *  - 서버가 더 최신이면 push 건너뜀 → pull로 최신 데이터 가져옴
  *  - SIGNED_OUT: 동기화 중단 (로컬 데이터는 유지)
  */
 
 import { useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase/browser';
-import { pushStore, serializeState, syncAllStores, type StoreKey } from '@/lib/sync';
+import {
+  pushToServer,
+  pullFromServer,
+  serializeState,
+  syncAllStores,
+  type StoreKey,
+} from '@/lib/sync';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
@@ -20,21 +27,66 @@ import { useOnboardingStore } from '@/stores/useOnboardingStore';
 
 const DEBOUNCE_MS = 1500;
 
+/** 스토어별 hydrate 맵 — 서버가 더 최신일 때 단일 스토어를 갱신 */
+const STORE_SETTERS: Record<StoreKey, { setState: (data: Record<string, unknown>) => void }> = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  study: { setState: (d) => useStudyStore.setState(d as any) },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  quiz: { setState: (d) => useQuizStore.setState(d as any) },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  leitner: { setState: (d) => useLeitnerStore.setState(d as any) },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  bookmark: { setState: (d) => useBookmarkStore.setState(d as any) },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onboarding: { setState: (d) => useOnboardingStore.setState(d as any) },
+};
+
 export function SyncManager() {
   const isSyncing = useRef(false);
+  const userIdRef = useRef<string | null>(null);
+  const lastSyncTs = useRef<Partial<Record<StoreKey, string>>>({});
   const timers = useRef<Partial<Record<StoreKey, ReturnType<typeof setTimeout>>>>({});
 
   function schedulePush(key: StoreKey, state: Record<string, unknown>) {
     clearTimeout(timers.current[key]);
-    timers.current[key] = setTimeout(() => {
-      pushStore(key, serializeState(state));
+    timers.current[key] = setTimeout(async () => {
+      const userId = userIdRef.current;
+      if (!userId) return;
+
+      const result = await pushToServer(
+        userId,
+        key,
+        serializeState(state),
+        lastSyncTs.current[key],
+      );
+
+      if (result === 'pushed') {
+        lastSyncTs.current[key] = new Date().toISOString();
+      } else if (result === 'skipped') {
+        // 서버가 더 최신 — 서버 데이터를 pull하여 로컬에 반영
+        isSyncing.current = true;
+        try {
+          const serverData = await pullFromServer(userId, key);
+          if (serverData) {
+            STORE_SETTERS[key].setState(serverData);
+          }
+          lastSyncTs.current[key] = new Date().toISOString();
+        } finally {
+          isSyncing.current = false;
+        }
+      }
     }, DEBOUNCE_MS);
   }
 
   async function syncOnLogin(userId: string) {
+    userIdRef.current = userId;
     isSyncing.current = true;
     try {
       await syncAllStores(userId);
+      // 초기 동기화 완료 시점 기록
+      const now = new Date().toISOString();
+      const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding'];
+      keys.forEach((k) => { lastSyncTs.current[k] = now; });
     } catch (err) {
       console.error('[SyncManager] syncOnLogin error:', err);
     } finally {
@@ -53,6 +105,10 @@ export function SyncManager() {
     // 로그인 이벤트 감지
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) syncOnLogin(session.user.id);
+      if (event === 'SIGNED_OUT') {
+        userIdRef.current = null;
+        lastSyncTs.current = {};
+      }
     });
 
     // 스토어 변경 구독 → debounce push (5개 스토어)
