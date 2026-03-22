@@ -10,6 +10,7 @@ export interface SubQuestion {
 
 export interface QuizQuestion {
   id: string;
+  display_id?: string;
   subject: string;
   chapter: string;
   type: QuizType;

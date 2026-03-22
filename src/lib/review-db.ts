@@ -49,6 +49,12 @@ export async function saveReview(
 
 export async function deleteReview(id: number): Promise<boolean> {
   const supabase = await createClient();
+  const { data: existing } = await supabase
+    .from('reviews')
+    .select('id')
+    .eq('id', id)
+    .single();
+  if (!existing) return false;
   const { error } = await supabase
     .from('reviews')
     .delete()
