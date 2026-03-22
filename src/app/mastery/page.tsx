@@ -245,6 +245,13 @@ export default function MasteryPage() {
   const totalMastered = chapterMasteries.filter((c) => c.level === 'mastered' || c.level === 'proficient').length;
   const totalChapters = chapterMasteries.length;
 
+  const tabBar = (
+    <div className="flex border-b border-border">
+      <Link href="/stats" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent">학습통계</Link>
+      <span className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary">마스터리</span>
+    </div>
+  );
+
   // Empty state
   if (quizHistory.length === 0) {
     return (
@@ -255,6 +262,7 @@ export default function MasteryPage() {
             퀴즈를 풀면 과목별 숙련도와 합격 시뮬레이션을 볼 수 있어요.
           </p>
         </div>
+        {tabBar}
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <p className="text-4xl mb-4">🌳</p>
           <p className="text-lg font-medium text-muted-foreground">
@@ -276,6 +284,7 @@ export default function MasteryPage() {
           과목별 숙련도와 합격 가능성을 확인하세요.
         </p>
       </div>
+      {tabBar}
 
       {/* Quick stats */}
       <div className="flex flex-wrap gap-3 justify-center">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { useStatsData } from './useStatsData';
 import { WrongNoteAI } from '@/components/WrongNoteAI';
@@ -56,6 +57,13 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
     [chapterStats, subjectTitleMap, chapterTitleMap],
   );
 
+  const tabBar = (
+    <div className="flex border-b border-border">
+      <span className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary">학습통계</span>
+      <Link href="/mastery" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent">마스터리</Link>
+    </div>
+  );
+
   if (quizHistory.length === 0) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
@@ -65,6 +73,7 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
             퀴즈를 풀면 학습 통계를 확인할 수 있어요.
           </p>
         </div>
+        {tabBar}
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <p className="text-4xl mb-4">📊</p>
           <p className="text-lg font-medium text-muted-foreground">
@@ -86,6 +95,7 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
           나의 학습 현황을 한눈에 확인하세요.
         </p>
       </div>
+      {tabBar}
 
       {/* Overall Accuracy */}
       <OverallAccuracy
