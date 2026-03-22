@@ -1,6 +1,7 @@
 import StructureClient from './StructureClient';
 import { AdminOnly } from '@/components/AdminOnly';
 import { createClient } from '@/lib/supabase/server';
+import { getConceptsForSubject } from '@/lib/concepts';
 
 export interface SubjectStat {
   title: string;
@@ -15,22 +16,21 @@ export interface SubjectStat {
 async function getDbStats(): Promise<SubjectStat[]> {
   try {
     const supabase = await createClient();
-    const [{ data: subjects }, { data: chapters }, { data: questions }] =
+    const [{ data: subjects }, { data: questions }] =
       await Promise.all([
         supabase.from('subjects').select('slug,title').order('sort_order'),
-        supabase.from('chapters').select('slug,subject_slug'),
         supabase.from('quiz_questions').select('subject,type').limit(5000),
       ]);
 
-    if (!subjects || !chapters || !questions) return [];
+    if (!subjects || !questions) return [];
 
     return subjects.map((sub) => {
-      const subChapters = chapters.filter((c) => c.subject_slug === sub.slug);
+      const conceptCount = getConceptsForSubject(sub.slug).length;
       const subQs = questions.filter((q) => q.subject === sub.slug);
       return {
         title: sub.title,
         slug: sub.slug,
-        chapters: subChapters.length,
+        chapters: conceptCount,
         total: subQs.length,
         ox: subQs.filter((q) => q.type === 'ox').length,
         fill_in: subQs.filter((q) => q.type === 'fill_in').length,

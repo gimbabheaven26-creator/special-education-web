@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,9 @@ export function ChapterTracker({
   const router = useRouter();
   const [completed, setCompleted] = useState(false);
   const [showXP, setShowXP] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Bug1 fix: 마운트 시 1회만 기록 — props 변경 시 중복 호출 방지
   useEffect(() => {
     useStudyStore.getState().recordActivity({
       subjectSlug,
@@ -30,7 +32,15 @@ export function ChapterTracker({
       chapterSlug,
       chapterTitle,
     });
-  }, [subjectSlug, subjectTitle, chapterSlug, chapterTitle]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Bug2 fix: 언마운트 시 타이머 정리 — 메모리 누수 방지
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const handleComplete = useCallback(() => {
     if (completed) return;
@@ -40,12 +50,10 @@ export function ChapterTracker({
     setShowXP(true);
 
     // XP 애니메이션 후 과목 페이지로 자동 이동
-    const timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       setShowXP(false);
       router.push(`/subjects/${subjectSlug}`);
     }, 1500);
-
-    return () => clearTimeout(timer);
   }, [completed, router, subjectSlug]);
 
   return (

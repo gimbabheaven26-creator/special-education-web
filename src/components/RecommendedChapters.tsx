@@ -5,6 +5,16 @@ import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { getChapterProficiency } from '@/lib/adaptive-difficulty';
+import examStructure from '@/data/exam-structure.json';
+
+const subjectWeights = examStructure.subjectWeights as Record<
+  string,
+  { title: string; weight: number }
+>;
+
+function getSubjectTitle(slug: string): string {
+  return subjectWeights[slug]?.title ?? slug;
+}
 
 export function RecommendedChapters() {
   const quizHistory = useQuizStore((s) => s.quizHistory);
@@ -66,7 +76,7 @@ export function RecommendedChapters() {
           >
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground shrink-0">
-                {subject}
+                {getSubjectTitle(subject)}
               </span>
               <span className="text-sm font-medium truncate">{chapter}</span>
             </div>

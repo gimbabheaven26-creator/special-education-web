@@ -1,20 +1,24 @@
 import { createClient } from '@/lib/supabase/server';
+import { getConceptsForSubject } from '@/lib/concepts';
 import type { Subject } from '@/types/content';
 import type { QuizQuestion } from '@/types/quiz';
+
+/** MDX title에서 "과목명 — " 접두어 제거 (예: "진단평가 — 지능 검사" → "지능 검사") */
+function stripSubjectPrefix(title: string): string {
+  const idx = title.indexOf(' — ');
+  return idx > 0 ? title.slice(idx + 3) : title;
+}
 
 // ─── Subjects ───
 
 export async function getSubjects(): Promise<Subject[]> {
   const supabase = await createClient();
-  const [subjectsResult, chaptersResult] = await Promise.all([
-    supabase.from('subjects').select('*').order('sort_order'),
-    supabase.from('chapters').select('*').order('sort_order'),
-  ]);
+  const { data: subjectRows, error } = await supabase
+    .from('subjects')
+    .select('*')
+    .order('sort_order');
 
-  const { data: subjectRows, error: sErr } = subjectsResult;
-  const { data: chapterRows, error: cErr } = chaptersResult;
-
-  if (sErr || !subjectRows || cErr || !chapterRows) return [];
+  if (error || !subjectRows) return [];
 
   return subjectRows.map((s) => ({
     slug: s.slug,
@@ -23,29 +27,25 @@ export async function getSubjects(): Promise<Subject[]> {
     icon: s.icon,
     color: s.color,
     order: s.sort_order,
-    chapters: chapterRows
-      .filter((c) => c.subject_slug === s.slug)
-      .map((c) => ({
-        slug: c.slug,
-        title: c.title,
-        description: c.description,
-        keywords: c.keywords || [],
-        order: c.sort_order,
-      })),
+    chapters: getConceptsForSubject(s.slug).map((c) => ({
+      slug: c.slug,
+      title: stripSubjectPrefix(c.title),
+      description: c.description,
+      keywords: c.kiceKeywords,
+      order: c.order,
+    })),
   }));
 }
 
 export async function getSubjectBySlug(slug: string): Promise<Subject | null> {
   const supabase = await createClient();
-  const [subjectResult, chaptersResult] = await Promise.all([
-    supabase.from('subjects').select('*').eq('slug', slug).single(),
-    supabase.from('chapters').select('*').eq('subject_slug', slug).order('sort_order'),
-  ]);
+  const { data: s, error } = await supabase
+    .from('subjects')
+    .select('*')
+    .eq('slug', slug)
+    .single();
 
-  const { data: s, error: sErr } = subjectResult;
-  const { data: chapterRows, error: cErr } = chaptersResult;
-
-  if (sErr || !s) return null;
+  if (error || !s) return null;
 
   return {
     slug: s.slug,
@@ -54,12 +54,12 @@ export async function getSubjectBySlug(slug: string): Promise<Subject | null> {
     icon: s.icon,
     color: s.color,
     order: s.sort_order,
-    chapters: (cErr || !chapterRows ? [] : chapterRows).map((c) => ({
+    chapters: getConceptsForSubject(s.slug).map((c) => ({
       slug: c.slug,
-      title: c.title,
+      title: stripSubjectPrefix(c.title),
       description: c.description,
-      keywords: c.keywords || [],
-      order: c.sort_order,
+      keywords: c.kiceKeywords,
+      order: c.order,
     })),
   };
 }

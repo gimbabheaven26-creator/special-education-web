@@ -67,6 +67,12 @@ const SLUG_TO_CONCEPTS_FOLDER: Record<string, string> = {
   'communication-disorder': '의사소통장애',
   'introduction': '특수교육학 개론',
   'laws': '관련 법령',
+  'aac': 'AAC',
+  'autism': '자폐성장애',
+  'emotional-behavioral': '정서행동장애',
+  'intellectual-disability': '지적장애',
+  'assistive-technology': '특수교육공학',
+  'learning-disability': '학습장애',
 };
 
 /** subject slug로 해당 과목의 모든 concepts MDX 파일 반환 (order 오름차순) */
