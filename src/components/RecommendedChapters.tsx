@@ -13,10 +13,20 @@ export function RecommendedChapters() {
   const recommendations = useMemo(() => {
     if (quizHistory.length === 0) return [];
 
+    // quizHistory에서 questionId→chapter 역방향 조회
+    const qIdToInfo = new Map<string, { subject: string; chapter: string }>();
+    for (const r of quizHistory) {
+      if (!qIdToInfo.has(r.questionId)) {
+        qIdToInfo.set(r.questionId, { subject: r.subject, chapter: r.chapter });
+      }
+    }
+
     // 챕터별 오답 카운트
     const wrongMap = new Map<string, number>();
     for (const note of wrongNotes.filter((n) => !n.mastered)) {
-      const key = `${note.question.subject}::${note.question.chapter}`;
+      const info = qIdToInfo.get(note.questionId);
+      if (!info) continue;
+      const key = `${info.subject}::${info.chapter}`;
       wrongMap.set(key, (wrongMap.get(key) ?? 0) + note.attempts);
     }
 

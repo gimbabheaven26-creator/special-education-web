@@ -98,7 +98,7 @@ export const useQuizStore = create<QuizStore>()(
           const MAX_WRONG_NOTES = 500;
           const updated = [
             ...state.wrongNotes,
-            { questionId: question.id, subject: question.subject, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
+            { questionId: question.id, subject: question.subject, chapter: question.chapter, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
           ];
           if (updated.length > MAX_WRONG_NOTES) {
             const excess = updated.length - MAX_WRONG_NOTES;

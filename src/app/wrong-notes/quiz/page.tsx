@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic';
 
-import { getSubjects } from '@/lib/db';
+import { getSubjects, getAllQuizzes } from '@/lib/db';
 import WrongNotesQuizClient from './WrongNotesQuizClient';
 
 export default async function WrongNotesQuizPage() {
-  const subjects = await getSubjects();
+  const [subjects, quizzes] = await Promise.all([getSubjects(), getAllQuizzes()]);
 
   const subjectTitleMap: Record<string, string> = {};
   const chapterTitleMap: Record<string, string> = {};
@@ -15,5 +15,11 @@ export default async function WrongNotesQuizPage() {
     }
   }
 
-  return <WrongNotesQuizClient subjectTitleMap={subjectTitleMap} chapterTitleMap={chapterTitleMap} />;
+  return (
+    <WrongNotesQuizClient
+      subjectTitleMap={subjectTitleMap}
+      chapterTitleMap={chapterTitleMap}
+      allQuestions={quizzes}
+    />
+  );
 }

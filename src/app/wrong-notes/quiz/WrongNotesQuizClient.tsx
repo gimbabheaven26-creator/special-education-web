@@ -1,12 +1,11 @@
 'use client';
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
-import type { WrongNote } from '@/types/study';
-import type { Confidence } from '@/types/quiz';
+import type { Confidence, QuizQuestion } from '@/types/quiz';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,9 +27,21 @@ interface QuizAnswer {
   isCorrect: boolean;
 }
 
+/** WrongNote hydrated with a guaranteed non-null question */
+interface QuizReadyNote {
+  questionId: string;
+  subject: string;
+  userAnswer: string | number;
+  attempts: number;
+  lastAttempt: number;
+  mastered: boolean;
+  question: QuizQuestion;
+}
+
 interface WrongNotesQuizClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
+  readonly allQuestions: readonly QuizQuestion[];
 }
 
 /** "2024 전공A 11번" → "2024년도 기출 A형 11번" / "...동형" → "2024 A-11 동형" */
@@ -42,22 +53,26 @@ function formatSourceBadge(source: string): { label: string; variant: 'kice' | '
   return { label: `${year}년도 기출 ${type}형 ${num}번`, variant: 'kice' };
 }
 
-export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap }: WrongNotesQuizClientProps) {
+export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap, allQuestions }: WrongNotesQuizClientProps) {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const addWrongNote = useQuizStore((s) => s.addWrongNote);
   const markMastered = useQuizStore((s) => s.markMastered);
   const addQuizResult = useQuizStore((s) => s.addQuizResult);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
 
-  const unmasteredNotes = useMemo(
-    () => wrongNotes.filter((n) => {
-      if (n.mastered) return false;
+  // Synchronous hydration via allQuestions prop (server-loaded) — no async needed
+  // Snapshot at mount to prevent list changing mid-quiz
+  const [questions] = useState<QuizReadyNote[]>(() => {
+    const qMap = new Map(allQuestions.map((q) => [q.id, q]));
+    return wrongNotes.flatMap((n) => {
+      if (n.mastered) return [];
+      const q = qMap.get(n.questionId);
+      if (!q) return [];
       // fill_in 중 지문 포함(caseContext 있음) 또는 100자 초과 긴 문제 제외
-      if (n.question.type === 'fill_in' && (n.question.caseContext || n.question.question.length > 100)) return false;
-      return true;
-    }),
-    [wrongNotes],
-  );
+      if (q.type === 'fill_in' && (q.caseContext || q.question.length > 100)) return [];
+      return [{ ...n, question: q }];
+    });
+  });
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
@@ -71,12 +86,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
   });
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Snapshot the questions at mount to avoid shifting indices
-  const [questions] = useState(() =>
-    unmasteredNotes.map((n) => ({ ...n })),
-  );
-
-  const currentNote: WrongNote | undefined = questions[currentIndex];
+  const currentNote: QuizReadyNote | undefined = questions[currentIndex];
 
   const showXPToast = useCallback((amount: number) => {
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);

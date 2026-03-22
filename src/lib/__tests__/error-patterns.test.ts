@@ -6,17 +6,7 @@ import type { WrongNote } from '@/types/study';
 function makeNote(overrides: Partial<WrongNote> = {}): WrongNote {
   return {
     questionId: 'q1',
-    question: {
-      id: 'q1',
-      subject: 'sub1',
-      chapter: 'ch1',
-      type: 'multiple',
-      question: 'Test?',
-      options: ['A', 'B', 'C', 'D'],
-      answer: 1,
-      explanation: 'Because',
-      difficulty: 2,
-    },
+    subject: 'sub1',
     userAnswer: 2,
     attempts: 1,
     lastAttempt: Date.now(),

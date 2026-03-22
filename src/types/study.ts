@@ -17,6 +17,8 @@ export interface Bookmark {
 export interface WrongNote {
   questionId: string;
   subject: string;
+  chapter?: string;
+  question?: import('./quiz').QuizQuestion | null;
   userAnswer: string | number;
   attempts: number;
   lastAttempt: number;

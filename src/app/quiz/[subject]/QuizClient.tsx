@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { shuffle } from '@/lib/array-utils';
 import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
@@ -34,16 +35,6 @@ const ESSAY_TYPES = new Set(['descriptive', 'scenario_composite']);
 
 const REVIEW_MIX_RATIO = 0.7; // 빠른 복습 프리셋에서 오답 비율
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function shuffle<T>(arr: readonly T[]): T[] {
-  const result = [...arr];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
 
 /** Build session questions based on preset configuration */
 function buildSession(
@@ -217,10 +208,14 @@ export function QuizClient({
   );
 
   const reviewQuestions = useMemo(
-    () => wrongNotes
-      .filter((n) => !n.mastered && n.question.subject === subjectSlug && typeSet.has(n.question.type))
-      .map((n) => n.question),
-    [wrongNotes, subjectSlug, typeSet],
+    () => {
+      const questionMap = new Map(questions.map((q) => [q.id, q]));
+      return wrongNotes
+        .filter((n) => !n.mastered && n.subject === subjectSlug)
+        .map((n) => questionMap.get(n.questionId))
+        .filter((q): q is QuizQuestion => q !== undefined && typeSet.has(q.type));
+    },
+    [wrongNotes, subjectSlug, typeSet, questions],
   );
 
   const subjectHistory = useMemo(

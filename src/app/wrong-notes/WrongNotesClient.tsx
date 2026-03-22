@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { WrongNote } from '@/types/study';
+import type { QuizQuestion } from '@/types/quiz';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import WrongNoteCard from './WrongNoteCard';
@@ -13,11 +14,15 @@ import SrsReviewMode from './SrsReviewMode';
 import { detectErrorPatterns } from '@/lib/error-patterns';
 import { WrongNoteAI } from '@/components/WrongNoteAI';
 
+export interface HydratedWrongNote extends WrongNote {
+  question: QuizQuestion | null;
+}
+
 type SortMode = 'recent' | 'attempts' | 'oldest';
 
-function groupBySubject(notes: WrongNote[]): Record<string, WrongNote[]> {
-  return notes.reduce<Record<string, WrongNote[]>>((acc, note) => {
-    const subject = note.question.subject;
+function groupBySubject<T extends WrongNote>(notes: T[]): Record<string, T[]> {
+  return notes.reduce<Record<string, T[]>>((acc, note) => {
+    const subject = note.subject;
     return {
       ...acc,
       [subject]: [...(acc[subject] ?? []), note],
@@ -28,9 +33,10 @@ function groupBySubject(notes: WrongNote[]): Record<string, WrongNote[]> {
 interface WrongNotesClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
+  readonly allQuestions: readonly QuizQuestion[];
 }
 
-export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: WrongNotesClientProps) {
+export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, allQuestions }: WrongNotesClientProps) {
   const searchParams = useSearchParams();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const quizHistory = useQuizStore((s) => s.quizHistory);
@@ -38,6 +44,11 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
   const unmarkMastered = useQuizStore((s) => s.unmarkMastered);
   const removeWrongNote = useQuizStore((s) => s.removeWrongNote);
   const leitnerGetStats = useLeitnerStore((s) => s.getStats);
+
+  const hydrated = useMemo<HydratedWrongNote[]>(() => {
+    const qMap = new Map(allQuestions.map((q) => [q.id, q]));
+    return wrongNotes.map((n) => ({ ...n, question: qMap.get(n.questionId) ?? null }));
+  }, [wrongNotes, allQuestions]);
 
   const initialTab = searchParams.get('tab') === 'srs' ? 'srs' : 'all';
   const [activeTab, setActiveTab] = useState<'all' | 'srs'>(initialTab);
@@ -62,28 +73,29 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
   const [collapsedSubjects, setCollapsedSubjects] = useState<Set<string>>(new Set());
 
   const subjects = useMemo(() => {
-    const set = new Set(wrongNotes.map((n) => n.question.subject));
+    const set = new Set(wrongNotes.map((n) => n.subject));
     return Array.from(set).sort();
   }, [wrongNotes]);
 
   const chapters = useMemo(() => {
     if (subjectFilter === 'all') return [];
     const set = new Set(
-      wrongNotes
-        .filter((n) => n.question.subject === subjectFilter)
-        .map((n) => n.question.chapter),
+      hydrated
+        .filter((n) => n.subject === subjectFilter)
+        .map((n) => n.question?.chapter)
+        .filter((ch): ch is string => ch != null),
     );
     return Array.from(set).sort();
-  }, [wrongNotes, subjectFilter]);
+  }, [hydrated, subjectFilter]);
 
   const filteredNotes = useMemo(() => {
-    let notes = wrongNotes;
+    let notes: HydratedWrongNote[] = hydrated;
 
     if (subjectFilter !== 'all') {
-      notes = notes.filter((n) => n.question.subject === subjectFilter);
+      notes = notes.filter((n) => n.subject === subjectFilter);
     }
     if (chapterFilter !== 'all') {
-      notes = notes.filter((n) => n.question.chapter === chapterFilter);
+      notes = notes.filter((n) => n.question?.chapter === chapterFilter);
     }
     if (!showMastered) {
       notes = notes.filter((n) => !n.mastered);
@@ -96,7 +108,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
     });
 
     return sorted;
-  }, [wrongNotes, subjectFilter, chapterFilter, showMastered, sortMode]);
+  }, [hydrated, subjectFilter, chapterFilter, showMastered, sortMode]);
 
   const stats = useMemo(() => {
     const total = wrongNotes.length;
@@ -106,21 +118,23 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap }: W
 
   const weakChapters = useMemo(() => {
     const map = new Map<string, { chapter: string; subject: string; wrongCount: number }>();
-    for (const note of wrongNotes) {
-      const key = `${note.question.subject}::${note.question.chapter}`;
+    for (const note of hydrated) {
+      const chapterKey = note.question?.chapter;
+      if (!chapterKey) continue;
+      const key = `${note.subject}::${chapterKey}`;
       const existing = map.get(key);
       if (existing) {
         existing.wrongCount += note.attempts;
       } else {
         map.set(key, {
-          chapter: chapterTitleMap[`${note.question.subject}::${note.question.chapter}`] || note.question.chapter,
-          subject: subjectTitleMap[note.question.subject] || note.question.subject,
+          chapter: chapterTitleMap[`${note.subject}::${chapterKey}`] || chapterKey,
+          subject: subjectTitleMap[note.subject] || note.subject,
           wrongCount: note.attempts,
         });
       }
     }
     return Array.from(map.values()).sort((a, b) => b.wrongCount - a.wrongCount).slice(0, 10);
-  }, [wrongNotes, subjectTitleMap, chapterTitleMap]);
+  }, [hydrated, subjectTitleMap, chapterTitleMap]);
 
   const grouped = useMemo(() => groupBySubject(filteredNotes), [filteredNotes]);
 

@@ -6,26 +6,31 @@ import { useQuizStore } from '@/stores/useQuizStore';
 
 export function AiBriefingCard() {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
+  const quizHistory = useQuizStore((s) => s.quizHistory);
   const [briefing, setBriefing] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const weakChapters = useMemo(() => {
+    const qIdToInfo = new Map<string, { subject: string; chapter: string }>();
+    for (const r of quizHistory) {
+      if (!qIdToInfo.has(r.questionId)) {
+        qIdToInfo.set(r.questionId, { subject: r.subject, chapter: r.chapter });
+      }
+    }
     const map = new Map<string, { chapter: string; subject: string; wrongCount: number }>();
     for (const note of wrongNotes.filter((n) => !n.mastered)) {
-      const key = `${note.question.subject}::${note.question.chapter}`;
+      const info = qIdToInfo.get(note.questionId);
+      if (!info) continue;
+      const key = `${info.subject}::${info.chapter}`;
       const existing = map.get(key);
       if (existing) {
         existing.wrongCount += note.attempts;
       } else {
-        map.set(key, {
-          chapter: note.question.chapter,
-          subject: note.question.subject,
-          wrongCount: note.attempts,
-        });
+        map.set(key, { chapter: info.chapter, subject: info.subject, wrongCount: note.attempts });
       }
     }
     return Array.from(map.values()).sort((a, b) => b.wrongCount - a.wrongCount).slice(0, 5);
-  }, [wrongNotes]);
+  }, [wrongNotes, quizHistory]);
 
   async function fetchBriefing() {
     if (weakChapters.length === 0) {

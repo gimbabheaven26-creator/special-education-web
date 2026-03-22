@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import type { WrongNote } from '@/types/study';
+import type { HydratedWrongNote } from './WrongNotesClient';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -23,8 +23,9 @@ function formatDate(timestamp: number): string {
   return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function formatAnswer(answer: string | number, note: WrongNote): string {
+function formatAnswer(answer: string | number, note: HydratedWrongNote): string {
   const { question } = note;
+  if (!question) return String(answer);
   if (question.type === 'multiple' && question.options) {
     const idx = Number(answer);
     const option = question.options[idx];
@@ -34,7 +35,7 @@ function formatAnswer(answer: string | number, note: WrongNote): string {
 }
 
 interface WrongNoteCardProps {
-  note: WrongNote;
+  note: HydratedWrongNote;
   errorPatterns?: ErrorPattern[];
   onMarkMastered: (questionId: string) => void;
   onUnmarkMastered: (questionId: string) => void;
@@ -53,13 +54,13 @@ export default function WrongNoteCard({
   const addCard = useLeitnerStore((s) => s.addCard);
   const leitnerCards = useLeitnerStore((s) => s.cards);
   const { question } = note;
-  const questionText = question.question;
+  const questionText = question?.question ?? '';
   const shouldTruncate = questionText.length > 80;
 
   const alreadyInFlashcard = leitnerCards.some((c) => c.id === `wrong-${note.questionId}`);
 
   const handleSaveToFlashcard = useCallback(() => {
-    if (alreadyInFlashcard || savedToFlashcard) return;
+    if (alreadyInFlashcard || savedToFlashcard || !question) return;
     addCard({
       id: `wrong-${note.questionId}`,
       subjectSlug: question.subject,
@@ -67,7 +68,7 @@ export default function WrongNoteCard({
       answer: String(question.answer),
     });
     setSavedToFlashcard(true);
-  }, [addCard, alreadyInFlashcard, savedToFlashcard, note.questionId, question.subject, questionText, question.answer]);
+  }, [addCard, alreadyInFlashcard, savedToFlashcard, question, note.questionId, questionText]);
 
   const isStreak = note.attempts >= 3 && !note.mastered;
 
@@ -75,7 +76,7 @@ export default function WrongNoteCard({
     <Card className={`${note.mastered ? 'opacity-60' : ''} ${isStreak ? 'border-red-400 dark:border-red-700' : ''}`}>
       <CardContent className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline">{TYPE_LABELS[question.type] ?? question.type}</Badge>
+          {question && <Badge variant="outline">{TYPE_LABELS[question.type] ?? question.type}</Badge>}
           <Badge variant="secondary">{note.attempts}회 시도</Badge>
           {isStreak && (
             <Badge className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
@@ -120,11 +121,11 @@ export default function WrongNoteCard({
           </p>
           <p className="text-green-600 dark:text-green-400">
             <span className="font-medium">정답: </span>
-            {formatAnswer(question.answer, note)}
+            {question ? formatAnswer(question.answer, note) : '-'}
           </p>
         </div>
 
-        {expanded && question.explanation && (
+        {expanded && question?.explanation && (
           <div className="space-y-2 rounded-lg bg-blue-50 p-3 text-sm dark:bg-blue-950/30">
             <p className="font-medium text-blue-800 dark:text-blue-300">해설</p>
             <p className="leading-relaxed text-blue-700 dark:text-blue-200">
@@ -135,7 +136,7 @@ export default function WrongNoteCard({
                 <p className="font-medium text-blue-800 dark:text-blue-300">오답 선지 해설</p>
                 {Object.entries(question.wrongExplanations).map(([key, text]) => (
                   <p key={key} className="leading-relaxed text-blue-600 dark:text-blue-300/80">
-                    <span className="font-medium">{key}: </span>{text}
+                    <span className="font-medium">{key}: </span>{text as string}
                   </p>
                 ))}
               </div>
@@ -144,7 +145,7 @@ export default function WrongNoteCard({
         )}
 
         <div className="flex items-center gap-3">
-          {question.subject && question.chapter && (
+          {question?.subject && question?.chapter && (
             <Link
               href={`/subjects/${question.subject}/${question.chapter}`}
               className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"

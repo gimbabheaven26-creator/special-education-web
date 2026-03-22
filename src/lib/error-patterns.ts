@@ -62,8 +62,8 @@ export function detectErrorPatterns(
   }
 
   // 3. Conceptual gap: chapter accuracy below 50%
-  const chapter = note.question.chapter;
-  const chapterResults = quizHistory.filter((r) => r.chapter === chapter);
+  const chapter = quizHistory.find((r) => r.questionId === questionId)?.chapter;
+  const chapterResults = chapter ? quizHistory.filter((r) => r.chapter === chapter) : [];
   if (chapterResults.length >= 3) {
     const correctCount = chapterResults.filter((r) => r.isCorrect).length;
     const accuracy = correctCount / chapterResults.length;
