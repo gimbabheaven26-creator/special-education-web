@@ -2,10 +2,39 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { FileText, ChevronRight } from 'lucide-react';
+import {
+  FileText,
+  ChevronRight,
+  BookOpen,
+  GraduationCap,
+  Users,
+  ClipboardCheck,
+  Heart,
+  ArrowRightLeft,
+  Scale,
+  Eye,
+  Ear,
+  Accessibility,
+  MessageCircle,
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Subject } from '@/types/content';
 import type { WorksheetTopicRow } from '@/lib/db';
+import type { LucideIcon } from 'lucide-react';
+
+const iconMap: Record<string, LucideIcon> = {
+  BookOpen,
+  GraduationCap,
+  Users,
+  ClipboardCheck,
+  Heart,
+  ArrowRightLeft,
+  Scale,
+  Eye,
+  Ear,
+  Accessibility,
+  MessageCircle,
+};
 
 interface KiceByAreaProps {
   subjects: Subject[];
@@ -65,6 +94,7 @@ export default function KiceByArea({ subjects, topics }: KiceByAreaProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {subjects.map((subject) => {
             const topicCount = topics.filter((t) => t.subject === subject.slug).length;
+            const Icon = iconMap[subject.icon] ?? BookOpen;
             return (
               <button
                 key={subject.slug}
@@ -73,7 +103,7 @@ export default function KiceByArea({ subjects, topics }: KiceByAreaProps) {
               >
                 <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
                   <CardContent className="flex items-center gap-3 py-4 px-4">
-                    <span className="text-2xl">{subject.icon}</span>
+                    <Icon className="h-6 w-6" />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-semibold truncate">{subject.title}</div>
                       <div className="text-xs text-muted-foreground">{topicCount}개 영역</div>
@@ -95,10 +125,15 @@ export default function KiceByArea({ subjects, topics }: KiceByAreaProps) {
             ← 전체 과목으로
           </button>
 
-          <h2 className="text-lg font-bold flex items-center gap-2">
-            <span className="text-xl">{selectedSubjectData?.icon}</span>
-            {selectedSubjectData?.title}
-          </h2>
+          {(() => {
+            const SelectedIcon = iconMap[selectedSubjectData?.icon ?? ''] ?? BookOpen;
+            return (
+              <h2 className="text-lg font-bold flex items-center gap-2">
+                <SelectedIcon className="h-5 w-5" />
+                {selectedSubjectData?.title}
+              </h2>
+            );
+          })()}
 
           {/* 영역 목록 */}
           {subjectTopics.length === 0 ? (

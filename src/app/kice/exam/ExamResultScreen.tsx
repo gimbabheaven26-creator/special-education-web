@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { SUBJECT_LABELS } from '@/types/kice'
 import type { KiceExam, KiceQuestion } from '@/types/kice'
+import { checkBlank } from '@/lib/check-blank'
 
 interface UserAnswer {
   blanks: Record<string, string>
@@ -49,24 +50,6 @@ interface QuestionResult {
   isAutoGradable: boolean
 }
 
-function normalizeAnswer(str: string): string {
-  return str
-    .replace(/\s+/g, '')
-    .replace(/[.,;:!?。，；：！？]/g, '')
-    .toLowerCase()
-    .trim()
-}
-
-function checkBlank(expected: string, userAnswer: string): boolean {
-  if (!userAnswer.trim()) return false
-  const norm1 = normalizeAnswer(expected)
-  const norm2 = normalizeAnswer(userAnswer)
-  // Exact match after normalization
-  if (norm1 === norm2) return true
-  // Check if answer contains the expected (for longer answers)
-  if (norm2.includes(norm1) || norm1.includes(norm2)) return true
-  return false
-}
 
 function gradeQuestion(question: KiceQuestion, answer: UserAnswer): QuestionResult {
   const blankResults: BlankResult[] = []

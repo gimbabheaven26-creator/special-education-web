@@ -178,7 +178,7 @@ export function getMDXContent(subject: string, slug: string): ConceptContent | n
     title: fm.title ?? targetFile,
     description: fm.description ?? '',
     order: fm.order ?? 99,
-    kiceKeywords: fm.kiceKeywords ?? [],
+    kiceKeywords: (fm.kiceKeywords ?? []).map(toKeywordString),
     lastUpdated: toDateString(fm.lastUpdated),
     content,
     prev: prev ? { subject: prev.subject, slug: prev.slug, title: prev.title } : null,

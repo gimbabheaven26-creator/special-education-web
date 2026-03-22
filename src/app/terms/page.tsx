@@ -20,7 +20,7 @@ const SUBJECTS: Array<{ key: string; label: string }> = [
   { key: 'communication-disorder', label: '의사소통장애' },
   { key: 'behavior-support', label: '행동지원' },
   { key: 'curriculum', label: '교육과정' },
-  { key: 'assessment', label: '특수교육 평가' },
+  { key: 'assessment', label: '진단평가' },
   { key: 'inclusive-education', label: '통합교육' },
   { key: 'laws', label: '특수교육 법령' },
   { key: 'transition', label: '전환교육' },
