@@ -16,12 +16,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "특수교육 공부방",
-  description: "특수교육 임용시험 대비 학습 플랫폼",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://special-education-web.vercel.app"),
+  title: {
+    default: "특수교육 공부방",
+    template: "%s | 특수교육 공부방",
+  },
+  description: "특수교육 임용시험 대비 학습 플랫폼 — 퀴즈, 기출분석, 오답노트, 플래시카드",
   manifest: "/manifest.json",
   openGraph: {
     title: "특수교육 공부방",
-    description: "특수교육 임용시험 대비 학습 플랫폼",
+    description: "특수교육 임용시험 대비 학습 플랫폼 — 퀴즈, 기출분석, 오답노트, 플래시카드",
     type: "website",
     locale: "ko_KR",
     siteName: "특수교육 공부방",

@@ -1,6 +1,12 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: '과목별 퀴즈',
+  description: '11개 과목별 퀴즈로 특수교육학 핵심 개념을 점검하세요.',
+};
 import {
   BookOpen,
   GraduationCap,

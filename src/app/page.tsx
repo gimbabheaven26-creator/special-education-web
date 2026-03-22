@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import { StreakBanner } from '@/components/dashboard/StreakBanner';
+
+export const metadata: Metadata = {
+  title: '홈',
+  description: '특수교육 임용시험 대비 — 오늘의 문제, 스트릭, 복습 현황을 한눈에 확인하세요.',
+};
 import { DailyReviewCard } from '@/components/dashboard/DailyReviewCard';
 import { ExamCountdown } from '@/components/ExamCountdown';
 import { HomeQuizSection } from '@/components/HomeQuizSection';
