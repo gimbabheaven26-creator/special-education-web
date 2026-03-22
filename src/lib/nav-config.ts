@@ -27,6 +27,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/daily', label: '오늘학습', description: '오늘의 추천 문제' },
       { href: '/concepts', label: '개념학습', description: '과목별 핵심 개념 정리' },
+      { href: '/worksheets', label: '워크시트', description: '과목별 개념 확인 문제지' },
       { href: '/terms', label: '용어학습', description: '핵심 용어 플래시카드' },
     ],
   },
@@ -37,7 +38,6 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/subjects', label: '과목학습' },
       { href: '/kice/exam', label: '모의고사' },
-      { href: '/worksheets', label: '워크시트' },
       { href: '/interactive', label: '인터랙티브' },
     ],
   },
