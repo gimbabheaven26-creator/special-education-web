@@ -50,12 +50,21 @@ export async function pullStore(
  * localUpdatedAt을 제공하면 서버의 updated_at과 비교하여 서버가 더 최신이면 덮어쓰기를 건너뛴다.
  * user_data.store_key 체크 제약이 'onboarding'을 포함하지 않으면 gracefully 실패.
  */
+/**
+ * 특정 스토어 데이터를 userId 기준으로 서버에 UPSERT.
+ * localUpdatedAt을 제공하면 서버의 updated_at과 비교하여 서버가 더 최신이면 덮어쓰기를 건너뛴다.
+ * user_data.store_key 체크 제약이 'onboarding'을 포함하지 않으면 gracefully 실패.
+ *
+ * @returns 'pushed' — 서버에 기록됨
+ * @returns 'skipped' — 서버가 더 최신이라 건너뜀
+ * @returns 'error' — 서버 오류
+ */
 export async function pushToServer(
   userId: string,
   key: StoreKey,
   data: Record<string, unknown>,
   localUpdatedAt?: string,
-): Promise<void> {
+): Promise<'pushed' | 'skipped' | 'error'> {
   const supabase = createClient();
 
   // 로컬 타임스탬프가 있으면 서버와 비교하여 stale write 방지
@@ -70,7 +79,7 @@ export async function pushToServer(
       const serverTs = (existing as { updated_at: string }).updated_at;
       if (serverTs > localUpdatedAt) {
         // 서버 데이터가 더 최신 — 오래된 로컬 데이터로 덮어쓰기 건너뜀
-        return;
+        return 'skipped';
       }
     }
   }
@@ -84,7 +93,9 @@ export async function pushToServer(
     if (error.code !== '23514') {
       console.error(`[sync] push ${key} failed:`, error.message);
     }
+    return 'error';
   }
+  return 'pushed';
 }
 
 /**
