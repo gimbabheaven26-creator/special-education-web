@@ -8,12 +8,11 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect, useRef } from 'react';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { NAV_GROUPS, getActiveGroupId } from '@/lib/nav-config';
+import { useMounted } from '@/hooks/useMounted';
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useMounted();
 
   if (!mounted) {
     return (

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useOnboardingStore } from '@/stores/useOnboardingStore';
+import { useMounted } from '@/hooks/useMounted';
 
 /**
  * 미온보딩 사용자를 /onboarding으로 리다이렉트.
@@ -11,11 +12,7 @@ import { useOnboardingStore } from '@/stores/useOnboardingStore';
 export function OnboardingGate() {
   const router = useRouter();
   const isOnboarded = useOnboardingStore((s) => s.isOnboarded);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useMounted();
 
   useEffect(() => {
     if (mounted && !isOnboarded) {
