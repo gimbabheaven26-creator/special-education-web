@@ -54,6 +54,50 @@ export interface ConceptContent extends ConceptFile {
   next: Pick<ConceptFile, 'subject' | 'slug' | 'title'> | null;
 }
 
+/** Supabase subject slug → concepts 폴더명 매핑 */
+const SLUG_TO_CONCEPTS_FOLDER: Record<string, string> = {
+  'behavior-support': '행동수정',
+  'curriculum': '교육과정',
+  'inclusive-education': '통합교육',
+  'assessment': '진단평가',
+  'transition': '전환교육',
+  'visual-impairment': '시각장애',
+  'hearing-impairment': '청각장애',
+  'physical-disability': '지체장애',
+  'communication-disorder': '의사소통장애',
+  'introduction': '특수교육학 개론',
+  'laws': '관련 법령',
+};
+
+/** subject slug로 해당 과목의 모든 concepts MDX 파일 반환 (order 오름차순) */
+export function getConceptsForSubject(subjectSlug: string): ConceptFile[] {
+  const folder = SLUG_TO_CONCEPTS_FOLDER[subjectSlug];
+  if (!folder) return [];
+  return getSubjectFiles(folder);
+}
+
+/** subject slug로 해당 과목의 모든 concepts MDX 콘텐츠 반환 */
+export function getConceptContentsForSubject(subjectSlug: string): Array<{ file: ConceptFile; content: string }> {
+  const folder = SLUG_TO_CONCEPTS_FOLDER[subjectSlug];
+  if (!folder) return [];
+
+  const subjectDir = path.join(CONCEPTS_DIR, folder);
+  if (!fs.existsSync(subjectDir)) return [];
+
+  const files = getSubjectFiles(folder);
+  return files.map((file) => {
+    const filePath = fs.readdirSync(subjectDir)
+      .find((f) => {
+        const slugFromFile = f.replace(/^\d+-/, '').replace(/\.mdx$/, '');
+        return f.endsWith('.mdx') && (file.slug === slugFromFile);
+      });
+    const content = filePath
+      ? fs.readFileSync(path.join(subjectDir, filePath), 'utf-8').replace(/^---[\s\S]*?---\n?/, '')
+      : '';
+    return { file, content };
+  });
+}
+
 /** 모든 과목 폴더 목록 (가나다 순) */
 export function getAllSubjects(): string[] {
   if (!fs.existsSync(CONCEPTS_DIR)) return [];

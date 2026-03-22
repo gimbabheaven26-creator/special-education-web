@@ -1,0 +1,128 @@
+[
+  {
+    "id": "vi-q82",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "multiple",
+    "question": "시기능 훈련(Visual Function Training) 중 추적(Tracking)과 추종(Tracing)에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "추적(Tracking)은 미로 찾기나 선 따라가기처럼 정적인 경로를 눈으로 따라가는 훈련이다.",
+      "추종(Tracing)은 움직이는 공이나 손가락처럼 동적인 대상을 눈으로 따라가는 훈련이다.",
+      "추적(Tracking)은 움직이는 대상을 눈으로 따라가는 훈련으로, 수평·수직·원형 방향으로 실시한다.",
+      "추종(Tracing)과 추적(Tracking)은 모두 편심 보기(Eccentric Viewing) 기법을 전제로 적용한다."
+    ],
+    "answer": "2",
+    "explanation": "추적(Tracking)은 움직이는 대상을 눈으로 따라가는 동적 훈련이며 수평·수직·원형 등 다양한 방향으로 실시한다. 반면 추종(Tracing)은 선이나 미로처럼 정적인 경로를 눈으로 따라가는 훈련이다. 두 개념의 동적/정적 구분이 KICE 출제 핵심이다.",
+    "wrong_explanations": {
+      "0": "미로 찾기나 선 따라가기는 정적 경로를 눈으로 따라가는 것으로, 추적(Tracking)이 아니라 추종(Tracing)에 해당한다.",
+      "1": "움직이는 대상을 눈으로 따라가는 훈련은 추종(Tracing)이 아니라 추적(Tracking)이다. 두 개념이 서로 뒤바뀌었다.",
+      "3": "편심 보기(Eccentric Viewing)는 중심 시야 손상 학생이 주변 시야를 활용하는 별도의 기법이며, 추적·추종 훈련의 전제 조건이 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2025 전공A 7번",
+    "tags": {"disability": "visual", "year": 2026}
+  },
+  {
+    "id": "vi-q83",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "multiple",
+    "question": "저시력 학생에게 적용하는 시기능 훈련에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "주사(Scanning) 기법은 시야를 체계적으로 훑어 정보를 파악하는 훈련으로, 시야 결손이 있는 학생에게 유용하다.",
+      "편심 보기(Eccentric Viewing)는 황반 변성 등 중심 시야 손상 학생이 손상되지 않은 주변 망막 부위를 활용하는 훈련이다.",
+      "시기능 훈련은 잔존 시력을 최대한 활용하는 것이 목적이므로, 저시력 보조기기 훈련보다 반드시 나중에 실시해야 한다.",
+      "원거리 시기능 훈련에서는 단안경(망원경)을 활용하여 칠판 글씨나 표지판을 읽는 훈련을 포함할 수 있다."
+    ],
+    "answer": "2",
+    "explanation": "시기능 훈련은 저시력 보조기기 사용 전에 기초 시기능을 강화하기 위해 먼저 실시하거나 병행하는 것이 원칙이다. '반드시 나중에 실시해야 한다'는 진술은 사실과 반대로, 기초 시기능 훈련이 선행되거나 동시에 이루어져야 보조기기 활용 효과를 극대화할 수 있다.",
+    "wrong_explanations": {
+      "0": "주사(Scanning) 기법은 시야를 체계적으로 훑어 정보를 확인하는 훈련으로, 시야 결손 학생의 독립적 이동 및 학습에 유용한 올바른 설명이다.",
+      "1": "편심 보기(Eccentric Viewing)는 황반 변성처럼 중심 시야가 손상된 경우 주변 망막을 우선 시야로 활용하도록 훈련하는 것으로 옳은 설명이다.",
+      "3": "원거리 시기능 훈련에서 단안경(망원경식 저시력 보조기기)을 활용하여 칠판, 표지판 등을 읽는 훈련은 실제 저시력 교육에서 권장되는 방법이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2025 전공A 7번",
+    "tags": {"disability": "visual", "year": 2026}
+  },
+  {
+    "id": "vi-q84",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "fill_in",
+    "question": "다음은 저시력 학생의 시기능 훈련에 관한 설명이다. 괄호 안의 ①, ②에 들어갈 알맞은 말을 쓰시오.\n\n시기능 훈련 중 ( ① )은/는 움직이는 대상을 눈으로 따라가는 동적 훈련으로, 수평·수직·원형 방향으로 실시하며 공 굴리기나 손가락 움직임을 눈으로 좇는 활동이 포함된다. 한편, 황반 변성이나 중심 암점으로 인해 중심 시야가 손상된 학생에게는 손상되지 않은 주변 망막 부위를 활용하는 ( ② ) 훈련을 적용한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "① 추적(Tracking), ② 편심 보기(Eccentric Viewing)",
+    "explanation": "추적(Tracking)은 동적으로 움직이는 대상을 눈으로 따라가는 훈련이며, 추종(Tracing)의 정적 경로 따라가기와 구분된다. 편심 보기(Eccentric Viewing, EV)는 황반 변성·중심 암점 학생이 주변 망막(Preferred Retinal Locus)을 활용하여 시각 정보를 처리하도록 훈련하는 기법이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 2025 전공A 7번",
+    "tags": {"disability": "visual", "year": 2026}
+  },
+  {
+    "id": "intro-q132",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "뇌전증의 발작 유형 중 결석발작(Absence Seizure, 소발작)의 특징으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "발작 지속 시간이 1~3분으로, 발작 후 심한 피로와 졸음이 나타난다.",
+      "전신 근육의 강직(Tonic)과 간대(Clonic) 단계가 순서대로 나타나는 것이 특징이다.",
+      "발작 중 의식이 갑자기 소실되며, 10~30초 내에 종료된 후 즉시 회복된다.",
+      "주로 성인기에 처음 발병하며, 약물 치료만으로 조절이 어려운 난치성 발작이다."
+    ],
+    "answer": "2",
+    "explanation": "결석발작(소발작)은 10~30초간 갑작스러운 의식 소실이 나타나고 눈을 멍하게 뜬 채 반응이 없다가 발작 직후 즉시 회복되는 것이 핵심 특징이다. 운동 증상은 거의 없거나 경미한 눈 깜빡임 정도이며, 발작 기억이 없다. 주로 소아기(4~12세)에 발병하고 약물 치료로 대부분 조절된다.",
+    "wrong_explanations": {
+      "0": "1~3분 지속 후 발작 후 피로·졸음이 나타나는 것은 결석발작이 아니라 강직-간대 발작(대발작)의 특징이다.",
+      "1": "강직 단계와 간대 단계가 순서대로 나타나는 것은 강직-간대 발작(대발작, Tonic-Clonic Seizure)의 특징이며, 결석발작에서는 나타나지 않는다.",
+      "3": "결석발작은 주로 성인기가 아닌 소아기(4~12세)에 발병하며, 약물 치료로 대부분의 경우 발작 조절이 가능한 편이다."
+    },
+    "difficulty": 1,
+    "source": "KICE 2026 전공B 12번",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "intro-q133",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "결석발작(소발작)과 강직-간대 발작(대발작)을 비교한 내용으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "결석발작은 발작 중 의식을 잃지만 쓰러지거나 강직 증상 없이 10~30초 내에 종료된다.",
+      "강직-간대 발작은 강직 단계 이후 간대 단계로 이행하며 발작 지속 시간이 통상 1~3분이다.",
+      "결석발작은 뇌파 검사(EEG)에서 3Hz 극-서파 복합(spike-and-wave complex)이 나타나는 것이 특징이다.",
+      "결석발작은 발작 직후 수십 분간의 혼란 및 피로(발작 후 상태)가 나타나 수업 복귀가 지연된다."
+    ],
+    "answer": "3",
+    "explanation": "발작 직후 수십 분간의 혼란·피로(발작 후 상태, postictal state)는 강직-간대 발작(대발작)에서 나타나는 특징이다. 결석발작은 발작이 종료된 직후 즉시 의식이 회복되며 발작 후 혼란이 거의 없다는 점이 두 발작 유형을 구분하는 중요한 교사 관찰 포인트이다.",
+    "wrong_explanations": {
+      "0": "결석발작에서는 의식 소실이 있지만 쓰러짐이나 강직 없이 10~30초 내에 종료된다는 것은 올바른 설명이다.",
+      "1": "강직-간대 발작(대발작)에서 강직→간대 단계로 이행하며 1~3분 지속되는 것은 올바른 설명이다.",
+      "2": "결석발작의 EEG 특징으로 3Hz 극-서파 복합(spike-and-wave complex)이 나타나는 것은 올바른 설명으로, 결석발작 진단의 핵심 근거이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2026 전공B 12번",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "intro-q134",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "다음은 뇌전증 발작 유형인 결석발작에 관한 설명이다. 괄호 안의 ①, ②에 들어갈 알맞은 말을 쓰시오.\n\n결석발작(Absence Seizure)은 갑작스러운 의식 소실이 ( ① ) 내에 종료되고 발작 직후 즉시 회복되며 운동 증상이 거의 없다. 학교 현장에서 교사가 발작을 알아채지 못하는 경우가 많아 반복적인 학습 공백이 발생할 수 있다. 뇌파 검사(EEG)에서는 ( ② ) 파형이 특징적으로 관찰된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "① 10~30초, ② 3Hz 극-서파 복합(spike-and-wave complex)",
+    "explanation": "결석발작은 10~30초라는 짧은 지속 시간이 핵심 특징이며, 이 때문에 교실에서 교사나 또래가 발작을 인식하지 못하고 넘어가는 경우가 많다. EEG에서 관찰되는 3Hz 극-서파 복합은 결석발작의 전형적인 진단 지표로, 특수교육 교사는 이를 이해하고 건강장애 학생의 학습 지원 계획에 반영해야 한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 2026 전공B 12번",
+    "tags": {"disability": "all", "year": 2026}
+  }
+]

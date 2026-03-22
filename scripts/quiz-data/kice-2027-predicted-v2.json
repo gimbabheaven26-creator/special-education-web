@@ -1,0 +1,362 @@
+[
+  {
+    "id": "kice-2027-v2-aac-01",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "fill_in",
+    "question": "AAC의 참여 모델(participation model)에서 참여 장벽은 ( ㉠ ) 장벽과 ( ㉡ ) 장벽으로 구분된다. ㉠에는 정책·실천·기술·지식·태도 요인이 해당하며, ㉡에는 능력·태도·자원 요인이 포함된다. ㉠과 ㉡에 알맞은 용어를 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 기회 ㉡: 접근",
+    "explanation": "참여 모델(Beukelman & Mirenda, 1992)의 장벽 분류: 기회 장벽(opportunity barriers)은 정책, 실천, 기술, 지식, 태도에서 비롯되며; 접근 장벽(access barriers)은 개인의 능력, 태도, 자원 부족에서 비롯된다. 기회 장벽 제거는 환경 개선, 접근 장벽 해소는 개인 지원에 초점을 둔다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 의사소통 0.6428 가중치, AAC 3년 연속 출제 패턴)",
+    "tags": {
+      "year": "2027",
+      "topic": "aac-participation-model"
+    }
+  },
+  {
+    "id": "kice-2027-v2-aac-02",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "AAC 상징의 도상성(iconicity)이 높을수록 학습자가 상징의 의미를 더 쉽게 습득할 수 있으므로, 초기 AAC 사용자에게는 도상성이 높은 상징을 우선적으로 선정한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "도상성(iconicity)이란 상징이 지시 대상과 시각적으로 닮은 정도를 말한다. 투명성(transparency)·반투명성(translucency)으로 세분되며, 투명성이 높은 상징(사진, 구체적 그림)은 초기 사용자에게 학습 부담이 적다. 따라서 AAC 도입 초기에는 도상성이 높은 상징을 우선 선정하는 것이 권고된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 의사소통 개근 출제, 도상성 개념 2024~2026 반복 등장)",
+    "tags": {
+      "year": "2027",
+      "topic": "aac-iconicity"
+    }
+  },
+  {
+    "id": "kice-2027-v2-braille-01",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "fill_in",
+    "question": "2022년 개정 한국 점자 규정에서 '약자'는 하나의 점형으로 ( ㉠ )을/를 나타내는 것이고, '수축형'은 자주 쓰이는 단어나 어절을 ( ㉡ )개 이하의 점자로 줄여 쓰는 것이다. ㉠과 ㉡에 알맞은 것을 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 단어(또는 낱말) ㉡: 2",
+    "explanation": "2022 한국 점자 규정(문화체육관광부 고시): 약자(略字)는 하나의 점형으로 특정 단어 전체를 표기하는 방식이며(예: ⠹ = '그래서'), 수축형(縮約形)은 2개 이하의 점자 셀로 자주 쓰이는 단어나 어절을 줄여 쓴다. 약자 46종과 수축형은 읽기 속도 향상과 점자 문서 분량 감소에 기여한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 점자 가중치 0.6694, 안정 출제 + 2022 개정 규정 신규 적용)",
+    "tags": {
+      "year": "2027",
+      "topic": "braille-abbreviation"
+    }
+  },
+  {
+    "id": "kice-2027-v2-curriculum-01",
+    "subject": "curriculum",
+    "chapter": "basic-curriculum",
+    "type": "fill_in",
+    "question": "2022 개정 특수교육 기본교육과정에서 ( ㉠ ) 영역은 개인 위생, 식사, 이동 등 일상적 독립생활에 필요한 기능적 활동을 다루는 교과이며, ( ㉡ )은/는 자율·동아리·봉사·진로 활동의 4개 영역으로 구성되어 기본교육과정에서도 공통 편성된다. ㉠과 ㉡에 알맞은 용어를 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 일상생활활동 ㉡: 창의적 체험활동",
+    "explanation": "2022 개정 기본교육과정: 일상생활활동은 장애 학생의 자립 생활 역량을 기르는 핵심 교과로 개인 위생·식사·이동·주거생활 등을 포함한다. 창의적 체험활동(창체)은 자율·동아리·봉사·진로 4영역으로 구성되며 공통교육과정과 기본교육과정 모두에 편성된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 교육과정편성 0.2647 가중치 상승, 기본교육과정 신규 개정 반영 출제 예상)",
+    "tags": {
+      "year": "2027",
+      "topic": "basic-curriculum-daily-life"
+    }
+  },
+  {
+    "id": "kice-2027-v2-autism-01",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "DSM-5의 자폐스펙트럼장애(ASD) 진단기준에서 '사회적 의사소통 및 사회적 상호작용의 결함'은 A 기준에 해당하며, 이 영역의 3가지 세부 기준을 모두 충족해야 진단이 가능하다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "DSM-5 ASD A 기준: 사회-정서적 상호성 결함(①), 사회적 상호작용에 사용되는 비언어적 의사소통 행동의 결함(②), 관계 발달·유지·이해의 결함(③) — 3가지 모두 충족 필요. B 기준(제한적·반복적 행동)은 4가지 중 2가지 이상 충족으로 완화된 기준이 적용된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 자폐성장애 0.4203 안정 출제, DSM-5 기준 세부 문항 증가 추세)",
+    "tags": {
+      "year": "2027",
+      "topic": "dsm5-asd-criteria"
+    }
+  },
+  {
+    "id": "kice-2027-v2-autism-02",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "TEACCH(Treatment and Education of Autistic and related Communication Handicapped Children) 프로그램의 핵심 원리인 구조화된 교수(structured teaching)에서 물리적 구조화(physical structure)는 학습 공간의 시각적 명확성을 높여 예측 가능성을 제공한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "TEACCH 구조화된 교수의 4요소: ①물리적 구조화(공간의 시각적 명확성), ②일과 구조화(시각적 일과표), ③작업 체계(task system), ④시각적 구조화(정보의 시각화). 물리적 구조화는 각 공간의 기능을 명확히 구분하여 자폐 학생이 어디서 무엇을 해야 하는지 예측하도록 돕는다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 자폐 개근 키워드 0.4473, TEACCH 구조화 세부 출제 패턴 확인)",
+    "tags": {
+      "year": "2027",
+      "topic": "teacch-structured-teaching"
+    }
+  },
+  {
+    "id": "kice-2027-v2-gmfcs-01",
+    "subject": "physical-disability",
+    "chapter": "gmfcs",
+    "type": "fill_in",
+    "question": "뇌성마비 학생의 대근육 운동 기능을 분류하는 GMFCS(대근육 운동 기능 분류 체계)에서 ( ㉠ ) 단계는 보조기기 없이 실내외 보행이 가능하지만 속도·균형·협응 제한이 있는 수준이며, ( ㉡ ) 단계는 전동 이동기기(전동 휠체어)를 사용해야 이동할 수 있는 수준이다. ㉠과 ㉡에 알맞은 단계(로마 숫자)를 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: II ㉡: V",
+    "explanation": "GMFCS 5단계 분류: Ⅰ(제한 없는 보행), Ⅱ(보조기기 없이 보행 가능하나 속도·균형·협응 제한), Ⅲ(보행 보조기기 필요), Ⅳ(자기 구동 전동 이동기기 사용 또는 이동기기로 이송), Ⅴ(자발적 이동 매우 제한, 전적으로 타인 의존). Ⅱ단계는 계단 오르내리기에 손잡이 필요, Ⅴ단계는 머리 조절도 어렵다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 뇌성마비 0.2598, 지체장애 0.3090 상승, GMFCS 단계 세부 구분 문항 증가)",
+    "tags": {
+      "year": "2027",
+      "topic": "gmfcs-levels"
+    }
+  },
+  {
+    "id": "kice-2027-v2-sdlmi-01",
+    "subject": "transition",
+    "chapter": "self-determination",
+    "type": "fill_in",
+    "question": "SDLMI(자기결정 학습 모델)는 3단계로 구성된다. 1단계는 '( ㉠ ) 설정', 2단계는 '행동 계획 수립 및 ( ㉡ )', 3단계는 '목표 달성 여부 ( ㉢ )'이다. ㉠~㉢에 알맞은 용어를 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 목표 ㉡: 실행(또는 수행) ㉢: 평가(또는 조정)",
+    "explanation": "SDLMI(Mithaug, Wehmeyer 등, 1998): 단계1 — 목표 설정(학생이 스스로 학습 목표 선택), 단계2 — 행동 계획 수립·실행(목표 달성 계획 작성 및 수행), 단계3 — 목표 달성 평가·조정(결과 확인, 미달 시 목표 수정 또는 전략 변경). 각 단계는 학생 주도 문제(Student Problem), 교사 목표, 교육적 지원의 3요소로 구성된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 전환교육 직업교육 0.1781 안정, 자기결정 SDLMI 복합 출제 트렌드 확인)",
+    "tags": {
+      "year": "2027",
+      "topic": "sdlmi-three-phases"
+    }
+  },
+  {
+    "id": "kice-2027-v2-dro-01",
+    "subject": "behavior-support",
+    "chapter": "ebd",
+    "type": "fill_in",
+    "question": "차별강화의 유형 중 ( ㉠ )은/는 특정 행동이 전혀 발생하지 않은 일정 시간 간격이 지난 후 강화를 제공하는 방법이고, ( ㉡ )은/는 목표 행동 대신 기능적으로 동등하면서 사회적으로 수용 가능한 대체 행동에 강화를 제공하는 방법이다. ㉠과 ㉡의 명칭(약자 포함)을 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 타행동 차별강화(DRO, differential reinforcement of other behavior) ㉡: 대체행동 차별강화(DRA, differential reinforcement of alternative behavior)",
+    "explanation": "차별강화 4유형: DRO(타행동 차별강화) — 특정 행동 발생 없는 간격 후 강화; DRA(대체행동 차별강화) — 기능적 등가 대체 행동 강화; DRI(비양립 행동 차별강화) — 문제 행동과 동시에 불가능한 행동 강화; DRL(저빈도 행동 차별강화) — 기준 이하 빈도 발생 시 강화. DRO와 DRA의 구분은 KICE에서 반복 출제된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 강화 0.4558 상승, 차별강화 유형 비교 문항 출제 패턴)",
+    "tags": {
+      "year": "2027",
+      "topic": "differential-reinforcement-types"
+    }
+  },
+  {
+    "id": "kice-2027-v2-sis-01",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "AAIDD(2021) 지적장애 정의에서 지원 강도 척도(SIS)의 6개 지원 영역에는 가정생활, 지역사회 생활, 평생학습, 고용, 건강과 안전, 사회활동이 포함된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "SIS(Supports Intensity Scale, Thompson 등)의 6개 일상 지원 영역: ①가정생활 활동, ②지역사회 생활 활동, ③평생학습 활동, ④고용 활동, ⑤건강과 안전 활동, ⑥사회활동. 각 영역별로 지원 빈도·일일 지원 시간·지원 유형 3차원으로 지원 강도를 측정하며, SIS-A(성인용)와 SIS-C(아동용)로 구분된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 지적장애 0.4793 상승, SIS 지원 영역 세부 출제 증가)",
+    "tags": {
+      "year": "2027",
+      "topic": "sis-support-domains"
+    }
+  },
+  {
+    "id": "kice-2027-v2-coteaching-01",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "ox",
+    "question": "협력교수(co-teaching)의 한 형태인 팀 교수(team teaching)는 두 교사가 교수 역할을 동등하게 분담하며 동시에 수업을 진행하는 방식으로, 통합학급에서 가장 높은 수준의 협력을 요구한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "협력교수 6유형(Friend & Cook): ①한 교수-한 관찰, ②한 교수-한 보조, ③스테이션 교수, ④평행 교수, ⑤대안 교수, ⑥팀 교수. 팀 교수는 두 교사가 동등한 위치에서 동시 수업을 진행하며, 상호 보완적 역할 수행과 높은 신뢰·계획 수준을 필요로 하는 가장 심화된 협력 형태이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 통합학급 0.6594 상승, 협력교수 유형 개근 문항)",
+    "tags": {
+      "year": "2027",
+      "topic": "co-teaching-team-teaching"
+    }
+  },
+  {
+    "id": "kice-2027-v2-lipreading-01",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "ox",
+    "question": "독화(lipreading)의 가독성은 발화자의 조명 조건, 얼굴 각도, 입 모양 명확성 등 시각적 요인에 의해 영향을 받으며, 한국어의 경우 동일한 입술 모양을 가진 동형어(homophenous words)로 인해 독화만으로는 100% 정확한 이해가 어렵다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "독화(시화) 5요소: ①가시성(입 모양 노출), ②발화자 요인(조음 명확성, 속도), ③환경 요인(조명, 거리, 시각적 방해), ④발화 내용 요인(어휘 친숙도, 문맥), ⑤독화자 요인(청력 잔존, 언어 경험). 한국어에서 /ㅂ/·/ㅍ/·/ㅁ/ 등 양순음은 입 모양이 유사하여 동형어 혼동이 발생하므로, 독화는 청각 정보·문맥과 함께 사용해야 한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 청각장애 0.3504 안정, 독화 실제 적용 문항 증가 추세)",
+    "tags": {
+      "year": "2027",
+      "topic": "lipreading-factors"
+    }
+  },
+  {
+    "id": "kice-2027-v2-fba-01",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "ox",
+    "question": "기능행동평가(FBA)에서 기능분석(functional analysis)은 독립변수를 직접 조작하여 문제 행동의 기능을 실험적으로 검증하는 방법으로, 서술적 평가(descriptive assessment)보다 인과 관계 확인이 더 명확하다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "FBA 방법 3단계: ①간접 평가(면담, 행동체크리스트), ②서술적 평가(직접 관찰—ABC 분석, 산점도), ③기능분석(실험적 조건 조작). 기능분석(Iwata 등, 1982)은 관심, 회피, 감각, 통제 조건을 체계적으로 조작하여 문제 행동 유지 기능을 실험으로 확인한다. 인과 관계 확인 가능성은 가장 높으나 시간·자원이 많이 요구된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 진단 0.4402 상승, FBA 기능분석 세부 절차 출제 증가)",
+    "tags": {
+      "year": "2027",
+      "topic": "fba-functional-analysis"
+    }
+  },
+  {
+    "id": "kice-2027-v2-kwisc-01",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "ox",
+    "question": "K-WISC-V에서 처리 속도 지표(PSI)는 '기호 쓰기'와 '동형 찾기' 소검사로 구성되며, 작업기억 지표(WMI)는 '숫자'와 '그림 기억' 소검사로 구성된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "K-WISC-V 5개 지표: ①언어이해(VCI) — 공통성·어휘, ②시공간(VSI) — 토막짜기·퍼즐, ③유동추론(FRI) — 행렬추리·무게비교, ④작업기억(WMI) — 숫자·그림기억, ⑤처리속도(PSI) — 기호쓰기·동형찾기. 전체 IQ(FSIQ)는 7개 소검사(토막짜기·공통성·행렬추리·숫자·기호쓰기·어휘·무게비교)로 산출된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 진단·지수 키워드 상승, K-WISC-V 지표 구성 세부 출제 예상)",
+    "tags": {
+      "year": "2027",
+      "topic": "k-wisc-v-indices"
+    }
+  },
+  {
+    "id": "kice-2027-v2-rti-01",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "ox",
+    "question": "중재반응모델(RTI)의 3단계 지원 체계에서 2단계(소그룹 집중 중재) 학생의 진전도 모니터링은 CBM(교육과정중심측정)을 활용하여 최소 주 1~2회 실시하며, 충분한 진전이 없을 경우 3단계로 의뢰한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "RTI 3단계: Tier 1(보편적 교수, 전체 학생, 3회/년 선별), Tier 2(소그룹 집중 중재, 15~20%, 주 1~2회 진전도 모니터링), Tier 3(개별화 집중 중재 또는 특수교육 의뢰, 5%). CBM(Deno, 1985)은 간단·반복 가능한 표준화 측정으로 읽기(ORF), 수학(계산·개념), 쓰기(작문) 등에 활용되며 진전도 그래프로 교수 효과를 판단한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 평가방법 0.1538 안정, RTI·CBM 복합 출제 2025~2026 확인)",
+    "tags": {
+      "year": "2027",
+      "topic": "rti-cbm-tier2"
+    }
+  },
+  {
+    "id": "kice-2027-v2-emt-01",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "ox",
+    "question": "강화된 환경중심 언어중재(EMT, Enhanced Milieu Teaching)는 자연적 환경에서 아동의 주도를 따르는(child-following) 방식을 강조하며, 시간지연(time delay), 유도된 기회(incidental teaching), 모델링(modeling) 등의 절차를 포함한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "EMT(Kaiser & Hester, 1994)는 환경 조성(장난감 배치, 기회 유도)과 반응적 상호작용(아동 주도 따르기)을 기반으로 하며, 4가지 교수 전략인 ①모델링(mand-model), ②시간지연, ③우발 교수(incidental teaching), ④요청-모델(mand-model)을 자연스러운 일과에서 사용한다. 중도·복잡한 의사소통 장애 학생에게 AAC와 병행 적용되기도 한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 의사소통 개근 0.6428, EMT 환경중심 언어중재 출제 2024~2026 증가)",
+    "tags": {
+      "year": "2027",
+      "topic": "emt-procedures"
+    }
+  },
+  {
+    "id": "kice-2027-v2-descriptive-01",
+    "subject": "transition",
+    "chapter": "planning",
+    "type": "descriptive",
+    "question": "다음은 특수교사 박 교사가 고등부 전환교육을 계획하는 사례이다. <작성 방법>에 따라 서술하시오. [4점]\n\n<작성 방법>\n1) ㉠에 해당하는 직업전환평가 유형의 명칭을 쓰고, 이 평가의 주요 특징 2가지를 서술할 것.\n2) ㉡에 해당하는 직무분석 방법의 명칭을 쓰고, 각 단계의 기술 습득 여부를 확인하는 방식을 서술할 것.\n3) ㉢에 해당하는 자연적 지원의 개념을 쓰고, 사례에서 찾을 수 있는 자연적 지원의 예를 1가지 서술할 것.",
+    "case_context": "[사례]\n대상: 민수(고2, 지적장애 경도) / 담당: 박 교사\n\n박 교사는 민수의 졸업 후 취업을 지원하기 위해 전환교육 계획을 수립하였다.\n\n① 박 교사는 민수를 ㉠실제 작업 환경(카페 바리스타 보조)에 배치하여 작업 수행 능력, 직업적 태도, 대인관계를 직접 관찰·기록하는 평가를 실시하였다. 지필검사와 달리 실제 수행 상황에서 강점과 약점을 파악할 수 있어 IEP 목표 설정에 직결되었다.\n\n② 박 교사는 '테이크아웃 음료 제조' 과제를 ㉡세부 동작 단위(컵 꺼내기→시럽 투입→얼음 투입→음료 붓기→뚜껑 닫기→전달)로 분석하고, 각 단계마다 독립수행 여부를 +/- 로 기록하였다.\n\n③ 학교와 카페 간 협력을 통해 카페 동료 직원이 자연스러운 직장 내 ㉢비공식적 지원을 제공하는 방식을 계획에 포함시켰다.",
+    "options": null,
+    "answer": "1) ㉠ 현장중심 직업평가(situational assessment 또는 work sample assessment in natural setting). 주요 특징 2가지: (가) 실제 작업 환경 또는 유사한 모의 환경에서 수행 능력을 직접 관찰·측정하므로 생태학적 타당도가 높다. (나) 지필검사로 측정하기 어려운 직업적 태도, 지속성, 대인관계 능력 등 기능적 역량을 포괄적으로 평가할 수 있다.\n\n2) ㉡ 과제분석(task analysis). 각 단계별 기술 습득 여부 확인 방식: 각 하위 단계마다 독립 수행(+), 촉진 필요(-) 또는 단계별 수행 정도(독립수행·언어촉진·신체촉진·전적 도움)를 기록하는 과제분석 기록지를 사용하며, 단계별 습득률(%습득)과 연속 습득 기준(예: 3회 연속 독립 수행)으로 목표 달성을 판단한다.\n\n3) ㉢ 자연적 지원(natural support)이란 장애 학생이 통합된 환경(직장·지역사회)에서 공식적 서비스 제공자가 아닌 동료·직장 내 구성원 등 그 환경에 원래 존재하는 자원에 의한 지원을 말한다. 사례에서의 예: 카페 동료 직원이 직장 내에서 비공식적으로 작업 절차를 안내하고 도와주는 것.",
+    "explanation": "【출제 예측 근거】\n• 직업교육 0.1781 안정, 전환교육 SDLMI·현장중심평가 복합 출제 패턴 확인\n• 현장중심 직업평가(situational assessment)는 2024·2025 KICE 전환 문항에서 반복 등장\n• 과제분석 + 자연적 지원 복합은 2026 전환 문항 구조와 동일\n\n【이론적 근거】\n• Wehman(2013). Life Beyond the Classroom: 현장중심평가의 생태학적 타당도 강조\n• Snell & Brown(2011). 과제분석 절차와 기록 방법 (습득 기준 3회 연속 원칙)\n• Certo & Luecking(2006). 자연적 지원의 개념과 직장 통합 적용",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 직업교육 0.1781 안정, 전환 현장중심평가+과제분석+자연적 지원 복합 출제 트렌드)",
+    "tags": {
+      "year": "2027",
+      "topic": "transition-vocational-assessment"
+    }
+  },
+  {
+    "id": "kice-2027-v2-descriptive-02",
+    "subject": "behavior-support",
+    "chapter": "pbs",
+    "type": "descriptive",
+    "question": "다음은 특수교사 김 교사가 행동지원 계획을 수립하는 과정이다. <작성 방법>에 따라 서술하시오. [4점]\n\n<작성 방법>\n1) ㉠에 해당하는 강화 스케줄의 명칭을 쓰고, 이 스케줄이 소거 저항성이 높은 이유를 행동주의 원리에 근거하여 서술할 것.\n2) ㉡에 해당하는 기능 평가 방법의 명칭을 쓰고, 이 방법의 장점과 제한점을 각 1가지 서술할 것.\n3) ㉢에 해당하는 행동지원 전략의 명칭을 쓰고, 선행사건 중재와 후속결과 중재의 차이를 서술할 것.",
+    "case_context": "[행동지원 계획 기록]\n대상: 지호(초5, 자폐성장애) / 담당: 김 교사\n\n• 지호는 수업 중 교사의 관심을 얻기 위해 소리를 지르는 행동을 보인다. 이 행동은 교사가 때때로만 반응하는 ㉠비일관적 강화 패턴에 의해 강화되어, 현재 소거가 매우 어렵다.\n\n• 김 교사는 기능행동평가를 위해 ㉡지호가 소리를 지르는 상황, 선행사건, 후속결과를 수업 시간에 직접 관찰하고 ABC 기록을 실시하였다.\n\n• 최종적으로, 김 교사는 ㉢소리 지르기와 기능적으로 동일하면서 사회적으로 수용 가능한 손 들기 행동을 가르쳐 강화하는 중재를 계획에 포함하였다.",
+    "options": null,
+    "answer": "1) ㉠ 변동비율 강화 스케줄(VR, variable-ratio schedule). 소거 저항성이 높은 이유: 강화가 제공되는 반응 횟수가 매번 다르게 변동되므로, 학습자가 '다음에는 강화를 받을 수 있다'는 기대를 지속하게 된다. 강화 제공 시점을 예측할 수 없어 소거(강화 제거) 국면에서도 반응이 오랫동안 지속되는 소거 저항성이 높다. (또는 '변동간격 강화 스케줄(VI)'도 수용 가능; 사례 맥락상 비율 기반이 더 적합)\n\n2) ㉡ 직접 관찰(서술적 평가, descriptive assessment) — 구체적으로 ABC(선행-행동-후속결과) 기록. 장점: 자연적 환경에서 행동과 환경 변수 간의 기능적 관계를 직접 확인할 수 있어 생태학적 타당도가 높다. 제한점: 관찰자 편향이나 관찰 반응성(reactivity)이 발생할 수 있으며, 행동이 자주 발생하지 않으면 데이터 수집에 장시간이 소요된다.\n\n3) ㉢ 기능적 의사소통 훈련(FCT, Functional Communication Training). 선행사건 중재는 문제 행동을 유발하는 선행자극을 수정·제거하거나(예: 과제 난이도 조정) 촉진 단서를 제공하여 문제 행동 발생 전에 예방하는 전략이다. 후속결과 중재는 문제 행동 발생 후 강화를 제거(소거)하거나, 대체 행동(손 들기)에 즉각적 강화를 제공하여 문제 행동의 기능을 대체 행동으로 전환하는 전략이다.",
+    "explanation": "【출제 예측 근거】\n• 강화 가중치 0.4558 상승, FBA 기능분석 복합 출제 패턴\n• FCT(기능적 의사소통 훈련) + 강화 스케줄 복합은 2024~2026 KICE 행동지원 단골 구조\n• 소거 저항성 설명 문항은 2025 전공A 행동지원 출제 확인\n\n【이론적 근거】\n• Carr & Durand(1985). FCT 원저: 기능적 의사소통 훈련의 개념과 절차\n• Cooper et al.(2020). Applied Behavior Analysis: 강화 스케줄과 소거 저항성\n• Iwata et al.(1994). ABC 관찰의 서술적 평가 타당도와 제한",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 강화 0.4558 상승, FCT+강화스케줄+직접관찰 복합 출제 트렌드)",
+    "tags": {
+      "year": "2027",
+      "topic": "fct-reinforcement-schedule"
+    }
+  },
+  {
+    "id": "kice-2027-v2-descriptive-03",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "descriptive",
+    "question": "다음은 특수교사 이 교사가 학습장애 의심 학생 소진이를 평가하는 사례이다. <작성 방법>에 따라 서술하시오. [4점]\n\n<작성 방법>\n1) ㉠에 해당하는 표준화 지능검사 결과 해석 시 유의해야 할 측정의 표준오차(SEM) 활용 방식을 서술하고, 신뢰구간을 계산하는 방법을 예를 들어 설명할 것.\n2) ㉡에 해당하는 RTI 모델에서 학습장애 판별 준거를 2가지 서술할 것.\n3) ㉢에 해당하는 교육과정중심측정(CBM) 진전도 모니터링에서 이중 불일치(dual discrepancy) 기준을 설명하고, 사례에서 이중 불일치에 해당하는지 판단하여 그 근거를 서술할 것.",
+    "case_context": "[평가 기록]\n대상: 소진(초3, 학습장애 의심) / 담당: 이 교사\n\n① K-WISC-V 결과: ㉠전체 IQ 82, 측정의 표준오차(SEM) = 3.2, 95% 신뢰수준 적용. 이 교사는 점수 해석 시 단일 점수가 아닌 구간으로 해석하였다.\n\n② 이 교사는 ㉡소진이가 일반 또래 집단에 비해 읽기 성취가 낮고, 8주간 소그룹 집중 중재(Tier 2)에서도 충분한 향상을 보이지 않아 학습장애 판별 회의를 요청하였다.\n\n③ ㉢CBM 읽기 유창성 진전도 모니터링 결과: 소진이의 기울기(progress slope) = 0.4 단어/주, 또래 평균 기울기 = 1.2 단어/주, 또래 평균 수행 수준 = 주당 65단어, 소진이의 현재 수행 수준 = 주당 38단어.",
+    "options": null,
+    "answer": "1) 측정의 표준오차(SEM) 활용: SEM은 측정 오차로 인해 진점수(true score)가 포함될 구간을 추정하는 데 사용한다. 95% 신뢰구간 계산: 획득점수 ± (1.96 × SEM). 사례 적용: 82 ± (1.96 × 3.2) = 82 ± 6.3 → 신뢰구간 [75.7, 88.3]. 따라서 소진이의 진점수는 95% 확률로 약 76~88 사이에 있다고 해석한다. 단일 점수(82)만으로 판단하는 것은 측정 오차를 무시한 과잉 해석이 된다.\n\n2) RTI 모델 학습장애 판별 준거 2가지:\n(가) 또래와의 성취 불일치: 일반 또래 집단에 비해 학업 성취(예: 읽기 유창성, 수학 계산)가 유의미하게 낮은 수준(통상 또래 평균에서 1.5~2 표준편차 이하).\n(나) 충분한 중재에 대한 반응 부재: 과학적으로 검증된 소그룹 집중 중재(Tier 2) 시행 후에도 또래 평균 성장률에 비해 향상 속도가 현저히 낮은 경우(진전도 기울기 불일치).\n\n3) 이중 불일치(dual discrepancy) 기준: ①수행 수준 불일치 — 학생의 현재 수행 수준이 또래에 비해 유의미하게 낮음, ②성장률(기울기) 불일치 — 학생의 진전도 기울기가 또래 평균 기울기에 비해 유의미하게 낮음. 두 가지가 동시에 충족되어야 이중 불일치에 해당한다.\n사례 판단: 소진이는 이중 불일치에 해당한다. 근거 ① 수행 수준: 38단어/주 vs. 또래 65단어/주 (27단어 차이, 상당한 수행 수준 불일치), 근거 ② 기울기: 0.4단어/주 vs. 또래 1.2단어/주 (기울기 불일치 명확), 두 기준 모두 충족.",
+    "explanation": "【출제 예측 근거】\n• 진단 0.4402 상승, 지수(score index) 키워드 상승 — K-WISC-V 지수 해석 출제 예상\n• RTI+CBM 이중 불일치 복합은 2025~2026 KICE 평가 영역 단골 구조\n• SEM 신뢰구간 계산 문항은 2026 전공B에서 첫 등장, 2027 심화 출제 예상\n\n【이론적 근거】\n• Flanagan & Alfonso(2017). K-WISC-V 해석: SEM과 신뢰구간 적용\n• Fuchs & Fuchs(1998). 이중 불일치 모델의 개념과 적용 기준\n• Deno(2003). CBM 진전도 모니터링과 기울기 분석",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 진단 0.4402 상승, K-WISC-V+RTI+CBM 이중불일치 복합 출제 트렌드)",
+    "tags": {
+      "year": "2027",
+      "topic": "assessment-rti-cbm-dual-discrepancy"
+    }
+  },
+  {
+    "id": "kice-2027-v2-descriptive-04",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "descriptive",
+    "question": "다음은 통합학급 담임교사 최 교사와 특수교사 윤 교사가 협력교수를 실행하는 사례이다. <작성 방법>에 따라 서술하시오. [4점]\n\n<작성 방법>\n1) ㉠에 해당하는 협력교수 유형의 명칭을 쓰고, 이 유형이 장애 학생 지원에 효과적인 이유 2가지를 서술할 것.\n2) ㉡에 해당하는 교수적 수정의 유형을 쓰고, 사례에서 각 수정의 근거를 제시할 것.\n3) ㉢에 해당하는 협력의 필수 요소를 2가지 서술하고, 사례에서 두 교사가 이 요소를 실천한 방식을 서술할 것.",
+    "case_context": "[수업 기록]\n과목: 사회 / 단원: 우리 지역의 환경\n\n최 교사가 전체 학생을 대상으로 핵심 개념을 설명하는 동안, 윤 교사는 ㉠통합학급 내 장애 학생 3명에게 소그룹 보충 지도를 동시에 제공하였다. 두 교사는 수업 공간을 전면(일반 학생)과 후면(소그룹)으로 구분하여 운영하였다.\n\n윤 교사는 수업 내용 적합화를 위해 ㉡① 복잡한 지도 읽기 과제를 단계별로 분리하여 단순화하였고, ② 평가 방식을 지필에서 구두 응답으로 변경하였으며, ③ 핵심 개념을 그림카드로 대체하는 자료를 제작하였다.\n\n수업 전 두 교사는 40분간 공동 계획 회의를 갖고 ㉢역할·목표·평가 방법을 명확히 합의하였다. 윤 교사는 개별화교육목표(IEP)와 일반 교육과정 목표를 연계하여 공유하였다.",
+    "options": null,
+    "answer": "1) ㉠ 대안 교수(alternative teaching). 장애 학생 지원에 효과적인 이유 2가지:\n(가) 한 교사가 대부분의 학생에게 수업을 제공하는 동안 다른 교사가 소그룹(장애 학생 포함)에 집중 지도를 제공할 수 있어, 개별화된 지원의 강도(빈도·시간)를 높일 수 있다.\n(나) 소그룹 형태로 운영되어 장애 학생이 필요로 하는 선수 기술 보완, 과제 세분화, 즉각적 피드백 제공 등이 가능하며, 일반 수업 흐름을 방해하지 않고 집중 지원이 이루어진다.\n\n2) ㉡ 교수적 수정의 유형:\n① 과제 수정(task adaptation) — 복잡한 지도 읽기 과제를 단계별로 분리·단순화하여 과제 난이도와 복잡성 조정.\n② 평가 수정(assessment modification) — 지필 평가를 구두 응답으로 변경하여 장애 학생의 표현 방식 다양화.\n③ 교수 자료 수정(material adaptation) — 핵심 개념을 그림카드로 대체하여 시각적 접근성 향상.\n\n3) ㉢ 협력의 필수 요소 2가지:\n(가) 공동 목표(shared goals) — 두 교사가 수업 목표와 IEP 목표를 사전에 명확히 합의하고 공유하는 것. 사례: 수업 전 회의에서 IEP 목표와 일반 교육과정 목표를 연계하여 공동 목표를 설정하였다.\n(나) 공동 책임(joint responsibility) — 두 교사가 학생의 학습 성과에 대한 책임을 균등하게 분담하는 것. 사례: 40분 공동 계획 회의에서 역할·목표·평가 방법을 합의하여 각 교사의 역할과 책임을 명확히 분담하였다.",
+    "explanation": "【출제 예측 근거】\n• 통합학급 0.6594 상승 — 협력교수 유형 세부 + 교수적 수정 복합 출제 예상\n• 교수적 수정 3유형(과제·평가·자료) 구분은 2025 전공A 통합 문항에서 확인\n• 협력의 필수 요소(Friend & Cook, 2010) 서술 문항은 2026 통합 출제 패턴\n\n【이론적 근거】\n• Friend & Cook(2010). Interactions: Collaboration Skills for School Professionals — 협력의 6가지 필수 특성(자발성, 공동 목표, 공동 책임, 자원 분담, 공유 책임, 동등성)\n• Janney & Snell(2013). 교수적 수정 유형 분류(과제·환경·교수·평가)\n• Murawski & Swanson(2001). 협력교수 6유형과 효과성 메타분석",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "2027 예측 (KICE 출제 경향 분석 — 통합학급 0.6594 1위권, 대안교수+교수적수정+협력요소 복합 출제 트렌드)",
+    "tags": {
+      "year": "2027",
+      "topic": "co-teaching-alternative-teaching"
+    }
+  }
+]

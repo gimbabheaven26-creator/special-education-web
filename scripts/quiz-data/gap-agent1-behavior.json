@@ -1,0 +1,254 @@
+[
+  {
+    "id": "bs-q150",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "multiple",
+    "question": "반두라(Bandura)의 관찰학습 4단계를 순서대로 나열한 것으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "주의(attention) → 파지(retention) → 동기화(motivation) → 재생(reproduction)",
+      "주의(attention) → 파지(retention) → 재생(reproduction) → 동기화(motivation)",
+      "파지(retention) → 주의(attention) → 재생(reproduction) → 동기화(motivation)",
+      "주의(attention) → 재생(reproduction) → 파지(retention) → 동기화(motivation)"
+    ],
+    "answer": "1",
+    "explanation": "반두라의 관찰학습(모델링)은 주의 → 파지 → 재생 → 동기화의 4단계로 이루어진다. 주의 단계에서 모델의 행동을 지각하고, 파지 단계에서 상징적으로 기억에 저장하며, 재생 단계에서 기억한 내용을 실제로 수행하고, 동기화 단계에서 수행에 대한 강화를 통해 행동을 지속한다.",
+    "wrong_explanations": {
+      "0": "동기화와 재생의 순서가 뒤바뀌어 있다. 재생(실제 수행)이 먼저 일어난 후 동기화(강화·보상)가 뒤따른다.",
+      "2": "파지가 주의보다 앞에 오는 것은 잘못된 순서다. 모델 행동에 주의를 기울여야 기억(파지)이 가능하다.",
+      "3": "재생이 파지보다 앞에 오는 것은 불가능하다. 기억에 저장된 내용(파지)이 있어야 재생(수행)이 이루어진다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2025 전공B 10번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q151",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "multiple",
+    "question": "반두라(Bandura)의 관찰학습 '파지(retention)' 단계에서 교사가 활용할 수 있는 교수 전략으로 가장 적절한 것은?",
+    "case_context": "특수학급 교사인 A는 학생이 모델의 행동을 관찰한 후 장기적으로 기억하게 하려고 한다.",
+    "options": [
+      "학생의 흥미를 유발하기 위해 모델의 행동을 생생하고 역동적으로 제시한다.",
+      "모델 행동을 언어나 이미지로 부호화하게 하고, 심상 시연과 언어 반복을 활용한다.",
+      "학생이 모델 행동을 직접 연습하도록 역할극과 시뮬레이션을 제공한다.",
+      "강화와 칭찬을 제공하여 모델 행동을 수행하려는 의지를 높인다."
+    ],
+    "answer": "1",
+    "explanation": "파지 단계는 관찰한 정보를 기억에 저장하는 과정이다. 이 단계에서는 모델 행동을 언어적·이미지적으로 부호화하고 심상 시연(mental rehearsal)과 언어 반복(verbal rehearsal)을 통해 장기기억에 저장하도록 돕는 전략이 효과적이다.",
+    "wrong_explanations": {
+      "0": "모델을 생생하게 제시하는 것은 주의(attention) 단계의 전략이다. 주의 단계에서는 모델의 특성과 자극 두드러짐이 중요하다.",
+      "2": "직접 연습과 역할극은 재생(reproduction) 단계의 전략이다. 재생 단계에서는 실제 수행과 피드백이 핵심이다.",
+      "3": "강화와 칭찬 제공은 동기화(motivation) 단계의 전략이다. 동기화 단계에서는 외적 강화, 대리 강화, 자기 강화가 작용한다."
+    },
+    "difficulty": 3,
+    "source": "KICE 2025 전공B 10번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q152",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "multiple",
+    "question": "반두라(Bandura)의 자기효능감(self-efficacy)에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "자기효능감의 가장 강력한 원천은 성취경험(mastery experience)이다.",
+      "대리경험(vicarious experience)은 자신과 유사한 타인의 성공 사례를 관찰할 때 효과가 크다.",
+      "언어적 설득(verbal persuasion)은 자기효능감 원천 중 효과가 가장 강력하다.",
+      "생리적 상태(physiological states)에서 불안이나 피로는 자기효능감을 낮출 수 있다."
+    ],
+    "answer": "2",
+    "explanation": "자기효능감의 4가지 원천은 성취경험, 대리경험, 언어적 설득, 생리적 상태이다. 이 중 성취경험이 가장 강력한 원천이며, 언어적 설득은 효과가 상대적으로 약한 원천으로 분류된다. 언어적 설득이 가장 강력하다는 설명은 틀렸다.",
+    "wrong_explanations": {
+      "0": "성취경험은 자기효능감의 4가지 원천 중 가장 강력한 원천으로, 반두라 이론의 핵심 내용이다. 이 선지는 옳은 내용이므로 '옳지 않은 것'을 고르는 이 문제의 정답이 아니다.",
+      "1": "대리경험의 효과는 관찰하는 모델과 자신의 유사성이 클수록 크다는 것은 반두라 이론과 일치한다. 이 선지는 옳은 내용이므로 정답이 아니다.",
+      "3": "부정적 생리 상태(불안, 피로)가 자기효능감을 낮추고 신체적 활력이 높인다는 것은 생리적 상태 원천의 정확한 설명이다. 이 선지는 옳은 내용이므로 정답이 아니다."
+    },
+    "difficulty": 3,
+    "source": "KICE 2025 전공B 10번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q153",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "fill_in",
+    "question": "반두라(Bandura)의 관찰학습에서 모델의 행동을 기억 속에 저장한 내용을 실제 행동으로 산출하는 단계를 ( ① ) 단계라 하며, 이 단계에서는 자신의 신체적 능력에 대한 정확한 평가와 ( ② ) 연습이 중요하다.",
+    "case_context": null,
+    "options": null,
+    "answer": "① 재생(reproduction), ② 점진적(또는 부분적)",
+    "explanation": "재생(reproduction) 단계는 파지한 내용을 실제 행동으로 옮기는 단계다. 이 단계에서는 학생 자신의 신체적·인지적 능력에 대한 정확한 자기평가가 필요하며, 복잡한 기술은 부분 기술부터 점진적으로 연습하는 것이 효과적이다. 또한 피드백을 통해 수행을 수정·정교화한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 2025 전공B 10번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q154",
+    "subject": "behavior-support",
+    "chapter": "positive-behavior-support",
+    "type": "multiple",
+    "question": "SRSD(자기조정전략 개발) 모델의 6단계를 순서대로 나열한 것으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "배경지식 발달 → 토의 → 시범 → 암기 → 지원 → 독립 수행",
+      "토의 → 배경지식 발달 → 시범 → 암기 → 지원 → 독립 수행",
+      "배경지식 발달 → 시범 → 토의 → 암기 → 지원 → 독립 수행",
+      "배경지식 발달 → 토의 → 암기 → 시범 → 지원 → 독립 수행"
+    ],
+    "answer": "0",
+    "explanation": "SRSD(Self-Regulated Strategy Development)의 6단계는 ① 배경지식 발달(선행 기술 개발) → ② 토의(전략 논의 및 동기 부여) → ③ 시범(교사의 사고 발성 모델링) → ④ 암기(전략 단계 암기) → ⑤ 지원(협력적 연습, 비계 제공) → ⑥ 독립 수행(독립적 수행)이다.",
+    "wrong_explanations": {
+      "1": "토의가 배경지식 발달보다 앞에 오는 것은 틀렸다. 전략을 토의하기 전에 필요한 배경지식과 선행 기술을 먼저 갖추어야 한다.",
+      "2": "시범이 토의보다 앞에 오는 것은 틀렸다. 전략을 토의하며 필요성과 방법을 논의한 후 교사가 시범을 보인다.",
+      "3": "암기가 시범보다 앞에 오는 것은 틀렸다. 교사의 시범을 보고 이해한 후 전략 단계를 암기한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2025 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q155",
+    "subject": "behavior-support",
+    "chapter": "positive-behavior-support",
+    "type": "multiple",
+    "question": "쓰기 지도에서 SRSD 모델과 함께 활용하는 POW+WWW 전략에 관한 설명으로 옳은 것은?",
+    "case_context": "특수교사 B는 쓰기에 어려움이 있는 학생에게 이야기 글 쓰기를 지도하기 위해 POW+WWW 전략을 적용하려 한다.",
+    "options": [
+      "POW의 'O'는 'Organize'로, 아이디어를 생각하고 수집하는 단계를 의미한다.",
+      "WWW는 'Who, When, Where'를 의미하며, 이야기의 주요 요소를 계획하는 데 사용된다.",
+      "POW+WWW는 설명문 쓰기에 특화된 전략으로, 이야기 글에는 적용하기 어렵다.",
+      "SRSD에서 POW+WWW는 토의 단계 이전에 교사가 암기시키는 전략이다."
+    ],
+    "answer": "1",
+    "explanation": "WWW는 'Who(등장인물), When(때), Where(장소)'를 의미하며, 이야기 글의 핵심 요소를 계획하는 데 사용된다. POW는 Pick(아이디어 선택) → Organize(조직화) → Write(쓰기 및 수정)의 약자로, 쓰기의 전체 과정을 안내한다. POW+WWW는 주로 이야기 글 쓰기에 적용된다.",
+    "wrong_explanations": {
+      "0": "'O'는 'Organize(조직화)'가 맞지만, 아이디어를 생각하고 수집하는 것은 'P(Pick)'의 역할이다. 'O'는 수집한 아이디어를 구조적으로 조직하는 단계다.",
+      "2": "POW+WWW는 이야기 글 쓰기에 특화된 전략이다. 설명문에는 TREE 전략 등 별도의 전략이 활용된다.",
+      "3": "SRSD에서 전략 암기는 시범 이후 단계에서 이루어진다. 토의 이전에 암기시키는 것은 SRSD 순서에 맞지 않는다."
+    },
+    "difficulty": 3,
+    "source": "KICE 2025 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q156",
+    "subject": "behavior-support",
+    "chapter": "positive-behavior-support",
+    "type": "multiple",
+    "question": "SRSD 6단계 중 '지원(support)' 단계에서 교사가 취해야 할 행동으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "전략의 필요성을 설명하고 학생의 쓰기 목표 달성에 대한 긍정적 태도를 형성한다.",
+      "교사가 사고 발성(think-aloud)을 사용하여 전략 사용 방법을 직접 시범 보인다.",
+      "학생이 전략을 완전히 암기하고 자신의 말로 재진술할 수 있는지 확인한다.",
+      "학생이 전략을 점차 내면화할 수 있도록 비계를 서서히 줄이며 협력적으로 연습한다."
+    ],
+    "answer": "3",
+    "explanation": "지원(support) 단계는 학생이 전략을 점차 내면화하는 과정으로, 교사는 비계(scaffolding)를 서서히 줄이며 협력적 연습을 지원한다. 학생이 더 많은 책임을 지도록 하고, 자기조정 절차(자기 점검, 자기 지시, 자기 강화)와 함께 전략을 적용하도록 안내한다.",
+    "wrong_explanations": {
+      "0": "전략의 필요성 설명과 긍정적 태도 형성은 토의(discussion) 단계에서 이루어진다.",
+      "1": "사고 발성을 통한 직접 시범은 시범(model) 단계에서 교사가 수행한다.",
+      "2": "전략 암기 확인과 재진술 점검은 암기(memorize) 단계에서 이루어진다."
+    },
+    "difficulty": 3,
+    "source": "KICE 2025 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q157",
+    "subject": "behavior-support",
+    "chapter": "positive-behavior-support",
+    "type": "fill_in",
+    "question": "SRSD에서 POW는 Pick(아이디어 선택) → ( ① )(아이디어 조직화) → Write(쓰기 및 수정)의 단계를 의미하며, 교사가 사고 발성(think-aloud)을 사용하여 전략 사용 방법 전체를 보여주는 단계는 SRSD 6단계 중 ( ② ) 단계이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "① Organize(조직화), ② 시범(model)",
+    "explanation": "POW에서 'O'는 Organize로, 선택한 아이디어를 구조적으로 배열하고 이야기 글의 요소(WWW 등)에 맞게 조직화하는 단계다. SRSD 6단계에서 교사가 사고 발성(think-aloud)으로 전략 사용 전 과정을 직접 보여주는 단계는 세 번째 단계인 시범(model) 단계다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 2025 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q158",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "multiple",
+    "question": "DRL(차별강화 저비율행동)의 세 가지 유형에 관한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "전간격 DRL은 특정 시간 간격 내에 행동이 설정 기준 이하로 발생하면 강화하는 방법이다.",
+      "반응간 시간(IRT) DRL은 관찰 세션 전체에서 행동의 총 빈도가 기준 이하이면 강화한다.",
+      "반응시간 DRL은 한 반응이 발생한 직후 연속으로 또 다른 반응이 오면 강화하는 방법이다.",
+      "전간격 DRL과 반응간 시간 DRL은 행동의 시간 간격을 기준으로 강화 여부를 결정한다."
+    ],
+    "answer": "0",
+    "explanation": "전간격(full-session) DRL은 전체 관찰 세션에서 행동 발생 횟수가 설정한 기준 이하일 때 세션 종료 후 강화를 제공하는 방법이다. 반응간 시간(IRT) DRL은 두 반응 사이의 시간 간격이 설정 기준 이상일 때 강화하는 방법이며, 반응시간(spaced-responding) DRL은 두 반응 사이에 최소 지정 시간이 경과해야 강화한다는 점에서 IRT DRL과 유사하다.",
+    "wrong_explanations": {
+      "1": "관찰 세션 전체에서 행동 총 빈도가 기준 이하이면 강화하는 것은 전간격(full-session) DRL의 설명이다. IRT DRL은 각 반응 간 시간 간격을 기준으로 한다.",
+      "2": "반응시간 DRL은 두 반응 사이에 설정된 최소 시간이 경과해야 강화한다. 연속으로 반응이 오면 강화하는 것은 DRL의 기본 원리에 반한다.",
+      "3": "전간격 DRL은 세션 전체 빈도를 기준으로 하며, IRT DRL이 두 반응 간 시간 간격을 기준으로 한다. 두 유형 모두 시간 간격을 기준으로 한다는 설명은 전간격 DRL에 관해 부정확하다."
+    },
+    "difficulty": 3,
+    "source": "KICE 2026 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q159",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "multiple",
+    "question": "다음 사례에서 교사가 적용한 DRL 유형과 그 절차에 관한 설명으로 옳은 것은?",
+    "case_context": "교사는 수업 중 불필요하게 발언하는 학생에게 DRL을 적용하였다. 학생이 발언한 후 최소 5분이 경과하지 않으면 교사는 그 발언을 강화하지 않고, 5분이 경과한 후의 첫 발언에만 강화(칭찬)를 제공하였다.",
+    "options": [
+      "전간격 DRL로, 세션 전체 발언 횟수가 설정 기준 이하일 때 강화한다.",
+      "반응간 시간(IRT) DRL로, 이전 반응으로부터 설정 시간 이상 경과 후의 반응에 강화한다.",
+      "반응시간 DRL로, 세션을 여러 간격으로 나누어 각 간격당 기준 이하 시 강화한다.",
+      "간격 DRL로, 각 시간 간격 내에서 행동이 한 번만 발생해야 강화가 주어진다."
+    ],
+    "answer": "1",
+    "explanation": "사례에서 교사는 이전 발언으로부터 최소 5분이 경과한 후의 첫 발언에만 강화를 제공하였다. 이는 반응간 시간(IRT; Interresponse Time) DRL의 절차로, 두 반응 사이에 설정된 최소 시간 간격(5분)이 경과해야 다음 반응을 강화한다. 반응 빈도 자체보다 반응 간 시간 간격을 준거로 삼는다.",
+    "wrong_explanations": {
+      "0": "전간격 DRL은 세션 전체에서 발언 총 횟수가 설정 기준 이하일 때 세션 후에 강화하는 방법이다. 사례는 개별 반응 간 간격을 기준으로 하므로 IRT DRL이다.",
+      "2": "세션을 여러 간격으로 나누어 각 간격에서 행동 기준을 적용하는 것은 간격(interval) DRL의 변형이다. 사례는 세션 분할이 아니라 반응 간 시간 간격이 기준이다.",
+      "3": "각 시간 간격 내 행동이 한 번만 발생해야 강화를 제공하는 것은 간격 DRL의 설명이다. 사례의 핵심은 이전 반응으로부터의 경과 시간이다."
+    },
+    "difficulty": 3,
+    "source": "KICE 2026 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q160",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "ox",
+    "question": "반응간 시간(IRT) DRL에서는 두 반응 사이의 시간이 설정 기준보다 짧으면 강화를 제공하지 않으며, 기준 이상의 시간이 경과한 후 발생한 반응에만 강화를 제공한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "IRT(Interresponse Time) DRL은 두 연속 반응 사이의 시간 간격이 설정된 최소 기준(예: 5분)보다 길어야 강화를 제공한다. 기준보다 짧은 시간 안에 반응이 발생하면 강화를 주지 않으므로, 행동의 빈도를 줄이되 행동 자체를 완전히 소거하지 않는 DRL의 특성을 반영한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 2026 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  },
+  {
+    "id": "bs-q161",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "fill_in",
+    "question": "DRL의 세 가지 유형 중 ( ① ) DRL은 관찰 세션 전체에서 목표 행동이 설정 기준 이하로 발생했을 때 세션 종료 후 강화를 제공하며, 반응간 시간(IRT) DRL은 두 반응 사이의 최소 시간 간격을 기준으로 강화 여부를 결정하기 때문에 행동의 ( ② )을/를 조절하는 데 효과적이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "① 전간격(full-session), ② 비율(rate) 또는 빈도",
+    "explanation": "전간격(full-session) DRL은 세션 전체 빈도를 기준으로 강화 여부를 결정하므로 시행이 간편하다. IRT DRL은 두 반응 간의 시간 간격을 준거로 삼아 행동 발생 비율(빈도)을 직접 조절하는 데 적합하다. 반응 간 최소 시간을 점진적으로 늘려가면서 행동의 전체 빈도를 체계적으로 감소시킬 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 2026 전공B 9번 동형",
+    "tags": {"disability": "all", "year": 2026}
+  }
+]

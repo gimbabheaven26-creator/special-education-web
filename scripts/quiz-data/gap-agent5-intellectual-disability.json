@@ -1,0 +1,350 @@
+[
+  {
+    "id": "intro-q173",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "AAIDD(2010) 11판에서 제시한 지적장애 정의의 세 가지 핵심 구성 요소를 모두 포함한 것은?",
+    "case_context": null,
+    "options": [
+      "지적 기능성, 적응행동, 18세 이전 발현",
+      "지적 기능성, 학업성취, 18세 이전 발현",
+      "IQ 70 이하, 적응행동, 특수교육 요구",
+      "지적 기능성, 사회적 기술, 22세 이전 발현"
+    ],
+    "answer": "0",
+    "explanation": "AAIDD 11판(2010)의 지적장애 정의는 ① 지적 기능성(IQ ~70~75 이하)의 유의미한 제한, ② 개념·사회·실행 적응행동 영역에서의 유의미한 제한, ③ 발달기(18세 이전) 발현이라는 세 요소를 모두 충족해야 한다.",
+    "wrong_explanations": {
+      "1": "학업성취는 AAIDD 정의의 구성 요소가 아니다. 적응행동이 올바른 두 번째 요소이다.",
+      "2": "특수교육 요구는 AAIDD 지적장애 정의의 구성 요소가 아니며, IQ 기준만으로 진단하지 않는다.",
+      "3": "발달기 기준은 22세가 아닌 18세 이전이다. 또한 사회적 기술은 적응행동의 하위 요소이지 독립 요소가 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q174",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "DSM-5에서 지적발달장애(Intellectual Developmental Disorder) 진단을 위해 결함이 확인되어야 하는 적응기능 세 영역을 바르게 나열한 것은?",
+    "case_context": null,
+    "options": [
+      "개념적 영역, 사회적 영역, 실행적 영역",
+      "언어적 영역, 비언어적 영역, 실행적 영역",
+      "인지적 영역, 정서적 영역, 행동적 영역",
+      "학업적 영역, 직업적 영역, 일상생활 영역"
+    ],
+    "answer": "0",
+    "explanation": "DSM-5는 지적발달장애의 적응기능을 개념적(conceptual) 영역, 사회적(social) 영역, 실행적(practical) 영역의 세 가지로 구분하며, 이 중 하나 이상에서 유의미한 결함이 있어야 진단 기준을 충족한다.",
+    "wrong_explanations": {
+      "1": "언어적·비언어적 영역 구분은 DSM-5 지적장애 적응기능 분류 체계가 아니다.",
+      "2": "인지적·정서적·행동적 영역 구분은 DSM-5가 아닌 다른 분류 틀이다.",
+      "3": "학업적·직업적·일상생활 영역은 DSM-5의 공식 적응기능 영역 명칭이 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q175",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "다음 설명에 해당하는 지적장애 지원 수준은?\n\n「개인이 특정 환경(예: 직업 전환 시기, 학교 입학 초기)에서 일정 기간 동안 필요로 하는 지원으로, 항상 필요하지는 않으며 단기간·간헐적으로 제공된다.」",
+    "case_context": null,
+    "options": [
+      "간헐적(intermittent) 지원",
+      "제한적(limited) 지원",
+      "확장적(extensive) 지원",
+      "전반적(pervasive) 지원"
+    ],
+    "answer": "0",
+    "explanation": "AAIDD의 지원 수준 4단계 중 간헐적(intermittent) 지원은 일상적으로 항상 필요하지 않고 전환기나 위기 상황 등 특정 시기에 단기적으로 필요한 지원 강도를 의미한다. 고강도는 아니지만 필요 시 즉각 제공될 수 있어야 한다.",
+    "wrong_explanations": {
+      "1": "제한적(limited) 지원은 일관되지만 시간 제한이 있는 지원으로, 취업 훈련이나 전환기 지원 등 간헐적보다 규칙적이다.",
+      "2": "확장적(extensive) 지원은 일부 환경에서 매일 규칙적으로 제공되는 지원이며, 제한이 없고 장기적이다.",
+      "3": "전반적(pervasive) 지원은 전 생애 걸쳐 모든 환경에서 높은 강도로 제공되는 지원으로, 생명 유지와 관련되기도 한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q176",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애의 IQ 범위와 지원 수준을 연결한 것으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "경도(mild): IQ 50~55 ~ 70, 간헐적·제한적 지원",
+      "중도(moderate): IQ 35~40 ~ 50~55, 확장적 지원",
+      "최중도(profound): IQ 20~25 미만, 전반적 지원",
+      "중증도(severe): IQ 35~40 미만, 제한적 지원"
+    ],
+    "answer": "3",
+    "explanation": "중증도(severe) 지적장애는 IQ 약 20~25 ~ 35~40 범위에 해당하며, 일상 전반에 걸쳐 확장적 또는 전반적 지원을 필요로 한다. '제한적 지원'은 경도 또는 중도 수준에 해당하는 설명으로 중증도에는 적합하지 않다.",
+    "wrong_explanations": {
+      "0": "경도 지적장애(IQ 50~55 ~ 70)는 간헐적·제한적 지원 수준에 해당한다. 이 선지는 옳은 내용이므로 '옳지 않은 것'을 고르는 이 문제의 정답이 아니다.",
+      "1": "중도 지적장애(IQ 35~40 ~ 50~55)는 확장적 지원을 필요로 한다. 이 선지는 옳은 내용이므로 정답이 아니다.",
+      "2": "최중도 지적장애(IQ 20~25 미만)는 전반적 지원이 필요하다. 이 선지는 옳은 내용이므로 정답이 아니다."
+    },
+    "difficulty": 3,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q177",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "다운증후군(Down Syndrome)의 가장 흔한 유형인 트리소미 21(Trisomy 21)에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "21번 염색체가 3개로, 부모 중 한 명의 생식세포 분열 오류로 발생하며 전체 다운증후군의 약 95%를 차지한다.",
+      "21번 염색체 일부가 다른 염색체에 전좌(translocation)되어 발생하며 유전 가능성이 없다.",
+      "21번 염색체가 일부 세포에만 3개 존재하는 모자이시즘(mosaicism) 형태로, 전체의 70% 이상을 차지한다.",
+      "X 염색체 이상으로 발생하며 여아에게만 나타난다."
+    ],
+    "answer": "0",
+    "explanation": "트리소미 21은 21번 염색체가 3개인 형태로, 감수분열 비분리(nondisjunction)로 인해 발생한다. 전체 다운증후군의 약 95%를 차지하는 가장 흔한 유형이다. 교육적으로는 근긴장도 저하(hypotonia), 인지발달 지연, 언어발달 지연, 사회성 강점 등의 특성을 고려한 지원이 필요하다.",
+    "wrong_explanations": {
+      "1": "전좌형 다운증후군은 염색체 전좌로 발생하며 부모에서 유전될 수 있다. 전체의 약 4%를 차지한다.",
+      "2": "모자이시즘은 전체 다운증후군의 약 1~2%에 해당하는 소수 유형이다.",
+      "3": "다운증후군은 21번 상염색체 이상으로 발생하며 성별에 관계없이 나타난다. X 염색체 이상과 무관하다."
+    },
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q178",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "프래더-윌리 증후군(Prader-Willi Syndrome)과 엔젤만 증후군(Angelman Syndrome)을 비교한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "두 증후군 모두 15번 염색체 이상과 관련되며, 이상이 어느 부모에게서 유래했는지에 따라 증후군이 달라진다.",
+      "프래더-윌리 증후군은 모계 15번 염색체 결실로 발생하고, 엔젤만 증후군은 부계 15번 염색체 결실로 발생한다.",
+      "엔젤만 증후군은 과식·비만 경향이 주요 특성이고, 프래더-윌리 증후군은 발작·행복한 겉모습이 주요 특성이다.",
+      "두 증후군 모두 X 염색체 연관 유전 방식을 따른다."
+    ],
+    "answer": "0",
+    "explanation": "프래더-윌리 증후군과 엔젤만 증후군은 모두 15번 염색체 이상과 관련된 각인(genomic imprinting) 장애이다. 부계 15번 염색체 결실(또는 모계 유전체 이체) → 프래더-윌리 증후군(과식·비만·인지장애·근긴장도 저하), 모계 15번 염색체 결실(또는 부계 유전체 이체) → 엔젤만 증후군(발작·행복한 겉모습·심한 지적장애·언어 거의 없음)이 나타난다.",
+    "wrong_explanations": {
+      "1": "반대로 설명되어 있다. 프래더-윌리는 부계, 엔젤만은 모계 15번 염색체 결실로 발생한다.",
+      "2": "특성이 서로 바뀌어 있다. 과식·비만은 프래더-윌리, 발작·행복한 겉모습은 엔젤만의 특성이다.",
+      "3": "두 증후군은 상염색체(15번) 이상에 의한 것으로, X 염색체 연관 유전과 무관하다."
+    },
+    "difficulty": 3,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q179",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애 학생의 기억 특성에 관한 설명으로 옳은 것을 모두 고른 것은?\n\nㄱ. 단기기억(작업기억) 용량이 일반 학생에 비해 제한적이다.\nㄴ. 자발적으로 시연(rehearsal) 전략을 사용하는 경향이 낮다.\nㄷ. 장기기억에 저장된 정보를 인출하는 데 어려움이 없다.\nㄹ. 학습한 내용의 새로운 상황으로의 전이와 일반화가 어렵다.",
+    "case_context": null,
+    "options": [
+      "ㄱ, ㄴ, ㄹ",
+      "ㄴ, ㄷ",
+      "ㄱ, ㄷ, ㄹ",
+      "ㄱ, ㄴ, ㄷ, ㄹ"
+    ],
+    "answer": "0",
+    "explanation": "지적장애 학생은 단기(작업)기억 용량이 제한적이며(ㄱ), 메타인지 전략인 시연을 자발적으로 활용하지 못하는 경향이 있고(ㄴ), 학습 내용의 전이와 일반화가 어렵다(ㄹ). 반면 장기기억 인출에는 상대적으로 어려움이 있어 ㄷ은 옳지 않다.",
+    "wrong_explanations": {
+      "1": "ㄷ은 틀린 설명이다. 지적장애 학생은 장기기억에서 정보를 인출하는 데에도 어려움을 겪는다.",
+      "2": "ㄴ과 ㄷ만 선택한 경우, ㄷ은 틀린 설명이고 ㄱ과 ㄹ의 옳은 특성을 누락하였다.",
+      "3": "ㄷ은 틀린 설명이며, ㄱ·ㄴ·ㄹ은 모두 올바른 특성이므로 이를 함께 선택해야 한다."
+    },
+    "difficulty": 3,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q180",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애 학생의 언어·의사소통 특성을 설명한 것으로 가장 적절한 것은?",
+    "case_context": null,
+    "options": [
+      "어휘 발달이 지연되고, 구문 구조가 단순하며, 화용론적 기술(담화 유지, 주제 전환)에 어려움을 보인다.",
+      "어휘 발달은 일반 또래와 유사하나, 음운 처리에서만 결함을 보인다.",
+      "복잡한 문장 이해는 가능하지만 자발적 발화 시 단어 나열 수준에 머문다.",
+      "화용론적 기술은 강점 영역이며 대화 참여와 주제 유지에 어려움이 없다."
+    ],
+    "answer": "0",
+    "explanation": "지적장애 학생은 어휘 발달 지연(제한된 어휘량), 단순한 구문 사용(짧고 단순한 문장), 화용론 영역의 어려움(대화 개시·유지·수복, 상황에 맞는 언어 사용 어려움)이 두드러진다. 세 영역 모두에서 결함이 나타나는 것이 특징이다.",
+    "wrong_explanations": {
+      "1": "지적장애 학생의 어휘 발달은 일반 또래에 비해 지연되므로 '유사하다'는 설명은 옳지 않다.",
+      "2": "복잡한 문장 이해 자체에도 어려움이 있으며, 단순히 발화만의 문제가 아니다.",
+      "3": "화용론적 기술은 지적장애 학생의 취약 영역 중 하나로, 강점 영역이라는 설명은 일반적으로 적절하지 않다."
+    },
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q181",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "다음 상황에서 교사가 적용한 연쇄 교수(chaining) 방법은?\n\n「교사는 손씻기 과제를 8단계로 분석한 후, 수업 첫날에는 7단계까지 교사가 수행하고 학생이 마지막 8단계(타월로 물기 닦기)만 독립 수행하도록 하였다. 점차 역방향으로 단계를 확대하여 학생이 모든 단계를 스스로 수행하게 하였다.」",
+    "case_context": null,
+    "options": [
+      "후진 연쇄(backward chaining)",
+      "전진 연쇄(forward chaining)",
+      "전체 과제 제시(total task presentation)",
+      "부분 참여(partial participation)"
+    ],
+    "answer": "0",
+    "explanation": "후진 연쇄(backward chaining)는 과제분석의 마지막 단계부터 독립 수행을 가르치고 점차 이전 단계로 확대해 나가는 방법이다. 학생이 과제 완료의 강화 결과를 먼저 경험하게 하여 동기를 높이는 장점이 있다. 지문에서 마지막 단계(8단계)부터 역방향으로 확대한 것이 후진 연쇄에 해당한다.",
+    "wrong_explanations": {
+      "1": "전진 연쇄(forward chaining)는 과제분석의 첫 번째 단계부터 순서대로 독립 수행을 가르치는 방법으로, 지문과 반대 방향이다.",
+      "2": "전체 과제 제시(total task presentation)는 매 회기 모든 단계를 처음부터 끝까지 순서대로 가르치는 방법이다.",
+      "3": "부분 참여(partial participation)는 과제 전체를 독립 수행할 수 없는 학생이 일부 단계에 참여하는 원리로, 연쇄 교수 방법이 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q182",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "촉구(prompt) 위계에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "최소촉구 체계(least-to-most prompting)는 가장 침습적인 촉구부터 시작하여 학생이 반응하면 점차 덜 침습적인 촉구로 전환한다.",
+      "최대촉구 체계(most-to-least prompting)는 처음에 가장 강한 수준의 촉구를 제공하고 점차 약화시켜 독립 수행으로 유도한다.",
+      "신체적 촉구(physical prompt)는 촉구 위계에서 가장 침습적이지 않은(least intrusive) 수준에 해당한다.",
+      "언어적 촉구(verbal prompt)는 신체적 촉구보다 더 침습적인 수준으로 분류된다."
+    ],
+    "answer": "1",
+    "explanation": "최대촉구 체계(most-to-least prompting)는 처음에 전신체적 촉구 등 가장 강한 수준을 제공하여 성공 경험을 확보한 후, 점차 촉구를 줄여 독립 수행을 목표로 한다. 침습성 위계는 '신체(전>부분) > 모델 > 제스처 > 언어 > 시각' 순으로 신체적 촉구가 가장 침습적이다.",
+    "wrong_explanations": {
+      "0": "최소촉구 체계(least-to-most)는 가장 덜 침습적인 촉구(언어/시각)부터 시작하여 학생이 반응하지 않으면 점차 더 강한 촉구로 이동한다. 지문의 설명은 최대촉구 체계에 해당한다.",
+      "2": "신체적 촉구는 촉구 위계에서 가장 침습적인(most intrusive) 수준이다. 가장 덜 침습적인 것은 시각적 촉구나 언어적 촉구이다.",
+      "3": "언어적 촉구는 신체적 촉구보다 덜 침습적인 수준에 해당한다. 신체적 촉구가 가장 높은 침습 수준이다."
+    },
+    "difficulty": 3,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q183",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "Wehmeyer(1996)가 정의한 자기결정(self-determination)의 핵심 구성 요소를 가장 잘 설명한 것은?",
+    "case_context": null,
+    "options": [
+      "자신의 삶의 일차적 인과 작용자(causal agent)로서 외부 영향 없이 자신의 삶의 질과 관련된 선택을 자유로이 하는 것",
+      "타인의 도움 없이 혼자 모든 결정을 내리고 자립생활을 영위하는 것",
+      "교사나 부모가 설정한 목표에 따라 자신의 행동을 조절하는 것",
+      "사회적 규범에 순응하여 타인과의 갈등 없이 생활하는 것"
+    ],
+    "answer": "0",
+    "explanation": "Wehmeyer(1996)의 자기결정 정의는 '자신의 삶의 일차적 인과 작용자로서 행동하고, 외부 영향으로부터 자유롭고 자신의 삶의 질을 유지하거나 향상시키는 선택과 결정을 하는 것'이다. 핵심 구성 요소로는 자율성, 자기조절, 심리적 역량강화(empowerment), 자아실현이 있다.",
+    "wrong_explanations": {
+      "1": "자기결정은 완전한 자립을 의미하지 않으며, 필요한 지원을 받으면서도 스스로 결정권을 갖는 것을 포함한다.",
+      "2": "자기결정은 타인이 설정한 목표를 따르는 것이 아니라 스스로 목표를 설정하고 추구하는 것을 의미한다.",
+      "3": "사회적 규범 순응은 자기결정의 정의에 해당하지 않으며, 오히려 외부 기준에 따른 행동 조절에 가깝다."
+    },
+    "difficulty": 3,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q184",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지역사회 중심 교수(Community-Based Instruction, CBI)와 기능적 교육과정에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "CBI는 기술을 실제로 사용하게 될 자연스러운 환경에서 직접 교수하는 방법이다.",
+      "기능적 교육과정은 학생이 현재와 미래 환경에서 독립적으로 기능하는 데 필요한 기술을 중심으로 구성된다.",
+      "CBI는 학교 내 시뮬레이션 환경에서만 이루어지며 지역사회 실제 장소 방문을 포함하지 않는다.",
+      "CBI 시행 시 일반화(generalization)를 촉진하기 위해 다양한 환경과 조건에서 연습 기회를 제공한다."
+    ],
+    "answer": "2",
+    "explanation": "CBI(지역사회 중심 교수)는 학교 내 시뮬레이션 교수의 한계를 극복하기 위해 마트, 버스, 은행, 식당 등 실제 지역사회 환경에서 직접 교수하는 방법이다. 학교 내 시뮬레이션에만 국한되지 않으며, 오히려 실제 환경에서의 교수가 CBI의 핵심이다.",
+    "wrong_explanations": {
+      "0": "CBI는 마트, 버스, 은행 등 실제 지역사회 환경에서 직접 교수하는 방법이다. 이 선지는 옳은 내용이므로 '옳지 않은 것'을 고르는 이 문제의 정답이 아니다.",
+      "1": "기능적 교육과정은 현재·미래 환경에서 독립적으로 기능하는 데 필요한 기술을 중심으로 구성된다. 이 선지는 옳은 내용이므로 정답이 아니다.",
+      "3": "CBI에서 다양한 환경과 조건에서 연습 기회를 제공하여 일반화를 촉진하는 것은 CBI의 핵심 원칙이다. 이 선지는 옳은 내용이므로 정답이 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q185",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "IEP 장기목표 및 단기목표 작성 시 SMART 원칙을 적용한다. SMART는 구체적(Specific), 측정 가능한(Measurable), ( ① )(Achievable/Attainable), 관련성 있는(Relevant), 시간 제한적인( ② )(Time-bound)의 약자이다. 각 빈칸에 들어갈 우리말 용어를 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "① 달성 가능한, ② 시간 제한적인",
+    "explanation": "SMART 목표 작성 원칙: S-Specific(구체적), M-Measurable(측정 가능한), A-Achievable/Attainable(달성 가능한), R-Relevant(관련성 있는/현실적인), T-Time-bound(시간 제한적인). IEP 목표는 이 다섯 가지 원칙을 충족해야 교육적 책무성과 평가 가능성을 확보할 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q186",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "우리나라 「장애인 등에 대한 특수교육법」에 따르면, ( ① )은 특수교육대상자가 일반 학교에서 장애 유형·장애 정도에 따라 차별 없이 교육받을 수 있도록 지원하는 것을 의미하며, 이를 위해 학교는 개별화교육지원팀을 구성하고 매 학년도 ( ② )을(를) 작성·실시하여야 한다. 빈칸 ①, ②에 들어갈 용어를 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "① 통합교육, ② 개별화교육계획(IEP)",
+    "explanation": "「장애인 등에 대한 특수교육법」 제2조 제6호에서 통합교육을 정의하며, 제22조에서 개별화교육지원팀 구성 및 개별화교육계획 작성·실시 의무를 규정한다. IEP는 특수교육대상자의 교육적 요구에 맞는 교육 목표, 교육 방법, 관련 서비스 등을 포함한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q187",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "Bronfenbrenner의 생태학적 체계 이론에서 가정, 학교, 또래집단처럼 아동이 직접 참여하는 즉각적 환경을 ( ① )(이)라 하고, 이러한 환경들 간의 상호관계(예: 가정-학교 협력)를 ( ② )(이)라 한다. 지적장애 학생 지원에서 두 체계를 활성화하기 위한 방법 중 하나인 가족-학교 파트너십이 해당한다. 빈칸 ①, ②에 알맞은 용어를 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "① 미시체계(microsystem), ② 중간체계(mesosystem)",
+    "explanation": "Bronfenbrenner의 생태학적 체계 이론: 미시체계(microsystem)는 아동이 직접 참여하는 면대면 환경, 중간체계(mesosystem)는 두 개 이상의 미시체계 간 상호관계이다. 지적장애 학생 지원에서 가정-학교 협력(중간체계 강화)은 일관된 지원을 제공하는 핵심 전략이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  },
+  {
+    "id": "intro-q188",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "지적장애 학생의 전환교육(transition education)을 위한 IEP에는 중학교 3학년부터 반드시 포함되어야 하는 전환 관련 요소가 있다. 「장애인 등에 대한 특수교육법 시행령」에 근거하여, 전환교육 IEP에 포함되어야 하는 세 가지 전환 영역을 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "진로 및 직업교육, 자립생활, 사회참여(또는 지역사회 참여)",
+    "explanation": "「장애인 등에 대한 특수교육법 시행령」 제4조에 따라 중학교 3학년 이상 특수교육대상자의 IEP에는 진로 및 직업교육, 자립생활, 사회참여의 세 가지 전환 영역에 대한 계획이 포함되어야 한다. 이는 학교에서 성인 생활로의 전환을 체계적으로 준비하기 위한 법적 요건이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 임용고시 동형",
+    "tags": {"disability": "intellectual", "year": 2026}
+  }
+]

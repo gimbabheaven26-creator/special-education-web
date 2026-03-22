@@ -1,0 +1,100 @@
+<h2>헤더 네비게이션 재구성</h2>
+<p class="subtitle">현재 → 변경 후 비교. 어떤 구성이 맞나요?</p>
+
+<div class="section">
+  <div class="label">현재 (데스크탑 헤더)</div>
+  <div class="mockup" style="margin-top:8px">
+    <div class="mockup-body" style="padding:0">
+      <div style="display:flex;align-items:center;gap:16px;background:#1e293b;padding:12px 20px;border-radius:4px;flex-wrap:wrap;">
+        <span style="color:#60a5fa;font-weight:700;font-size:14px;margin-right:auto;">📚 특수교육 공부방</span>
+        <span style="color:#94a3b8;font-size:13px;text-decoration:underline;">오늘학습</span>
+        <span style="color:#94a3b8;font-size:13px;">커뮤니티</span>
+        <span style="color:#94a3b8;font-size:13px;">오답노트</span>
+        <span style="color:#94a3b8;font-size:13px;">용어학습</span>
+        <span style="color:#64748b;font-size:12px;border:1px solid #475569;padding:2px 8px;border-radius:4px;">로그인</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:24px">
+  <div class="label">변경 후 — 방안 선택</div>
+</div>
+
+<div class="options" style="margin-top:12px">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>플랫 6개 링크</h3>
+      <div style="display:flex;align-items:center;gap:10px;background:#1e293b;padding:10px 14px;border-radius:6px;margin-top:8px;flex-wrap:wrap;">
+        <span style="color:#60a5fa;font-weight:700;font-size:12px;margin-right:auto;">📚 특수교육</span>
+        <span style="color:#34d399;font-size:12px;font-weight:600;">학습하기</span>
+        <span style="color:#f59e0b;font-size:12px;font-weight:600;">기출문제</span>
+        <span style="color:#94a3b8;font-size:12px;">오늘학습</span>
+        <span style="color:#94a3b8;font-size:12px;">커뮤니티</span>
+        <span style="color:#94a3b8;font-size:12px;">오답노트</span>
+        <span style="color:#94a3b8;font-size:12px;">용어</span>
+        <span style="color:#64748b;font-size:11px;border:1px solid #475569;padding:2px 6px;border-radius:3px;">로그인</span>
+      </div>
+      <p style="margin-top:6px;font-size:12px;color:#94a3b8;">단순하게 다 나열. 모바일 헤더에선 숨김 (하단탭 별도)</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><ul><li>직관적</li><li>구현 쉬움</li></ul></div>
+        <div class="cons"><ul><li>6개라 조금 빽빽</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>학습 드롭다운 묶기</h3>
+      <div style="display:flex;align-items:center;gap:10px;background:#1e293b;padding:10px 14px;border-radius:6px;margin-top:8px;flex-wrap:wrap;">
+        <span style="color:#60a5fa;font-weight:700;font-size:12px;margin-right:auto;">📚 특수교육</span>
+        <span style="color:#34d399;font-size:12px;font-weight:600;">학습 ▾</span>
+        <span style="color:#94a3b8;font-size:12px;">오늘학습</span>
+        <span style="color:#94a3b8;font-size:12px;">커뮤니티</span>
+        <span style="color:#94a3b8;font-size:12px;">오답노트</span>
+        <span style="color:#94a3b8;font-size:12px;">용어</span>
+        <span style="color:#64748b;font-size:11px;border:1px solid #475569;padding:2px 6px;border-radius:3px;">로그인</span>
+      </div>
+      <div style="background:#0f172a;border:1px solid #334155;padding:8px 12px;border-radius:4px;margin-top:4px;font-size:11px;width:fit-content;margin-left:60px">
+        <div style="color:#34d399;padding:3px 0;">📖 전공과목 학습 → /subjects</div>
+        <div style="color:#f59e0b;padding:3px 0;">📋 KICE 기출문제 → /kice</div>
+      </div>
+      <p style="margin-top:6px;font-size:12px;color:#94a3b8;">"학습" 드롭다운 안에 전공과목+기출 묶기. 헤더 5개 유지</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><ul><li>헤더 깔끔</li><li>확장 가능</li></ul></div>
+        <div class="cons"><ul><li>드롭다운 구현 필요</li><li>한 번 더 클릭</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>학습하기 + 기출 분리, 5개로 압축</h3>
+      <div style="display:flex;align-items:center;gap:10px;background:#1e293b;padding:10px 14px;border-radius:6px;margin-top:8px;flex-wrap:wrap;">
+        <span style="color:#60a5fa;font-weight:700;font-size:12px;margin-right:auto;">📚 특수교육</span>
+        <span style="color:#34d399;font-size:12px;font-weight:600;">학습하기</span>
+        <span style="color:#f59e0b;font-size:12px;font-weight:600;">기출문제</span>
+        <span style="color:#94a3b8;font-size:12px;">오늘학습</span>
+        <span style="color:#94a3b8;font-size:12px;">커뮤니티</span>
+        <span style="color:#94a3b8;font-size:12px;">용어</span>
+        <span style="color:#64748b;font-size:11px;border:1px solid #475569;padding:2px 6px;border-radius:3px;">로그인</span>
+      </div>
+      <p style="margin-top:6px;font-size:12px;color:#94a3b8;">오답노트 헤더에서 제거 (마이페이지 or 하단탭으로 이동), 5개 유지</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><ul><li>5개 깔끔</li><li>핵심 기능 강조</li></ul></div>
+        <div class="cons"><ul><li>오답노트 접근성↓ (헤더서 제거)</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:20px;padding:12px;background:#0f172a;border-radius:8px;border:1px solid #1e3a5f">
+  <p style="font-size:12px;color:#60a5fa;margin:0;"><strong>📌 공통 변경사항 (방안 무관)</strong></p>
+  <ul style="font-size:12px;color:#94a3b8;margin:8px 0 0 0;padding-left:16px;">
+    <li>리뷰 → 커뮤니티 하위 탭으로 이동</li>
+    <li>모바일 하단탭: 별도 논의 (현재 5개 유지 or 재구성)</li>
+  </ul>
+</div>

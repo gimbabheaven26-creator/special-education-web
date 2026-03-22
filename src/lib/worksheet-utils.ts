@@ -1,5 +1,3 @@
-import { getWorksheetsByTopic, type WorksheetQuestionRow } from '@/lib/db';
-
 // ─── Types (migrated from @/data/worksheets/types) ───
 
 export interface WorksheetQuestion {
@@ -37,23 +35,6 @@ const SUBJECT_CODES: Record<string, string> = {
   'transition': 'TR',
 };
 
-// ─── Helpers ───
-
-function mapRowToQuestion(row: WorksheetQuestionRow): WorksheetQuestion {
-  return {
-    id: row.id,
-    topicId: row.topic_id,
-    subject: row.subject,
-    type: row.type,
-    difficulty: row.difficulty,
-    question: row.question,
-    answer: row.answer,
-    explanation: row.explanation,
-    source: row.source,
-    tags: row.tags,
-  };
-}
-
 /**
  * Generate a unique worksheet ID like SP-BH-0042
  */
@@ -61,55 +42,6 @@ export function generateWorksheetId(subjectSlug: string): string {
   const code = SUBJECT_CODES[subjectSlug] ?? 'XX';
   const num = String(Math.floor(Math.random() * 9999) + 1).padStart(4, '0');
   return `SP-${code}-${num}`;
-}
-
-/**
- * Fisher-Yates shuffle (immutable)
- */
-function shuffleArray<T>(arr: readonly T[]): T[] {
-  const copy = [...arr];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-/**
- * Build a WorksheetConfig from selections (async — fetches from Supabase)
- */
-export async function buildWorksheet(
-  subjectSlug: string,
-  topicId: string,
-  topicName: string,
-  type: 'fill_in' | 'descriptive' | 'mixed',
-): Promise<WorksheetConfig | null> {
-  const questionCount = type === 'fill_in' ? 8 : type === 'descriptive' ? 4 : 6;
-
-  const rows = await getWorksheetsByTopic(subjectSlug, topicId);
-  let questions = rows.map(mapRowToQuestion);
-
-  // Filter by type if not mixed
-  if (type !== 'mixed') {
-    questions = questions.filter((q) => q.type === type);
-  }
-
-  if (questions.length === 0) {
-    return null;
-  }
-
-  const picked = shuffleArray(questions).slice(0, questionCount);
-
-  return {
-    id: generateWorksheetId(subjectSlug),
-    subject: subjectSlug,
-    topicId,
-    topicName,
-    type,
-    questionCount: picked.length,
-    questions: picked,
-    createdAt: new Date().toISOString(),
-  };
 }
 
 /**

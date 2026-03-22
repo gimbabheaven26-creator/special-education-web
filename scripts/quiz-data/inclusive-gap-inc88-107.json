@@ -1,0 +1,419 @@
+[
+  {
+    "id": "inc-q88",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "fill_in",
+    "question": "「장애인 등에 대한 특수교육법」 제2조 제6호에서 통합교육의 정의 중 핵심 조건 두 가지를 기입하시오. '특수교육대상자가 일반학교에서 장애유형·장애정도에 따라 ( ㉠ )을 받지 않고 ( ㉡ )와 함께 개개인의 교육적 요구에 적합한 교육을 받는 것'",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠ 차별 / ㉡ 또래",
+    "explanation": "특수교육법 제2조 제6호 통합교육의 정의에서 '차별을 받지 않고'와 '또래와 함께'는 임용시험 기입형에서 반복 출제되는 핵심 키워드입니다. '일반학교'에서 이루어진다는 장소적 조건, '교육적 요구에 적합한' 교육이라는 개별화 조건도 함께 기억해야 합니다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q89",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "multiple",
+    "question": "정상화 원리(Normalization principle)에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "정상화 원리는 Wolfensberger(1972)가 덴마크에서 처음 제창하였으며 장애인을 치료·교정의 대상으로 본다.",
+      "정상화 원리는 장애인이 비장애인과 동일한 생활 방식·생활 리듬·생활 환경을 누릴 권리가 있다는 원칙이다.",
+      "Nirje(1969)는 정상화 원리를 북미에 도입하면서 사회적 역할 가치화(SRV) 개념으로 발전시켰다.",
+      "정상화 원리는 탈시설화(deinstitutionalization)와 무관하며 시설 내 처우 개선에 초점을 둔다."
+    ],
+    "answer": "1",
+    "explanation": "정상화 원리는 Bank-Mikkelsen(1959)이 덴마크에서 처음 제창하고, Nirje(1969)가 8가지 정상화 원리로 체계화하였으며, Wolfensberger(1972)가 북미에서 이론적으로 재정립한 개념입니다. 핵심 내용은 장애인도 비장애인과 동일한 생활 방식·리듬·환경을 누릴 권리가 있다는 것으로, 탈시설화와 지역사회 통합의 이론적 토대가 됩니다.",
+    "wrong_explanations": {
+      "0": "정상화 원리를 처음 제창한 사람은 Bank-Mikkelsen이며, Wolfensberger는 북미에서 이론화한 인물입니다. 또한 장애인을 치료·교정 대상으로 보는 것은 의료적 모델이지 정상화 원리가 아닙니다.",
+      "2": "사회적 역할 가치화(Social Role Valorization, SRV)는 Wolfensberger가 1983년에 정상화 원리를 발전시킨 개념입니다. Nirje는 스웨덴 장애인 협회에서 정상화의 8가지 원리를 체계화하였습니다.",
+      "3": "정상화 원리는 탈시설화 운동과 직접적으로 연결되며, 시설 내 처우 개선보다는 지역사회 통합과 일반적 생활환경 제공을 목표로 합니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q90",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "multiple",
+    "question": "최소제한환경(Least Restrictive Environment, LRE)에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "LRE는 장애학생이 가능한 최대한으로 비장애 또래와 함께 교육받아야 한다는 원칙이다.",
+      "LRE는 단일한 배치 환경을 의미하는 것이 아니라 일반학급부터 시설까지 배치의 연속체(continuum)를 전제로 한다.",
+      "LRE 원칙에 따르면 모든 장애학생은 일반학급에 완전통합되어야 하며 특수학교 배치는 원칙적으로 금지된다.",
+      "보충적 서비스 및 지원(supplementary aids and services)이 LRE 실현의 핵심 조건 중 하나이다."
+    ],
+    "answer": "2",
+    "explanation": "LRE는 특정 배치를 강제하는 원칙이 아니라, 장애학생 개인의 교육적 필요에 따라 가장 적게 제한된 환경을 선택해야 한다는 원칙입니다. 일반학급→특수학급(시간제/전일제)→특수학교→시설이라는 배치의 연속체(continuum of alternative placements)를 유지하는 것이 IDEA의 요구사항이며, 특수학교 배치 자체가 금지되지는 않습니다.",
+    "wrong_explanations": {
+      "0": "LRE의 핵심은 비장애 또래와 가능한 최대로 함께 교육받아야 한다는 원칙으로 옳은 설명입니다.",
+      "1": "LRE는 다양한 배치 환경을 연속체로 보장하는 것이 핵심이며, 단일 배치 환경이 아니라는 설명은 옳습니다.",
+      "3": "보충적 서비스 및 지원(supplementary aids and services) 제공이 일반학급 배치를 가능하게 하는 핵심 조건 중 하나라는 설명은 옳습니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q91",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "ox",
+    "question": "완전통합(full inclusion)은 장애의 유형이나 정도에 관계없이 모든 장애학생이 일반학급에서 전일제로 교육받아야 한다고 주장하며, 특수학급이나 특수학교는 완전통합 실현 후에도 지원 체계로 유지되어야 한다고 본다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "완전통합(full inclusion)은 Stainback & Stainback 등이 주장한 개념으로, 모든 장애학생의 일반학급 전일제 배치를 지향하지만 특수학급이나 특수학교를 지원 체계로 유지하자는 입장이 아닙니다. 완전통합론자들은 분리된 특수교육 환경 자체를 없애고 일반교육 체계 안에서 지원을 내재화해야 한다고 주장하므로 후반부 설명이 틀렸습니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q92",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "multiple",
+    "question": "통합교육의 효과에 관한 연구 결과를 장애학생과 비장애학생으로 구분할 때, 각각에 대한 효과로 가장 적절하게 연결된 것은?",
+    "case_context": null,
+    "options": [
+      "장애학생: 학업성취 자동 향상 / 비장애학생: 학업성취 저하 없음",
+      "장애학생: 사회성 발달·비장애 또래 모델링 기회 / 비장애학생: 다양성 이해·공감 능력 향상",
+      "장애학생: 독립적 생활 기술 완전 습득 / 비장애학생: 장애 관련 학업 지식 증가",
+      "장애학생: 원적학급 귀속감 / 비장애학생: 특수교육 전문 지식 습득"
+    ],
+    "answer": "1",
+    "explanation": "통합교육의 효과에 관한 연구들은 장애학생에게는 비장애 또래와의 상호작용을 통한 사회성 발달 및 모델링 기회 제공, 비장애학생에게는 장애에 대한 이해·수용·공감 능력 향상 및 다양성 존중 태도 발달 효과가 있다고 일관되게 보고합니다. 학업적 효과는 환경적 조건(지원 수준 등)에 따라 달라지므로 '자동 향상'이나 '완전 습득'으로 단정할 수 없습니다.",
+    "wrong_explanations": {
+      "0": "통합 배치만으로 장애학생의 학업성취가 자동 향상된다는 연구 결과는 일관적이지 않으며, 지원 수준과 교수법에 따라 차이가 큽니다.",
+      "2": "통합교육이 독립적 생활 기술 완전 습득을 보장한다는 것은 과도한 일반화이며, 비장애학생이 장애 관련 학업 지식이 증가한다는 것도 통합교육의 핵심 효과가 아닙니다.",
+      "3": "원적학급 귀속감은 관련 개념이지만 통합교육 효과의 핵심 연구 결과가 아니며, 비장애학생이 특수교육 전문 지식을 습득한다는 것도 연구에서 지지되는 효과가 아닙니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q93",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "multiple",
+    "question": "통합교육의 사회적 통합과 학업적 통합을 구분한 설명으로 옳은 것을 모두 고른 것은?\n㉠ 사회적 통합은 장애학생이 또래와 긍정적인 관계를 맺고 학급 내 소속감을 형성하는 것을 의미한다.\n㉡ 학업적 통합은 장애학생이 일반교육과정에 의미 있게 참여하고 학습 목표를 성취하는 것을 의미한다.\n㉢ 사회적 통합이 이루어지면 학업적 통합은 자동으로 달성된다.\n㉣ 완전통합을 지향하더라도 학업적 통합 없이 사회적 통합만 이루어지는 경우 교육적 효과가 제한될 수 있다.",
+    "case_context": null,
+    "options": [
+      "㉠, ㉡",
+      "㉠, ㉡, ㉣",
+      "㉡, ㉢",
+      "㉠, ㉢, ㉣"
+    ],
+    "answer": "1",
+    "explanation": "㉠ 사회적 통합의 정의(또래 관계, 소속감)와 ㉡ 학업적 통합의 정의(교육과정 참여, 학습 성취)는 모두 옳습니다. ㉣ 사회적 통합만으로는 교육적 효과가 제한될 수 있다는 경고도 타당합니다. 반면 ㉢ 사회적 통합이 이루어지면 학업적 통합이 자동으로 달성된다는 것은 틀린 내용으로, 두 가지는 서로 독립적으로 계획·지원되어야 합니다.",
+    "wrong_explanations": {
+      "0": "㉠과 ㉡만 포함하면 옳은 ㉣이 빠집니다.",
+      "2": "㉢이 포함된 선지는 잘못된 내용을 포함하므로 옳지 않습니다.",
+      "3": "㉢이 포함된 선지는 잘못된 내용을 포함하므로 옳지 않습니다."
+    },
+    "difficulty": 3,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q94",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "fill_in",
+    "question": "Friend & Cook의 협력교수 모델 중, 두 교사가 동등한 역할로 함께 교수하며 협력의 수준이 가장 높은 모델은 ( ㉠ )이며, 한 교사가 전체 학생에게 교수하는 동안 다른 교사가 자료 수집이나 관찰을 담당하는 모델은 ( ㉡ )이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠ 팀 교수(Team Teaching) / ㉡ 교수-관찰(One Teach, One Observe)",
+    "explanation": "Friend & Cook의 협력교수 6모델 중 팀 교수(Team Teaching)는 두 교사가 동등하게 교수에 참여하는 가장 높은 수준의 협력 형태입니다. 교수-관찰(One Teach, One Observe)은 한 교사가 수업을 진행하는 동안 다른 교사가 학생의 행동, 학습 참여, 사회적 상호작용 등을 관찰하고 자료를 수집합니다. 이 모델은 관찰자료가 IEP 수립 등에 활용될 수 있습니다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q95",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "multiple",
+    "question": "다음 중 Friend & Cook의 협력교수 6모델에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "스테이션 교수(Station Teaching)는 학생들을 여러 그룹으로 나누어 각 스테이션을 순환하게 하며, 두 교사가 각각의 스테이션을 담당한다.",
+      "병렬 교수(Parallel Teaching)는 같은 내용을 두 집단에 동시에 가르치므로 학생-교사 비율이 개선된다.",
+      "대안 교수(Alternative Teaching)는 대집단과 소집단으로 나누어 소집단에 심화 또는 보충 교수를 제공한다.",
+      "교수-지원(One Teach, One Assist) 모델은 두 교사가 동등한 역할을 수행하므로 팀 교수와 동일한 협력 수준을 갖는다."
+    ],
+    "answer": "3",
+    "explanation": "교수-지원(One Teach, One Assist) 모델은 한 교사가 전체 학생에게 교수하고 다른 교사는 순회하며 개별 지원을 제공하는 형태로, 두 교사의 역할이 비대칭적입니다. 팀 교수는 두 교사가 동등한 역할로 함께 교수하는 가장 높은 협력 수준의 모델이며, 교수-지원과는 협력 수준이 다릅니다. 교수-지원은 협력교수 중 비교적 낮은 협력 수준에 해당합니다.",
+    "wrong_explanations": {
+      "0": "스테이션 교수는 학생을 그룹으로 나누어 순환하게 하며 두 교사가 각 스테이션을 담당한다는 설명은 옳습니다.",
+      "1": "병렬 교수는 같은 내용을 두 집단에 동시 교수하므로 학생-교사 비율이 개선된다는 설명은 옳습니다.",
+      "2": "대안 교수는 대집단과 소집단으로 나누어 소집단에 심화 또는 보충 지원을 제공한다는 설명은 옳습니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q96",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "multiple",
+    "question": "다음 상황에서 특수교사 A와 일반교사 B가 사용하고 있는 협력교수 모델로 옳은 것은?",
+    "case_context": "특수교사 A와 일반교사 B는 통합학급에서 국어 수업을 진행하고 있다. 일반교사 B가 전체 학생을 대상으로 본문을 설명하는 동안, 특수교사 A는 교실 뒤편에서 특정 학생들의 수업 참여 행동, 과제 집중 시간, 또래 상호작용 빈도를 체계적으로 기록하고 있다. 수업 후 두 교사는 수집된 자료를 바탕으로 개별 학생 지원 계획을 논의하였다.",
+    "options": [
+      "팀 교수(Team Teaching)",
+      "병렬 교수(Parallel Teaching)",
+      "교수-관찰(One Teach, One Observe)",
+      "스테이션 교수(Station Teaching)"
+    ],
+    "answer": "2",
+    "explanation": "교수-관찰(One Teach, One Observe) 모델은 한 교사가 전체 수업을 진행하는 동안 다른 교사가 학생의 행동·참여도·상호작용 등을 체계적으로 관찰·기록하는 방식입니다. 이 모델의 장점은 수집된 자료가 IEP 수립, 행동 지원 계획, 교수 방법 수정 등에 활용될 수 있다는 점입니다. 제시된 상황에서 특수교사 A가 관찰·기록을 담당하고 수업 후 자료를 활용해 논의하는 것이 이 모델의 전형적인 특징입니다.",
+    "wrong_explanations": {
+      "0": "팀 교수는 두 교사가 동등하게 함께 교수하는 모델로, 한 교사가 수업하고 다른 교사가 관찰만 하는 상황과 다릅니다.",
+      "1": "병렬 교수는 학생을 두 집단으로 나누어 같은 내용을 동시에 가르치는 모델로, 제시된 상황과 다릅니다.",
+      "3": "스테이션 교수는 여러 스테이션을 학생이 순환하는 모델로, 제시된 상황과 다릅니다."
+    },
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q97",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "multiple",
+    "question": "다음 상황에서 협력교수의 문제점과 이를 해결하기 위한 대안으로 가장 적절한 것은?",
+    "case_context": "통합학급 담당 일반교사 B는 매일 과학 수업을 혼자 계획하고 진행하며, 특수교사 A는 수업 중 장애학생 옆에 상시 배치되어 개별 지원만 담당한다. 두 교사는 수업 전 협의 시간이 거의 없으며, 특수교사 A는 수업 내용을 미리 파악하지 못한 채 수업에 들어온다.",
+    "options": [
+      "이 상황은 팀 교수(Team Teaching) 모델로, 협력 수준이 가장 높아 별도 개선이 필요 없다.",
+      "이 상황은 교수-지원(One Teach, One Assist)이 공동 계획 없이 이루어지는 것으로, 정기적인 공동 계획 시간 확보와 역할 재정립이 필요하다.",
+      "이 상황은 대안 교수(Alternative Teaching)의 전형적 적용으로 장애학생에게 최적화된 형태이다.",
+      "이 상황의 문제는 특수교사의 전문성 부족이므로 일반교사가 모든 계획을 전담하는 것이 합리적이다."
+    ],
+    "answer": "1",
+    "explanation": "제시된 상황은 교수-지원(One Teach, One Assist) 모델이지만, 공동 계획(co-planning)이 부재한 문제적 형태입니다. 협력교수의 성공 조건 중 가장 중요한 것이 정기적인 공동 계획 시간 확보이며, 이것이 없으면 특수교사가 '보조교사(aide)'로 기능하게 됩니다. 이를 개선하려면 공동 계획 시간을 정기적으로 확보하고, 두 교사의 역할을 명확히 재정립해야 합니다.",
+    "wrong_explanations": {
+      "0": "팀 교수는 두 교사가 동등하게 교수에 참여하는 모델로, 제시된 상황과 다릅니다. 공동 계획 부재는 명백한 문제입니다.",
+      "2": "대안 교수는 소집단 심화·보충 교수를 별도로 제공하는 모델로, 제시된 상황과 다릅니다.",
+      "3": "협력교수는 두 교사의 전문성 공유를 전제로 하며, 계획 전담을 일방적으로 배분하는 것은 협력교수의 원칙에 어긋납니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q98",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "ox",
+    "question": "협력교수에서 스테이션 교수(Station Teaching)는 학생들을 둘 이상의 그룹으로 나누어 각 스테이션을 순환하게 하는 방식으로, 두 교사가 서로 다른 내용을 각 스테이션에서 담당할 수 있으며 독립 수행 스테이션을 추가하는 것도 가능하다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "스테이션 교수는 학생들을 여러 그룹으로 나누어 각 스테이션을 순환하게 하는 협력교수 모델입니다. 두 교사가 각자의 스테이션에서 서로 다른 내용이나 활동을 담당할 수 있으며, 학생들이 교사 없이 독립적으로 과제를 수행하는 독립 스테이션을 추가할 수 있습니다. 이 모델은 소그룹 집중 교수가 가능하고 학생-교사 비율이 낮아진다는 장점이 있습니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q99",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "multiple",
+    "question": "다음 중 협력교수 성공을 위한 조건으로 연구에서 일관되게 강조되는 것을 모두 고른 것은?\n㉠ 정기적인 공동 계획 시간 확보\n㉡ 두 교사의 전문성 상호 존중과 동등한 파트너십\n㉢ 한 교사의 일방적인 역할 주도\n㉣ 학교 행정의 지원(시간표 편성, 협의 시간 보장 등)",
+    "case_context": null,
+    "options": [
+      "㉠, ㉡",
+      "㉠, ㉡, ㉣",
+      "㉡, ㉢",
+      "㉢, ㉣"
+    ],
+    "answer": "1",
+    "explanation": "협력교수 성공 조건으로 연구들이 일관되게 제시하는 것은 ㉠ 정기적인 공동 계획 시간 확보, ㉡ 두 교사 간 전문성 상호 존중과 동등한 파트너십, ㉣ 학교 행정 차원의 지원(시간표 편성, 협의 시간 보장, 행정적 지지)입니다. ㉢ 한 교사의 일방적인 역할 주도는 협력교수의 원칙에 어긋나며 오히려 실패 요인으로 지적됩니다.",
+    "wrong_explanations": {
+      "0": "㉠과 ㉡만 포함하면 중요한 조건인 ㉣(행정 지원)이 빠집니다.",
+      "2": "㉢ 일방적 역할 주도는 협력교수 성공 조건이 아니라 실패 원인입니다.",
+      "3": "㉢이 포함된 선지는 잘못된 내용을 포함하므로 옳지 않습니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q100",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "fill_in",
+    "question": "CAST가 개발한 보편적 학습설계(UDL)의 3원칙을 영역명과 해당 학습자 질문(WHY/WHAT/HOW)으로 완성하시오. '다양한 ( ㉠ ) 수단 제공(WHY)', '다양한 ( ㉡ ) 수단 제공(WHAT)', '다양한 행동·( ㉢ ) 수단 제공(HOW)'",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠ 참여(Engagement) / ㉡ 표상(Representation) / ㉢ 표현(Expression)",
+    "explanation": "CAST의 UDL 가이드라인 2.2 기준 3원칙은 다음과 같습니다. ① 다양한 참여(Engagement) 수단 제공 — 학습 동기와 흥미를 이끄는 '왜 배우는가(WHY)'. ② 다양한 표상(Representation) 수단 제공 — 정보와 콘텐츠 제시 방식 다양화 '무엇을 배우는가(WHAT)'. ③ 다양한 행동·표현(Action & Expression) 수단 제공 — 학습자가 아는 것을 나타내는 방식 '어떻게 표현하는가(HOW)'. 임용시험에서 영역명과 WHY/WHAT/HOW 대응 관계가 자주 출제됩니다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q101",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "multiple",
+    "question": "보편적 학습설계(UDL)와 사후 수정(retrofit) 방식을 비교한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "사후 수정 방식은 교육과정 설계 단계에서 모든 학습자의 다양한 요구를 고려하므로 UDL보다 더 포괄적이다.",
+      "UDL은 교육과정을 설계 단계부터 모든 학습자를 위해 유연하게 만들어 이후 개별적 수정의 필요성을 최소화한다.",
+      "UDL은 장애학생만을 위한 설계 원칙이므로 비장애학생의 학습에는 영향을 주지 않는다.",
+      "사후 수정은 처음부터 모든 학습자를 고려하므로 시간·비용 효율성이 UDL보다 높다."
+    ],
+    "answer": "1",
+    "explanation": "UDL은 '처음부터 모두를 위해 설계(design for all from the start)'하는 접근으로, 교육과정·교수법·평가를 설계 단계에서 유연하게 만들어 사후 개별 수정(retrofit)의 필요를 줄입니다. 건축의 유니버설 디자인처럼 경사로를 처음부터 설계하면 나중에 추가 공사가 필요 없는 것과 같습니다. 사후 수정은 장애학생이 학습 장벽에 부딪힌 후 개별적으로 수정하는 반응적 접근이므로 UDL보다 포괄적이거나 효율적이지 않습니다.",
+    "wrong_explanations": {
+      "0": "사후 수정은 설계 단계가 아닌 문제가 발생한 후 개별적으로 수정하는 반응적 방식입니다. UDL이 더 포괄적이고 사전적입니다.",
+      "2": "UDL은 장애학생뿐만 아니라 다양한 학습 스타일, 언어 배경, 경험을 가진 모든 학습자를 위한 설계 원칙입니다.",
+      "3": "사후 수정은 문제가 발생할 때마다 개별 대응이 필요하므로 장기적으로 시간·비용이 더 소요됩니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q102",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "multiple",
+    "question": "다음 수업 장면에서 교사가 적용한 UDL 원칙과 해당 구체적 지침으로 가장 적절하게 짝지어진 것은?",
+    "case_context": "통합학급 교사 C는 사회 단원 수업에서 같은 학습 목표에 대해 세 가지 방식을 학생들이 선택하게 하였다. ① 글로 요약문 작성하기, ② 마인드맵으로 시각화하기, ③ 구술로 친구에게 설명하기. 교사는 '아는 것을 어떤 방식으로든 표현해도 된다'고 안내하였다.",
+    "options": [
+      "다양한 표상 수단 제공 — 정보 인식 방법의 다양화",
+      "다양한 행동·표현 수단 제공 — 신체적 행동과 표현 방법 선택권 부여",
+      "다양한 참여 수단 제공 — 학습 동기와 흥미 유발",
+      "다양한 표상 수단 제공 — 배경 지식 활성화"
+    ],
+    "answer": "1",
+    "explanation": "학생이 아는 것을 어떻게 표현하는지(HOW)에 선택권을 주는 것은 UDL의 '다양한 행동·표현(Action & Expression) 수단 제공' 원칙에 해당합니다. 글쓰기·마인드맵·구술 중 선택하게 하는 것은 학습자가 자신의 지식·기술·아이디어를 표현하는 방법을 다양화하는 구체적인 적용 사례입니다. 표상(Representation)은 정보를 학습자에게 어떻게 제시하는지(WHAT)에 관한 것으로 구별해야 합니다.",
+    "wrong_explanations": {
+      "0": "표상 수단은 정보를 학습자에게 제시하는 방식을 다양화하는 것(WHAT)으로, 학습자가 결과물을 표현하는 방법 선택과는 다릅니다.",
+      "2": "참여 수단은 학습 동기·흥미·자기조절을 지원하는 것(WHY)으로, 표현 방법 선택과는 구별됩니다.",
+      "3": "배경 지식 활성화는 표상 수단 내의 지침이며, 이 사례의 핵심 원칙이 아닙니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q103",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "multiple",
+    "question": "UDL의 목표로 제시하는 '전문가적 학습자(expert learner)'의 특성을 모두 고른 것은?\n㉠ 자신의 학습 과정을 인식하고 조절할 수 있는 자기조절적 학습자\n㉡ 교사가 제시한 단일한 방법만을 사용하여 학습하는 순응적 학습자\n㉢ 학습 목표를 인식하고 목표 달성을 위한 전략을 스스로 선택하는 목표지향적 학습자\n㉣ 다양한 자원과 도구를 전략적으로 활용하는 자원 활용적 학습자",
+    "case_context": null,
+    "options": [
+      "㉠, ㉡",
+      "㉡, ㉢",
+      "㉠, ㉢, ㉣",
+      "㉠, ㉡, ㉢, ㉣"
+    ],
+    "answer": "2",
+    "explanation": "CAST가 UDL의 목표로 제시하는 '전문가적 학습자(expert learner)'는 ① 목표지향적(purposeful and motivated — WHY와 연결), ② 자원 활용적(resourceful and knowledgeable — WHAT와 연결), ③ 전략적이고 목표지향적(strategic and goal-directed — HOW와 연결)인 학습자입니다. 자기조절적(㉠), 목표지향적(㉢), 자원 활용적(㉣)은 모두 전문가적 학습자의 특성이지만, ㉡ 교사의 단일한 방법만 사용하는 순응적 학습자는 UDL이 지양하는 수동적 학습자 모습입니다.",
+    "wrong_explanations": {
+      "0": "㉡ 순응적 학습자는 전문가적 학습자의 특성이 아닙니다.",
+      "1": "㉡ 순응적 학습자가 포함되어 있어 옳지 않습니다.",
+      "3": "㉡ 순응적 학습자가 포함되어 있어 옳지 않습니다."
+    },
+    "difficulty": 3,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q104",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "ox",
+    "question": "UDL의 '다양한 표상(Representation) 수단 제공' 원칙은 텍스트뿐만 아니라 오디오, 영상, 그래픽 등 다양한 형식으로 정보를 제시하며, 이는 시각장애, 청각장애, 읽기 장애 학생뿐만 아니라 영어가 모국어가 아닌 학생에게도 학습 접근성을 높일 수 있다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "UDL의 표상(Representation) 원칙은 정보를 단일 형태로만 제시하는 것의 한계를 극복하기 위한 것입니다. 텍스트·오디오·영상·그래픽·촉각 자료 등 다양한 형식 제공은 시각장애·청각장애·읽기장애 학생은 물론, 다양한 언어 배경(ELL)을 가진 학생, 다양한 학습 스타일을 가진 모든 학생의 접근성을 높입니다. 이것이 UDL이 특정 장애만을 위한 접근이 아닌 '모두를 위한 설계'인 이유입니다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q105",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "multiple",
+    "question": "다음 교사의 수업 계획에서 UDL 3원칙이 각각 반영된 요소를 바르게 짝지은 것은?",
+    "case_context": "통합학급 교사 D는 '광합성' 단원을 다음과 같이 계획하였다.\n[A] 교과서 텍스트 외에 광합성 과정 애니메이션과 실험 영상을 함께 제공한다.\n[B] 학습 결과물로 보고서 작성, 포스터 제작, 발표 중 선택하게 한다.\n[C] 단원 시작 전 '식물이 음식을 어떻게 만들까?'라는 흥미 유발 질문과 함께 학생들이 스스로 학습 목표를 설정하도록 한다.",
+    "options": [
+      "[A]-참여 / [B]-표상 / [C]-행동·표현",
+      "[A]-표상 / [B]-행동·표현 / [C]-참여",
+      "[A]-행동·표현 / [B]-참여 / [C]-표상",
+      "[A]-표상 / [B]-참여 / [C]-행동·표현"
+    ],
+    "answer": "1",
+    "explanation": "[A] 텍스트·애니메이션·영상 등 다양한 형식으로 정보를 제시하는 것은 '다양한 표상(Representation) 수단 제공(WHAT)'입니다. [B] 보고서·포스터·발표 중 표현 방법을 선택하게 하는 것은 '다양한 행동·표현(Action & Expression) 수단 제공(HOW)'입니다. [C] 흥미 유발 질문과 자기 목표 설정은 학습 동기와 자기조절을 지원하는 '다양한 참여(Engagement) 수단 제공(WHY)'입니다.",
+    "wrong_explanations": {
+      "0": "[A]는 표상 원칙에 해당하므로 참여로 분류한 것은 틀렸습니다.",
+      "2": "[A]는 행동·표현이 아니라 표상 원칙에 해당합니다.",
+      "3": "[B]는 행동·표현 원칙에 해당하므로 참여로 분류한 것은 틀렸습니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q106",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "ox",
+    "question": "UDL은 교육과정의 '목표(goals)'는 모든 학습자에게 동일하게 적용하되, 그 목표에 도달하는 '방법(means)'을 유연하게 설계하는 것을 핵심으로 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "UDL의 핵심 원리는 '목표와 방법의 분리'입니다. 학습 목표 자체는 모든 학습자에게 동일하게 설정하지만, 그 목표에 접근하고 참여하며 표현하는 방법(수단)을 유연하게 다양화합니다. 이는 목표를 낮추거나 내용을 단순화하는 것과 구별됩니다. 예를 들어 '광합성 과정 이해'라는 목표는 같지만 글·그림·구술 중 선택하는 방식으로 유연성을 제공합니다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  },
+  {
+    "id": "inc-q107",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "multiple",
+    "question": "다음 상황에서 특수교사가 제안한 UDL 적용 방안 중 '다양한 참여(Engagement) 수단 제공' 원칙에 해당하는 것으로만 묶인 것은?",
+    "case_context": "통합학급 특수교사 E는 수학 분수 단원의 UDL 기반 수업 설계를 위해 다음 방안들을 제안하였다.\n㉠ 분수 개념을 피자 나누기, 리본 자르기 등 실생활 맥락으로 제시한다.\n㉡ 학생들이 소집단·개인·또래 튜터링 중 학습 형태를 선택할 수 있게 한다.\n㉢ 계산 과정을 보여주는 그래픽 조직자와 단계별 힌트 카드를 제공한다.\n㉣ 학생들이 스스로 오늘의 학습 목표를 점검하고 자기평가하는 루틴을 만든다.",
+    "options": [
+      "㉠, ㉢",
+      "㉡, ㉣",
+      "㉠, ㉡",
+      "㉢, ㉣"
+    ],
+    "answer": "1",
+    "explanation": "다양한 참여(Engagement) 수단 제공은 학습 동기, 흥미 지속, 자기조절을 지원합니다(WHY). ㉡ 학습 형태 선택권 부여는 자율성과 동기를 높이는 참여 원칙의 적용이며, ㉣ 자기평가 루틴은 자기조절(self-regulation) 지원으로 참여 원칙에 해당합니다. 반면 ㉠ 실생활 맥락 제시는 표상(Representation, WHAT) 원칙의 배경 지식 활성화이며, ㉢ 그래픽 조직자·힌트 카드는 행동·표현(Action & Expression, HOW)의 실행 기능 지원에 해당합니다.",
+    "wrong_explanations": {
+      "0": "㉠은 표상 원칙, ㉢은 행동·표현 원칙에 해당합니다.",
+      "2": "㉠은 참여가 아닌 표상 원칙에 해당합니다.",
+      "3": "㉢은 행동·표현 원칙, ㉣은 참여 원칙에 해당하므로 짝이 맞지 않습니다."
+    },
+    "difficulty": 3,
+    "source": "KICE 유형",
+    "tags": {"disability": "inclusive", "year": 2026}
+  }
+]

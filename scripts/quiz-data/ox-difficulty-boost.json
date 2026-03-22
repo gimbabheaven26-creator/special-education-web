@@ -1,0 +1,502 @@
+[
+  {
+    "id": "assess-cbm-ox-d3-01",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "ox",
+    "question": "교육과정중심측정(CBM)은 표준화 검사와 달리 신뢰도와 타당도가 검증되지 않은 비공식 평가도구이다.",
+    "answer": "X",
+    "explanation": "CBM은 비공식적 평가로 분류되지만, 수십 년간의 연구를 통해 높은 신뢰도(검사-재검사, 대안형 신뢰도)와 타당도(준거 타당도, 구인 타당도)가 광범위하게 검증되었습니다. '비공식적'이라는 분류가 '비과학적'을 의미하지 않습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "assess-fba-ox-d3-01",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "ox",
+    "question": "기능적 행동평가(FBA)에서 설정사건(setting event)은 직접적으로 문제행동을 유발하는 선행사건(antecedent)과 동일한 개념이다.",
+    "answer": "X",
+    "explanation": "설정사건과 선행사건은 구분됩니다. 선행사건(antecedent)은 행동 직전에 발생하여 행동을 직접 촉발하는 자극(예: 교사의 지시)이고, 설정사건(setting event)은 시간적으로 떨어져 있으면서 선행사건-행동 관계에 영향을 미치는 맥락적 요인(예: 수면 부족, 약물 변경)입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "assess-standardized-tests-ox-d3-01",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "ox",
+    "question": "규준참조검사에서 백분위 점수 50은 해당 학생이 전체 문항의 50%를 정답으로 맞혔다는 것을 의미한다.",
+    "answer": "X",
+    "explanation": "백분위 50은 '같은 규준 집단 중 50%의 학생보다 높은 점수를 받았다'는 상대적 위치를 나타냅니다. 전체 문항 중 정답 비율을 나타내는 것은 준거참조검사의 정답률(%)입니다. 백분위와 정답률은 전혀 다른 개념입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "assess-cbm-ox-d2-01",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "ox",
+    "question": "CBM에서 수학 계산 유창성을 측정할 때, 정답으로 인정되는 단위는 문제 수가 아니라 올바른 숫자(correct digits)이다.",
+    "answer": "O",
+    "explanation": "CBM-수학에서는 정확하게 쓴 숫자(correct digits)를 세는 방식을 사용합니다. 예를 들어 23+45=68에서 6과 8 모두 맞으면 2개의 correct digits로 산정합니다. 이 방식은 부분 점수를 반영하여 학생의 수학적 사고 과정을 더 정밀하게 측정할 수 있습니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "assess-fba-ox-d2-01",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "ox",
+    "question": "FBA의 직접관찰 방법 중 ABC 기록(Antecedent-Behavior-Consequence recording)은 문제행동의 기능을 가설적으로 파악하기 위해 선행사건, 행동, 결과를 체계적으로 기록하는 방법이다.",
+    "answer": "O",
+    "explanation": "ABC 기록은 FBA의 기술적 분석(descriptive analysis) 방법으로, 자연적 환경에서 행동이 발생하는 맥락(선행사건), 구체적 행동, 행동 후 결과를 실시간으로 기록합니다. 이를 통해 행동의 기능(관심 획득, 과제 회피 등)에 대한 가설을 수립합니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "bs-aba-ox-d3-01",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "ox",
+    "question": "차별강화 절차 중 DRO(Differential Reinforcement of Other behavior)는 목표행동 이외의 '바람직한 대체행동'을 강화하는 절차이다.",
+    "answer": "X",
+    "explanation": "DRO는 '목표 문제행동이 일정 시간 동안 나타나지 않을 때' 강화를 제공하는 절차입니다. 특정 대체행동을 지정하여 강화하는 것은 DRA(Differential Reinforcement of Alternative behavior)입니다. DRO에서 'Other'는 '다른 바람직한 행동'이 아니라 '목표행동 이외의 모든 행동(또는 행동의 부재)'을 의미합니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "bs-intervention-ox-d3-01",
+    "subject": "behavior-support",
+    "chapter": "intervention",
+    "type": "ox",
+    "question": "타임아웃(time-out)은 정적 벌(positive punishment)의 한 유형으로, 혐오 자극을 제시하여 행동을 감소시키는 절차이다.",
+    "answer": "X",
+    "explanation": "타임아웃은 부적 벌(negative punishment)에 해당합니다. 강화가 제공되는 환경(time-in)에서 일시적으로 분리하여 강화 접근 기회를 제거(removal)하는 절차입니다. 혐오 자극을 제시(addition)하는 정적 벌과는 원리가 다릅니다. 타임아웃의 효과는 time-in 환경의 강화 가치에 달려있습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "bs-pbs-ox-d3-01",
+    "subject": "behavior-support",
+    "chapter": "pbs",
+    "type": "ox",
+    "question": "학교 차원의 긍정적 행동지원(SWPBS)에서 1차 지원(Tier 1)은 문제행동을 보이는 학생만을 대상으로 한 개별화된 중재이다.",
+    "answer": "X",
+    "explanation": "SWPBS의 1차 지원(Tier 1)은 모든 학생을 대상으로 하는 보편적(universal) 예방 수준입니다. 학교 전체의 행동 기대를 설정하고 가르치며 강화하는 것입니다. 문제행동 학생 대상 개별화 중재는 3차 지원(Tier 3)에 해당합니다. 2차 지원(Tier 2)은 위험군 학생을 위한 소집단 중재입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "bs-aba-ox-d2-01",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "ox",
+    "question": "행동 연쇄(chaining)에서 역행 연쇄(backward chaining)는 과제의 마지막 단계부터 가르치기 시작하여 점차 앞 단계로 확장하는 방법이다.",
+    "answer": "O",
+    "explanation": "역행 연쇄에서는 교사가 마지막 단계를 제외한 모든 단계를 수행해 준 뒤, 학생이 마지막 단계만 독립적으로 수행합니다. 이후 끝에서 두 번째 단계를 추가하는 식으로 앞으로 확장합니다. 매번 과제를 완성하는 경험이 자연적 강화로 작용하는 장점이 있습니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "bs-aba-ox-d2-02",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "ox",
+    "question": "간헐적 강화(intermittent reinforcement)는 연속 강화(continuous reinforcement)보다 행동의 소거 저항이 더 높다.",
+    "answer": "O",
+    "explanation": "이를 '부분강화효과(partial reinforcement effect)'라 합니다. 간헐적으로 강화를 받은 행동은 소거 절차 적용 시에도 더 오래 지속됩니다. 새로운 행동을 형성할 때는 연속 강화가, 형성된 행동을 유지할 때는 간헐적 강화가 효과적입니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "comm-emt-ox-d3-01",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "ox",
+    "question": "환경중심 언어중재(EMT)의 하위 유형인 모델링(modeling)에서 교사는 아동의 발화를 확장하거나 수정하여 반복해 준다.",
+    "answer": "X",
+    "explanation": "모델링은 아동의 현재 발화와 무관하게 교사가 목표 언어 형태를 시범 보여주는 기법입니다. 아동의 발화를 문법적으로 확장하는 것은 '확장(expansion)', 의미적으로 확대하는 것은 '확대(extension)'입니다. EMT의 4가지 기법(모델링, 만드-모델, 시간지연, 우발교수)을 혼동하지 않아야 합니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "comm-articulation-ox-d3-01",
+    "subject": "communication-disorder",
+    "chapter": "articulation",
+    "type": "ox",
+    "question": "조음장애에서 치환(substitution)은 목표 음소를 생략하는 오류 유형이다.",
+    "answer": "X",
+    "explanation": "조음 오류의 4가지 유형을 구분해야 합니다. 치환(substitution)은 목표 음소를 다른 음소로 대체하는 것(예: '사과'→'타과'), 생략(omission)은 음소를 빠뜨리는 것(예: '사과'→'아과'), 왜곡(distortion)은 정확하지 않은 음가로 산출하는 것, 첨가(addition)는 불필요한 음소를 추가하는 것입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "comm-aac-ox-d3-01",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "보완대체의사소통(AAC)에서 상징(symbol)의 투명도(transparency)가 높을수록 학습이 어렵고, 불투명(opaque)한 상징일수록 직관적으로 이해하기 쉽다.",
+    "answer": "X",
+    "explanation": "정반대입니다. 투명도(transparency)가 높은 상징은 실제 사물과 유사하여 의미를 직관적으로 파악할 수 있습니다(예: 사진, 사실적 그림). 불투명(opaque)한 상징은 실제 지시대상과 시각적 유사성이 없어 별도의 학습이 필요합니다(예: 블리스심볼, 글자). 반투명(translucent)은 그 중간입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "comm-fluency-ox-d2-01",
+    "subject": "communication-disorder",
+    "chapter": "fluency",
+    "type": "ox",
+    "question": "말더듬(stuttering)의 핵심행동(core behavior)에는 반복(repetition), 연장(prolongation), 막힘(block)이 포함된다.",
+    "answer": "O",
+    "explanation": "말더듬의 핵심행동은 반복(음소/음절/단어의 반복), 연장(소리를 길게 늘이는 것), 막힘(소리가 나오지 않는 것)의 세 가지입니다. 이와 구별되는 부수행동(secondary behavior)에는 회피행동(상황/단어 회피), 탈출행동(눈 깜빡임, 머리 돌리기 등)이 있습니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "comm-aac-ox-d2-01",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "AAC의 비도구적(unaided) 체계에는 수어, 몸짓, 표정 등 외부 도구 없이 사용하는 의사소통 방법이 포함된다.",
+    "answer": "O",
+    "explanation": "AAC는 도구적(aided)과 비도구적(unaided)으로 구분됩니다. 비도구적 체계는 사용자의 신체만을 이용하는 것으로 수어, 몸짓(gesture), 표정, 발성 등이 포함됩니다. 도구적 체계는 외부 보조 도구를 사용하는 것으로 의사소통판, 음성출력기기(SGD), AAC 앱 등이 포함됩니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "curr-basic-curriculum-ox-d3-01",
+    "subject": "curriculum",
+    "chapter": "basic-curriculum",
+    "type": "ox",
+    "question": "2022 개정 특수교육 교육과정에서 기본 교육과정은 공통 교육과정과 동일한 교과를 동일한 성취기준으로 적용하되, 교수·학습 방법만 달리한다.",
+    "answer": "X",
+    "explanation": "기본 교육과정은 공통 교육과정과 별도의 교과 체계와 성취기준을 갖습니다. 기본 교육과정은 지적장애 등 학생을 위해 교과 내용과 수준을 재구성한 것으로, '동일 성취기준에 교수법만 변경'하는 것이 아닙니다. 동일 교육과정의 성취기준을 수정하는 것은 '교육과정 수정(modification)'에 해당합니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "curr-iep-ox-d3-01",
+    "subject": "curriculum",
+    "chapter": "iep",
+    "type": "ox",
+    "question": "개별화교육계획(IEP) 작성 시 현재 학습 수행 수준(PLOP)은 교사의 주관적 판단만으로 기술할 수 있으며, 별도의 평가 자료는 필수가 아니다.",
+    "answer": "X",
+    "explanation": "현행 수행 수준(PLOP: Present Levels of Performance)은 공식·비공식 평가 자료, 관찰 기록, 포트폴리오, CBM 데이터 등 객관적 근거를 기반으로 기술해야 합니다. 주관적 판단만으로는 측정 가능한 연간 목표 설정의 기초 자료로 적절하지 않습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "curr-general-curriculum-ox-d3-01",
+    "subject": "curriculum",
+    "chapter": "general-curriculum",
+    "type": "ox",
+    "question": "교육과정 수정(curriculum modification)과 교수적 수정(instructional accommodation)은 동일한 개념으로, 교육 내용의 양과 난이도를 변경하는 것을 의미한다.",
+    "answer": "X",
+    "explanation": "두 개념은 구분됩니다. 교육과정 수정(modification)은 교육 내용·성취기준 자체를 변경하는 것(예: 학습 목표 수준 하향, 내용 축소)이고, 교수적 수정(accommodation)은 내용은 동일하게 유지하되 접근 방법을 변경하는 것(예: 시험 시간 연장, 대체 과제 형식, 보조공학 사용)입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "curr-iep-ox-d2-01",
+    "subject": "curriculum",
+    "chapter": "iep",
+    "type": "ox",
+    "question": "IEP의 전환교육 계획은 중학교 과정 이상의 특수교육대상자부터 포함해야 한다.",
+    "answer": "O",
+    "explanation": "「장애인 등에 대한 특수교육법」 제22조에 따르면, 중학교 과정 이상의 각급학교에 배치된 특수교육대상자의 IEP에는 전환교육 내용이 포함되어야 합니다. 전환교육 계획에는 학업, 사회적응훈련, 직업교육, 자립생활훈련 등에 관한 내용이 포함됩니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "curr-general-curriculum-ox-d2-01",
+    "subject": "curriculum",
+    "chapter": "general-curriculum",
+    "type": "ox",
+    "question": "보편적 학습설계(UDL)의 3가지 원리는 다양한 표상 수단 제공, 다양한 행동과 표현 수단 제공, 다양한 참여 수단 제공이다.",
+    "answer": "O",
+    "explanation": "UDL(Universal Design for Learning)은 CAST(Center for Applied Special Technology)가 개발한 교육과정 설계 원리입니다. (1) 다양한 표상 수단(recognition networks: '무엇'을 학습), (2) 다양한 행동·표현 수단(strategic networks: '어떻게' 학습 표현), (3) 다양한 참여 수단(affective networks: '왜' 학습에 참여)의 세 원리로 구성됩니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "hear-audiogram-ox-d3-01",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "ox",
+    "question": "순음청력검사에서 기도-골도 차이(air-bone gap)가 나타나면 감각신경성 난청을 의미한다.",
+    "answer": "X",
+    "explanation": "기도-골도 차이(ABG)가 나타나면 전음성 난청 또는 혼합성 난청을 의미합니다. 전음성 난청은 외이·중이의 문제로 기도 역치가 골도 역치보다 나빠지는 것입니다. 감각신경성 난청은 내이·청신경의 문제로 기도와 골도 역치가 모두 나빠지며 두 값의 차이가 없습니다(ABG ≈ 0).",
+    "difficulty": 3
+  },
+  {
+    "id": "hear-cochlear-implant-ox-d3-01",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "ox",
+    "question": "인공와우 이식은 보청기로 충분한 이득을 얻지 못하는 중도(moderate, 41-55dB) 이상 난청 아동에게 적용된다.",
+    "answer": "X",
+    "explanation": "인공와우 이식의 적응증은 일반적으로 양측 고도(severe, 71-90dB) 이상 또는 심도(profound, 91dB 이상) 감각신경성 난청입니다. 중도(moderate) 난청은 보청기로 충분한 이득을 얻을 수 있어 인공와우 적응증에 해당하지 않습니다. 다만, 최근에는 고주파수 급추형 난청 등 일부 고도 이하 난청에서도 적용 범위가 확대되는 추세입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "hear-sign-language-ox-d3-01",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "ox",
+    "question": "수어(sign language)는 음성언어를 시각적으로 부호화한 체계이므로, 음성언어와 동일한 문법 구조를 따른다.",
+    "answer": "X",
+    "explanation": "자연수어(한국수어, ASL 등)는 독자적인 문법 체계를 가진 독립적 언어입니다. 음성언어의 어순이나 문법을 그대로 따르는 것은 '수지 한국어(signed Korean)'나 '수지 영어(signed English)' 등 인공 수어 체계입니다. 한국수어는 2016년 「한국수어법」에 의해 대한민국의 공용어로 인정받았습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "hear-classroom-ox-d2-01",
+    "subject": "hearing-impairment",
+    "chapter": "classroom",
+    "type": "ox",
+    "question": "FM 보청기 시스템은 교사가 착용한 마이크의 음성을 무선으로 학생의 수신기에 전달하여 소음 환경에서의 어음 인지를 개선한다.",
+    "answer": "O",
+    "explanation": "FM(Frequency Modulation) 시스템은 교사의 음성을 FM 전파로 직접 전달하여 교실 소음과 반향의 영향을 줄여줍니다. 화자와 청자 사이의 물리적 거리에 관계없이 일정한 신호 대 잡음비(SNR)를 유지할 수 있어 통합교육 환경에서 효과적입니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "hear-audiogram-ox-d2-01",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "ox",
+    "question": "청력검사에서 dB HL(Hearing Level) 기준으로 26~40dB의 청력손실은 경도(mild) 난청으로 분류된다.",
+    "answer": "O",
+    "explanation": "WHO 기준 청력손실 분류: 정상(25dB 이하), 경도(26~40dB), 중도(41~55dB), 중고도(56~70dB), 고도(71~90dB), 심도(91dB 이상). 경도 난청에서는 작은 소리나 속삭임을 듣기 어렵고, 소음 환경에서 어음 변별에 어려움이 있습니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "incl-co-teaching-ox-d3-01",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "ox",
+    "question": "협력교수(co-teaching)의 유형 중 '교수-관찰(one teach, one observe)'에서 관찰하는 교사는 반드시 특수교육교사여야 한다.",
+    "answer": "X",
+    "explanation": "협력교수에서 교수와 관찰의 역할은 고정되어 있지 않습니다. 일반교사가 교수하고 특수교사가 관찰할 수도 있고, 그 반대도 가능합니다. 효과적인 협력교수를 위해서는 두 교사가 역할을 주기적으로 교대하며, 관찰 데이터를 공유하여 공동으로 교수 전략을 수정해야 합니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "incl-theory-ox-d3-01",
+    "subject": "inclusive-education",
+    "chapter": "theory",
+    "type": "ox",
+    "question": "완전통합(full inclusion)은 특수교육대상 학생이 모든 교육 시간을 일반학급에서 보내는 것을 의미하므로, 별도의 특수교육 서비스는 제공되지 않는다.",
+    "answer": "X",
+    "explanation": "완전통합은 장소의 통합뿐 아니라 적절한 지원과 서비스의 제공을 전제합니다. 일반학급 내에서 특수교육 관련 서비스(보조인력, 보조공학, 교수적 수정 등)가 함께 제공되어야 합니다. 지원 없는 물리적 통합만으로는 진정한 통합교육이라 할 수 없습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "incl-co-teaching-ox-d2-01",
+    "subject": "inclusive-education",
+    "chapter": "co-teaching",
+    "type": "ox",
+    "question": "협력교수 유형 중 '스테이션 교수(station teaching)'는 학생들이 여러 학습 스테이션을 순환하며, 각 스테이션에서 다른 내용이나 활동을 수행하는 방식이다.",
+    "answer": "O",
+    "explanation": "스테이션 교수에서 교실은 여러 학습 스테이션으로 나뉘며, 학생 그룹이 시간에 따라 스테이션을 순환합니다. 일반교사와 특수교사가 각각 다른 스테이션을 담당하고, 독립학습 스테이션도 설치할 수 있습니다. 학생들의 다양한 수준에 맞는 차별화 교수가 가능합니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "incl-udl-ox-d2-01",
+    "subject": "inclusive-education",
+    "chapter": "udl",
+    "type": "ox",
+    "question": "통합교육의 법적 근거인 '최소제한환경(LRE)' 원칙은 장애학생을 비장애학생과 가능한 한 함께 교육해야 한다는 것을 의미한다.",
+    "answer": "O",
+    "explanation": "최소제한환경(Least Restrictive Environment)은 장애학생을 비장애학생과 함께 교육하되, 보충적 지원과 서비스를 제공하여도 일반학급에서의 교육이 만족스럽지 못한 경우에만 분리된 환경을 고려해야 한다는 원칙입니다. 한국 특수교육법에서도 통합교육의 원칙으로 이를 반영하고 있습니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "intro-disability-types-ox-d3-01",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "DSM-5에서 지적장애(intellectual disability)의 심각도 수준(경도/중등도/고도/최고도)은 지능지수(IQ) 점수에 의해 결정된다.",
+    "answer": "X",
+    "explanation": "DSM-5는 이전 판(DSM-IV-TR)과 달리, 지적장애의 심각도를 IQ 점수가 아닌 적응기능(adaptive functioning)의 세 영역 — 개념적(학업), 사회적(대인관계), 실제적(일상생활 기술) — 에서의 기능 수준에 의해 결정합니다. IQ 점수는 진단 기준 중 하나이지만 심각도 분류의 기준은 아닙니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "intro-understanding-ox-d3-01",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "「장애인 등에 대한 특수교육법」에서 규정하는 특수교육대상자의 장애 유형은 「장애인복지법」의 장애 유형 분류와 동일하다.",
+    "answer": "X",
+    "explanation": "두 법의 장애 분류 체계는 다릅니다. 특수교육법은 교육적 관점에서 시각장애, 청각장애, 지적장애, 지체장애, 정서·행동장애, 자폐성장애, 의사소통장애, 학습장애, 건강장애, 발달지체 등 10개 유형을 규정합니다. 장애인복지법은 신체적·정신적 장애를 15개 유형으로 분류합니다. 예를 들어 '학습장애'는 특수교육법에만, '신장장애'는 장애인복지법에만 있습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "intro-disability-types-ox-d2-01",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "자폐성장애(autism spectrum disorder)는 사회적 의사소통의 결함과 제한적이고 반복적인 행동·관심·활동의 두 가지 핵심 영역에서 특성을 보인다.",
+    "answer": "O",
+    "explanation": "DSM-5에서 자폐스펙트럼장애(ASD)의 진단기준은 두 가지 핵심 영역으로 구성됩니다: (1) 사회적 의사소통 및 사회적 상호작용의 지속적인 결함, (2) 제한적이고 반복적인 행동, 관심, 활동 패턴. DSM-IV-TR의 세 영역(사회적 상호작용, 의사소통, 제한적·반복적 행동)에서 앞의 두 영역이 통합되었습니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "intro-history-ox-d2-01",
+    "subject": "introduction",
+    "chapter": "history",
+    "type": "ox",
+    "question": "발달지체(developmental delay)는 만 9세 미만의 아동에게만 적용되는 진단 범주로, 이후에는 구체적인 장애 유형으로 재진단해야 한다.",
+    "answer": "O",
+    "explanation": "「장애인 등에 대한 특수교육법」에서 발달지체는 만 9세 미만의 아동에게 적용됩니다. 인지, 의사소통, 사회·정서, 적응행동 중 하나 이상의 영역에서 또래에 비해 현저한 지체를 보이는 경우 해당됩니다. 이 범주는 어린 아동의 장애를 조기에 특정 유형으로 단정하지 않고 포괄적으로 지원하기 위한 것입니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "laws-special-education-act-ox-d3-01",
+    "subject": "laws",
+    "chapter": "special-education-act",
+    "type": "ox",
+    "question": "「장애인 등에 대한 특수교육법」에 따르면, 특수교육대상자의 학교 배치는 시·도교육감이 직접 최종 결정한다.",
+    "answer": "X",
+    "explanation": "특수교육대상자의 배치는 교육장(교육지원청)이 특수교육운영위원회의 심사를 거쳐 결정합니다(법 제17조). 시·도교육감은 특수학교 설립이나 특수교육 정책 수립 등의 역할을 담당하며, 개별 학생의 배치 결정 주체는 교육장입니다. 다만, 교육장이 없는 지역에서는 교육감이 배치 결정을 할 수 있습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "laws-special-education-act-ox-d3-02",
+    "subject": "laws",
+    "chapter": "special-education-act",
+    "type": "ox",
+    "question": "「장애인 등에 대한 특수교육법」에서 특수교육 관련서비스에는 상담지원, 가족지원, 치료지원, 보조인력지원, 보조공학기기지원, 통학지원, 정보접근지원이 포함되며, 방과후 과정은 관련서비스에 해당하지 않는다.",
+    "answer": "X",
+    "explanation": "특수교육법 제2조 및 제28조에 따르면, 특수교육 관련서비스에는 상담지원, 가족지원, 치료지원, 보조인력지원, 보조공학기기지원, 통학지원, 정보접근지원과 함께 '방과후 과정'도 포함됩니다. 방과후 과정은 특수교육대상자의 교육 기회를 확대하고 보호자의 양육 부담을 경감하기 위한 것입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "laws-special-education-act-ox-d3-03",
+    "subject": "laws",
+    "chapter": "special-education-act",
+    "type": "ox",
+    "question": "「장애인차별금지법」에 따르면, 정당한 편의(reasonable accommodation)를 제공하지 않는 것은 간접차별에 해당한다.",
+    "answer": "X",
+    "explanation": "「장애인차별금지 및 권리구제 등에 관한 법률」 제4조에서 정당한 편의 미제공은 그 자체로 독립적인 차별 유형으로 규정됩니다. 간접차별은 외견상 중립적인 기준이나 정책이 특정 장애 유형에 불이익을 초래하는 것입니다. '정당한 편의 미제공'과 '간접차별'은 별개의 차별 유형입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "laws-special-education-act-ox-d2-01",
+    "subject": "laws",
+    "chapter": "special-education-act",
+    "type": "ox",
+    "question": "특수교육대상자의 보호자는 「장애인 등에 대한 특수교육법」에 따라 자녀의 학교 배치에 대한 이의신청을 할 수 있다.",
+    "answer": "O",
+    "explanation": "특수교육법 제36조에 따르면, 특수교육대상자 또는 그 보호자는 특수교육운영위원회의 심사 결과에 대하여 이의가 있을 때 심사 결과를 통보받은 날부터 90일 이내에 행정심판을 제기할 수 있습니다. 이는 보호자의 교육적 의사결정 참여권을 보장하기 위한 것입니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "laws-special-education-act-ox-d2-02",
+    "subject": "laws",
+    "chapter": "special-education-act",
+    "type": "ox",
+    "question": "「장애인 등에 대한 특수교육법」에 따르면, 각급학교의 장은 특수교육대상자가 배치된 경우 2주 이내에 개별화교육지원팀을 구성해야 한다.",
+    "answer": "O",
+    "explanation": "특수교육법 제22조에 따르면, 각급학교의 장은 특수교육대상자의 교육적 요구에 적합한 교육을 제공하기 위하여 매 학년의 시작일로부터 2주 이내에 개별화교육지원팀을 구성해야 합니다. 이 팀은 보호자, 특수교육교원, 일반교육교원, 진로 및 직업교육 담당 교원, 특수교육 관련서비스 담당인력으로 구성됩니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "phys-cp-types-ox-d3-01",
+    "subject": "physical-disability",
+    "chapter": "cp-types",
+    "type": "ox",
+    "question": "뇌성마비의 경직형(spastic type)은 기저핵(basal ganglia) 손상에 의해 발생하며, 근긴장도의 변동과 불수의 운동이 특징이다.",
+    "answer": "X",
+    "explanation": "경직형 뇌성마비는 대뇌피질 또는 피질하 백질(피라미드계)의 손상으로 발생하며, 근긴장도의 증가(과긴장)와 속도 의존적 근저항이 특징입니다. 기저핵(추체외로계) 손상은 불수의운동형(dyskinetic/athetoid type)을 유발하며, 근긴장도의 변동과 불수의적 움직임이 나타납니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "phys-gmfcs-ox-d3-01",
+    "subject": "physical-disability",
+    "chapter": "gmfcs",
+    "type": "ox",
+    "question": "GMFCS(Gross Motor Function Classification System) 수준 III는 보조도구 없이 실내외 보행이 가능한 수준이다.",
+    "answer": "X",
+    "explanation": "GMFCS 수준 III는 보조 이동 기구(워커, 목발, 지팡이 등)를 사용하여 실내 보행이 가능한 수준입니다. 보조도구 없이 보행이 가능한 것은 수준 I(제한 없음)과 수준 II(제한적이나 보조기구 없이 보행)입니다. 수준 IV는 자력 이동이 제한적이며, 수준 V는 모든 환경에서 타인의 도움이 필요합니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "phys-primitive-reflexes-ox-d2-01",
+    "subject": "physical-disability",
+    "chapter": "primitive-reflexes",
+    "type": "ox",
+    "question": "뇌성마비 아동의 원시반사 중 비대칭 긴장성 경반사(ATNR)는 머리를 한쪽으로 돌리면 얼굴 쪽 팔다리가 신전되고 후두 쪽 팔다리가 굴곡되는 자세를 보인다.",
+    "answer": "O",
+    "explanation": "ATNR(Asymmetric Tonic Neck Reflex)은 '펜싱 자세'라고도 불립니다. 머리를 회전시키면 얼굴이 향한 쪽(face side)의 팔다리가 신전되고, 후두쪽(skull side)의 팔다리가 굴곡됩니다. 정상 발달에서는 생후 4~6개월에 소실되지만, 뇌성마비에서는 지속되어 양손 사용, 중앙선 활동, 구강 운동을 방해합니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "phys-muscular-dystrophy-ox-d2-01",
+    "subject": "physical-disability",
+    "chapter": "muscular-dystrophy",
+    "type": "ox",
+    "question": "근이영양증(muscular dystrophy) 중 듀시엔형(Duchenne type)은 주로 남아에게 발생하며, 디스트로핀(dystrophin) 단백질의 결핍으로 인해 점진적으로 근력이 약화된다.",
+    "answer": "O",
+    "explanation": "듀시엔형 근이영양증(DMD)은 X염색체 열성 유전으로 주로 남아에게 발생합니다(발생률 약 1/3,500 남아). 디스트로핀 유전자 변이로 근세포막 안정에 필수적인 디스트로핀 단백질이 결핍되어 근육이 점진적으로 파괴됩니다. 보통 2~5세에 증상이 나타나며, 가워스 징후(Gowers' sign)가 특징적입니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "trans-self-determination-ox-d3-01",
+    "subject": "transition",
+    "chapter": "self-determination",
+    "type": "ox",
+    "question": "자기결정(self-determination)의 구성요소에서 자기옹호(self-advocacy)는 자신의 권리를 주장하는 것만을 의미하며, 자기인식(self-awareness)과는 별개의 개념이다.",
+    "answer": "X",
+    "explanation": "Wehmeyer 모델에서 자기옹호는 자기인식을 기반으로 합니다. 자기옹호는 단순히 권리를 주장하는 것이 아니라, 자신의 강점·약점·장애·필요를 이해(자기인식)하고, 이를 바탕으로 적절한 지원을 요청하고 자신을 대변하는 것입니다. 자기인식 없는 자기옹호는 효과적일 수 없습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "trans-cbi-ox-d3-01",
+    "subject": "transition",
+    "chapter": "cbi",
+    "type": "ox",
+    "question": "지역사회중심교수(CBI)에서 시뮬레이션 교수는 실제 지역사회 환경에서만 이루어져야 효과적이다.",
+    "answer": "X",
+    "explanation": "CBI의 시뮬레이션 교수는 교실 내에서 지역사회 환경을 모사하여 실시하는 것입니다. 실제 환경 교수 전에 교실에서 충분히 연습(시뮬레이션)한 후 지역사회로 나가 일반화하는 것이 효과적입니다. 시뮬레이션-지역사회 교수의 조합이 가장 효율적이라는 연구 결과가 있습니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "trans-planning-ox-d2-01",
+    "subject": "transition",
+    "chapter": "planning",
+    "type": "ox",
+    "question": "전환교육 계획에서 '결과 지향적 과정(results-oriented process)'이란 학생의 고등학교 이후 성과(취업, 독립생활, 고등교육)에 초점을 맞추어 교육을 계획하는 것을 의미한다.",
+    "answer": "O",
+    "explanation": "IDEA 2004에서 전환서비스는 '결과 지향적 과정(results-oriented process)'으로 정의됩니다. 이는 학생의 학교 이후 결과(postsecondary outcomes) — 취업, 독립생활, 고등교육/직업훈련, 지역사회 참여 — 에 초점을 맞추어 역산으로 현재의 교육 프로그램을 계획하는 접근입니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "trans-self-determination-ox-d2-01",
+    "subject": "transition",
+    "chapter": "self-determination",
+    "type": "ox",
+    "question": "Wehmeyer의 자기결정 기능 모델에서 자기결정의 4가지 필수 특성은 자율성(autonomy), 자기조절(self-regulation), 심리적 역량강화(psychological empowerment), 자기실현(self-realization)이다.",
+    "answer": "O",
+    "explanation": "Wehmeyer(1996, 2005)의 기능적 자기결정 모델에서 자기결정 행동의 4가지 필수 특성은: (1) 자율성 — 자신의 선호에 따라 행동, (2) 자기조절 — 목표 설정과 점검, (3) 심리적 역량강화 — 통제감과 효능감, (4) 자기실현 — 자기이해와 자기지식입니다. 이 4가지가 모두 갖추어질 때 행동이 자기결정적이라 할 수 있습니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "vis-visual-acuity-ox-d3-01",
+    "subject": "visual-impairment",
+    "chapter": "visual-acuity",
+    "type": "ox",
+    "question": "저시력 학생의 확대 교과서에서 글자 크기를 2배로 확대하면 한 페이지에 담을 수 있는 정보량은 원본의 1/2이 된다.",
+    "answer": "X",
+    "explanation": "글자 크기를 2배로 확대하면 가로와 세로 모두 2배가 되므로, 각 글자가 차지하는 면적은 4배(2×2)가 됩니다. 따라서 한 페이지에 담을 수 있는 정보량은 원본의 약 1/4이 됩니다. 이로 인해 확대 교과서는 원본보다 3~4배 두꺼워지며, 휴대와 페이지 탐색에 어려움이 발생합니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "vis-braille-ox-d3-01",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "맹 학생(blind student)은 촉각과 청각에만 의존하여 학습하므로, 잔존시력(residual vision)을 활용한 교수전략은 적용되지 않는다.",
+    "answer": "X",
+    "explanation": "법적 맹(legal blindness) 기준에 해당하더라도 빛 지각(light perception)이나 일부 잔존시력이 있을 수 있습니다. 이 경우 잔존시력을 최대한 활용하는 교수전략(고대비 자료, 조명 조절, 확대경 병용 등)이 중요합니다. 시각을 완전히 배제하기보다는 잔존 감각을 통합적으로 활용하는 것이 효과적입니다.",
+    "difficulty": 3
+  },
+  {
+    "id": "vis-assistive-tech-ox-d2-01",
+    "subject": "visual-impairment",
+    "chapter": "assistive-tech",
+    "type": "ox",
+    "question": "시각장애인용 보조공학기기인 화면 읽기 프로그램(screen reader)은 컴퓨터 화면의 텍스트를 음성으로 변환하여 출력하며, 이미지의 대체 텍스트(alt text)도 읽어줄 수 있다.",
+    "answer": "O",
+    "explanation": "스크린 리더(예: JAWS, NVDA, VoiceOver)는 화면의 텍스트 정보를 음성 합성(TTS)으로 변환하여 출력합니다. HTML 이미지에 alt 속성으로 대체 텍스트가 제공되면 이를 읽어주며, 이는 웹 접근성(WCAG)에서 시각장애인을 위해 필수적으로 요구되는 사항입니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "vis-orientation-mobility-ox-d2-01",
+    "subject": "visual-impairment",
+    "chapter": "orientation-mobility",
+    "type": "ox",
+    "question": "시각장애 학생의 보행훈련에서 '정위(orientation)'는 자신의 현재 위치, 목적지, 그리고 이동 경로를 파악하는 능력이고, '이동(mobility)'은 실제로 안전하게 이동하는 능력이다.",
+    "answer": "O",
+    "explanation": "보행(O&M: Orientation and Mobility)은 두 요소로 구성됩니다. 정위(orientation)는 환경 속에서 자신의 위치와 목적지 간의 관계를 파악하는 인지적 과정(공간 개념, 랜드마크 활용)이고, 이동(mobility)은 실제로 한 장소에서 다른 장소로 안전하고 효율적으로 움직이는 물리적 기술(케인 기법, 안내견 보행)입니다.",
+    "difficulty": 2
+  }
+]

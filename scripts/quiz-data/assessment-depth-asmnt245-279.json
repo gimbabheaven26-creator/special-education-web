@@ -1,0 +1,678 @@
+[
+  {
+    "id": "asmnt-q245",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "ox",
+    "question": "K-WISC-V에서 산출되는 전체 IQ(FSIQ) 95% 신뢰구간은 '점수 ± 1.65 × 표준측정오차(SEM)'로 계산하며, 이 구간 안에 학생의 진점수가 포함될 확률이 95%라고 해석한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "95% 신뢰구간은 '관찰점수 ± 1.96 × SEM'이 정확한 공식이나, 실무에서는 1.65를 90% 신뢰구간에 사용한다. 문항의 핵심은 신뢰구간이 '진점수를 포함할 확률'을 나타낸다는 해석이 옳다는 것이다. K-WISC-V 해석 보고서에서는 95% CI를 표준으로 제시하며 단일 점수보다 구간 보고를 권장한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "K-WISC-V 실시 및 채점 요강",
+    "tags": {"disability": "intellectual", "topic": "k-wisc-v"}
+  },
+  {
+    "id": "asmnt-q246",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "multiple",
+    "question": "K-WISC-V의 5가지 기본지표(Primary Index)와 그것을 측정하는 내용이 바르게 연결된 것은?",
+    "case_context": null,
+    "options": [
+      "언어이해지표(VCI) — 시각적 패턴을 분석하고 공간 관계를 추론하는 능력",
+      "유동추론지표(FRI) — 비언어적 정보를 논리적으로 분석하고 관계를 추론하는 능력",
+      "작업기억지표(WMI) — 청각적·시각적 정보를 장기기억에 저장하는 능력",
+      "처리속도지표(PSI) — 언어적 개념을 이해하고 언어로 표현하는 능력"
+    ],
+    "answer": "1",
+    "explanation": "유동추론지표(FRI)는 비언어적 정보를 귀납·연역적으로 분석하고 관계를 추론하는 능력을 측정하며, 행렬추론과 무게비교 소검사로 구성된다. VCI는 언어적 개념 이해와 표현, WMI는 단기 유지와 조작, PSI는 간단한 시각 과제를 신속·정확하게 처리하는 속도를 측정한다.",
+    "wrong_explanations": {
+      "0": "시각적 패턴 분석과 공간 관계 추론은 시공간지표(VSI)의 내용이며, VCI는 언어적 개념 이해와 표현 능력을 측정한다.",
+      "2": "작업기억지표(WMI)는 정보를 일시적으로 유지하고 조작하는 능력을 측정하며, 장기기억 저장은 WMI의 측정 내용이 아니다.",
+      "3": "언어적 개념 이해와 표현은 언어이해지표(VCI)의 내용이며, PSI는 단순 시각 과제의 처리 속도를 측정한다."
+    },
+    "difficulty": 2,
+    "source": "K-WISC-V 실시 및 채점 요강 / KICE 유형",
+    "tags": {"disability": "intellectual", "topic": "k-wisc-v"}
+  },
+  {
+    "id": "asmnt-q247",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "multiple",
+    "question": "K-WISC-V에서 전체 IQ(FSIQ)가 70이고 95% 신뢰구간이 66~74일 때, 이 결과에 대한 해석으로 가장 적절한 것은?",
+    "case_context": null,
+    "options": [
+      "FSIQ 70은 평균에서 2 표준편차 아래에 해당하며, 지적장애 진단에 충분한 단독 근거가 된다.",
+      "95% 신뢰구간 66~74는 이 학생의 진점수가 그 범위 안에 있을 확률이 95%임을 의미하며, 단일 점수보다 구간으로 보고하는 것이 적절하다.",
+      "FSIQ 70은 백분위 약 2%ile에 해당하므로, 같은 연령 집단 100명 중 2명보다 높은 수행을 보인다는 뜻이다.",
+      "신뢰구간이 70을 포함하므로 검사 결과는 신뢰도 기준을 충족하며, 재검사를 실시할 필요가 없다."
+    ],
+    "answer": "1",
+    "explanation": "95% 신뢰구간은 반복 측정 시 동일 구간이 진점수를 포함하는 경우가 95%라는 의미이다. 단일 점수보다 구간으로 보고하는 것이 측정오차를 반영한 올바른 해석이다. FSIQ 단독으로는 지적장애 진단이 불가하며(적응행동 평가 병행 필요), 재검사 필요 여부는 신뢰구간의 포함 여부로 결정하지 않는다.",
+    "wrong_explanations": {
+      "0": "지적장애 진단은 IQ 단독이 아닌 적응행동 평가와 발달력을 포함한 종합적 판단이 필요하므로 FSIQ만으로 진단 근거가 되지 않는다.",
+      "2": "FSIQ 70은 백분위 약 2%ile로, 같은 연령 100명 중 약 2명보다 낮은 수행을 보인다는 의미이다. 설명이 반대로 되어 있어 옳지 않다.",
+      "3": "신뢰구간이 70을 포함하는지는 재검사 필요 여부와 직접적인 관련이 없다. 재검사는 검사 타당도, 협조 수준, 이전 결과와의 차이 등을 고려하여 결정한다."
+    },
+    "difficulty": 2,
+    "source": "K-WISC-V 해석 지침 / KICE 2024 유형",
+    "tags": {"disability": "intellectual", "topic": "k-wisc-v"}
+  },
+  {
+    "id": "asmnt-q248",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "fill_in",
+    "question": "K-WISC-V 지표점수는 평균이 ( ① )이고 표준편차가 ( ② )인 표준점수이며, 소검사 환산점수는 평균이 ( ③ )이고 표준편차가 ( ④ )인 표준점수이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "①100 ②15 ③10 ④3",
+    "explanation": "K-WISC-V에서 전체 IQ와 각 지표점수는 평균 100, 표준편차 15인 표준점수로 환산된다. 소검사 환산점수(scaled score)는 평균 10, 표준편차 3으로 환산되며, 7~13점이 평균 범위에 해당한다. 두 척도의 환산 기준을 구분하는 것이 해석의 출발점이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "K-WISC-V 실시 및 채점 요강",
+    "tags": {"disability": "intellectual", "topic": "k-wisc-v"}
+  },
+  {
+    "id": "asmnt-q249",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "multiple",
+    "question": "역동적 평가(dynamic assessment)에 관한 설명으로 옳은 것을 모두 고른 것은?\n\nㄱ. 검사-교수-재검사(test-teach-test) 형식으로 학습 잠재력을 측정한다.\nㄴ. Vygotsky의 근접발달영역(ZPD) 개념을 이론적 기반으로 한다.\nㄷ. 표준화 절차를 엄격히 준수하므로 검사자의 역할은 최소화된다.\nㄹ. 중재 전후의 수행 변화량이 클수록 학습 잠재력이 높다고 해석한다.",
+    "case_context": null,
+    "options": ["ㄱ, ㄴ", "ㄱ, ㄷ", "ㄴ, ㄷ, ㄹ", "ㄱ, ㄴ, ㄹ"],
+    "answer": "3",
+    "explanation": "역동적 평가는 검사-교수-재검사 형식으로 학습 잠재력을 측정하고(ㄱ), ZPD에 기반하여 중재 지원 후 변화량으로 잠재력을 파악하며(ㄴ, ㄹ), 검사자가 능동적으로 단서와 촉진을 제공한다. 따라서 검사자 역할 최소화(ㄷ)는 역동적 평가와 반대되는 설명이다.",
+    "wrong_explanations": {
+      "0": "ㄹ(중재 전후 변화량)이 빠져 있다. 역동적 평가에서 중재 반응성(변화량)은 학습 잠재력 판단의 핵심 지표이므로 포함되어야 한다.",
+      "1": "ㄷ은 옳지 않다. 역동적 평가에서 검사자는 단서 제공, 피드백, 교수 등 능동적 역할을 수행하며, 표준화 절차를 그대로 따르는 정적 평가와 구별된다.",
+      "2": "ㄷ이 포함되어 있어 옳지 않다. 검사자 역할 최소화는 역동적 평가의 특성이 아니라 전통적 표준화 검사의 특성이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2023 유형 / 특수교육 평가 교재",
+    "tags": {"disability": "learning-disability", "topic": "dynamic-assessment"}
+  },
+  {
+    "id": "asmnt-q250",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "ox",
+    "question": "역동적 평가에서 중재 반응(mediated learning experience)은 ZPD 범위 안에서만 제공되어야 하므로, 학생이 독립적으로 수행 가능한 과제에는 촉진을 제공하지 않는다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "역동적 평가의 핵심은 ZPD, 즉 현재 독립 수행 수준과 도움을 받을 때 가능한 수행 수준 사이에서 지원을 제공하는 것이다. 이미 독립적으로 수행 가능한 과제에 촉진을 주는 것은 ZPD 원리에 맞지 않으며, 학습 잠재력 측정의 타당성을 해친다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "Vygotsky ZPD 이론 / 특수교육 평가",
+    "tags": {"disability": "learning-disability", "topic": "dynamic-assessment"}
+  },
+  {
+    "id": "asmnt-q251",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "multiple",
+    "question": "생태학적 평가(ecological assessment)에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "학생이 현재 생활하는 자연환경과 미래에 참여할 환경을 직접 분석하여 평가에 활용한다.",
+      "생태학적 목록(ecological inventory)은 교육과정의 우선순위 기술을 선정하는 데 유용하다.",
+      "부모·교사·관련 전문가 면담은 생태학적 평가의 중요한 정보 수집 방법이다.",
+      "생태학적 평가는 학생의 장애 범주를 분류하고 진단하는 것을 주된 목적으로 한다."
+    ],
+    "answer": "3",
+    "explanation": "생태학적 평가의 주된 목적은 장애 분류나 진단이 아니라, 학생이 현재 및 미래의 자연환경에서 기능적으로 참여하는 데 필요한 기술을 파악하고 교육 계획을 수립하는 것이다. 나머지 설명(자연환경 분석, 생태학적 목록, 면담)은 모두 생태학적 평가의 올바른 특성이다.",
+    "wrong_explanations": {
+      "0": "이 선지는 옳은 내용이어서 정답이 아니다. 생태학적 평가는 학생이 생활하는 현재 환경과 미래 참여 환경을 직접 관찰·분석하는 것이 핵심이다.",
+      "1": "이 선지는 옳은 내용이어서 정답이 아니다. 생태학적 목록은 도메인(가정, 지역사회, 직업, 여가)별 필요 기술을 체계적으로 목록화하여 IEP 목표 선정에 활용된다.",
+      "2": "이 선지는 옳은 내용이어서 정답이 아니다. 부모와 교사, 전문가 면담은 학생의 자연환경 및 요구를 파악하는 중요한 생태학적 정보 수집 방법이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형 / 특수교육 평가론",
+    "tags": {"disability": "intellectual", "topic": "ecological-assessment"}
+  },
+  {
+    "id": "asmnt-q252",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "fill_in",
+    "question": "포트폴리오 평가에서 학생이 자신의 작품 중 어떤 것을 선정하고 왜 선정했는지를 기술한 글을 ( ① )라 하며, 평가자 간 채점 기준을 명시한 도구를 ( ② )라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "①성찰일지(반성일지) ②루브릭(채점기준표)",
+    "explanation": "포트폴리오 평가에서 성찰일지(reflective journal)는 학생이 자신의 학습 과정과 작품 선정 이유를 메타인지적으로 기술하는 문서이다. 루브릭(rubric)은 수행 수준별 기준을 구체적으로 명시하여 평가자 간 신뢰도를 높이는 채점 도구이다. 두 요소 모두 포트폴리오 평가의 타당도와 신뢰도를 높이기 위해 필수적이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "특수교육 평가론 / KICE 유형",
+    "tags": {"disability": "assessment", "topic": "portfolio"}
+  },
+  {
+    "id": "asmnt-q253",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "multiple",
+    "question": "포트폴리오 평가의 제한점으로 옳은 것을 모두 고른 것은?\n\nㄱ. 표준화 검사에 비해 평가자 간 신뢰도가 낮을 수 있다.\nㄴ. 시간 집약적이며 자료 관리에 많은 노력이 필요하다.\nㄷ. 학생의 수행 과정보다 최종 결과물만 반영하는 경향이 있다.\nㄹ. 학생의 학습 성장을 종단적으로 기록하기 어렵다.",
+    "case_context": null,
+    "options": ["ㄱ", "ㄱ, ㄴ", "ㄴ, ㄷ", "ㄷ, ㄹ"],
+    "answer": "1",
+    "explanation": "포트폴리오 평가의 주요 제한점은 루브릭 없이는 평가자 간 신뢰도가 낮을 수 있다는 점(ㄱ)과, 작품 수집·분류·분석에 많은 시간과 노력이 필요하다는 점(ㄴ)이다. 포트폴리오는 오히려 과정과 성장을 기록하는 것이 장점이므로 ㄷ과 ㄹ은 포트폴리오의 제한점이 아니다.",
+    "wrong_explanations": {
+      "0": "ㄱ만 있어 불완전하다. ㄴ(시간·관리 부담)도 포트폴리오의 실질적 제한점이므로 함께 포함되어야 한다.",
+      "2": "ㄷ은 포트폴리오의 제한점이 아니다. 포트폴리오는 최종 결과물이 아닌 과정과 성장을 반영하는 것이 핵심 특성이다.",
+      "3": "ㄷ과 ㄹ 모두 포트폴리오의 제한점이 아니다. 포트폴리오는 종단적 학습 성장 기록에 유리한 평가 방법이다."
+    },
+    "difficulty": 2,
+    "source": "특수교육 평가론",
+    "tags": {"disability": "assessment", "topic": "portfolio"}
+  },
+  {
+    "id": "asmnt-q254",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "descriptive",
+    "question": "준거참조검사(criterion-referenced test)에서 숙달기준(mastery criterion)을 설정하는 방법 2가지를 제시하고, 각 방법의 장단점을 1가지씩 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "①전문가 판단법: 전문가 집단이 합의하여 기준을 설정. 장점-현장 타당성 높음, 단점-주관성 개입 가능. ②수행분포법: 준거 집단의 수행 분포를 기반으로 통계적 기준 설정. 장점-객관성, 단점-적절한 준거 집단 확보 어려움.",
+    "explanation": "숙달기준 설정 방법에는 전문가 판단법과 수행분포법이 대표적이다. 전문가 판단법은 내용 전문가의 합의로 기준을 설정하여 현장 적합성이 높으나 주관성이 개입될 수 있다. 수행분포법은 준거 집단의 통계적 분포를 근거로 객관적 기준을 산출하나, 적절한 준거 집단을 확보하기 어렵다는 한계가 있다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 2026 예상 / 특수교육 평가론",
+    "tags": {"disability": "assessment", "topic": "criterion-referenced"}
+  },
+  {
+    "id": "asmnt-q255",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "multiple",
+    "question": "표준화 검사를 장애 학생에게 실시할 때 허용되는 검사 조정(accommodation)으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "청각장애 학생에게 구어 지시문을 수화로 변환하여 제시한다.",
+      "학생이 어렵다고 호소하면 검사 중간에 정답 여부를 알려준다.",
+      "시각장애 학생의 반응 시간을 줄여 더 빠른 처리 속도를 측정한다.",
+      "지적장애 학생의 점수를 해석할 때 규준 집단 기준을 장애 아동 기준으로 교체한다."
+    ],
+    "answer": "0",
+    "explanation": "검사 조정은 검사 구인을 변화시키지 않으면서 장애로 인한 접근 장벽을 제거하는 것이다. 청각장애 학생에게 수화로 지시문을 변환하는 것은 언어 이해 구인을 바꾸지 않는 적절한 조정이다. 정답 알려주기, 반응 시간 축소, 규준 교체는 검사의 표준화를 훼손하거나 구인을 변경한다.",
+    "wrong_explanations": {
+      "1": "검사 중 정답 여부를 알려주는 것은 검사의 표준화 절차를 직접적으로 위반하며, 수행 결과를 오염시키는 행위이다.",
+      "2": "처리속도 측정 시 반응 시간을 줄이면 측정하려는 구인 자체가 변하므로 이는 조정이 아니라 검사 변형(modification)에 해당한다.",
+      "3": "규준 집단을 교체하면 표준점수의 의미가 달라지므로 원래 검사의 규준 해석이 불가능해진다. 이는 검사 목적을 근본적으로 변경하는 것이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형 / 표준화 검사 조정 지침",
+    "tags": {"disability": "assessment", "topic": "test-accommodation"}
+  },
+  {
+    "id": "asmnt-q256",
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "type": "descriptive",
+    "question": "생태학적 평가에서 사용하는 생태학적 목록(ecological inventory) 작성 절차를 단계별로 서술하고, 이를 특수교육 대상 학생의 IEP 목표 수립에 활용하는 방법을 구체적으로 설명하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "생태학적 목록 절차: ①도메인 선정(가정·지역사회·직업·여가), ②환경 분석(현재·미래 환경 목록화), ③활동 분석(각 환경에서 요구되는 활동 열거), ④기술 분석(활동 수행에 필요한 구체적 기술 목록화), ⑤학생 수행과 비교하여 기술 결함 파악. IEP 활용: 결함으로 확인된 기술을 우선순위 목표로 설정하며, 자연환경 내 기능적 기술을 IEP 단기목표로 구체화한다.",
+    "explanation": "생태학적 목록은 도메인 선정 → 환경 분석 → 활동 분석 → 기술 분석 → 학생 수행 비교의 5단계 절차로 작성된다. 이를 통해 파악된 기술 결함은 IEP 우선순위 목표와 단기목표로 직접 연결되며, 자연환경에서의 기능적 참여를 목표로 하는 특수교육의 핵심 원리를 구현한다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 2025 유형 / 특수교육 평가론",
+    "tags": {"disability": "intellectual", "topic": "ecological-assessment"}
+  },
+  {
+    "id": "asmnt-q257",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "ox",
+    "question": "CBM 읽기(CBM-R)에서 ORF(구어읽기 유창성)는 학생이 1분 동안 소리 내어 읽은 전체 단어 수에서 오류 단어 수를 뺀 값(WCPM)으로 산출한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "ORF(Oral Reading Fluency)는 1분 동안의 WCPM(Words Correct Per Minute)으로 측정한다. 전체 읽은 단어 수에서 대치·생략·첨가 등 오류 단어를 빼서 정확하게 읽은 단어 수를 산출한다. WCPM은 읽기 유창성과 독해력을 간접적으로 예측하는 민감한 지표이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "CBM 실시 지침 / 특수교육 평가론",
+    "tags": {"disability": "learning-disability", "topic": "cbm-reading"}
+  },
+  {
+    "id": "asmnt-q258",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "multiple",
+    "question": "CBM 수학에서 사용하는 측정 지표들을 바르게 연결한 것은?",
+    "case_context": null,
+    "options": [
+      "COMP — 수학적 개념과 응용 문제 해결 능력을 측정하는 지표",
+      "CAP — 기초 연산 사실의 속도와 정확성을 측정하는 지표",
+      "수학적 사실 유창성 — 학생의 문제해결 전략 선택 과정을 측정하는 지표",
+      "COMP — 기초 연산(덧셈·뺄셈·곱셈·나눗셈)의 계산 능력을 측정하는 지표"
+    ],
+    "answer": "0",
+    "explanation": "COMP(Concepts and Applications)는 수 개념, 도표 해석, 응용 문제 등 수학적 개념과 응용 능력을 측정한다. CAP(Computation)는 기초 연산 속도와 정확성을 측정하며, 수학적 사실 유창성은 기초 연산 사실(예: 덧셈표)의 자동화 정도를 빠른 속도로 측정하는 도구이다.",
+    "wrong_explanations": {
+      "1": "CAP는 개념과 응용이 아니라 기초 연산(사칙연산) 능력을 측정하는 지표이다. 기초 연산 속도와 정확성을 측정하는 것은 CAP(Computation)이다.",
+      "2": "수학적 사실 유창성은 전략 선택 과정이 아니라 덧셈·뺄셈·곱셈·나눗셈 등 기초 연산 사실의 빠르고 정확한 인출 능력을 측정한다.",
+      "3": "COMP는 계산 능력이 아닌 개념과 응용 능력을 측정하는 지표이다. 기초 연산 계산 능력은 CAP(Computation)로 측정한다."
+    },
+    "difficulty": 2,
+    "source": "CBM 수학 측정 지침 / KICE 유형",
+    "tags": {"disability": "learning-disability", "topic": "cbm-math"}
+  },
+  {
+    "id": "asmnt-q259",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "fill_in",
+    "question": "CBM 쓰기 측정에서 글쓰기 전체 단어 수를 ( ① ), 문법·철자·구두점이 모두 올바른 단어 순서 단위를 ( ② ), 철자가 올바른 단어 수를 ( ③ )로 표기한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "①TW(Total Words) ②CWS(Correct Word Sequences) ③WSC(Words Spelled Correctly)",
+    "explanation": "CBM 쓰기는 3가지 지표로 측정된다. TW(Total Words)는 학생이 작성한 전체 단어 수, WSC(Words Spelled Correctly)는 철자가 정확한 단어 수, CWS(Correct Word Sequences)는 연속된 두 단어가 문법·철자·구두점 면에서 모두 올바른 단위로 가장 종합적인 쓰기 능력을 반영한다. CWS가 쓰기 유창성의 가장 민감한 지표로 평가된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "CBM 쓰기 측정 지침 / 특수교육 평가론",
+    "tags": {"disability": "learning-disability", "topic": "cbm-writing"}
+  },
+  {
+    "id": "asmnt-q260",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "multiple",
+    "question": "CBM 진전도 모니터링에서 ROI(Rate of Improvement, 진전 비율) 공식으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "ROI = (목표 수행 수준 − 기초선 수행 수준) ÷ 목표 달성까지의 주차 수",
+      "ROI = (기초선 수행 수준 − 현재 수행 수준) ÷ 측정 횟수",
+      "ROI = (목표 수행 수준 × 기초선 수행 수준) ÷ 표준편차",
+      "ROI = (현재 수행 수준 − 목표 수행 수준) ÷ 경과 주차 수"
+    ],
+    "answer": "0",
+    "explanation": "ROI = (목표 수행 수준 − 기초선 수행 수준) ÷ 목표 달성까지의 주차 수. 예를 들어 기초선 WCPM이 30이고 20주 후 목표가 80이라면, ROI = (80−30) ÷ 20 = 2.5 WCPM/주이다. 이 값이 학생의 실제 주간 진전율과 비교되어 교수적 결정의 근거가 된다.",
+    "wrong_explanations": {
+      "1": "기초선에서 현재 수행을 빼는 방향이 반대이며, 측정 횟수로 나누는 것은 ROI 공식이 아니다.",
+      "2": "곱셈과 표준편차를 이용하는 공식은 ROI 계산법이 아니다. ROI는 단순 차이를 주차 수로 나눈 비율이다.",
+      "3": "현재 수행에서 목표를 빼면 음수가 나오는 경우가 많으며, 경과 주차 수로 나누는 것은 목표선 기울기가 아니라 실제 진전율 추정에 사용된다."
+    },
+    "difficulty": 1,
+    "source": "CBM 진전도 모니터링 / KICE 2025 유형",
+    "tags": {"disability": "learning-disability", "topic": "cbm-roi"}
+  },
+  {
+    "id": "asmnt-q261",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "multiple",
+    "question": "다음 CBM 읽기 사례에서 교사의 교수적 결정으로 가장 적절한 것은?\n\n[사례] 3학년 민준이의 CBM-R 기초선 WCPM은 35이다. 같은 학년 규준 중앙값은 85이며, 연말 목표는 65 WCPM, 남은 기간은 20주이다. 8주 후 민준이의 실제 WCPM은 41이다.",
+    "case_context": null,
+    "options": [
+      "목표선 ROI = (65−35)÷20 = 1.5 WCPM/주이나, 민준이의 실제 ROI ≈ 0.75 WCPM/주로 목표선보다 낮으므로 현재 중재를 강화하거나 변경해야 한다.",
+      "8주 후 WCPM이 41로 증가했으므로 현재 중재가 효과적이며 목표를 상향 조정한다.",
+      "민준이의 WCPM이 규준 중앙값 85보다 낮으므로, CBM 측정을 중단하고 표준화 진단 검사를 실시한다.",
+      "연말까지 남은 기간이 충분하므로 현재 중재를 유지하고 4주 후에 다시 평가한다."
+    ],
+    "answer": "0",
+    "explanation": "목표선 ROI = (65−35)÷20 = 1.5 WCPM/주. 민준이의 실제 ROI = (41−35)÷8 = 0.75 WCPM/주로 목표선보다 절반 수준이다. 연속 3~4회 측정에서 실제 진전율이 목표선 ROI보다 낮으면 교수 변경 신호로 해석한다. 따라서 현재 중재 강화 또는 변경이 적절하다.",
+    "wrong_explanations": {
+      "1": "WCPM이 증가했더라도 목표선 ROI(1.5)에 비해 실제 ROI(0.75)가 현저히 낮으므로 목표 상향보다 중재 점검이 우선이다.",
+      "2": "규준 대비 낮은 수행은 CBM 지속의 이유이지 중단 이유가 아니다. CBM은 지속적 모니터링을 통해 중재 효과를 추적하기 위한 도구이다.",
+      "3": "목표선보다 낮은 진전율이 확인되면 대기가 아닌 즉각적 교수 조정이 필요하다. 4주 추가 대기는 중재 결정을 지연시킨다."
+    },
+    "difficulty": 3,
+    "source": "KICE 2024 유형 / CBM 의사결정 모델",
+    "tags": {"disability": "learning-disability", "topic": "cbm-decision"}
+  },
+  {
+    "id": "asmnt-q262",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "ox",
+    "question": "탐색수준사정(Survey Level Assessment, SLA)은 학생에게 여러 학년 수준의 CBM 프로브를 실시하여 교수 시작점(instructional level)을 결정하는 방법이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "SLA(Survey Level Assessment)는 학생의 현재 수행 수준을 파악하기 위해 여러 학년 수준의 CBM 프로브를 실시하고, 학생이 좌절(frustration), 교수(instructional), 독립(independent) 수준 중 어느 수준에 해당하는지를 파악한다. 이를 통해 교수 시작점과 진전도 모니터링에 사용할 프로브의 학년 수준을 결정한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "CBM SLA 절차 / 특수교육 평가론",
+    "tags": {"disability": "learning-disability", "topic": "cbm-sla"}
+  },
+  {
+    "id": "asmnt-q263",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "multiple",
+    "question": "탐색수준사정(SLA)을 통해 교수 수준(instructional level)을 결정하는 기준으로 옳은 것은? (CBM-R 기준 적용)",
+    "case_context": null,
+    "options": [
+      "독립 수준: WCPM이 규준의 10%ile 이하이고 오류율이 10% 이상인 수준",
+      "교수 수준: 학생이 도움 없이 유창하게 읽을 수 있는 수준으로 WCPM이 규준 90%ile 이상",
+      "교수 수준: 약간의 지원으로 향상 가능하고 정확도와 유창성이 적정한 수준 (일반적으로 오류율 5~10% 수준)",
+      "좌절 수준: 학생이 정확도 95% 이상으로 유창하게 읽는 수준"
+    ],
+    "answer": "2",
+    "explanation": "교수 수준(instructional level)은 약간의 교수 지원으로 향상 가능한 수준으로, CBM-R에서는 오류율 약 5~10% 수준이 해당한다. 독립 수준은 오류율 5% 이하로 자립 읽기 가능, 좌절 수준은 오류율 10% 이상으로 학생이 읽기에 어려움을 겪는 수준이다. 교수 시작점은 교수 수준 프로브를 사용한다.",
+    "wrong_explanations": {
+      "0": "규준의 10%ile 이하와 오류율 10% 이상은 좌절 수준의 특성이며, 독립 수준은 높은 정확도와 유창성이 특징이다.",
+      "1": "규준 90%ile 이상의 유창한 읽기는 독립 수준에 해당하며, 이 수준에서는 교수 지원 없이도 읽기가 가능하다.",
+      "3": "정확도 95% 이상으로 유창하게 읽는 것은 독립 수준의 특성이며, 좌절 수준은 오류가 많고 읽기가 힘겨운 상태이다."
+    },
+    "difficulty": 2,
+    "source": "CBM SLA 실시 기준 / 특수교육 평가론",
+    "tags": {"disability": "learning-disability", "topic": "cbm-sla"}
+  },
+  {
+    "id": "asmnt-q264",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "multiple",
+    "question": "CBM과 CBA(교육과정중심평가)를 비교한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "CBM은 교육과정 내용의 일부를 표집하는 반면, CBA는 연간 교육과정 전체를 반영하는 장기 프로브를 사용한다.",
+      "CBA는 CBM에 비해 더 짧은 시간(1~3분)에 실시할 수 있어 반복 측정에 유리하다.",
+      "CBM의 심리측정적 속성(신뢰도·타당도)이 CBA보다 더 광범위하게 연구되어 있다.",
+      "CBA는 학생의 현재 교육과정 수준 내에서만 평가하며, 여러 학년 수준 프로브 사용이 불가하다."
+    ],
+    "answer": "2",
+    "explanation": "CBM은 CBA에 비해 표준화된 실시 절차와 채점 기준을 갖추고 있어 신뢰도와 타당도에 관한 연구가 더 축적되어 있다. CBM은 연간 교육과정 전반을 반영하는 장기 프로브를 사용하고, CBA는 교수 단원 내용을 표집하는 방식이다. CBM이 짧은 시간 측정에 적합하고, CBA는 단원 숙달 여부 파악에 유리하다.",
+    "wrong_explanations": {
+      "0": "내용이 반대이다. CBM이 연간 교육과정을 대표하는 장기 프로브를 사용하고, CBA는 특정 교수 단원 내용의 일부를 표집한다.",
+      "1": "1~3분의 짧은 측정 시간은 CBM의 특성이다. CBA는 단원 내용을 평가하므로 더 긴 시간이 소요될 수 있다.",
+      "3": "CBA가 현재 교수 단원 내에서 평가하는 경향이 있으나, 이것이 여러 수준 프로브 사용을 제한하는 규정은 아니다. 또한 SLA는 CBM에서 여러 학년 수준 프로브를 사용하는 절차이다."
+    },
+    "difficulty": 2,
+    "source": "CBM vs CBA 비교 / KICE 유형",
+    "tags": {"disability": "learning-disability", "topic": "cbm-vs-cba"}
+  },
+  {
+    "id": "asmnt-q265",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "descriptive",
+    "question": "CBM 기반 진전도 모니터링에서 이중차이선(dual discrepancy)의 개념을 설명하고, 이것이 특수교육 적격성 결정에 어떻게 활용되는지 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "이중차이선: ①수행 수준 차이-학생의 현재 CBM 수행이 또래 규준보다 유의미하게 낮음, ②진전율 차이-학생의 CBM 진전 기울기(ROI)가 또래 평균 기울기보다 유의미하게 낮음. 두 가지 차이가 모두 확인될 때 학습장애 등 특수교육 적격성 판단의 객관적 근거로 활용되며, RTI 모델 3단계에서 집중 중재에도 반응하지 않는 학생을 판별하는 데 사용된다.",
+    "explanation": "이중차이선(dual discrepancy)은 수행 수준과 진전율 두 가지 모두에서 또래와 유의미한 차이를 보일 때 적용되는 개념이다. 수행 수준만 낮은 경우와 달리, 충분한 중재 후에도 진전율까지 또래보다 낮다면 이는 학습장애 등 특수교육 서비스 필요성을 객관적으로 판단하는 핵심 근거가 된다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "RTI-CBM 이중차이선 / KICE 2025 예상",
+    "tags": {"disability": "learning-disability", "topic": "cbm-dual-discrepancy"}
+  },
+  {
+    "id": "asmnt-q266",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "ox",
+    "question": "CBM 목표선(aimline) 설정에는 기초선 수행 수준과 목표 달성 시점(주차 수)의 두 가지 정보가 필수적이며, 학생의 생활연령은 목표선 설정 공식에 포함되지 않는다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "목표선(aimline)은 기초선 수행 수준을 출발점으로, 목표 달성 시점(주차 수)의 목표 수행 수준을 종점으로 연결한 직선이다. 공식은 ROI = (목표 − 기초선) ÷ 주차 수이며, 생활연령은 목표선 설정 계산에 포함되지 않는다. 목표 수준 자체는 학년 규준이나 개인 기대치를 참고하여 결정할 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "CBM 목표선 설정 / 특수교육 평가론",
+    "tags": {"disability": "learning-disability", "topic": "cbm-aimline"}
+  },
+  {
+    "id": "asmnt-q267",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "multiple",
+    "question": "RTI(Response to Intervention) 3단계 모델에서 CBM 활용 방식을 바르게 연결한 것은?",
+    "case_context": null,
+    "options": [
+      "1단계 — 보편적 선별(universal screening)을 위해 연 3회 CBM을 전체 학생에게 실시한다.",
+      "2단계 — 집중 중재 대상 학생에게 주 1회 CBM을 실시하여 효과를 모니터링한다.",
+      "3단계 — 특수교육 서비스 대상으로 의뢰된 학생에게 CBM을 중단하고 표준화 검사로 대체한다.",
+      "1단계 — 전체 학생 선별 후 하위 15%tile 학생을 즉시 특수교육 대상으로 의뢰한다."
+    ],
+    "answer": "0",
+    "explanation": "RTI 1단계에서는 전체 학생을 대상으로 보편적 선별 목적의 CBM을 연 3회(가을·겨울·봄) 실시하여 위험군을 파악한다. 2단계에서는 선별된 위험군 학생에게 주 2회 이상 CBM을 실시하여 소집단 중재 효과를 모니터링하며, 3단계에서도 CBM은 지속되어 집중 중재 반응성을 추적한다.",
+    "wrong_explanations": {
+      "1": "2단계에서는 주 1회가 아닌 주 2회 이상의 빈번한 CBM 모니터링이 권장된다. 1회는 진전 기울기 추정에 불충분하다.",
+      "2": "3단계에서 CBM을 중단하지 않는다. 집중 중재 중에도 CBM을 지속하여 이중차이선 확인 등 특수교육 적격성 판단 자료로 활용한다.",
+      "3": "하위 15%tile 학생을 즉시 특수교육으로 의뢰하지 않는다. 선별 결과는 2단계 소집단 중재 시작의 기준이며, 특수교육 의뢰는 중재 반응 모니터링 결과를 바탕으로 한다."
+    },
+    "difficulty": 2,
+    "source": "RTI-CBM 모델 / KICE 2024 유형",
+    "tags": {"disability": "learning-disability", "topic": "rti-cbm"}
+  },
+  {
+    "id": "asmnt-q268",
+    "subject": "assessment",
+    "chapter": "cbm",
+    "type": "descriptive",
+    "question": "CBM 쓰기 측정에서 TW, WSC, CWS 세 가지 지표의 차이를 설명하고, 학생의 쓰기 발달 단계에 따라 어떤 지표를 우선 활용하는 것이 적절한지 근거를 들어 서술하시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "TW는 전체 단어 수로 쓰기 산출량을, WSC는 철자 정확성을, CWS는 문법·철자·구두점의 복합적 정확성을 측정한다. 초기 쓰기 학습자에게는 산출량 확인을 위해 TW와 WSC를 주로 활용하고, 쓰기 능력이 발달한 학생에게는 CWS가 더 민감하고 종합적인 지표로서 적합하다. CWS가 세 지표 중 쓰기 유창성을 가장 잘 예측한다.",
+    "explanation": "CBM 쓰기의 세 지표는 측정 복잡도가 다르다. TW는 산출량, WSC는 철자 정확성, CWS는 언어적 복잡성까지 포함하여 가장 민감한 지표이다. 발달 초기에는 TW·WSC로 기초 능력을 파악하고, 고학년 이상에서는 CWS를 주로 활용하는 것이 쓰기 능력 진전을 정밀하게 추적하는 데 적합하다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "CBM 쓰기 측정 / KICE 2026 예상",
+    "tags": {"disability": "learning-disability", "topic": "cbm-writing"}
+  },
+  {
+    "id": "asmnt-q269",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "ox",
+    "question": "기능 분석(functional analysis, FA)은 문제행동의 선행사건과 결과를 체계적으로 조작하여 행동 기능을 실험적으로 검증하는 방법으로, 간접 방법이나 직접 관찰보다 행동 기능에 대한 가장 강력한 증거를 제공한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "기능 분석(FA)은 Iwata 등이 개발한 방법으로, 주의, 회피, 유형적(tangible) 결과, 자동강화(자동적 감각) 등 각 기능에 해당하는 조건을 실험적으로 조성하고 행동 발생률을 측정하여 기능을 검증한다. 면담이나 직접 관찰에 비해 인과관계를 확인할 수 있어 가장 강력한 증거를 제공하지만, 윤리적 고려와 전문성이 필요하다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "Iwata et al.(1994) / 특수교육 행동지원 평가론",
+    "tags": {"disability": "emotional-behavior", "topic": "functional-analysis"}
+  },
+  {
+    "id": "asmnt-q270",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "multiple",
+    "question": "기능 분석(FA)에서 사용하는 표준 조건 4가지와 그 설명이 바르게 연결된 것은?",
+    "case_context": null,
+    "options": [
+      "주의(attention) 조건 — 성인이 학생에게 지속적으로 주의를 제공하며 과제는 주어지지 않는 조건",
+      "회피(escape) 조건 — 학생이 원하는 물건을 보여주다 제거하여 문제행동 발생 시 돌려주는 조건",
+      "혼자(alone) 조건 — 학생이 혼자 있으면서 강화 없이 자동강화 기능을 평가하는 조건",
+      "통제(control) 조건 — 학생에게 어려운 과제를 부여하고 문제행동 발생 시 과제를 제거하는 조건"
+    ],
+    "answer": "2",
+    "explanation": "혼자(alone) 조건은 학생이 강화원(사람, 물건, 과제)이 없는 환경에 혼자 있는 조건으로, 이 조건에서 문제행동이 높은 비율로 발생하면 자동강화(자동적 감각 자극) 기능을 시사한다. 주의 조건은 성인이 최소한의 주의만 제공하다가 문제행동 시 주의를 주는 조건이고, 회피 조건은 과제 제시 후 문제행동 시 과제를 제거하며, 유형적 결과 조건에서 물건을 보여주다 제거하는 방식을 사용한다.",
+    "wrong_explanations": {
+      "0": "주의 조건은 성인이 지속적 주의를 제공하는 것이 아니라, 최소한의 주의를 주다가 문제행동 발생 시 주의(긍정적 또는 부정적)를 제공하는 조건이다.",
+      "1": "물건을 보여주다 제거한 후 문제행동 시 돌려주는 것은 유형적 결과(tangible) 조건의 절차이며, 회피 조건은 어려운 과제 제시 후 문제행동 시 과제를 제거하는 방식을 사용한다.",
+      "3": "과제 제시 후 문제행동 시 과제를 제거하는 것은 회피(escape) 조건의 특성이며, 통제 조건은 강화 풍부 조건으로 문제행동의 기저선 역할을 한다."
+    },
+    "difficulty": 2,
+    "source": "Iwata et al. FA 표준 절차 / KICE 유형",
+    "tags": {"disability": "emotional-behavior", "topic": "functional-analysis"}
+  },
+  {
+    "id": "asmnt-q271",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "multiple",
+    "question": "다음 FBA 결과를 바탕으로 작성한 가설진술문(hypothesis statement)의 형식으로 가장 적절한 것은?\n\n[FBA 결과] 수업 중 어려운 쓰기 과제가 제시될 때 민우는 책상을 치는 행동을 보이며, 교사가 과제를 철수하거나 쉬운 과제로 교체한다.",
+    "case_context": null,
+    "options": [
+      "민우는 수업이 싫기 때문에 책상 치는 행동을 한다.",
+      "어려운 쓰기 과제가 제시될 때(선행사건), 민우는 책상을 친다(행동). 이는 과제 회피를 위한 것이다(기능).",
+      "교사가 쉬운 과제를 주기 위해(결과) 민우가 책상을 친다(행동).",
+      "민우의 책상 치는 행동은 쓰기 능력이 부족하여 나타나는 인지적 결함의 표현이다."
+    ],
+    "answer": "1",
+    "explanation": "가설진술문의 표준 형식은 '선행사건(antecedent) + 행동(behavior) + 기능/결과(function)'이다. '어려운 쓰기 과제 제시(선행) → 책상 치기(행동) → 과제 회피(기능)'의 구조로 작성된 ①번이 이 형식을 가장 정확하게 따른다. 단순히 싫어서 한다는 해석이나 결과를 원인으로 뒤바꾸는 설명은 가설진술문 형식에 맞지 않는다.",
+    "wrong_explanations": {
+      "0": "수업이 싫다는 진술은 구체적인 선행사건과 기능을 명시하지 않아 가설진술문의 요건을 충족하지 못한다.",
+      "2": "결과(교사의 행동)가 원인처럼 기술되어 있으며, 행동-기능의 관계가 역전되어 있다. 가설진술문은 학생의 행동이 선행사건에 의해 촉발된다는 방향으로 기술한다.",
+      "3": "인지적 결함으로 설명하는 것은 기능적 관점이 아닌 결함 모델 관점이며, 선행-행동-기능 구조를 갖추지 않아 FBA 가설진술문 형식에 맞지 않는다."
+    },
+    "difficulty": 2,
+    "source": "FBA 가설진술문 / KICE 2023 유형",
+    "tags": {"disability": "emotional-behavior", "topic": "fba-hypothesis"}
+  },
+  {
+    "id": "asmnt-q272",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "fill_in",
+    "question": "FBA에서 수립되는 행동지원계획(BSP)의 세 가지 핵심 전략 구성 요소는 ( ① ) 전략, ( ② ) 전략, ( ③ ) 전략이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "①예방(선행사건 수정) ②교수(대체기술 교수) ③결과(차별강화)",
+    "explanation": "BSP(행동지원계획)는 세 가지 핵심 구성 요소로 이루어진다. ①예방 전략(선행사건 수정): 문제행동을 유발하는 선행사건을 변경하거나 제거한다. ②교수 전략(대체기술 교수): 동일한 기능을 충족하는 대체행동이나 적절한 의사소통 방법을 가르친다. ③결과 전략(차별강화): 대체행동에는 강화를, 문제행동에는 기능적으로 관련된 강화를 제공하지 않는 차별강화를 적용한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "BSP 구성 요소 / KICE 유형",
+    "tags": {"disability": "emotional-behavior", "topic": "bsp"}
+  },
+  {
+    "id": "asmnt-q273",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "multiple",
+    "question": "기능 분석(FA)의 제한점으로 옳은 것을 모두 고른 것은?\n\nㄱ. 자해나 공격 행동처럼 위험한 행동에 적용 시 윤리적 우려가 있다.\nㄴ. 실험 조건을 설정하기 위해 훈련된 전문가와 충분한 시간이 필요하다.\nㄷ. 학교 자연환경에서는 실시할 수 없어 반드시 임상 장면에서 실시해야 한다.\nㄹ. 기능 분석에서 확인된 기능이 자연환경 기능과 다를 수 있다.",
+    "case_context": null,
+    "options": ["ㄱ, ㄴ", "ㄴ, ㄷ", "ㄱ, ㄴ, ㄹ", "ㄴ, ㄷ, ㄹ"],
+    "answer": "2",
+    "explanation": "FA의 제한점으로 위험 행동 적용 시 윤리적 우려(ㄱ), 전문가 및 시간 요구(ㄴ), 실험 조건이 자연환경과 달라 외적 타당도가 제한될 수 있다(ㄹ)가 모두 해당한다. ㄷ은 옳지 않다. FA는 학교 환경에서도 실시 가능하며, 자연환경 FA(naturalistic FA)도 활용된다.",
+    "wrong_explanations": {
+      "0": "ㄹ(자연환경과 기능이 다를 수 있음)이 빠져 있어 불완전하다. 이는 FA의 중요한 제한점 중 하나이다.",
+      "1": "ㄷ은 옳지 않다. FA는 임상 장면만이 아닌 학교 자연환경에서도 실시할 수 있으며, 자연환경 FA 방법도 연구에서 사용된다.",
+      "3": "ㄷ이 포함되어 있어 옳지 않다. 학교 환경에서 FA를 실시할 수 없다는 것은 사실이 아니다."
+    },
+    "difficulty": 2,
+    "source": "FA 제한점 / 특수교육 행동지원론",
+    "tags": {"disability": "emotional-behavior", "topic": "functional-analysis"}
+  },
+  {
+    "id": "asmnt-q274",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "multiple",
+    "question": "BSP에서 대체행동 차별강화(DRA)를 적용할 때 대체행동으로 가장 적절한 것은?\n\n[상황] 지수는 어려운 수학 과제 회피를 위해 자해(손 깨물기)를 한다.",
+    "case_context": null,
+    "options": [
+      "자해가 발생하면 즉시 수학 과제를 제거하고 쉬운 과제로 교체한다.",
+      "지수에게 수학 시간마다 타임아웃을 적용하여 자해를 감소시킨다.",
+      "지수에게 '쉬어도 될까요?' 카드를 사용하거나 손을 들어 도움을 요청하는 방법을 가르친다.",
+      "자해가 발생할 때마다 교사가 무반응으로 일관하는 소거(extinction)를 적용한다."
+    ],
+    "answer": "2",
+    "explanation": "DRA(대체행동 차별강화)에서 대체행동은 문제행동과 동일한 기능(여기서는 과제 회피)을 충족하면서 사회적으로 수용 가능한 행동이어야 한다. '쉬어도 될까요?' 카드나 손 들기는 과제 회피라는 동일한 기능을 적절한 방식으로 충족시키는 기능적으로 동등한 대체행동이다. 자해 시 과제 제거는 문제행동을 강화하는 것이고, 타임아웃이나 소거는 DRA가 아니다.",
+    "wrong_explanations": {
+      "0": "자해 발생 시 과제를 제거하는 것은 문제행동(자해)에 회피라는 기능적 강화를 제공하는 것으로, 자해를 오히려 강화한다.",
+      "1": "타임아웃은 문제행동의 기능을 고려하지 않는 결과 중재이며, 회피 기능의 행동에 타임아웃을 사용하면 오히려 회피 기회를 제공할 수 있다.",
+      "3": "소거(extinction)는 문제행동에 대해 기능적 강화를 제공하지 않는 절차로 DRA와 함께 사용할 수 있으나, 소거 단독으로는 대체행동 교수가 포함되지 않아 DRA라 할 수 없다."
+    },
+    "difficulty": 2,
+    "source": "DRA / KICE 2024 유형",
+    "tags": {"disability": "emotional-behavior", "topic": "dra"}
+  },
+  {
+    "id": "asmnt-q275",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "ox",
+    "question": "BSP에서 선행사건 수정(예방 전략)은 문제행동의 근본 원인을 제거하는 것이 아니라, 문제행동을 유발하는 선행 조건을 변경하여 문제행동의 발생 가능성을 낮추는 것이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "선행사건 수정은 문제행동을 직접 제거하는 치료가 아니라, 유발 조건을 변경하여 문제행동이 발생할 확률을 낮추는 예방 전략이다. 예를 들어 어려운 과제를 줄이거나, 시각적 일정을 제공하거나, 선택 기회를 부여하는 방식이 해당한다. 이 전략 단독으로는 행동 변화가 지속되지 않을 수 있어 교수 전략 및 결과 전략과 함께 사용한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "BSP 선행사건 수정 / 특수교육 행동지원론",
+    "tags": {"disability": "emotional-behavior", "topic": "bsp"}
+  },
+  {
+    "id": "asmnt-q276",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "multiple",
+    "question": "다음 사례에서 FBA 결과를 바탕으로 수립한 BSP의 세 가지 전략이 바르게 연결된 것은?\n\n[FBA 결과] 통합학급 수업 중 교사의 칭찬이 없을 때 도윤이는 큰 소리를 질러 교사의 주의를 끈다.",
+    "case_context": null,
+    "options": [
+      "예방전략: 수업 참여 규칙 게시 / 교수전략: 소거 적용 / 결과전략: 주의 차별강화",
+      "예방전략: 규칙적 비수반 주의 제공 / 교수전략: 적절한 방법으로 주의 요청하기 교수 / 결과전략: 적절한 주의 요청에는 주의 제공, 소리 지를 때는 주의 철회",
+      "예방전략: 큰 소리 낼 때마다 타임아웃 적용 / 교수전략: 사회기술 훈련 / 결과전략: 토큰 경제",
+      "예방전략: 선택 기회 제공 / 교수전략: 분노 조절 프로그램 / 결과전략: 반응대가"
+    ],
+    "answer": "1",
+    "explanation": "행동 기능이 주의 획득이므로 BSP는 다음과 같이 구성된다. 예방 전략: 비수반 정기적 주의 제공으로 적절한 주의 요구 시점을 충족시킴. 교수 전략: 손 들기, 말로 요청하기 등 적절한 방법으로 주의를 요청하는 기술을 교수함. 결과 전략: 적절한 요청 시 주의를 제공(DRA)하고, 소리 지를 때는 주의를 철회(소거)함. 이 구성이 기능(주의)과 가장 잘 일치하는 BSP이다.",
+    "wrong_explanations": {
+      "0": "소거 적용이 교수전략에 배치된 것이 잘못되었다. 소거는 결과 전략에 해당하며, 교수 전략은 대체행동 교수여야 한다.",
+      "2": "타임아웃을 예방 전략으로 배치한 것이 잘못되었다. 타임아웃은 결과 전략이며, 주의 기능 행동에 타임아웃은 회피 강화 효과를 낼 수 있어 부적절하다.",
+      "3": "분노 조절은 주의 획득 기능의 행동에 맞지 않는 교수 전략이고, 선택 기회 제공은 회피 기능 행동에 더 적합한 예방 전략이다."
+    },
+    "difficulty": 2,
+    "source": "BSP 3요소 / KICE 2025 유형",
+    "tags": {"disability": "emotional-behavior", "topic": "bsp"}
+  },
+  {
+    "id": "asmnt-q277",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "multiple",
+    "question": "선행사건 중재(antecedent intervention)와 결과 중재(consequent intervention)를 비교한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "선행사건 중재는 문제행동이 발생한 이후에 적용하는 반응적 전략이다.",
+      "결과 중재는 문제행동의 유발 조건을 사전에 변경하는 예방적 전략이다.",
+      "선행사건 중재에는 과제 난이도 조정, 비수반 강화, 선택 기회 제공 등이 포함된다.",
+      "결과 중재 단독 적용이 선행사건 중재와 결합된 BSP보다 행동 지원 효과가 크다."
+    ],
+    "answer": "2",
+    "explanation": "선행사건 중재는 문제행동 발생 이전에 유발 조건을 수정하는 예방적 전략이며, 과제 난이도 조정, 비수반 강화(NCR), 선택 기회 제공, 일정 예고 등이 포함된다. 결과 중재는 행동 발생 이후에 적용되는 반응적 전략(차별강화, 소거, 타임아웃 등)이다. 두 전략을 결합한 BSP가 가장 효과적이다.",
+    "wrong_explanations": {
+      "0": "설명이 반대이다. 선행사건 중재는 행동 발생 이전에 적용하는 예방적 전략이며, 행동 발생 후에 적용하는 것은 결과 중재이다.",
+      "1": "결과 중재는 문제행동 발생 이후에 적용하는 반응적 전략이다. 유발 조건을 사전에 변경하는 것은 선행사건 중재의 정의이다.",
+      "3": "연구에 따르면 선행사건 중재와 결과 중재를 결합한 복합 BSP가 결과 중재 단독보다 더 효과적이다."
+    },
+    "difficulty": 2,
+    "source": "선행-결과 중재 비교 / KICE 유형",
+    "tags": {"disability": "emotional-behavior", "topic": "bsp"}
+  },
+  {
+    "id": "asmnt-q278",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "multiple",
+    "question": "FBA의 방법을 간접 평가, 직접 관찰, 기능 분석의 세 수준으로 구분할 때, 각 수준과 방법의 연결이 옳은 것을 모두 고른 것은?\n\nㄱ. 간접 평가 — 행동 동기 척도(MAS), 문제행동 면담(PBI)\nㄴ. 직접 관찰 — 산점도(scatter plot), A-B-C 기록\nㄷ. 기능 분석 — 자연환경에서 특정 변수 없이 자유 관찰만 실시\nㄹ. 기능 분석 — 독립변수(선행사건, 결과)를 체계적으로 조작하는 실험적 방법",
+    "case_context": null,
+    "options": ["ㄱ, ㄴ", "ㄴ, ㄷ", "ㄱ, ㄴ, ㄹ", "ㄱ, ㄷ, ㄹ"],
+    "answer": "2",
+    "explanation": "간접 평가는 행동을 직접 관찰하지 않고 면담과 척도(MAS, PBI)를 통해 정보를 수집한다(ㄱ). 직접 관찰은 자연환경에서 행동 발생 맥락을 관찰하며 산점도와 A-B-C 기록이 대표적이다(ㄴ). 기능 분석은 독립변수를 체계적으로 조작하는 실험적 방법이다(ㄹ). ㄷ(변수 없이 자유 관찰)은 기능 분석이 아니라 직접 관찰의 특성이다.",
+    "wrong_explanations": {
+      "0": "ㄹ(기능 분석의 실험적 특성)이 빠져 있어 불완전하다. 기능 분석의 핵심은 독립변수의 체계적 조작이다.",
+      "1": "ㄷ은 기능 분석의 정의에 맞지 않는다. 변수 조작 없이 자연환경에서만 관찰하는 것은 직접 관찰이다.",
+      "3": "ㄷ이 포함되어 있어 옳지 않다. 자유 관찰은 기능 분석이 아닌 직접 관찰에 해당한다."
+    },
+    "difficulty": 2,
+    "source": "FBA 방법 분류 / KICE 2023 유형",
+    "tags": {"disability": "emotional-behavior", "topic": "fba-methods"}
+  },
+  {
+    "id": "asmnt-q279",
+    "subject": "assessment",
+    "chapter": "fba",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고, FBA 가설진술문을 작성하고, 이를 바탕으로 BSP의 세 가지 전략(예방, 교수, 결과)을 각각 1가지 이상 구체적으로 제시하시오.\n\n[사례] 중학교 2학년 특수학급 학생 서준이는 집단 활동 시간에 다른 학생을 때리는 행동을 보인다. FBA 결과, 집단 활동 중 다른 학생들이 자신보다 먼저 발표할 기회를 얻을 때 때리는 행동이 나타나며, 교사가 즉시 서준이에게 발표 기회를 주면 때리기 행동이 사라진다.",
+    "case_context": null,
+    "options": null,
+    "answer": "가설진술문: 집단 활동 중 다른 학생이 먼저 발표할 때(선행사건), 서준이는 다른 학생을 때린다(행동). 이는 발표 기회(유형적 결과/주의) 획득을 위한 것이다(기능). BSP: ①예방전략-집단 활동 전 서준이에게 발표 순서를 시각적 일정으로 미리 알려주거나 첫 번째 발표 기회 보장. ②교수전략-손 들기 또는 '제가 먼저 해도 될까요?' 요청 카드를 사용하는 적절한 발표 기회 요청 방법 교수. ③결과전략-적절한 요청 시 발표 기회를 즉각 제공(DRA), 때리기 발생 시 발표 기회를 보류하는 차별강화 적용.",
+    "explanation": "이 사례에서 행동 기능은 발표 기회(유형적 결과) 획득이다. 가설진술문은 선행-행동-기능 3요소를 명시해야 하며, BSP는 이 기능에 기반하여 예방(선행사건 수정), 교수(기능적으로 동등한 대체행동), 결과(DRA 및 소거) 전략을 각각 구성해야 한다. 세 전략의 일관된 기능 연계가 채점의 핵심이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 2026 예상 / FBA-BSP 통합 사례",
+    "tags": {"disability": "emotional-behavior", "topic": "fba-bsp-integrated"}
+  }
+]

@@ -1,0 +1,326 @@
+[
+  {
+    "id": "intro-q95",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "반두라(Bandura)의 관찰학습에서 파지과정(retention process)은 모델의 행동을 언어적·심상적으로 부호화하여 기억에 저장하는 단계이다.",
+    "options": null,
+    "answer": "O",
+    "explanation": "파지과정은 관찰한 행동을 언어적 부호화(언어로 기억)와 심상적 부호화(이미지로 기억)를 통해 장기기억에 저장하는 단계다. 재생과정(reproduction)은 저장된 표상을 행동으로 옮기는 단계로 구분된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 연계 (반두라 관찰학습)",
+    "tags": ["반두라", "관찰학습", "파지과정", "사회인지이론"]
+  },
+  {
+    "id": "intro-q96",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "multiple",
+    "question": "반두라(Bandura)의 관찰학습 4단계를 순서대로 바르게 나열한 것은?",
+    "options": [
+      "주의과정 → 파지과정 → 재생과정 → 동기화과정",
+      "파지과정 → 주의과정 → 동기화과정 → 재생과정",
+      "주의과정 → 재생과정 → 파지과정 → 동기화과정",
+      "파지과정 → 재생과정 → 주의과정 → 동기화과정"
+    ],
+    "answer": "0",
+    "explanation": "반두라의 관찰학습은 ①주의과정(모델에 주목) → ②파지과정(기억에 부호화·저장) → ③재생과정(기억을 행동으로 재현) → ④동기화과정(행동 수행 동기 부여)의 순서로 진행된다. 주의과정이 없으면 관찰 자체가 불가능하므로 반드시 첫 단계이다.",
+    "wrong_explanations": {
+      "1": "파지과정은 관찰 이후 기억화 단계이므로 첫 단계가 될 수 없다. 주의과정이 선행되어야 한다.",
+      "2": "재생과정은 파지(기억 저장) 이후 단계이다. 파지 없이 재생이 먼저 일어날 수 없다.",
+      "3": "파지과정이 주의과정에 선행한다고 보는 것은 오류이다. 모델을 먼저 관찰(주의)해야 기억(파지)이 가능하다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (반두라 관찰학습)",
+    "tags": ["반두라", "관찰학습", "4단계", "사회인지이론"]
+  },
+  {
+    "id": "intro-q97",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "반두라(Bandura)의 관찰학습에서 ( ㄱ )과정은 모델의 행동을 실제로 따라 수행할 수 있는 신체적·인지적 능력을 포함하며, ( ㄴ )과정은 외적 강화, 대리 강화, 자기 강화를 통해 관찰한 행동의 실행 여부를 결정한다.",
+    "options": null,
+    "answer": "ㄱ: 재생(reproduction), ㄴ: 동기화(motivation)",
+    "explanation": "재생과정은 파지된 기억을 행동으로 재현하는 과정으로, 운동 재생 능력과 피드백을 포함한다. 동기화과정은 관찰 행동의 실행을 결정하는 강화 기제로, 외적 강화(타인의 보상), 대리 강화(모델이 받는 강화 관찰), 자기 강화(스스로 평가)가 포함된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (반두라 관찰학습)",
+    "tags": ["반두라", "재생과정", "동기화과정", "대리강화", "자기강화"]
+  },
+  {
+    "id": "intro-q98",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "descriptive",
+    "question": "특수교육에서 반두라(Bandura)의 관찰학습이 적용되는 교수 장면을 제시하고, 주의과정과 동기화과정을 촉진하는 교사의 전략을 각각 2가지씩 서술하시오.",
+    "options": null,
+    "answer": "【주의과정 촉진 전략】(1) 모델의 행동을 단순화하고 단계별로 시범 보여 학생의 집중을 유도한다. (2) 또래 모델을 활용하여 학생이 자신과 유사한 모델에게 더 주목하도록 한다. 【동기화과정 촉진 전략】(1) 모델이 성공하는 장면을 보여줌으로써 대리 강화가 일어나도록 한다. (2) 학생이 목표 행동을 수행했을 때 즉각적인 칭찬과 보상(외적 강화)을 제공한다.",
+    "explanation": "반두라의 관찰학습에서 교사는 주의과정을 위해 모델의 명확성과 유사성을 높이고, 동기화과정을 위해 강화 기제(외적·대리·자기강화)를 적절히 활용해야 한다. 특히 또래 모델링은 장애 학생의 주의 집중과 동기 유발에 효과적이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 연계 (반두라 관찰학습 적용)",
+    "tags": ["반두라", "관찰학습", "또래모델링", "대리강화", "교수전략"]
+  },
+  {
+    "id": "intro-q99",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "multiple",
+    "question": "SRSD(Self-Regulated Strategy Development: 자기조절 전략 개발) 모델의 교수 단계를 순서대로 바르게 나열한 것은?",
+    "options": [
+      "배경지식 개발 → 전략 논의 → 전략 시범 → 전략 암기 → 지원적 수행 → 독립적 수행",
+      "전략 논의 → 배경지식 개발 → 전략 암기 → 전략 시범 → 독립적 수행 → 지원적 수행",
+      "배경지식 개발 → 전략 암기 → 전략 시범 → 전략 논의 → 지원적 수행 → 독립적 수행",
+      "전략 시범 → 전략 논의 → 배경지식 개발 → 전략 암기 → 지원적 수행 → 독립적 수행"
+    ],
+    "answer": "0",
+    "explanation": "SRSD의 6단계는 ①배경지식 개발(전략 사용에 필요한 사전 지식 확인) → ②전략 논의(전략의 목적·효과 논의) → ③전략 시범(교사가 큰 소리로 생각하며 시범) → ④전략 암기(전략 단계 암기) → ⑤지원적 수행(점진적 도움 감소) → ⑥독립적 수행(자기조절로 수행)이다.",
+    "wrong_explanations": {
+      "1": "맞다. 이 순서가 정확한 SRSD 6단계이다.",
+      "2": "전략 논의가 배경지식 개발에 선행할 수 없다. 사전 지식 없이 전략을 논의하기 어렵다.",
+      "3": "전략 암기가 시범에 앞서 이루어지는 것은 부자연스럽다. 시범을 보고 난 후에 암기가 일어난다.",
+      "4": "전략 시범은 논의와 사전 지식 개발 이후에 이루어진다. 시범이 첫 단계가 되는 것은 오류이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (SRSD)",
+    "tags": ["SRSD", "자기조절전략", "학습장애", "쓰기전략"]
+  },
+  {
+    "id": "intro-q100",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "학습장애 학생의 글쓰기 지도에 활용되는 SRSD 기반 전략 중 POW+WWW What 2 How 2 전략에서 POW는 ( ㄱ ) 선택, ( ㄴ ) 조직화, ( ㄷ ) 확장의 세 단계를 의미한다.",
+    "options": null,
+    "answer": "ㄱ: 아이디어(Pick my ideas), ㄴ: 노트(Organize my notes), ㄷ: 쓰기(Write and say more)",
+    "explanation": "POW는 글쓰기 전 계획 단계의 전략이다. P(Pick my ideas): 무엇을 쓸지 아이디어 선택, O(Organize my notes): 선택한 아이디어를 조직화하여 노트 작성, W(Write and say more): 계획을 바탕으로 쓰고 내용을 확장한다. WWW What 2 How 2는 이야기 문법 구조를 기억하는 암기법이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (SRSD, POW 전략)",
+    "tags": ["SRSD", "POW전략", "글쓰기", "학습장애", "이야기문법"]
+  },
+  {
+    "id": "intro-q101",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "SRSD 모델에서 지원적 수행(supported performance) 단계는 교사의 도움이 전혀 없이 학생이 전략을 독립적으로 적용하는 단계이다.",
+    "options": null,
+    "answer": "X",
+    "explanation": "지원적 수행 단계는 교사의 비계(scaffolding)를 점진적으로 줄여가며 학생이 전략을 수행하는 단계이다. 교사의 도움이 완전히 사라지는 단계는 '독립적 수행(independent performance)' 단계이다. 지원적 수행 단계에서는 아직 필요에 따라 도움, 피드백, 언어적 촉진이 제공된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 연계 (SRSD 단계)",
+    "tags": ["SRSD", "지원적수행", "비계", "독립적수행"]
+  },
+  {
+    "id": "intro-q102",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "multiple",
+    "question": "강화된 환경중심 언어중재(EMT: Enhanced Milieu Teaching)의 핵심 구성요소를 모두 포함한 것은?",
+    "options": [
+      "환경 조성 + 반응적 상호작용 + 환경중심 교수 기법",
+      "구조화된 교수 + 직접 교수 + 오류 수정",
+      "환경 조성 + 직접 교수 + 행동 계약",
+      "반응적 상호작용 + 스크립트 훈련 + 그림 교환 의사소통"
+    ],
+    "answer": "0",
+    "explanation": "EMT(강화된 환경중심 언어중재)의 3가지 핵심 구성요소는 ①환경 조성(적절한 물리적 환경 구조화로 의사소통 기회 증가), ②반응적 상호작용(아동 주도를 따르고 균형 잡힌 상호작용), ③환경중심 교수 기법(우발교수, 요구-모델, 시간 지연 포함)이다.",
+    "wrong_explanations": {
+      "1": "맞다.",
+      "2": "구조화된 교수와 직접 교수는 EMT가 아닌 전통적 언어치료 방식에 해당한다.",
+      "3": "행동 계약은 행동중재 전략이며 EMT의 구성요소가 아니다.",
+      "4": "스크립트 훈련과 그림교환의사소통(PECS)은 별도의 AAC·언어중재 방법으로, EMT 구성요소가 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (EMT)",
+    "tags": ["EMT", "환경중심언어중재", "반응적상호작용", "우발교수"]
+  },
+  {
+    "id": "intro-q103",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "EMT(강화된 환경중심 언어중재)에서 시간 지연(time delay) 기법은 아동이 의사소통을 먼저 시작할 수 있도록 기대하는 표정이나 기다리기를 사용하는 것을 포함한다.",
+    "options": null,
+    "answer": "O",
+    "explanation": "시간 지연(time delay)은 아동이 원하는 물건이나 활동 앞에서 교사가 기다리는 표정이나 기대하는 눈빛을 보내며 아동의 자발적 의사소통 시도를 기다리는 기법이다. 아동이 언어를 시작하면 즉각 반응하여 강화한다. EMT의 환경중심 교수 기법 중 하나이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 연계 (EMT 시간지연)",
+    "tags": ["EMT", "시간지연", "환경중심교수", "의사소통"]
+  },
+  {
+    "id": "intro-q104",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "descriptive",
+    "question": "EMT(강화된 환경중심 언어중재)의 환경중심 교수 기법 3가지(우발교수, 요구-모델, 시간 지연)를 각각 정의하고, 각 기법이 적용되는 상황의 예를 한 가지씩 제시하시오.",
+    "options": null,
+    "answer": "【우발교수(incidental teaching)】아동의 자발적 의사소통 시도가 나타날 때 교사가 반응하면서 더 정교화된 언어 표현을 촉진한다. 예: 아동이 장난감을 향해 손을 뻗을 때 교사가 '자동차 줘'라고 모델을 제시하고 아동의 모방을 기다린다. 【요구-모델(mand-model)】교사가 먼저 요구(질문 또는 지시)를 하고, 아동이 반응하지 않으면 모델을 제시한다. 예: '뭘 하고 싶어?'라고 물어보고 반응이 없으면 '그네 타고 싶어요'라고 모델을 제공한다. 【시간 지연(time delay)】아동이 원하는 것 앞에서 교사가 기대하는 표정으로 기다려 자발적 언어 시작을 유도한다. 예: 아동이 과자를 원할 때 교사가 과자를 들고 말없이 기다린다.",
+    "explanation": "세 기법은 모두 자연적 환경에서 아동 주도를 따르는 공통점이 있다. 우발교수는 아동 시작형, 요구-모델은 교사 시작형, 시간 지연은 비언어적 촉진형으로 구분할 수 있다. EMT에서는 세 기법이 상황에 따라 조합하여 사용된다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 연계 (EMT 3기법)",
+    "tags": ["EMT", "우발교수", "요구모델", "시간지연", "환경중심언어중재"]
+  },
+  {
+    "id": "intro-q105",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "multiple",
+    "question": "Meichenbaum의 자기교수법(self-instruction training) 5단계를 순서대로 바르게 나열한 것은?",
+    "options": [
+      "인지적 모델링 → 외현적 지도 → 외현적 자기안내 → 약화된 외현적 자기안내 → 내재적 자기교수",
+      "외현적 자기안내 → 인지적 모델링 → 외현적 지도 → 내재적 자기교수 → 약화된 외현적 자기안내",
+      "인지적 모델링 → 외현적 자기안내 → 외현적 지도 → 약화된 외현적 자기안내 → 내재적 자기교수",
+      "외현적 지도 → 인지적 모델링 → 외현적 자기안내 → 내재적 자기교수 → 약화된 외현적 자기안내"
+    ],
+    "answer": "0",
+    "explanation": "Meichenbaum의 자기교수법 5단계: ①인지적 모델링(교사가 큰 소리로 말하며 수행) → ②외현적 지도(교사의 안내 하에 학생이 큰 소리로 수행) → ③외현적 자기안내(학생이 스스로 큰 소리로 말하며 수행) → ④약화된 외현적 자기안내(학생이 속삭이며 수행) → ⑤내재적 자기교수(학생이 마음속으로 말하며 수행). 외재적 언어가 점차 내면화되는 과정이다.",
+    "wrong_explanations": {
+      "1": "맞다.",
+      "2": "외현적 자기안내가 인지적 모델링에 선행할 수 없다. 교사의 모델이 먼저 제시되어야 한다.",
+      "3": "외현적 자기안내는 외현적 지도(교사 안내) 이후 단계이다. 교사의 안내 없이 학생이 혼자 먼저 외현적으로 수행하기 어렵다.",
+      "4": "외현적 지도가 인지적 모델링에 선행하는 것은 오류이다. 교사의 시범(모델링)이 반드시 먼저 이루어져야 한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (자기교수법)",
+    "tags": ["자기교수법", "Meichenbaum", "인지적모델링", "내재적자기교수"]
+  },
+  {
+    "id": "intro-q106",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "Meichenbaum의 자기교수법 중 ( ㄱ ) 단계는 교사가 큰 소리로 혼잣말을 하면서 과제를 수행하는 시범을 보이는 단계이고, ( ㄴ ) 단계는 학생이 소리를 내지 않고 내면의 언어로 스스로 안내하며 과제를 수행하는 최종 단계이다.",
+    "options": null,
+    "answer": "ㄱ: 인지적 모델링(cognitive modeling), ㄴ: 내재적 자기교수(covert self-instruction)",
+    "explanation": "인지적 모델링은 교사가 사고 과정을 큰 소리로 드러내며 수행함으로써 학생에게 '생각하는 방법'을 가르치는 단계이다. 내재적 자기교수는 자기 안내 언어가 완전히 내면화된 최종 단계로, 외부 관찰자는 학생의 자기대화를 들을 수 없다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 연계 (자기교수법 단계)",
+    "tags": ["자기교수법", "인지적모델링", "내재적자기교수", "Meichenbaum"]
+  },
+  {
+    "id": "intro-q107",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "자기교수법에서 '약화된 외현적 자기안내' 단계는 학생이 과제 수행 중에 아무 말도 하지 않고 완전히 내면적 언어만을 사용하는 단계이다.",
+    "options": null,
+    "answer": "X",
+    "explanation": "약화된 외현적 자기안내(faded overt self-guidance) 단계에서는 학생이 속삭이는 수준의 말(whisper)을 사용하여 자기 안내를 한다. 완전히 내면적 언어만 사용하는 단계는 그 다음 단계인 '내재적 자기교수(covert self-instruction)' 단계이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 연계 (자기교수법)",
+    "tags": ["자기교수법", "약화된외현적자기안내", "속삭임", "Meichenbaum"]
+  },
+  {
+    "id": "intro-q108",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "multiple",
+    "question": "초학문적(transdisciplinary) 팀 접근에 대한 설명으로 옳은 것은?",
+    "options": [
+      "전문가들이 역할 방출(role release)을 통해 자신의 전문 기술을 다른 팀원에게 이전하고, 한 명의 주 서비스 제공자가 통합적 서비스를 제공한다.",
+      "각 전문 영역의 전문가들이 각자 독립적으로 평가·목표 설정·중재를 수행하며, 공식적 의사소통이 거의 없다.",
+      "전문가들이 공동으로 계획을 세우지만 서비스는 각 전문가가 개별적으로 제공하고, 정기적으로 사례를 공유한다.",
+      "모든 전문가가 역할 방출 없이 동등하게 직접 서비스를 제공하며 아동 및 가족과 개별적으로 만난다."
+    ],
+    "answer": "0",
+    "explanation": "초학문적 접근의 핵심은 역할 방출(role release)과 주 서비스 제공자(primary service provider) 개념이다. 전문가들이 자신의 기술을 팀원에게 이전하여 한 명의 주 서비스 제공자가 모든 영역의 서비스를 통합적으로 제공한다. 다학문적(각자 독립)·간학문적(공동 계획, 개별 서비스)과 구분된다.",
+    "wrong_explanations": {
+      "1": "맞다.",
+      "2": "이는 다학문적(multidisciplinary) 접근의 특징이다.",
+      "3": "이는 간학문적(interdisciplinary) 접근의 특징이다.",
+      "4": "역할 방출 없이 전문가가 각자 서비스를 제공하는 것은 초학문적 접근이 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (팀 접근 모델)",
+    "tags": ["초학문적접근", "역할방출", "팀접근", "다학문적", "간학문적"]
+  },
+  {
+    "id": "intro-q109",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "세 가지 팀 접근 모델을 비교할 때, ( ㄱ )적 접근은 전문가들이 독립적으로 평가·중재하고, ( ㄴ )적 접근은 공동 계획 후 각자 서비스를 제공하며, ( ㄷ )적 접근은 역할 방출을 통해 한 명의 주 서비스 제공자가 통합적 서비스를 제공한다.",
+    "options": null,
+    "answer": "ㄱ: 다학문(multidisciplinary), ㄴ: 간학문(interdisciplinary), ㄷ: 초학문(transdisciplinary)",
+    "explanation": "팀 접근의 통합 정도: 다학문적(최소 통합) → 간학문적(중간) → 초학문적(최대 통합). 다학문적은 각자 독립, 간학문적은 계획 공유·실행은 개별, 초학문적은 역할 방출로 주 서비스 제공자가 통합 제공. 초학문적 접근은 중증 중복장애 영유아 교육에서 특히 권장된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (팀 접근 3가지)",
+    "tags": ["다학문적", "간학문적", "초학문적", "팀접근모델"]
+  },
+  {
+    "id": "intro-q110",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "ox",
+    "question": "초학문적 팀 접근에서 역할 방출(role release)은 다른 전문가의 역할을 단순히 관찰하는 것을 의미하며, 자신의 전문 기술을 타 전문가에게 가르치는 과정은 포함하지 않는다.",
+    "options": null,
+    "answer": "X",
+    "explanation": "역할 방출(role release)은 각 전문가가 자신의 전문 기술과 지식을 다른 팀원에게 적극적으로 가르치고 이전하는 과정이다. 단순 관찰이 아니라 전문 기술의 적극적 이전과 교육을 포함한다. 이를 통해 한 명의 주 서비스 제공자가 여러 영역의 서비스를 통합적으로 제공할 수 있게 된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 연계 (역할방출)",
+    "tags": ["역할방출", "초학문적접근", "팀접근", "주서비스제공자"]
+  },
+  {
+    "id": "intro-q111",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "multiple",
+    "question": "삽입교수(embedded instruction)에 대한 설명으로 옳지 않은 것은?",
+    "options": [
+      "IEP 목표 기술을 자연적 학습 활동이나 일과 속에 계획적으로 삽입하여 교수한다.",
+      "교수 시도를 집중 연습(massed practice)으로 제공하여 짧은 시간에 목표 기술을 집중 교수하는 것이 특징이다.",
+      "일반학급의 수업 활동, 전이 시간, 놀이 시간 등 다양한 일과 속에서 교수 기회를 분산하여 제공한다.",
+      "자연적 맥락에서의 교수로 일반화와 유지가 용이하다는 장점이 있다."
+    ],
+    "answer": "1",
+    "explanation": "삽입교수는 분산교수(distributed practice/distributed trials)가 핵심이다. 교수 시도를 하루 일과 전반에 걸쳐 분산하여 자연적 맥락에서 제공하는 것이지, 집중 연습(massed practice)으로 한 번에 집중 교수하는 것이 아니다. 집중 연습은 삽입교수의 특징이 아니라 오히려 반대 개념이다.",
+    "wrong_explanations": {
+      "0": "IEP 목표를 자연적 일과에 삽입한다는 설명은 맞다.",
+      "2": "일과 전반에 걸쳐 분산하여 교수 기회를 제공한다는 설명은 맞다.",
+      "3": "자연적 맥락에서 교수하므로 일반화와 유지가 용이하다는 설명은 맞다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 연계 (삽입교수)",
+    "tags": ["삽입교수", "분산교수", "IEP", "자연적맥락"]
+  },
+  {
+    "id": "intro-q112",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "fill_in",
+    "question": "삽입교수(embedded instruction)는 장애 학생의 IEP 목표 기술을 ( ㄱ )이나 일과 속에 계획적으로 삽입하여 ( ㄴ ) 교수(distributed trials)로 제공하는 교수 방법으로, 자연적 맥락에서 일반화 기회를 극대화한다.",
+    "options": null,
+    "answer": "ㄱ: 자연적 학습 활동(natural activities), ㄴ: 분산(distributed)",
+    "explanation": "삽입교수의 핵심 개념: 자연적 활동·일과에 교수 시도를 '삽입'하고, 하루 전반에 '분산'하여 제공. 집중 연습(massed trials)과 달리 분산교수는 기억 파지와 일반화에 효과적이다. 통합교육 환경에서 특히 효과적으로 적용된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 연계 (삽입교수 개념)",
+    "tags": ["삽입교수", "자연적활동", "분산교수", "IEP목표"]
+  },
+  {
+    "id": "intro-q113",
+    "subject": "introduction",
+    "chapter": "understanding",
+    "type": "descriptive",
+    "question": "통합학급에서 발달지체 유아 A의 IEP 목표가 '친구에게 요청하기(언어 표현)'일 때, 삽입교수(embedded instruction)를 적용하는 구체적인 교수 계획을 다음 일과에 맞게 서술하시오. [등원 → 자유놀이 → 간식 → 바깥놀이]",
+    "options": null,
+    "answer": "【등원】친구가 가방 거는 것을 도와줄 때 A가 '도와줘'라고 말하도록 촉진. 【자유놀이】블록 놀이에서 친구에게 '블록 줘'라고 요청하는 기회를 만들어 제공(블록을 손에 닿지 않게 배치). 【간식】간식 서빙 시 A가 친구에게 '주세요'라고 말하면 간식을 받을 수 있도록 설정. 【바깥놀이】그네를 원할 때 친구에게 '내 차례야'라고 말하도록 촉진. ※각 상황에서 자연적 강화(실제로 요청이 이루어지는 결과)를 즉각 제공하며, 교수 시도를 하루 전반에 분산함.",
+    "explanation": "삽입교수의 핵심은 IEP 목표 기술을 인위적 교수 장면이 아닌 자연스러운 일과 속에 삽입하는 것이다. 교수 시도를 하루 4회 이상 분산하고, 자연적 강화(실제 결과)를 활용함으로써 일반화와 유지가 강화된다. 등원·놀이·간식·바깥활동 등 다양한 일과에 걸쳐 기회를 제공하는 것이 핵심이다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 연계 (삽입교수 적용)",
+    "tags": ["삽입교수", "발달지체", "통합학급", "일과기반교수", "IEP"]
+  }
+]

@@ -1,0 +1,184 @@
+[
+  {
+    "id": "intro-q189",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "수학 학습장애 학생을 위한 CSA 교수의 3단계를 순서대로 올바르게 나열한 것은?",
+    "options": [
+      "추상물(Abstract) → 반구체물(Semiconcrete) → 구체물(Concrete)",
+      "구체물(Concrete) → 추상물(Abstract) → 반구체물(Semiconcrete)",
+      "구체물(Concrete) → 반구체물(Semiconcrete) → 추상물(Abstract)",
+      "반구체물(Semiconcrete) → 구체물(Concrete) → 추상물(Abstract)"
+    ],
+    "answer": "2",
+    "explanation": "CSA 교수(Concrete-Semiconcrete-Abstract instruction)는 구체물(실제 사물 조작) → 반구체물(그림, 도형, 가상 조작물 등 시각적 표상) → 추상물(숫자, 기호 등 추상적 표기) 순으로 진행된다. 이는 수학 개념을 구체적인 것에서 추상적인 것으로 단계적으로 제시하여 학습장애 학생의 개념 이해를 돕는다. CRA(Concrete-Representational-Abstract) 교수와 동일한 원리이다.",
+    "wrong_explanations": {
+      "0": "CSA 교수는 추상물에서 시작하지 않는다. 구체적 경험에서 추상적 표현으로 진행하는 것이 핵심 원리이다.",
+      "1": "구체물 다음에 추상물이 아닌 반구체물(시각적 표상)이 온다. 구체물 → 반구체물 → 추상물의 3단계 순서가 중요하다.",
+      "3": "반구체물에서 시작하는 것은 CSA 교수의 원리에 맞지 않는다. 구체적 경험이 반드시 선행되어야 한다."
+    },
+    "tags": [
+      "CSA교수",
+      "CRA교수",
+      "학습장애",
+      "수학",
+      "구체물반구체물추상물"
+    ],
+    "subject": "introduction",
+    "chapter": "disability-types"
+  },
+  {
+    "id": "intro-q190",
+    "type": "fill_in",
+    "difficulty": 1,
+    "question": "CSA 교수와 동일한 원리를 표현하는 또 다른 명칭으로, '구체(Concrete) → 표상(Representational) → 추상(Abstract)'의 순서를 강조하는 교수법을 (  ) 교수라고 한다.",
+    "options": null,
+    "answer": "CRA",
+    "explanation": "CRA(Concrete-Representational-Abstract) 교수는 CSA 교수와 동일한 3단계 원리를 다른 명칭으로 표현한 것이다. 구체물 단계에서는 실제 조작물을, 표상(반구체물) 단계에서는 그림이나 도형을, 추상 단계에서는 수식이나 기호를 사용한다. 두 명칭 모두 수학 학습장애 교수에서 증거 기반 실제(EBP)로 인정받고 있다.",
+    "wrong_explanations": null,
+    "tags": [
+      "CRA교수",
+      "CSA교수",
+      "학습장애",
+      "수학",
+      "증거기반실제"
+    ],
+    "subject": "introduction",
+    "chapter": "disability-types"
+  },
+  {
+    "id": "intro-q191",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "수학 학습장애 중학생을 대상으로 기억전략과 CSA 교수를 결합하여 일차방정식 교수의 효과를 검증한 연구(송다은·김애화, 2024)의 연구 설계로 옳은 것은?",
+    "options": [
+      "ABAB 반전 설계(reversal design)",
+      "중다 간헐 기초선 설계(multiple probe design across participants)",
+      "행동 간 중다기초선 설계(multiple baseline across behaviors)",
+      "집단 간 비교 무선할당 설계"
+    ],
+    "answer": "1",
+    "explanation": "이 연구는 수학 학습장애 진단 중학생 3명을 대상으로 중다 간헐 기초선 설계(multiple probe design across participants)를 사용하였다. 기술 습득 연구에서 중재 철회가 불가능하거나 부적합하기 때문에 중다기초선 설계가 더 적합하며, 간헐 기초선(probe)은 모든 기초선 데이터를 매 회기 수집하지 않고 간헐적으로 측정하는 방식이다.",
+    "wrong_explanations": {
+      "0": "ABAB 반전 설계는 중재 효과가 철회 후 원상태로 돌아가는 행동(유지되지 않는 행동)에 적합하다. 학업 기술 습득 연구에서는 중재 철회 후 학습된 기술이 소거되지 않아 부적합하다.",
+      "2": "행동 간 중다기초선 설계는 동일 학생에게 여러 다른 행동(기술)에 대해 순차적으로 중재를 적용할 때 사용한다. 이 연구는 여러 학생에게 동일 기술을 가르치는 것이므로 대상자 간 설계가 적합하다.",
+      "3": "집단 간 비교 무선할당 설계는 양적 집단연구이며, 이 연구는 3명 참여자를 대상으로 한 단일사례연구이다."
+    },
+    "tags": [
+      "연구설계",
+      "중다간헐기초선",
+      "단일사례연구",
+      "CSA교수",
+      "학습장애"
+    ],
+    "subject": "introduction",
+    "chapter": "disability-types"
+  },
+  {
+    "id": "intro-q192",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "VA-I 교수(Virtual Applet to Abstract instruction)와 CSA 교수의 차이점으로 옳은 것은?",
+    "options": [
+      "VA-I 교수는 추상물 단계를 생략하고 가상 조작물에서 바로 평가를 실시한다",
+      "VA-I 교수는 구체물 단계를 물리적 조작물 대신 디지털 가상 조작물(virtual applet)로 대체한다",
+      "VA-I 교수는 반구체물 단계가 없어 가상 조작물에서 바로 추상물로 진행한다",
+      "VA-I 교수는 CSA와 달리 개별 교수가 아닌 소집단 교수 전용 방식이다"
+    ],
+    "answer": "1",
+    "explanation": "VA-I 교수는 CSA 교수의 구체물(C) 단계를 물리적 조작물 대신 디지털 가상 조작물(virtual applet, VA)로 대체한 것이다. 즉, VA(가상 조작물) → I(추상적 기호·표기) 순으로 진행된다. 연구(김수정·이은주, 2024)에서 VA-I 교수는 기존 CSA 교수의 물리적 구체물과 비교하여 유사하거나 더 우수한 효과를 보여 디지털 도구가 물리적 구체물을 대체할 수 있음을 입증하였다.",
+    "wrong_explanations": {
+      "0": "VA-I 교수는 추상물(Abstract) 단계를 생략하지 않는다. 가상 조작물(VA) 다음에 추상적 기호(I)로 진행하는 2단계 구조이다.",
+      "2": "VA-I 교수는 가상 조작물(VA)이 곧 반구체물의 역할을 하며, 추상물(I)로 이어진다. 반구체물 단계가 없는 것이 아니라 가상 조작물이 반구체물에 해당한다.",
+      "3": "VA-I 교수의 집단 구성 방식에 대한 내용은 이 연구에서 특정된 바 없으며, 개별 및 소집단 모두 적용 가능하다."
+    },
+    "tags": [
+      "VA-I교수",
+      "CSA교수",
+      "학습장애",
+      "가상조작물",
+      "에듀테크",
+      "수학"
+    ],
+    "subject": "introduction",
+    "chapter": "disability-types"
+  },
+  {
+    "id": "intro-q193",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "수학 학습장애 위험군 초등학생을 대상으로 VA-I 교수와 시간제한 교수(time drill)를 결합한 연구(김수정·이은주, 2024)에서 연산 유창성이 유의미하게 향상되었으며, 유지 효과도 확인되었다.",
+    "options": null,
+    "answer": "O",
+    "explanation": "VA-I 교수(가상조작물-추상기호 순차 교수)에 시간제한 교수(time drill)를 결합한 중재는 4명의 수학 학습장애 위험군 초등학생 모두에서 연산 유창성을 향상시켰다(평균 PND=97.5%, Tau-U=0.99, p<.001). 유지 효과도 확인되어 디지털 가상조작물이 물리적 구체물을 대체할 수 있는 증거 기반 실제임을 입증하였다.",
+    "wrong_explanations": null,
+    "tags": [
+      "VA-I교수",
+      "시간제한교수",
+      "학습장애",
+      "연산유창성",
+      "단일사례연구",
+      "수학"
+    ],
+    "subject": "introduction",
+    "chapter": "disability-types"
+  },
+  {
+    "id": "intro-q194",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "CSA 교수에서 '반구체물(semiconcrete)' 단계에 해당하는 교수 자료로 가장 적절한 것은?",
+    "options": [
+      "실제 사탕이나 블록을 이용한 조작 활동",
+      "수 직선, 모눈종이 그림, 조작물을 표현한 도식",
+      "수식과 방정식 기호만을 사용한 연산 학습지",
+      "교사의 구두 설명만을 이용한 개념 제시"
+    ],
+    "answer": "1",
+    "explanation": "반구체물(semiconcrete) 단계에서는 실제 사물이 아닌 그림, 도식, 다이어그램, 수 직선, 모눈종이 그림 등 시각적 표상(pictorial representation)을 사용한다. 구체물(실제 사탕, 블록 등 조작)과 추상물(수식, 기호) 사이의 중간 단계로, 물리적 조작 없이 시각적으로 수학 개념을 표현하도록 돕는다.",
+    "wrong_explanations": {
+      "0": "실제 사탕이나 블록을 이용한 조작 활동은 구체물(concrete) 단계에 해당한다. 실제 사물을 직접 조작하는 것이 구체물 단계의 특성이다.",
+      "2": "수식과 방정식 기호만 사용하는 것은 추상물(abstract) 단계에 해당한다. 반구체물은 이보다 더 시각적인 지원을 제공한다.",
+      "3": "교사의 구두 설명은 CSA 교수의 어떤 특정 단계를 나타내지 않으며, 모든 단계에서 교사의 설명이 병행된다."
+    },
+    "tags": [
+      "CSA교수",
+      "CRA교수",
+      "반구체물",
+      "학습장애",
+      "수학",
+      "시각적표상"
+    ],
+    "subject": "introduction",
+    "chapter": "disability-types"
+  },
+  {
+    "id": "intro-q195",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "수학 학습장애 중학생의 일차방정식 교수 연구(송다은·김애화, 2024)에서 기억전략으로 활용된 방법에 해당하는 것을 <보기>에서 모두 고른 것은?\n\n<보기>\nㄱ. 두문자어(acronym) 기법\nㄴ. 심상(mental imagery) 기법\nㄷ. 자기교수전략(self-instruction)\nㄹ. 청킹(chunking) 기법\nㅁ. 정교화 시연(elaborative rehearsal)",
+    "options": [
+      "ㄱ, ㄴ",
+      "ㄱ, ㄷ",
+      "ㄴ, ㄷ",
+      "ㄴ, ㄹ"
+    ],
+    "answer": "0",
+    "explanation": "이 연구에서 활용된 기억전략은 두문자어(acronym) 기법과 심상(mental imagery) 기법이었다. 두문자어는 복잡한 풀이 절차를 기억하기 쉬운 머리글자로 조합하는 방법이며, 심상 기법은 추상적 개념을 시각적 이미지로 연상하여 기억하는 방법이다. 이 두 기억전략이 CSA 교수와 결합될 때 분배법칙을 활용한 일차방정식 풀이에 효과적이었다.",
+    "wrong_explanations": {
+      "1": "자기교수전략(ㄷ)은 이 연구에서 활용된 기억전략으로 특정 보고되지 않았다. 두문자어와 심상 기법이 핵심 기억전략이었다.",
+      "2": "심상 기법(ㄴ)은 포함되나, 자기교수전략(ㄷ)은 이 연구의 기억전략으로 특정 보고되지 않았다.",
+      "3": "청킹(ㄹ)은 이 연구에서 활용된 기억전략으로 보고되지 않았다."
+    },
+    "tags": [
+      "기억전략",
+      "CSA교수",
+      "학습장애",
+      "수학",
+      "두문자어",
+      "심상기법"
+    ],
+    "subject": "introduction",
+    "chapter": "disability-types"
+  }
+]

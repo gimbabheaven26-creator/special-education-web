@@ -1,0 +1,419 @@
+[
+  {
+    "id": "cd-q109",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "fill_in",
+    "question": "Beukelman과 Mirenda의 AAC 참여 모델에서 AAC 사용을 방해하는 장벽은 ( ㉠ ) 장벽과 ( ㉡ ) 장벽으로 구분된다. ㉠은 정책·실천·지식·기술·태도 요인을 포함하고, ㉡은 능력·태도·자원 요인을 포함한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 기회 ㉡: 접근",
+    "explanation": "참여 모델(Participation Model)에서 기회 장벽(opportunity barriers)은 AAC 사용자를 둘러싼 외부 환경(정책, 실천, 지식, 기술, 태도)에서 비롯된다. 접근 장벽(access barriers)은 사용자 개인의 능력, 태도, 자원 측면에서 비롯된다. 두 장벽의 구분과 각각의 하위 요인은 KICE에서 자주 출제되는 핵심 개념이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 참여 모델)",
+    "tags": {"topic": "aac-participation-model"}
+  },
+  {
+    "id": "cd-q110",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "Beukelman과 Mirenda의 AAC 참여 모델에서 '기회 장벽(opportunity barriers)'에 해당하는 요인을 모두 고른 것은?\n㉠ 정책(policy)\n㉡ 능력(capability)\n㉢ 실천(practice)\n㉣ 자원(resource)\n㉤ 지식(knowledge)",
+    "case_context": null,
+    "options": [
+      "㉠, ㉢, ㉤",
+      "㉠, ㉡, ㉢",
+      "㉡, ㉣, ㉤",
+      "㉠, ㉢, ㉣"
+    ],
+    "answer": "0",
+    "explanation": "기회 장벽의 5가지 요인은 정책(policy), 실천(practice), 지식(knowledge), 기술(skill), 태도(attitude)이다. ㉡ 능력(capability)과 ㉣ 자원(resource)은 접근 장벽에 해당하는 요인이다. ㉠ 정책, ㉢ 실천, ㉤ 지식은 모두 기회 장벽 요인이다.",
+    "wrong_explanations": {
+      "1": "능력(㉡)은 접근 장벽의 요인이므로 기회 장벽에 포함되지 않는다.",
+      "2": "능력(㉡)과 자원(㉣)은 모두 접근 장벽의 요인으로, 기회 장벽과 구별해야 한다.",
+      "3": "자원(㉣)은 접근 장벽의 요인이며 정책·실천과 함께 묶이지 않는다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 참여 모델)",
+    "tags": {"topic": "aac-participation-model"}
+  },
+  {
+    "id": "cd-q111",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "다음 중 AAC 참여 모델(Beukelman & Mirenda)의 절차를 순서대로 올바르게 나열한 것은?",
+    "case_context": null,
+    "options": [
+      "지역사회 참여 기준 확인 → 현재 참여 패턴 분석 → 장벽 확인 → 중재 계획 및 실행",
+      "현재 참여 패턴 분석 → 지역사회 참여 기준 확인 → 장벽 확인 → 중재 계획 및 실행",
+      "장벽 확인 → 지역사회 참여 기준 확인 → 현재 참여 패턴 분석 → 중재 계획 및 실행",
+      "지역사회 참여 기준 확인 → 장벽 확인 → 현재 참여 패턴 분석 → 중재 계획 및 실행"
+    ],
+    "answer": "0",
+    "explanation": "참여 모델의 절차는 ① 또래 비장애인의 지역사회 참여 기준 확인, ② AAC 사용자의 현재 참여 패턴 분석, ③ 기회·접근 장벽 확인, ④ 중재 계획 수립 및 실행 순서로 진행된다. 또래 기준을 먼저 확인하여 목표를 설정하고, 현재 수준과의 격차를 분석한 뒤 장벽을 파악하는 흐름이 핵심이다.",
+    "wrong_explanations": {
+      "1": "현재 참여 패턴 분석이 지역사회 기준 확인보다 먼저 이루어지면 목표 기준 없이 현황만 파악하게 되어 모델 순서에 맞지 않는다.",
+      "2": "장벽 확인은 현재 참여 패턴 분석 이후에 이루어지는 단계이므로 첫 단계가 될 수 없다.",
+      "3": "장벽 확인은 현재 참여 패턴 분석 다음 단계이므로, 현재 패턴 분석 이전에 올 수 없다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 참여 모델)",
+    "tags": {"topic": "aac-participation-model"}
+  },
+  {
+    "id": "cd-q112",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "AAC 참여 모델에서 교사가 AAC 사용에 대한 부정적 태도를 가지고 있어 수업에서 AAC 활용 기회를 제공하지 않는 것은 '접근 장벽'에 해당한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "교사의 부정적 태도로 인해 AAC 사용 기회 자체가 주어지지 않는 것은 '기회 장벽(opportunity barrier)'에 해당한다. 기회 장벽의 하위 요인 중 '태도(attitude)'는 주변 사람들의 인식과 태도가 AAC 사용 기회를 막는 경우를 의미한다. 접근 장벽은 AAC 사용자 본인의 능력, 태도, 자원 측면의 제약이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 동형 (2027 예측 — AAC 참여 모델)",
+    "tags": {"topic": "aac-participation-model"}
+  },
+  {
+    "id": "cd-q113",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "AAC 상징의 도상성(iconicity)에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "도상성이 높은 상징은 지시 대상과 시각적 유사성이 높아 학습이 용이하다.",
+      "투명한(transparent) 상징은 도움 없이도 의미를 추측할 수 있는 수준의 도상성을 가진다.",
+      "반투명한(translucent) 상징은 설명을 들은 후에도 연결 관계를 파악하기 어렵다.",
+      "불투명한(opaque) 상징은 지시 대상과 시각적 유사성이 거의 없어 학습에 어려움이 있다."
+    ],
+    "answer": "2",
+    "explanation": "반투명한(translucent) 상징은 설명을 듣기 전에는 의미를 추측하기 어렵지만, 설명을 들은 후에는 상징과 지시 대상의 관계를 이해할 수 있다. 선지 2에서 '설명을 들은 후에도 연결 관계를 파악하기 어렵다'고 한 것은 불투명(opaque) 상징의 특성이므로 반투명 상징에 대한 설명으로 틀렸다.",
+    "wrong_explanations": {
+      "0": "도상성이 높을수록 지시 대상과 상징의 시각적 유사성이 높아 인지적 부담이 적고 학습이 더 용이하다는 설명은 도상성의 정의에 부합한다.",
+      "1": "투명한 상징(transparent symbol)은 사전 교육 없이도 의미를 추측할 수 있을 만큼 도상성이 높은 상징으로, 이 설명은 적절하다.",
+      "3": "불투명한 상징(opaque symbol)은 지시 대상과 시각적 유사성이 거의 없어 별도의 학습 없이는 의미 파악이 어렵다는 설명은 타당하다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 상징 도상성)",
+    "tags": {"topic": "aac-iconicity"}
+  },
+  {
+    "id": "cd-q114",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "fill_in",
+    "question": "AAC 상징의 도상성 스펙트럼에서, 설명 없이도 그 의미를 쉽게 파악할 수 있는 상징을 ( ㉠ ) 상징이라 하고, 설명을 듣고 나면 연결 관계를 이해할 수 있는 상징을 ( ㉡ ) 상징, 설명 후에도 관계 파악이 어려운 상징을 ( ㉢ ) 상징이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 투명 ㉡: 반투명 ㉢: 불투명",
+    "explanation": "도상성 스펙트럼은 투명(transparent) → 반투명(translucent) → 불투명(opaque) 순으로 도상성이 낮아진다. 투명 상징은 추가 설명 없이 지시 대상을 추론 가능하고, 반투명 상징은 설명 후 연결 관계 이해가 가능하며, 불투명 상징은 설명 후에도 관계 파악이 어려워 직접적인 교수가 필요하다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 상징 도상성)",
+    "tags": {"topic": "aac-iconicity"}
+  },
+  {
+    "id": "cd-q115",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "손짓기호(manual sign)의 도상성 비교에 관한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "Amer-Ind는 ASL보다 도상성이 낮아 비장애인도 의미를 추측하기 어렵다.",
+      "ASL은 Amer-Ind보다 도상성이 높아 AAC 학습 초기에 더 적합하다.",
+      "Amer-Ind는 ASL보다 도상성이 높아 비장애인도 의미를 어느 정도 추측할 수 있다.",
+      "Amer-Ind와 ASL은 도상성이 유사하여 AAC 중재에서 동등하게 활용된다."
+    ],
+    "answer": "2",
+    "explanation": "Amer-Ind(아메리카 인디언 손짓 코드)는 ASL(미국 수어)보다 도상성이 높은 것으로 알려져 있다. Amer-Ind의 상당수 기호는 지시 대상을 모방하거나 형태를 나타내기 때문에, 수어 훈련을 받지 않은 비장애인도 의미를 어느 정도 추측할 수 있다. 이러한 높은 도상성 때문에 AAC에서 보완·대체 수단으로 활용 가치가 있다.",
+    "wrong_explanations": {
+      "0": "Amer-Ind는 ASL보다 도상성이 높다는 점이 핵심이다. 도상성이 낮다는 설명은 반대이다.",
+      "1": "ASL은 Amer-Ind보다 도상성이 낮으므로, ASL이 더 높다는 설명은 두 체계의 특성을 혼동한 것이다.",
+      "3": "두 체계는 도상성에서 차이가 있으며, Amer-Ind가 더 높은 도상성을 갖는다는 점에서 동등하다는 설명은 적절하지 않다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 손짓기호 도상성)",
+    "tags": {"topic": "aac-iconicity"}
+  },
+  {
+    "id": "cd-q116",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "AAC 스캐닝(scanning) 유형에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "자동 스캐닝(automatic scanning)은 스위치를 누르지 않아도 항목이 자동으로 이동하며, 원하는 항목에서 스위치를 눌러 선택한다.",
+      "단계 스캐닝(step scanning)은 스위치를 누를 때마다 항목이 하나씩 이동하고, 원하는 항목에서 일정 시간 동안 스위치를 누르지 않으면 선택된다.",
+      "역전 스캐닝(inverse scanning)은 스위치를 누르고 있는 동안 항목이 이동하다가, 스위치를 놓으면 해당 항목이 선택된다.",
+      "자동 스캐닝은 단계 스캐닝에 비해 사용자의 스위치 조작 횟수가 많아 피로도가 높다."
+    ],
+    "answer": "3",
+    "explanation": "자동 스캐닝(automatic scanning)은 항목이 자동으로 이동하므로 사용자가 스위치를 조작하는 횟수가 적다. 반면 단계 스캐닝(step scanning)은 한 항목씩 이동할 때마다 스위치를 눌러야 하므로 스위치 조작 횟수가 많다. 따라서 자동 스캐닝이 단계 스캐닝보다 스위치 조작 횟수가 많다는 설명은 두 유형의 특성을 반대로 서술한 것이다.",
+    "wrong_explanations": {
+      "0": "자동 스캐닝은 커서가 자동으로 이동하고 원하는 항목에서 스위치를 눌러 선택하는 방식으로, 이 설명은 타당하다.",
+      "1": "단계 스캐닝에서 일정 시간 스위치를 누르지 않으면 항목이 선택되는 방식(dwell time)은 단계 스캐닝의 변형으로도 나타날 수 있으며, 각 이동 시 스위치를 누르는 설명은 적절하다.",
+      "2": "역전 스캐닝(inverse scanning)은 스위치를 누르는 동안 항목이 이동하고, 손을 놓으면 선택되는 방식으로 이 설명은 적절하다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 스캐닝)",
+    "tags": {"topic": "aac-scanning"}
+  },
+  {
+    "id": "cd-q117",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "fill_in",
+    "question": "AAC 스캐닝 유형 중, 스위치를 누르고 있는 동안 항목이 이동하다가 스위치를 놓는 순간 해당 항목이 선택되는 방식을 ( ㉠ ) 스캐닝이라 하고, 스위치를 누를 때마다 항목이 하나씩 이동하는 방식을 ( ㉡ ) 스캐닝이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 역전 ㉡: 단계",
+    "explanation": "역전 스캐닝(inverse scanning)은 스위치를 누르는 동안 커서가 이동하고 놓으면 선택되는 방식으로, 지속적인 스위치 압박이 가능한 사용자에게 적합하다. 단계 스캐닝(step scanning)은 누를 때마다 한 항목씩 이동하므로 정확한 타이밍보다 의지적 조작이 가능한 사용자에게 적합하다. 자동 스캐닝은 별도 조작 없이 자동 이동 후 원하는 항목에서 선택한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 동형 (2027 예측 — AAC 스캐닝)",
+    "tags": {"topic": "aac-scanning"}
+  },
+  {
+    "id": "cd-q118",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "AAC 인코딩(encoding) 기법에 관한 설명으로 옳은 것을 모두 고른 것은?\n㉠ 알파벳 인코딩은 단어의 첫 글자들을 조합하여 메시지를 선택하는 방법이다.\n㉡ 의미 인코딩은 특정 숫자나 색상 코드의 조합으로 어휘를 검색하는 방법이다.\n㉢ 아이콘 인코딩은 2개 이상의 상징 그림을 조합하여 단어나 구를 표현하는 방법이다.\n㉣ 인코딩은 제한된 어휘 공간에서 더 많은 어휘에 접근하기 위한 전략이다.",
+    "case_context": null,
+    "options": [
+      "㉠, ㉢, ㉣",
+      "㉠, ㉡, ㉣",
+      "㉡, ㉢, ㉣",
+      "㉠, ㉡, ㉢, ㉣"
+    ],
+    "answer": "0",
+    "explanation": "㉠ 알파벳 인코딩은 단어의 첫 글자 조합으로 어휘를 선택하는 방법이다. ㉢ 아이콘 인코딩(Minspeak 등)은 2개 이상의 상징 그림 조합으로 어휘를 표현하는 방법이다. ㉣ 인코딩은 제한된 상징 공간에서 더 많은 어휘에 접근할 수 있도록 하는 전략으로 맞다. ㉡ 의미 인코딩은 의미론적 연관성 기반으로 어휘를 조직화하는 방법이며, 숫자나 색상 코드 조합으로 설명한 것은 정확하지 않다.",
+    "wrong_explanations": {
+      "1": "㉡ 의미 인코딩을 숫자·색상 코드 조합으로 설명한 것은 부정확하므로, ㉡이 포함된 선지는 오답이다.",
+      "2": "㉡의 설명이 부정확하여 ㉡이 포함된 선지는 오답이다.",
+      "3": "㉡의 설명이 부정확하므로 4개 전체가 옳다는 선지는 오답이다."
+    },
+    "difficulty": 3,
+    "source": "KICE 동형 (2027 예측 — AAC 인코딩)",
+    "tags": {"topic": "aac-encoding"}
+  },
+  {
+    "id": "cd-q119",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "의사소통 속도 측면에서 직접선택(direct selection)과 스캐닝(scanning)을 비교한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "스캐닝은 직접선택보다 의사소통 속도가 빠르고 피로도가 낮다.",
+      "직접선택은 운동 기능이 제한된 사용자에게도 스캐닝보다 항상 우선 권장된다.",
+      "스캐닝은 직접선택에 비해 의사소통 속도가 느리고 인지적·신체적 피로도가 높은 편이다.",
+      "직접선택과 스캐닝의 의사소통 속도 차이는 어휘 크기와 무관하다."
+    ],
+    "answer": "2",
+    "explanation": "스캐닝 방식은 항목을 하나씩 순차적으로 이동하며 대기해야 하므로 직접선택에 비해 의사소통 속도가 현저히 느리다. 또한 스위치 조작 타이밍 유지, 항목 추적 등 인지적 부담과 반복 조작에 따른 신체적 피로도가 높다. 스캐닝은 직접선택이 불가능한 운동 기능 제한 사용자를 위한 대안적 방법으로 선택된다.",
+    "wrong_explanations": {
+      "0": "스캐닝은 직접선택보다 속도가 느리고 피로도가 높다는 점에서, 속도가 빠르고 피로도가 낮다는 설명은 반대이다.",
+      "1": "직접선택이 항상 우선 권장된다는 표현은 적절하지 않다. 운동 기능 제한이 심한 경우 스캐닝이 더 적합할 수 있다.",
+      "3": "어휘 크기가 클수록 스캐닝에서 목표 항목까지 도달 시간이 길어지므로, 어휘 크기와 무관하다는 설명은 타당하지 않다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 접근 방법 비교)",
+    "tags": {"topic": "aac-access-methods"}
+  },
+  {
+    "id": "cd-q120",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "단어 예측(word prediction) 전략은 AAC 사용자가 첫 글자나 음절을 입력하면 가능한 단어 목록을 제시하여 의사소통 속도를 높이고 키 입력 횟수를 줄이는 데 효과적이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "단어 예측(word prediction)은 AAC 기기나 소프트웨어에서 사용자가 일부 글자를 입력하면 빈도, 맥락, 문법 정보를 기반으로 가능한 단어 목록을 자동으로 제시하는 전략이다. 이를 통해 키 입력 횟수를 줄이고 의사소통 속도를 향상시키며, 철자 오류 가능성도 감소시킬 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 동형 (2027 예측 — AAC 속도 향상 전략)",
+    "tags": {"topic": "aac-rate-enhancement"}
+  },
+  {
+    "id": "cd-q121",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "fill_in",
+    "question": "AAC에서 자주 사용하는 메시지를 미리 완성된 문장이나 구 형태로 저장해 두었다가 필요 시 한 번에 불러오는 전략을 ( ㉠ )이라 하며, 이는 의사소통 속도를 높이고 ( ㉡ ) 부담을 줄이는 데 효과적이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "㉠: 메시지 뱅킹(message banking) ㉡: 인지적",
+    "explanation": "메시지 뱅킹(message banking)은 사용 빈도가 높은 완성 문장이나 구를 사전에 저장하는 전략이다. 실시간 생성 없이 저장된 메시지를 그대로 불러오므로 의사소통 속도가 빨라지고, 문장 생성에 필요한 인지적 부담도 줄어든다. 특히 근위축성 측삭경화증(ALS) 등 진행성 장애에서 자신의 목소리로 메시지를 미리 녹음해 두는 보이스 뱅킹(voice banking)과 함께 활용된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 속도 향상 전략)",
+    "tags": {"topic": "aac-rate-enhancement"}
+  },
+  {
+    "id": "cd-q122",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "다음 중 AAC 도입에 대한 오개념을 바르게 반박한 것으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "AAC는 구어 발달을 억제하지 않으며, 오히려 구어 산출을 촉진할 수 있다는 연구 근거가 있다.",
+      "AAC는 구어가 전혀 없을 때만 도입하는 최후 수단이 아니라, 의사소통 기능 보완을 위해 조기에 도입할수록 효과적이다.",
+      "AAC 사용자는 읽기·쓰기 능력이 있어야 AAC를 효과적으로 활용할 수 있으므로, 문해 교육을 먼저 완료한 후 도입해야 한다.",
+      "AAC는 특정 연령 이상의 아동에게만 적합한 것이 아니라, 영유아를 포함한 모든 연령대에 적용 가능하다."
+    ],
+    "answer": "2",
+    "explanation": "읽기·쓰기 능력이 없어도 그림 상징, 사진, 물체 기반 상징 등 다양한 비문자 AAC를 활용할 수 있다. 문해 교육을 먼저 완료해야 AAC를 도입할 수 있다는 것은 오개념이며, 오히려 AAC를 통한 의사소통 경험이 문해 발달에 긍정적 영향을 줄 수 있다.",
+    "wrong_explanations": {
+      "0": "AAC가 구어 발달을 억제하지 않고 촉진할 수 있다는 연구 근거는 실제로 존재하며, 이는 AAC에 대한 오개념을 바르게 반박하는 진술이다.",
+      "1": "AAC를 구어가 전혀 없을 때만 도입한다는 '최후 수단' 관념은 오개념이며, 조기 도입의 효과에 관한 진술은 현재의 AAC 원칙과 일치한다.",
+      "3": "AAC는 특정 연령 제한이 없으며 영유아에게도 적용 가능하다는 진술은 AAC 오개념을 올바르게 반박한다."
+    },
+    "difficulty": 3,
+    "source": "KICE 동형 (2027 예측 — AAC 오개념)",
+    "tags": {"topic": "aac-misconceptions"}
+  },
+  {
+    "id": "cd-q123",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "보조 언어 자극(ALgS: Aided Language Stimulation) 전략에 관한 설명으로 옳은 것을 모두 고른 것은?\n㉠ 중재자가 AAC 사용자와 동일한 AAC 도구를 사용하여 구어와 함께 상징을 가리키며 언어를 모델링한다.\n㉡ ALgS는 AAC 사용자에게 즉각적인 AAC 표현을 요구하지 않고 언어 모델을 노출하는 방식이다.\n㉢ ALgS는 자연스러운 활동 맥락에서 이루어지며 반응 압박(response pressure)을 최소화한다.\n㉣ ALgS는 AAC 사용자의 수용 언어 발달에는 효과적이지만 표현 언어에는 영향을 미치지 않는다.",
+    "case_context": null,
+    "options": [
+      "㉠, ㉡, ㉢",
+      "㉠, ㉡, ㉣",
+      "㉡, ㉢, ㉣",
+      "㉠, ㉢, ㉣"
+    ],
+    "answer": "0",
+    "explanation": "ALgS(Aided Language Stimulation)는 ㉠ 중재자가 AAC 도구로 상징을 직접 가리키며 구어와 함께 언어를 모델링하고, ㉡ 즉각적 표현 요구 없이 언어 입력을 풍부하게 제공하며, ㉢ 자연스러운 활동 맥락에서 반응 압박을 최소화하는 전략이다. ㉣은 오류이다. ALgS는 수용 언어뿐 아니라 표현 언어 발달에도 긍정적 영향을 미친다는 연구 결과가 보고되어 있다.",
+    "wrong_explanations": {
+      "1": "㉣에서 ALgS가 표현 언어에 영향을 미치지 않는다는 주장은 연구 결과와 다르므로, ㉣이 포함된 선지는 오답이다.",
+      "2": "㉣의 설명이 부정확하므로 ㉣이 포함된 선지는 오답이다.",
+      "3": "㉣의 설명이 부정확하므로 ㉣이 포함된 선지는 오답이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — ALgS 심화)",
+    "tags": {"topic": "aac-algs"}
+  },
+  {
+    "id": "cd-q124",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "다음 사례에서 교사가 사용한 AAC 파트너 전략의 명칭과 그 특성이 바르게 연결된 것은?",
+    "case_context": "특수학교 교사 최 씨는 AAC를 사용하는 민준이와 점심 시간에 대화하면서, 민준이의 AAC 기기와 동일한 상징 판을 이용해 '밥', '좋아요', '오늘'에 해당하는 상징을 직접 손가락으로 가리키며 '오늘 밥 좋아요?'라고 말했다. 최 씨는 민준이에게 즉각적인 대답을 요구하지 않고 자연스럽게 대화를 이어갔다.",
+    "options": [
+      "보조 언어 자극(ALgS) — 중재자가 AAC 도구로 상징을 모델링하되 즉각적 표현을 요구하지 않는 전략",
+      "핵심 어휘 교수 — 상황에 관계없이 자주 사용하는 핵심 어휘를 집중 지도하는 전략",
+      "PECS 4단계 — 문장띠를 사용하여 '나는 ~을 원해요' 형식으로 요구하는 단계",
+      "직접선택 모델링 — 스위치 없이 화면을 직접 터치하여 상징을 가르치는 전략"
+    ],
+    "answer": "0",
+    "explanation": "사례에서 교사는 민준이와 동일한 AAC 상징 판을 사용하여 상징을 직접 가리키며 구어와 함께 언어를 모델링하고, 즉각적 반응을 요구하지 않았다. 이는 보조 언어 자극(ALgS: Aided Language Stimulation)의 핵심 특성인 '중재자가 동일 AAC 도구로 상징 모델링 + 반응 압박 최소화'에 정확히 부합한다.",
+    "wrong_explanations": {
+      "1": "핵심 어휘 교수는 어휘 선정과 배치 원칙에 관한 것으로, 중재자의 상징 모델링 행동을 설명하는 전략이 아니다.",
+      "2": "PECS 4단계는 문장띠로 요구하기를 학습하는 단계이며, 교사의 모델링 전략과 무관하다.",
+      "3": "직접선택 모델링은 존재하지 않는 용어이며, 사례에서 보이는 행동과 일치하지 않는다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — ALgS 심화)",
+    "tags": {"topic": "aac-algs"}
+  },
+  {
+    "id": "cd-q125",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "AAC 자연스러운 교수 맥락(naturalistic AAC instruction)의 원칙에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "기능적 활동 내에서 AAC를 매입하여 실제 의사소통 필요가 발생하는 상황에서 교수한다.",
+      "아동이 주도하는 활동과 관심 영역을 기반으로 AAC 사용 기회를 구성한다.",
+      "AAC 교수를 위한 별도의 격리된 훈련실에서 집중적으로 반복 연습하는 것이 가장 효과적이다.",
+      "자연스러운 강화물(natural reinforcer)을 사용하여 AAC 사용과 실제 의사소통 결과를 연결한다."
+    ],
+    "answer": "2",
+    "explanation": "자연스러운 AAC 교수는 일상적·기능적 맥락 안에서 실제 의사소통 필요가 생기는 상황에서 교수하는 것이 핵심 원칙이다. 격리된 훈련실에서의 반복 드릴은 학습된 내용이 실제 환경으로 일반화되지 않을 가능성이 높다. AAC 중재는 가정, 학교, 지역사회 등 자연스러운 환경에서 실시하는 것이 권장된다.",
+    "wrong_explanations": {
+      "0": "기능적 활동 내 매입 교수(embedded instruction)는 자연스러운 AAC 교수의 핵심 원칙으로, 이 설명은 타당하다.",
+      "1": "아동 주도 활동과 관심을 기반으로 한 AAC 기회 제공은 동기를 높이고 일반화를 촉진하므로 자연스러운 AAC 교수의 원칙에 부합한다.",
+      "3": "자연스러운 강화물을 통해 AAC 사용의 실제 효과를 경험하게 하는 것은 자연스러운 AAC 교수의 중요한 요소이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 동형 (2027 예측 — AAC 중재 원칙)",
+    "tags": {"topic": "aac-naturalistic-intervention"}
+  },
+  {
+    "id": "cd-q126",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "AAC 수용력 모델(AAC acceptance model)에서는 AAC 도입 성공 여부가 기기의 기능적 우수성만으로 결정되며, 사용자의 심리적 요인이나 주변 환경의 태도는 수용 여부에 영향을 미치지 않는다고 본다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "AAC 수용력 모델(acceptance model)은 AAC 도입 성공이 기기의 기능적 특성만으로 결정되지 않음을 강조한다. 사용자의 심리적 요인(자기 효능감, 정체성, 동기), 주변 파트너의 태도, 환경적 지원 등 다양한 요인이 AAC 수용 여부에 영향을 미친다. 기기가 아무리 우수해도 사용자와 환경의 수용적 태도 없이는 실제 활용이 이루어지지 않는다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 동형 (2027 예측 — AAC 수용력 모델)",
+    "tags": {"topic": "aac-acceptance-model"}
+  },
+  {
+    "id": "cd-q127",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "다음 사례를 읽고, 밑줄 친 AAC 참여 장벽의 유형과 그에 적합한 중재 방향을 바르게 연결한 것은?",
+    "case_context": "특수교육 대상자 유나(초4)는 AAC 기기를 소지하고 있으나, 통합학급 일반교사가 'AAC를 사용하면 다른 학생들의 수업이 방해된다'는 인식을 가지고 있어 수업 중 AAC 사용을 허용하지 않고 있다. 유나 본인은 AAC 사용 의지와 기본 조작 능력을 갖추고 있다.",
+    "options": [
+      "기회 장벽(태도) — 일반교사를 대상으로 AAC 인식 개선 교육 및 협력 지원 실시",
+      "접근 장벽(능력) — 유나의 AAC 조작 훈련을 강화하여 기기 사용 능숙도를 향상",
+      "기회 장벽(정책) — 학교 차원의 AAC 사용 허용 정책 문서를 즉시 제정",
+      "접근 장벽(자원) — 유나에게 더 고성능의 AAC 기기를 추가로 제공"
+    ],
+    "answer": "0",
+    "explanation": "유나 본인은 조작 능력과 의지가 있으므로 접근 장벽이 아니다. 문제는 일반교사의 부정적 태도로 인해 수업 참여 기회 자체가 차단된 것으로, 이는 기회 장벽 중 '태도(attitude)' 장벽에 해당한다. 중재 방향은 일반교사의 인식을 변화시키기 위한 AAC 인식 개선 교육과 특수교사-일반교사 간 협력 지원이 적합하다.",
+    "wrong_explanations": {
+      "1": "유나는 이미 AAC 조작 능력을 갖추고 있으므로, 능력 훈련 강화는 현재 장벽의 원인에 대한 중재로 적합하지 않다.",
+      "2": "교사 태도에서 비롯된 장벽이므로 정책 문서 제정이 즉각적 해결책이 되기 어렵고, 태도 장벽과 정책 장벽의 구분을 혼동한 선지이다.",
+      "3": "기기 성능 부족이 문제가 아니므로 기기 추가 제공은 현재 장벽 유형인 태도 장벽에 대한 중재로 부적절하다."
+    },
+    "difficulty": 3,
+    "source": "KICE 동형 (2027 예측 — AAC 참여 모델 사례)",
+    "tags": {"topic": "aac-participation-model"}
+  },
+  {
+    "id": "cd-q128",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "multiple",
+    "question": "다음 사례에서 나타난 문제를 AAC 참여 모델에 근거하여 분석하고, 가장 적절한 중재 방향을 모두 고른 것은?",
+    "case_context": "중학교 2학년 지호(뇌성마비, 경직형 사지마비)는 VOCA 기기를 사용하지만 수업 참여율이 낮다. 담당 특수교사가 분석한 결과, ① 지호가 스캐닝 방식에 익숙하지 않아 표현 속도가 매우 느리고, ② 수업 시간에 지호가 발언권을 얻더라도 담임교사가 응답을 오래 기다리지 않고 넘어가는 경향이 있으며, ③ 현재 VOCA에 등록된 어휘가 수업 관련 핵심 어휘를 충분히 포함하지 못하고 있다.",
+    "options": [
+      "㉠ 지호의 스캐닝 기술 훈련을 강화하고, 단어 예측 기능을 활성화하여 표현 속도를 향상시킨다. — 접근 장벽(능력) 해소",
+      "㉡ 담임교사에게 AAC 사용자와의 의사소통 전략(충분한 대기 시간 제공 등)을 안내한다. — 기회 장벽(태도 및 실천) 해소",
+      "㉢ VOCA에 수업 관련 핵심 어휘와 메시지 뱅킹을 추가하여 어휘 접근성을 높인다. — 접근 장벽(자원) 해소",
+      "㉣ 지호를 별도 훈련실에서 격리하여 VOCA 조작 반복 훈련만 실시한다. — 기회 장벽(정책) 해소"
+    ],
+    "answer": "0",
+    "explanation": "세 가지 중재 방향 분석: ① 스캐닝 기술 훈련 강화와 단어 예측 기능 활성화는 지호의 능력과 관련된 접근 장벽을 해소하는 전략이다. ② 담임교사에게 대기 시간 제공 등 AAC 파트너 전략을 안내하는 것은 교사의 실천·태도에서 비롯된 기회 장벽을 해소하는 전략이다. ③ 어휘와 메시지 뱅킹을 추가하는 것은 자원 측면의 접근 장벽을 해소하는 전략이다. ㉣은 격리된 반복 훈련으로 자연스러운 맥락 기반 교수 원칙에 위배되며, 기회 장벽(정책) 해소와도 연결되지 않는다. ㉠, ㉡, ㉢을 선택하는 선지는 없으므로 '㉠, ㉡, ㉢'을 의미하는 선지 0이 정답이다.",
+    "wrong_explanations": {
+      "1": "㉡만 단독으로 선택하면 능력·자원 접근 장벽이 해소되지 않아 종합적 중재로 부족하다.",
+      "2": "㉠과 ㉢만 선택하면 담임교사 태도·실천에서 비롯된 기회 장벽이 방치된다.",
+      "3": "㉣의 격리 훈련실 접근은 자연스러운 AAC 교수 원칙에 반하고 기회 장벽 해소와 무관하므로 중재 방향으로 적절하지 않다."
+    },
+    "difficulty": 3,
+    "source": "KICE 동형 (2027 예측 — AAC 참여 모델 종합 사례)",
+    "tags": {"topic": "aac-participation-model"}
+  }
+]

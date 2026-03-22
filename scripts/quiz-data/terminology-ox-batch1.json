@@ -1,0 +1,642 @@
+[
+  {
+    "id": "term-intro-intellectual-disability-01",
+    "subject": "introduction",
+    "chapter": "intellectual-disability",
+    "type": "ox",
+    "question": "지적장애는 지적 기능과 적응행동 두 영역 모두에서 유의미한 제한을 보이는 장애이다.",
+    "answer": "O",
+    "explanation": "지적장애는 지적 기능(IQ)과 적응행동(개념적·사회적·실제적) 모두에서 유의미한 제한이 있어야 하며, 이 장애는 18세 이전에 발현되어야 한다(AAIDD).",
+    "difficulty": 1
+  },
+  {
+    "id": "term-intro-intellectual-disability-02",
+    "subject": "introduction",
+    "chapter": "intellectual-disability",
+    "type": "ox",
+    "question": "지적장애 진단에서 적응행동은 고려하지 않으며, IQ 점수만으로 판단한다.",
+    "answer": "X",
+    "explanation": "AAIDD 정의에 따르면 지적장애는 지적 기능과 적응행동 모두에서 유의미한 제한을 보여야 한다. IQ만으로 진단하지 않는다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-intro-intellectual-disability-03",
+    "subject": "introduction",
+    "chapter": "intellectual-disability",
+    "type": "ox",
+    "question": "AAIDD(미국지적발달장애학회)는 지적장애의 발현 시기를 22세 이전으로 규정하고 있다.",
+    "answer": "X",
+    "explanation": "AAIDD는 지적장애의 발현 시기를 18세 이전(발달기)으로 규정한다. 22세는 해당하지 않는다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-visual-braille-01",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "점자는 촉각을 통해 읽고 쓸 수 있도록 다양한 점형(dot patterns)에 의미를 부여한 문자 상징 체계이다.",
+    "answer": "O",
+    "explanation": "점자(braille)는 촉각 기반의 문자 체계로, 직사각형 칸(cell)의 점 조합에 의미를 부여한 상징 체계이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-visual-braille-02",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "점자 한 칸(cell)은 세로 3개, 가로 2개, 총 6개의 점으로 구성된다.",
+    "answer": "O",
+    "explanation": "표준 점자(6점 점자)는 세로 3개, 가로 2개로 배열된 6개의 점으로 한 칸을 구성하며, 이를 조합하면 63가지 상징을 만들 수 있다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-visual-braille-03",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "한국 점자의 한 칸은 세로 4개, 가로 2개, 총 8개의 점으로 구성된다.",
+    "answer": "X",
+    "explanation": "표준 한국 점자는 6점 점자(세로 3 × 가로 2)를 사용한다. 8점 점자(세로 4 × 가로 2)는 컴퓨터 점자 체계에서 사용된다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-physical-cerebral-palsy-01",
+    "subject": "physical-disability",
+    "chapter": "cerebral-palsy",
+    "type": "ox",
+    "question": "뇌성마비는 미성숙한 뇌의 손상으로 인한 운동장애와 자세 이상을 보이는 비진행성 증후군이다.",
+    "answer": "O",
+    "explanation": "뇌성마비(cerebral palsy)는 미성숙한 뇌 또는 뇌 손상으로 인한 운동장애와 자세 이상을 특징으로 하며, 비진행성(뇌 손상 자체가 악화되지 않음)이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-physical-cerebral-palsy-02",
+    "subject": "physical-disability",
+    "chapter": "cerebral-palsy",
+    "type": "ox",
+    "question": "뇌성마비는 시간이 지남에 따라 뇌 손상이 점진적으로 악화되는 진행성 장애이다.",
+    "answer": "X",
+    "explanation": "뇌성마비는 비진행성 증후군이다. 뇌 손상 자체는 악화되지 않는다. 다만 신체 성장에 따라 운동 기능의 양상이 변화할 수 있다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-physical-cerebral-palsy-03",
+    "subject": "physical-disability",
+    "chapter": "cerebral-palsy",
+    "type": "ox",
+    "question": "뇌성마비는 근육조직이 점진적으로 약화되어 힘을 잃어가는 질환이다.",
+    "answer": "X",
+    "explanation": "이 설명은 근이영양증(muscular dystrophy)에 해당한다. 뇌성마비는 뇌 손상으로 인한 운동장애와 자세 이상이며, 근육 자체가 점진적으로 약화되는 것이 아니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-visual-visual-impairment-01",
+    "subject": "visual-impairment",
+    "chapter": "visual-acuity",
+    "type": "ox",
+    "question": "시각장애는 시력과 시야의 제한 정도에 따라 맹과 저시력으로 구분된다.",
+    "answer": "O",
+    "explanation": "시각장애는 시력(visual acuity)과 시야(visual field)의 제한 정도를 기준으로 맹(blindness)과 저시력(low vision)으로 분류한다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-visual-visual-impairment-02",
+    "subject": "visual-impairment",
+    "chapter": "visual-acuity",
+    "type": "ox",
+    "question": "시각장애는 시력(visual acuity)의 저하만을 기준으로 분류하며, 시야(visual field)는 고려하지 않는다.",
+    "answer": "X",
+    "explanation": "시각장애는 시력과 시야 모두를 기준으로 분류한다. 시야가 극도로 좁은 경우(터널 시야 등) 시력이 정상이라도 시각장애로 분류될 수 있다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-hearing-hearing-impairment-01",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-assessment",
+    "type": "ox",
+    "question": "청각장애는 외이에서 대뇌까지의 청각 경로 중 어느 부위에든 장애가 있어 듣기가 어려운 상태이다.",
+    "answer": "O",
+    "explanation": "청각장애는 외이, 중이, 내이, 청신경, 대뇌에 이르는 청각 경로 어디에든 손상이 생겨 소리의 전달과 인식에 문제가 발생하는 장애이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-hearing-hearing-impairment-02",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-assessment",
+    "type": "ox",
+    "question": "감각신경성 청각장애는 외이나 중이의 구조적 이상으로 발생한다.",
+    "answer": "X",
+    "explanation": "외이나 중이의 이상으로 발생하는 것은 전도성 청각장애이다. 감각신경성 청각장애는 내이(와우)나 청신경의 손상으로 발생한다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-behavior-adaptive-behavior-01",
+    "subject": "behavior-support",
+    "chapter": "adaptive-behavior",
+    "type": "ox",
+    "question": "적응행동은 개인이 생활환경에 적응하는 데 필요한 다양한 기술의 집합체로, 다차원적 구성 개념이다.",
+    "answer": "O",
+    "explanation": "적응행동(adaptive behavior)은 의사소통, 자기 관리, 사회성 기술 등을 포함하는 다차원적 개념이며 단일 요인이 아니다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-behavior-adaptive-behavior-02",
+    "subject": "behavior-support",
+    "chapter": "adaptive-behavior",
+    "type": "ox",
+    "question": "적응행동은 주로 학업 성취도를 측정하는 단일 요인 개념이다.",
+    "answer": "X",
+    "explanation": "적응행동은 학업 성취도가 아니라 의사소통, 자기 관리, 사회성 기술, 일상생활 기술 등 다양한 영역을 포함하는 다차원적 구성 개념이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-assess-learning-disability-01",
+    "subject": "assessment",
+    "chapter": "learning-disability",
+    "type": "ox",
+    "question": "학습장애는 개인의 내적 요인으로 인해 학습 기능이나 학업 성취 영역에서 현저한 어려움을 보이는 장애이다.",
+    "answer": "O",
+    "explanation": "학습장애는 듣기, 말하기, 읽기, 쓰기, 수학 등의 영역에서 개인 내적 요인에 의한 현저한 어려움을 보이는 장애이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-assess-learning-disability-02",
+    "subject": "assessment",
+    "chapter": "learning-disability",
+    "type": "ox",
+    "question": "학습장애는 환경적 요인(결손가정, 문화적 차이 등)이 주요 원인인 학습 부진을 포함한다.",
+    "answer": "X",
+    "explanation": "학습장애는 개인의 내적 요인이 원인이다. 환경적 요인이 주요 원인인 학습 부진은 학습장애에 해당하지 않으며, 배제 조건에 포함된다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-assess-learning-disability-03",
+    "subject": "assessment",
+    "chapter": "learning-disability",
+    "type": "ox",
+    "question": "지적장애가 있는 학생이 읽기에 심한 어려움을 보이면 학습장애로도 중복 진단할 수 있다.",
+    "answer": "X",
+    "explanation": "학습장애는 다른 장애 조건(지적장애, 감각장애 등)이나 외적 요인에 의해 일차적으로 설명되지 않아야 한다는 배제 조건이 있다.",
+    "difficulty": 3
+  },
+  {
+    "id": "term-inclusive-inclusive-01",
+    "subject": "inclusive-education",
+    "chapter": "inclusive-strategies",
+    "type": "ox",
+    "question": "통합교육은 특수교육 대상자가 장애 유형이나 정도에 따라 차별을 받지 않고 또래와 함께 교육받는 것이다.",
+    "answer": "O",
+    "explanation": "「장애인 등에 대한 특수교육법」 제2조 제6항에 따른 통합교육의 정의이다. 개인의 교육적 요구에 적합한 교육을 일반학교에서 받는 것을 의미한다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-inclusive-inclusive-02",
+    "subject": "inclusive-education",
+    "chapter": "inclusive-strategies",
+    "type": "ox",
+    "question": "통합교육은 모든 장애 학생이 어떤 상황에서든 일반학급에서만 교육받아야 한다는 것을 의미한다.",
+    "answer": "X",
+    "explanation": "통합교육은 장애 유형·정도에 따라 차별 없이 '개인의 교육적 요구에 적합한 교육'을 받는 것이다. 특수학급, 순회교육 등 다양한 배치 형태가 가능하다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-laws-health-impairment-01",
+    "subject": "laws",
+    "chapter": "health-impairment-education",
+    "type": "ox",
+    "question": "건강장애는 만성질환으로 인하여 3개월 이상의 장기 입원 또는 통원치료가 필요한 경우에 해당한다.",
+    "answer": "O",
+    "explanation": "건강장애는 만성질환으로 3개월 이상의 장기 입원·통원치료 등 계속적인 의료적 지원이 필요하여 학교생활과 학업수행에 교육 지원이 지속적으로 요구되는 장애이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-laws-health-impairment-02",
+    "subject": "laws",
+    "chapter": "health-impairment-education",
+    "type": "ox",
+    "question": "건강장애는 1개월 이상의 입원 또는 통원치료가 필요한 학생에게 적용된다.",
+    "answer": "X",
+    "explanation": "건강장애의 기준은 3개월 이상의 장기 입원 또는 통원치료이다. 1개월이 아닌 3개월이 기준이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-laws-special-education-act-01",
+    "subject": "laws",
+    "chapter": "special-education-act",
+    "type": "ox",
+    "question": "「장애인 등에 대한 특수교육법」은 2007년 제정되어 기존의 「특수교육진흥법」을 대체하였다.",
+    "answer": "O",
+    "explanation": "2007년 5월 25일 법률 제8483호로 제정·공포되었으며, 이로 인해 1977년에 제정된 「특수교육진흥법」은 폐지되었다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-laws-special-education-act-02",
+    "subject": "laws",
+    "chapter": "special-education-act",
+    "type": "ox",
+    "question": "「장애인 등에 대한 특수교육법」은 「특수교육진흥법」을 보완하여 두 법이 함께 시행되고 있다.",
+    "answer": "X",
+    "explanation": "「장애인 등에 대한 특수교육법」이 제정되면서 「특수교육진흥법」은 폐지되었다. 두 법이 병행 시행되는 것이 아니다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-physical-disability-types-01",
+    "subject": "physical-disability",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "지체장애는 골격·근육·신경 계통의 질환이나 손상으로 신체의 이동과 움직임에 상당한 제한이 있는 장애이다.",
+    "answer": "O",
+    "explanation": "지체장애는 골격, 근육, 신경 계통의 질환·손상·기능 및 발달 이상으로 인한 이동과 움직임의 제한을 특징으로 한다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-physical-disability-types-02",
+    "subject": "physical-disability",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "지체장애는 근육 계통의 문제만을 포함하며, 골격이나 신경 계통의 손상은 별도의 장애로 분류된다.",
+    "answer": "X",
+    "explanation": "지체장애는 골격·근육·신경 계통 모두를 포함하는 개념이다. 이들 중 어느 하나의 질환이나 손상으로 이동·움직임에 제한이 있으면 지체장애에 해당한다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-hearing-hearing-aid-01",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "ox",
+    "question": "보청기는 소리를 증폭시켜 청각장애인이 잘 들을 수 있도록 하는 장치이다.",
+    "answer": "O",
+    "explanation": "보청기(hearing aid)는 음파를 마이크로폰으로 받아 전기 진동으로 변환한 뒤 증폭기로 확대하여 이어폰을 통해 귀에 들리게 하는 증폭 장치이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-hearing-hearing-aid-02",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "ox",
+    "question": "보청기는 청각 신경을 전기적으로 직접 자극하여 소리를 인식하게 하는 장치이다.",
+    "answer": "X",
+    "explanation": "청각 신경을 전기적으로 직접 자극하는 장치는 인공와우(cochlear implant)이다. 보청기는 소리를 증폭하여 잔존 청력을 활용하게 하는 장치이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-behavior-task-analysis-01",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "ox",
+    "question": "과제 분석은 학습자가 수행할 과제를 더 단순한 하위 과제로 분할하는 활동이다.",
+    "answer": "O",
+    "explanation": "과제 분석(task analysis)은 복잡한 과제를 단순한 하위 과제로 쪼개어 순서대로 가르치는 방법으로, 하위 과제를 누적하면 목표 과제를 달성할 수 있다는 가정에 기반한다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-behavior-task-analysis-02",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "ox",
+    "question": "과제 분석은 학습자의 흥미, 동기, 심리 상태를 분석하는 심리 평가 기법이다.",
+    "answer": "X",
+    "explanation": "과제 분석은 심리 평가 기법이 아니라, 복잡한 과제를 하위 단계로 분할하여 가르치기 위한 교수 전략이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-laws-hospital-school-01",
+    "subject": "laws",
+    "chapter": "health-impairment-education",
+    "type": "ox",
+    "question": "병원학교는 장기 입원 학생에게 학업 기회와 또래 관계 유지를 위해 병원 내에 설치된 학급이다.",
+    "answer": "O",
+    "explanation": "병원학교는 장기 입원·통원치료가 필요한 학생에게 학업 기회 부여, 또래 관계 유지, 학습 및 정서적 지원을 목적으로 병원 내에 설치된 파견 학급이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-hearing-sign-language-01",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "ox",
+    "question": "지문자는 손가락으로 문자를 하나씩 표현하는 방법이다.",
+    "answer": "O",
+    "explanation": "지문자(fingerspelling)는 손가락으로 문자(자음, 모음)를 하나씩 표현하는 방법이다. 우리나라 지문자는 한 손 지문자로 1947년 윤백원 선생이 창안하였다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-hearing-sign-language-02",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "ox",
+    "question": "지문자와 수화(수어)는 같은 의사소통 방법을 가리키는 다른 명칭이다.",
+    "answer": "X",
+    "explanation": "지문자는 손가락으로 문자를 하나씩 철자하는 방법이고, 수어(수화)는 손의 모양·움직임·위치와 표정 등으로 의미를 전달하는 독립된 언어 체계이다. 둘은 별개이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-behavior-powercard-01",
+    "subject": "behavior-support",
+    "chapter": "behavior-intervention",
+    "type": "ox",
+    "question": "파워카드는 주로 자폐 범주성 장애 아동의 부적절한 행동을 변화시키기 위해 명함 크기로 만든 학습 자료이다.",
+    "answer": "O",
+    "explanation": "파워카드(power card)는 아동이 좋아하는 영웅이나 특별한 관심 주제를 활용하여 바람직한 행동을 안내하는 명함 크기의 시각적 학습 자료이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-hearing-oral-method-01",
+    "subject": "hearing-impairment",
+    "chapter": "oral-method",
+    "type": "ox",
+    "question": "독화(speech reading)는 화자의 입 모양과 조음기관의 움직임을 시각적으로 관찰하여 말을 이해하는 것이다.",
+    "answer": "O",
+    "explanation": "독화는 시각을 통해 화자의 입 모양, 혀, 턱 등 조음기관의 움직임을 관찰하여 말의 내용을 이해하는 방법이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-hearing-oral-method-02",
+    "subject": "hearing-impairment",
+    "chapter": "oral-method",
+    "type": "ox",
+    "question": "독화는 청각을 통해 상대방의 말소리를 변별하여 이해하는 훈련 방법이다.",
+    "answer": "X",
+    "explanation": "청각을 통해 말소리를 변별하는 것은 청능훈련(auditory training)이다. 독화는 시각을 활용하여 입 모양 등을 읽어 말을 이해하는 방법이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-transition-community-instruction-01",
+    "subject": "transition",
+    "chapter": "transition-planning",
+    "type": "ox",
+    "question": "지역사회 중심 교수는 지역사회에서의 직접 경험을 통해 장애 학생을 가르치는 교수법이다.",
+    "answer": "O",
+    "explanation": "지역사회 중심 교수(community-based instruction)는 교실이 아닌 실제 지역사회 환경에서 직접 경험을 통해 필수 생활 기술을 가르치는 방법이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-transition-community-instruction-02",
+    "subject": "transition",
+    "chapter": "transition-planning",
+    "type": "ox",
+    "question": "지역사회 중심 교수는 교실 내 시뮬레이션을 통해 사회 적응 기술을 가르치는 교수법이다.",
+    "answer": "X",
+    "explanation": "교실 내 시뮬레이션은 지역사회 참조 교수(community-referenced instruction)에 해당한다. 지역사회 '중심' 교수는 실제 지역사회에서의 직접 경험을 핵심으로 한다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-physical-hemiplegia-01",
+    "subject": "physical-disability",
+    "chapter": "cp-types",
+    "type": "ox",
+    "question": "편마비는 몸의 한쪽(좌측 또는 우측) 팔과 다리에 운동장애가 있는 마비이다.",
+    "answer": "O",
+    "explanation": "편마비(hemiplegia)는 신체 한쪽의 팔과 다리에 운동장애가 있는 상태로, 일반적으로 팔의 장애가 다리보다 심한 편이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-physical-hemiplegia-02",
+    "subject": "physical-disability",
+    "chapter": "cp-types",
+    "type": "ox",
+    "question": "편마비는 양쪽 하지(양 다리)에만 마비가 있는 상태를 의미한다.",
+    "answer": "X",
+    "explanation": "양쪽 하지에 마비가 있는 것은 하지마비(paraplegia)이다. 편마비(hemiplegia)는 몸의 한쪽(좌측 또는 우측) 팔과 다리에 마비가 있는 상태이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-inclusive-special-class-01",
+    "subject": "inclusive-education",
+    "chapter": "inclusive-strategies",
+    "type": "ox",
+    "question": "특수학급은 통합교육 실시를 위해 일반학교에 설치된 학급이다.",
+    "answer": "O",
+    "explanation": "특수학급은 특수교육 대상자의 통합교육을 위해 고등학교 이하 각급 일반학교에 설치된 학급으로, 다양한 장애 유형의 학생을 대상으로 한다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-inclusive-special-class-02",
+    "subject": "inclusive-education",
+    "chapter": "inclusive-strategies",
+    "type": "ox",
+    "question": "특수학급은 특수학교 내에 장애 유형별로 설치되는 학급을 의미한다.",
+    "answer": "X",
+    "explanation": "특수학급은 특수학교가 아닌 일반학교에 설치된 학급이다. 통합교육의 실현을 위한 배치 형태 중 하나이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-transition-ecological-inventory-01",
+    "subject": "transition",
+    "chapter": "transition-assessment",
+    "type": "ox",
+    "question": "생태학적 목록은 현재와 미래 환경의 영향력을 기능적으로 분석하여 개별화된 교육과정을 결정하는 데 사용된다.",
+    "answer": "O",
+    "explanation": "생태학적 목록(ecological inventory)은 지역사회, 가정, 여가, 교육, 직업 영역에서 현재와 미래 환경을 분석하여 기능적 교육과정을 결정하는 도구이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-inclusive-cooperative-teaching-01",
+    "subject": "inclusive-education",
+    "chapter": "cooperative-learning",
+    "type": "ox",
+    "question": "협력교수는 두 명 이상의 교사가 함께 학생을 가르치는 교수법이다.",
+    "answer": "O",
+    "explanation": "협력교수(co-teaching)는 일반교사와 특수교사, 또는 교사 간에 팀을 구성하여 함께 학생을 가르치는 교수법이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-inclusive-cooperative-teaching-02",
+    "subject": "inclusive-education",
+    "chapter": "cooperative-learning",
+    "type": "ox",
+    "question": "협력교수에서 특수교사는 항상 일반교사의 보조 역할만 수행해야 한다.",
+    "answer": "X",
+    "explanation": "협력교수에서 일반교사와 특수교사는 동등한 파트너이다. 유형에 따라 스테이션 교수, 병행 교수, 팀 교수 등 다양한 역할 배분이 가능하다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-comm-substitution-01",
+    "subject": "communication-disorder",
+    "chapter": "articulation-disorder",
+    "type": "ox",
+    "question": "대치는 목표 음소 대신 다른 음소로 발음하는 조음장애의 오류 유형이다.",
+    "answer": "O",
+    "explanation": "대치(substitution)는 목표 음소를 다른 음소로 바꿔 발음하는 오류이다. 예: '사과'를 '다과'로 발음(ㅅ→ㄷ 대치).",
+    "difficulty": 1
+  },
+  {
+    "id": "term-comm-substitution-02",
+    "subject": "communication-disorder",
+    "chapter": "articulation-disorder",
+    "type": "ox",
+    "question": "대치는 음소를 완전히 빠뜨려 발음하지 않는 조음장애의 오류 유형이다.",
+    "answer": "X",
+    "explanation": "음소를 완전히 빠뜨리는 것은 생략(omission)이다. 대치(substitution)는 목표 음소를 '다른 음소로' 바꿔 발음하는 것이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-comm-substitution-03",
+    "subject": "communication-disorder",
+    "chapter": "articulation-disorder",
+    "type": "ox",
+    "question": "대치는 목표 음소와 유사하지만 정확하지 않은 소리를 산출하는 오류이다.",
+    "answer": "X",
+    "explanation": "목표 음소와 유사하지만 정확하지 않은 소리를 내는 것은 왜곡(distortion)이다. 대치(substitution)는 목표 음소를 완전히 다른 음소로 바꾸는 것이다.",
+    "difficulty": 3
+  },
+  {
+    "id": "term-comm-comm-board-01",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "의사소통판은 판 위에 사진, 그림, 글자 등의 상징을 배열하여 의사를 표현하는 보완대체 의사소통(AAC) 도구이다.",
+    "answer": "O",
+    "explanation": "의사소통판(communication board)은 비전자적 AAC 도구로, 판 위의 상징을 손이나 신체 부위로 지적하여 의사를 전달한다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-comm-comm-board-02",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "의사소통판은 음성 합성 기술을 내장한 전자 기기이다.",
+    "answer": "X",
+    "explanation": "의사소통판은 판 위에 상징을 배열한 비전자적(non-electronic) AAC 도구이다. 음성 합성 기능이 있는 것은 음성출력 의사소통 기기(VOCA) 등 전자적 AAC이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-behavior-maintenance-01",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "ox",
+    "question": "유지(maintenance)란 중재가 철회된 후에도 습득한 표적행동이 계속 수행되는 것을 의미한다.",
+    "answer": "O",
+    "explanation": "유지는 효과적이었던 중재를 철회한 후에도 학습된 행동이 지속적으로 나타나는 것으로, 일반화와 함께 행동 변화의 지속성을 판단하는 기준이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-behavior-maintenance-02",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "ox",
+    "question": "유지(maintenance)란 중재가 계속 적용되는 동안에만 표적행동이 나타나는 것을 의미한다.",
+    "answer": "X",
+    "explanation": "중재가 적용되는 동안에만 행동이 나타나는 것은 유지가 아니다. 유지는 중재 '철회 후'에도 행동이 지속되는 것이다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-behavior-vi-schedule-01",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "ox",
+    "question": "가변 간격 강화계획(VI)에서 학생은 자신이 언제 강화를 받을지 예측할 수 없다.",
+    "answer": "O",
+    "explanation": "가변 간격 강화계획(variable interval schedule)은 평균 시간 간격을 기준으로 비정기적으로 강화를 제공하므로, 학생이 강화 시점을 예측할 수 없다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-behavior-vi-schedule-02",
+    "subject": "behavior-support",
+    "chapter": "applied-behavior-analysis",
+    "type": "ox",
+    "question": "가변 간격 강화계획(VI)은 정해진 시간 간격이 경과할 때마다 강화를 제공하는 계획이다.",
+    "answer": "X",
+    "explanation": "정해진(고정된) 시간 간격마다 강화를 제공하는 것은 고정 간격 강화계획(FI)이다. 가변 간격(VI)은 평균 시간 간격을 기준으로 비정기적으로 강화를 제공한다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-visual-braille-04",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "점자는 손가락으로 문자를 하나씩 표현하는 시각적 의사소통 방법이다.",
+    "answer": "X",
+    "explanation": "손가락으로 문자를 표현하는 것은 지문자(fingerspelling)이다. 점자(braille)는 볼록하게 올라온 점의 조합을 촉각으로 읽는 문자 체계이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-physical-wheelchair-01",
+    "subject": "physical-disability",
+    "chapter": "assistive-technology",
+    "type": "ox",
+    "question": "휠체어는 다리를 마음대로 움직일 수 없는 사람이 앉은 채로 이동할 수 있도록 바퀴를 설치한 이동 보조 기구이다.",
+    "answer": "O",
+    "explanation": "휠체어는 장애인의 사회생활, 직장, 여가생활 참여를 위한 이동 기구로, 수동 휠체어와 전동 휠체어로 나뉜다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-physical-muscular-dystrophy-01",
+    "subject": "physical-disability",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "가성 비대 근이영양증에서 장딴지 근육이 비대해지는 것은 근육조직 대신 지방이 침착되기 때문이다.",
+    "answer": "O",
+    "explanation": "가성 비대 근이영양증(pseudohypertrophic muscular dystrophy)에서 장딴지가 커 보이는 것은 근육이 아닌 지방과 결합 조직이 침착되어 가성(가짜) 비대가 나타나기 때문이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-physical-muscular-dystrophy-02",
+    "subject": "physical-disability",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "듀센 근이영양증은 주로 청소년기에 증상이 나타나며, 베커 근이영양증은 유아기에 시작된다.",
+    "answer": "X",
+    "explanation": "반대이다. 듀센(Duchenne) 근이영양증은 주로 유아기에, 베커(Becker) 근이영양증은 청소년기에 증상이 시작된다.",
+    "difficulty": 3
+  },
+  {
+    "id": "term-comm-aac-01",
+    "subject": "communication-disorder",
+    "chapter": "aac",
+    "type": "ox",
+    "question": "보완대체 의사소통(AAC)은 구어 사용이 불가능한 사람에게만 적용할 수 있다.",
+    "answer": "X",
+    "explanation": "AAC는 '보완(augmentative)'과 '대체(alternative)' 두 가지 기능을 포함한다. 구어가 부분적으로 가능한 사람에게도 보완적으로 사용할 수 있다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-intro-pretend-play-01",
+    "subject": "introduction",
+    "chapter": "autism-characteristics",
+    "type": "ox",
+    "question": "가상 놀이(pretend play)에서 아동은 현실과 가상의 차이를 인지하고 있다.",
+    "answer": "O",
+    "explanation": "가상 놀이는 사물이나 상황에 실제와 다른 가상의 의미를 부여하여 노는 것이며, 아동은 현실과 가상의 차이를 알고 있다는 점에서 현실 오인과 구별된다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-intro-pretend-play-02",
+    "subject": "introduction",
+    "chapter": "autism-characteristics",
+    "type": "ox",
+    "question": "발달장애 아동은 일반적으로 가상 놀이를 또래와 유사한 시기에 자연스럽게 발달시킨다.",
+    "answer": "X",
+    "explanation": "발달장애 아동 중에는 가상 놀이를 잘 이해하지 못하거나, 적절한 시기에 이러한 놀이 형태가 나타나지 않는 특징이 있다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-intro-plasticity-01",
+    "subject": "introduction",
+    "chapter": "disability-concept",
+    "type": "ox",
+    "question": "가소성이란 장애 학생의 현재 상태가 교육, 훈련, 환경 변화를 통해 극복될 수 있다는 가능성을 의미한다.",
+    "answer": "O",
+    "explanation": "가소성은 변화와 발전 가능성을 뜻하며, 특수교육에서는 교육과 훈련을 통한 장애 극복 가능성을 의미한다. 중추신경계의 기능적 재조직화 능력도 가소성에 해당한다.",
+    "difficulty": 1
+  },
+  {
+    "id": "term-hearing-cochlear-implant-01",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "ox",
+    "question": "인공와우는 소리를 증폭하여 외이도를 통해 전달하는 장치이다.",
+    "answer": "X",
+    "explanation": "소리를 증폭하여 외이도로 전달하는 것은 보청기이다. 인공와우(cochlear implant)는 와우(달팽이관) 내에 전극을 삽입하여 청신경을 전기적으로 직접 자극하는 장치이다.",
+    "difficulty": 2
+  },
+  {
+    "id": "term-visual-low-vision-01",
+    "subject": "visual-impairment",
+    "chapter": "low-vision",
+    "type": "ox",
+    "question": "저시력(low vision)은 잔존 시력이 있어 광학 기기 등의 보조를 통해 시각적 과제 수행이 가능한 상태이다.",
+    "answer": "O",
+    "explanation": "저시력은 시각장애의 한 유형으로, 완전한 맹과 달리 잔존 시력이 있어 확대 도구, 광학 기기 등을 활용하면 시각적 학습이 가능하다.",
+    "difficulty": 1
+  }
+]

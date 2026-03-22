@@ -1,0 +1,467 @@
+[
+  {
+    "id": "intro-q199",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "AAIDD(2010) 11차 정의에서 제시한 지적장애 진단의 5가지 전제 조건 중 '제한성 기술의 주된 목적'에 해당하는 것은?",
+    "case_context": null,
+    "options": [
+      "장애 등급을 분류하고 서비스 수급 자격을 결정하기 위함이다",
+      "개인이 받을 수 있는 교육적 배치를 결정하기 위함이다",
+      "필요한 지원을 파악하기 위함이다",
+      "지적 기능의 결함 수준을 표준화된 점수로 나타내기 위함이다"
+    ],
+    "answer": "2",
+    "explanation": "AAIDD 11차 정의의 4번째 전제 조건은 '제한성을 기술하는 주된 목적은 필요한 지원을 파악하기 위함'이다. 지적장애 진단에서 제한성의 기술은 결함을 낙인찍는 것이 아니라, 개인에게 필요한 지원의 유형과 강도를 파악하여 적절한 지원 계획을 수립하는 데 목적이 있다.",
+    "wrong_explanations": {
+      "0": "장애 등급 분류나 수급 자격 결정은 AAIDD 11차 정의가 제한성 기술의 목적으로 제시한 내용이 아니다.",
+      "1": "교육적 배치 결정은 제한성 기술의 주된 목적으로 명시되지 않는다. 지원 파악이 핵심 목적이다.",
+      "3": "표준화 점수 표현은 진단 도구의 기능이지, 제한성 기술의 '목적'이 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q200",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "AAIDD(2010) 11차 지적장애 정의의 5가지 전제 조건에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "제한성은 동년배와 문화에 전형적인 지역사회 환경 맥락에서 고려되어야 한다",
+      "지적장애인은 제한성뿐만 아니라 강점도 가진다",
+      "개인에게 적절한 지원이 장기적으로 제공되면 생활 기능 전반이 향상된다",
+      "제한성 평가 시 문화·언어 다양성은 배제하고 표준화 점수만으로 판단해야 한다"
+    ],
+    "answer": "3",
+    "explanation": "AAIDD 11차 정의의 2번째 전제 조건은 '유효한 평가는 문화·언어 다양성과 의사소통, 감각, 운동, 행동 요인의 차이를 고려한다'는 것이다. 따라서 문화·언어 다양성을 배제하고 표준화 점수만으로 판단하는 것은 이 전제 조건에 위배된다.",
+    "wrong_explanations": {
+      "0": "1번째 전제 조건으로 옳은 설명이다.",
+      "1": "3번째 전제 조건으로 옳은 설명이다.",
+      "2": "5번째 전제 조건으로 옳은 설명이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q201",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "AAIDD(2010) 11차 정의에서 지적장애를 구성하는 인간 기능성 5차원은 지적 능력, ( ① ), 건강, ( ② ), 맥락이다. ①과 ②에 들어갈 말을 순서대로 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "①적응 행동, ②참여",
+    "explanation": "AAIDD 11차 정의의 인간 기능성 모델은 5차원으로 구성된다: ① 지적 능력(IQ -2SD 이하), ② 적응 행동(개념적·사회적·실제적 기술), ③ 건강, ④ 참여(지역사회 활동 참여 및 사회적 역할), ⑤ 맥락(환경·문화적 배경). 이 5차원은 인간 기능성을 총체적으로 파악하는 틀이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q202",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "AAIDD(2010) 11차 정의에 따르면, 지적장애는 개인 기능의 '상태(state)'를 나타내므로 불변하는 특성이 아니며, 적절한 지원을 통해 생활 기능이 향상될 수 있다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "AAIDD 11차 정의는 ICF 모델과 일치하여 지적장애를 개인의 지능·적응행동과 환경 간의 '상태(state)'로 규정한다. 이는 지적장애가 고정된 결함이 아니라 변화 가능하다는 것을 의미하며, 적절한 지원이 장기적으로 제공되면 생활 기능 전반이 향상된다는 5번째 전제 조건과도 연결된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q203",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애 정의의 역사적 변화 순서로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "사회적 접근 → 임상적 접근 → 심리측정적 접근(IQ) → 이중기준 접근",
+      "임상적 접근 → 사회적 접근 → 이중기준 접근 → 심리측정적 접근(IQ)",
+      "심리측정적 접근(IQ) → 사회적 접근 → 임상적 접근 → 이중기준 접근",
+      "이중기준 접근 → 임상적 접근 → 사회적 접근 → 심리측정적 접근(IQ)"
+    ],
+    "answer": "0",
+    "explanation": "지적장애 정의의 역사적 변화는 사회적 접근(사회 부적응 강조) → 임상적 접근(신체·의학적 증상 강조) → 심리측정적 접근(IQ 점수 중심) → 이중기준 접근(지적 기능 + 적응행동 모두 충족) 순으로 발전해 왔다. 현재의 AAIDD 정의는 이중기준 접근을 채택하고 있다.",
+    "wrong_explanations": {
+      "1": "임상적 접근이 사회적 접근보다 먼저라는 것은 역사적 순서와 다르다.",
+      "2": "심리측정적 접근이 가장 먼저였다는 것은 역사적 사실과 다르다.",
+      "3": "이중기준 접근은 가장 최근의 접근으로, 첫 번째가 아니다."
+    },
+    "difficulty": 3,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q204",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "'정신지체'에서 '지적장애'로 용어가 변경된 이유로 적절하지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "지적장애라는 용어가 당사자와 가족에게 더 존중적이고 덜 낙인적이다",
+      "국제적으로 통용되는 용어(intellectual disability)와 일치시키기 위함이다",
+      "지적장애가 의학적·정신적 문제가 아니라 기능적 상태임을 반영하기 위함이다",
+      "IQ 기준을 70에서 75로 상향 조정하면서 진단 범위를 확대하기 위함이다"
+    ],
+    "answer": "3",
+    "explanation": "정신지체에서 지적장애로의 용어 변경 이유는 ① 낙인적·비하적 의미 제거, ② 국제 용어 통일(intellectual disability), ③ 기능적 상태 강조(의학적 결함이 아님), ④ 당사자·가족 선호 반영이다. IQ 기준 상향 조정은 용어 변경의 이유가 아니며, AAIDD 9차 개정(1992)에서 IQ 기준이 70에서 75로 변경된 것은 별개의 사안이다.",
+    "wrong_explanations": {
+      "0": "낙인 감소는 용어 변경의 중요한 이유 중 하나로 옳은 설명이다.",
+      "1": "국제 용어 통일은 실제 변경 이유로 옳은 설명이다.",
+      "2": "기능적 상태 강조는 변경 이유로 옳은 설명이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q205",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "다음 사례에서 지원강도척도(SIS)를 통해 파악된 지원 강도로 가장 적절한 것은?",
+    "case_context": "고등학교 3학년 지적장애 학생 민준이는 졸업 후 지역사회 취업을 앞두고 있다. 담당 특수교사는 민준이가 특정 직업 훈련 기간(약 6개월) 동안 업무 절차 습득, 대중교통 이용, 직장 내 대인관계 등에서 집중적인 지원이 필요하다고 평가하였으나, 훈련 종료 후에는 독립적으로 기능할 수 있을 것으로 예상하였다.",
+    "options": [
+      "간헐적(Intermittent) 지원 — 전환 시점에 일시적으로 필요",
+      "제한적(Limited) 지원 — 시간 제한 있는 집중적 지원",
+      "확장적(Extensive) 지원 — 시간 제한 없이 일부 환경에서 지속",
+      "전반적(Pervasive) 지원 — 영구적·일생 지속, 24시간 지원"
+    ],
+    "answer": "1",
+    "explanation": "제한적(Limited) 지원은 시간 제한이 있으나 간헐적이지 않고 일관성 있게 제공되는 지원으로, 고용 훈련 지원이 대표적 예시이다. 민준이는 약 6개월이라는 명확한 시간 제한 안에서 집중적 지원이 필요하므로 제한적 지원에 해당한다. 간헐적 지원은 전환 시점에 단기·간헐적으로 제공되는 지원으로, 6개월 집중 지원과는 구별된다.",
+    "wrong_explanations": {
+      "0": "간헐적 지원은 필요 시에만 단기·비정기적으로 제공되며, 전환 시점의 일시적 지원이 전형적 예시이다. 민준이처럼 6개월간 일관되게 집중 지원이 필요한 경우는 제한적 지원이 더 적절하다.",
+      "2": "확장적 지원은 시간 제한이 없으며 일부 환경에서 장기적으로 제공된다. 민준이는 훈련 종료 후 독립 기능이 예상되므로 해당하지 않는다.",
+      "3": "전반적 지원은 모든 환경에서 영구적·일생 지속되며 24시간 지원이 필요한 경우로, 민준이의 상황과는 다르다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q206",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "AAIDD의 지원 강도 4단계에 대한 설명으로 옳은 것을 모두 고른 것은?\n\nㄱ. 간헐적(Intermittent) 지원은 전환 시점이나 위기 상황에서 단기적으로 제공된다.\nㄴ. 확장적(Extensive) 지원은 시간 제한이 있으며 적어도 일부 환경에서 제공된다.\nㄷ. 전반적(Pervasive) 지원은 영구적이며 일생에 걸쳐 모든 환경에서 고강도로 제공된다.\nㄹ. 제한적(Limited) 지원의 대표 예시는 고용 훈련 지원이다.",
+    "case_context": null,
+    "options": [
+      "ㄱ, ㄴ",
+      "ㄴ, ㄷ",
+      "ㄱ, ㄷ, ㄹ",
+      "ㄱ, ㄴ, ㄷ, ㄹ"
+    ],
+    "answer": "2",
+    "explanation": "ㄱ(간헐적: 단기·전환 시점), ㄷ(전반적: 영구적·일생·모든 환경), ㄹ(제한적: 고용 훈련)은 모두 옳다. ㄴ은 틀렸다. 확장적(Extensive) 지원은 시간 제한이 없으며(not time-limited), 적어도 일부 환경에서 정규적으로 제공된다. 시간 제한이 있는 것은 제한적(Limited) 지원이다.",
+    "wrong_explanations": {
+      "0": "ㄴ이 포함되어 있어 틀렸다. 확장적 지원은 시간 제한이 '없다'.",
+      "1": "ㄴ이 포함되어 있어 틀렸다. 또한 ㄱ과 ㄹ이 빠져 있다.",
+      "3": "ㄴ이 포함되어 있어 틀렸다. 확장적 지원은 시간 제한이 없다."
+    },
+    "difficulty": 3,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q207",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지원강도척도(SIS: Supports Intensity Scale)에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "6개 영역(가정생활, 지역사회생활, 평생교육, 고용, 건강과 안전, 사회활동)으로 구성된다",
+      "각 활동에 대해 지원의 빈도, 시간, 유형의 세 차원을 평가한다",
+      "총 49개의 생활 활동 항목으로 이루어져 있다",
+      "표준화된 지능검사를 병행하여 IQ와 지원 필요도를 동시에 산출한다"
+    ],
+    "answer": "3",
+    "explanation": "SIS는 지원 필요도를 측정하는 도구로, 지능검사(IQ)와는 별개이다. SIS는 6개 영역 49개 활동 항목에 대해 지원의 빈도(how often), 일일 지원 시간(how long), 지원 유형(type of support)을 평가하여 개인에게 필요한 지원의 강도를 파악한다.",
+    "wrong_explanations": {
+      "0": "SIS의 6개 영역으로 옳은 설명이다.",
+      "1": "빈도·시간·유형의 3차원 평가는 옳은 설명이다.",
+      "2": "49개 활동 항목은 옳은 설명이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q208",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "개인중심계획(PCP)은 서비스·재정적 자원의 가용성에 국한하여 지원 계획을 수립하며, 당사자보다 전문가의 판단을 우선시한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "개인중심계획(PCP)의 특징은 ① 당사자의 꿈·선호·강점 초점, ② 서비스·재정적 자원에 국한하지 않음, ③ 당사자와 주변인(가족·친구·지원자)의 적극 참여, ④ 미래의 삶의 질을 다루는 장기적 비전이다. PCP는 전문가 중심이 아닌 당사자 중심 접근이 핵심이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q209",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애의 다중위험요인 4가지 범주에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "생물의학적 요인에는 다운증후군, 프래더-윌리증후군 등 유전적 이상이 포함된다",
+      "사회적 요인에는 빈곤, 양육 방임, 부적절한 가족 상호작용이 포함된다",
+      "행동적 요인에는 아동 학대, 가정폭력, 위험 행동이 포함된다",
+      "교육적 요인은 출생 후 발달 단계에만 작용하며, 출생 전에는 영향을 미치지 않는다"
+    ],
+    "answer": "3",
+    "explanation": "다중위험요인의 4가지 범주(생물의학적·사회적·행동적·교육적)는 각각 출생 전·출생 시·출생 후 세 시기에 걸쳐 작용할 수 있다. 교육적 요인이 '출생 후에만 작용한다'는 설명은 틀렸다. 예를 들어, 출생 전 부모의 교육 수준이나 태아기 교육 환경도 교육적 요인으로 분류될 수 있다.",
+    "wrong_explanations": {
+      "0": "유전적 이상은 생물의학적 요인으로 옳은 설명이다.",
+      "1": "빈곤·방임 등은 사회적 요인으로 옳은 설명이다.",
+      "2": "학대·가정폭력은 행동적 요인으로 옳은 설명이다."
+    },
+    "difficulty": 3,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q210",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "유전적 지적장애 원인 중 '( ① )증후군'은 X염색체의 취약 부위로 인해 발생하며, 유전적 원인 중 가장 많은 빈도를 차지한다. 또한 15번 염색체의 부계 결손 또는 모계 단친이체성으로 발생하는 '( ② )증후군'은 비만, 저신장, 과식 행동이 특징이다. ①과 ②에 들어갈 증후군 이름을 순서대로 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "①취약X(약체X), ②프래더-윌리",
+    "explanation": "취약X(Fragile X)증후군은 X염색체 장완(Xq27.3)의 취약 부위로 발생하며, 유전적 원인 중 가장 높은 빈도의 지적장애 원인이다. 프래더-윌리(Prader-Willi)증후군은 15번 염색체 부계 결손이 원인이며, 비만·저신장·소아기 과식이 특징이다. 참고로 같은 15번 염색체의 모계 결손은 안젤만(Angelman)증후군으로 행복해 보이는 표정과 웃음 발작이 특징이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q211",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애 교육에서 '발달론'과 '차이론'에 관한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "발달론은 중도 지적장애에 적용하며, 생활연령을 기준으로 교육 목표를 설정한다",
+      "차이론은 경도 지적장애에 적용하며, 정신연령을 기준으로 교육 내용을 선정한다",
+      "발달론은 경도 지적장애에 적용하며, 비장애 아동의 발달 계열에 따라 교육한다",
+      "차이론은 경도 지적장애에 적용하며, 필수 선수기술을 먼저 갖춰야 다음 단계로 나아갈 수 있다"
+    ],
+    "answer": "2",
+    "explanation": "발달론은 경도 지적장애에 적용되며, 지적장애 아동의 인지 발달 과정이 비장애 아동과 질적으로 동일하다고 본다. 따라서 정신연령(mental age)을 기준으로 비장애 아동의 발달 계열을 따라 교육한다. 반면 차이론은 중도 지적장애에 적용되며, 지적장애 아동은 질적으로 다른 발달을 한다고 보아 생활연령 기준, 하향식 교수, 선수기술 불필요 등을 특징으로 한다.",
+    "wrong_explanations": {
+      "0": "발달론은 경도에 적용하며 정신연령 기준을 사용한다. 생활연령 기준은 차이론의 특징이다.",
+      "1": "차이론은 중도 지적장애에 적용하며 생활연령 기준을 사용한다. 정신연령 기준은 발달론의 특징이다.",
+      "3": "필수 선수기술 요구는 발달론의 특징이다. 차이론에서는 선수기술 없이도 기능적 기술을 직접 교수한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q212",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애 학생의 기억 특성에 관한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "단기기억(작업기억) 수행이 생활연령이 같은 일반 학생보다 유의미하게 낮다",
+      "장기기억은 일반 학생과 비교하여 비교적 유사한 수준으로 기능할 수 있다",
+      "시연(rehearsal) 등 초인지적 기억 전략을 자발적으로 사용하는 데 어려움이 있다",
+      "장기기억의 어려움이 단기기억의 어려움보다 더 두드러지게 나타난다"
+    ],
+    "answer": "3",
+    "explanation": "지적장애 학생의 기억 특성에서 더 두드러지는 것은 단기기억(작업기억)의 어려움이다. 장기기억은 일반 학생과 비교적 유사한 수준을 보인다. 즉, 단기기억 어려움 > 장기기억 어려움의 방향이 옳다. 또한 자발적 시연, 조직화, 정교화 등의 초인지 전략을 스스로 사용하지 못하는 것도 주요 특성이다.",
+    "wrong_explanations": {
+      "0": "단기기억(작업기억) 어려움은 지적장애의 대표적 기억 특성으로 옳은 설명이다.",
+      "1": "장기기억이 일반 학생과 유사하다는 것은 연구에서 지지되는 설명으로 옳다.",
+      "2": "초인지 전략의 자발적 사용 어려움은 옳은 설명이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q213",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애 학생의 학습 단계별 적절한 교수 전략으로 옳지 않게 연결된 것은?",
+    "case_context": null,
+    "options": [
+      "습득 단계 — 정확한 수행에 대한 즉각적 강화 피드백 제공",
+      "숙달 단계 — 수행 속도 증가를 위한 피드백 및 반복 연습 기회 제공",
+      "유지 단계 — 자연 환경에서 다양한 예시와 자극으로 기술을 연습하게 함",
+      "일반화 단계 — 새로운 환경과 상황에서 학습된 기술을 적용하도록 지도"
+    ],
+    "answer": "2",
+    "explanation": "유지 단계의 적절한 전략은 간헐적 강화와 분산 연습(spaced practice)이다. '자연 환경에서 다양한 예시와 자극으로 연습'하는 것은 일반화 단계의 전략이다. 유지는 이미 습득·숙달된 기술을 망각 없이 보존하는 데 초점을 두므로, 간헐강화 스케줄과 시간 간격을 둔 분산 연습이 효과적이다.",
+    "wrong_explanations": {
+      "0": "습득 단계에서 정확성에 대한 즉각적 강화 피드백은 옳은 전략이다.",
+      "1": "숙달 단계에서 속도 피드백과 반복 연습은 옳은 전략이다.",
+      "3": "일반화 단계에서 다양한 환경과 자극 적용은 옳은 전략이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q214",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "자극 일반화(stimulus generalization)란 훈련 장면에서 강화된 행동과 유사한 다른 행동이 증가하는 현상을 말하며, 반응 일반화(response generalization)는 훈련에서 사용한 자극과 다른 새로운 자극에서도 표적 행동이 발생하는 현상이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "자극 일반화와 반응 일반화의 정의가 서로 바뀌어 있어 틀렸다. 자극 일반화(stimulus generalization)는 훈련 자극과 다른 새로운 자극에서도 표적 행동이 발생하는 것이고, 반응 일반화(response generalization)는 강화된 행동과 유사한 다른 행동이 증가하는 것이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q215",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "다음 사례에서 지적장애 학생 지훈이가 보이는 정의적 특성을 가장 적절하게 설명한 것은?",
+    "case_context": "중학교 2학년 지적장애 학생 지훈이는 수학 문제를 풀 때 답이 맞는지 확인하기 위해 항상 옆 친구의 노트를 바라보거나 교사의 눈치를 살핀다. 스스로 정답인지 판단하지 못하고, '선생님이 맞다고 해야 맞는 것'이라고 말한다. 과거에 여러 번 노력했지만 실패한 경험이 반복된 후로는 어려운 문제를 보면 시도 자체를 포기해 버린다.",
+    "options": [
+      "외부지향성(outer-directedness)과 학습된 무기력(learned helplessness)이 동시에 나타나고 있다",
+      "선택적 주의집중 곤란과 낮은 성공 기대감이 동시에 나타나고 있다",
+      "내적 통제소재와 외부지향성이 동시에 나타나고 있다",
+      "초인지 전략 부족과 반응 일반화 실패가 동시에 나타나고 있다"
+    ],
+    "answer": "0",
+    "explanation": "지훈이는 두 가지 정의적 특성을 동시에 보인다. ① 외부지향성(outer-directedness): 문제 해결 시 스스로 판단하지 못하고 타인(친구·교사)에게 의존하는 행동. ② 학습된 무기력(learned helplessness): 반복된 실패 경험 후 노력 자체를 포기하는 행동. 이는 지적장애의 대표적 정의적 특성이다.",
+    "wrong_explanations": {
+      "1": "선택적 주의집중 곤란은 관련 자극에 집중하지 못하는 인지적 특성으로, 이 사례에서 직접적으로 드러나지 않는다.",
+      "2": "내적 통제소재는 결과를 자신의 노력 탓으로 귀인하는 것으로, 지훈이의 행동과 반대이다. 지훈이는 외적 통제소재를 보인다.",
+      "3": "초인지 전략 부족과 반응 일반화 실패는 이 사례에서 직접적으로 관찰되지 않는다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q216",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "지적장애 학생의 정의적 특성 중 '낮은 성공 기대감'과 '외적 통제소재'에 관한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "낮은 성공 기대감은 과제 수행 결과를 자신의 능력이나 노력보다 운이나 타인에게 귀인하는 경향이다",
+      "외적 통제소재는 반복된 실패 경험으로 인해 성공 가능성을 낮게 예측하고 과제를 회피하는 경향이다",
+      "낮은 성공 기대감은 새로운 과제 시도 전에 이미 성공 가능성을 낮게 예측하여 수행 의욕이 저하된다",
+      "외적 통제소재와 내적 통제소재는 동일한 개념으로, 지적장애 학생은 두 소재 모두에서 고르게 나타난다"
+    ],
+    "answer": "2",
+    "explanation": "낮은 성공 기대감(low expectancy of success)은 반복된 실패 경험으로 인해 새로운 과제를 시도하기 전부터 성공 가능성을 낮게 예측하고, 이로 인해 수행 의욕과 과제 지속성이 저하되는 경향이다. 반면 외적 통제소재는 결과(성공·실패)를 자신의 노력이나 능력이 아닌 외부 요인(운, 타인, 과제 난이도)에 귀인하는 성향이다.",
+    "wrong_explanations": {
+      "0": "이는 외적 통제소재에 대한 설명이지, 낮은 성공 기대감에 대한 설명이 아니다.",
+      "1": "이는 낮은 성공 기대감에 대한 설명이지, 외적 통제소재에 대한 설명이 아니다.",
+      "3": "외적 통제소재와 내적 통제소재는 서로 반대 개념이며, 지적장애 학생은 주로 외적 통제소재 경향을 보인다."
+    },
+    "difficulty": 3,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q217",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "기능적 생활중심 교육과정의 특징으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "교육 내용과 목표를 실제 생활 기능과 연결하여 설정한다",
+      "생활연령에 적합한 활동과 자료를 사용한다",
+      "필수 선수기술을 완전히 습득한 후 다음 단계로 진행하는 준비도 모형을 따른다",
+      "지역사회 환경에서 직접 교수하는 지역사회 중심 교수(CBI)를 포함한다"
+    ],
+    "answer": "2",
+    "explanation": "기능적 생활중심 교육과정은 차이론에 기반하며, 준비도 함정(readiness trap)을 거부한다. 준비도 모형은 필수 선수기술을 습득해야만 다음 단계로 나아갈 수 있다고 보지만, 기능적 생활중심 교육과정은 선수기술 없이도 생활연령에 적합한 기능적 기술을 직접 교수한다는 것이 핵심 원칙이다.",
+    "wrong_explanations": {
+      "0": "실제 생활 기능과의 연결은 기능적 생활중심 교육과정의 핵심 특징으로 옳은 설명이다.",
+      "1": "생활연령 기준 활동은 기능적 생활중심 교육과정의 핵심 원칙으로 옳은 설명이다.",
+      "3": "지역사회 중심 교수(CBI)는 기능적 생활중심 교육과정의 주요 교수 전략으로 옳은 설명이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q218",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "fill_in",
+    "question": "생태학적 목록(ecological inventory)의 5단계 절차를 순서대로 나열하면: ( ① ) → 현재 및 미래 환경 파악 → ( ② ) → 활동 파악 → 기술 파악이다. ①과 ②에 들어갈 단계를 순서대로 쓰시오.",
+    "case_context": null,
+    "options": null,
+    "answer": "①교육과정 영역 파악, ②하위 환경 파악",
+    "explanation": "생태학적 목록의 5단계 절차는 ① 교육과정 영역 파악(가정·지역사회·직업·여가·학교 등) → ② 현재 및 미래 환경 파악(학생이 현재 생활하거나 미래에 생활할 환경) → ③ 하위 환경 파악(마트→의류 코너, 식품 코너 등) → ④ 활동 파악(각 하위 환경에서 수행해야 할 활동) → ⑤ 기술 파악(활동 수행에 필요한 구체적 기술)이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q219",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "multiple",
+    "question": "Wehmeyer가 제시한 자기결정의 4가지 필수적 특성으로 옳게 묶인 것은?",
+    "case_context": null,
+    "options": [
+      "자율성, 자기조정적 행동, 심리적 역량 강화, 자아실현",
+      "자율성, 독립성, 사회적 통합, 자아실현",
+      "자기옹호, 목표 설정, 심리적 역량 강화, 의사결정",
+      "자기인식, 자율성, 자기조정적 행동, 독립적 생활"
+    ],
+    "answer": "0",
+    "explanation": "Wehmeyer(1992, 1999)가 제시한 자기결정의 4가지 필수적 특성은 ① 자율성(autonomy: 개인의 선호·흥미에 따라 독립적으로 행동), ② 자기조정적 행동(self-regulation: 자신의 행동과 감정을 스스로 조절), ③ 심리적 역량 강화(psychological empowerment: 결과에 대한 내적 통제감·자기효능감), ④ 자아실현(self-realization: 자신의 강점과 한계에 대한 합리적 이해)이다.",
+    "wrong_explanations": {
+      "1": "독립성과 사회적 통합은 Wehmeyer의 4가지 자기결정 특성에 포함되지 않는다.",
+      "2": "자기옹호와 의사결정은 자기결정의 구성 요소(component skills)이지, 4가지 필수적 특성이 아니다.",
+      "3": "자기인식과 독립적 생활은 Wehmeyer의 4가지 특성에 포함되지 않는다."
+    },
+    "difficulty": 2,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  },
+  {
+    "id": "intro-q220",
+    "subject": "introduction",
+    "chapter": "disability-types",
+    "type": "ox",
+    "question": "자기결정학습모델(SDLMI)의 3단계는 '목표 설정 → 계획 및 실행 → 목표 및 계획 수정'으로 구성되며, 각 단계에서 학생은 '내가 무엇을 배우고 싶은가?', '나의 계획은 무엇인가?', '내가 배운 것은 무엇인가?'라는 질문으로 자기결정 행동을 실천한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "SDLMI(Self-Determined Learning Model of Instruction)는 Wehmeyer 등이 개발한 3단계 교수 모델이다. 1단계(목표 설정): '내가 무엇을 배우고 싶은가?' 2단계(계획 및 실행): '나의 계획은 무엇인가?' 3단계(목표 및 계획 수정): '내가 배운 것은 무엇인가?' 각 단계에서 교사는 학생이 자기결정 행동을 실천할 수 있도록 질문을 통해 안내한다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 유형",
+    "tags": {"disability": "intellectual-disability", "year": 2026}
+  }
+]

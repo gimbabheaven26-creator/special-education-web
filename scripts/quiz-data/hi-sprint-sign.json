@@ -1,0 +1,383 @@
+[
+  {
+    "id": "hi-q87",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "fill_in",
+    "question": "한국수어에서 의문사 의문문(wh-question)을 만들 때 사용하는 비수지 신호(NMM)는 눈썹을 (   ) 하는 것이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "내리기(찡그리기)",
+    "explanation": "한국수어에서 의문사 의문문(누구, 무엇, 어디, 언제, 왜, 어떻게)에는 눈썹을 내리는(찡그리는) 비수지 신호를 사용한다. 반면 예/아니오 의문문(yes/no question)에서는 눈썹을 올린다. 비수지 신호(NMM, Non-Manual Marker)는 수어의 문법적 기능을 담당하는 얼굴 표정·입 모양·시선·머리 움직임을 총칭하며, 수어 문법에서 핵심적인 역할을 한다. 2026 KICE 전공A-9에 지문자 체계와 함께 출제된 핵심 주제이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 2026 전공A-9 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q88",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "ox",
+    "question": "한국수어에서 예/아니오 의문문(yes/no question)을 표현할 때 눈썹을 내리는(찡그리는) 비수지 신호를 사용한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "예/아니오 의문문에서는 눈썹을 올리는 비수지 신호를 사용한다. 눈썹을 내리는 것은 의문사 의문문(wh-question)에서 사용한다. 이처럼 한국수어에서 비수지 신호(NMM)는 문장 유형을 문법적으로 구분하는 핵심 요소이며, 동일한 수지 기호라도 NMM에 따라 문장의 의미·유형이 달라진다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q89",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "multiple",
+    "question": "한국수어와 수지한국어의 차이에 대한 설명으로 옳은 것은?",
+    "case_context": null,
+    "options": [
+      "수지한국어는 한국수어와 동일한 어순을 따른다.",
+      "한국수어는 한국어의 어순(주어-목적어-서술어)과 동일한 문법 구조를 가진다.",
+      "수지한국어는 한국어 문법에 맞춰 수어 단어와 지문자를 배열한 인위적 체계이다.",
+      "한국수어는 청인의 언어인 한국어에서 파생된 언어이다."
+    ],
+    "answer": "2",
+    "explanation": "수지한국어(Signed Korean)는 한국어의 문법 구조와 어순을 그대로 유지하면서 각 단어에 해당하는 수어 기호나 지문자를 대응시킨 인위적 체계이다. 이에 비해 한국수어는 청각장애인 커뮤니티에서 자연적으로 발생한 독립된 언어로, 독자적 어순과 문법 구조를 가진다. 한국수어의 어순은 일반적으로 주어-목적어-서술어(SOV)와 유사하나, 공간 활용·비수지 신호 등 한국어와 다른 문법 수단을 사용한다.",
+    "wrong_explanations": {
+      "0": "수지한국어는 한국어 어순을 따르지만, 한국수어는 독자적인 어순과 문법을 가진다.",
+      "1": "한국수어는 한국어와 동일한 어순이 아닌 독자적 문법 구조를 가진 자연언어이다.",
+      "3": "한국수어는 한국어에서 파생된 언어가 아니라 청각장애인 공동체에서 자연적으로 발생한 독립된 언어이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q90",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "fill_in",
+    "question": "한국수어에서 손의 위치, 방향, 움직임 외에 얼굴 표정, 입 모양, 눈썹 움직임, 시선, 머리 기울임 등 손 이외의 신체 부위를 사용하는 문법 요소를 (   )(이)라고 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "비수지 신호(NMM, Non-Manual Marker)",
+    "explanation": "비수지 신호(NMM, Non-Manual Marker)는 수어에서 손 이외의 신체 부위(얼굴 표정, 눈썹, 볼, 입 모양, 시선, 머리·몸통 움직임 등)로 전달하는 문법적 정보를 말한다. 문장 유형(의문문, 부정문), 강조, 조건절 표시 등 다양한 문법적 기능을 담당한다. 수지 신호(Manual Sign)와 함께 수어 문법의 두 축을 이루며, NMM 없이 수지 기호만으로는 완전한 문법적 의미를 전달하기 어렵다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q91",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "fill_in",
+    "question": "한국수어에서 특정 대상이나 장소를 수어 공간의 특정 위치에 배치하여 이후 그 위치를 지시함으로써 대명사나 동사 일치를 나타내는 문법 장치를 (   ) 활용이라고 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "공간(수어 공간)",
+    "explanation": "한국수어는 3차원 수어 공간을 문법적 도구로 활용한다. 특정 인물이나 사물을 수어 공간의 특정 위치에 배치(지시 정립)하면, 이후 그 위치를 가리키는 것만으로 해당 대상을 지칭할 수 있다. 또한 동사 기호의 시작점과 끝점을 행위자·수용자 위치에 맞게 이동시켜 주어·목적어 관계를 표현하는 '일치동사'도 공간 활용의 대표적 예이다. 이는 한국어의 조사 체계와 유사한 문법적 역할을 수어 공간이 담당함을 보여준다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q92",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "multiple",
+    "question": "한국수어의 분류사(Classifier)에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "분류사는 지시 대상의 형태, 크기, 움직임 등 시각적 특성을 손 모양으로 나타낸다.",
+      "분류사를 통해 사물의 위치, 이동 경로, 방향을 표현할 수 있다.",
+      "분류사는 특정 명사와 항상 1:1로 대응되는 고정된 어휘 형태소이다.",
+      "수레형 분류사는 바퀴 달린 이동 수단이나 유사한 형태의 사물을 나타낼 때 사용된다."
+    ],
+    "answer": "2",
+    "explanation": "분류사(Classifier)는 고정된 1:1 어휘 형태소가 아니라, 동사 형태소와 결합하여 위치·이동·방식 등을 표현하는 다면적 형태소이다. 하나의 분류사 손 모양이 같은 형태적 특성을 지닌 다양한 대상에 사용될 수 있으며(예: 납작한 수평면 분류사 → 책상, 바닥, 종이류 등), 동사와 결합해 새로운 의미를 구성한다. 분류사는 수어의 생산성을 높이는 중요한 문법 기제이다.",
+    "wrong_explanations": {
+      "0": "분류사는 지시 대상의 형태·크기·움직임 등 시각적 특성을 손 모양으로 나타내는 것이 맞다.",
+      "1": "분류사를 통해 사물의 위치, 이동 경로, 방향을 표현할 수 있는 것은 맞다.",
+      "3": "수레형 분류사가 바퀴 달린 이동 수단을 나타낼 때 사용된다는 것은 맞는 설명이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q93",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "fill_in",
+    "question": "2026 KICE 전공A-9에 출제된 지문자 체계에서, 한국어 모음 'ㅏ'는 검지손가락을 (   ) 방향으로 세운 형태로 표현한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "수직(위)",
+    "explanation": "한국 지문자 모음 체계에서 'ㅏ'는 검지를 수직으로 세운 형태이다. 지문자 모음은 손 모양과 방향으로 한국어 모음을 표현하며, 주요 모음의 지문자 형태는 다음과 같다: 'ㅏ'(검지 수직), 'ㅣ'(소지 수직), 'ㅗ'(엄지 위), 'ㅜ'(검지 아래). 2026 KICE 전공A-9에서 지문자 자음·모음 체계의 형태 구분이 직접 출제되었으므로, 각 지문자의 손 모양과 방향을 정확히 숙지해야 한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 2026 전공A-9",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q94",
+    "subject": "hearing-impairment",
+    "chapter": "sign-language",
+    "type": "multiple",
+    "question": "한국 지문자에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "지문자는 한국어의 자음과 모음을 손 모양으로 나타낸 기호 체계이다.",
+      "지문자는 한국수어의 어휘를 대체하는 완전한 의사소통 수단으로 사용된다.",
+      "지문자는 한국수어에 없는 고유명사나 전문용어를 표현할 때 주로 사용된다.",
+      "한국 지문자 자음은 한글 자음의 획 모양을 손으로 나타낸 형태에서 출발한다."
+    ],
+    "answer": "1",
+    "explanation": "지문자(Fingerspelling)는 음성언어의 문자 체계를 손 모양으로 나타낸 보조 체계로, 한국수어의 어휘를 완전히 대체하는 수단이 아니다. 지문자는 한국수어에 대응 어휘가 없는 고유명사(인명, 지명), 전문 용어, 약어 등을 표현할 때 보조적으로 사용된다. 일상적 의사소통에서는 한국수어 어휘를 주로 사용하며, 지문자만으로 긴 대화를 나누는 것은 효율적이지 않다.",
+    "wrong_explanations": {
+      "0": "지문자가 한국어 자음·모음을 손 모양으로 나타낸 기호 체계라는 것은 맞다.",
+      "2": "지문자가 한국수어에 없는 고유명사·전문용어 표현에 주로 사용된다는 것은 맞다.",
+      "3": "한국 지문자 자음이 한글 자음의 획 모양을 손으로 나타낸 형태에서 출발한다는 것은 맞다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2026 전공A-9 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q95",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "fill_in",
+    "question": "6분법으로 평균 청력손실을 계산할 때 사용하는 주파수와 가중치는 500Hz(×1) + 1000Hz(×2) + 2000Hz(×2) + 4000Hz(×1)이며, 이를 (   )로 나눈다.",
+    "case_context": null,
+    "options": null,
+    "answer": "6",
+    "explanation": "6분법 평균 순음청력역치(PTA) 계산식은 [500Hz×1 + 1000Hz×2 + 2000Hz×2 + 4000Hz×1] ÷ 6이다. 1000Hz와 2000Hz에 가중치 2를 부여하는 이유는 이 주파수 대역이 일상 언어 이해에 가장 중요하기 때문이다. 이 공식은 한국 청각장애 특수교육 및 장애등급 판정에 공식적으로 사용되며, 임용시험에서도 구체적인 계산 문제로 출제된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q96",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "multiple",
+    "question": "어떤 학생의 순음청력검사 결과가 다음과 같을 때 6분법으로 계산한 평균 청력손실(dB)은? (500Hz: 40dB, 1000Hz: 50dB, 2000Hz: 60dB, 4000Hz: 70dB)",
+    "case_context": "좌측 귀 기도청력 검사 결과: 500Hz 40dB, 1000Hz 50dB, 2000Hz 60dB, 4000Hz 70dB",
+    "options": [
+      "50dB",
+      "54dB",
+      "55dB",
+      "58dB"
+    ],
+    "answer": "2",
+    "explanation": "6분법 계산: (40×1 + 50×2 + 60×2 + 70×1) ÷ 6 = (40 + 100 + 120 + 70) ÷ 6 = 330 ÷ 6 = 55dB이다. 6분법은 500Hz(가중치 1), 1000Hz(가중치 2), 2000Hz(가중치 2), 4000Hz(가중치 1)의 합을 6으로 나누어 계산한다. WHO와 한국 장애등급 기준에서 55dB은 중등도-고도 경계 수준에 해당한다.",
+    "wrong_explanations": {
+      "0": "50dB은 계산 오류이다. 6분법에 따른 올바른 계산 결과는 55dB이다.",
+      "1": "54dB은 가중치를 잘못 적용한 계산 오류이다.",
+      "3": "58dB은 가중치 계산을 잘못 적용한 결과이다."
+    },
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q97",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "multiple",
+    "question": "순음청력검사 결과 기도청력역치가 55dB이고 골도청력역치가 15dB인 경우, 이 결과가 시사하는 난청의 유형은?",
+    "case_context": null,
+    "options": [
+      "감각신경성 난청(Sensorineural hearing loss)",
+      "중추성 난청(Central hearing loss)",
+      "전음성 난청(Conductive hearing loss)",
+      "혼합성 난청(Mixed hearing loss)"
+    ],
+    "answer": "2",
+    "explanation": "기도-골도 차(Air-Bone Gap, ABG)는 55 - 15 = 40dB로, 15dB 이상의 유의한 기도-골도 차가 존재한다. 골도청력은 정상 범위(15dB)인 반면 기도청력만 저하된 경우, 달팽이관(내이) 기능은 정상이고 외이·중이의 전음 경로에 문제가 있음을 의미한다. 이를 전음성 난청이라 한다. 전음성 난청은 이관기능 장애, 삼출성 중이염, 고막천공 등이 원인이며 의학적 치료로 개선 가능성이 높다.",
+    "wrong_explanations": {
+      "0": "감각신경성 난청은 기도·골도 역치가 모두 저하되어 기도-골도 차가 거의 없다(10dB 이하).",
+      "1": "중추성 난청은 청각 처리 경로의 중추 문제로, 순음청력검사 결과만으로 진단하지 않는다.",
+      "3": "혼합성 난청은 전음성과 감각신경성이 동시에 존재하는 경우로, 골도청력도 저하되어야 한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q98",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "fill_in",
+    "question": "순음청력검사에서 기도청력역치와 골도청력역치의 차이를 (   )(이)라 하며, 이 값이 15dB 이상이면 전음성 요소가 있음을 시사한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "기도-골도 차(Air-Bone Gap, ABG)",
+    "explanation": "기도-골도 차(Air-Bone Gap, ABG)는 기도청력역치에서 골도청력역치를 뺀 값이다. ABG가 15dB 이상이면 외이 또는 중이의 전음 경로에 문제가 있음을 시사한다. 골도청력은 내이(달팽이관) 기능을 직접 반영하므로, 골도는 정상이나 기도만 저하된 경우 전음성 난청, 기도·골도 모두 저하된 경우 감각신경성 난청, 두 요소가 혼재하면 혼합성 난청으로 분류한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q99",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "fill_in",
+    "question": "어음청취역치(Speech Reception Threshold, SRT)는 이음절어를 제시했을 때 약 (   )%를 정확히 반복할 수 있는 최소 강도(dB)를 말한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "50",
+    "explanation": "어음청취역치(SRT)는 두 음절 단어(이음절어)를 제시할 때 약 50%를 정확히 인지·반복할 수 있는 최소 강도이다. SRT는 순음청력역치(PTA)와 비교하여 청력검사 결과의 신뢰성을 교차 검증하는 데 사용된다. 일반적으로 SRT와 PTA(500·1000·2000Hz 3분법 평균)의 차이가 10dB 이내이면 신뢰할 수 있는 결과로 본다. SRT가 PTA와 크게 다를 경우 위난청(기능성 난청) 가능성을 의심한다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q100",
+    "subject": "hearing-impairment",
+    "chapter": "audiogram",
+    "type": "multiple",
+    "question": "세계보건기구(WHO) 기준에서 평균 청력손실이 41~60dB인 경우 해당하는 청력손실 분류는?",
+    "case_context": null,
+    "options": [
+      "경도(Mild) 난청",
+      "중등도(Moderate) 난청",
+      "고도(Severe) 난청",
+      "심도(Profound) 난청"
+    ],
+    "answer": "1",
+    "explanation": "WHO 기준 청력손실 분류: 경도(Mild) 26~40dB, 중등도(Moderate) 41~60dB, 고도(Severe) 61~80dB, 심도(Profound) 81dB 이상. 중등도 난청(41~60dB)은 조용한 환경에서 대화는 가능하나 소음 환경에서 어려움을 겪으며, 보청기 착용이 권장된다. 한국의 장애인복지법 기준과 WHO 기준은 세부 수치에서 차이가 있으므로 주의가 필요하다.",
+    "wrong_explanations": {
+      "0": "경도 난청은 26~40dB 범위에 해당한다.",
+      "2": "고도 난청은 61~80dB 범위에 해당한다.",
+      "3": "심도 난청은 81dB 이상에 해당한다."
+    },
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q101",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "fill_in",
+    "question": "인공와우의 체외부(外部) 구성 요소 3가지는 마이크로폰, (   ), 송신코일이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "어음처리기(Sound Processor)",
+    "explanation": "인공와우 체외부는 마이크로폰, 어음처리기(Sound Processor), 송신코일 3가지로 구성된다. 마이크로폰이 소리를 수집하면, 어음처리기가 디지털 신호로 변환·처리하고, 송신코일이 체내부 수신기로 신호를 무선 전송한다. 체내부는 수신기(Receiver/Stimulator)와 전극 배열(Electrode Array)로 구성된다. 2026 KICE 전공A-9에서 체외부 3요소의 기능 구분이 직접 출제된 핵심 주제이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 2026 전공A-9",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q102",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "multiple",
+    "question": "인공와우 체내부(內部)의 구성 요소로 옳게 짝지어진 것은?",
+    "case_context": null,
+    "options": [
+      "마이크로폰과 어음처리기",
+      "어음처리기와 송신코일",
+      "수신기(자극기)와 전극 배열",
+      "송신코일과 전극 배열"
+    ],
+    "answer": "2",
+    "explanation": "인공와우 체내부(이식부)는 수신기/자극기(Receiver/Stimulator)와 전극 배열(Electrode Array)로 구성된다. 수신기는 체외부 송신코일로부터 무선으로 신호를 받아 전기 신호로 변환하고, 전극 배열은 달팽이관 내에 삽입되어 청신경을 직접 전기적으로 자극한다. 마이크로폰, 어음처리기, 송신코일은 모두 체외부 구성요소이다.",
+    "wrong_explanations": {
+      "0": "마이크로폰과 어음처리기는 모두 체외부 구성요소이다.",
+      "1": "어음처리기와 송신코일은 모두 체외부 구성요소이다.",
+      "3": "송신코일은 체외부, 전극 배열은 체내부로 서로 다른 부분에 속한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2026 전공A-9 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q103",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "fill_in",
+    "question": "인공와우 이식 후 청각사(audiologist)가 개인의 청각 역치와 쾌적 수준에 맞게 전기 자극의 T-레벨과 C-레벨을 설정하는 과정을 (   )(이)라고 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "맵핑(Mapping) 또는 프로그래밍(Programming)",
+    "explanation": "맵핑(Mapping)은 인공와우 이식 후 청각사가 어음처리기를 개인의 청각 특성에 맞게 프로그래밍하는 과정이다. T-레벨(Threshold level)은 전기 자극을 겨우 감지할 수 있는 최소 자극 강도이며, C-레벨(Comfort level)은 불쾌감 없이 편안하게 들을 수 있는 최대 자극 강도이다. 맵핑은 이식 초기에 자주 조정하며, 어음처리기의 각 채널(전극)별로 설정한다. 적절한 맵핑이 이루어져야 효과적인 청취가 가능하다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q104",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "multiple",
+    "question": "인공와우 이식 후 청각훈련 단계를 순서대로 바르게 나열한 것은?",
+    "case_context": null,
+    "options": [
+      "탐지 → 변별 → 확인 → 이해",
+      "변별 → 탐지 → 이해 → 확인",
+      "탐지 → 확인 → 변별 → 이해",
+      "변별 → 확인 → 탐지 → 이해"
+    ],
+    "answer": "0",
+    "explanation": "인공와우 이식 후 청각훈련(Auditory Training)은 탐지(Detection) → 변별(Discrimination) → 확인(Identification) → 이해(Comprehension)의 4단계로 진행된다. 탐지는 소리의 유무를 감지하는 단계, 변별은 두 소리의 같고 다름을 구분하는 단계, 확인은 여러 자극 중 목표 자극을 선택하는 단계, 이해는 맥락 없이 말소리를 듣고 의미를 파악하는 최고 단계이다. 2026 KICE 전공A-9에서 인공와우 관련 내용이 직접 출제되었다.",
+    "wrong_explanations": {
+      "1": "변별이 탐지보다 먼저 오는 것은 단계 순서에 맞지 않다.",
+      "2": "탐지 다음은 변별이며, 확인이 변별보다 앞에 오는 것은 잘못된 순서이다.",
+      "3": "변별이 탐지보다 먼저 제시되어 있어 올바른 순서가 아니다."
+    },
+    "difficulty": 2,
+    "source": "KICE 2026 전공A-9 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q105",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "multiple",
+    "question": "보청기 종류에 대한 설명으로 옳지 않은 것은?",
+    "case_context": null,
+    "options": [
+      "귀걸이형(BTE) 보청기는 귀 뒤에 본체가 위치하며, 음관(ear hook)을 통해 소리를 귓속으로 전달한다.",
+      "귓속형(ITE) 보청기는 귓바퀴 안쪽 공간에 맞춤 제작되어 장착한다.",
+      "골전도 보청기는 달팽이관이 손상된 감각신경성 난청 환자에게 가장 효과적이다.",
+      "고막형(CIC) 보청기는 귓속형 중 가장 깊이 삽입되는 유형으로 외관상 잘 보이지 않는다."
+    ],
+    "answer": "2",
+    "explanation": "골전도 보청기는 피부와 뼈를 통해 진동을 직접 내이로 전달하므로, 달팽이관 기능이 정상인 전음성 난청 환자(외이·중이 문제)에게 효과적이다. 달팽이관(내이)이 손상된 감각신경성 난청에서는 골전도 보청기의 효과가 제한적이다. 감각신경성 난청의 경우 인공와우 이식이 더 적합한 중재 방법이다.",
+    "wrong_explanations": {
+      "0": "귀걸이형(BTE) 보청기가 귀 뒤에 본체가 위치하며 음관으로 소리를 전달한다는 것은 맞다.",
+      "1": "귓속형(ITE) 보청기가 귓바퀴 안쪽에 맞춤 제작된다는 것은 맞다.",
+      "3": "고막형(CIC) 보청기가 귓속형 중 가장 깊이 삽입되어 외관상 잘 안 보인다는 것은 맞다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  },
+  {
+    "id": "hi-q106",
+    "subject": "hearing-impairment",
+    "chapter": "hearing-aid",
+    "type": "fill_in",
+    "question": "보청기의 주파수반응곡선에서 입력 음압 수준에 따른 출력 음압 수준의 관계를 나타내는 그래프를 (   ) 곡선이라 하며, 이를 통해 보청기의 이득(gain), 최대출력(OSPL90), 주파수 특성을 파악할 수 있다.",
+    "case_context": null,
+    "options": null,
+    "answer": "입출력(I/O, Input/Output)",
+    "explanation": "보청기의 입출력(I/O) 곡선은 입력 음압 수준(Input SPL)에 대한 출력 음압 수준(Output SPL)의 관계를 나타낸다. 이 곡선을 통해 이득(Gain, 입력과 출력의 차이), 최대출력(OSPL90, 90dB 입력 시 최대 출력), 주파수반응 특성을 확인할 수 있다. 주파수반응곡선은 특정 입력 수준에서 주파수별 이득을 나타내며, 보청기 적합(Fitting) 시 개인의 청력도에 맞게 조정하는 기준이 된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": {"disability": "청각장애"}
+  }
+]

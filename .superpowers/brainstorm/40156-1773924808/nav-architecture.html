@@ -1,0 +1,104 @@
+<h2>네비게이션 전체 구조 확정안</h2>
+<p class="subtitle">하단탭 5개 + 상단 헤더 (로고+4개). 클릭해서 이상한 부분 표시해주세요.</p>
+
+<!-- 데스크탑 헤더 -->
+<div class="section">
+  <div class="label">데스크탑 헤더</div>
+  <div style="display:flex;align-items:center;gap:20px;background:#0f172a;padding:12px 20px;border-radius:8px;margin-top:8px;border:1px solid #1e293b">
+    <a style="color:#60a5fa;font-weight:700;font-size:14px;text-decoration:none;margin-right:16px">📚 특수교육 공부방</a>
+    <span style="color:#94a3b8;font-size:13px;cursor:pointer">진단평가</span>
+    <span style="color:#94a3b8;font-size:13px;cursor:pointer">실력쌓기</span>
+    <span style="color:#94a3b8;font-size:13px;cursor:pointer">메타인지</span>
+    <span style="color:#94a3b8;font-size:13px;cursor:pointer">함께하기</span>
+    <span style="margin-left:auto;color:#64748b;font-size:12px;border:1px solid #475569;padding:3px 10px;border-radius:4px">로그인</span>
+  </div>
+  <p style="font-size:11px;color:#64748b;margin-top:4px">📚 로고 클릭 → 홈. 각 메뉴 hover → 서브메뉴 드롭다운</p>
+</div>
+
+<!-- 정보 구조 -->
+<div class="section" style="margin-top:20px">
+  <div class="label">정보 구조 (IA) — 탭별 하위 기능</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px">
+
+    <!-- 진단평가 -->
+    <div style="background:#0f172a;border:1px solid #1e3a5f;border-radius:8px;padding:12px">
+      <div style="color:#38bdf8;font-weight:700;font-size:13px;margin-bottom:8px">🔍 진단평가</div>
+      <div style="font-size:12px;color:#94a3b8;line-height:1.8">
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px;margin-bottom:4px">📅 오늘학습 <span style="color:#475569;font-size:10px">→ /daily</span></div>
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px">📖 용어학습 <span style="color:#475569;font-size:10px">→ /terms</span></div>
+      </div>
+    </div>
+
+    <!-- 실력쌓기 -->
+    <div style="background:#0f172a;border:1px solid #14532d;border-radius:8px;padding:12px">
+      <div style="color:#34d399;font-weight:700;font-size:13px;margin-bottom:8px">💪 실력쌓기</div>
+      <div style="font-size:12px;color:#94a3b8;line-height:1.8">
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px;margin-bottom:4px">📚 과목학습 <span style="color:#475569;font-size:10px">→ /subjects</span></div>
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px">📋 모의고사 <span style="color:#475569;font-size:10px">→ /kice/exam</span></div>
+      </div>
+    </div>
+
+    <!-- 메타인지 -->
+    <div style="background:#0f172a;border:1px solid #4c1d95;border-radius:8px;padding:12px">
+      <div style="color:#a78bfa;font-weight:700;font-size:13px;margin-bottom:8px">🧠 메타인지</div>
+      <div style="font-size:12px;color:#94a3b8;line-height:1.8">
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px;margin-bottom:4px">🌳 마스터리 트리 <span style="color:#475569;font-size:10px">→ /mastery</span></div>
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px;margin-bottom:4px">📊 학습통계 <span style="color:#475569;font-size:10px">→ /stats</span></div>
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px;margin-bottom:4px">🔖 북마크 <span style="color:#475569;font-size:10px">→ /bookmarks</span></div>
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px;margin-bottom:4px">📈 출제경향 <span style="color:#475569;font-size:10px">→ /kice/analytics</span></div>
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px">❌ 오답노트 <span style="color:#475569;font-size:10px">→ /wrong-notes</span></div>
+      </div>
+    </div>
+
+    <!-- 함께하기 -->
+    <div style="background:#0f172a;border:1px solid #7c2d12;border-radius:8px;padding:12px">
+      <div style="color:#fb923c;font-weight:700;font-size:13px;margin-bottom:8px">🤝 함께하기</div>
+      <div style="font-size:12px;color:#94a3b8;line-height:1.8">
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px;margin-bottom:4px">💬 커뮤니티 <span style="color:#475569;font-size:10px">→ /community</span></div>
+        <div style="padding:4px 8px;background:#0c1829;border-radius:4px">⭐ 리뷰 <span style="color:#475569;font-size:10px">→ /reviews</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 모바일 하단탭 -->
+<div class="section" style="margin-top:20px">
+  <div class="label">모바일 하단 탭바</div>
+  <div style="max-width:375px;margin:10px auto 0;background:#0f172a;border:1px solid #1e293b;border-radius:12px;overflow:hidden">
+    <div style="display:flex;border-top:1px solid #1e293b">
+      <div style="flex:1;padding:10px 4px;text-align:center">
+        <div style="font-size:18px">🏠</div>
+        <div style="font-size:10px;color:#60a5fa;font-weight:700">홈</div>
+      </div>
+      <div style="flex:1;padding:10px 4px;text-align:center">
+        <div style="font-size:18px">🔍</div>
+        <div style="font-size:10px;color:#94a3b8">진단평가</div>
+      </div>
+      <div style="flex:1;padding:10px 4px;text-align:center">
+        <div style="font-size:18px">💪</div>
+        <div style="font-size:10px;color:#94a3b8">실력쌓기</div>
+      </div>
+      <div style="flex:1;padding:10px 4px;text-align:center">
+        <div style="font-size:18px">🧠</div>
+        <div style="font-size:10px;color:#94a3b8">메타인지</div>
+      </div>
+      <div style="flex:1;padding:10px 4px;text-align:center">
+        <div style="font-size:18px">🤝</div>
+        <div style="font-size:10px;color:#94a3b8">함께하기</div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#64748b;margin-top:6px;text-align:center">탭 클릭 → 해당 카테고리 첫 번째 항목으로 이동 (또는 서브메뉴 표시)</p>
+</div>
+
+<!-- 미배치 기능들 -->
+<div style="background:#1c1917;border:1px solid #44403c;border-radius:8px;padding:12px;margin-top:16px">
+  <p style="font-size:12px;color:#f59e0b;margin:0 0 6px;font-weight:600">⚠️ 미배치 기능 (확인 필요)</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <span style="font-size:11px;color:#a8a29e;background:#292524;padding:3px 8px;border-radius:4px">플래시카드 /flashcards</span>
+    <span style="font-size:11px;color:#a8a29e;background:#292524;padding:3px 8px;border-radius:4px">워크시트 /worksheets</span>
+    <span style="font-size:11px;color:#a8a29e;background:#292524;padding:3px 8px;border-radius:4px">BDS 시나리오 /scenarios</span>
+    <span style="font-size:11px;color:#a8a29e;background:#292524;padding:3px 8px;border-radius:4px">인터랙티브 /interactive</span>
+  </div>
+  <p style="font-size:11px;color:#78716c;margin:6px 0 0">이것들은 실력쌓기/메타인지 하위 페이지로 진입 or 각 카테고리 내에서 연결</p>
+</div>

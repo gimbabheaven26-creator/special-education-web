@@ -1,0 +1,118 @@
+<h2>말해보카 UI 분석 → 우리 서비스 적용</h2>
+<p class="subtitle">11장 스크린샷에서 뽑은 핵심 패턴</p>
+
+<div class="section">
+  <div class="label">말해보카 하단 탭바 (5개)</div>
+  <div style="display:flex;gap:0;background:#f8f9fa;border:1px solid #dee2e6;border-radius:12px;overflow:hidden;margin-top:8px">
+    <div style="flex:1;padding:10px 4px;text-align:center;font-size:11px;color:#666;border-right:1px solid #dee2e6">
+      <div style="font-size:18px">🏠</div>홈
+    </div>
+    <div style="flex:1;padding:10px 4px;text-align:center;font-size:11px;color:#666;border-right:1px solid #dee2e6">
+      <div style="font-size:18px">📊</div>학습통계
+    </div>
+    <div style="flex:1;padding:10px 4px;text-align:center;font-size:11px;color:#7c3aed;font-weight:700;border-right:1px solid #dee2e6">
+      <div style="font-size:18px">📚</div><strong>전체학습</strong>
+    </div>
+    <div style="flex:1;padding:10px 4px;text-align:center;font-size:11px;color:#666;border-right:1px solid #dee2e6">
+      <div style="font-size:18px">🏛</div>리그
+    </div>
+    <div style="flex:1;padding:10px 4px;text-align:center;font-size:11px;color:#666">
+      <div style="font-size:18px">💎</div>프리미엄
+    </div>
+  </div>
+  <p style="font-size:12px;color:#7c3aed;margin-top:6px">👆 "전체학습" = 모든 학습 기능 모아보기. 우리의 "학습하기(/subjects)"와 동일한 역할</p>
+</div>
+
+<div class="section" style="margin-top:20px">
+  <div class="label">말해보카 홈 — 핵심 구조</div>
+  <div style="background:#f8f9fa;border-radius:12px;padding:16px;margin-top:8px;max-width:320px;margin-left:auto;margin-right:auto">
+    <div style="text-align:center;font-size:12px;color:#666;border-bottom:1px solid #dee2e6;padding-bottom:8px;margin-bottom:8px">
+      연속 학습 2일 🔥🔥
+    </div>
+    <div style="text-align:center;font-size:24px;margin:8px 0">🐰</div>
+    <div style="background:#7c3aed;color:white;border-radius:8px;padding:10px;text-align:center;font-size:13px;margin:8px 0">
+      오늘의 어휘 학습 시작 ▶
+    </div>
+    <div style="display:flex;gap:4px;margin-top:8px">
+      <div style="flex:1;padding:6px;background:#ede9fe;border-radius:6px;text-align:center;font-size:11px;color:#7c3aed;font-weight:600">어휘</div>
+      <div style="flex:1;padding:6px;background:white;border-radius:6px;text-align:center;font-size:11px;color:#999">문법</div>
+      <div style="flex:1;padding:6px;background:white;border-radius:6px;text-align:center;font-size:11px;color:#999">표현</div>
+      <div style="flex:1;padding:6px;background:white;border-radius:6px;text-align:center;font-size:11px;color:#999">리스닝</div>
+    </div>
+    <div style="background:white;border-radius:8px;padding:10px;margin-top:8px;font-size:12px;color:#444">
+      즐겨찾기 컨텐츠 카드...
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:24px">
+  <div class="label">우리 서비스 적용 제안 (A vs B)</div>
+</div>
+
+<div class="split" style="margin-top:12px">
+  <div class="mockup">
+    <div class="mockup-header">A안 — 하단탭 재구성</div>
+    <div class="mockup-body">
+      <div style="font-size:11px;color:#64748b;margin-bottom:8px">현재 탭: 홈/오늘학습/오답노트/용어학습/통계</div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:12px">→ 변경:</div>
+      <div style="display:flex;gap:0;background:#0f172a;border-radius:8px;overflow:hidden">
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#60a5fa">
+          <div>🏠</div>홈
+        </div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#94a3b8">
+          <div>📅</div>오늘학습
+        </div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#34d399;font-weight:700">
+          <div>📖</div><strong>학습하기</strong>
+        </div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#f59e0b;font-weight:700">
+          <div>📋</div><strong>기출</strong>
+        </div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#94a3b8">
+          <div>📊</div>통계
+        </div>
+      </div>
+      <p style="font-size:11px;color:#64748b;margin-top:8px">오답노트/용어학습 → 마이페이지로 이동<br>학습하기/기출 → 탭에서 바로 접근</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><ul><li>모바일 핵심 기능 강조</li><li>말해보카 패턴과 일치</li></ul></div>
+        <div class="cons"><ul><li>오답노트 접근성 감소</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">B안 — 탭 유지 + 헤더만 변경</div>
+    <div class="mockup-body">
+      <div style="font-size:11px;color:#64748b;margin-bottom:8px">하단탭은 현재 유지:</div>
+      <div style="display:flex;gap:0;background:#0f172a;border-radius:8px;overflow:hidden;margin-bottom:12px">
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#60a5fa"><div>🏠</div>홈</div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#94a3b8"><div>📅</div>오늘학습</div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#94a3b8"><div>❌</div>오답</div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#94a3b8"><div>📖</div>용어</div>
+        <div style="flex:1;padding:8px 3px;text-align:center;font-size:10px;color:#94a3b8"><div>📊</div>통계</div>
+      </div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px">헤더(데스크탑)만 변경:</div>
+      <div style="display:flex;align-items:center;gap:6px;background:#1e293b;padding:8px 10px;border-radius:6px;flex-wrap:wrap">
+        <span style="color:#60a5fa;font-size:11px;font-weight:700;margin-right:auto">📚</span>
+        <span style="color:#34d399;font-size:10px;font-weight:600">학습하기</span>
+        <span style="color:#f59e0b;font-size:10px;font-weight:600">기출문제</span>
+        <span style="color:#94a3b8;font-size:10px">오늘학습</span>
+        <span style="color:#94a3b8;font-size:10px">커뮤니티</span>
+        <span style="color:#94a3b8;font-size:10px">용어</span>
+      </div>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><ul><li>모바일 탭 안 건드림</li><li>변경 최소화</li></ul></div>
+        <div class="cons"><ul><li>모바일서 학습하기/기출 접근성 낮음</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="background:#0f172a;border-radius:8px;padding:12px;margin-top:20px;border:1px solid #1e3a5f">
+  <p style="font-size:12px;color:#60a5fa;margin:0 0 6px;font-weight:600">📌 말해보카 핵심 인사이트</p>
+  <ul style="font-size:11px;color:#94a3b8;margin:0;padding-left:16px">
+    <li>학습 모드 전환 (어휘/문법/표현) → <strong style="color:#34d399">홈 내 탭</strong>으로 처리 (별도 페이지 아님)</li>
+    <li>"전체학습" 탭 = 모든 콘텐츠 목록 → <strong style="color:#34d399">우리의 /subjects</strong></li>
+    <li>홈은 "오늘 뭐 할지"만 — 탐색은 전체학습/통계 탭으로 분리</li>
+    <li>프리미엄/리그처럼 수익화 탭도 하단 고정</li>
+  </ul>
+</div>

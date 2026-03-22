@@ -1,0 +1,503 @@
+[
+  {
+    "id": "cd-q67",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "ox",
+    "question": "강화된 환경중심 언어중재(EMT)에서 환경 조성(environment arrangement)은 아동이 자발적으로 의사소통을 시도할 기회를 만들기 위해 관심 있는 자료를 아동의 손이 닿지 않는 곳에 배치하는 전략이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "EMT의 환경 조성은 아동이 좋아하는 자료를 보이되 접근하기 어렵게 배치하여, 아동이 교사에게 요청해야 하는 의사소통 상황을 의도적으로 만드는 전략이다. 이를 통해 아동의 자발적 발화(spontaneous communication) 기회를 증가시킨다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "EMT",
+      "환경 조성",
+      "의사소통장애",
+      "자발적 발화"
+    ]
+  },
+  {
+    "id": "cd-q68",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "multiple",
+    "question": "다음 중 강화된 환경중심 언어중재(EMT)의 4가지 핵심 전략에 해당하지 않는 것은?",
+    "case_context": null,
+    "options": [
+      "환경 조성(environment arrangement)",
+      "시간지연(time delay)",
+      "반응적 상호작용(responsive interaction)",
+      "직접교수(direct instruction)"
+    ],
+    "answer": "3",
+    "explanation": "EMT(Warren & Yoder)의 4가지 핵심 전략은 환경 조성, 반응적 상호작용, 모델링, 시간지연이다. 직접교수는 구조화된 교사 주도 교수법으로, 아동의 자연적 관심과 시작(initiation)을 활용하는 EMT의 원리와 다르다.",
+    "wrong_explanations": {
+      "0": "환경 조성은 EMT의 핵심 전략으로, 아동이 의사소통할 이유를 만들기 위해 관심 자료를 전략적으로 배치하는 것이다.",
+      "1": "시간지연은 EMT의 핵심 전략으로, 아동이 자발적으로 언어를 시작할 기회를 제공하기 위해 의도적으로 기다리는 것이다.",
+      "2": "반응적 상호작용은 EMT의 핵심 전략으로, 아동의 주도를 따르며 공동 주목을 형성하는 것이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "EMT",
+      "환경중심 언어중재",
+      "의사소통장애",
+      "Warren",
+      "Yoder"
+    ]
+  },
+  {
+    "id": "cd-q69",
+    "subject": "communication-disorder",
+    "chapter": "emt",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.\n\n자폐성장애 유아 민준이(3세)는 단어 수준의 표현이 가능하며, 간식 시간에 원하는 과자를 가리키며 \"저거\"라고만 말한다. 특수교사 한 교사는 EMT의 시간지연 전략을 적용하기로 하였다.\n\n(1) 시간지연(time delay) 전략의 정의를 쓰시오.\n(2) 위 사례에서 한 교사가 시간지연 전략을 적용하는 구체적 절차를 3단계로 서술하시오.",
+    "case_context": "자폐성장애 유아 민준이(3세)는 단어 수준의 표현이 가능하며, 간식 시간에 원하는 과자를 가리키며 \"저거\"라고만 말한다. 특수교사 한 교사는 EMT의 시간지연 전략을 적용하기로 하였다.",
+    "options": null,
+    "answer": "(1) 시간지연의 정의:\n시간지연(time delay)은 아동이 의사소통을 시도할 수 있도록, 교사가 즉각적으로 반응하거나 촉진하지 않고 일정 시간(보통 5~15초) 동안 의도적으로 기다리는 전략이다. 아동에게 자발적 발화의 기회를 제공하는 것이 목적이다.\n\n(2) 적용 절차 3단계:\n① 환경 조성 및 기대 표현: 한 교사가 민준이가 원하는 과자를 보이되 바로 주지 않고, 기대하는 눈빛과 자세로 민준이를 바라본다.\n② 시간지연 적용: 민준이가 \"저거\"라고 말한 후, 한 교사는 5초간 기다리며 민준이가 \"과자 주세요\"와 같은 확장된 발화를 시도할 기회를 제공한다.\n③ 반응 및 모델링: 시간지연 후에도 민준이가 확장 발화를 하지 않으면, \"과자 주세요, 라고 말해 볼까?\"라고 모델을 제공하고, 민준이가 모방하면 즉시 과자를 주며 강화한다.",
+    "explanation": "시간지연은 EMT의 핵심 전략 중 하나로, 아동의 자발적 의사소통 시도를 증가시키는 데 효과적이다. 특히 ASD 아동은 자발적 시작(initiation)이 어려우므로, 성인이 즉각 반응하는 대신 기다림으로써 아동이 스스로 발화할 기회를 확보해 주는 것이 중요하다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "EMT",
+      "시간지연",
+      "자폐성장애",
+      "자발적 발화",
+      "의사소통장애"
+    ]
+  },
+  {
+    "id": "bs-q101",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "ox",
+    "question": "반응시간 DRL(Spaced-responding DRL)은 전체 회기 동안의 반응 총 횟수가 기준 이하일 때 강화하는 절차이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "반응시간 DRL은 두 반응 사이의 간격(IRT, Inter-Response Time)이 특정 시간 이상일 때 강화하는 절차이다. 전체 회기 동안의 반응 총 횟수가 기준 이하일 때 강화하는 것은 전체회기 DRL(Full-session DRL)에 해당한다. 반응시간 DRL은 개별 반응 간 시간 간격에 초점을 맞춘다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "DRL",
+      "반응시간 DRL",
+      "전체회기 DRL",
+      "차별강화",
+      "ABA"
+    ]
+  },
+  {
+    "id": "bs-q102",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "multiple",
+    "question": "수업 시간에 질문을 과도하게 하는 학생에게 DRL을 적용하려 한다. 교사가 15분 간격으로 나누어 각 간격 내에서 질문이 2회 이하일 때 강화하기로 하였다. 이 절차에 해당하는 DRL 유형은?",
+    "case_context": null,
+    "options": [
+      "전체회기 DRL(Full-session DRL)",
+      "간격 DRL(Interval DRL)",
+      "반응시간 DRL(Spaced-responding DRL)",
+      "DRO(타행동 차별강화)"
+    ],
+    "answer": "1",
+    "explanation": "간격 DRL은 회기를 여러 간격으로 나누어, 각 간격 내에서 목표 행동이 기준 수 이하일 때 강화하는 절차이다. 15분 간격으로 나누어 각 간격에서 2회 이하를 기준으로 삼은 것은 간격 DRL에 해당한다.",
+    "wrong_explanations": {
+      "0": "전체회기 DRL은 회기 전체에서 반응 총 횟수가 기준 이하일 때 회기 종료 후 강화한다. 간격을 나누지 않는다.",
+      "2": "반응시간 DRL은 두 반응 사이의 시간 간격(IRT)이 기준 이상일 때 개별 반응을 강화한다. 간격 내 횟수가 아닌 반응 간 시간에 초점을 둔다.",
+      "3": "DRO는 목표 행동이 일정 시간 동안 전혀 발생하지 않을 때 강화하는 절차로, 행동 빈도를 줄이되 유지하려는 DRL과 목적이 다르다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "DRL",
+      "간격 DRL",
+      "차별강화",
+      "ABA",
+      "행동 감소"
+    ]
+  },
+  {
+    "id": "bs-q103",
+    "subject": "behavior-support",
+    "chapter": "aba",
+    "type": "descriptive",
+    "question": "다음 사례를 읽고 물음에 답하시오.\n\n통합학급 4학년 ADHD 학생 재호는 수업 중 발표를 하고 싶을 때 손을 들지 않고 바로 말하는 행동이 분당 평균 3회 나타난다. 특수교사 윤 교사는 재호의 발언 자체를 없애지 않되, 발언 간 시간 간격을 늘려 적절한 빈도로 줄이기 위해 반응시간 DRL을 적용하기로 하였다.\n\n(1) 반응시간 DRL(Spaced-responding DRL)의 정의와 강화 기준을 서술하시오.\n(2) 위 사례에서 윤 교사가 반응시간 DRL을 적용하는 구체적 절차를 서술하시오. (초기 IRT 기준 설정, 강화 방법, 기준 점진적 상향 포함)",
+    "case_context": "통합학급 4학년 ADHD 학생 재호는 수업 중 발표를 하고 싶을 때 손을 들지 않고 바로 말하는 행동이 분당 평균 3회 나타난다. 특수교사 윤 교사는 재호의 발언 자체를 없애지 않되, 발언 간 시간 간격을 늘려 적절한 빈도로 줄이기 위해 반응시간 DRL을 적용하기로 하였다.",
+    "options": null,
+    "answer": "(1) 반응시간 DRL의 정의와 강화 기준:\n반응시간 DRL(Spaced-responding DRL)은 두 반응 사이의 시간 간격(IRT, Inter-Response Time)이 사전에 설정된 최소 기준 이상일 때만 해당 반응을 강화하는 절차이다. 기준 시간보다 짧은 간격으로 반응하면 강화하지 않는다.\n\n(2) 적용 절차:\n① 기초선 측정 및 IRT 기준 설정: 재호의 현재 발언 간 평균 간격(약 20초, 분당 3회 기준)을 측정하고, 초기 IRT 기준을 현재보다 약간 긴 30초로 설정한다.\n② 강화 적용: 재호가 이전 발언 후 30초 이상 경과한 뒤에 발언하면, \"재호, 잘 기다렸다가 말했네!\"라고 칭찬하고 토큰을 제공한다. 30초 미만에 발언하면 강화를 제공하지 않는다.\n③ 기준 점진적 상향: 재호가 30초 기준을 안정적으로 충족하면(예: 3일 연속 80% 이상 성공), IRT 기준을 45초 → 60초 → 90초로 점진적으로 상향하여 최종적으로 적절한 발언 빈도에 도달하게 한다.",
+    "explanation": "반응시간 DRL은 행동 자체를 제거하지 않고 빈도만 감소시킬 때 사용한다. DRO(행동 없을 때 강화)와 달리 행동 자체는 허용하되, 반응 간 시간 간격을 점진적으로 늘려 사회적으로 적절한 수준에 도달하게 한다. ADHD 학생의 과잉 발언처럼 행동 자체는 바람직하나 빈도가 과도한 경우에 적합하다.",
+    "wrong_explanations": null,
+    "difficulty": 3,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "DRL",
+      "반응시간 DRL",
+      "IRT",
+      "차별강화",
+      "ADHD",
+      "ABA"
+    ]
+  },
+  {
+    "id": "trans-q77",
+    "subject": "transition",
+    "chapter": "planning",
+    "type": "ox",
+    "question": "자연적 지원(natural support)은 장애인이 통합된 환경에서 전문 서비스 제공자가 아닌 실제 환경에 존재하는 자원과 사람을 활용하는 지원 형태이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "자연적 지원은 직업 코치나 특수교사와 같은 인위적 지원과 대비되는 개념으로, 직장 동료, 가족, 지역사회 자원 등 통합된 환경에 자연스럽게 존재하는 사람과 자원을 활용한다. 인위적 지원보다 지속 가능성이 높고 사회 통합에 효과적이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "자연적 지원",
+      "전환교육",
+      "통합",
+      "Wehman"
+    ]
+  },
+  {
+    "id": "trans-q78",
+    "subject": "transition",
+    "chapter": "planning",
+    "type": "multiple",
+    "question": "Wehman & Targett가 제시한 자연적 지원의 4가지 유형 중, 보조공학 기기나 환경 수정을 통한 지원에 해당하는 것은?",
+    "case_context": null,
+    "options": [
+      "조직적 지원(organizational support)",
+      "물리적 지원(physical support)",
+      "사회적 지원(social support)",
+      "훈련적 지원(training support)"
+    ],
+    "answer": "1",
+    "explanation": "Wehman & Targett의 자연적 지원 4유형 중 물리적 지원은 보조공학 기기, 환경 수정, 도구 등 물리적 자원을 활용한 지원이다. 예를 들어 작업대 높이 조절, 확대 소프트웨어, 그림 일정표 등이 해당한다.",
+    "wrong_explanations": {
+      "0": "조직적 지원은 고용주, 직업 관련 기관, 직장 동료 등 조직 차원에서 제공하는 지원을 말한다. 보조공학이 아닌 조직 구조적 자원에 해당한다.",
+      "2": "사회적 지원은 친구, 가족, 동료, 멘토 등 사회적 관계에서 오는 지원이다. 물리적 도구가 아닌 인적 자원이다.",
+      "3": "훈련적 지원은 직무 코치, 직업 훈련사 등이 제공하는 기술 훈련 지원이다. 보조공학 자체가 아닌 훈련 서비스에 해당한다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "자연적 지원",
+      "물리적 지원",
+      "전환교육",
+      "보조공학",
+      "Wehman",
+      "Targett"
+    ]
+  },
+  {
+    "id": "trans-q79",
+    "subject": "transition",
+    "chapter": "planning",
+    "type": "fill_in",
+    "question": "Wehman & Targett가 제시한 자연적 지원(natural support)의 4가지 유형은 ( ㉠ ) 지원, 물리적 지원, ( ㉡ ) 지원, 훈련적 지원이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "조직적(organizational) / 사회적(social)",
+    "explanation": "Wehman & Targett의 자연적 지원 4유형은 조직적 지원(고용주·기관·동료), 물리적 지원(보조공학·환경 수정), 사회적 지원(친구·가족·멘토), 훈련적 지원(직무 코치·직업 훈련사)이다. 이 4유형은 장애인이 통합 환경에서 지속 가능한 지원을 받을 수 있도록 하는 자연적 자원 분류 체계이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "자연적 지원",
+      "전환교육",
+      "Wehman",
+      "Targett",
+      "4유형"
+    ]
+  },
+  {
+    "id": "hi-q66",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "ox",
+    "question": "인공와우의 체내부(internal) 구성 요소에는 수신기-자극기(receiver-stimulator)와 전극배열(electrode array)이 포함된다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "인공와우의 체내부는 수술로 이식되는 부분으로, 수신기-자극기(피부 아래 이식, 체외부에서 신호 수신), 전극배열(와우 내부에 삽입, 청신경 직접 자극), 자석(체외부 송신기와 정렬 유지)으로 구성된다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "인공와우",
+      "체내부",
+      "수신기-자극기",
+      "전극배열",
+      "청각장애"
+    ]
+  },
+  {
+    "id": "hi-q67",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "fill_in",
+    "question": "인공와우의 체내부에서 와우 내부에 삽입되어 청신경을 직접 자극하는 구성 요소는 ______이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "전극배열(electrode array)",
+    "explanation": "전극배열은 인공와우의 체내부 핵심 구성 요소로, 약 22개의 전극이 와우(달팽이관) 내부에 삽입된다. 체외부의 어음처리기에서 변환된 전기 신호를 받아 청신경을 직접 자극하여 소리를 인식하게 한다. 이는 손상된 유모세포를 우회하여 청신경에 직접 전기 자극을 전달하는 원리이다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "인공와우",
+      "전극배열",
+      "청신경",
+      "청각장애"
+    ]
+  },
+  {
+    "id": "hi-q68",
+    "subject": "hearing-impairment",
+    "chapter": "cochlear-implant",
+    "type": "multiple",
+    "question": "인공와우를 통해 소리가 처리되는 경로를 올바르게 나열한 것은?",
+    "case_context": null,
+    "options": [
+      "마이크로폰 → 어음처리기 → 송신기 → 수신기-자극기 → 전극배열 → 청신경",
+      "어음처리기 → 마이크로폰 → 전극배열 → 송신기 → 수신기-자극기 → 청신경",
+      "마이크로폰 → 송신기 → 어음처리기 → 전극배열 → 수신기-자극기 → 청신경",
+      "송신기 → 마이크로폰 → 어음처리기 → 수신기-자극기 → 전극배열 → 청신경"
+    ],
+    "answer": "0",
+    "explanation": "인공와우의 소리 처리 경로는 다음과 같다. 체외부의 마이크로폰이 소리를 수집하고, 어음처리기(speech processor)가 이를 디지털 신호로 변환한다. 송신기(transmitter)가 피부를 통해 체내부의 수신기-자극기로 신호를 전달하면, 전극배열이 청신경을 직접 자극하여 뇌에서 소리로 인식한다.",
+    "wrong_explanations": {
+      "1": "소리는 마이크로폰에서 먼저 수집되어야 하며, 어음처리기가 그 다음에 신호를 변환한다. 순서가 뒤바뀌었다.",
+      "2": "마이크로폰 다음에는 어음처리기에서 신호를 변환한 후 송신기를 통해 전달해야 한다. 송신기와 어음처리기의 순서가 바뀌었다.",
+      "3": "소리 처리의 첫 단계는 마이크로폰의 소리 수집이며, 송신기는 어음처리 후 체내부로 전달하는 단계이다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "인공와우",
+      "소리 처리 경로",
+      "어음처리기",
+      "청각장애"
+    ]
+  },
+  {
+    "id": "vi-q76",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "ox",
+    "question": "시기능 훈련에서 추적(tracking)은 정지된 물체에 시선을 고정하는 기술이고, 추종(pursuit)은 움직이는 물체를 눈으로 따라가는 기술이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "X",
+    "explanation": "추적(tracking)은 움직이는 물체를 눈으로 따라가는 기술이고, 주시(fixation)가 정지된 물체에 시선을 고정하는 기술이다. 추종(pursuit)은 느리게 움직이는 물체를 부드럽게 따라가는 안구 운동(smooth pursuit)을 가리킨다. 문제에서 추적과 주시의 개념이 바뀌어 있으므로 X이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "시기능 훈련",
+      "추적",
+      "추종",
+      "주시",
+      "시각장애"
+    ]
+  },
+  {
+    "id": "vi-q77",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "multiple",
+    "question": "시기능 훈련의 안구 운동 유형 중, 한 점에서 다른 점으로 빠르게 눈을 이동하는 운동을 가리키는 용어는?",
+    "case_context": null,
+    "options": [
+      "주시(fixation)",
+      "추구(smooth pursuit)",
+      "단속운동(saccade)",
+      "시야 탐색(scanning)"
+    ],
+    "answer": "2",
+    "explanation": "단속운동(saccade)은 한 고정점에서 다른 고정점으로 빠르게 눈을 이동하는 안구 운동이다. 읽기에서 단어 간 이동, 줄 바꿈 시 눈의 이동이 대표적인 예이다. 주시는 한 점에 시선 유지, 추구는 느리게 움직이는 물체 따라가기, 시야 탐색은 넓은 범위를 체계적으로 훑어보는 것이다.",
+    "wrong_explanations": {
+      "0": "주시는 정지된 한 점에 시선을 일정 시간 유지하는 안구 운동이다. 빠른 이동이 아닌 고정에 해당한다.",
+      "1": "추구는 느리게 움직이는 물체를 부드럽게 따라가는 안구 운동이다. 빠른 점프가 아닌 연속적 움직임이다.",
+      "3": "시야 탐색은 넓은 시야 범위를 체계적으로 훑어보는 전략적 탐색 활동이다. 두 점 사이의 빠른 이동과는 다르다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "시기능 훈련",
+      "단속운동",
+      "saccade",
+      "안구 운동",
+      "시각장애"
+    ]
+  },
+  {
+    "id": "vi-q78",
+    "subject": "visual-impairment",
+    "chapter": "visual-training",
+    "type": "fill_in",
+    "question": "시기능 훈련에서 읽기 시 한 단어에서 다음 단어로 빠르게 눈을 이동시키는 안구 운동을 ______이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "단속운동(saccade)",
+    "explanation": "단속운동(saccade)은 한 고정점에서 다른 고정점으로 빠르게 이동하는 안구 운동이다. 읽기 과정에서 단어를 주시(fixation)한 후 다음 단어로 이동할 때 단속운동이 발생한다. 저시력 학생의 읽기 효율성을 높이기 위해 단속운동 훈련이 중요하다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "시기능 훈련",
+      "단속운동",
+      "saccade",
+      "읽기",
+      "시각장애"
+    ]
+  },
+  {
+    "id": "pd-q67",
+    "subject": "physical-disability",
+    "chapter": "cp-types",
+    "type": "ox",
+    "question": "결석발작(absence seizure)은 갑작스런 의식 소실이 수 초간 나타나고, 발작 후 혼란 없이 즉시 정상 활동으로 돌아가는 특징이 있다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "결석발작(소발작)은 수 초~30초간 갑작스런 의식 소실이 나타나며, 멍하게 응시하고 눈 깜빡임이 동반될 수 있다. 발작이 끝나면 혼란 없이 즉시 하던 활동으로 돌아가는 것이 특징이며, 이는 발작 후 혼란기(postictal confusion)가 나타나는 복잡부분발작과의 주요 감별점이다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "결석발작",
+      "소발작",
+      "간질",
+      "지체장애"
+    ]
+  },
+  {
+    "id": "pd-q68",
+    "subject": "physical-disability",
+    "chapter": "cp-types",
+    "type": "multiple",
+    "question": "다음 중 결석발작(absence seizure)과 복잡부분발작(complex partial seizure)의 차이로 올바른 것은?",
+    "case_context": null,
+    "options": [
+      "결석발작은 발작 후 혼란기가 없으나, 복잡부분발작은 발작 후 혼란기가 있다.",
+      "결석발작은 성인기에 주로 발병하나, 복잡부분발작은 소아기에 발병한다.",
+      "결석발작은 수 분간 지속되나, 복잡부분발작은 수 초간 지속된다.",
+      "결석발작은 운동 증상이 심하나, 복잡부분발작은 운동 증상이 없다."
+    ],
+    "answer": "0",
+    "explanation": "결석발작은 수 초~30초의 매우 짧은 의식 소실 후 즉시 정상으로 돌아오며 발작 후 혼란기(postictal confusion)가 없다. 반면 복잡부분발작은 의식 변화와 함께 자동증(automatism)이 나타나고, 발작 후 혼란기가 동반된다. 이것이 두 발작의 핵심 감별점이다.",
+    "wrong_explanations": {
+      "1": "결석발작(소발작)은 주로 소아기(4~12세)에 발병한다. 성인기 발병이라는 설명은 사실과 반대이다.",
+      "2": "결석발작은 수 초~30초로 매우 짧게 지속된다. 수 분간 지속되는 것은 복잡부분발작에 더 가깝다.",
+      "3": "결석발작은 운동 증상이 없거나 최소(눈 깜빡임 정도)이다. 복잡부분발작은 오히려 자동증(입술 핥기, 손 비비기 등)이라는 운동 증상이 나타난다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "결석발작",
+      "복잡부분발작",
+      "감별",
+      "간질",
+      "지체장애"
+    ]
+  },
+  {
+    "id": "pd-q69",
+    "subject": "physical-disability",
+    "chapter": "cp-types",
+    "type": "fill_in",
+    "question": "결석발작(absence seizure)의 뇌파(EEG) 검사에서 나타나는 특징적인 파형은 ______이다.",
+    "case_context": null,
+    "options": null,
+    "answer": "3Hz 극-서파 복합체(3Hz spike-and-wave complex)",
+    "explanation": "결석발작의 뇌파에서는 3Hz(초당 3회) 빈도의 극-서파 복합체가 전반적으로 나타나는 것이 특징적이다. 이 패턴은 결석발작의 진단적 지표로, 다른 유형의 발작과 감별하는 데 핵심적인 역할을 한다. 과호흡(hyperventilation) 검사로 유발할 수 있다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "결석발작",
+      "뇌파",
+      "3Hz",
+      "극-서파 복합체",
+      "지체장애"
+    ]
+  },
+  {
+    "id": "vi-q79",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "ox",
+    "question": "영어 점자(UEB)에서 대문자 한 글자를 나타내려면 해당 알파벳 앞에 점 6(⠠)을 하나 붙인다.",
+    "case_context": null,
+    "options": null,
+    "answer": "O",
+    "explanation": "통합영어점자(UEB: Unified English Braille)에서 대문자 지시부호(capital sign)는 점 6(⠠) 하나를 글자 앞에 붙여 바로 다음 한 글자가 대문자임을 나타낸다. 예를 들어 'A'는 ⠠⠁로 표기한다. 한국 점자는 대문자 구분이 없으므로 이 규칙이 적용되지 않는다.",
+    "wrong_explanations": null,
+    "difficulty": 1,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "영어 점자",
+      "UEB",
+      "대문자",
+      "점자",
+      "시각장애"
+    ]
+  },
+  {
+    "id": "vi-q80",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "multiple",
+    "question": "영어 점자(UEB)에서 단어 전체가 대문자인 경우(예: UNESCO)를 나타내기 위해 사용하는 부호는?",
+    "case_context": null,
+    "options": [
+      "점 6을 한 번 붙인다(⠠)",
+      "점 6을 두 번 붙인다(⠠⠠)",
+      "점 5를 한 번 붙인다(⠐)",
+      "점 4, 6을 한 번 붙인다(⠨)"
+    ],
+    "answer": "1",
+    "explanation": "UEB에서 연속 대문자 지시부호(double capital sign)는 점 6을 두 번(⠠⠠) 붙여 이후 단어 전체가 대문자임을 나타낸다. 점 6 한 번(⠠)은 바로 다음 한 글자만 대문자로 지정한다.",
+    "wrong_explanations": {
+      "0": "점 6 한 번(⠠)은 바로 다음 한 글자만 대문자로 지정하는 단일 대문자 지시부호이다. 단어 전체를 대문자로 표기하려면 두 번 사용해야 한다.",
+      "2": "점 5(⠐)는 UEB에서 대문자 지시부호가 아니다. 점 6(⠠)이 대문자 관련 부호이다.",
+      "3": "점 4, 6 조합(⠨)은 UEB에서 대문자 지시부호로 사용되지 않는다."
+    },
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "영어 점자",
+      "UEB",
+      "연속 대문자",
+      "점자",
+      "시각장애"
+    ]
+  },
+  {
+    "id": "vi-q81",
+    "subject": "visual-impairment",
+    "chapter": "braille",
+    "type": "fill_in",
+    "question": "영어 점자(UEB)에서 약어나 머리글자어처럼 단어 전체를 대문자로 표기할 때, 해당 단어 앞에 점 6을 두 번 연속으로 붙이는 부호를 ______이라 한다.",
+    "case_context": null,
+    "options": null,
+    "answer": "연속 대문자 지시부호(double capital sign)",
+    "explanation": "연속 대문자 지시부호(double capital sign, ⠠⠠)는 단어 전체가 대문자임을 나타내는 UEB 규칙이다. 예를 들어 'UNESCO'는 ⠠⠠ 뒤에 각 알파벳을 이어 쓴다. 단일 대문자 지시부호(⠠, 한 글자)와 구분되며, Grade 1(비약자)과 Grade 2(약자) 점자 모두에서 동일하게 적용된다.",
+    "wrong_explanations": null,
+    "difficulty": 2,
+    "source": "KICE 기출 기반",
+    "tags": [
+      "영어 점자",
+      "UEB",
+      "연속 대문자 지시부호",
+      "점자",
+      "시각장애"
+    ]
+  }
+]

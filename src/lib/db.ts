@@ -1,10 +1,11 @@
-import { supabase } from './supabase';
+import { createClient } from '@/lib/supabase/server';
 import type { Subject } from '@/types/content';
 import type { QuizQuestion } from '@/types/quiz';
 
 // ─── Subjects ───
 
 export async function getSubjects(): Promise<Subject[]> {
+  const supabase = await createClient();
   const [subjectsResult, chaptersResult] = await Promise.all([
     supabase.from('subjects').select('*').order('sort_order'),
     supabase.from('chapters').select('*').order('sort_order'),
@@ -35,6 +36,7 @@ export async function getSubjects(): Promise<Subject[]> {
 }
 
 export async function getSubjectBySlug(slug: string): Promise<Subject | null> {
+  const supabase = await createClient();
   const [subjectResult, chaptersResult] = await Promise.all([
     supabase.from('subjects').select('*').eq('slug', slug).single(),
     supabase.from('chapters').select('*').eq('subject_slug', slug).order('sort_order'),
@@ -65,6 +67,7 @@ export async function getSubjectBySlug(slug: string): Promise<Subject | null> {
 // ─── Quiz Questions ───
 
 export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQuestion[]> {
+  const supabase = await createClient();
   // TODO: After REQ-008 (subjects column added), restore multi-tag search:
   // .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`)
   const { data, error } = await supabase
@@ -78,6 +81,7 @@ export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQues
 }
 
 export async function getAllQuizzes(): Promise<QuizQuestion[]> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*');
@@ -124,6 +128,7 @@ export interface WorksheetQuestionRow {
 }
 
 export async function getWorksheetsBySubject(subject: string): Promise<WorksheetQuestionRow[]> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('worksheet_questions')
     .select('*')
@@ -134,6 +139,7 @@ export async function getWorksheetsBySubject(subject: string): Promise<Worksheet
 }
 
 export async function getWorksheetsByTopic(subject: string, topicId: string): Promise<WorksheetQuestionRow[]> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('worksheet_questions')
     .select('*')
@@ -151,6 +157,7 @@ export interface WorksheetTopicRow {
 }
 
 export async function getWorksheetTopics(subject: string): Promise<WorksheetTopicRow[]> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('worksheet_topics')
     .select('*')
@@ -161,6 +168,7 @@ export async function getWorksheetTopics(subject: string): Promise<WorksheetTopi
 }
 
 export async function getAllWorksheetTopics(): Promise<WorksheetTopicRow[]> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('worksheet_topics')
     .select('*');
@@ -172,6 +180,7 @@ export async function getAllWorksheetTopics(): Promise<WorksheetTopicRow[]> {
 // ─── Quiz by Chapter ───
 
 export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: string): Promise<QuizQuestion[]> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
@@ -185,6 +194,7 @@ export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: stri
 // ─── Quiz Count ───
 
 export async function getQuizCount(): Promise<Record<string, number>> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('subject');
@@ -202,6 +212,7 @@ export async function getQuizCount(): Promise<Record<string, number>> {
 // ─── Search ───
 
 export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
+  const supabase = await createClient();
   const sanitized = query.replace(/[%_\\(),."]/g, (c) => `\\${c}`);
   const { data, error } = await supabase
     .from('quiz_questions')
@@ -238,6 +249,7 @@ export interface UserDataRow {
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
@@ -251,6 +263,7 @@ export async function updateProfile(
   userId: string,
   updates: Partial<Pick<Profile, 'display_name'>>,
 ): Promise<boolean> {
+  const supabase = await createClient();
   const { error } = await supabase
     .from('profiles')
     .update({ ...updates, updated_at: new Date().toISOString() })
@@ -262,6 +275,7 @@ export async function getUserData(
   userId: string,
   storeKey: StoreKey,
 ): Promise<UserDataRow | null> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('user_data')
     .select('*')
@@ -277,6 +291,7 @@ export async function upsertUserData(
   storeKey: StoreKey,
   data: Record<string, unknown>,
 ): Promise<boolean> {
+  const supabase = await createClient();
   const { error } = await supabase.from('user_data').upsert(
     {
       user_id: userId,
@@ -290,6 +305,7 @@ export async function upsertUserData(
 }
 
 export async function getAllUserData(userId: string): Promise<UserDataRow[]> {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('user_data')
     .select('*')

@@ -2,9 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import fs from 'fs';
-import path from 'path';
-import { getSubjectBySlug, getQuizzesByChapter } from '@/lib/db';
+import { getSubjectBySlug } from '@/lib/db';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,45 +12,13 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';
-import { getAllSubjects } from '@/lib/concepts';
-import { SelfCheckSection } from '@/components/chapter/SelfCheckSection';
 import { BookmarkButton } from '@/components/chapter/BookmarkButton';
+import { getConceptContentsForSubject } from '@/lib/concepts';
 import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
-
-// ─── MDX helpers ─────────────────────────────────────────────────────────────
-
-function getMdxSource(slug: string, chapterSlug: string): string | null {
-  const mdxPath = path.join(process.cwd(), 'content', slug, `${chapterSlug}.mdx`);
-  if (!fs.existsSync(mdxPath)) return null;
-  return fs.readFileSync(mdxPath, 'utf-8');
-}
-
-/** Split MDX into body (without self-check) and self-check items */
-function extractSelfCheck(mdx: string): { body: string; items: string[] } {
-  const marker = /^##\s*자가점검\s*$/m;
-  const match = mdx.match(marker);
-
-  if (!match || match.index === undefined) {
-    return { body: mdx, items: [] };
-  }
-
-  const body = mdx.slice(0, match.index).trimEnd();
-  const selfCheckBlock = mdx.slice(match.index + match[0].length);
-
-  // Parse "- [ ] text" or "- [x] text" lines
-  const items = selfCheckBlock
-    .split('\n')
-    .map((line) => line.match(/^-\s*\[[ x]]\s*(.+)/)?.[1]?.trim())
-    .filter((text): text is string => !!text);
-
-  return { body, items };
-}
-
-// ─── Page ────────────────────────────────────────────────────────────────────
 
 export default async function ChapterPage({
   params,
@@ -75,22 +41,8 @@ export default async function ChapterPage({
   const chapter = subject.chapters[chapterIndex];
   const prevChapter = chapterIndex > 0 ? subject.chapters[chapterIndex - 1] : null;
   const nextChapter = chapterIndex < subject.chapters.length - 1 ? subject.chapters[chapterIndex + 1] : null;
-  const mdxSource = getMdxSource(slug, chapterSlug);
 
-  // Extract self-check items and fetch related quizzes
-  const { body: mdxBody, items: selfCheckItems } = mdxSource
-    ? extractSelfCheck(mdxSource)
-    : { body: '', items: [] };
-
-  const chapterQuizzes = selfCheckItems.length > 0
-    ? await getQuizzesByChapter(slug, chapterSlug)
-    : [];
-
-  // 개념학습 링크: subject.title이 concepts 과목과 일치하면 직접 링크
-  const conceptSubjects = getAllSubjects();
-  const conceptHref = conceptSubjects.includes(subject.title)
-    ? `/concepts/${encodeURIComponent(subject.title)}`
-    : '/concepts';
+  const conceptContents = getConceptContentsForSubject(slug);
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
@@ -128,38 +80,31 @@ export default async function ChapterPage({
           />
         </div>
         <p className="text-lg text-muted-foreground">{chapter.description}</p>
-        <div className="mt-3">
-          <Link
-            href={conceptHref}
-            className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
-          >
-            <BookOpen className="h-3.5 w-3.5" />
-            개념 자료 보기
-          </Link>
-        </div>
       </div>
 
-      {/* 본문 영역 (자가점검 섹션 제외) */}
-      {mdxSource ? (
-        <article id="chapter-content" className="prose prose-neutral dark:prose-invert max-w-none mb-8">
-          <MDXRemote
-            source={mdxBody}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkGfm, remarkFrontmatter],
-              },
-            }}
-          />
-        </article>
+      {/* 본문 영역 — concepts MDX */}
+      {conceptContents.length > 0 ? (
+        <div className="space-y-12 mb-8">
+          {conceptContents.map(({ file, content }) => (
+            <article key={file.slug} id={file.slug} className="prose prose-neutral dark:prose-invert max-w-none">
+              <h2 className="text-xl font-bold text-foreground border-b border-border pb-2 mb-4">
+                {file.title}
+              </h2>
+              <MDXRemote
+                source={content}
+                options={{
+                  mdxOptions: {
+                    remarkPlugins: [remarkGfm, remarkFrontmatter],
+                  },
+                }}
+              />
+            </article>
+          ))}
+        </div>
       ) : (
         <div className="min-h-64 flex items-center justify-center border border-dashed border-border rounded-xl bg-muted/30 mb-8">
           <p className="text-muted-foreground text-lg">콘텐츠 준비 중입니다.</p>
         </div>
-      )}
-
-      {/* 자가점검 (인터랙티브) */}
-      {selfCheckItems.length > 0 && (
-        <SelfCheckSection items={selfCheckItems} quizzes={chapterQuizzes} />
       )}
 
       {/* 학습 완료 트래커 */}

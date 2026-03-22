@@ -1,0 +1,447 @@
+[
+  {
+    "id": "asmnt-q101",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "포트폴리오 평가에서 **수집 원칙**으로 가장 적절하지 않은 것은?",
+    "options": [
+      "학생의 성장과 변화를 보여주는 다양한 시기의 작업물을 포함한다.",
+      "학생이 직접 작품 선정에 참여하여 자기성찰 능력을 기른다.",
+      "평가 목적의 일관성을 위해 교사가 모든 수집 항목을 단독으로 결정한다.",
+      "수집물에는 완성작뿐 아니라 초안과 수정 과정도 포함할 수 있다."
+    ],
+    "answer": "2",
+    "wrong_explanations": {
+      "0": "성장과 변화를 보여주는 다양한 시기의 자료 수집은 포트폴리오의 핵심 원칙이다.",
+      "1": "학생의 자기 선정(self-selection) 참여는 자기성찰과 자기조절 학습을 촉진하는 포트폴리오의 중요 원칙이다.",
+      "3": "초안·수정 과정 포함은 학습 과정을 드러내는 포트폴리오의 특성으로 적절하다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "포트폴리오 수집은 교사와 학생이 협력하여 항목을 선정하는 것이 원칙이다. 교사가 단독으로 모든 수집 항목을 결정하면 학생의 자기성찰과 자기주도 학습 기회를 박탈하게 되므로 적절하지 않다."
+  },
+  {
+    "id": "asmnt-q102",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "포트폴리오 유형 중 **최우수 작품 포트폴리오(showcase portfolio)**의 주요 목적으로 가장 적절한 것은?",
+    "options": [
+      "학생의 학습 과정과 성장 궤적을 시간 순서대로 기록한다.",
+      "학생이 가장 잘 수행한 작품을 선별하여 성취 수준을 증명한다.",
+      "교사의 수업 계획 수정을 위한 형성평가 자료로 활용한다.",
+      "표준화 검사 점수와 비교하여 진단적 결정을 내린다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "시간 순서대로 성장 궤적을 기록하는 것은 성장 포트폴리오(growth portfolio)의 목적이다.",
+      "2": "형성평가 자료로의 활용은 작업 포트폴리오(working portfolio)에 더 부합한다.",
+      "3": "표준화 검사와의 비교는 포트폴리오의 고유 목적이 아니며, 최우수 작품 포트폴리오와는 무관하다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "최우수 작품 포트폴리오(showcase portfolio)는 학생이 가장 잘 수행한 작품을 선별하여 성취의 정점을 보여주는 것을 목적으로 한다. 성장 포트폴리오(growth portfolio)가 과정과 성장을 기록하는 반면, 최우수 작품 포트폴리오는 결과물 중심이다."
+  },
+  {
+    "id": "asmnt-q103",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "PLAAFP(Present Levels of Academic Achievement and Functional Performance)를 IEP 연간 목표와 연계할 때, 적절한 절차를 순서대로 나열한 것은?",
+    "options": [
+      "강점 기술 → 요구 확인 → 측정 가능한 목표 진술 → 기준 및 평가 방법 명시",
+      "진단 검사 실시 → 약점 나열 → 치료 계획 수립 → 보호자 서명",
+      "현행 수준 기술 → 지원 요구 → 단기 목표 먼저 설정 → 연간 목표 역순 도출",
+      "표준화 검사 점수 보고 → 백분위 해석 → 서비스 배치 결정 → 목표 수립"
+    ],
+    "answer": "0",
+    "wrong_explanations": {
+      "1": "약점 나열 중심의 접근은 강점 기반 PLAAFP 원칙에 어긋나며, 치료 계획 수립은 IEP 절차와 다르다.",
+      "2": "단기 목표를 먼저 설정하고 연간 목표를 역순으로 도출하는 것은 일반적인 IEP 목표 수립 순서와 반대다.",
+      "3": "표준화 검사 점수와 백분위 보고 후 배치를 결정하는 것은 PLAAFP의 기능적·학업적 현행 수준 기술 원칙을 반영하지 않는다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "PLAAFP에서 IEP 목표로 연계하는 올바른 절차는 강점 기술 → 요구 확인 → 측정 가능한 목표 진술 → 기준 및 평가 방법 명시 순서이다. 강점 기반 접근은 현행 특수교육법의 IEP 원칙이다."
+  },
+  {
+    "id": "asmnt-q104",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "IEP의 측정 가능한 연간 목표(measurable annual goal) 작성 요건으로 옳지 않은 것은?",
+    "options": [
+      "목표 행동은 관찰·측정 가능한 동사로 기술한다.",
+      "조건(condition), 행동(behavior), 기준(criterion)의 세 요소를 포함한다.",
+      "진전도는 표준화 규준참조검사로만 측정해야 한다.",
+      "현행 수준(PLAAFP)에서 확인된 요구와 직접 연계되어야 한다."
+    ],
+    "answer": "2",
+    "wrong_explanations": {
+      "0": "관찰·측정 가능한 동사 사용은 측정 가능한 목표 작성의 기본 요건이다.",
+      "1": "조건·행동·기준(A-B-C 형식)은 행동목표의 3요소로 IEP 목표 작성의 핵심이다.",
+      "3": "PLAAFP와의 직접 연계는 IEP 목표의 개별화 원칙을 보장하는 요건이다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "IEP 연간 목표의 진전도는 표준화 규준참조검사뿐 아니라 CBM, 포트폴리오, 교사 관찰 등 다양한 방법으로 측정할 수 있다. '표준화 규준참조검사로만' 측정해야 한다는 것은 옳지 않다."
+  },
+  {
+    "id": "asmnt-q105",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "순간표집법(momentary time sampling)에 대한 설명으로 옳은 것은?",
+    "options": [
+      "관찰 간격의 전체 시간 동안 행동이 발생하면 발생으로 기록한다.",
+      "관찰 간격의 마지막 순간에 행동이 발생하고 있으면 발생으로 기록한다.",
+      "관찰 간격 중 어느 순간이라도 행동이 발생하면 발생으로 기록한다.",
+      "행동의 지속 시간을 초 단위로 누적 기록한다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "관찰 간격 전체 동안 행동이 지속되어야 발생으로 기록하는 것은 전체간격기록법(whole interval recording)이다.",
+      "2": "관찰 간격 중 어느 순간이라도 발생하면 기록하는 것은 부분간격기록법(partial interval recording)이다.",
+      "3": "지속 시간을 누적 기록하는 것은 지속시간기록법(duration recording)이다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "cbm",
+    "explanation": "순간표집법(MTS)은 관찰 간격의 마지막 순간(끝 지점)에 행동이 발생하고 있는지 여부만 기록하는 방법이다. 간격 전체(whole interval)나 간격 내 임의 발생(partial interval)이 아닌 '마지막 순간'이 핵심이다."
+  },
+  {
+    "id": "asmnt-q106",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "전체간격기록법(whole interval recording)과 부분간격기록법(partial interval recording)을 비교한 설명으로 옳은 것은?",
+    "options": [
+      "전체간격법은 행동 빈도를 과대추정하고, 부분간격법은 과소추정하는 경향이 있다.",
+      "전체간격법은 행동 발생률을 과소추정하고, 부분간격법은 과대추정하는 경향이 있다.",
+      "두 방법 모두 행동의 지속 시간을 정확히 측정하기 위해 설계되었다.",
+      "부분간격법은 낮은 빈도의 행동 측정에 더 적합하고, 전체간격법은 높은 빈도의 행동에 적합하다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "방향이 반대이다. 전체간격법은 간격 내 행동이 조금이라도 중단되면 미발생으로 기록하므로 실제보다 낮게 추정(과소추정)하고, 부분간격법은 짧은 발생도 전체 간격 발생으로 기록하므로 높게 추정(과대추정)한다.",
+      "2": "두 방법 모두 간격기록법의 일종으로, 지속 시간의 정확한 측정보다는 행동 발생 여부의 추정에 초점을 둔다.",
+      "3": "부분간격법은 낮은 빈도 행동보다는 간헐적이거나 짧은 지속 행동의 발생 여부 확인에 유용하다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "cbm",
+    "explanation": "전체간격기록법은 간격 내 행동이 잠깐이라도 중단되면 미발생으로 기록하므로 실제 발생률을 과소추정한다. 부분간격기록법은 간격 내 잠깐만 발생해도 발생으로 기록하므로 과대추정한다."
+  },
+  {
+    "id": "asmnt-q107",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "준거참조검사(criterion-referenced test)에서 **숙달 기준(mastery level)** 설정 방법에 대한 설명으로 옳은 것은?",
+    "options": [
+      "규준집단의 평균 점수를 기준으로 자동 산출된다.",
+      "교수 목표에 근거하여 특정 수행 수준(예: 80% 정확도)을 사전에 결정한다.",
+      "표준점수(z-score) ±1 이내를 숙달 범위로 정의한다.",
+      "연령 규준 집단의 중앙값 이상을 숙달로 판단한다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "규준집단 평균을 기준으로 산출하는 것은 규준참조검사의 방식이다.",
+      "2": "z-score 범위로 숙달을 정의하는 것은 규준 기반 해석이며, 준거참조검사의 숙달 기준과 무관하다.",
+      "3": "연령 규준 중앙값 비교는 규준참조검사의 해석 방식이다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "준거참조검사의 숙달 기준은 교수 목표에 근거하여 교사 또는 교육과정 전문가가 사전에 결정하는 절대적 기준이다. '80% 정확도' 또는 '연속 3회 성공'과 같이 구체적 수행 수준으로 표현된다."
+  },
+  {
+    "id": "asmnt-q108",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "준거참조검사에서 **오류 분석(error analysis)**을 실시하는 주된 목적으로 가장 적절한 것은?",
+    "options": [
+      "학생의 지능 지수를 재확인하여 배치 결정을 정당화한다.",
+      "학생이 반복적으로 범하는 오류 패턴을 파악하여 교수 내용을 조정한다.",
+      "표준화 규준과 비교하여 학생의 학년 수준을 결정한다.",
+      "학생의 행동 기능을 파악하여 긍정적 행동지원 계획을 수립한다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "지능 지수 재확인은 오류 분석의 목적이 아니며, 배치 결정은 종합적인 평가를 통해 이루어진다.",
+      "2": "표준화 규준과의 비교는 규준참조검사의 해석 방식이며 오류 분석의 목적이 아니다.",
+      "3": "행동 기능 파악은 기능적 행동평가(FBA)의 목적이다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "준거참조검사에서의 오류 분석은 학생이 반복적으로 범하는 오류의 패턴(예: 덧셈에서 받아올림 오류, 읽기에서 초성 대치)을 확인하여 다음 교수 내용과 방법을 수정하는 진단적 도구로 활용된다."
+  },
+  {
+    "id": "asmnt-q109",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "생태학적 평가(ecological assessment)에서 **지역사회 중심 평가(community-based assessment)**의 핵심 특징으로 옳은 것은?",
+    "options": [
+      "표준화 검사도구를 지역사회 환경에서 그대로 실시한다.",
+      "학생이 실제로 생활하고 활동하는 환경에서 기능적 기술 수행을 직접 관찰한다.",
+      "부모 면담을 통해 학생의 지역사회 활동 목록을 간접적으로 작성한다.",
+      "또래 규준을 지역사회 단위로 재산출하여 비교 기준을 수립한다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "표준화 검사도구를 그대로 실시하는 것은 지역사회 중심 평가의 특성이 아니다. 실제 환경에서의 기능적 관찰이 핵심이다.",
+      "2": "부모 면담은 생태학적 평가의 한 요소이지만, 지역사회 중심 평가는 직접 관찰이 핵심이다.",
+      "3": "또래 규준 재산출은 규준참조검사의 방법론이며 생태학적 평가와 무관하다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "지역사회 중심 평가는 학생이 실제로 생활하는 가정, 지역사회, 직업 환경에서 기능적 기술을 직접 관찰하는 것이 핵심이다. 인위적 검사 환경이 아닌 자연적 생태에서의 수행을 평가한다."
+  },
+  {
+    "id": "asmnt-q110",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "생태학적 평가에서 **중요한 타인 인터뷰(significant others interview)**를 실시하는 이유로 가장 적절한 것은?",
+    "options": [
+      "표준화 검사의 신뢰도를 높이기 위한 보완 자료를 수집한다.",
+      "학생이 다양한 환경에서 실제로 기대되는 기술과 요구를 파악한다.",
+      "행동의 기능적 원인을 분석하기 위한 ABC 자료를 수집한다.",
+      "학생의 인지적 잠재력을 측정하여 능력-성취 불일치를 검증한다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "표준화 검사 신뢰도 보완은 중요한 타인 인터뷰의 목적이 아니다.",
+      "2": "ABC 자료 수집은 기능적 행동평가(FBA)의 방법이다.",
+      "3": "능력-성취 불일치 검증은 학습장애 진단의 전통적 접근으로, 생태학적 평가의 목적과 다르다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "중요한 타인 인터뷰는 학생의 부모, 교사, 이웃 등 다양한 환경의 관계자를 인터뷰하여 각 환경에서 기대되는 기술과 실제 수행 수준의 차이를 파악하는 방법이다."
+  },
+  {
+    "id": "asmnt-q111",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "비형식 평가 방법 중 **구술 읽기 기록(Running Record)**에 대한 설명으로 옳은 것은?",
+    "options": [
+      "학생이 읽는 동안 발생하는 오류 유형을 교사가 체계적으로 기록하여 읽기 전략 사용을 분석한다.",
+      "읽기 속도(WCPM)만을 측정하는 유창성 평가 도구이다.",
+      "표준화 규준을 사용하여 학생의 읽기 수준을 학년 등가로 환산한다.",
+      "받아쓰기 오류를 분석하여 철자 발달 단계를 파악한다."
+    ],
+    "answer": "0",
+    "wrong_explanations": {
+      "1": "Running Record는 WCPM 측정만이 아니라 오류 유형(substitution, omission, insertion 등)과 자기교정 행동까지 분석한다.",
+      "2": "Running Record는 비형식 평가 도구로, 표준화 규준과 학년 등가를 사용하지 않는다.",
+      "3": "철자 발달 단계 파악은 철자 오류 분석(spelling error analysis) 도구의 목적이다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "Running Record는 학생이 소리 내어 읽는 동안 교사가 대체(substitution), 생략(omission), 삽입(insertion), 역행(reversal), 자기교정(self-correction) 등의 오류 유형을 체계적으로 기록하고 분석하는 비형식 읽기 평가 도구이다."
+  },
+  {
+    "id": "asmnt-q112",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "**Vineland Adaptive Behavior Scales-3(Vineland-3)**에 대한 설명으로 옳지 않은 것은?",
+    "options": [
+      "의사소통, 일상생활기술, 사회화, 운동기술의 네 가지 영역을 측정한다.",
+      "반구조화된 면담(semi-structured interview) 형식으로 주 양육자나 교사에게 실시한다.",
+      "학생이 할 수 있는 능력(can do)이 아닌 실제로 하는 행동(does do)을 평가한다.",
+      "지능 검사를 대체하여 인지 능력을 직접 측정하는 도구이다."
+    ],
+    "answer": "3",
+    "wrong_explanations": {
+      "0": "Vineland-3는 의사소통·일상생활기술·사회화·운동기술의 4개 영역과 부적응행동 영역으로 구성된다.",
+      "1": "반구조화 면담을 통해 양육자나 교사로부터 적응행동 정보를 수집하는 방식이 맞다.",
+      "2": "Vineland의 핵심 원칙은 '실제로 하는 행동(does do)'을 측정하는 것으로, 능력(can do)이 아닌 수행(performance)에 초점을 둔다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "Vineland-3는 적응행동 척도로, 지능 검사를 대체하거나 인지 능력을 직접 측정하는 도구가 아니다. 적응행동과 지적 기능은 별개의 개념으로, 각각 독립적으로 평가해야 한다."
+  },
+  {
+    "id": "asmnt-q113",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "AAIDD(미국 지적장애 및 발달장애 협회) 2021 지침에서 **지원 강도 척도(SIS)**를 사용하는 주된 목적으로 옳은 것은?",
+    "options": [
+      "지적장애 진단을 위해 지능 지수와 함께 사용하는 표준화 진단 도구이다.",
+      "개인이 일상생활 및 지역사회 참여를 위해 필요한 지원의 유형과 강도를 결정한다.",
+      "특수교육 배치 결정을 위한 적격성(eligibility) 판정에 사용한다.",
+      "적응행동의 표준화 규준을 제공하여 또래 비교를 가능하게 한다."
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "SIS는 지적장애 진단 도구가 아니라 지원 계획 수립을 위한 도구이다.",
+      "2": "적격성 판정은 지능검사 및 적응행동 검사를 통해 이루어지며, SIS는 지원 계획에 활용된다.",
+      "3": "SIS는 적응행동의 표준화 규준을 제공하는 것이 아니라 지원 필요도를 평가하는 도구이다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests",
+    "explanation": "지원 강도 척도(SIS)는 AAIDD의 지원 모델에 기반하여 개인의 지원 필요 강도를 평가하고 개인화된 지원 계획(individualized support plan)을 수립하는 데 사용된다. 진단이나 배치 결정이 아닌 지원 계획이 목적이다."
+  },
+  {
+    "id": "asmnt-q114",
+    "type": "multiple",
+    "difficulty": 2,
+    "question": "FBA에서 **가설진술문(hypothesis statement)**의 구성 요소로 옳은 것은?",
+    "options": [
+      "학생 이름, 진단명, 문제행동 정의, 추천 약물",
+      "선행사건, 문제행동, 유지 기능(결과)",
+      "배경사건, 교수 방법, 강화 계획표",
+      "환경 조건, 적응행동 수준, 지원 강도"
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "약물 추천은 FBA 가설진술문의 구성 요소가 아니다.",
+      "2": "가설진술문은 교수 방법이나 강화 계획표를 포함하지 않으며, 행동의 선행-행동-결과(기능) 구조로 작성한다.",
+      "3": "환경 조건과 지원 강도는 가설진술문의 직접 구성 요소가 아니다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "fba",
+    "explanation": "FBA 가설진술문은 '~한 상황(선행사건)에서 학생은 ~한 행동(문제행동)을 보이며, 이를 통해 ~을 얻거나 피한다(유지 기능)'의 구조로 작성한다. 이 세 요소가 가설진술문의 핵심이다."
+  },
+  {
+    "id": "asmnt-q115",
+    "type": "multiple",
+    "difficulty": 3,
+    "question": "CBM 수학 검사에서 **단일 기술 탐침(single skill probe)**보다 **혼합 기술 탐침(multiple skill probe/mixed probe)**을 사용하는 이유로 가장 적절한 것은?",
+    "options": [
+      "특정 기술의 숙달 여부를 정밀하게 진단하기 위해",
+      "학년 수준 전반의 수학 수행 능력을 측정하고 일반화를 평가하기 위해",
+      "IQ 검사와의 상관을 높여 지적 능력을 간접 측정하기 위해",
+      "검사 실시 시간을 단축하여 교사 부담을 줄이기 위해"
+    ],
+    "answer": "1",
+    "wrong_explanations": {
+      "0": "특정 기술의 숙달 여부 정밀 진단은 단일 기술 탐침(single skill probe)의 목적이다.",
+      "2": "CBM은 지적 능력 측정이 아니라 교육과정 수행 수준 모니터링을 목적으로 한다.",
+      "3": "혼합 기술 탐침은 단일 탐침보다 문항 수가 많아 실시 시간 단축이 주 이유가 아니다."
+    },
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "cbm",
+    "explanation": "혼합 기술 탐침(mixed probe)은 학년 수준 교육과정의 다양한 기술을 혼합하여 전체적인 수행 수준을 측정한다. 이는 특정 기술의 숙달보다는 학년 수준 전반의 능력과 일반화 여부를 평가하는 데 적합하다."
+  },
+  {
+    "id": "asmnt-q116",
+    "type": "fill_in",
+    "difficulty": 2,
+    "question": "포트폴리오 평가에서 학생이 자신의 작품을 선정하고 그 이유와 성찰을 기록하는 문서를 ( ① )라고 하며, 이를 통해 학생의 ( ② ) 능력이 함양된다.",
+    "answer": "① 반성적 일지(reflective log) 또는 성찰 기록, ② 자기성찰(self-reflection) 또는 메타인지",
+    "explanation": "포트폴리오 평가의 핵심 요소인 반성적 일지(reflective log)는 학생이 작품 선정 이유, 학습 과정, 성장 인식을 기록하는 문서이다. 이를 통해 자기성찰 및 메타인지 능력이 발달하며, 이는 자기조절 학습의 토대가 된다.",
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests"
+  },
+  {
+    "id": "asmnt-q117",
+    "type": "fill_in",
+    "difficulty": 2,
+    "question": "순간표집법(momentary time sampling)은 실제 행동 발생률을 ( ① )추정하는 경향이 있으며, 이를 보완하기 위해 관찰 간격을 ( ② )하거나 관찰 회수를 늘리는 방법을 권장한다.",
+    "answer": "① 과소(under) 또는 과대(over, 행동 지속 시간에 따라 다름), ② 줄이거나 짧게 설정",
+    "explanation": "순간표집법은 간격 마지막 순간의 행동 유무만 기록하므로, 행동이 간격 내 잠깐 발생하고 끝났다면 포착되지 않아 과소추정 오류가 발생할 수 있다. 반대로 행동 지속 시간이 길면 상대적으로 정확도가 높아진다. 일반적으로 관찰 간격을 짧게 하거나 관찰 회수를 늘려 추정의 정확성을 높인다.",
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "cbm"
+  },
+  {
+    "id": "asmnt-q118",
+    "type": "fill_in",
+    "difficulty": 3,
+    "question": "생태학적 평가에서 학생의 현재 및 미래 생활 환경에서 필요한 기술을 분석하는 절차를 ( ① )라고 하며, 이 결과는 ( ② )에 직접 연계되어 기능적 교육과정 개발의 근거가 된다.",
+    "answer": "① 환경 분석(ecological inventory) 또는 생태학적 목록, ② IEP 목표 또는 전환계획",
+    "explanation": "환경 분석(ecological inventory)은 학생이 현재와 미래에 참여해야 할 환경(가정, 지역사회, 직업, 여가)을 분석하고, 각 환경에서 필요한 하위 기술 목록을 작성하는 절차이다. 이 정보는 IEP의 기능적 목표와 전환계획 수립에 직접 활용된다.",
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests"
+  },
+  {
+    "id": "asmnt-q119",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "FBA 과정에서 가설진술문(hypothesis statement)은 복수의 문제행동이 있을 경우 각 행동의 기능이 다를 수 있으므로 행동별로 별도로 작성해야 한다.",
+    "answer": "O",
+    "explanation": "동일한 학생이라도 서로 다른 문제행동은 각기 다른 기능(주의 끌기, 회피, 감각 추구, 물질 획득 등)을 가질 수 있다. 따라서 FBA에서는 각 목표 행동에 대해 별도의 가설진술문을 작성하는 것이 원칙이며, 이를 통해 행동별로 개별화된 중재 전략을 수립할 수 있다.",
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "fba"
+  },
+  {
+    "id": "asmnt-q120",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "Vineland-3 적응행동 척도는 학생이 검사 상황에서 '할 수 있는 능력(can do)'을 직접 수행하게 하여 채점하는 직접 수행 검사이다.",
+    "answer": "X",
+    "explanation": "Vineland-3는 학생이 검사 상황에서 직접 수행하는 검사가 아니다. 부모, 양육자, 교사와의 반구조화된 면담 또는 평정 척도를 통해 학생이 일상생활에서 '실제로 하는 행동(does do)'을 측정하는 도구이다. 이는 검사 상황에서의 최대 능력이 아닌 일상적 기능 수준을 파악하는 데 목적이 있다.",
+    "tags": {
+      "disability": "all",
+      "year": 2026
+    },
+    "subject": "assessment",
+    "chapter": "standardized-tests"
+  }
+]

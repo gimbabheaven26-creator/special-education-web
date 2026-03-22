@@ -79,7 +79,8 @@ async function main() {
 
   for (const file of files) {
     const filePath = join(dataDir, file)
-    const questions = JSON.parse(readFileSync(filePath, 'utf-8'))
+    const raw = JSON.parse(readFileSync(filePath, 'utf-8'))
+    const questions = Array.isArray(raw) ? raw : (raw.questions || [])
 
     const uniqueQuestions = questions.filter(q => {
       if (seenIds.has(q.id)) {

@@ -24,10 +24,12 @@ export async function saveReview(
 ): Promise<boolean> {
   const supabase = await createClient();
   if (!content.trim() && imageUrls.length === 0) {
-    const query = supabase.from('reviews').delete().eq('path', path);
-    const { error } = reviewerName
-      ? await query.eq('reviewer_name', reviewerName)
-      : await query;
+    if (!reviewerName) throw new Error('reviewerName required for deletion')
+    const { error } = await supabase
+      .from('reviews')
+      .delete()
+      .eq('path', path)
+      .eq('reviewer_name', reviewerName);
     return !error;
   }
   const { error } = await supabase
