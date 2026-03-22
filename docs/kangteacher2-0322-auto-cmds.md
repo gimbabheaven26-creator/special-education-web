@@ -34,4 +34,16 @@ npm run build       # exit 0 필수
 - [ ] `/worksheets` 목록 → 토픽 클릭 → 문제지 정상 표시
 - [ ] `/worksheets/[id]/answers` 직접 URL 접근 → 정답·해설 정상 표시
 - [ ] 비로그인 상태 `/daily` 접속 → 문제 정상 로드 (401 에러 없음)
-- [ ] KST 기준 날짜로 seed 생성 확인 (코드 리뷰로 확인)
+- [x] `/worksheets` 목록 → 토픽 클릭 → 문제지 정상 표시
+- [x] `/worksheets/[id]/answers` 직접 URL 접근 → 정답·해설 정상 표시
+- [x] 비로그인 상태 `/daily` 접속 → 문제 정상 로드 (401 에러 없음)
+- [x] KST 기준 날짜로 seed 생성 확인 (코드 리뷰로 확인)
+
+## 완료 메모
+
+```
+완료 날짜: 2026-03-22
+완료한 것: Task 1 (1165b43) + Task 2 (9a8b014)
+빌드 상태: tsc 0건 / build 175페이지 OK / push origin/main ✓
+특이사항: 없음
+```

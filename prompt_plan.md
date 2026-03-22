@@ -1,3 +1,28 @@
+# 진단평가 버그 수정 계획 — 2026-03-22
+
+> 작성: 2026-03-22 | 승인: 카이란 | 담당: 강선생
+
+## Phase 1: 워크시트 뷰 플로우 복구 (CRITICAL)
+- `src/lib/db.ts`: `getWorksheetTopicById()`, `getWorksheetQuestionsByTopicId()` 추가
+- `src/app/worksheets/[id]/WorksheetViewClient.tsx`: 클라이언트 컴포넌트 신규 생성
+- `src/app/worksheets/[id]/page.tsx`: 서버 컴포넌트 전환, Supabase 직접 조회로 교체
+
+## Phase 2: 오늘학습 비로그인 허용 (HIGH)
+- `src/app/api/daily-questions/route.ts`: `getUser()` + 401 블록 제거
+
+## 검증
+- `npx tsc --noEmit` 에러 0건
+- `npm run build` exit 0
+- /worksheets 토픽 클릭 → 문제지 정상 표시
+- 비로그인 /daily → 문제 정상 로드
+
+## 지시 파일
+- `docs/kangteacher-0322-diagnosis-fix.md`
+
+---
+
+## 이전 계획
+
 # 클루디1 통합 스프린트 계획 — 03/20~21
 
 > 작성: 2026-03-20 | 근거: 클루디1 계획 + 클루디2 계획 통합 (KICE 가중치 × 핸드오프 교차)
