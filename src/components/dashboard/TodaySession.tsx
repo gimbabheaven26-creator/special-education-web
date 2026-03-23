@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useMounted } from '@/hooks/useMounted';
 import { getToday } from '@/lib/date-utils';
+import { getConceptUrl } from '@/lib/concept-urls';
 
 export function TodaySession() {
   const mounted = useMounted();
@@ -64,7 +65,7 @@ export function TodaySession() {
         {/* 이어하기 또는 시작 CTA */}
         {lastActivity ? (
           <Link
-            href={`/subjects/${lastActivity.subjectSlug}/${lastActivity.chapterSlug}`}
+            href={getConceptUrl(lastActivity.subjectSlug)}
             className="flex items-center justify-between p-3 rounded-xl bg-muted/50 hover:bg-muted transition-colors group"
           >
             <div className="min-w-0 flex-1">

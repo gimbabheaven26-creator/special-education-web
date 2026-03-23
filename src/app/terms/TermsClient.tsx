@@ -11,8 +11,8 @@ interface TermsClientProps {
   subjects: string[];
 }
 
-function TermCard({ term }: { term: Term }) {
-  const [open, setOpen] = useState(false);
+function TermCard({ term, initialOpen = false }: { term: Term; initialOpen?: boolean }) {
+  const [open, setOpen] = useState(initialOpen);
 
   return (
     <div className="border border-border rounded-xl overflow-hidden bg-card hover:border-primary/30 transition-colors">
@@ -91,6 +91,7 @@ function SubjectSection({
 export default function TermsClient({ terms, subjects }: TermsClientProps) {
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') ?? '');
+  const urlSubject = searchParams.get('subject');
   const [activeSubject, setActiveSubject] = useState<string | null>(null);
   const [tocOpen, setTocOpen] = useState(false);
   const [showTop, setShowTop] = useState(false);
@@ -278,7 +279,15 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
               ) : (
                 <div className="space-y-2">
                   {filtered.slice(0, 200).map((term, i) => (
-                    <TermCard key={`${term.subject}-${term.term_ko}-${i}`} term={term} />
+                    <TermCard
+                      key={`${term.subject}-${term.term_ko}-${i}`}
+                      term={term}
+                      initialOpen={
+                        urlSubject
+                          ? term.subject === urlSubject
+                          : filtered.length === 1
+                      }
+                    />
                   ))}
                   {filtered.length > 200 && (
                     <p className="text-center text-xs text-muted-foreground py-4">

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CheckCircle2, ArrowRight, RotateCcw, ChevronRight, Loader2 } from 'lucide-react';
 import { RecommendedChapters } from '@/components/RecommendedChapters';
 import { makeSheetCode, getKSTDateRaw } from '@/lib/sheet-code';
+import { getConceptUrl } from '@/lib/concept-urls';
 
 // 모듈 로드 시 1회 평가 — 자정 렌더 불일치 방지
 const TODAY_RAW = getKSTDateRaw();
@@ -81,7 +82,7 @@ function OXQuestion({
         : 'border-border bg-card'
     }`}>
       <Link
-        href={`/subjects/${question.subject}/${question.chapter}`}
+        href={getConceptUrl(question.subject)}
         className="inline-block text-xs text-muted-foreground hover:text-primary hover:underline mb-1.5 transition-colors"
       >
         {question.chapter}
@@ -137,7 +138,7 @@ function TextQuestion({
   return (
     <div className="p-4 rounded-xl border border-border bg-card space-y-2">
       <Link
-        href={`/subjects/${question.subject}/${question.chapter}`}
+        href={getConceptUrl(question.subject)}
         className="inline-block text-xs text-muted-foreground hover:text-primary hover:underline transition-colors"
       >
         {question.chapter}

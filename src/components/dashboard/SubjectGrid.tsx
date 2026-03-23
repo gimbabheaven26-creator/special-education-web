@@ -15,6 +15,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import type { Subject } from '@/types/content';
 import type { LucideIcon } from 'lucide-react';
+import { getConceptUrl } from '@/lib/concept-urls';
 
 const iconMap: Record<string, LucideIcon> = {
   BookOpen,
@@ -34,7 +35,7 @@ function SubjectCard({ subject }: { subject: Subject }) {
   const Icon = iconMap[subject.icon] ?? BookOpen;
 
   return (
-    <Link href={`/subjects/${subject.slug}`} className="block group">
+    <Link href={getConceptUrl(subject.slug)} className="block group">
       <Card className="h-full transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer">
         <CardContent className="p-4">
           <div className="flex items-center gap-3">

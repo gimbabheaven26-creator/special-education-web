@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, Tag, BookOpen, Calendar } from 'lucide-react';
-import { getAllSubjects, getSubjectFiles } from '@/lib/concepts';
+import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/concepts';
+import { getSubjectBySlug } from '@/lib/db';
+import LearningTimeline from '@/components/subjects/LearningTimeline';
 
 interface Props {
   params: Promise<{ subject: string }>;
@@ -26,6 +28,10 @@ export default async function ConceptSubjectPage({ params }: Props) {
   const files = getSubjectFiles(decodedSubject);
   if (files.length === 0) notFound();
 
+  // DB subject 조회: 존재하면 LearningTimeline 렌더
+  const dbSlug = getDbSlugForFolder(decodedSubject);
+  const dbSubject = dbSlug ? await getSubjectBySlug(dbSlug) : null;
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* 브레드크럼 */}
@@ -45,6 +51,17 @@ export default async function ConceptSubjectPage({ params }: Props) {
         </span>
         <span className="text-xs text-muted-foreground">{files.length}개 파일</span>
       </div>
+
+      {/* 학습 타임라인 (DB subject 존재 시) */}
+      {dbSubject && (
+        <div className="mb-8">
+          <LearningTimeline
+            subjectSlug={dbSubject.slug}
+            chapters={dbSubject.chapters}
+            conceptsFolder={decodedSubject}
+          />
+        </div>
+      )}
 
       {/* 개념 파일 목록 */}
       <div className="flex flex-col gap-3">

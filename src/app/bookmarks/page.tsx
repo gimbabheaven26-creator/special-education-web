@@ -25,7 +25,7 @@ export default function BookmarksPage() {
             학습 중에 관심 있는 챕터를 북마크에 추가해보세요.
           </p>
           <Link
-            href="/subjects"
+            href="/concepts"
             className="inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap transition-all h-11 gap-1.5 px-2.5"
           >
             과목 보러 가기

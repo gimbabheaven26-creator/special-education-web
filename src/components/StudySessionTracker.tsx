@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useStudyStore } from '@/stores/useStudyStore';
 
-const STUDY_PATHS = ['/subjects/', '/quiz/', '/flashcards', '/worksheets/', '/kice/', '/wrong-notes'];
+const STUDY_PATHS = ['/concepts/', '/quiz/', '/flashcards', '/worksheets/', '/kice/', '/wrong-notes'];
 const FLUSH_INTERVAL_MS = 60_000; // 1분마다 플러시
 const MIN_SESSION_SECONDS = 30;   // 30초 미만은 무시
 

@@ -5,6 +5,7 @@ import { Clock, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useMounted } from '@/hooks/useMounted';
+import { getConceptUrl } from '@/lib/concept-urls';
 
 function timeAgo(timestamp: number): string {
   const diff = Date.now() - timestamp;
@@ -69,7 +70,7 @@ export function ContinueLearning() {
         {recentActivities.slice(0, 3).map((activity) => (
           <Link
             key={`${activity.subjectSlug}-${activity.chapterSlug}`}
-            href={`/subjects/${activity.subjectSlug}/${activity.chapterSlug}`}
+            href={getConceptUrl(activity.subjectSlug)}
             className="flex items-center justify-between p-3 rounded-xl hover:bg-muted/50 transition-colors group"
           >
             <div className="min-w-0 flex-1">

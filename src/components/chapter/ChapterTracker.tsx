@@ -11,6 +11,8 @@ interface ChapterTrackerProps {
   subjectTitle: string;
   chapterSlug: string;
   chapterTitle: string;
+  /** 학습 완료 후 이동할 URL. 미지정 시 /subjects/${subjectSlug} */
+  redirectUrl?: string;
 }
 
 export function ChapterTracker({
@@ -18,6 +20,7 @@ export function ChapterTracker({
   subjectTitle,
   chapterSlug,
   chapterTitle,
+  redirectUrl,
 }: ChapterTrackerProps) {
   const router = useRouter();
   const [completed, setCompleted] = useState(false);
@@ -52,9 +55,9 @@ export function ChapterTracker({
     // XP 애니메이션 후 과목 페이지로 자동 이동
     timerRef.current = setTimeout(() => {
       setShowXP(false);
-      router.push(`/subjects/${subjectSlug}`);
+      router.push(redirectUrl ?? `/subjects/${subjectSlug}`);
     }, 1500);
-  }, [completed, router, subjectSlug]);
+  }, [completed, router, subjectSlug, redirectUrl]);
 
   return (
     <div className="flex flex-col items-center gap-3 py-6">

@@ -4,8 +4,11 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 import { ChevronLeft, ChevronRight, BookOpen, Tag, Calendar } from 'lucide-react';
-import { getMDXContent, getAllSubjects, getSubjectFiles } from '@/lib/concepts';
+import { getMDXContent, getAllSubjects, getSubjectFiles, getDbSlugForFolder, getConceptUrl } from '@/lib/concepts';
+import { getSubjectBySlug } from '@/lib/db';
 import { StepGuide, FillBlank, MatchingExercise } from '@/components/mdx';
+import { ChapterTracker } from '@/components/chapter/ChapterTracker';
+import { BookmarkButton } from '@/components/chapter/BookmarkButton';
 
 const mdxComponents = { StepGuide, FillBlank, MatchingExercise };
 
@@ -32,6 +35,10 @@ export default async function ConceptSlugPage({ params }: Props) {
   if (!conceptData) notFound();
 
   const { title, description, kiceKeywords, lastUpdated, content, prev, next } = conceptData;
+
+  // DB subject 조회: ChapterTracker, BookmarkButton용
+  const dbSlug = getDbSlugForFolder(decodedSubject);
+  const dbSubject = dbSlug ? await getSubjectBySlug(dbSlug) : null;
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-8">
@@ -65,7 +72,16 @@ export default async function ConceptSlugPage({ params }: Props) {
             </span>
           )}
         </div>
-        <h1 className="text-2xl font-bold text-foreground leading-tight">{title}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground leading-tight">{title}</h1>
+          {dbSubject && (
+            <BookmarkButton
+              path={`/concepts/${encodeURIComponent(decodedSubject)}/${encodeURIComponent(decodedSlug)}`}
+              title={title}
+              subject={dbSubject.title}
+            />
+          )}
+        </div>
         {description && (
           <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
         )}
@@ -113,6 +129,17 @@ export default async function ConceptSlugPage({ params }: Props) {
           }}
         />
       </div>
+
+      {/* 학습 완료 트래커 */}
+      {dbSubject && dbSlug && (
+        <ChapterTracker
+          subjectSlug={dbSlug}
+          subjectTitle={dbSubject.title}
+          chapterSlug={decodedSlug}
+          chapterTitle={title}
+          redirectUrl={getConceptUrl(dbSlug)}
+        />
+      )}
 
       {/* 이전/다음 네비게이션 */}
       <div className="mt-12 pt-6 border-t border-border grid grid-cols-2 gap-4">

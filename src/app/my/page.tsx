@@ -91,7 +91,7 @@ function SubjectProgressTab() {
       <div className="flex flex-col items-center gap-2 py-12 text-center">
         <BookOpen className="h-8 w-8 text-muted-foreground/40" />
         <p className="text-sm text-muted-foreground">아직 학습한 과목이 없어요</p>
-        <Link href="/subjects" className="text-xs text-primary hover:underline">
+        <Link href="/concepts" className="text-xs text-primary hover:underline">
           과목 학습 시작하기
         </Link>
       </div>
@@ -325,7 +325,7 @@ export default function MyPage() {
       color: 'text-green-500 bg-green-50 dark:bg-green-950/30',
     },
     {
-      href: '/subjects',
+      href: '/concepts',
       icon: BookOpen,
       label: '과목 학습',
       desc: '퀴즈·플래시카드·워크시트',

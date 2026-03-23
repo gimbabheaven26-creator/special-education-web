@@ -10,6 +10,7 @@ import { BookOpen, CopyPlus } from 'lucide-react';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { ErrorPattern } from '@/lib/error-patterns';
 import { ErrorPatternBadge } from './ErrorPatternBadge';
+import { getConceptUrl } from '@/lib/concept-urls';
 
 const TYPE_LABELS: Record<string, string> = {
   ox: 'OX',
@@ -147,7 +148,7 @@ export default function WrongNoteCard({
         <div className="flex items-center gap-3">
           {question?.subject && question?.chapter && (
             <Link
-              href={`/subjects/${question.subject}/${question.chapter}`}
+              href={getConceptUrl(question.subject)}
               className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
             >
               <BookOpen className="h-3.5 w-3.5" />

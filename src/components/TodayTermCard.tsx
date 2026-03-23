@@ -1,7 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import Link from 'next/link';
-import { BookOpen } from 'lucide-react';
+import { TodayTermCardClient } from './TodayTermCardClient';
 
 interface Term {
   term_ko: string;
@@ -77,25 +76,5 @@ export function TodayTermCard() {
   const seed = dateSeed();
   const term = terms[seed % terms.length];
 
-  return (
-    <Link
-      href={`/terms?q=${encodeURIComponent(term.term_ko)}`}
-      className="block p-4 rounded-xl border border-border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors"
-    >
-      <div className="flex items-center gap-2 mb-2">
-        <BookOpen className="h-4 w-4 text-primary" />
-        <span className="text-xs font-semibold text-primary uppercase tracking-wide">오늘의 단어</span>
-        <span className="text-[10px] text-muted-foreground ml-auto">{term.subject}</span>
-      </div>
-      <p className="font-semibold text-foreground text-sm">
-        {term.term_ko}
-        {term.term_hanja && (
-          <span className="ml-2 text-xs text-muted-foreground font-normal">{term.term_hanja}</span>
-        )}
-      </p>
-      <p className="text-xs text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
-        {term.definition}
-      </p>
-    </Link>
-  );
+  return <TodayTermCardClient term={term} />;
 }

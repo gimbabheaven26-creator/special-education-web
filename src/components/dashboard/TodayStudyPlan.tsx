@@ -12,6 +12,7 @@ import {
   getEncouragementMessage,
   getSubjectTitle,
 } from '@/lib/study-planner';
+import { getConceptUrl } from '@/lib/concept-urls';
 
 function DdayBadge({ dday }: { dday: number }) {
   const urgency = dday <= 30 ? 'text-red-600 bg-red-500/10' :
@@ -136,7 +137,7 @@ export function TodayStudyPlan() {
         <div className="space-y-2">
           {todaySubjects.length > 0 && (
             <Link
-              href={`/subjects/${todaySubjects[0]}`}
+              href={getConceptUrl(todaySubjects[0])}
               className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors group"
             >
               <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">

@@ -5,6 +5,7 @@ import type { QuizQuestion, Confidence } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen } from 'lucide-react';
+import { getConceptUrl } from '@/lib/concept-urls';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -200,7 +201,7 @@ export function QuizResultScreen({
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="truncate text-muted-foreground">{chapterTitle}</span>
                   <Link
-                    href={`/subjects/${subjectSlug}/${chapter}`}
+                    href={getConceptUrl(subjectSlug)}
                     className="shrink-0 text-primary hover:text-primary/80 transition-colors"
                     title="챕터 보기"
                   >

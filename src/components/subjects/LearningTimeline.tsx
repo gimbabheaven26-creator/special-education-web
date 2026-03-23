@@ -17,6 +17,8 @@ interface Chapter {
 interface LearningTimelineProps {
   subjectSlug: string;
   chapters: Chapter[];
+  /** 한글 concepts 폴더명. 존재 시 /concepts/폴더명/slug URL 사용 */
+  conceptsFolder?: string;
 }
 
 interface ChapterStatus {
@@ -92,12 +94,18 @@ function TimelineNode({
   subjectSlug,
   status,
   isLast,
+  conceptsFolder,
 }: {
   chapter: Chapter;
   subjectSlug: string;
   status: ChapterStatus;
   isLast: boolean;
+  conceptsFolder?: string;
 }) {
+  const href = conceptsFolder
+    ? `/concepts/${encodeURIComponent(conceptsFolder)}/${encodeURIComponent(chapter.slug)}`
+    : `/subjects/${subjectSlug}/${chapter.slug}`;
+
   return (
     <div className="relative flex gap-3 sm:gap-4">
       {/* Vertical line + circle */}
@@ -110,7 +118,7 @@ function TimelineNode({
 
       {/* Content card */}
       <Link
-        href={`/subjects/${subjectSlug}/${chapter.slug}`}
+        href={href}
         className="group mb-6 flex-1"
       >
         <div className="rounded-lg border border-border bg-card p-3 sm:p-4 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
@@ -175,6 +183,7 @@ function NodeIndicator({
 export default function LearningTimeline({
   subjectSlug,
   chapters,
+  conceptsFolder,
 }: LearningTimelineProps) {
   const sortedChapters = useMemo(
     () => [...chapters].sort((a, b) => a.order - b.order),
@@ -210,6 +219,7 @@ export default function LearningTimeline({
               subjectSlug={subjectSlug}
               status={status}
               isLast={index === sortedChapters.length - 1}
+              conceptsFolder={conceptsFolder}
             />
           );
         })}

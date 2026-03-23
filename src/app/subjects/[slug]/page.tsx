@@ -1,72 +1,17 @@
-export const dynamic = 'force-dynamic';
+import { redirect } from 'next/navigation';
+import { SLUG_TO_CONCEPTS_FOLDER } from '@/lib/concepts';
 
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
-import { getSubjectBySlug } from '@/lib/db';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import LearningTimeline from '@/components/subjects/LearningTimeline';
-
-export default async function SubjectDetailPage({
+export default function SubjectDetailPage({
   params,
 }: {
   params: { slug: string };
 }) {
   const { slug } = params;
-  const subject = await getSubjectBySlug(slug);
+  const folder = SLUG_TO_CONCEPTS_FOLDER[slug];
 
-  if (!subject) {
-    notFound();
+  if (folder) {
+    redirect(`/concepts/${encodeURIComponent(folder)}`);
   }
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
-      {/* 브레드크럼 */}
-      <Breadcrumb className="mb-6">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="/" />}>홈</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="/subjects" />}>과목</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{subject.title}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      {/* 과목 헤더 */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">{subject.title}</h1>
-        <p className="text-lg text-muted-foreground">{subject.description}</p>
-      </div>
-
-      {/* 학습 경로 타임라인 */}
-      <LearningTimeline
-        subjectSlug={subject.slug}
-        chapters={subject.chapters}
-      />
-
-      {/* 돌아가기 */}
-      <div className="mt-8 flex justify-center">
-        <Link
-          href="/subjects"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-sm font-semibold hover:bg-muted/50 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          과목 목록으로 돌아가기
-        </Link>
-      </div>
-    </div>
-  );
+  redirect('/concepts');
 }

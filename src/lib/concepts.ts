@@ -54,26 +54,8 @@ export interface ConceptContent extends ConceptFile {
   next: Pick<ConceptFile, 'subject' | 'slug' | 'title'> | null;
 }
 
-/** Supabase subject slug → concepts 폴더명 매핑 */
-const SLUG_TO_CONCEPTS_FOLDER: Record<string, string> = {
-  'behavior-support': '행동수정',
-  'curriculum': '교육과정',
-  'inclusive-education': '통합교육',
-  'assessment': '진단평가',
-  'transition': '전환교육',
-  'visual-impairment': '시각장애',
-  'hearing-impairment': '청각장애',
-  'physical-disability': '지체장애',
-  'communication-disorder': '의사소통장애',
-  'introduction': '특수교육학 개론',
-  'laws': '관련 법령',
-  'aac': 'AAC',
-  'autism': '자폐성장애',
-  'emotional-behavioral': '정서행동장애',
-  'intellectual-disability': '지적장애',
-  'assistive-technology': '특수교육공학',
-  'learning-disability': '학습장애',
-};
+import { SLUG_TO_CONCEPTS_FOLDER, CONCEPTS_FOLDER_TO_SLUG } from './concept-urls';
+export { SLUG_TO_CONCEPTS_FOLDER, CONCEPTS_FOLDER_TO_SLUG, getConceptUrl } from './concept-urls';
 
 /** subject slug로 해당 과목의 모든 concepts MDX 파일 반환 (order 오름차순) */
 export function getConceptsForSubject(subjectSlug: string): ConceptFile[] {
@@ -184,4 +166,9 @@ export function getMDXContent(subject: string, slug: string): ConceptContent | n
     prev: prev ? { subject: prev.subject, slug: prev.slug, title: prev.title } : null,
     next: next ? { subject: next.subject, slug: next.slug, title: next.title } : null,
   };
+}
+
+/** concepts 폴더명에서 DB slug 조회 */
+export function getDbSlugForFolder(folder: string): string | null {
+  return CONCEPTS_FOLDER_TO_SLUG[folder] ?? null;
 }

@@ -7,7 +7,7 @@ describe('isPathMatch', () => {
   });
 
   it('하위 경로 매칭', () => {
-    expect(isPathMatch('/subjects/biology', '/subjects')).toBe(true);
+    expect(isPathMatch('/concepts/시각장애', '/concepts')).toBe(true);
   });
 
   it('trailing slash 없이 prefix 매칭 차단', () => {
@@ -38,8 +38,12 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/terms')).toBe('diagnosis');
   });
 
-  it('/subjects → practice', () => {
-    expect(getActiveGroupId('/subjects')).toBe('practice');
+  it('/concepts → practice', () => {
+    expect(getActiveGroupId('/concepts')).toBe('practice');
+  });
+
+  it('/concepts/시각장애 → practice (하위 경로)', () => {
+    expect(getActiveGroupId('/concepts/시각장애')).toBe('practice');
   });
 
   it('/kice/exam → practice', () => {
@@ -85,8 +89,30 @@ describe('NAV_GROUPS 구조', () => {
     }
   });
 
-  it('총 서브 항목 수 (2+4+6+4 = 16)', () => {
+  it('총 서브 항목 수 (2+3+6+3 = 15)', () => {
     const total = NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
-    expect(total).toBe(16);
+    expect(total).toBe(15);
+  });
+
+  it('개념학습이 practice 그룹에 존재', () => {
+    const practice = NAV_GROUPS.find((g) => g.id === 'practice');
+    expect(practice).toBeDefined();
+    const conceptItem = practice!.items.find((i) => i.href === '/concepts');
+    expect(conceptItem).toBeDefined();
+    expect(conceptItem!.label).toBe('개념학습');
+  });
+
+  it('diagnosis 그룹에 /concepts 항목 없음', () => {
+    const diagnosis = NAV_GROUPS.find((g) => g.id === 'diagnosis');
+    expect(diagnosis).toBeDefined();
+    const conceptItem = diagnosis!.items.find((i) => i.href === '/concepts');
+    expect(conceptItem).toBeUndefined();
+  });
+
+  it('/subjects 항목이 어떤 그룹에도 없음', () => {
+    for (const group of NAV_GROUPS) {
+      const subjectsItem = group.items.find((i) => i.href === '/subjects');
+      expect(subjectsItem).toBeUndefined();
+    }
   });
 });
