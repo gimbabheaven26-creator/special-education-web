@@ -22,8 +22,9 @@ import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import type { Confidence } from './QuizResultScreen';
 import { PenLine, FileText } from 'lucide-react';
 import { sortByAdaptiveDifficulty } from '@/lib/adaptive-difficulty';
-import { shouldTriggerElaboration } from '@/lib/elaboration';
-import ElaborationPrompt from '@/components/quiz/ElaborationPrompt';
+// TODO: 정교화 질문 추후 재활성화
+// import { shouldTriggerElaboration } from '@/lib/elaboration';
+// import ElaborationPrompt from '@/components/quiz/ElaborationPrompt';
 import { DiagnosticReport } from '@/components/quiz/DiagnosticReport';
 import type { QuizResult } from '@/types/quiz';
 
@@ -262,7 +263,8 @@ export function QuizClient({
   const [currentQuestionCount, setCurrentQuestionCount] = useState(10);
   const [comboStreak, setComboStreak] = useState(0);
   const [confidence, setConfidence] = useState<Confidence>('sure');
-  const [elaborationQuestion, setElaborationQuestion] = useState<QuizQuestion | null>(null);
+  // TODO: 정교화 질문 추후 재활성화
+  // const [elaborationQuestion, setElaborationQuestion] = useState<QuizQuestion | null>(null);
 
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
@@ -522,10 +524,11 @@ export function QuizClient({
     }
   };
 
-  const handleElaborationDone = () => {
-    setElaborationQuestion(null);
-    advanceToNext(answers);
-  };
+  // TODO: 정교화 질문 추후 재활성화
+  // const handleElaborationDone = () => {
+  //   setElaborationQuestion(null);
+  //   advanceToNext(answers);
+  // };
 
   const handleSkip = () => {
     const newSkipped = new Set(skipped);
