@@ -4,6 +4,7 @@ import { DailyReviewCard } from '@/components/dashboard/DailyReviewCard';
 import { ExamCountdown } from '@/components/ExamCountdown';
 import { TodayTermCard } from '@/components/TodayTermCard';
 import { AiBriefingCard } from '@/components/AiBriefingCard';
+import { AdminQuickAccess } from '@/components/dashboard/AdminQuickAccess';
 import Link from 'next/link';
 import { BookOpen, ArrowRight } from 'lucide-react';
 
@@ -44,6 +45,9 @@ export default function HomePage() {
 
       {/* AI 브리핑 */}
       <AiBriefingCard />
+
+      {/* 관리자 전용 — role='admin'인 경우만 표시 */}
+      <AdminQuickAccess />
     </div>
   );
 }
