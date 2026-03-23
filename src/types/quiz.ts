@@ -42,6 +42,7 @@ export interface QuizResult {
   subject: string;
   chapter: string;
   confidence?: Confidence;
+  sessionId?: string;
 }
 
 export interface ExamQuestion extends QuizQuestion {

@@ -18,19 +18,36 @@ export interface QuizErrorReport {
   timestamp: string;
 }
 
+// ─── Diagnostic Session ─────────────────────────────────────────────────────
+
+export interface DiagnosticSession {
+  id: string;           // 'diag-2026-03-23-1'
+  label: string;        // '3월 23일-1'
+  type: 'ox' | 'fill_in';
+  startedAt: number;
+  completedAt: number;
+  questionIds: string[];
+  results: Array<{ questionId: string; isCorrect: boolean }>;
+  stats: { total: number; correct: number; rate: number };
+}
+
 // ─── Store Interface ────────────────────────────────────────────────────────
 
 interface QuizStore {
   // Wrong notes & history
   wrongNotes: WrongNote[];
   quizHistory: QuizResult[];
-  addWrongNote: (question: QuizQuestion, userAnswer: string | number) => void;
+  addWrongNote: (question: QuizQuestion, userAnswer: string | number, sessionId?: string) => void;
   markMastered: (questionId: string) => void;
   unmarkMastered: (questionId: string) => void;
   removeWrongNote: (questionId: string) => void;
   addQuizResult: (result: QuizResult) => void;
   getWrongNotesBySubject: (subject: string) => WrongNote[];
   getQuizStats: () => { total: number; correct: number; rate: number };
+
+  // Diagnostic sessions
+  diagnosticSessions: DiagnosticSession[];
+  addDiagnosticSession: (session: DiagnosticSession) => void;
 
   // Feedback (merged from useQuizFeedbackStore)
   feedbacks: QuizFeedback[];
@@ -78,19 +95,20 @@ export const useQuizStore = create<QuizStore>()(
     (set, get) => ({
       wrongNotes: [],
       quizHistory: [],
+      diagnosticSessions: [],
       feedbacks: [],
       errorReports: [],
 
       // ── Wrong Notes ─────────────────────────────────────────────────────
 
-      addWrongNote: (question, userAnswer) => {
+      addWrongNote: (question, userAnswer, sessionId?) => {
         set((state) => {
           const existing = state.wrongNotes.find((n) => n.questionId === question.id);
           if (existing) {
             return {
               wrongNotes: state.wrongNotes.map((n) =>
                 n.questionId === question.id
-                  ? { ...n, attempts: n.attempts + 1, lastAttempt: Date.now(), userAnswer, mastered: false }
+                  ? { ...n, attempts: n.attempts + 1, lastAttempt: Date.now(), userAnswer, mastered: false, ...(sessionId != null ? { sessionId } : {}) }
                   : n
               ),
             };
@@ -98,7 +116,7 @@ export const useQuizStore = create<QuizStore>()(
           const MAX_WRONG_NOTES = 500;
           const updated = [
             ...state.wrongNotes,
-            { questionId: question.id, subject: question.subject, chapter: question.chapter, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false },
+            { questionId: question.id, subject: question.subject, chapter: question.chapter, question, userAnswer, attempts: 1, lastAttempt: Date.now(), mastered: false, ...(sessionId != null ? { sessionId } : {}) },
           ];
           if (updated.length > MAX_WRONG_NOTES) {
             const excess = updated.length - MAX_WRONG_NOTES;
@@ -168,6 +186,18 @@ export const useQuizStore = create<QuizStore>()(
         return { total, correct, rate: total > 0 ? Math.round((correct / total) * 100) : 0 };
       },
 
+      // ── Diagnostic Sessions ─────────────────────────────────────────────
+
+      addDiagnosticSession: (session) =>
+        set((state) => {
+          const MAX_SESSIONS = 100;
+          const updated = [...state.diagnosticSessions, session];
+          const evicted = updated.length > MAX_SESSIONS
+            ? updated.slice(updated.length - MAX_SESSIONS)
+            : updated;
+          return { diagnosticSessions: evicted };
+        }),
+
       // ── Feedback (merged from useQuizFeedbackStore) ─────────────────────
 
       addFeedback: (questionId, type) =>
@@ -226,7 +256,7 @@ export const useQuizStore = create<QuizStore>()(
     }),
     {
       name: 'quiz-data',
-      version: 4,
+      version: 5,
       migrate: (persistedState, version) => {
         let state = persistedState as Record<string, unknown>;
 
@@ -271,6 +301,16 @@ export const useQuizStore = create<QuizStore>()(
               lastAttempt: n.lastAttempt ?? Date.now(),
               mastered: n.mastered ?? false,
             })),
+          };
+        }
+
+        if (version < 5) {
+          // v4 -> v5: diagnosticSessions 배열 추가
+          state = {
+            ...state,
+            diagnosticSessions: Array.isArray(state.diagnosticSessions)
+              ? state.diagnosticSessions
+              : [],
           };
         }
 

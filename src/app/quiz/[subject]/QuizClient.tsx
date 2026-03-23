@@ -6,8 +6,9 @@ import type { QuizQuestion } from '@/types/quiz';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { useQuizStore } from '@/stores/useQuizStore';
+import { useQuizStore, type DiagnosticSession } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { getKSTTimeslot } from '@/lib/timeslot';
 import { shuffle } from '@/lib/array-utils';
 import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
@@ -38,6 +39,20 @@ const ESSAY_TYPES = new Set(['descriptive', 'scenario_composite']);
 const REVIEW_MIX_RATIO = 0.7; // 빠른 복습 프리셋에서 오답 비율
 const DIAGNOSTIC_AUTO_ADVANCE_MS = 2000; // 진단 모드 자동 이동 딜레이(ms)
 
+
+/** Generate a unique diagnostic session ID based on today's KST date */
+function generateDiagnosticSessionId(
+  sessions: DiagnosticSession[]
+): { id: string; label: string } {
+  const { date } = getKSTTimeslot();
+  const todayCount = sessions.filter(s => s.id.startsWith(`diag-${date}`)).length;
+  const n = todayCount + 1;
+  const [, m, d] = date.split('-');
+  return {
+    id: `diag-${date}-${n}`,
+    label: `${Number(m)}월 ${Number(d)}일-${n}`,
+  };
+}
 
 /** Build session questions based on preset configuration */
 function buildSession(
@@ -190,6 +205,8 @@ export function QuizClient({
 }) {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const quizHistory = useQuizStore((s) => s.quizHistory);
+  const diagnosticSessions = useQuizStore((s) => s.diagnosticSessions);
+  const addDiagnosticSession = useQuizStore((s) => s.addDiagnosticSession);
   const leitnerCards = useLeitnerStore((s) => s.cards);
   const leitnerGetDueCards = useLeitnerStore((s) => s.getDueCards);
 
@@ -261,6 +278,9 @@ export function QuizClient({
 
   // diagnosticMode: 세션설정 건너뛰고 자동 시작 (10문제)
   const diagnosticStarted = useRef(false);
+  const diagnosticSessionIdRef = useRef<string | null>(null);
+  const diagnosticSessionLabelRef = useRef<string | null>(null);
+  const diagnosticStartTimeRef = useRef<number>(0);
   useEffect(() => {
     if (!diagnosticMode) return;
     // 이전 저장 세션 제거 (진단 모드는 항상 새로 시작)
@@ -272,6 +292,13 @@ export function QuizClient({
     if (!diagnosticMode || diagnosticStarted.current) return;
     if (questions.length === 0) return;
     diagnosticStarted.current = true;
+
+    // 세션 ID 생성
+    const { id, label } = generateDiagnosticSessionId(diagnosticSessions);
+    diagnosticSessionIdRef.current = id;
+    diagnosticSessionLabelRef.current = label;
+    diagnosticStartTimeRef.current = Date.now();
+
     const DIAGNOSTIC_COUNT = 10;
     const allTypeQuestions = [...questions];
     const sessionQuestions = shuffle(allTypeQuestions).slice(0, DIAGNOSTIC_COUNT);
@@ -282,7 +309,7 @@ export function QuizClient({
     setXpEarned(0);
     setComboStreak(0);
     setPhase('quiz');
-  }, [diagnosticMode, questions]);
+  }, [diagnosticMode, questions, diagnosticSessions]);
 
   const showXPToast = useCallback((amount: number) => {
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
@@ -406,6 +433,7 @@ export function QuizClient({
     recordQuizResult(isCorrect);
 
     const currentQ = activeQuestions[currentIndex];
+    const currentSessionId = diagnosticMode ? diagnosticSessionIdRef.current ?? undefined : undefined;
     addQuizResult({
       questionId: currentQ.id,
       userAnswer: _answer,
@@ -414,10 +442,11 @@ export function QuizClient({
       subject: currentQ.subject,
       chapter: currentQ.chapter,
       confidence,
+      ...(currentSessionId != null ? { sessionId: currentSessionId } : {}),
     });
 
     if (!isCorrect) {
-      addWrongNote(currentQ, _answer);
+      addWrongNote(currentQ, _answer, currentSessionId);
 
       // Auto-register to Leitner SRS (skip if already exists)
       const cardId = `wrong-${currentQ.id}`;
@@ -462,6 +491,30 @@ export function QuizClient({
     const nextIndex = findNextUnanswered(currentIndex, activeQuestions.length, answeredIndices, skipped);
 
     if (nextIndex === -1) {
+      // 진단 모드: 세션 메타데이터 저장
+      if (diagnosticMode && diagnosticSessionIdRef.current && diagnosticSessionLabelRef.current) {
+        const correct = currentAnswers.filter(a => a.isCorrect).length;
+        const total = currentAnswers.length;
+        // 문제 타입 추정: ox/fill_in (첫 문제 기준)
+        const firstQ = activeQuestions[0];
+        const sessionType: 'ox' | 'fill_in' =
+          firstQ?.type === 'fill_in' ? 'fill_in' : 'ox';
+
+        addDiagnosticSession({
+          id: diagnosticSessionIdRef.current,
+          label: diagnosticSessionLabelRef.current,
+          type: sessionType,
+          startedAt: diagnosticStartTimeRef.current,
+          completedAt: Date.now(),
+          questionIds: activeQuestions.map(q => q.id),
+          results: currentAnswers.map(a => ({
+            questionId: activeQuestions[a.questionIndex].id,
+            isCorrect: a.isCorrect,
+          })),
+          stats: { total, correct, rate: total > 0 ? Math.round((correct / total) * 100) : 0 },
+        });
+      }
+
       setPhase('result');
       clearSession();
     } else {

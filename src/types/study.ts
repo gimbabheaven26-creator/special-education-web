@@ -23,6 +23,7 @@ export interface WrongNote {
   attempts: number;
   lastAttempt: number;
   mastered: boolean;
+  sessionId?: string;
 }
 
 export interface DailyHistoryEntry {
