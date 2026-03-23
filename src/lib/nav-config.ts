@@ -25,8 +25,8 @@ export const NAV_GROUPS: NavGroup[] = [
     label: '진단평가',
     icon: ClipboardCheck,
     items: [
-      { href: '/daily', label: '오늘학습', description: '오늘의 추천 문제' },
-      { href: '/worksheets', label: '워크시트', description: '과목별 개념 확인 문제지' },
+      { href: '/quiz/ox', label: 'OX 퀴즈', description: '전 과목 OX 문제' },
+      { href: '/quiz/short', label: '단답형', description: '전 과목 단답형 문제' },
       { href: '/terms', label: '용어학습', description: '핵심 용어 플래시카드' },
     ],
   },
@@ -36,7 +36,7 @@ export const NAV_GROUPS: NavGroup[] = [
     icon: Dumbbell,
     items: [
       { href: '/concepts', label: '개념학습', description: '과목별 핵심 개념 정리' },
-      { href: '/kice/exam', label: '모의고사' },
+      { href: '/practice', label: '문제풀기', description: '모의고사·워크시트 실전 대비' },
       { href: '/interactive', label: '인터랙티브' },
     ],
   },
