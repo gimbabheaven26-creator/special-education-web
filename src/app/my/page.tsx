@@ -20,6 +20,7 @@ import {
   Users,
   LogIn,
   RefreshCw,
+  Settings,
 } from 'lucide-react';
 import { NicknamePrompt } from '@/components/NicknamePrompt';
 import { ExamCountdown } from '@/components/ExamCountdown';
@@ -477,6 +478,19 @@ export default function MyPage() {
         <div>
           <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-1">관리자</h2>
           <div className="space-y-2">
+            <Link
+              href="/admin"
+              className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors"
+            >
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg text-amber-500 bg-amber-50 dark:bg-amber-950/30">
+                <Settings className="h-5 w-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground">문제 관리</p>
+                <p className="text-xs text-muted-foreground">문제 편집·추가·삭제·내보내기</p>
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+            </Link>
             <Link
               href="/structure"
               className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors"
