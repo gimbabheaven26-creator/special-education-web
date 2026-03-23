@@ -448,11 +448,11 @@ export function QuizClient({
 
     setAnswers(updatedAnswers);
 
-    // Check for elaboration trigger
-    if (isCorrect && shouldTriggerElaboration(true, currentQ.difficulty ?? 2, confidence)) {
-      setElaborationQuestion(currentQ);
-      return;
-    }
+    // TODO: 정교화 질문 기능 — 추후 재활성화
+    // if (isCorrect && shouldTriggerElaboration(true, currentQ.difficulty ?? 2, confidence)) {
+    //   setElaborationQuestion(currentQ);
+    //   return;
+    // }
 
     advanceToNext(updatedAnswers);
   };
@@ -696,7 +696,7 @@ export function QuizClient({
         </CardContent>
       </Card>
 
-      {/* 정교화 질문 */}
+      {/* TODO: 정교화 질문 기능 — 추후 재활성화
       {elaborationQuestion && (
         <div className="mb-4">
           <ElaborationPrompt
@@ -706,9 +706,10 @@ export function QuizClient({
           />
         </div>
       )}
+      */}
 
       {/* 확신도 + 건너뛰기 */}
-      {!elaborationQuestion && (
+      {(
         <div className="flex items-center justify-between mt-2">
           <ConfidenceToggle value={confidence} onChange={setConfidence} />
           <button
