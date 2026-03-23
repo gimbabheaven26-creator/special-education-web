@@ -126,3 +126,50 @@
 ## 다음 작업 후보
 
 1. 카이란의 다음 지시서 대기
+
+---
+
+# 강선생1 세션 핸드오프 — 2026-03-23 (오후)
+
+## 이번 세션 완료 커밋 (최신순)
+
+| 커밋 | 내용 |
+|------|------|
+| `30b721d` | refactor(nav): 네비게이션 구조 재편 |
+| `9f62af5` | feat(quiz): OX퀴즈/단답형/문제풀기 허브 페이지 신규 생성 |
+| `932e678` | feat(db): getQuizzesByType 함수 추가 |
+| `4d1059d` | docs: 강선생1 용어사전 UX 지시서 + 노션 pending |
+
+## 완료 작업
+
+### 1. 오늘의 단어 바텀시트 UX 검증 (kangteacher1-0323-terms-ux-auto-cmds.md)
+- `09dc9e3`에 이미 구현 완료 확인 (TodayTermCardClient + TermsClient initialOpen)
+- tsc 0건 / build 183페이지 OK
+
+### 2. 메인 네비게이션 구조 개편 (kangteacher1-0323-nav-restructure-auto-cmds.md)
+
+**Step 1** — `src/lib/db.ts`: `getQuizzesByType(type: QuizType)` 추가 (`932e678`)
+
+**Step 2** — 3개 페이지 신규 생성 (`9f62af5`):
+- `src/app/quiz/ox/page.tsx` — OX퀴즈 전용
+- `src/app/quiz/short/page.tsx` — 단답형 전용
+- `src/app/practice/page.tsx` — 모의고사+워크시트 허브
+
+**Step 3** — `src/lib/nav-config.ts` 재구성 (`30b721d`):
+- 진단평가: /daily·/worksheets → /quiz/ox·/quiz/short·/terms
+- 실력쌓기: /kice/exam → /practice
+
+## 현재 상태
+
+- `main` 브랜치, **origin/main 동기화 완료** (미커밋 없음)
+- tsc --noEmit: 에러 0건
+- build: 186페이지 OK (183→+3)
+
+## 미해결 항목
+
+- `/quiz/ox`, `/quiz/short`, `/practice` 수동 접속 확인 필요
+- 상단 네비 드롭다운 + 모바일 탭바 시각 확인 필요
+
+## 다음 작업 후보
+
+1. 카이란의 다음 지시서 대기
