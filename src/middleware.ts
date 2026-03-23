@@ -35,6 +35,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  // /admin/* 보호: 미로그인 시 /login으로 리다이렉트
+  if (!user && request.nextUrl.pathname.startsWith('/admin')) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = '/login';
+    return NextResponse.redirect(loginUrl);
+  }
+
   return supabaseResponse;
 }
 
