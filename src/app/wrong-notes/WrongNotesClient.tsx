@@ -43,6 +43,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
   const markMastered = useQuizStore((s) => s.markMastered);
   const unmarkMastered = useQuizStore((s) => s.unmarkMastered);
   const removeWrongNote = useQuizStore((s) => s.removeWrongNote);
+  const diagnosticSessions = useQuizStore((s) => s.diagnosticSessions);
   const leitnerGetStats = useLeitnerStore((s) => s.getStats);
 
   const hydrated = useMemo<HydratedWrongNote[]>(() => {
@@ -68,6 +69,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
   const [chapterFilter, setChapterFilter] = useState<string>(
     () => searchParams.get('chapter') ?? 'all',
   );
+  const [sessionFilter, setSessionFilter] = useState<string>('all');
   const [showMastered, setShowMastered] = useState(true);
   const [sortMode, setSortMode] = useState<SortMode>('recent');
   const [collapsedSubjects, setCollapsedSubjects] = useState<Set<string>>(new Set());
@@ -97,6 +99,9 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
     if (chapterFilter !== 'all') {
       notes = notes.filter((n) => n.question?.chapter === chapterFilter);
     }
+    if (sessionFilter !== 'all') {
+      notes = notes.filter((n) => n.sessionId === sessionFilter);
+    }
     if (!showMastered) {
       notes = notes.filter((n) => !n.mastered);
     }
@@ -108,7 +113,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
     });
 
     return sorted;
-  }, [hydrated, subjectFilter, chapterFilter, showMastered, sortMode]);
+  }, [hydrated, subjectFilter, chapterFilter, sessionFilter, showMastered, sortMode]);
 
   const stats = useMemo(() => {
     const total = wrongNotes.length;
@@ -290,6 +295,21 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
             <option key={s} value={s}>{subjectTitleMap[s] || s}</option>
           ))}
         </select>
+
+        {diagnosticSessions.length > 0 && (
+          <select
+            value={sessionFilter}
+            onChange={(e) => setSessionFilter(e.target.value)}
+            className="min-h-[44px] rounded-lg border border-border bg-background px-3 text-sm"
+          >
+            <option value="all">전체 세션</option>
+            {diagnosticSessions.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.label} ({s.type === 'ox' ? 'OX' : '단답형'})
+              </option>
+            ))}
+          </select>
+        )}
 
         {chapters.length > 0 && (
           <select
