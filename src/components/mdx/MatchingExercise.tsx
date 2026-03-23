@@ -26,12 +26,12 @@ function shuffleArray<T>(arr: readonly T[]): T[] {
 }
 
 export default function MatchingExercise({ title = '용어 매칭', items }: MatchingExerciseProps) {
-  if (!items || !Array.isArray(items)) return null;
   const [selectedTerm, setSelectedTerm] = useState<number | null>(null);
   const [matches, setMatches] = useState<Record<number, number>>({});
   const [checked, setChecked] = useState(false);
 
   const shuffledDefs = useMemo(() => {
+    if (!items || !Array.isArray(items)) return [];
     const indexed = items.map((item, i) => ({ ...item, originalIndex: i }));
     return shuffleArray(indexed);
   }, [items]);
@@ -54,6 +54,8 @@ export default function MatchingExercise({ title = '용어 매칭', items }: Mat
     setMatches({});
     setChecked(false);
   };
+
+  if (!items || !Array.isArray(items)) return null;
 
   const correctCount = checked
     ? Object.entries(matches).filter(

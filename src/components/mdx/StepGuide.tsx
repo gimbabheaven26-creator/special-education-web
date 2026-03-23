@@ -16,7 +16,6 @@ interface StepGuideProps {
 }
 
 export default function StepGuide({ title = '절차 가이드', steps }: StepGuideProps) {
-  if (!steps || !Array.isArray(steps)) return null;
   const [openStep, setOpenStep] = useState<number | null>(null);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
@@ -27,6 +26,8 @@ export default function StepGuide({ title = '절차 가이드', steps }: StepGui
   const toggleCheck = useCallback((key: string) => {
     setCheckedItems((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
+
+  if (!steps) return null;
 
   const totalChecks = steps.reduce(
     (sum, step) => sum + (step.checklist?.length ?? 0),
