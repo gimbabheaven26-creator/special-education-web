@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { getKSTTimeslot } from '@/lib/timeslot';
 import { TodayTermCardClient } from './TodayTermCardClient';
 
 interface Term {
@@ -64,16 +65,16 @@ function loadTerms(): Term[] {
   return all;
 }
 
-function dateSeed(): number {
-  const d = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
-  return d.split('-').reduce((acc, p) => acc * 100 + Number(p), 0);
+function timeslotSeed(): number {
+  const { key } = getKSTTimeslot();
+  return key.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
 }
 
 export function TodayTermCard() {
   const terms = loadTerms();
   if (terms.length === 0) return null;
 
-  const seed = dateSeed();
+  const seed = timeslotSeed();
   const term = terms[seed % terms.length];
 
   return <TodayTermCardClient term={term} />;
