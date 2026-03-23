@@ -1,4 +1,4 @@
-import { getAvailableExams, getExam } from '@/lib/kice'
+import { getAvailableExams, getDefaultExamEntry, getExam } from '@/lib/kice'
 import ExamClient from './ExamClient'
 import Link from 'next/link'
 
@@ -10,8 +10,9 @@ export default async function ExamPage({ searchParams }: PageProps) {
   const params = await searchParams
   const entries = getAvailableExams()
 
-  const selectedYear = params.year ? Number(params.year) : (entries[0]?.year ?? 2026)
-  const selectedSession = params.session ?? entries.find(e => e.year === selectedYear)?.session ?? '전공A'
+  const defaultEntry = getDefaultExamEntry(entries)
+  const selectedYear = params.year ? Number(params.year) : (defaultEntry?.year ?? 2026)
+  const selectedSession = params.session ?? entries.find(e => e.year === selectedYear && !e.isPredicted && !e.isIsomorphic)?.session ?? entries.find(e => e.year === selectedYear)?.session ?? '전공A'
 
   const exam = getExam(selectedYear, selectedSession)
 
@@ -29,7 +30,6 @@ export default async function ExamPage({ searchParams }: PageProps) {
 
   return (
     <ExamClient
-      key={`${selectedYear}-${selectedSession}`}
       exam={exam}
       entries={entries}
       selectedYear={selectedYear}

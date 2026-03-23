@@ -38,6 +38,11 @@ export function getAvailableExams(): ExamEntry[] {
   return entries
 }
 
+/** 실제 기출(비예상, 비동형)을 우선하여 기본 entry를 반환한다. */
+export function getDefaultExamEntry(entries: ExamEntry[]): ExamEntry | undefined {
+  return entries.find(e => !e.isPredicted && !e.isIsomorphic) ?? entries[0]
+}
+
 export function getExam(year: number, session: string): KiceExam | null {
   const filePath = join(KICE_DIR, String(year), `${session}.json`)
 

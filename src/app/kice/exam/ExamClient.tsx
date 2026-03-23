@@ -241,6 +241,24 @@ export default function ExamClient({ exam, entries, selectedYear, selectedSessio
   }
 
   // ─── Exam Phase ───
+  if (!question || !answer) {
+    return (
+      <main className="max-w-2xl mx-auto px-4 py-10 space-y-4">
+        <h1 className="text-2xl font-bold tracking-tight">모의고사</h1>
+        <p className="text-muted-foreground text-sm">
+          표시할 문제가 없습니다.
+        </p>
+        <Link
+          href="/kice"
+          className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          기출 목록으로 돌아가기
+        </Link>
+      </main>
+    )
+  }
+
   const remainingTime = Math.max(0, totalTime - elapsedSeconds)
   const isOvertime = elapsedSeconds > totalTime
   const scenarioDialogue =
