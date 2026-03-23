@@ -36,6 +36,7 @@ export const NAV_GROUPS: NavGroup[] = [
     id: 'practice',
     label: '실력쌓기',
     icon: Dumbbell,
+    href: '/practice-hub',
     items: [
       { href: '/concepts', label: '개념학습', description: '과목별 핵심 개념 정리' },
       { href: '/practice', label: '문제풀기', description: '모의고사·워크시트 실전 대비' },
