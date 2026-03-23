@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { getConceptsForSubject } from '@/lib/concepts';
 import type { Subject } from '@/types/content';
-import type { QuizQuestion } from '@/types/quiz';
+import type { QuizQuestion, QuizType } from '@/types/quiz';
 
 /** MDX title에서 "과목명 — " 접두어 제거 (예: "진단평가 — 지능 검사" → "지능 검사") */
 function stripSubjectPrefix(title: string): string {
@@ -102,6 +102,17 @@ export async function getAllQuizzes(): Promise<QuizQuestion[]> {
 
   if (error || !data) return [];
 
+  return data.map(mapQuizRow);
+}
+
+export async function getQuizzesByType(type: QuizType): Promise<QuizQuestion[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('*')
+    .eq('type', type)
+    .limit(10000);
+  if (error || !data) return [];
   return data.map(mapQuizRow);
 }
 
