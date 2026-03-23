@@ -1,10 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import type { QuizQuestion, Confidence } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { RotateCcw, XCircle, BookOpen } from 'lucide-react';
+import { RotateCcw, XCircle, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { getConceptUrl } from '@/lib/concept-urls';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -91,6 +92,105 @@ function rateColorClass(rate: number): string {
   if (rate >= 80) return 'text-emerald-600 dark:text-emerald-400';
   if (rate >= 60) return 'text-amber-600 dark:text-amber-400';
   return 'text-red-600 dark:text-red-400';
+}
+
+// ─── Question Review Section ─────────────────────────────────────────────────
+
+function QuestionReviewSection({
+  questions,
+  answers,
+}: {
+  questions: ReadonlyArray<QuizQuestion>;
+  answers: ReadonlyArray<AnswerRecord>;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const answerMap = new Map(answers.map((a) => [a.questionIndex, a]));
+
+  return (
+    <Card className="mb-6">
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="w-full flex items-center justify-between px-6 py-4 text-left"
+      >
+        <span className="text-sm font-semibold">전체 문제 리뷰</span>
+        {isOpen ? (
+          <ChevronUp className="h-4 w-4 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        )}
+      </button>
+      {isOpen && (
+        <CardContent className="pt-0 space-y-4">
+          {questions.map((q, i) => {
+            const record = answerMap.get(i);
+            const isSkipped = !record;
+            const isCorrect = record?.isCorrect ?? false;
+
+            return (
+              <div
+                key={q.id}
+                className="rounded-lg border p-4 space-y-2"
+              >
+                {/* 문제 번호 + 정답 여부 */}
+                <div className="flex items-start gap-2">
+                  <span className="shrink-0 text-lg leading-none">
+                    {isSkipped ? '⏭️' : isCorrect ? '✅' : '❌'}
+                  </span>
+                  <p className="text-sm font-medium leading-relaxed">
+                    <span className="text-muted-foreground mr-1">{i + 1}.</span>
+                    {q.question}
+                  </p>
+                </div>
+
+                {/* 답변 정보 */}
+                <div className="ml-7 space-y-1 text-sm">
+                  {isSkipped ? (
+                    <p className="text-muted-foreground italic">건너뜀</p>
+                  ) : (
+                    <>
+                      <p>
+                        <span className="text-muted-foreground">내 답변: </span>
+                        <span className={isCorrect ? 'text-emerald-600 dark:text-emerald-400 font-medium' : 'text-red-600 dark:text-red-400 font-medium'}>
+                          {formatAnswer(record.userAnswer, q)}
+                        </span>
+                      </p>
+                      {!isCorrect && (
+                        <p>
+                          <span className="text-muted-foreground">정답: </span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                            {formatAnswer(q.answer, q)}
+                          </span>
+                        </p>
+                      )}
+                    </>
+                  )}
+                  {/* 해설 */}
+                  {q.explanation && (
+                    <p className="text-muted-foreground mt-1 text-xs leading-relaxed">
+                      💡 {q.explanation}
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </CardContent>
+      )}
+    </Card>
+  );
+}
+
+/** 객관식 번호 답변을 보기 텍스트로 변환 */
+function formatAnswer(answer: string | number, question: QuizQuestion): string {
+  if (question.type === 'multiple' && question.options && typeof answer === 'number') {
+    const optionText = question.options[answer - 1];
+    return optionText ? `${answer}. ${optionText}` : String(answer);
+  }
+  if (question.type === 'ox') {
+    if (answer === 'O' || answer === 'o') return 'O';
+    if (answer === 'X' || answer === 'x') return 'X';
+  }
+  return String(answer);
 }
 
 // ─── Quiz Result Screen ──────────────────────────────────────────────────────
@@ -243,6 +343,9 @@ export function QuizResultScreen({
           </div>
         </CardContent>
       </Card>
+
+      {/* Question Review */}
+      <QuestionReviewSection questions={questions} answers={answers} />
 
       {/* Action Buttons */}
       <div className="flex gap-3 flex-wrap justify-center">
