@@ -30,8 +30,8 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/')).toBeNull();
   });
 
-  it('/daily → diagnosis', () => {
-    expect(getActiveGroupId('/daily')).toBe('diagnosis');
+  it('/daily → null (네비에서 제거됨, 홈에서만 진입)', () => {
+    expect(getActiveGroupId('/daily')).toBeNull();
   });
 
   it('/terms → diagnosis', () => {
@@ -46,8 +46,8 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/concepts/시각장애')).toBe('practice');
   });
 
-  it('/kice/exam → practice', () => {
-    expect(getActiveGroupId('/kice/exam')).toBe('practice');
+  it('/kice/exam → null (네비에서 제거됨, /practice 허브에서 진입)', () => {
+    expect(getActiveGroupId('/kice/exam')).toBeNull();
   });
 
   it('/kice/analytics → metacognition', () => {
@@ -70,6 +70,18 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/reviews')).toBe('community');
   });
 
+  it('/quiz/ox → diagnosis', () => {
+    expect(getActiveGroupId('/quiz/ox')).toBe('diagnosis');
+  });
+
+  it('/quiz/short → diagnosis', () => {
+    expect(getActiveGroupId('/quiz/short')).toBe('diagnosis');
+  });
+
+  it('/practice → practice', () => {
+    expect(getActiveGroupId('/practice')).toBe('practice');
+  });
+
   it('알 수 없는 경로 → null', () => {
     expect(getActiveGroupId('/unknown')).toBeNull();
   });
@@ -89,7 +101,7 @@ describe('NAV_GROUPS 구조', () => {
     }
   });
 
-  it('총 서브 항목 수 (2+3+6+3 = 15)', () => {
+  it('총 서브 항목 수 (3+3+6+3 = 15)', () => {
     const total = NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
     expect(total).toBe(15);
   });
