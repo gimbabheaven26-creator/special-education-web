@@ -5,8 +5,8 @@ import nextDynamic from 'next/dynamic';
 import { getQuizzesByType, getSubjects } from '@/lib/db';
 
 export const metadata: Metadata = {
-  title: '단답형',
-  description: '전 과목 단답형 문제 모아 풀기',
+  title: '단답형 진단',
+  description: '전 과목 단답형 문제 진단 평가',
 };
 
 const QuizClient = nextDynamic(
@@ -29,7 +29,9 @@ export default async function ShortQuizPage() {
   ]);
 
   const chapterMap: Record<string, string> = {};
+  const subjectMap: Record<string, string> = {};
   for (const subject of subjects) {
+    subjectMap[subject.slug] = subject.title;
     for (const ch of subject.chapters) {
       chapterMap[ch.slug] = ch.title;
     }
@@ -38,9 +40,11 @@ export default async function ShortQuizPage() {
   return (
     <QuizClient
       subjectSlug="short"
-      subjectTitle="단답형"
+      subjectTitle="단답형 진단"
       questions={questions}
       chapterMap={chapterMap}
+      diagnosticMode={true}
+      subjectMap={subjectMap}
     />
   );
 }
