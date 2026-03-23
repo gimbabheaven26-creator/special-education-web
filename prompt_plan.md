@@ -1,3 +1,160 @@
+# Quiz Editor 시스템 — Google Sheets 동기화 + 앱 어드민
+
+> 작성: 2026-03-23 | 담당: V (v-0322.night) | 승인: 대기
+
+## 요구사항
+
+- quiz_questions (3,334문항) 을 Google Sheets에서 일괄 검토/수정
+- 시트 수정 → Supabase 실시간 반영
+- 앱 내 어드민 페이지에서 개별 문제 빠른 편집
+- 두 채널 모두 같은 DB 테이블에 쓰기
+
+## 아키텍처
+
+```
+┌─────────────────┐     webhook      ┌──────────────┐
+│  Google Sheets   │ ─────────────→  │  /api/admin/  │
+│  (일괄 편집)     │ ←────────────── │  sync         │
+└─────────────────┘   Apps Script    └──────┬───────┘
+                                           │
+                                    Supabase REST
+                                           │
+┌─────────────────┐                 ┌──────▼───────┐
+│  /admin/editor   │ ──────────────→│ quiz_questions│
+│  (개별 편집)     │  직접 mutation  │   테이블      │
+└─────────────────┘                 └──────────────┘
+```
+
+## Phase 1: API 레이어 (필수 선행)
+
+### 1-1. 어드민 인증 미들웨어
+- `src/middleware.ts` — `/admin/*` 경로 보호 추가
+- 관리자 판별: `profiles.role = 'admin'` 또는 허용 이메일 목록
+- 파일: `src/lib/admin-auth.ts`
+
+### 1-2. Quiz CRUD API
+- `src/app/api/admin/quiz/route.ts` — GET (페이지네이션 + 필터), POST (생성)
+- `src/app/api/admin/quiz/[id]/route.ts` — PATCH (수정), DELETE (삭제)
+- `src/app/api/admin/quiz/bulk/route.ts` — POST (일괄 upsert, Google Sheets용)
+- `src/app/api/admin/quiz/export/route.ts` — GET (전체 CSV/JSON export)
+
+### 1-3. API 인증
+- 모든 `/api/admin/*` — Bearer token 또는 세션 쿠키 필수
+- Google Sheets용 — API key 기반 인증 (`ADMIN_API_KEY` 환경변수)
+
+**변경 파일**: 6개 신규
+
+---
+
+## Phase 2: 앱 어드민 페이지 (가벼운 CRUD)
+
+### 2-1. 레이아웃
+- `src/app/admin/layout.tsx` — 어드민 전용 레이아웃 (사이드바 없음, 심플)
+- `src/app/admin/page.tsx` — 대시보드 (문항 수, 과목별 통계)
+
+### 2-2. 문제 목록/검색
+- `src/app/admin/editor/page.tsx` — 서버 컴포넌트 (페이지네이션)
+- `src/app/admin/editor/QuizTable.tsx` — 클라이언트 컴포넌트
+  - 50건씩 서버사이드 페이지네이션 (앱 부담 최소화)
+  - 필터: subject, chapter, type, difficulty
+  - 검색: question/explanation ILIKE
+
+### 2-3. 문제 편집
+- `src/app/admin/editor/[id]/page.tsx` — 단일 문항 편집 폼
+  - 인라인 프리뷰 (학생이 보는 화면과 동일)
+  - 저장 시 `/api/admin/quiz/[id]` PATCH
+
+### 2-4. 문제 추가
+- `src/app/admin/editor/new/page.tsx` — 신규 문항 생성 폼
+  - subject/chapter 선택 → type 선택 → 필드 동적 생성
+
+**변경 파일**: 6개 신규
+
+---
+
+## Phase 3: Google Sheets 양방향 동기화
+
+### 3-1. 초기 시트 생성
+- `scripts/export-to-sheets.ts` — Supabase → Google Sheets 전체 내보내기
+- Google Sheets API 사용 (서비스 계정)
+- 시트 구조: 컬럼 = quiz_questions 필드 (id, subject, chapter, type, question, ...)
+
+### 3-2. Sheets → Supabase (실시간)
+- Google Apps Script:
+  - `onEdit()` 트리거 → 변경된 행 감지
+  - 변경 데이터를 `/api/admin/quiz/bulk` POST
+  - API key 인증
+
+### 3-3. Supabase → Sheets (주기적)
+- 옵션 A: Apps Script 타이머 (5분 간격) → `/api/admin/quiz/export` GET
+- 옵션 B: Supabase webhook → Apps Script 트리거
+- 추천: **옵션 A** (단순, 충분한 빈도)
+
+### 3-4. 충돌 해결
+- 전략: Last-Write-Wins (마지막 수정 우선)
+- `updated_at` 컬럼 추가 → 시트/앱 모두 비교
+
+**변경 파일**: 2개 신규 (스크립트 + Apps Script 템플릿)
+
+---
+
+## Phase 4: DB 스키마 보강
+
+```sql
+-- quiz_questions에 추적 컬럼 추가
+ALTER TABLE quiz_questions ADD COLUMN IF NOT EXISTS updated_at timestamptz DEFAULT now();
+ALTER TABLE quiz_questions ADD COLUMN IF NOT EXISTS updated_by text;
+
+-- 자동 갱신 트리거
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN NEW.updated_at = now(); RETURN NEW; END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER quiz_questions_updated_at
+  BEFORE UPDATE ON quiz_questions
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- 관리자 RLS (선택)
+-- profiles 테이블에 role 컬럼이 없으면 추가
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS role text DEFAULT 'user';
+```
+
+---
+
+## 우선순위 & 의존성
+
+```
+Phase 4 (DB) ──→ Phase 1 (API) ──→ Phase 2 (어드민 페이지)
+                       │
+                       └──→ Phase 3 (Google Sheets)
+```
+
+Phase 2와 3은 병렬 가능 (둘 다 Phase 1 API에 의존)
+
+## 복잡도
+
+| Phase | 난이도 | 예상 파일 수 |
+|-------|--------|-------------|
+| 1. API | MEDIUM | 6 |
+| 2. 어드민 | MEDIUM | 6 |
+| 3. Google Sheets | LOW | 2 + Apps Script |
+| 4. DB 스키마 | LOW | 1 SQL |
+| **합계** | | **~15** |
+
+## 리스크
+
+| 리스크 | 영향 | 대응 |
+|--------|------|------|
+| Google API 서비스 계정 설정 복잡 | 3단계 지연 | Apps Script만으로 우회 가능 |
+| 관리자 인증 없이 API 노출 | 보안 취약 | Phase 1-1 필수 선행 |
+| 시트↔DB 동시 수정 충돌 | 데이터 불일치 | updated_at + Last-Write-Wins |
+| 3,334문항 전체 export 성능 | API 타임아웃 | 스트리밍 또는 분할 export |
+
+---
+
+## 이전 계획
+
 # 진단평가 버그 수정 계획 — 2026-03-22
 
 > 작성: 2026-03-22 | 승인: 카이란 | 담당: 강선생
@@ -15,151 +172,3 @@
 - `npm run build` exit 0
 - /worksheets 토픽 클릭 → 문제지 정상 표시
 - 비로그인 /daily → 문제 정상 로드
-
-## 지시 파일
-- `docs/kangteacher-0322-diagnosis-fix.md`
-
----
-
-## 이전 계획
-
-# 클루디1 통합 스프린트 계획 — 03/20~21
-
-> 작성: 2026-03-20 | 근거: 클루디1 계획 + 클루디2 계획 통합 (KICE 가중치 × 핸드오프 교차)
-> 확정: 카이란 승인
-
----
-
-## 우선순위 근거 (KICE 가중치 × 핸드오프 교차)
-
-| 순위 | 과목 | KICE 가중치 | ID 시작점 | 긴급도 |
-|------|------|------------|----------|--------|
-| 1 | 점자 (vi) | 0.6694 (2위) | vi-q109~ | 🔴 |
-| 2 | AAC / 의사소통 (cd) | 0.6428 (4위) | cd-q89~ | 🔴 |
-| 3 | 수어 / 청력도 (hi) | 0.3504 (18위) | hi-q87~ | 🔴 |
-| 4 | 뇌성마비 / GMFCS (pd) | 0.2598 (27위) | pd-q75~ | 🟡 |
-| 5 | EBD 심화 (bs) | — (핸드오프 1순위) | bs-q178~ | 🟡 |
-| 6 | 전환교육 갭 (trans) | — (핸드오프 3순위) | trans-q132~ | 🟡 |
-| + | **지적장애 MDX 5개** | — (유일 누락 과목) | 신규 생성 | 🔴 |
-
----
-
-## Day 1 (오늘 03/20) — MDX 완성 + 장애유형 심화
-
-### 블록 A: 지적장애 MDX 5개 생성 (선행 처리)
-
-> 66개 중 유일 누락 과목. 소스 863줄 준비됨. 빌드 확인까지 선처리.
-
-| 파일 | 핵심 내용 |
-|------|----------|
-| 01-정의와개념.mdx | AAIDD 11차, 5가지 전제, 용어 변화 |
-| 02-분류와원인.mdx | 지원 강도 4단계(간헐/제한/확장/전반), 생물·사회·행동적 원인 |
-| 03-인지와적응행동.mdx | 인지 특성, 적응행동 3영역, 증후군별 특성 |
-| 04-교수전략.mdx | CBI, 과제분석, 직접교수, 또래교수 |
-| 05-지원모델과자기결정.mdx | SIS, 자기결정 4요소, PCP, 전환 연계 |
-
-### 블록 B: 점자 심화 (vi-q109~128, 20문항) — KICE 가중치 1위
-
-- 한국 점자 규정 (초성·중성·종성 규칙, 약자 일람)
-- 저시력기기 분류 (광학/비광학/전자 보조기구)
-- 점자정보단말기 기능 + 화면낭독SW
-- **2026 전공A-8 구조 기반 시나리오 2문항**
-
-### 블록 C: 수어·청력도 심화 (hi-q87~106, 20문항) — B와 병렬 실행
-
-- 수어 문법 (시제 표현, 공간 활용, NMM)
-- 지문자 자음·모음 체계 (**2026 전공A-9 직접 연계**)
-- 순음청력검사 청력도 해석 (6분법, 기도/골도 차)
-- 인공와우 심화 (외부/내부 구성, 맵핑, 청각훈련)
-
-**Day 1 목표: MDX 5개 + 문항 40개 추가 → DB 2,735**
-
----
-
-## Day 2 (내일 03/21) — 뇌성마비·AAC·EBD·전환 + 품질 감사
-
-### 블록 D: 뇌성마비 (pd-q75~92, 18문항) + AAC 심화 (cd-q89~108, 20문항) — 병렬 2 Agent
-
-**Agent 1: 뇌성마비·보조공학**
-- 뇌성마비 유형 (경직형/불수의운동형/협조운동장애형)
-- GMFCS 5단계 기능 기준
-- 원시반사 종류 (ATNR, STNR, 모로반사) + 지속 영향
-- **2026 전공A-12 기반 시나리오 (보치아 + 자세지지)**
-
-**Agent 2: AAC 심화**
-- 4구성요소 (도구/상징/전략/기법)
-- PECS 6단계 심화 (단계별 목표·절차 구분)
-- Bliss·PCS·Makaton 상징체계 비교
-- FCT 절차
-
-### 블록 E: EBD 심화 (bs-q178~192, 15문항) + 전환교육 (trans-q132~144, 13문항) — 병렬 2 Agent
-
-**Agent 3: EBD 심화**
-- 불안장애 유형별 DSM-5 진단 기준 (숫자 포함)
-- ADHD 교수전략 (자기조절, 학습환경 수정, 행동계약)
-- 정서행동장애 내재화/외현화 분류
-
-**Agent 4: 전환교육 갭**
-- 자기옹호(self-advocacy) vs 자기결정 개념 구분
-- 개인중심계획(PCP) — 핵심 원칙 + MAPS/PATH
-- 지원고용 모델 (배치-훈련형 vs 개인지원형)
-
-### 블록 F: 방향B 품질 감사 + data-validator 전체 검증
-
-```sql
--- 부실 문항 탐지 (방향B)
-SELECT id, subject_id, LENGTH(explanation) as len
-FROM quiz_questions WHERE LENGTH(explanation) < 30
-ORDER BY len ASC;
-
-SELECT id FROM quiz_questions
-WHERE type = 'multiple' AND wrong_explanations IS NULL;
-
-SELECT subject_id, COUNT(*) FROM quiz_questions
-WHERE tags = '[]' OR tags IS NULL
-GROUP BY subject_id;
-```
-
-→ data-validator 에이전트 전체 실행으로 마무리
-
-**Day 2 목표: 문항 66개 추가 + 품질 감사 → DB ~2,801, validator 그린**
-
----
-
-## 전체 요약
-
-| 항목 | 시작 | 완료 후 |
-|------|------|--------|
-| MDX 파일 | 66개 | **71개** (+지적장애 5개) |
-| 퀴즈 DB | 2,695문항 | **~2,801문항** (+106문항) |
-| KICE 고가중치 커버 | 부분 | 점자·수어·AAC·뇌성마비 완비 |
-| 방향B 품질 감사 | 미실행 | SQL 탐지 완료 |
-| data-validator | 미실행 | 전체 그린 상태 |
-
----
-
-## 리스크 관리
-
-| 리스크 | 대응 |
-|--------|------|
-| 세션당 50문항 상한 | 블록 B·C·D·E 각각 독립 세션으로 분리 |
-| 점자 규정 세부 숫자 오류 | KICE 기출 원본 직접 인용 + NISE 용어사전 교차 확인 |
-| laws fill_in 복합정답 UI 채점 | 강선생에게 별도 알림 (이번 범위 외) |
-
----
-
-## 주의사항 (data 생성 규칙)
-
-- explanation NOT NULL (모든 type)
-- multiple answer: "0"~"3" 인덱스만
-- wrong_explanations: 정답 키 포함 금지, "4" 키 금지
-- fill_in/ox의 wrong_explanations: null, options: null ([] 아닌 null)
-- wrong_explanations에 "이 설명이 옳다", "맞다", "정확하다" 문구 금지
-- ID 시작점: vi-q109 / hi-q87 / pd-q75 / cd-q89 / bs-q178 / trans-q132
-
----
-
-## 이전 계획 (아카이브)
-
-> 원본: 종합 로드맵 (2026-03-15) — 강선생 Phase 1~7 완료 기준 계획
-> 내용은 git history 참조
