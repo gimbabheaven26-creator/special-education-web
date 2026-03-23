@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle } from 'lucide-react';
@@ -9,12 +9,15 @@ import { FeedbackSection } from './QuestionActions';
 export function OXChoice({
   question,
   onAnswer,
+  autoAdvanceMs,
 }: {
   question: QuizQuestion;
   onAnswer: (answer: string, isCorrect: boolean) => void;
+  autoAdvanceMs?: number;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const normalizedAnswer = String(question.answer).toUpperCase();
   const isCorrect = submitted && selected === normalizedAnswer;
@@ -27,8 +30,20 @@ export function OXChoice({
 
   const handleNext = () => {
     if (!selected) return;
+    if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
     onAnswer(selected, selected === normalizedAnswer);
   };
+
+  // 자동 이동 타이머
+  useEffect(() => {
+    if (!submitted || !autoAdvanceMs || !selected) return;
+    autoTimerRef.current = setTimeout(() => {
+      onAnswer(selected, selected === normalizedAnswer);
+    }, autoAdvanceMs);
+    return () => {
+      if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+    };
+  }, [submitted, autoAdvanceMs, selected, normalizedAnswer, onAnswer]);
 
   return (
     <div>

@@ -7,6 +7,7 @@ import {
   buildWeakChapters,
   buildRecommendations,
 } from './diagnostic-utils';
+import { getConceptUrl } from '@/lib/concept-urls';
 import type { QuizResult } from '@/types/quiz';
 
 interface DiagnosticReportProps {
@@ -66,10 +67,12 @@ export function DiagnosticReport({
             {weakChapters.map((wc, i) => {
               const chapterLabel = chapterMap?.[wc.chapter] ?? wc.chapter;
               const subjectLabel = subjectMap[wc.subject] ?? wc.subject;
+              const chapterUrl = getConceptUrl(wc.subject, wc.chapter);
               return (
-                <div
+                <Link
                   key={`${wc.subject}-${wc.chapter}`}
-                  className="flex items-center gap-3 bg-card rounded-lg border px-4 py-3"
+                  href={chapterUrl}
+                  className="flex items-center gap-3 bg-card rounded-lg border px-4 py-3 hover:bg-muted/50 transition-colors"
                 >
                   <span className="text-lg font-bold text-muted-foreground w-6 text-center">
                     {i + 1}
@@ -85,7 +88,7 @@ export function DiagnosticReport({
                       {subjectLabel} · {wc.correct}/{wc.total} 정답
                     </p>
                   </div>
-                  <div className="text-right">
+                  <div className="flex items-center gap-2">
                     <span
                       className={`text-sm font-bold ${
                         wc.rate >= 70
@@ -97,8 +100,9 @@ export function DiagnosticReport({
                     >
                       {wc.rate}%
                     </span>
+                    <span className="text-muted-foreground text-sm">→</span>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

@@ -36,6 +36,7 @@ const ESSAY_TYPES = new Set(['descriptive', 'scenario_composite']);
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const REVIEW_MIX_RATIO = 0.7; // 빠른 복습 프리셋에서 오답 비율
+const DIAGNOSTIC_AUTO_ADVANCE_MS = 2000; // 진단 모드 자동 이동 딜레이(ms)
 
 
 /** Build session questions based on preset configuration */
@@ -659,6 +660,7 @@ export function QuizClient({
               key={currentIndex}
               question={currentQuestion}
               onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+              autoAdvanceMs={diagnosticMode ? DIAGNOSTIC_AUTO_ADVANCE_MS : undefined}
             />
           )}
           {currentQuestion.type === 'ox' && (
@@ -666,6 +668,7 @@ export function QuizClient({
               key={currentIndex}
               question={currentQuestion}
               onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+              autoAdvanceMs={diagnosticMode ? DIAGNOSTIC_AUTO_ADVANCE_MS : undefined}
             />
           )}
           {currentQuestion.type === 'fill_in' && (
@@ -673,6 +676,7 @@ export function QuizClient({
               key={currentIndex}
               question={currentQuestion}
               onAnswer={(ans, correct) => handleAnswer(ans, correct)}
+              autoAdvanceMs={diagnosticMode ? DIAGNOSTIC_AUTO_ADVANCE_MS : undefined}
             />
           )}
           {currentQuestion.type === 'descriptive' && (

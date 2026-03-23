@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { checkFillInAnswer } from '@/lib/answer-checker';
 import { Button } from '@/components/ui/button';
@@ -25,9 +25,11 @@ function countBlanks(question: string): number {
 export function FillInChoice({
   question,
   onAnswer,
+  autoAdvanceMs,
 }: {
   question: QuizQuestion;
   onAnswer: (answer: string, isCorrect: boolean) => void;
+  autoAdvanceMs?: number;
 }) {
   const blanksCount = useMemo(() => countBlanks(question.question), [question.question]);
   const answerParts = useMemo(() => splitAnswers(String(question.answer)), [question.answer]);
@@ -37,6 +39,7 @@ export function FillInChoice({
     isMultiBlank ? answerParts.map(() => '') : ['']
   );
   const [submitted, setSubmitted] = useState(false);
+  const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const results = useMemo(() => {
     if (!submitted) return null;
@@ -60,10 +63,22 @@ export function FillInChoice({
     setSubmitted(true);
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
+    if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
     const combinedAnswer = inputs.map((s) => s.trim()).join(', ');
     onAnswer(combinedAnswer, allCorrect);
-  };
+  }, [inputs, allCorrect, onAnswer]);
+
+  // 자동 이동 타이머
+  useEffect(() => {
+    if (!submitted || !autoAdvanceMs) return;
+    autoTimerRef.current = setTimeout(() => {
+      handleNext();
+    }, autoAdvanceMs);
+    return () => {
+      if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+    };
+  }, [submitted, autoAdvanceMs, handleNext]);
 
   return (
     <div>
