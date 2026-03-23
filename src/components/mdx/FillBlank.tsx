@@ -44,6 +44,7 @@ function normalize(str: string): string {
 }
 
 export default function FillBlank({ title = '빈칸 채우기', text, acceptableVariants = {} }: FillBlankProps) {
+  if (!text) return null;
   const { segments, blanks } = parseBlanks(text);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [checked, setChecked] = useState(false);
