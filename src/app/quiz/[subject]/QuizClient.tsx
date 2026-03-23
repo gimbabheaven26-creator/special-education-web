@@ -263,7 +263,8 @@ export function QuizClient({
   useEffect(() => {
     if (!diagnosticMode || diagnosticStarted.current || filteredQuestions.length === 0) return;
     diagnosticStarted.current = true;
-    const sessionQuestions = shuffle([...filteredQuestions]);
+    const DIAGNOSTIC_COUNT = 30;
+    const sessionQuestions = shuffle([...filteredQuestions]).slice(0, DIAGNOSTIC_COUNT);
     setActiveQuestions(sessionQuestions);
     setCurrentIndex(0);
     setAnswers([]);
