@@ -27,7 +27,6 @@ kiceKeywords:
 lastUpdated: 2026-03-19
 ---
 
-import { FillBlank, MatchingExercise, StepGuide } from '@/components/mdx'
 
 ## 핵심 요약
 
@@ -188,20 +187,18 @@ import { FillBlank, MatchingExercise, StepGuide } from '@/components/mdx'
 
 <MatchingExercise
   title="보조공학 모델 매칭"
-  pairs={[
-    { left: "HAAT 모델", right: "인간·활동·보조공학·맥락 4요소, 부조화 관점" },
-    { left: "MPT 모델", right: "구입 전 인간과 공학의 조화 정도 확인" },
-    { left: "SETT 모델", right: "학생·환경·과제·도구, 팀 협력 전제" },
-    { left: "숙고 과정 모델", right: "검토→개발→조사→평가→확인 5단계" },
+  items={[
+    { term: "HAAT 모델", definition: "인간·활동·보조공학·맥락 4요소, 부조화 관점" },
+    { term: "MPT 모델", definition: "구입 전 인간과 공학의 조화 정도 확인" },
+    { term: "SETT 모델", definition: "학생·환경·과제·도구, 팀 협력 전제" },
+    { term: "숙고 과정 모델", definition: "검토→개발→조사→평가→확인 5단계" },
   ]}
 />
 
 <FillBlank
-  sentence="보조공학 장치를 선택·습득·사용할 수 있도록 직접 도와주는 것을 보조공학 ___ 라고 한다."
-  answer="서비스"
+  text="보조공학 장치를 선택·습득·사용할 수 있도록 직접 도와주는 것을 보조공학 {{서비스|장치 서비스}} 라고 한다."
 />
 
 <FillBlank
-  sentence="키가드는 운동 신경 장애 사용자가 ___ 키를 건드리지 않고 원하는 키를 정확하게 입력할 수 있도록 돕는다."
-  answer="다른"
+  text="키가드는 운동 신경 장애 사용자가 {{다른|인접}} 키를 건드리지 않고 원하는 키를 정확하게 입력할 수 있도록 돕는다."
 />

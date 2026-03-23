@@ -150,16 +150,15 @@ lastUpdated: 2026-03-22
 | 그룹 활동 | 발언자 지목 후 마이크 패스 |
 
 <FillBlank
-  sentence="교실 내 청각장애 학생을 위한 권장 SNR은 ( ) dB 이상이며, 잔향 시간(RT60)은 ( )초 이하여야 한다."
-  answers={["+15", "0.4"]}
+  text="교실 내 청각장애 학생을 위한 권장 SNR은 {{+15|SNR 값}} dB 이상이며, 잔향 시간(RT60)은 {{0.4|RT60 값}}초 이하여야 한다."
 />
 
 <MatchingExercise
   title="FM 시스템 유형 매칭"
-  pairs={[
-    { left: "개인용 FM", right: "학생 개인 수신기에 직접 연결, DAI 방식" },
-    { left: "사운드 필드 FM", right: "교실 전체 스피커 시스템, 경도 난청에도 유효" },
-    { left: "CIS 방식", right: "전 채널에 연속·교대 자극" },
-    { left: "ACE 방식", right: "에너지 큰 n개 채널만 선택 자극" }
+  items={[
+    { term: "개인용 FM", definition: "학생 개인 수신기에 직접 연결, DAI 방식" },
+    { term: "사운드 필드 FM", definition: "교실 전체 스피커 시스템, 경도 난청에도 유효" },
+    { term: "CIS 방식", definition: "전 채널에 연속·교대 자극" },
+    { term: "ACE 방식", definition: "에너지 큰 n개 채널만 선택 자극" }
   ]}
 />
