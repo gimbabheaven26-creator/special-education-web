@@ -68,7 +68,7 @@ export function computeLabelPosition(
   i: number,
   n: number,
   size: number,
-): { x: number; y: number; anchor: string } {
+): { x: number; y: number; anchor: 'start' | 'middle' | 'end' } {
   const cx = size / 2;
   const cy = size / 2;
   const radius = size * RADAR_RADIUS_RATIO;
@@ -78,7 +78,7 @@ export function computeLabelPosition(
   const y = cy + labelRadius * Math.sin(angle);
 
   const cos = Math.cos(angle);
-  let anchor = 'middle';
+  let anchor: 'start' | 'middle' | 'end' = 'middle';
   if (cos > 0.3) anchor = 'start';
   else if (cos < -0.3) anchor = 'end';
 
