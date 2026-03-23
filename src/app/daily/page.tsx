@@ -4,12 +4,13 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, ArrowRight, RotateCcw, ChevronRight, Loader2 } from 'lucide-react';
 import { RecommendedChapters } from '@/components/RecommendedChapters';
-import { makeSheetCode, getKSTDateRaw } from '@/lib/sheet-code';
+import { makeSheetCode } from '@/lib/sheet-code';
+import { getKSTTimeslot } from '@/lib/timeslot';
 import { getConceptUrl } from '@/lib/concept-urls';
 
-// 모듈 로드 시 1회 평가 — 자정 렌더 불일치 방지
-const TODAY_RAW = getKSTDateRaw();
-const TODAY_SHEET_CODE = makeSheetCode(TODAY_RAW);
+// 모듈 로드 시 1회 평가 — 세션 전환 시 렌더 불일치 방지
+const TIMESLOT = getKSTTimeslot();
+const TODAY_SHEET_CODE = makeSheetCode(TIMESLOT.date);
 
 interface DailyQuestion {
   id: string;
@@ -328,7 +329,7 @@ export default function DailyPage() {
           <CheckCircle2 className="h-16 w-16 text-green-500" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-foreground">오늘의 학습 완료!</h1>
+          <h1 className="text-2xl font-bold text-foreground">{TIMESLOT.label} 학습 완료!</h1>
           <p className="text-sm text-muted-foreground mt-2">
             OX {OX_COUNT} + 단답 {FILL_IN_COUNT} + 서술 {DESCRIPTIVE_COUNT} — 최소 경로 달성
           </p>
@@ -385,7 +386,7 @@ export default function DailyPage() {
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
       {/* 고유번호 배너 */}
       <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-        <span>오늘의 학습</span>
+        <span>오늘의 학습 · {TIMESLOT.label}</span>
         <span className="font-mono bg-muted px-2 py-0.5 rounded">{TODAY_SHEET_CODE}</span>
       </div>
 

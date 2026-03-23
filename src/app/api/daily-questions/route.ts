@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getKSTTimeslot } from '@/lib/timeslot';
 
 function seededRandom(seed: number, index: number): number {
   const s = (seed * 1664525 + 1013904223 + index * 22695477) & 0x7fffffff;
@@ -27,8 +28,8 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to fetch questions' }, { status: 500 });
   }
 
-  const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(new Date());
-  const seed = today.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const { key } = getKSTTimeslot();
+  const seed = key.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const rows = data as {
     id: string;
     type: string;
