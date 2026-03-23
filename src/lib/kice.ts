@@ -16,7 +16,12 @@ export function getAvailableExams(): ExamEntry[] {
 
   for (const year of years) {
     const yearDir = join(KICE_DIR, String(year))
-    const files = readdirSync(yearDir).filter(f => f.endsWith('.json'))
+    const files = readdirSync(yearDir)
+      .filter(f => f.endsWith('.json'))
+      .sort((a, b) => {
+        const score = (f: string) => (f.includes('예상') ? 2 : 0) + (f.includes('동형') ? 1 : 0)
+        return score(a) - score(b)
+      })
 
     for (const file of files) {
       const session = file.replace('.json', '')

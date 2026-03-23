@@ -29,6 +29,7 @@ export default async function ExamPage({ searchParams }: PageProps) {
 
   return (
     <ExamClient
+      key={`${selectedYear}-${selectedSession}`}
       exam={exam}
       entries={entries}
       selectedYear={selectedYear}
