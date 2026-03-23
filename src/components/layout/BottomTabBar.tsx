@@ -59,7 +59,7 @@ export function BottomTabBar() {
         {NAV_GROUPS.map((group) => {
           const isActive = activeGroupId === group.id;
           const Icon = group.icon;
-          const firstHref = group.items[0]?.href ?? '/';
+          const firstHref = group.href ?? group.items[0]?.href ?? '/';
           return (
             <Link
               key={group.id}

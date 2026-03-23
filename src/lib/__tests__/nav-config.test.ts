@@ -70,6 +70,10 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/reviews')).toBe('community');
   });
 
+  it('/diagnosis → diagnosis', () => {
+    expect(getActiveGroupId('/diagnosis')).toBe('diagnosis');
+  });
+
   it('/quiz/ox → diagnosis', () => {
     expect(getActiveGroupId('/quiz/ox')).toBe('diagnosis');
   });
@@ -112,6 +116,12 @@ describe('NAV_GROUPS 구조', () => {
     const conceptItem = practice!.items.find((i) => i.href === '/concepts');
     expect(conceptItem).toBeDefined();
     expect(conceptItem!.label).toBe('개념학습');
+  });
+
+  it('diagnosis 그룹에 href가 /diagnosis', () => {
+    const diagnosis = NAV_GROUPS.find((g) => g.id === 'diagnosis');
+    expect(diagnosis).toBeDefined();
+    expect(diagnosis!.href).toBe('/diagnosis');
   });
 
   it('diagnosis 그룹에 /concepts 항목 없음', () => {

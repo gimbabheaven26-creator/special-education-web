@@ -16,6 +16,7 @@ export type NavGroup = {
   id: string;
   label: string;
   icon: LucideIcon;
+  href?: string;
   items: NavItem[];
 };
 
@@ -24,6 +25,7 @@ export const NAV_GROUPS: NavGroup[] = [
     id: 'diagnosis',
     label: '진단평가',
     icon: ClipboardCheck,
+    href: '/diagnosis',
     items: [
       { href: '/quiz/ox', label: 'OX 퀴즈', description: '전 과목 OX 문제' },
       { href: '/quiz/short', label: '단답형', description: '전 과목 단답형 문제' },
@@ -74,6 +76,9 @@ export function isPathMatch(pathname: string, href: string): boolean {
 export function getActiveGroupId(pathname: string): string | null {
   if (pathname === '/') return null;
   for (const group of NAV_GROUPS) {
+    if (group.href && isPathMatch(pathname, group.href)) {
+      return group.id;
+    }
     if (group.items.some((item) => isPathMatch(pathname, item.href))) {
       return group.id;
     }

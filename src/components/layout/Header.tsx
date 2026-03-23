@@ -62,7 +62,7 @@ function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isAct
     >
       {/* 상위 메뉴 — Link로 첫 번째 항목으로 이동 */}
       <Link
-        href={group.items[0].href}
+        href={group.href ?? group.items[0].href}
         className={`flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
           isActive
             ? 'text-primary bg-primary/10'
