@@ -23,6 +23,8 @@ import { PenLine, FileText } from 'lucide-react';
 import { sortByAdaptiveDifficulty } from '@/lib/adaptive-difficulty';
 import { shouldTriggerElaboration } from '@/lib/elaboration';
 import ElaborationPrompt from '@/components/quiz/ElaborationPrompt';
+import { DiagnosticReport } from '@/components/quiz/DiagnosticReport';
+import type { QuizResult } from '@/types/quiz';
 
 // ─── Question type categories ────────────────────────────────────────────────
 
@@ -175,11 +177,15 @@ export function QuizClient({
   subjectTitle,
   questions,
   chapterMap,
+  diagnosticMode,
+  subjectMap,
 }: {
   subjectSlug: string;
   subjectTitle: string;
   questions: QuizQuestion[];
   chapterMap: Record<string, string>;
+  diagnosticMode?: boolean;
+  subjectMap?: Record<string, string>;
 }) {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const quizHistory = useQuizStore((s) => s.quizHistory);
@@ -251,6 +257,21 @@ export function QuizClient({
   useEffect(() => {
     setSavedSession(loadSession(subjectSlug));
   }, [subjectSlug]);
+
+  // diagnosticMode: 세션설정 건너뛰고 전체 문제 자동 시작
+  const diagnosticStarted = useRef(false);
+  useEffect(() => {
+    if (!diagnosticMode || diagnosticStarted.current || filteredQuestions.length === 0) return;
+    diagnosticStarted.current = true;
+    const sessionQuestions = shuffle([...filteredQuestions]);
+    setActiveQuestions(sessionQuestions);
+    setCurrentIndex(0);
+    setAnswers([]);
+    setSkipped(new Set());
+    setXpEarned(0);
+    setComboStreak(0);
+    setPhase('quiz');
+  }, [diagnosticMode, filteredQuestions]);
 
   const showXPToast = useCallback((amount: number) => {
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
@@ -529,6 +550,21 @@ export function QuizClient({
   }
 
   if (phase === 'result') {
+    // answers → QuizResult[] 변환 (DiagnosticReport용)
+    const sessionResults: QuizResult[] = diagnosticMode
+      ? answers.map((a) => {
+          const q = activeQuestions[a.questionIndex];
+          return {
+            questionId: q.id,
+            userAnswer: a.userAnswer,
+            isCorrect: a.isCorrect,
+            timestamp: Date.now(),
+            subject: q.subject,
+            chapter: q.chapter,
+          };
+        })
+      : [];
+
     return (
       <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
         <h1 className="text-2xl font-bold text-foreground mb-4">{subjectTitle} 퀴즈</h1>
@@ -541,6 +577,13 @@ export function QuizClient({
           onRestart={handleRestart}
           onRetryWrong={handleRetryWrong}
         />
+        {diagnosticMode && subjectMap && (
+          <DiagnosticReport
+            results={sessionResults}
+            subjectMap={subjectMap}
+            chapterMap={chapterMap}
+          />
+        )}
       </div>
     );
   }
