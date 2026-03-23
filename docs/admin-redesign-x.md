@@ -1,0 +1,665 @@
+# Admin Redesign Audit & Proposal
+
+> Auditor: X (code reviewer & UX architect)
+> Date: 2026-03-24
+> Scope: /admin/*, /structure/*, /api/admin/*, related components
+> Target reader: 강선생 (implementation agent)
+
+---
+
+## Phase 1: Current State Audit
+
+### 1.1 File Inventory
+
+**Admin pages (under admin layout with auth guard):**
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `src/app/admin/layout.tsx` | Admin layout + role check | Working. Redirects non-admin to `/`. |
+| `src/app/admin/page.tsx` | Dashboard (counts by subject/type/difficulty) | Working but thin. |
+| `src/app/admin/editor/page.tsx` | Quiz list with filters + pagination | Working. |
+| `src/app/admin/editor/QuizTable.tsx` | Client table component with filtering | Working. |
+| `src/app/admin/editor/QuizForm.tsx` | Create/edit quiz form | Working, 737 lines (near limit). |
+| `src/app/admin/editor/new/page.tsx` | New quiz page wrapper | Working. |
+| `src/app/admin/editor/[id]/page.tsx` | Edit quiz page wrapper | Working. |
+| `src/app/admin/sitemap/page.tsx` | Site structure tree (hardcoded route list) | Working but misplaced scope-wise. |
+
+**Orphaned outside admin layout:**
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `src/app/structure/page.tsx` | Second structure page (with DB stats) | Orphaned. Uses `AdminOnly` guard but lives outside `/admin`. |
+| `src/app/structure/StructureClient.tsx` | Sitemap + data tab (subject stats table) | Orphaned. Duplicates admin sitemap functionality. |
+
+**API routes:**
+
+| File | Auth | Status |
+|------|------|--------|
+| `src/app/api/admin/quiz/route.ts` (GET, POST) | `verifyAdminOrApiKey` | Working. |
+| `src/app/api/admin/quiz/[id]/route.ts` (PATCH, DELETE) | `verifyAdminOrApiKey` | Working. |
+| `src/app/api/admin/quiz/bulk/route.ts` (POST) | `verifyAdminOrApiKey` | Working. Upserts up to 500 rows in chunks of 50. |
+| `src/app/api/admin/quiz/export/route.ts` (GET) | `verifyAdminOrApiKey` | Working. JSON and CSV export. |
+| `src/app/api/admin/chapters/route.ts` (GET) | `verifyAdminOrApiKey` | Working. |
+
+**Support files:**
+
+| File | Purpose |
+|------|---------|
+| `src/lib/admin-auth.ts` | `verifyAdmin()` and `verifyAdminOrApiKey()` (API key for external integrations) |
+| `src/lib/profile.ts` | `isAdmin()` used by `AdminOnly` component |
+| `src/components/AdminOnly.tsx` | Server component guard (redirect if not admin) |
+| `src/components/dashboard/AdminQuickAccess.tsx` | Admin shortcut card on home page |
+
+### 1.2 Data the Admin Must Manage
+
+Based on `docs/contract.md` (v2.8) and the filesystem:
+
+| Data Type | Storage | Count | Admin Can Manage? |
+|-----------|---------|-------|------------------|
+| quiz_questions | Supabase table | 906+ | Yes (full CRUD via editor) |
+| subjects | Supabase table | 11 (contract says 11, sitemap says 17) | No admin UI |
+| chapters | Supabase table | ~39+ | No admin UI (read-only in form dropdown) |
+| worksheet_topics | Supabase table | Unknown | No admin UI |
+| worksheet_questions | Supabase table | Unknown | No admin UI |
+| KICE exam data | JSON files in `data/kice-기출/` | 29 files (2016-2027) | No admin UI |
+| concept files | MDX in `src/content/concepts/` | 101 files | No admin UI |
+| scenarios | JSON in `src/data/scenarios/` | 13 files | No admin UI |
+| terminology | JSON in `data/terminology/kice-terms.json` | 1,100+ terms | No admin UI |
+| reviews | Supabase table | Unknown | No admin UI (has API but no page) |
+| community_questions | Supabase table | Unknown | No admin UI |
+| profiles | Supabase table | Unknown | No admin UI |
+| user_data | Supabase table | Unknown | No admin UI |
+
+---
+
+## Phase 2: Diagnosis
+
+### 2.1 The 구조도 Problem: Two Competing Sitemaps
+
+There are TWO sitemap implementations that overlap and conflict:
+
+**A) `/admin/sitemap` (inside admin layout)**
+- File: `src/app/admin/sitemap/page.tsx`
+- A hardcoded tree of all routes using a `RouteNode` structure (SITE_STRUCTURE array).
+- Pure client component with collapsible tree. No data from DB.
+- Linked from admin nav bar.
+
+**B) `/structure` (outside admin layout, at root level)**
+- Files: `src/app/structure/page.tsx` + `src/app/structure/StructureClient.tsx`
+- Wrapped in `<AdminOnly>` so only admin can see it, but it is NOT under `/admin` layout.
+- Has TWO tabs: "사이트맵" (card-based layout with icons) and "데이터 현황" (DB stats table).
+- The "데이터 현황" tab pulls live subject stats (chapter count, question count by type).
+- The sitemap data (SITE_MAP array in StructureClient.tsx) is DIFFERENT from the one in `/admin/sitemap`.
+
+**Diagnosis**: Someone built `/structure` first as an admin-only tool, then someone else built `/admin/sitemap` as a simpler alternative inside the admin layout. Both are hardcoded, both will drift out of sync. The `/structure` page's data tab is genuinely useful but trapped in an orphaned route that nobody navigates to through the admin nav.
+
+**Verdict**: Delete `/admin/sitemap/page.tsx`. Move the useful parts of `/structure` (specifically the "데이터 현황" tab) into the admin dashboard. Delete the `/structure` route entirely.
+
+### 2.2 What Is Missing from Admin
+
+The admin currently only manages quiz_questions. For a platform owner managing a special education exam study platform, these capabilities are absent:
+
+1. **Subject/Chapter Management** -- No UI to add, edit, or reorder subjects and chapters. The contract says 4 new subjects need detailed chapters added. This currently requires direct SQL.
+
+2. **KICE Exam Data Management** -- 29 JSON files in `data/kice-기출/` are completely unmanaged by admin. The platform owner cannot view, edit, or add KICE exam data through the UI. This is critical because the 3-layer exam analysis system (original KICE -> isomorphic questions -> prediction) starts here.
+
+3. **Content Gaps Dashboard** -- The `docs/quiz-gap-map.md` identifies 16 gap topics where KICE exams test concepts that have no quiz coverage. This analysis exists only as a markdown file. It should be a live dashboard cross-referencing KICE keywords against quiz_questions tags.
+
+4. **Review Management** -- The `reviews` table exists with status workflow (pending -> discussing -> accepted -> rejected) and admin_note column, but there is NO admin page to moderate reviews. The API route at `src/app/api/reviews/route.ts` exists but the admin has no way to manage review statuses.
+
+5. **Community Question Moderation** -- The `community_questions` table has a `status` field (pending/official) for admin approval, but there is NO admin moderation queue.
+
+6. **User Management** -- No way to view registered users, their roles, or study activity.
+
+7. **Worksheet Management** -- No CRUD for worksheet_topics or worksheet_questions.
+
+8. **Bulk Import UI** -- The API at `/api/admin/quiz/bulk` exists for upsert up to 500 questions, but there is no UI to upload JSON or CSV files. The export API exists too, but there is no "Export" button in the admin UI.
+
+9. **Question Quality Indicators** -- No way to see which questions have empty explanations, missing options, or broken chapter references.
+
+### 2.3 What Is in Admin That Should Not Be
+
+1. **`/admin/sitemap`** -- A static hardcoded route tree provides minimal value. It duplicates `/structure` and will go stale. The admin nav bar wastes a slot on it.
+
+2. **The `scenario_composite` type in QuizForm** -- The contract's quiz_questions table does NOT define `sub_questions` or `scenario_composite` as valid types. The contract explicitly lists types as: `multiple | ox | fill_in | descriptive`. However, the QuizForm.tsx supports `scenario_composite` with sub-questions. This is a contract divergence -- either the contract needs updating or the form has an unauthorized type.
+
+### 2.4 API Security Review
+
+All admin API routes consistently use `verifyAdminOrApiKey()` which checks:
+1. `Authorization: Bearer {ADMIN_API_KEY}` header (for external integrations like Google Sheets).
+2. Falls back to session-based admin role check.
+
+The admin layout (`layout.tsx`) separately checks the session for admin role and redirects non-admins.
+
+**Issues found:**
+- `src/app/structure/page.tsx` uses `AdminOnly` component (which calls `isAdmin()` from `src/lib/profile.ts`) but is NOT behind the admin layout. This means it lacks the admin nav bar and looks like a different site section. Not a security issue, but a UX inconsistency.
+- No rate limiting on admin APIs. For a small platform this is acceptable, but the bulk endpoint should have rate limiting if exposed externally.
+
+### 2.5 Contract vs Implementation Discrepancies
+
+| Issue | Contract Says | Implementation Does |
+|-------|--------------|-------------------|
+| quiz type values | `multiple \| ox \| fill_in \| descriptive` | QuizForm also supports `scenario_composite` |
+| sub_questions column | Not in contract | API routes handle `sub_questions` field |
+| image_url column | Not in contract | API routes handle `image_url` field |
+| source column | Listed in contract | Handled in API, editable in form |
+| tags column | `{disability?, year?, round?}` | Matches implementation |
+| answer (multiple) | `"0"` ~ `"3"` string | QuizForm sends as Number (1-based). API POST does not validate. |
+
+---
+
+## Phase 3: Redesign Proposal
+
+### 3.1 New Admin Navigation Structure
+
+```
+/admin                    -> Dashboard (stats overview + content health)
+/admin/questions          -> Quiz Question Management (renamed from /admin/editor)
+/admin/questions/new      -> New question form
+/admin/questions/[id]     -> Edit question form
+/admin/questions/import   -> Bulk import UI (JSON/CSV upload)
+/admin/kice               -> KICE Exam Data browser (read/edit JSON files)
+/admin/kice/gaps          -> Content gap analysis dashboard
+/admin/content            -> Subject/Chapter/Concept overview
+/admin/reviews            -> Review moderation queue
+/admin/community          -> Community question moderation queue
+```
+
+The admin nav bar should show: **대시보드 | 문제관리 | 기출관리 | 콘텐츠 | 리뷰 | 커뮤니티**
+
+### 3.2 Dashboard Redesign (`/admin`)
+
+The current dashboard shows only counts. It should become the command center.
+
+**Top section -- Key Metrics:**
+- Total quiz questions (current: working)
+- KICE exam files count + year range
+- Concept files count
+- Registered users count (from profiles table)
+- Pending reviews count
+- Pending community questions count
+
+**Middle section -- Content Health:**
+- Subjects with 0 quiz questions (gap alert)
+- Chapters with 0 quiz questions (gap alert)
+- Questions missing explanations
+- Quiz type distribution chart (replace current static grid with a bar chart)
+- Difficulty distribution chart
+
+**Bottom section -- Recent Activity:**
+- Last 10 quiz questions added/modified
+- Last 5 reviews submitted
+- Last 5 community questions submitted
+
+**Remove**: The separate subject/type/difficulty count grids. Replace with the richer dashboard above.
+
+**Absorb from `/structure`**: The "데이터 현황" table (subject x type matrix) should move here.
+
+### 3.3 Question Management Redesign (`/admin/questions`)
+
+The current editor works well but needs these additions:
+
+**List page enhancements:**
+- Add "Export" button (calls existing `/api/admin/quiz/export` endpoint).
+- Add "Import" button that links to `/admin/questions/import`.
+- Add bulk selection checkboxes for batch delete/update.
+- Show `source` and `tags.year` in the table for KICE-sourced questions.
+- Add filter by `source` (to isolate KICE-derived questions).
+- Add filter by `tags.year` (to see questions from specific exam years).
+- Show question count in the header alongside "문제 관리".
+
+**Form enhancements:**
+- Add "KICE 연계" section: checkbox "기출 기반 문제" that expands fields for year, session, question number, and keywords. This links quiz questions to specific KICE exam questions.
+- Add "키워드" multi-input field for tagging questions with KICE keywords.
+- Add preview button that shows how the question will look to students.
+
+**New import page (`/admin/questions/import`):**
+- File upload zone (JSON or CSV).
+- Validation preview table showing parsed rows with error highlighting.
+- Dry run mode before committing.
+- Calls existing `/api/admin/quiz/bulk` endpoint.
+
+### 3.4 KICE Exam Management (`/admin/kice`)
+
+This is entirely new. The KICE data lives as JSON files in `data/kice-기출/`. The admin needs:
+
+**Exam browser:**
+- List all exams by year, with session (전공A, 전공B, 동형, 예상) tags.
+- Click to view individual exam: show metadata (year, total questions, points) and question list.
+- Each question shows: number, points, type, subjects, chapters, keywords, context preview.
+- Read-only initially. Editing JSON files through admin would require a new API.
+
+**Gap analysis dashboard (`/admin/kice/gaps`):**
+- Cross-reference KICE question keywords against quiz_questions tags.
+- For each KICE keyword that appears 2+ times across exams: show whether quiz_questions exist that cover it.
+- Highlight "uncovered" keywords (KICE tests it, but no quiz question addresses it).
+- Link to `docs/quiz-gap-map.md` analysis data.
+- "Create quiz for this gap" button that pre-fills the new question form with subject and keyword.
+
+This replaces the static analysis in `docs/quiz-gap-map.md` and `docs/cloudy-kice-gap-analysis.md` with a live dashboard.
+
+### 3.5 Content Overview (`/admin/content`)
+
+A read-only overview page showing:
+- All subjects with their chapter counts and quiz question counts.
+- Concept file list per subject (from `src/content/concepts/`).
+- Worksheet topic counts per subject.
+- Clickable rows to drill into chapter-level detail.
+
+This absorbs the data from `/structure`'s "데이터 현황" tab and extends it.
+
+### 3.6 Review Moderation (`/admin/reviews`)
+
+- Table of all reviews from the `reviews` table.
+- Columns: path, content preview, reviewer_name, status, admin_note, image_urls, updated_at.
+- Inline status change dropdown (pending/discussing/accepted/rejected).
+- Inline admin_note editing.
+- Filter by status.
+
+### 3.7 Community Moderation (`/admin/community`)
+
+- Table of `community_questions` with status = 'pending'.
+- Preview question content.
+- Approve (set status to 'official') or reject.
+- View vote counts from `question_votes`.
+
+---
+
+## Phase 4: Implementation Plan
+
+### Priority Definitions
+
+- **P0**: Currently broken or blocking admin workflow.
+- **P1**: Essential for Kairan to manage the platform as a command center.
+- **P2**: Valuable enhancement, not blocking current work.
+
+### 4.1 [P0] Delete Duplicate Sitemap and Orphaned Structure Page
+
+**What**: Remove `/admin/sitemap/page.tsx` and `/structure/*`. Remove "구조도" link from admin nav.
+
+**Files to change:**
+
+| Action | File |
+|--------|------|
+| DELETE | `src/app/admin/sitemap/page.tsx` |
+| DELETE | `src/app/structure/page.tsx` |
+| DELETE | `src/app/structure/StructureClient.tsx` |
+| EDIT | `src/app/admin/layout.tsx` -- Remove the `<Link href="/admin/sitemap">구조도</Link>` from nav. |
+
+**Complexity**: Small
+**Dependencies**: None. No other file imports from these.
+
+### 4.2 [P0] Rename `/admin/editor` to `/admin/questions`
+
+**What**: The URL `/admin/editor` is vague. Rename to `/admin/questions` for clarity.
+
+**Files to change:**
+
+| Action | File |
+|--------|------|
+| MOVE | `src/app/admin/editor/` -> `src/app/admin/questions/` (entire directory) |
+| EDIT | `src/app/admin/layout.tsx` -- Update nav link from `/admin/editor` to `/admin/questions`. |
+| EDIT | `src/app/admin/page.tsx` -- Update dashboard link from `/admin/editor` to `/admin/questions`. |
+| EDIT | `src/components/dashboard/AdminQuickAccess.tsx` -- Update link. |
+| EDIT | `src/app/admin/questions/QuizForm.tsx` -- Update `router.push('/admin/editor')` calls to `/admin/questions`. |
+| EDIT | `src/app/admin/questions/QuizTable.tsx` -- Update `buildUrl` base path from `/admin/editor` to `/admin/questions`. |
+
+**Complexity**: Small (search-and-replace)
+**Dependencies**: None.
+
+### 4.3 [P1] Enhanced Dashboard
+
+**What**: Replace the current simple count dashboard with a command center.
+
+**File to change:**
+
+| Action | File |
+|--------|------|
+| REWRITE | `src/app/admin/page.tsx` |
+
+**New dashboard sections:**
+
+1. **Key Metrics row** (4-6 cards):
+   - Total quiz questions (from quiz_questions, already exists).
+   - KICE exam count (call `getAvailableExams()` from `src/lib/kice.ts`).
+   - Concept file count (call `getConceptsForSubject()` for all subjects from `src/lib/concepts.ts`).
+   - Pending reviews count (query `reviews` table where `status = 'pending'`).
+   - Pending community questions count (query `community_questions` where `status = 'pending'`).
+   - User count (query `profiles` count).
+
+2. **Content Health alerts** (conditional, only show if issues exist):
+   - Subjects with 0 quiz questions.
+   - Chapters with 0 quiz questions (join chapters table against quiz_questions).
+   - Questions with empty explanation field.
+
+3. **Subject x Type matrix table** (absorbed from `/structure` StructureClient "데이터 현황" tab):
+   - Columns: Subject, Chapters, OX, Fill-in, Descriptive, Multiple, Total.
+   - Footer row with totals.
+
+4. **Recent activity feed** (last 10 quiz_questions by created_at DESC, last 5 reviews).
+
+**Complexity**: Medium
+**Dependencies**: 4.1 (sitemap deletion, to avoid confusion about what goes where).
+
+### 4.4 [P1] Admin Nav Bar Expansion
+
+**What**: Add nav links for new sections.
+
+**File to change:**
+
+| Action | File |
+|--------|------|
+| EDIT | `src/app/admin/layout.tsx` |
+
+**New nav links** (add after "문제 관리"):
+- 기출관리 -> `/admin/kice`
+- 콘텐츠 -> `/admin/content`
+- 리뷰 -> `/admin/reviews`
+- 커뮤니티 -> `/admin/community`
+
+Consider adding a simple active-link highlight (check pathname).
+
+**Complexity**: Small
+**Dependencies**: Only add links as pages are created. Can add with placeholder "준비 중" pages.
+
+### 4.5 [P1] Export/Import Buttons on Question List
+
+**What**: Add Export JSON/CSV button and Import button to the question list page.
+
+**Files to change:**
+
+| Action | File |
+|--------|------|
+| EDIT | `src/app/admin/questions/page.tsx` (after rename) -- Add Export dropdown and Import link next to "새 문제 등록" button. |
+
+**Export behavior**: Client-side fetch to `/api/admin/quiz/export?format=json` or `format=csv`, then trigger download.
+
+**Import button**: Link to `/admin/questions/import` (new page, see 4.6).
+
+**Complexity**: Small
+**Dependencies**: 4.2 (rename).
+
+### 4.6 [P1] Bulk Import Page
+
+**What**: New page at `/admin/questions/import` with file upload, validation preview, and commit.
+
+**Files to create:**
+
+| Action | File |
+|--------|------|
+| CREATE | `src/app/admin/questions/import/page.tsx` |
+| CREATE | `src/app/admin/questions/import/ImportClient.tsx` (client component) |
+
+**ImportClient behavior:**
+1. File input accepting `.json` and `.csv`.
+2. Parse file client-side. For JSON: expect `{ questions: [...] }` array. For CSV: parse with headers matching export format.
+3. Show validation table with row highlighting for errors (missing required fields, invalid types).
+4. "Import" button sends to `/api/admin/quiz/bulk` endpoint (already exists).
+5. Show results (success count, error count).
+
+**Complexity**: Medium
+**Dependencies**: 4.2 (rename). Uses existing `/api/admin/quiz/bulk` endpoint.
+
+### 4.7 [P1] KICE Exam Browser Page
+
+**What**: New page at `/admin/kice` showing all KICE exams with drill-down to individual questions.
+
+**Files to create:**
+
+| Action | File |
+|--------|------|
+| CREATE | `src/app/admin/kice/page.tsx` |
+| CREATE | `src/app/admin/kice/KiceAdminClient.tsx` (client component) |
+
+**Server component** calls `getAvailableExams()` and passes the list.
+
+**Client component** shows:
+1. Year filter dropdown.
+2. Grid of exam cards: year, session name, question count, isIsomorphic/isPredicted badge.
+3. Click to expand: loads exam via client-side fetch (needs new API route or embed data in server render).
+4. Expanded view shows question list: number, points, type, subjects, keywords.
+
+**New API needed:**
+
+| Action | File |
+|--------|------|
+| CREATE | `src/app/api/admin/kice/route.ts` -- GET with `year` and `session` params, returns exam JSON. Uses `getExam()` from `src/lib/kice.ts`. |
+
+**Complexity**: Medium
+**Dependencies**: 4.4 (nav link).
+
+### 4.8 [P1] Content Gaps Dashboard
+
+**What**: New page at `/admin/kice/gaps` that cross-references KICE keywords against quiz coverage.
+
+**Files to create:**
+
+| Action | File |
+|--------|------|
+| CREATE | `src/app/admin/kice/gaps/page.tsx` |
+| CREATE | `src/app/admin/kice/gaps/GapsClient.tsx` |
+
+**Server component** computes:
+1. All KICE keywords with frequency using `computeAnalytics()` from `src/lib/kice-analytics.ts`.
+2. All quiz_questions grouped by tags and subject from Supabase.
+3. Cross-reference: for each high-frequency KICE keyword, check if any quiz question's `source` or `tags` reference it.
+
+**Client component** shows:
+1. Table: Keyword | KICE Frequency | Years Appeared | Quiz Coverage (count) | Status (covered/gap).
+2. Filter: show only gaps, show only covered, show all.
+3. "Create Question" button per row that links to `/admin/questions/new?keyword={kw}&subject={subj}`.
+
+**Complexity**: Large (requires cross-referencing two data sources)
+**Dependencies**: 4.7 (KICE browser). Can also work independently.
+
+### 4.9 [P1] Review Moderation Page
+
+**What**: New page at `/admin/reviews` showing all reviews with inline status management.
+
+**Files to create:**
+
+| Action | File |
+|--------|------|
+| CREATE | `src/app/admin/reviews/page.tsx` |
+| CREATE | `src/app/admin/reviews/ReviewsAdminClient.tsx` |
+| CREATE | `src/app/api/admin/reviews/route.ts` -- GET (list all reviews), PATCH (update status/admin_note). |
+
+**Behavior:**
+- Server component queries all reviews ordered by updated_at DESC.
+- Client component shows table with columns: Path, Content (truncated), Reviewer, Status (dropdown), Admin Note (inline edit), Images (count), Date.
+- Status dropdown triggers PATCH to update.
+- Filter by status tabs: All | Pending | Discussing | Accepted | Rejected.
+
+**Complexity**: Medium
+**Dependencies**: 4.4 (nav link).
+
+### 4.10 [P1] Community Moderation Page
+
+**What**: New page at `/admin/community` for approving user-submitted questions.
+
+**Files to create:**
+
+| Action | File |
+|--------|------|
+| CREATE | `src/app/admin/community/page.tsx` |
+| CREATE | `src/app/admin/community/CommunityAdminClient.tsx` |
+| CREATE | `src/app/api/admin/community/route.ts` -- GET (list questions), PATCH (approve/reject). |
+
+**Behavior:**
+- Table of community_questions with vote counts (join question_votes).
+- Columns: Author, Type, Subject, Question (truncated), Votes (up/down), Status, Date.
+- Approve button sets status to 'official'. Reject button deletes or archives.
+- Filter: Pending | Official | All.
+
+**Complexity**: Medium
+**Dependencies**: 4.4 (nav link).
+
+### 4.11 [P2] Content Overview Page
+
+**What**: Read-only page at `/admin/content` showing subjects, chapters, concepts.
+
+**Files to create:**
+
+| Action | File |
+|--------|------|
+| CREATE | `src/app/admin/content/page.tsx` |
+
+**Server component** queries:
+- All subjects with chapter counts.
+- Quiz question counts per subject and chapter.
+- Concept file counts per subject (using `getConceptsForSubject()` from `src/lib/concepts.ts`).
+- Worksheet topic/question counts.
+
+**Display:**
+- Expandable subject rows with chapter drill-down.
+- Each row shows: chapter name, quiz count, concept file exists (yes/no), worksheet count.
+- Highlight chapters with 0 quiz questions in red.
+
+**Complexity**: Medium
+**Dependencies**: None.
+
+### 4.12 [P2] Question Table Enhancements
+
+**What**: Add source/year columns, KICE filter, bulk select, and action bar to question list.
+
+**Files to change:**
+
+| Action | File |
+|--------|------|
+| EDIT | `src/app/admin/questions/QuizTable.tsx` (after rename) |
+| EDIT | `src/app/admin/questions/page.tsx` (after rename) -- Add source filter to searchParams. |
+
+**Additions:**
+- New columns: Source (truncated), Year (from tags.year).
+- New filter: "기출 연도" dropdown populated from distinct tags->year values.
+- Checkbox column for bulk selection.
+- Bulk action bar: "Delete selected" and "Change difficulty" buttons.
+- Requires new API: `src/app/api/admin/quiz/batch-action/route.ts` for bulk updates.
+
+**Complexity**: Medium
+**Dependencies**: 4.2 (rename).
+
+### 4.13 [P2] Admin QuickAccess Widget Enhancement
+
+**What**: Update the home page admin widget with more links.
+
+**File to change:**
+
+| Action | File |
+|--------|------|
+| EDIT | `src/components/dashboard/AdminQuickAccess.tsx` |
+
+**Additions:** Add links for 리뷰 (/admin/reviews) and 기출관리 (/admin/kice) as additional cards.
+
+**Complexity**: Small
+**Dependencies**: 4.9, 4.7 (pages must exist).
+
+### 4.14 [P2] QuizForm KICE Linkage Section
+
+**What**: Add a "KICE 연계" section to QuizForm with year, session, question number, and keyword tags.
+
+**File to change:**
+
+| Action | File |
+|--------|------|
+| EDIT | `src/app/admin/questions/QuizForm.tsx` (after rename) |
+
+**New fields in the "부가 정보" section:**
+- "기출 기반" toggle.
+- If toggled on: year, session (전공A/B), question number fields.
+- Keywords multi-input (comma separated or tag-style input).
+- These map to `tags.year`, `tags.round`, and `source` fields in the DB.
+
+**Complexity**: Small
+**Dependencies**: 4.2 (rename).
+
+### 4.15 [P2] Contract Alignment: scenario_composite
+
+**What**: The QuizForm supports `scenario_composite` type with sub_questions, but the contract does not list this type. Two options:
+
+**Option A (recommended)**: Update `docs/contract.md` to add `scenario_composite` as a valid type and `sub_questions jsonb NULL` as a column. Then add `image_url text NULL` as well. This reflects reality.
+
+**Option B**: Remove `scenario_composite` support from QuizForm.tsx and the API routes. This would delete functional code.
+
+**Recommendation**: Option A. The code works, the data exists. The contract should be updated to match.
+
+**File to change:**
+
+| Action | File |
+|--------|------|
+| EDIT | `docs/contract.md` -- Add `scenario_composite` to type CHECK, add `sub_questions` and `image_url` columns to quiz_questions schema. |
+
+**Complexity**: Small (doc edit only)
+**Dependencies**: Kairan approval required per change protocol.
+
+---
+
+## Implementation Order (Suggested)
+
+```
+Sprint 1 (cleanup + foundation):
+  4.1  [P0] Delete duplicate sitemap + structure     Small
+  4.2  [P0] Rename editor -> questions                Small
+  4.4  [P1] Admin nav expansion (with placeholders)   Small
+  4.15 [P2] Contract alignment (scenario_composite)   Small
+
+Sprint 2 (command center):
+  4.3  [P1] Enhanced dashboard                        Medium
+  4.5  [P1] Export/Import buttons                     Small
+  4.6  [P1] Bulk import page                          Medium
+
+Sprint 3 (KICE + gaps):
+  4.7  [P1] KICE exam browser                         Medium
+  4.8  [P1] Content gaps dashboard                    Large
+
+Sprint 4 (moderation):
+  4.9  [P1] Review moderation                         Medium
+  4.10 [P1] Community moderation                      Medium
+
+Sprint 5 (polish):
+  4.11 [P2] Content overview                          Medium
+  4.12 [P2] Question table enhancements               Medium
+  4.13 [P2] Admin QuickAccess widget                  Small
+  4.14 [P2] QuizForm KICE linkage                     Small
+```
+
+---
+
+## Appendix: Key File Paths Reference
+
+```
+# Admin pages
+src/app/admin/layout.tsx              # Admin layout + auth
+src/app/admin/page.tsx                # Dashboard
+src/app/admin/editor/                 # Quiz management (to be renamed)
+
+# Admin API routes
+src/app/api/admin/quiz/route.ts       # GET list, POST create
+src/app/api/admin/quiz/[id]/route.ts  # PATCH update, DELETE
+src/app/api/admin/quiz/bulk/route.ts  # POST bulk upsert
+src/app/api/admin/quiz/export/route.ts # GET export JSON/CSV
+src/app/api/admin/chapters/route.ts   # GET chapters by subject
+
+# Auth utilities
+src/lib/admin-auth.ts                 # verifyAdmin, verifyAdminOrApiKey
+src/lib/profile.ts                    # isAdmin, getMyProfile
+src/components/AdminOnly.tsx          # Server component guard
+
+# To be deleted
+src/app/admin/sitemap/page.tsx        # Duplicate sitemap
+src/app/structure/page.tsx            # Orphaned structure page
+src/app/structure/StructureClient.tsx  # Orphaned structure client
+
+# KICE data (read-only, filesystem)
+data/kice-기출/                       # 29 JSON exam files (2016-2027)
+src/lib/kice.ts                       # Exam loading utilities
+src/lib/kice-analytics.ts             # Analytics computation
+src/types/kice.ts                     # KICE TypeScript types
+
+# Data contract
+docs/contract.md                      # Single source of truth for schema
+
+# Existing gap analysis (to be replaced by live dashboard)
+docs/quiz-gap-map.md
+docs/cloudy-kice-gap-analysis.md
+```
