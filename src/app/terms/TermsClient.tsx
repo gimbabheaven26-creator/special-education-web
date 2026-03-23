@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Search, BookOpen, ChevronDown, ChevronUp, List, ArrowUp, BarChart2 } from 'lucide-react';
 import type { Term } from './page';
@@ -88,7 +89,8 @@ function SubjectSection({
 }
 
 export default function TermsClient({ terms, subjects }: TermsClientProps) {
-  const [query, setQuery] = useState('');
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get('q') ?? '');
   const [activeSubject, setActiveSubject] = useState<string | null>(null);
   const [tocOpen, setTocOpen] = useState(false);
   const [showTop, setShowTop] = useState(false);

@@ -79,7 +79,7 @@ export function TodayTermCard() {
 
   return (
     <Link
-      href="/terms"
+      href={`/terms?q=${encodeURIComponent(term.term_ko)}`}
       className="block p-4 rounded-xl border border-border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors"
     >
       <div className="flex items-center gap-2 mb-2">
