@@ -258,13 +258,22 @@ export function QuizClient({
     setSavedSession(loadSession(subjectSlug));
   }, [subjectSlug]);
 
-  // diagnosticMode: 세션설정 건너뛰고 전체 문제 자동 시작
+  // diagnosticMode: 세션설정 건너뛰고 자동 시작 (10문제)
   const diagnosticStarted = useRef(false);
   useEffect(() => {
-    if (!diagnosticMode || diagnosticStarted.current || filteredQuestions.length === 0) return;
+    if (!diagnosticMode) return;
+    // 이전 저장 세션 제거 (진단 모드는 항상 새로 시작)
+    clearSession();
+    setSavedSession(null);
+  }, [diagnosticMode]);
+
+  useEffect(() => {
+    if (!diagnosticMode || diagnosticStarted.current) return;
+    if (questions.length === 0) return;
     diagnosticStarted.current = true;
     const DIAGNOSTIC_COUNT = 10;
-    const sessionQuestions = shuffle([...filteredQuestions]).slice(0, DIAGNOSTIC_COUNT);
+    const allTypeQuestions = [...questions];
+    const sessionQuestions = shuffle(allTypeQuestions).slice(0, DIAGNOSTIC_COUNT);
     setActiveQuestions(sessionQuestions);
     setCurrentIndex(0);
     setAnswers([]);
@@ -272,7 +281,7 @@ export function QuizClient({
     setXpEarned(0);
     setComboStreak(0);
     setPhase('quiz');
-  }, [diagnosticMode, filteredQuestions]);
+  }, [diagnosticMode, questions]);
 
   const showXPToast = useCallback((amount: number) => {
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
