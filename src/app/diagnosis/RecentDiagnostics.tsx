@@ -63,32 +63,19 @@ function SessionCard({ session, defaultOpen }: { session: DiagnosticSession; def
                   {item.questionText ?? `문제 ${i + 1}`}
                 </p>
 
-                {/* 답변 정보 */}
-                <div className="mt-1 flex items-center gap-2 text-[11px]">
-                  {session.type === 'ox' ? (
-                    <>
-                      <span className={item.isCorrect ? 'text-green-600' : 'text-red-500'}>
-                        내 답: {item.userAnswer === 'O' || item.userAnswer === 'X' ? item.userAnswer : item.userAnswer}
+                {/* 답변 정보 — 새 세션만 상세 표시 */}
+                {item.userAnswer && (
+                  <div className="mt-1 flex items-center gap-2 text-[11px]">
+                    <span className={item.isCorrect ? 'text-green-600' : 'text-red-500'}>
+                      내 답: {item.userAnswer}
+                    </span>
+                    {!item.isCorrect && item.correctAnswer && (
+                      <span className="text-muted-foreground">
+                        정답: {item.correctAnswer}
                       </span>
-                      {!item.isCorrect && item.correctAnswer && (
-                        <span className="text-muted-foreground">
-                          정답: {item.correctAnswer}
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <span className={item.isCorrect ? 'text-green-600' : 'text-red-500'}>
-                        내 답: {item.userAnswer || '(건너뜀)'}
-                      </span>
-                      {!item.isCorrect && item.correctAnswer && (
-                        <span className="text-muted-foreground">
-                          정답: {item.correctAnswer}
-                        </span>
-                      )}
-                    </>
-                  )}
-                </div>
+                    )}
+                  </div>
+                )}
 
                 {/* 해설 한 줄 */}
                 {item.explanation && (
