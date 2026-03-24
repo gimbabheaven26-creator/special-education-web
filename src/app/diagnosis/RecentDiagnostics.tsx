@@ -65,13 +65,13 @@ function SessionCard({ session, defaultOpen }: { session: DiagnosticSession; def
 
                 {/* 답변 정보 — 새 세션만 상세 표시 */}
                 {item.userAnswer && (
-                  <div className="mt-1 flex items-center gap-2 text-[11px]">
+                  <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px]">
                     <span className={item.isCorrect ? 'text-green-600' : 'text-red-500'}>
-                      내 답: {item.userAnswer}
+                      내 답: {session.type === 'ox' ? item.userAnswer : (item.userAnswer.length > 20 ? item.userAnswer.slice(0, 20) + '…' : item.userAnswer)}
                     </span>
                     {!item.isCorrect && item.correctAnswer && (
                       <span className="text-muted-foreground">
-                        정답: {item.correctAnswer}
+                        정답: {session.type === 'ox' ? item.correctAnswer : (item.correctAnswer.length > 20 ? item.correctAnswer.slice(0, 20) + '…' : item.correctAnswer)}
                       </span>
                     )}
                   </div>
