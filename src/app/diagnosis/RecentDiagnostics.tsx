@@ -22,7 +22,7 @@ function SessionCard({ session, defaultOpen }: { session: DiagnosticSession; def
   // questionIds로 실제 문제 데이터 매칭
   const questionDetails = session.results.map((r) => {
     const history = allQuestions.find((h) => h.questionId === r.questionId);
-    return { ...r, subject: history?.subject, chapter: history?.chapter, question: history?.question };
+    return { ...r, subject: history?.subject, chapter: history?.chapter };
   });
 
   return (
@@ -66,7 +66,7 @@ function SessionCard({ session, defaultOpen }: { session: DiagnosticSession; def
               )}
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-foreground truncate">
-                  {item.question ?? `문제 ${i + 1}`}
+                  문제 {i + 1}
                 </p>
                 {item.subject && (
                   <Link
