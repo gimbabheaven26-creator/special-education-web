@@ -44,11 +44,14 @@ npm run test:e2e     # Playwright E2E
 src/lib/supabase.ts        # Supabase 클라이언트
 src/lib/db.ts              # DB 쿼리 함수 (강선생 읽기용)
 src/app/layout.tsx         # 루트 레이아웃 (전역 컴포넌트 마운트)
+src/components/BetaFeedbackWidget.tsx  # 베타 피드백 위젯 (전역, 베타 기간 한정)
+src/app/api/feedback/route.ts          # Discord webhook 연동 피드백 POST API
 
 docs/contract.md           # DB 스키마 + API 계약 (변경 전 반드시 읽기)
 docs/changelog.md          # 변경 이력
 docs/kangsaem-requests.md  # 강선생 작업 요청 큐
 docs/cloudy-requests.md    # 클루디 작업 요청 큐
+docs/v-reviews/            # V(외부 검증) 리뷰 파일 — 세션 시작 시 OPEN 항목 확인 필수
 
 scripts/insert-with-service-key.mjs  # Supabase 데이터 삽입 패턴
 data/terminology/nise-dictionary.json  # NISE 용어사전 1129개
@@ -66,6 +69,7 @@ src/content/concepts/                  # MDX 개념학습 파일 (101개)
 - **전체 fetch**: `.limit(10000)` 필수 (PostgREST 기본 limit = 1,000)
 - **RLS**: 읽기 공개, 쓰기는 service role 또는 auth 필요
 - **스키마 변경**: `docs/contract.md` 수정 + 카이란 승인 없이 절대 금지
+- **환경변수 목록**: `DISCORD_WEBHOOK_URL` (피드백 Discord 알림, 미설정 시 알림 생략)
 
 ```
 Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
@@ -83,6 +87,8 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - **오늘학습 `/daily`**: 홈 메인 버튼에서만 접근 (네비 미노출)
 - **MDX 컴포넌트 API**: `FillBlank` = `text` prop, `MatchingExercise` = `items` prop
 - **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db.ts` 사용
+- **피드백 API** `POST /api/feedback`: Discord webhook 연동, rate limit IP당 3회/분, `DISCORD_WEBHOOK_URL` env var 필요
+- **BetaFeedbackWidget**: 베타 기간 한정 전역 위젯 — `src/app/layout.tsx`에 마운트, 베타 종료 시 제거 필요
 
 ---
 

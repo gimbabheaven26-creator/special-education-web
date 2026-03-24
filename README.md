@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 특수교육 공부방
 
-## Getting Started
+특수교육 임용고시 대비 학습 플랫폼 — 퀴즈, 기출분석, 오답노트, 플래시카드
 
-First, run the development server:
+배포: https://special-education-web.vercel.app
+
+## 스택
+
+- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS v4
+- **Backend**: Supabase (PostgreSQL + Auth + Storage)
+- **상태 관리**: Zustand v4
+- **테스트**: Vitest, Playwright (E2E)
+
+## 개발 시작
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.local.example .env.local   # 환경변수 설정
+npm run dev                         # localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 주요 명령어
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run dev          # 개발 서버
+npm run build        # 프로덕션 빌드 (배포 전 필수)
+npm run lint         # ESLint
+npm run test         # Vitest 단위 테스트
+npm run test:e2e     # Playwright E2E
+```
 
-This project uses [Pretendard](https://cactus.tistory.com/306) font loaded via CDN.
+## 환경변수 (.env.local)
 
-## Learn More
+| 변수 | 필수 | 설명 |
+|------|------|------|
+| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Supabase 프로젝트 URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Supabase anon key |
+| `SUPABASE_SERVICE_ROLE_KEY` | 스크립트 전용 | 데이터 삽입 시 사용 |
+| `DISCORD_WEBHOOK_URL` | 선택 | 베타 피드백 Discord 알림 |
 
-To learn more about Next.js, take a look at the following resources:
+## 에이전트 역할
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| 에이전트 | 담당 |
+|---------|------|
+| **강선생** | `src/` 컴포넌트, 페이지, 스타일 |
+| **클루디** | `scripts/`, `data/`, Supabase 마이그레이션 |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> 에이전트 협업 규칙: `CLAUDE.md` 참고

@@ -24,6 +24,60 @@
 
 ---
 
+## [2026-03-25] 강선생2 — V 리뷰 보안 수정 + session-wrap 문서 정비
+
+### 변경 내용
+- **V 리뷰 보안 수정** (`/api/feedback/route.ts`): rate limiting (IP당 3회/분) + Discord @everyone/@here 인젝션 방지 + page 파라미터 길이 검증
+- **CLAUDE.md 보강**: BetaFeedbackWidget, /api/feedback, DISCORD_WEBHOOK_URL, v-reviews/ 경로 추가
+- **README.md**: create-next-app 기본 템플릿 → 실제 프로젝트 정보로 교체
+
+### 영향 범위
+- 강선생: `src/app/api/feedback/route.ts` 보안 강화
+- 클루디: 없음
+
+### 상태
+- [x] 구현 완료
+- [x] 커밋 완료
+
+---
+
+## [2026-03-24] 강선생2 — 과목 퀴즈 진입점 + KICE 버그 수정
+
+### 변경 내용
+- **concepts/[subject] 퀴즈 진입점**: dbSubject 존재 시 LearningTimeline 위에 Brain 아이콘 버튼 추가 (`23634a5`)
+- **KICE ExamClient key prop**: 연도/세션 변경 시 answers 상태 초기화 보장 (`ff587f0`)
+- **kice.ts 파일 정렬**: readdirSync macOS 순서 의존 → 명시적 sort로 전공A가 기본 선택 (`ff587f0`)
+- `/subjects/[slug]`가 `ad4e00b`에서 `/concepts/[subject]`로 흡수됨 확인
+
+### 영향 범위
+- 강선생: `src/app/concepts/[subject]/page.tsx`, `src/app/kice/exam/page.tsx`, `src/lib/kice.ts`
+- 클루디: 없음
+
+### 상태
+- [x] 구현 완료
+- [x] 커밋 완료
+
+---
+
+## [2026-03-23] 강선생1 — 개념학습+과목학습 통합 + MDX 크래시 수정 + 네비 재편
+
+### 변경 내용
+- **concepts+subjects 통합** (`ad4e00b`): /subjects/* → /concepts/* 리다이렉트, LearningTimeline 이동
+- **MDX prerender 크래시 수정** (`71b975e`, `eb28afd`, `1ff13b3`): undefined props guard + FillBlank/MatchingExercise API 통일
+- **네비 구조 재편** (`30b721d`): /quiz/ox, /quiz/short, /practice 신규 페이지
+- **Vercel Analytics + Speed Insights** (`c749376`): 베타 페이지뷰 수집 시작
+- **BetaFeedbackWidget + /api/feedback** (`3898c54`): Discord webhook 연동 피드백 수집
+
+### 영향 범위
+- 강선생: src/app/concepts/, src/app/quiz/, src/app/practice/, src/components/layout/, src/lib/nav-config.ts
+- 클루디: 없음
+
+### 상태
+- [x] 구현 완료
+- [x] 커밋 완료
+
+---
+
 ## [2026-03-16] 클루디 — Supabase Auth + 서버 동기화 스키마 설계 (v2.3)
 
 ### 변경 내용

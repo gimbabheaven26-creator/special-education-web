@@ -5,7 +5,32 @@ const MIN_MSG = 5;
 const VALID_TYPES = ['bug', 'suggestion', 'compliment'] as const;
 type FeedbackType = (typeof VALID_TYPES)[number];
 
+// 인메모리 rate limiter (IP당 분당 3회)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 3;
+const WINDOW_MS = 60_000;
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || entry.resetAt < now) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= RATE_LIMIT) return false;
+  entry.count++;
+  return true;
+}
+
+// Discord @everyone/@here 인젝션 방지
+const sanitize = (s: string) => s.replace(/@(everyone|here)/gi, '@\u200B$1');
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json({ error: 'too many requests' }, { status: 429 });
+  }
+
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'invalid JSON' }, { status: 400 });
 
@@ -14,6 +39,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid type' }, { status: 400 });
   if (typeof message !== 'string' || message.length < MIN_MSG || message.length > MAX_MSG)
     return NextResponse.json({ error: 'message out of range' }, { status: 400 });
+  if (page !== undefined && (typeof page !== 'string' || page.length > 200))
+    return NextResponse.json({ error: 'invalid page' }, { status: 400 });
 
   const emoji = { bug: '🐛', suggestion: '💡', compliment: '🎉' }[type as FeedbackType];
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
@@ -24,11 +51,9 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        content: `${emoji} **베타 피드백**\n유형: ${type}\n페이지: ${page ?? '알 수 없음'}\n메시지: ${message}\n시각: ${kst}`,
+        content: `${emoji} **베타 피드백**\n유형: ${type}\n페이지: ${sanitize(page ?? '알 수 없음')}\n메시지: ${sanitize(message)}\n시각: ${kst}`,
       }),
-    }).catch((e) => console.warn('Discord webhook failed:', e));
-  } else {
-    console.warn('[BetaFeedback] DISCORD_WEBHOOK_URL not set — Discord 알림 생략');
+    }).catch(() => {});
   }
 
   return NextResponse.json({ success: true });
