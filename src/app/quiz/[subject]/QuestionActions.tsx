@@ -188,7 +188,7 @@ export function FeedbackSection({
       {wrongExplanation && <WrongExplanationBox text={wrongExplanation} />}
       <ExplanationToggle
         explanation={question.explanation}
-        defaultOpen={!isCorrect}
+        defaultOpen
       />
       <QuestionActions question={question} />
     </>
