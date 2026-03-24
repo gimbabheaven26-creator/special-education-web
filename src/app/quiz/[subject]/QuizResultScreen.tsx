@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen } from 'lucide-react';
 import { getConceptUrl } from '@/lib/concept-urls';
+import { getScoreFeedback, getScoreStrokeClass } from '@/lib/score-feedback';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -43,12 +44,7 @@ function CircularProgressRing({
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;
 
-  const color =
-    percentage >= 80
-      ? 'stroke-emerald-500'
-      : percentage >= 60
-        ? 'stroke-amber-500'
-        : 'stroke-red-500';
+  const color = getScoreStrokeClass(percentage);
 
   return (
     <svg width={size} height={size} className="mx-auto">
@@ -88,9 +84,7 @@ function CircularProgressRing({
 // ─── Color Utility ───────────────────────────────────────────────────────────
 
 function rateColorClass(rate: number): string {
-  if (rate >= 80) return 'text-emerald-600 dark:text-emerald-400';
-  if (rate >= 60) return 'text-amber-600 dark:text-amber-400';
-  return 'text-red-600 dark:text-red-400';
+  return getScoreFeedback(rate).colorClass;
 }
 
 // ─── Quiz Result Screen ──────────────────────────────────────────────────────
@@ -165,19 +159,14 @@ export function QuizResultScreen({
             <span className="text-sm ml-1">({total - answeredCount}문제 건너뜀)</span>
           )}
         </p>
-        {rate >= 80 ? (
-          <p className="mt-1 text-emerald-600 dark:text-emerald-400 font-medium">
-            대단해요! 꾸준한 학습이 빛을 발하고 있어요.
-          </p>
-        ) : rate >= 60 ? (
-          <p className="mt-1 text-amber-600 dark:text-amber-400 font-medium">
-            잘 하고 있어요! 이 부분을 마스터하는 중이에요.
-          </p>
-        ) : (
-          <p className="mt-1 text-red-600 dark:text-red-400 font-medium">
-            아직 익히는 중이에요. 한 번 더 도전하면 달라질 거에요!
-          </p>
-        )}
+        {(() => {
+          const fb = getScoreFeedback(rate);
+          return (
+            <p className={`mt-1 font-medium ${fb.colorClass}`}>
+              {fb.emoji} {fb.message}
+            </p>
+          );
+        })()}
       </div>
 
       {/* XP Earned */}

@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { SUBJECT_LABELS } from '@/types/kice'
 import type { KiceExam, KiceQuestion } from '@/types/kice'
 import { checkBlank } from '@/lib/check-blank'
+import { getScoreFeedback, getScoreBarClass } from '@/lib/score-feedback'
 
 interface UserAnswer {
   blanks: Record<string, string>
@@ -200,6 +201,18 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
         </Card>
       </div>
 
+      {/* Emotional Feedback */}
+      {stats.autoMax > 0 && (() => {
+        const pct = Math.round((stats.autoScore / stats.autoMax) * 100)
+        const fb = getScoreFeedback(pct)
+        return (
+          <div className={`rounded-lg p-4 text-center ${fb.bgClass}`}>
+            <span className="text-2xl">{fb.emoji}</span>
+            <p className={`mt-1 font-medium ${fb.colorClass}`}>{fb.message}</p>
+          </div>
+        )
+      })()}
+
       {/* Time analysis */}
       <Card>
         <CardContent className="pt-4 pb-3">
@@ -234,9 +247,7 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
                   <span className="text-sm w-20 shrink-0">{SUBJECT_LABELS[subject] ?? subject}</span>
                   <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all ${
-                        pct >= 70 ? 'bg-green-500' : pct >= 50 ? 'bg-amber-500' : 'bg-red-500'
-                      }`}
+                      className={`h-full rounded-full transition-all ${getScoreBarClass(pct)}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -387,7 +398,7 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
                     <span className="font-medium">{h.year}학년도 {h.session}</span>
                     <span className="text-xs text-muted-foreground ml-2">{label}</span>
                   </div>
-                  <span className={`font-semibold ${pct >= 70 ? 'text-green-600 dark:text-green-400' : pct >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'}`}>
+                  <span className={`font-semibold ${getScoreFeedback(pct).colorClass}`}>
                     {h.autoScore}/{h.autoMax}점 ({pct}%)
                   </span>
                 </div>
