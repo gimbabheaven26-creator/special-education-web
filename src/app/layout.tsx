@@ -7,6 +7,7 @@ import { BottomTabBar } from "@/components/layout/BottomTabBar";
 import { ConditionalReviewPanel } from "@/components/layout/ConditionalReviewPanel";
 import { StudySessionTracker } from "@/components/StudySessionTracker";
 import { SyncManager } from "@/components/SyncManager";
+import { BetaFeedbackWidget } from "@/components/BetaFeedbackWidget";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -65,6 +66,7 @@ export default function RootLayout({
           <ConditionalReviewPanel />
           <StudySessionTracker />
           <SyncManager />
+          <BetaFeedbackWidget />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
