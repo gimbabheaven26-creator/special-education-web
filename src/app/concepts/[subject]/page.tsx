@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, Tag, BookOpen, Calendar } from 'lucide-react';
+import { ChevronRight, Tag, BookOpen, Calendar, Brain } from 'lucide-react';
 import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/concepts';
 import { getSubjectBySlug } from '@/lib/db';
 import LearningTimeline from '@/components/subjects/LearningTimeline';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface Props {
   params: Promise<{ subject: string }>;
@@ -51,6 +53,19 @@ export default async function ConceptSubjectPage({ params }: Props) {
         </span>
         <span className="text-xs text-muted-foreground">{files.length}개 파일</span>
       </div>
+
+      {/* 퀴즈 진입점 (DB subject 존재 시) */}
+      {dbSubject && (
+        <div className="mb-6">
+          <Link
+            href={`/quiz/${dbSubject.slug}`}
+            className={cn(buttonVariants({ variant: 'default' }), 'gap-2')}
+          >
+            <Brain className="h-4 w-4" />
+            과목 퀴즈 풀기
+          </Link>
+        </div>
+      )}
 
       {/* 학습 타임라인 (DB subject 존재 시) */}
       {dbSubject && (

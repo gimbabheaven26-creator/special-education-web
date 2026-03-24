@@ -29,5 +29,15 @@ npm run build       # exit 0 필수
 ```
 
 수동 확인:
-- [ ] `/subjects/[slug]` 접속 → 퀴즈 버튼 표시
-- [ ] 버튼 클릭 → `/quiz/[subject]` 정상 이동
+- [x] `/concepts/[subject]` 접속 → 퀴즈 버튼 표시 (subjects→concepts 흡수로 실제 위치 변경)
+- [ ] 버튼 클릭 → `/quiz/[subject]` 정상 이동 (수동 확인 필요)
+
+## 완료 메모
+
+```
+완료 날짜: 2026-03-24
+완료한 것: Step 1 — 퀴즈 진입점 추가
+실제 수정 위치: src/app/concepts/[subject]/page.tsx (subjects가 concepts로 흡수됨, ad4e00b)
+퀴즈 버튼: dbSubject 존재 시 LearningTimeline 위에 표시, href=/quiz/{slug}
+빌드 상태: tsc 0건 / build 188페이지 OK
+```
