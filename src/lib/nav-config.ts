@@ -23,7 +23,7 @@ export type NavGroup = {
 export const NAV_GROUPS: NavGroup[] = [
   {
     id: 'diagnosis',
-    label: '진단평가',
+    label: '문제풀기',
     icon: ClipboardCheck,
     items: [
       { href: '/quiz/ox', label: 'OX 퀴즈', description: '전 과목 OX 문제' },
@@ -60,7 +60,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/community', label: '커뮤니티' },
       { href: '/reviews', label: '리뷰' },
-      { href: '/scenarios', label: 'BDS 시나리오' },
+      { href: '/scenarios', label: '상황 시뮬레이션' },
     ],
   },
   {

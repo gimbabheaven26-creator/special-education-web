@@ -203,7 +203,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
               : 'border-transparent text-muted-foreground hover:text-foreground'
           }`}
         >
-          SRS 복습
+          간격 반복
           {srsStats.dueToday > 0 && (
             <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
               {srsStats.dueToday}

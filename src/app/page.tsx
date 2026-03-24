@@ -20,7 +20,7 @@ export default function HomePage() {
       {/* D-day 카운트다운 */}
       <ExamCountdown />
 
-      {/* 오늘 복습 — SRS + 오답 카운트 전면 배치 */}
+      {/* 오늘 복습 — 간격 반복 + 오답 카운트 전면 배치 */}
       <DailyReviewCard />
 
       {/* 오늘 학습 시작 — /daily 진입점 */}

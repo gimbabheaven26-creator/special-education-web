@@ -35,7 +35,7 @@ export function DailyReviewCard() {
         <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
         <div>
           <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">오늘 복습 완료!</p>
-          <p className="text-xs text-emerald-600/70 dark:text-emerald-400/70 mt-0.5">내일 SRS 스케줄이 기다려요</p>
+          <p className="text-xs text-emerald-600/70 dark:text-emerald-400/70 mt-0.5">내일 복습 스케줄이 기다려요</p>
         </div>
       </div>
     );
