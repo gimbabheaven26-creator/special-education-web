@@ -5,7 +5,7 @@
 특수교육 임용고시 준비 앱 (SPA + SSR).
 베타 테스터 활동 중. 배포: https://special-education-web.vercel.app
 
-**스택**: Next.js 14 (App Router), TypeScript, Tailwind v4, Supabase (PostgreSQL + Auth + Storage), Zustand, Vitest
+**스택**: Next.js 14 (App Router), TypeScript, Tailwind v4, Supabase (PostgreSQL + Auth + Storage), Zustand v4 (v5 마이그레이션 예정), Vitest
 
 **GitHub**: `gimbabheaven26-creator/special-education-web`
 **Git Author**: `266103587+gimbabheaven26-creator@users.noreply.github.com`
@@ -91,8 +91,23 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - `console.log` 금지 (린트 에러)
 - 하드코딩 금지 — env var 사용 (`process.env.XXX`)
 - `generateStaticParams`: raw 값 반환 필수 (encodeURIComponent 금지)
-- 파일 800줄, 함수 50줄 초과 시 분리
+- 파일 800줄, 컴포넌트 500줄, 함수 50줄 초과 시 분리
 - 새 컴포넌트: Server Component 우선, 상호작용 필요 시 `'use client'`
+- **API Route 입력 검증**: Zod 스키마 필수 (`z.string().min(N).max(N)` 등)
+- **접근성**: WCAG 2.1 AA 기준 — 모든 버튼에 `aria-label`, 이미지에 `alt`, `focus-visible` 스타일 유지
+
+---
+
+## 현재 마일스톤 (M1: 2026-03-25~31)
+
+**감성 UX & 시스템 안정** (릴리 제언 기반)
+- [ ] Vercel Analytics + Speed Insights 연동
+- [ ] BetaFeedbackWidget + Discord 알림 (Discord Webhook 발급 필요)
+- [ ] 로딩 스켈레톤 (quiz/ox, terms, concepts)
+- [ ] 에러/빈 상태 UI (error.tsx, not-found.tsx, EmptyState)
+- [ ] WCAG 2.1 AA 접근성 기초 (aria-label, alt, focus-visible)
+
+> 마일스톤 완료 후 이 섹션 업데이트.
 
 ---
 
