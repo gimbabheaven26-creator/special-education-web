@@ -27,7 +27,15 @@ export interface DiagnosticSession {
   startedAt: number;
   completedAt: number;
   questionIds: string[];
-  results: Array<{ questionId: string; isCorrect: boolean }>;
+  results: Array<{
+    questionId: string;
+    isCorrect: boolean;
+    questionText?: string;
+    userAnswer?: string;
+    correctAnswer?: string;
+    explanation?: string;
+    subject?: string;
+  }>;
   stats: { total: number; correct: number; rate: number };
 }
 

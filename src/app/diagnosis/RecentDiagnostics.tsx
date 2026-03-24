@@ -17,13 +17,6 @@ const VISIBLE_COUNT = 5;
 
 function SessionCard({ session, defaultOpen }: { session: DiagnosticSession; defaultOpen: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
-  const allQuestions = useQuizStore((s) => s.quizHistory);
-
-  // questionIds로 실제 문제 데이터 매칭
-  const questionDetails = session.results.map((r) => {
-    const history = allQuestions.find((h) => h.questionId === r.questionId);
-    return { ...r, subject: history?.subject, chapter: history?.chapter };
-  });
 
   return (
     <div className="bg-background">
@@ -54,10 +47,10 @@ function SessionCard({ session, defaultOpen }: { session: DiagnosticSession; def
 
       {open && (
         <div className="px-4 pb-3 space-y-1">
-          {questionDetails.map((item, i) => (
+          {session.results.map((item, i) => (
             <div
               key={item.questionId}
-              className="flex items-start gap-2 py-1.5 border-t border-border/50 first:border-0"
+              className="flex items-start gap-2 py-2 border-t border-border/50 first:border-0"
             >
               {item.isCorrect ? (
                 <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
@@ -65,15 +58,52 @@ function SessionCard({ session, defaultOpen }: { session: DiagnosticSession; def
                 <XCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-foreground truncate">
-                  문제 {i + 1}
+                {/* 문제 텍스트 */}
+                <p className="text-xs text-foreground leading-relaxed">
+                  {item.questionText ?? `문제 ${i + 1}`}
                 </p>
+
+                {/* 답변 정보 */}
+                <div className="mt-1 flex items-center gap-2 text-[11px]">
+                  {session.type === 'ox' ? (
+                    <>
+                      <span className={item.isCorrect ? 'text-green-600' : 'text-red-500'}>
+                        내 답: {item.userAnswer === 'O' || item.userAnswer === 'X' ? item.userAnswer : item.userAnswer}
+                      </span>
+                      {!item.isCorrect && item.correctAnswer && (
+                        <span className="text-muted-foreground">
+                          정답: {item.correctAnswer}
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <span className={item.isCorrect ? 'text-green-600' : 'text-red-500'}>
+                        내 답: {item.userAnswer || '(건너뜀)'}
+                      </span>
+                      {!item.isCorrect && item.correctAnswer && (
+                        <span className="text-muted-foreground">
+                          정답: {item.correctAnswer}
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                {/* 해설 한 줄 */}
+                {item.explanation && (
+                  <p className="mt-1 text-[11px] text-muted-foreground italic">
+                    {item.explanation}...
+                  </p>
+                )}
+
+                {/* 개념 복습 링크 */}
                 {item.subject && (
                   <Link
                     href={getConceptUrl(item.subject)}
                     className="text-[11px] text-primary hover:underline"
                   >
-                    개념 복습하기
+                    개념 복습
                   </Link>
                 )}
               </div>

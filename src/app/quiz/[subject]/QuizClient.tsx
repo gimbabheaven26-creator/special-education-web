@@ -510,10 +510,18 @@ export function QuizClient({
           startedAt: diagnosticStartTimeRef.current,
           completedAt: Date.now(),
           questionIds: activeQuestions.map(q => q.id),
-          results: currentAnswers.map(a => ({
-            questionId: activeQuestions[a.questionIndex].id,
-            isCorrect: a.isCorrect,
-          })),
+          results: currentAnswers.map(a => {
+            const q = activeQuestions[a.questionIndex];
+            return {
+              questionId: q.id,
+              isCorrect: a.isCorrect,
+              questionText: q.question.slice(0, 80),
+              userAnswer: String(a.userAnswer),
+              correctAnswer: String(q.answer),
+              explanation: q.explanation?.slice(0, 60),
+              subject: q.subject,
+            };
+          }),
           stats: { total, correct, rate: total > 0 ? Math.round((correct / total) * 100) : 0 },
         });
       }
