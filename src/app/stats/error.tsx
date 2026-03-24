@@ -16,6 +16,9 @@ export default function StatsError({
       <p className="text-muted-foreground mb-6 text-sm">
         학습 통계 데이터를 가져오는 중 오류가 발생했습니다.
       </p>
+      <p className="text-muted-foreground mb-6 text-xs">
+        🔒 학습 기록은 안전하게 보관되어 있습니다.
+      </p>
       <div className="flex items-center justify-center gap-3">
         <button
           onClick={reset}

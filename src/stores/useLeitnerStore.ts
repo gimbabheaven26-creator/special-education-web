@@ -129,6 +129,16 @@ export const useLeitnerStore = create<LeitnerStore>()(
         }));
       },
     }),
-    { name: 'leitner-cards' }
+    {
+      name: 'leitner-cards',
+      version: 1,
+      migrate: (persistedState, version) => {
+        if (version === 0 || version === undefined) {
+          // v0→v1: 기존 데이터 구조 그대로 보존, 버전 트래킹 시작
+          return persistedState as Record<string, unknown>;
+        }
+        return persistedState as Record<string, unknown>;
+      },
+    }
   )
 );

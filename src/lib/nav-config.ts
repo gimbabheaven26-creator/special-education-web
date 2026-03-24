@@ -3,6 +3,7 @@ import {
   Dumbbell,
   Brain,
   Users,
+  BarChart3,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -48,7 +49,6 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/mastery', label: '마스터리 트리' },
       { href: '/stats', label: '학습통계' },
       { href: '/bookmarks', label: '북마크' },
-      { href: '/kice/analytics', label: '출제경향' },
       { href: '/wrong-notes', label: '오답노트' },
       { href: '/flashcards', label: '플래시카드' },
     ],
@@ -61,6 +61,16 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/community', label: '커뮤니티' },
       { href: '/reviews', label: '리뷰' },
       { href: '/scenarios', label: 'BDS 시나리오' },
+    ],
+  },
+  {
+    id: 'exam-analysis',
+    label: '기출분석',
+    icon: BarChart3,
+    items: [
+      { href: '/kice', label: '기출문제', description: '연도별·영역별 기출분석' },
+      { href: '/kice/exam', label: '모의시험', description: '기출 모의고사 풀이' },
+      { href: '/kice/analytics', label: '출제경향', description: 'KICE 출제 통계 분석' },
     ],
   },
 ];

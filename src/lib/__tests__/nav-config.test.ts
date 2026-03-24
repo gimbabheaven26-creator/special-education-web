@@ -30,8 +30,8 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/')).toBeNull();
   });
 
-  it('/daily → diagnosis', () => {
-    expect(getActiveGroupId('/daily')).toBe('diagnosis');
+  it('/daily → null (네비 그룹에 없음)', () => {
+    expect(getActiveGroupId('/daily')).toBeNull();
   });
 
   it('/terms → diagnosis', () => {
@@ -46,12 +46,16 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/concepts/시각장애')).toBe('practice');
   });
 
-  it('/kice/exam → practice', () => {
-    expect(getActiveGroupId('/kice/exam')).toBe('practice');
+  it('/kice → exam-analysis', () => {
+    expect(getActiveGroupId('/kice')).toBe('exam-analysis');
   });
 
-  it('/kice/analytics → metacognition', () => {
-    expect(getActiveGroupId('/kice/analytics')).toBe('metacognition');
+  it('/kice/exam → exam-analysis', () => {
+    expect(getActiveGroupId('/kice/exam')).toBe('exam-analysis');
+  });
+
+  it('/kice/analytics → exam-analysis', () => {
+    expect(getActiveGroupId('/kice/analytics')).toBe('exam-analysis');
   });
 
   it('/wrong-notes → metacognition', () => {
@@ -76,8 +80,8 @@ describe('getActiveGroupId', () => {
 });
 
 describe('NAV_GROUPS 구조', () => {
-  it('4개 그룹', () => {
-    expect(NAV_GROUPS).toHaveLength(4);
+  it('5개 그룹', () => {
+    expect(NAV_GROUPS).toHaveLength(5);
   });
 
   it('각 그룹에 id, label, icon, items 존재', () => {
@@ -89,9 +93,9 @@ describe('NAV_GROUPS 구조', () => {
     }
   });
 
-  it('총 서브 항목 수 (2+3+6+3 = 15)', () => {
+  it('총 서브 항목 수 (3+3+5+3+3 = 17)', () => {
     const total = NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
-    expect(total).toBe(15);
+    expect(total).toBe(17);
   });
 
   it('개념학습이 practice 그룹에 존재', () => {

@@ -7,6 +7,7 @@ import { BottomTabBar } from "@/components/layout/BottomTabBar";
 import { ConditionalReviewPanel } from "@/components/layout/ConditionalReviewPanel";
 import { StudySessionTracker } from "@/components/StudySessionTracker";
 import { SyncManager } from "@/components/SyncManager";
+import { OnboardingGate } from "@/components/OnboardingGate";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -54,6 +55,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <ThemeProvider>
+          <OnboardingGate />
           <Header />
           <main className="min-h-screen pb-[calc(4.25rem+2.5rem+env(safe-area-inset-bottom))] md:pb-0">
             {children}
