@@ -1,0 +1,406 @@
+# Feature Audit: 특수교육 공부방 — 3-Layer 기출 분석 시스템 관점
+
+Auditor: X (code reviewer)
+Date: 2026-03-24
+Scope: src/app/, src/lib/, src/stores/, src/components/, src/data/, src/content/, data/
+
+---
+
+## 코어 정의
+
+이 서비스의 코어는 3-Layer 기출 문제 분석 시스템이다:
+
+- Layer 1 (기출 원본): 연도별 ~40문항의 원본 기출 문제 열람, 풀이, 키워드 태깅
+- Layer 2 (기출 동형): 기출과 동일한 깊이와 패턴을 다른 각도에서 접근하는 문제
+- Layer 3 (기출 예측): 출제 경향 분석, 키워드 빈도, 영역 예측
+
+---
+
+## 분류 기준
+
+| 분류 | 정의 |
+|------|------|
+| 코어 직결 | 3-Layer 기출 분석 시스템을 직접 구현하거나 필수적으로 뒷받침하는 기능 |
+| 코어 지원 | 코어를 간접적으로 강화하는 기능 (학습 추적, 오답 분석 등 — 예측에 피드백 루프를 제공할 잠재력이 있음) |
+| 후순위 | 코어 가치 제안과 직결되지 않는 nice-to-have 기능 |
+
+---
+
+## 1. 코어 직결 기능
+
+### 1-1. KICE 기출 열람 및 풀이 (/kice)
+
+파일: src/app/kice/page.tsx (L1-73), src/app/kice/KiceClient.tsx, src/app/kice/KiceByArea.tsx, src/app/kice/KiceSearch.tsx
+데이터: data/kice-기출/ (2016~2027, 연도별 JSON)
+비즈니스 로직: src/lib/kice.ts (L1-105)
+
+이 기능은 Layer 1과 Layer 2를 구현하는 핵심이다. getAvailableExams() 함수가 data/kice-기출/ 디렉토리를 스캔하여 연도별 시험 목록을 반환하고, getExam(year, session)이 개별 시험 JSON을 파싱한다. 기출 원본(전공A.json, 전공B.json)과 동형 문제(전공A-동형.json, 전공B-동형.json), 예상 문제(전공A-예상.json)가 파일명 컨벤션으로 구분되며, isIsomorphic과 isPredicted 플래그로 코드 내에서 분류된다.
+
+KiceClient는 연도/세션 선택, 키워드 필터, 비교 모드(동형 vs 원본 나란히 보기), 1문제씩 연습 모드를 제공한다. KiceByArea는 영역별 기출 분류, KiceSearch는 전체 기출에서 키워드/과목 검색을 제공한다.
+
+이것이 코어 직결인 이유: Layer 1(기출 원본)과 Layer 2(기출 동형)의 데이터 저장/로딩/표시를 직접 구현한다. 현재 2016~2026년 원본 + 2025~2026년 동형 + 2027년 예상이 존재하여 3개 Layer 모두가 데이터로 표현되어 있다.
+
+### 1-2. KICE 모의고사 (/kice/exam)
+
+파일: src/app/kice/exam/page.tsx (L1-39), src/app/kice/exam/ExamClient.tsx, src/app/kice/exam/ExamResultScreen.tsx
+컴포넌트: src/components/kice/QuestionCard.tsx, src/components/kice/DialogueBlock.tsx, src/components/kice/ModelAnswers.tsx, src/components/kice/SubItemsBlock.tsx
+
+실제 시험 환경을 시뮬레이션하는 모의고사 모드이다. 기출/동형/예상 시험을 선택하여 타이머와 함께 전체 시험을 풀고 결과를 확인할 수 있다. QuestionCard 컴포넌트가 기출 문항의 복잡한 구조(대화체 지문, 하위 문항, 모범답안)를 렌더링한다.
+
+이것이 코어 직결인 이유: Layer 1/2 기출 문제를 실전과 동일한 조건에서 풀어볼 수 있는 핵심 학습 경로이다.
+
+### 1-3. 출제 경향 분석 (/kice/analytics)
+
+파일: src/app/kice/analytics/page.tsx (L1-7), src/app/kice/analytics/AnalyticsClient.tsx
+비즈니스 로직: src/lib/kice-analytics.ts (L1-167)
+
+computeAnalytics() 함수가 원본 기출만 필터링한 뒤 다음 5가지를 계산한다:
+1. 과목별 출제 빈도 히트맵 (SubjectFrequency[]): 과목 x 연도 매트릭스
+2. 상위 30개 키워드 빈도 (KeywordFrequency[]): 출제 횟수, 등장 연도, 관련 과목, 연속 출제 횟수
+3. 3년 이상 연속 출제 키워드 (recentStreakKeywords): 다음 시험 예측의 직접 근거
+4. 5년 이상 미출제 키워드 (neverTestedKeywords): "공백 영역" 분석
+5. 연도별 요약 (YearSummary[]): 문항 수, 과목/유형 분포, 평균 배점
+
+AnalyticsClient가 히트맵 시각화, 키워드 랭킹, 연속출제 키워드 강조를 UI로 제공한다.
+
+이것이 코어 직결인 이유: Layer 3(기출 예측)의 핵심 엔진이다. 키워드 빈도 분석, 연속 출제 패턴, 공백 영역 탐지가 모두 이 모듈에서 이루어진다. /kice 페이지의 tab=analytics 탭과 별도 /kice/analytics 라우트 양쪽에서 접근 가능하다.
+
+### 1-4. KICE 기출 JSON 데이터 (data/kice-기출/)
+
+위치: data/kice-기출/{year}/{session}.json
+
+2016~2027년 총 12개 연도, 연도당 2~4개 세션 파일(전공A, 전공B, 동형, 예상)이 존재한다. 각 JSON은 KiceExam 타입으로 문항 배열(questions)을 포함하며, 각 문항에 subjects, keywords, points, type, context, subItems 등이 태깅되어 있다.
+
+이것이 코어 직결인 이유: 3-Layer 시스템의 데이터 원천이다. 키워드 태깅이 Layer 3 분석의 품질을 직접 결정한다.
+
+---
+
+## 2. 코어 지원 기능
+
+### 2-1. 개념학습 MDX 시스템 (/concepts)
+
+파일: src/app/concepts/page.tsx, src/app/concepts/[subject]/page.tsx, src/app/concepts/[subject]/[slug]/page.tsx
+비즈니스 로직: src/lib/concepts.ts (L1-175)
+콘텐츠: src/content/concepts/ (17개 과목 폴더, MDX 파일)
+
+17개 과목 폴더에 걸쳐 MDX 파일로 구성된 개념 학습 시스템이다. 각 MDX 파일의 frontmatter에 kiceKeywords 필드가 있어 기출 키워드와 개념이 연결된다. ChapterTracker 컴포넌트가 학습 완료를 기록하고, BookmarkButton이 북마크를 지원한다. 이전/다음 네비게이션과 LearningTimeline 컴포넌트가 학습 경로를 안내한다.
+
+이것이 코어 지원인 이유: 기출 키워드가 개념에 매핑되어 있어 Layer 3 예측의 "이 키워드를 모르면 어디서 공부해야 하나"를 연결하는 교량 역할을 한다. 다만 현재는 분석 결과에서 개념으로의 직접 링크가 제한적이다.
+
+### 2-2. 과목별 퀴즈 (/quiz)
+
+파일: src/app/quiz/page.tsx (L1-81), src/app/quiz/[subject]/page.tsx, src/app/quiz/ox/page.tsx, src/app/quiz/short/page.tsx
+비즈니스 로직: src/lib/db.ts — getQuizzesBySubject(), getQuizzesByType(), getAllQuizzes()
+상태 관리: src/stores/useQuizStore.ts (L1-298)
+
+Supabase quiz_questions 테이블에서 과목별/유형별 문제를 가져와 퀴즈를 제공한다. 11개 과목 카드 선택 화면, 과목별 퀴즈 실행, 전체 OX/단답 모아풀기를 지원한다. QuizClient 컴포넌트가 정답 확인, 해설 표시, 오답 자동 등록을 처리한다.
+
+이것이 코어 지원인 이유: 퀴즈 데이터 자체가 기출 분석에서 도출된 핵심 개념을 연습하는 도구이다. 오답 데이터가 useQuizStore에 축적되어 mastery 분석과 취약 영역 식별에 사용되고, 이는 장기적으로 개인화된 예측(Layer 3+)에 활용될 수 있다.
+
+### 2-3. 오답노트 (/wrong-notes)
+
+파일: src/app/wrong-notes/page.tsx (L1-31), src/app/wrong-notes/quiz/page.tsx (L1-25)
+상태 관리: src/stores/useQuizStore.ts — wrongNotes[], addWrongNote(), markMastered()
+
+틀린 문제를 과목/챕터별로 분류하여 표시하고, 오답 재시험(wrong-notes/quiz)으로 반복 학습을 제공한다. 최대 500개 오답을 저장하며 마스터 표시로 완료 관리가 가능하다. 오답 등록 시 useLeitnerStore에 자동으로 복습 카드가 생성된다 (useQuizStore.ts L117-129).
+
+이것이 코어 지원인 이유: 기출 문제를 풀다 틀린 것들이 여기에 모이고, 이 데이터가 마스터리 계산과 취약 영역 분석에 직접 사용된다. 기출 기반 학습 효과를 측정하는 핵심 피드백 루프이다.
+
+### 2-4. 마스터리 트리 (/mastery)
+
+파일: src/app/mastery/page.tsx (L1-352)
+비즈니스 로직: src/lib/mastery.ts (L1-218)
+데이터: src/data/exam-structure.json — subjectWeights
+
+calculateChapterMasteries()가 퀴즈 히스토리와 오답노트를 분석하여 챕터별 숙련도(not_started → learning → practicing → proficient → mastered)를 계산한다. calculateSubjectMasteries()가 이를 과목 단위로 집계하고, simulatePass()가 과목별 가중치(exam-structure.json의 배점 비율)를 적용하여 80점 만점 기준 예상 점수와 합격 가능성을 시뮬레이션한다. 합격선은 56점(70%)으로 설정되어 있다.
+
+이것이 코어 지원인 이유: Layer 3 예측의 "이 학생이 현재 어디에 있는가"를 정량화한다. 과목별 숙련도와 합격 시뮬레이션은 기출 분석의 결과를 학습자의 현재 상태에 매핑하는 핵심 모듈이다.
+
+### 2-5. 학습 통계 (/stats)
+
+파일: src/app/stats/page.tsx (L1-26), src/app/stats/StatsClient.tsx 및 12개 서브 컴포넌트
+비즈니스 로직: src/lib/stats-utils.ts (L1-295)
+상태 관리: src/stores/useStudyStore.ts — dailyHistory[], quizHistory[]
+
+일일 학습 히트맵(DailyHeatmap), 주간 트렌드 차트(WeeklyTrendChart), 과목별 정답률 바(SubjectAccuracyBars), 취약 영역 분석(WeakAreas), 스트릭 히스토리(StreakHistory), 학습량 차트(StudyVolumeChart), 오답 요약(WrongNoteSummary), 레벨 진행도(LevelProgress), 플래시카드 통계(FlashcardStats), 주간 요약(WeeklySummary), 전체 정답률(OverallAccuracy)을 시각화한다.
+
+이것이 코어 지원인 이유: 학습 데이터의 추세 분석은 마스터리와 합격 시뮬레이션의 시간 축을 보여준다. 취약 영역 분석이 기출 분석 기반 학습 전략의 효과를 측정하는 지표가 된다.
+
+### 2-6. 오늘의 학습 (/daily)
+
+파일: src/app/daily/page.tsx (L1-579)
+API: src/app/api/daily-questions/route.ts
+유틸: src/lib/timeslot.ts, src/lib/sheet-code.ts
+
+3-Step 학습 플로우(OX 10문 → 단답 5문 → 서술 3문)를 KST 4시간 타임슬롯 기반으로 제공한다. 날짜 기반 시드로 매일/타임슬롯마다 다른 문제 세트가 결정론적으로 생성되고, 오답 챕터 우선 추출 로직(selectWithWrongPriority)이 적용된다. 완료 시 성과 요약과 추천 챕터(RecommendedChapters)를 표시한다.
+
+이것이 코어 지원인 이유: 기출 기반 퀴즈 문제를 매일 일정량 제공하는 학습 루틴의 진입점이다. 오답 우선 로직이 기출 분석에서 드러난 취약점을 보강하는 실질적 학습 행동으로 연결한다.
+
+### 2-7. 워크시트 (/worksheets)
+
+파일: src/app/worksheets/page.tsx (L1-52), src/app/worksheets/[id]/page.tsx, src/app/worksheets/[id]/answers/page.tsx
+비즈니스 로직: src/lib/db.ts — getWorksheetsByTopic(), getAllWorksheetTopics(), getWorksheetTopicById()
+
+Supabase worksheet_questions 테이블에서 과목/토픽별 문제지를 생성한다. 기입형(2점)과 서술형(4점) 두 가지 유형으로, 실제 시험의 배점 구조를 반영한다. QR 코드로 답안 페이지에 접근할 수 있어 인쇄 후 오프라인 사용이 가능하다.
+
+이것이 코어 지원인 이유: 기출 분석에서 도출된 핵심 개념을 서술형으로 연습하는 도구이며, 실제 시험의 배점 구조(기입형 2점, 서술형 4점)를 반영한다.
+
+### 2-8. 데이터 동기화 시스템
+
+파일: src/lib/sync.ts (L1-191), src/components/SyncManager.tsx
+상태: 5개 스토어(study, quiz, leitner, bookmark, onboarding)
+
+인증된 사용자의 Zustand 스토어 상태를 Supabase user_data 테이블에 push/pull하여 기기 간 동기화를 구현한다. pushToServer()는 서버 타임스탬프 비교로 stale write를 방지하고, migrateGuestData()가 비로그인 → 로그인 전환 시 로컬 데이터를 서버로 이관한다.
+
+이것이 코어 지원인 이유: 학습 데이터(퀴즈 히스토리, 오답, 플래시카드)의 보존과 동기화 없이는 마스터리 분석과 장기 학습 추적이 불가능하다.
+
+### 2-9. 적응형 난이도 (src/lib/adaptive-difficulty.ts)
+
+파일: src/lib/adaptive-difficulty.ts (L1-100 추정)
+
+챕터별 학습 히스토리에서 정답률을 계산하여 숙련도 레벨(beginner/developing/proficient/mastered)을 판정하고, 각 레벨에 맞는 추천 난이도(1/2/3)를 반환한다. 퀴즈 풀 필터링에 사용되어 실력에 맞는 문제가 제시된다.
+
+이것이 코어 지원인 이유: 기출 문제 학습의 효율을 높이는 개인화 엔진이다.
+
+### 2-10. 정교화 질문 엔진 (src/lib/elaboration.ts)
+
+파일: src/lib/elaboration.ts (L1-130 추정)
+
+정답을 맞힌 후 "왜 이것이 맞는지 설명해보세요"라는 추가 질문을 던지고, 해설에서 추출한 키워드와 학습자 응답을 비교하여 이해 깊이를 평가한다. 불용어 제거, 키워드 추출, 유사도 매칭을 수행한다.
+
+이것이 코어 지원인 이유: 기출 문제의 단순 정오 판정을 넘어 "왜"를 묻는 것은 서술형 문제 대비에 직결된다.
+
+### 2-11. 서술형 채점 엔진 (src/lib/descriptive-scoring.ts)
+
+파일: src/lib/descriptive-scoring.ts (L1-85 추정)
+
+서술형 답안의 키워드 매칭 기반 자동 채점을 수행한다. 기출 시험에서 서술형이 고배점(4점)인 점을 고려하면 중요한 학습 보조 도구이다.
+
+이것이 코어 지원인 이유: 실제 시험의 서술형 문항 대비를 직접 지원한다.
+
+---
+
+## 3. 후순위 기능
+
+### 3-1. 커뮤니티 문제 (/community)
+
+파일: src/app/community/page.tsx (L1-22), src/app/community/create/page.tsx, src/app/community/mine/page.tsx, src/app/community/[id]/page.tsx
+비즈니스 로직: src/lib/community-db.ts (L1-115)
+API: src/app/api/community/route.ts, src/app/api/community/[id]/vote/route.ts, src/app/api/community/[id]/report/route.ts
+
+수험생이 직접 문제를 출제하고 공유하는 소셜 기능이다. Supabase community_questions 테이블에 저장되며, 투표(좋아요), 신고, 공식 채택 기능이 있다.
+
+이것이 후순위인 이유: 사용자 생성 콘텐츠(UGC)는 3-Layer 기출 분석 시스템과 직접적 연관이 없다. 커뮤니티 문제는 기출 데이터의 체계적 분석이 아닌 사용자 간 사회적 학습에 해당한다.
+
+코어 직결이 되려면: 커뮤니티에서 "공식 채택"된 문제가 Layer 2(동형 문제) 풀에 자동 편입되고, 커뮤니티 문제의 키워드가 Layer 3 분석에 포함되어야 한다. 즉, 커뮤니티가 동형 문제 생성의 크라우드소싱 채널로 작동하는 구조가 필요하다.
+
+### 3-2. BDS 행동 의사결정 시뮬레이터 (/scenarios)
+
+파일: src/app/scenarios/page.tsx (L1-129), src/app/scenarios/[id]/page.tsx, src/app/scenarios/spaced/[groupId]/page.tsx
+데이터: src/data/scenarios/ (15개 시나리오 파일)
+비즈니스 로직: src/lib/spaced-scenario.ts (L1-90)
+상태: src/stores/useStudyStore.ts — scenarioProgress, spacedScenarioSchedules
+
+분기형 시나리오(FBA, PBS, 통합교육 등)를 체험하는 시뮬레이터이다. 단일 시나리오와 스페이스드(간격 반복) 시나리오 두 가지 모드가 있다. 행동지원, 통합교육, 진단평가, 교육과정, 전환교육, 관련 법령 등 7개 과목에 걸쳐 난이도별 시나리오를 제공한다.
+
+이것이 후순위인 이유: 시나리오 시뮬레이션은 기출 문제의 "분석"과 다른 축의 학습 도구이다. 기출 분석이 "무엇이 출제되는가"를 다룬다면, 시나리오는 "실제 교실에서 어떻게 판단하는가"를 다룬다.
+
+코어 직결이 되려면: 시나리오의 주제가 기출 키워드 분석에서 도출되어야 하고, 기출 분석에서 "이 키워드 관련 시나리오 연습하기"로 직접 연결되는 경로가 필요하다.
+
+### 3-3. 플래시카드/Leitner SRS (/flashcards)
+
+파일: src/app/flashcards/page.tsx, src/app/flashcards/add/page.tsx, src/app/flashcards/review/page.tsx
+상태 관리: src/stores/useLeitnerStore.ts (L1-134)
+컴포넌트: src/components/flashcard/FlashcardScene.tsx
+
+5-Box Leitner 시스템 기반 간격 반복 학습이다. 오답 등록 시 자동으로 카드가 생성되고(useQuizStore L117-129), 정답/오답에 따라 박스 승격/강등이 이루어진다. 수동 카드 추가도 가능하다.
+
+이것이 후순위인 이유: 플래시카드는 범용 학습 도구이며, 기출 분석 시스템과의 연결이 간접적이다. 오답에서 자동 생성되는 점은 코어 지원에 가깝지만, 플래시카드 자체의 콘텐츠가 기출 키워드와 체계적으로 연결되어 있지 않다.
+
+코어 직결이 되려면: 기출 키워드 분석(Layer 3)에서 "이 키워드 플래시카드로 외우기" 버튼이 있고, 기출 키워드 → 개념 → 플래시카드의 파이프라인이 자동화되어야 한다.
+
+### 3-4. 용어사전 (/terms)
+
+파일: src/app/terms/page.tsx (L1-74)
+데이터: data/terminology/by-subject/ (11개 과목별 JSON)
+
+11개 과목별 특수교육 용어(한/한자/영/정의)를 검색하고 플래시카드 형태로 학습하는 기능이다. 스크래핑 아티팩트 클리닝 로직이 포함되어 있다.
+
+이것이 후순위인 이유: 용어 학습은 기출 분석과 별개의 학습 도구이다. 용어가 기출 키워드와 매핑되어 있지 않다.
+
+코어 직결이 되려면: 용어 각각에 기출 등장 연도/빈도가 태깅되고, Layer 3 분석의 "이 키워드 관련 용어 확인"으로 연결되어야 한다.
+
+### 3-5. 인터랙티브 학습 (/interactive)
+
+파일: src/app/interactive/page.tsx (L1-109)
+컴포넌트: src/components/mdx/ — StepGuide, FillBlank, MatchingExercise
+
+장애 유형 매칭, 법령 빈칸 채우기, IEP 작성 절차 스텝 가이드 등 3가지 인터랙티브 학습 활동을 하드코딩된 데이터로 제공한다.
+
+이것이 후순위인 이유: 하드코딩된 3개 활동은 프로토타입 수준이며, 기출 분석 시스템과 연결되어 있지 않다.
+
+코어 직결이 되려면: 기출 분석에서 도출된 출제 빈도 높은 주제가 인터랙티브 활동으로 자동 생성되는 파이프라인이 필요하다.
+
+### 3-6. 검색 (/search)
+
+파일: src/app/search/page.tsx (L1-22)
+
+전체 퀴즈 문제에서 키워드 검색을 제공한다. 과목/장애유형 필터를 지원한다.
+
+이것이 후순위인 이유: 검색 자체는 보조 기능이다. 기출 검색(/kice 내 search 탭)이 별도로 존재하므로, 이 페이지는 퀴즈 DB 검색에 국한된다.
+
+코어 직결이 되려면: 기출 키워드 검색과 퀴즈 검색이 통합되어 "이 키워드가 기출에서 몇 번 나왔고, 관련 퀴즈는 무엇이고, 관련 개념은 무엇인가"를 한 번에 보여주는 통합 검색이 되어야 한다.
+
+### 3-7. 온보딩 (/onboarding)
+
+파일: src/app/onboarding/page.tsx (L1-494)
+비즈니스 로직: src/lib/study-planner.ts (L1-192)
+상태: src/stores/useOnboardingStore.ts (L1-119)
+
+5-Step 온보딩 플로우(시험일 → 학습 수준 → 취약 과목 → 일일 목표 → 확인)를 거쳐 generateStudyPlan()이 주간 마일스톤을 생성한다. 시험일은 getNextExamDate()로 11월 셋째 주 토요일을 자동 계산한다.
+
+이것이 후순위인 이유: 학습 계획 생성은 유용하지만, 생성된 계획이 기출 분석과 연동되지 않는다. 주간 마일스톤이 기출 출제 빈도나 키워드 분석 결과를 반영하지 않고, 단순히 과목 배분만 한다.
+
+코어 직결이 되려면: generateStudyPlan()이 computeAnalytics()의 결과(출제 빈도, 연속 출제 키워드, 공백 영역)를 입력으로 받아, "이번 주는 3년 연속 출제된 행동지원 키워드 집중" 같은 기출 기반 학습 계획을 생성해야 한다.
+
+### 3-8. 북마크 (/bookmarks)
+
+파일: src/app/bookmarks/page.tsx (L1-86)
+상태: src/stores/useBookmarkStore.ts (L1-64)
+
+개념 페이지를 북마크하여 나중에 돌아올 수 있게 하는 기능이다. 북마크에서 직접 퀴즈를 풀 수 있는 링크도 제공한다.
+
+이것이 후순위인 이유: 범용 UX 편의 기능이며 기출 분석과 직접 관련이 없다.
+
+### 3-9. 오늘의 단어 (TodayTermCard)
+
+파일: src/components/TodayTermCard.tsx, src/components/TodayTermCardClient.tsx
+
+홈 화면에 매일 하나의 용어를 표시하는 위젯이다.
+
+이것이 후순위인 이유: 단순 디스플레이 위젯으로, 기출 키워드 기반이 아닌 랜덤/순차 용어 표시이다.
+
+### 3-10. AI 브리핑 카드 (AiBriefingCard)
+
+파일: src/components/AiBriefingCard.tsx
+
+홈 화면의 AI 기반 학습 브리핑 위젯이다.
+
+이것이 후순위인 이유: 현재 구현 수준이 위젯 수준이며, 기출 분석 데이터와의 연동이 불명확하다.
+
+### 3-11. 뱃지 시스템
+
+파일: src/lib/badges.ts, src/components/BadgeDisplay.tsx
+
+학습 활동에 대한 게이미피케이션 뱃지를 부여한다.
+
+이것이 후순위인 이유: 학습 동기 부여 도구이며 기출 분석과 무관하다.
+
+### 3-12. 리뷰 시스템 (/reviews)
+
+파일: src/app/reviews/page.tsx, src/lib/review-db.ts
+API: src/app/api/reviews/route.ts, src/app/api/reviews/upload/route.ts
+
+관리자 전용 리뷰 시스템이다. 문제 품질 리뷰에 사용되는 것으로 보인다.
+
+이것이 후순위인 이유: 내부 관리 도구이며 학습자 경험과 직접 관련이 없다.
+
+---
+
+## 4. 인프라/관리 기능 (분류 외)
+
+다음은 코어/지원/후순위 분류가 의미 없는 인프라 기능이다:
+
+### 4-1. 인증 (/login, /auth)
+src/app/login/page.tsx, src/app/auth/, src/lib/supabase/, src/lib/auth-utils.ts, src/lib/admin-auth.ts
+OAuth(Google 등) + 이메일 로그인 + 게스트 모드. 데이터 동기화의 전제 조건.
+
+### 4-2. 관리자 대시보드 (/admin)
+src/app/admin/page.tsx, src/app/admin/editor/, src/app/admin/sitemap/
+문제 CRUD, 통계, 사이트 구조도. 콘텐츠 관리의 핵심 도구.
+
+### 4-3. 프로필 관리 (/my, /api/profile)
+src/app/my/page.tsx, src/app/api/profile/route.ts, src/lib/profile.ts
+사용자 프로필, 닉네임, 학습 현황 대시보드.
+
+### 4-4. 홈 화면 (/)
+src/app/page.tsx
+D-day 카운트다운, 복습 카드, 오늘 학습 시작, 스트릭, 오늘의 단어, AI 브리핑 등 대시보드.
+
+### 4-5. 사이트 구조도 (/structure, /admin/sitemap)
+src/app/structure/page.tsx, src/app/admin/sitemap/page.tsx
+관리자용 과목별 문제 현황 및 사이트 라우트 구조도.
+
+---
+
+## 5. 분류 요약 테이블
+
+| 분류 | 기능 | 핵심 파일 |
+|------|------|-----------|
+| 코어 직결 | KICE 기출 열람/풀이 | src/app/kice/, src/lib/kice.ts, data/kice-기출/ |
+| 코어 직결 | KICE 모의고사 | src/app/kice/exam/, src/components/kice/ |
+| 코어 직결 | 출제 경향 분석 | src/app/kice/analytics/, src/lib/kice-analytics.ts |
+| 코어 직결 | KICE 기출 데이터 | data/kice-기출/{year}/{session}.json |
+| 코어 지원 | 개념학습 MDX | src/app/concepts/, src/lib/concepts.ts, src/content/concepts/ |
+| 코어 지원 | 과목별 퀴즈 | src/app/quiz/, src/lib/db.ts |
+| 코어 지원 | 오답노트 | src/app/wrong-notes/, src/stores/useQuizStore.ts |
+| 코어 지원 | 마스터리 트리 | src/app/mastery/, src/lib/mastery.ts |
+| 코어 지원 | 학습 통계 | src/app/stats/, src/lib/stats-utils.ts |
+| 코어 지원 | 오늘의 학습 | src/app/daily/, src/lib/timeslot.ts |
+| 코어 지원 | 워크시트 | src/app/worksheets/, src/lib/db.ts |
+| 코어 지원 | 데이터 동기화 | src/lib/sync.ts, src/components/SyncManager.tsx |
+| 코어 지원 | 적응형 난이도 | src/lib/adaptive-difficulty.ts |
+| 코어 지원 | 정교화 질문 | src/lib/elaboration.ts |
+| 코어 지원 | 서술형 채점 | src/lib/descriptive-scoring.ts |
+| 후순위 | 커뮤니티 문제 | src/app/community/, src/lib/community-db.ts |
+| 후순위 | BDS 시나리오 | src/app/scenarios/, src/data/scenarios/ |
+| 후순위 | 플래시카드/Leitner | src/app/flashcards/, src/stores/useLeitnerStore.ts |
+| 후순위 | 용어사전 | src/app/terms/, data/terminology/ |
+| 후순위 | 인터랙티브 학습 | src/app/interactive/ |
+| 후순위 | 검색 | src/app/search/ |
+| 후순위 | 온보딩 | src/app/onboarding/, src/lib/study-planner.ts |
+| 후순위 | 북마크 | src/app/bookmarks/, src/stores/useBookmarkStore.ts |
+| 후순위 | 오늘의 단어 | src/components/TodayTermCard.tsx |
+| 후순위 | AI 브리핑 | src/components/AiBriefingCard.tsx |
+| 후순위 | 뱃지 시스템 | src/lib/badges.ts |
+| 후순위 | 리뷰 시스템 | src/app/reviews/, src/lib/review-db.ts |
+
+---
+
+## 6. 핵심 발견 사항
+
+### 6-1. Layer 3 (예측) 의 현재 수준
+
+kice-analytics.ts의 computeAnalytics()는 과목별 빈도, 키워드 빈도, 연속 출제, 공백 영역을 계산하는 탄탄한 엔진이다. 그러나 분석 결과가 학습 경로에 피드백되는 루프가 약하다. 구체적으로:
+
+- 분석 결과에서 "이 키워드를 공부하러 가기" 링크가 개념학습으로 연결되지 않음
+- 예상 문제(data/kice-기출/2027/전공A-예상.json)가 존재하지만 분석 결과에서 자동 생성된 것이 아닌 수동 작성물임
+- 마스터리 시뮬레이션이 기출 분석의 과목 가중치(exam-structure.json)를 사용하지만, 키워드 단위의 세밀한 연결은 없음
+
+### 6-2. Layer 1/2 데이터 품질
+
+data/kice-기출/ 에 2016~2027년 데이터가 있으며, 2025~2026년에 동형 문제가 존재한다. 2027년에는 예상 문제만 있다. 각 문항에 subjects, keywords, points, type이 태깅되어 있어 분석 엔진의 입력 데이터 구조는 갖추어져 있다.
+
+### 6-3. 코어 지원 → 코어 직결 승격 후보
+
+마스터리 트리가 가장 강력한 승격 후보이다. 현재 simulatePass()가 과목별 가중치를 사용하여 합격 확률을 계산하는데, 여기에 기출 키워드 분석의 "이 키워드가 3년 연속 출제됐는데 학습자가 관련 챕터를 아직 안 풀었다"는 경고를 추가하면 Layer 3 예측과 개인 학습 상태가 직접 연결된다.
+
+### 6-4. 후순위 중 잠재력 높은 기능
+
+온보딩의 학습 계획 생성기(study-planner.ts)가 computeAnalytics()의 결과를 입력으로 받으면, "기출 분석 기반 맞춤형 학습 계획"이라는 강력한 가치 제안이 만들어진다. 현재는 단순 과목 배분만 하지만, 기출 빈도 기반 우선순위 조정은 구조적으로 어렵지 않다.
+
+---
+
+## 7. 다음 세션 에이전트를 위한 지침
+
+이 문서를 읽는 다음 에이전트에게:
+
+1. 코어 직결 기능 수정 시 src/lib/kice.ts, src/lib/kice-analytics.ts, data/kice-기출/ 을 반드시 함께 확인하라. 데이터 구조 변경이 분석 엔진에 직접 영향을 미친다.
+
+2. 기출 키워드 분석과 학습 경로의 연결을 강화하는 작업은 kice-analytics.ts의 KeywordFrequency 타입과 concepts.ts의 kiceKeywords frontmatter 필드를 교차 조회하면 된다. 양쪽 데이터가 이미 키워드 문자열로 연결되어 있으나, 런타임에 이 연결이 활용되지 않고 있다.
+
+3. 상태 관리 전체 구조: 5개 Zustand 스토어(study, quiz, leitner, bookmark, onboarding)가 localStorage에 persist되고 Supabase user_data에 sync된다. 스토어 간 의존성은 useQuizStore → useLeitnerStore (오답 시 자동 카드 생성) 한 건이다.
+
+4. KICE 데이터 확장 시 data/kice-기출/{year}/{session}.json 형식을 유지하되, 파일명에 동형 또는 예상이 포함되면 isIsomorphic/isPredicted 플래그가 자동 설정된다. computeAnalytics()는 원본만 필터링하므로 동형/예상 문제는 분석에 포함되지 않는다.
+
+5. 테스트: src/lib/__tests__/ 에 단위 테스트가 존재한다. 기출 관련 변경 시 테스트도 확인하라.

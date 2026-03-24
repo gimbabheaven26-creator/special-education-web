@@ -1,0 +1,253 @@
+# 개발자 리뷰: 특수교육 공부방 — 기술 건강 진단
+
+리뷰어: X (시니어 풀스택 개발자, EdTech 15년)
+날짜: 2026-03-24
+관점: 이 코드베이스를 처음 보는 외부 개발자가 "2년 후에도 유지보수 가능한가?"를 판단
+범위: src/, supabase/, .github/, package.json, next.config.mjs, 테스트 전체
+
+---
+
+## 1. 아키텍처 지속가능성
+
+### 1-1. 전체 구조 평가
+
+이 프로젝트는 Next.js 14 App Router + Supabase + Zustand의 조합으로, EdTech 초기 프로토타입에서 중규모 학습 플랫폼으로 성장하는 과도기에 있다. 현재 src/ 아래에 281개의 TypeScript/TSX 파일이 존재하며, 30개 이상의 라우트, 5개의 Zustand 스토어, 45개 이상의 lib 유틸리티가 분포하고 있다. 프로젝트의 기능 범위(퀴즈, 기출분석, 오답노트, 시나리오, 커뮤니티, 플래시카드, 워크시트, 통계, 마스터리 등)에 비해 아키텍처 레이어 분리가 충분하지 않다.
+
+현재 구조의 가장 큰 강점은 기능별 라우트 분리가 Next.js App Router 컨벤션을 잘 따르고 있다는 점이다. /kice, /quiz, /daily, /wrong-notes 등이 각자의 라우트 디렉토리에 page.tsx와 클라이언트 컴포넌트(*Client.tsx)로 분리되어 있어, 서버/클라이언트 경계가 명확하다. 타입 시스템도 src/types/에 도메인별로 분리되어 있으며, quiz.ts, study.ts, kice.ts, scenario.ts 등 핵심 도메인 타입이 잘 정의되어 있다.
+
+가장 큰 구조적 위험은 src/lib/ 디렉토리의 비대화이다. 현재 45개 이상의 파일이 이 디렉토리에 평면적으로 존재하며, 데이터베이스 접근 로직(db.ts, community-db.ts, review-db.ts), 비즈니스 로직(mastery.ts, adaptive-difficulty.ts, descriptive-scoring.ts), 순수 유틸리티(date-utils.ts, array-utils.ts, utils.ts), 설정(nav-config.ts, xp-constants.ts), 외부 서비스 통합(analytics.ts, sync.ts)이 구분 없이 섞여 있다. 2년 후 기능이 두 배로 늘어나면, 이 디렉토리는 새로운 개발자가 "어떤 파일에서 무엇을 찾아야 하는지" 알 수 없는 상태가 된다.
+
+수정 방안: src/lib/를 역할별로 재편한다. src/lib/db/(데이터 접근), src/lib/domain/(비즈니스 로직), src/lib/utils/(순수 유틸리티), src/lib/config/(설정)으로 분리하면 된다. 파일 이동은 import 경로만 업데이트하면 되므로 비용이 낮다. 다만 한 번에 하면 변경이 크므로, 신규 파일부터 새 구조를 적용하고 기존 파일은 점진적으로 이동하는 것을 권장한다.
+
+### 1-2. 모놀리식 컴포넌트 문제
+
+QuizClient.tsx(684줄), QuizForm.tsx(736줄), daily/page.tsx(579줄), my/page.tsx(512줄), onboarding/page.tsx(494줄), ExamClient.tsx(493줄)은 모두 500줄을 초과하거나 근접한 모놀리식 컴포넌트이다. 이 파일들은 상태 관리, UI 렌더링, 비즈니스 로직이 하나의 컴포넌트 안에 결합되어 있다. 기능 추가 시 이 파일들이 가장 먼저 1000줄을 넘기며 유지보수 불가 상태에 도달할 것이다.
+
+수정 방안: 각 모놀리식 컴포넌트를 3가지 레이어로 분리한다. (1) 커스텀 훅으로 상태 로직 추출(useQuizSession.ts, useDailyLearning.ts 등), (2) 프레젠테이션 컴포넌트로 UI 분리(QuizQuestion.tsx, QuizProgress.tsx 등), (3) 페이지 컴포넌트는 조합만 담당. QuizClient.tsx와 daily/page.tsx부터 착수하는 것이 가장 효과적이다. 이 두 파일이 가장 자주 변경되는 코어 경로이기 때문이다.
+
+### 1-3. 데이터 접근 레이어의 부재
+
+src/lib/db.ts(356줄)가 사실상 모든 Supabase 쿼리의 진입점인데, 이 파일이 subjects, quiz_questions, worksheet_questions, worksheet_topics, profiles, user_data 테이블 모두를 한 파일에서 처리하고 있다. community-db.ts와 review-db.ts는 이미 분리되어 있으므로, 나머지 테이블도 동일한 패턴으로 분리해야 한다. 또한 mapQuizRow() 같은 행 매핑 함수가 db.ts 내부에 정의되어 있어, 다른 모듈에서 재사용이 불가능하다.
+
+수정 방안: db.ts를 quiz-db.ts, subject-db.ts, worksheet-db.ts, user-db.ts로 분할한다. 각 모듈이 해당 테이블의 CRUD와 행 매핑을 책임진다. db.ts는 공통 유틸리티만 남기거나 삭제한다.
+
+---
+
+## 2. 기술 부채 핫스팟
+
+### 2-1. eslint-disable 남발
+
+SyncManager.tsx와 sync.ts에 eslint-disable-next-line @typescript-eslint/no-explicit-any가 10회 이상 등장한다. syncAllStores()에서 서버 데이터를 각 Zustand 스토어에 setState(data as any)로 주입하는 부분이 핵심인데, 이는 서버에서 잘못된 형태의 데이터가 내려오면 런타임에서 조용히 깨지는 결과를 낳는다. 특히 스토어 스키마가 마이그레이션을 거치면서 변하는 상황(현재 useQuizStore가 version 4, useStudyStore가 version 5)에서, 서버에 저장된 구 버전 데이터가 as any로 강제 주입되면 예측 불가능한 상태가 된다.
+
+수정 방안: 각 스토어별로 validateServerData(data: unknown): StoreState | null 검증 함수를 만든다. 서버에서 pull한 데이터를 setState() 전에 반드시 검증하고, 검증 실패 시 서버 데이터를 무시하고 로컬 상태를 유지한다. Zod나 Valibot 같은 스키마 검증 라이브러리를 도입하면 타입 안전성과 런타임 검증을 동시에 확보할 수 있다.
+
+### 2-2. getQuizCount()의 클라이언트 사이드 집계
+
+db.ts의 getQuizCount() 함수는 quiz_questions 테이블에서 select('subject')로 최대 10,000행을 가져온 뒤, JavaScript에서 for 루프로 과목별 카운트를 계산한다. 이것은 데이터베이스가 해야 할 일을 애플리케이션 레이어로 가져온 전형적인 안티패턴이다. 현재 문제 수가 수천 건이면 큰 문제가 없지만, 만 건을 넘기면 불필요한 네트워크 전송량과 메모리 사용이 눈에 띄게 된다.
+
+수정 방안: Supabase RPC 함수를 만들어 SELECT subject, COUNT(*) FROM quiz_questions GROUP BY subject를 서버에서 실행한다. 또는 PostgREST의 select('subject', { count: 'exact', head: true }) 를 과목별로 호출한다. 가장 간단한 방법은 Supabase Edge Function이나 DB 함수로 집계를 위임하는 것이다.
+
+### 2-3. 검색 쿼리의 sanitization 불일치
+
+db.ts의 searchQuizzes()는 query.replace(/[%_\\(),."]/g, ...)로 특수문자를 이스케이프하는 반면, admin/quiz/route.ts와 admin/editor/page.tsx의 검색은 사용자 입력을 .ilike('question', \%${search}%\)에 직접 넣고 있다. PostgREST의 ilike는 SQL injection에는 안전하지만, %와 _ 같은 와일드카드 문자가 이스케이프되지 않아 의도치 않은 패턴 매칭이 발생할 수 있다. 관리자 전용 API라서 심각한 보안 이슈는 아니지만, 동일한 검색 로직이 두 곳에서 다른 처리를 하는 것은 버그의 온상이다.
+
+수정 방안: sanitizeSearchQuery() 유틸리티 함수를 하나 만들어 모든 검색에서 공통으로 사용한다. src/lib/utils.ts에 추가하거나 별도의 search-utils.ts로 분리한다.
+
+### 2-4. 동기화 경쟁 조건
+
+SyncManager.tsx의 동기화 로직에서 isSyncing ref가 경쟁 조건을 완전히 방지하지 못한다. 시나리오: (1) 사용자가 로그인한다, (2) syncOnLogin()이 서버에서 데이터를 pull한다, (3) pull 도중에 다른 탭에서 스토어가 변경된다, (4) pull이 완료되어 isSyncing이 false가 된다, (5) 변경된 스토어 데이터가 schedulePush로 서버에 올라간다, (6) 하지만 이 데이터에는 pull 이전의 상태가 섞여 있을 수 있다. pushToServer()의 localUpdatedAt 비교가 이를 어느 정도 완화하지만, 여러 스토어가 동시에 변경되는 상황에서는 일부 스토어만 push되고 나머지는 skipped되는 비일관 상태가 발생할 수 있다.
+
+수정 방안: 단기적으로는 syncOnLogin() 완료 후 모든 스토어의 현재 타임스탬프를 갱신하는 현재 로직이 합리적이다. 장기적으로는 스토어별 version vector나 마지막 수정 시각을 스토어 자체에 내장하여, push 시 정확한 비교가 가능하도록 해야 한다. 또는 Supabase Realtime의 Postgres Changes를 구독하여 서버 변경을 감지하는 방식으로 전환하는 것도 고려할 수 있다.
+
+---
+
+## 3. 테스트 격차
+
+### 3-1. 현재 테스트 현황
+
+유닛 테스트는 src/lib/__tests__/에 13개 파일(총 1,193줄), src/components/quiz/__tests__/에 1개 파일, src/app/kice/exam/__tests__/에 1개 파일, src/tests/에 1개 파일이 존재한다. E2E 테스트는 tests/e2e/에 5개 파일이 있다. 전체 소스 파일 281개 대비 테스트 파일은 16개로, 비율은 약 5.7%이다.
+
+테스트된 영역은 순수 유틸리티 함수에 집중되어 있다: date-utils, check-blank, stats-utils, kice, timeslot, nav-config, descriptive-scoring, error-patterns, elaboration, analytics, sheet-code, exam-countdown, home-quiz-seed. 이 선택은 합리적이다. 순수 함수가 가장 테스트하기 쉽고 ROI가 높기 때문이다.
+
+### 3-2. 위험하게 미테스트된 영역
+
+Zustand 스토어 마이그레이션: useQuizStore는 version 4까지, useStudyStore는 version 5까지 마이그레이션이 정의되어 있다. 이 마이그레이션 로직은 사용자 데이터를 구 버전에서 신 버전으로 변환하는 핵심 경로인데, 테스트가 전혀 없다. 마이그레이션이 잘못되면 사용자의 학습 기록이 소실되며, 이는 EdTech 서비스에서 가장 심각한 장애 유형이다. 특히 useQuizStore의 v3->v4 마이그레이션은 wrongNotes 배열의 구조를 근본적으로 변경하는데(전체 question 객체를 subject string으로 교체), 이 변환이 실패하면 오답노트 전체가 깨진다.
+
+수정 방안: 각 스토어의 마이그레이션 함수에 대해 "이전 버전 스냅샷 → 현재 버전 출력" 테스트를 작성한다. 각 버전 전환마다 하나의 테스트 케이스가 필요하며, 특히 v3->v4(WrongNote 구조 변경)와 v0->v1(legacy feedback 병합)이 우선이다.
+
+동기화 로직: sync.ts의 pushToServer(), pullFromServer(), syncAllStores(), migrateGuestData()는 데이터 무결성의 핵심인데 테스트가 없다. Supabase 클라이언트를 모킹하여 "push 성공/실패/스킵", "pull 성공/실패", "guest 데이터 마이그레이션" 시나리오를 테스트해야 한다.
+
+API 라우트: 12개 이상의 API 라우트 중 어느 것도 통합 테스트가 없다. 특히 admin/quiz/bulk/route.ts(최대 500건 일괄 업서트)과 community/[id]/vote/route.ts(본인 투표 차단 로직)는 엣지 케이스가 많은데 테스트가 없다.
+
+수정 방안: 우선순위 기준으로 (1) 스토어 마이그레이션 테스트, (2) sync 모듈 모킹 테스트, (3) admin bulk API 테스트 순서로 작성한다. API 테스트는 Supabase를 모킹하거나 테스트용 데이터베이스를 사용한다.
+
+### 3-3. E2E 테스트의 한계
+
+Playwright 설정이 Chromium 단일 프로젝트로 workers: 1에 fullyParallel: false로 구성되어 있어, 테스트가 순차 실행된다. 5개의 E2E 시나리오(concepts, community, wrong-notes, auth-flow, quiz-flow)가 있지만, baseURL: 'http://localhost:3000'이 하드코딩되어 있어 CI에서 dev 서버를 별도로 실행해야 한다. 현재 CI 워크플로(ci.yml)에는 E2E 테스트 실행 단계가 없다.
+
+수정 방안: CI에 E2E 테스트 단계를 추가한다. webServer 옵션을 Playwright 설정에 추가하여 테스트 전에 자동으로 dev 서버를 시작하도록 한다. 모바일 뷰포트 프로젝트도 추가하는 것을 권장한다. PWA로 모바일 사용이 주된 유스케이스이므로 모바일 E2E가 데스크톱보다 중요하다.
+
+---
+
+## 4. 의존성 건강
+
+### 4-1. 핵심 의존성 버전 평가
+
+Next.js 14.2.35는 안정적인 선택이다. 다만 Next.js 15가 이미 릴리스된 상태에서 14에 머물러 있으면, 시간이 지날수록 보안 패치와 성능 개선을 받지 못하게 된다. React 18은 현재로서는 문제없지만, Next.js 15로의 마이그레이션이 React 19를 요구할 수 있으므로 계획적인 업그레이드가 필요하다.
+
+@supabase/ssr 0.9.0과 @supabase/supabase-js 2.99.1은 현재 시점에서 적절한 버전이다. Supabase 클라이언트의 서버/브라우저 분리(src/lib/supabase/browser.ts, server.ts)도 공식 패턴을 정확히 따르고 있다. 미들웨어에서의 세션 갱신(middleware.ts)도 Supabase SSR 가이드에 부합한다.
+
+zustand 5.0.11은 최신이며, persist 미들웨어 사용이 적절하다. 다만 5개 스토어 모두가 localStorage에 persist되면서 각각 독립적으로 마이그레이션을 관리하는 구조는, 스토어 수가 늘어날수록 복잡해진다.
+
+### 4-2. 잠재적 문제 의존성
+
+@ducanh2912/next-pwa 10.2.9는 커뮤니티 포크 패키지이다. 원본 next-pwa가 유지보수 중단된 후의 대안으로 선택된 것으로 보이지만, 단일 메인테이너 패키지이므로 장기적인 유지보수 지속성이 불확실하다. PWA 런타임 캐싱 설정이 urlPattern: /^https?.*/로 모든 HTTP(S) 요청을 NetworkFirst로 캐싱하는데, 이는 Supabase API 응답까지 캐싱하여 stale 데이터 문제를 일으킬 수 있다. API 경로는 캐싱에서 제외해야 한다.
+
+@google/generative-ai 0.24.1은 AI 기능(ai-assist, ai/weakness)에 사용되는데, Gemini API 키가 없을 때의 fallback이 잘 구현되어 있다(MOCK_SUGGESTIONS 배열). 그러나 API 키가 있을 때 요청 크기 제한(MAX_FIELD_LENGTH)만 있고, 응답 크기 제한이나 타임아웃 설정이 없다. Gemini 응답이 비정상적으로 클 경우 메모리 문제가 발생할 수 있다.
+
+gray-matter 4.0.3은 MDX frontmatter 파싱에 사용되는데, YAML 파싱 시 콜론 포함 키워드가 key:value 객체로 잘못 파싱되는 문제를 toKeywordString()으로 우회하고 있다(concepts.ts L19-29). 이 우회는 동작하지만, 데이터 입력 규칙을 문서화하지 않으면 미래의 콘텐츠 작성자가 같은 함정에 빠진다.
+
+수정 방안: (1) PWA 캐싱에서 /api/* 경로를 제외하는 규칙을 runtimeCaching 앞에 추가한다. (2) Gemini API 호출에 AbortController 기반 타임아웃(30초)을 설정한다. (3) MDX frontmatter 작성 가이드에 콜론 포함 키워드의 따옴표 감싸기 규칙을 명시한다.
+
+### 4-3. 누락된 의존성
+
+에러 모니터링 도구(Sentry, Bugsnag 등)가 없다. 현재 에러 처리는 try/catch로 조용히 삼키거나 console.error로 로깅하는 수준이다. 프로덕션에서 발생하는 에러를 추적할 방법이 없으므로, 사용자가 경험하는 문제를 개발자가 알 수 없다.
+
+수정 방안: Sentry의 Next.js SDK를 도입한다. src/app/error.tsx(글로벌 에러 바운더리)와 API 라우트의 catch 블록에 Sentry 리포팅을 추가하면 된다. 무료 티어로도 소규모 서비스에 충분하다.
+
+---
+
+## 5. 배포/DevOps 성숙도
+
+### 5-1. CI 파이프라인
+
+현재 CI(ci.yml)는 lint, unit test, build 3단계만 실행한다. E2E 테스트, TypeScript strict 검사, 번들 사이즈 검사, 보안 감사(npm audit)가 빠져 있다. 빌드 단계에서 Supabase 환경 변수를 placeholder 값으로 설정하여 빌드 자체는 통과하도록 했는데, 이는 빌드 타임에 Supabase URL을 검증하지 않는다는 의미이므로 런타임 에러가 빌드에서 잡히지 않는다.
+
+Node.js 22를 사용하는 것은 LTS 트랙을 따르고 있어 좋은 선택이다. npm ci를 사용하는 것도 재현 가능한 빌드를 보장한다.
+
+수정 방안: CI에 다음을 추가한다. (1) npx tsc --noEmit으로 TypeScript 컴파일 에러를 별도로 검사한다(빌드와 별개). (2) npm audit --audit-level=high로 높은 심각도의 보안 취약점을 체크한다. (3) 번들 사이즈를 .next/analyze로 추적하여 PR마다 사이즈 변화를 표시한다. (4) 장기적으로 E2E 테스트 단계를 추가한다.
+
+### 5-2. 환경 변수 관리
+
+process.env.NEXT_PUBLIC_SUPABASE_URL과 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY는 Supabase 클라이언트 생성 시 존재 여부를 확인하고 없으면 throw한다. 이것은 올바른 패턴이다. GEMINI_API_KEY, ADMIN_API_KEY는 옵셔널하게 처리되어 있어, 없어도 서비스가 동작한다. NEXT_PUBLIC_SITE_URL은 메타데이터에 사용되며 기본값이 있다.
+
+다만 .env.example 파일이 없다. 새로운 개발자가 어떤 환경 변수를 설정해야 하는지 알 수 없다. 또한 환경 변수 검증이 런타임에서만 이루어지므로, 빌드 시점에서 필수 변수 누락을 감지할 수 없다.
+
+수정 방안: (1) .env.example 파일을 만들어 모든 환경 변수를 문서화한다. (2) src/lib/env.ts를 만들어 빌드/런타임 시점에서 필수 변수를 검증하는 중앙 모듈을 둔다.
+
+### 5-3. 데이터베이스 마이그레이션
+
+Supabase 마이그레이션이 supabase/migrations/에 3개 파일로 관리되고 있다. 그러나 20260322000001_profiles_expand.sql의 주석에 "Run this in the Supabase SQL Editor"라고 적혀 있어, 마이그레이션이 자동화되지 않고 수동으로 실행되고 있음을 알 수 있다. 이것은 프로덕션 환경에서 위험하다. 마이그레이션 누락이나 실행 순서 오류가 서비스 장애로 이어질 수 있다.
+
+또한 커뮤니티 관련 테이블(community_questions, question_votes, question_reports)과 분석 이벤트 테이블(analytics_events), 리뷰 테이블(reviews)의 생성 마이그레이션이 supabase/migrations/에 없다. 이 테이블들은 Supabase 대시보드에서 직접 생성된 것으로 추정된다. 데이터베이스 스키마가 코드와 완전히 동기화되지 않아, 새로운 환경에서 프로젝트를 처음부터 세팅하는 것이 불가능하다.
+
+수정 방안: (1) supabase db dump로 현재 프로덕션 스키마를 덤프하여 초기 마이그레이션으로 저장한다. (2) 모든 테이블 생성/변경을 마이그레이션 파일로 관리하고, supabase db push로 자동 적용한다. (3) CI에 supabase db diff를 추가하여 코드와 DB 스키마의 일치 여부를 검증한다.
+
+---
+
+## 6. 데이터 모델 확장성
+
+### 6-1. user_data의 JSONB 덤프 패턴
+
+현재 사용자 데이터 저장 방식은 5개 Zustand 스토어의 전체 상태를 각각 하나의 JSONB 컬럼에 덤프하는 것이다. user_data 테이블은 (user_id, store_key) 유니크 제약으로 사용자당 최대 5행을 저장한다. 이 방식의 장점은 스키마 변경 없이 프론트엔드 상태를 그대로 저장할 수 있다는 것이고, 단점은 데이터베이스의 쿼리 능력을 전혀 활용할 수 없다는 것이다.
+
+10,000명의 사용자를 가정하면, user_data 테이블에 최대 50,000행이 저장된다. 행 수 자체는 문제가 없다. 문제는 JSONB 컬럼의 크기이다. useQuizStore의 quizHistory가 최대 5,000건, wrongNotes가 최대 500건을 저장하므로, 한 사용자의 quiz 스토어 데이터가 수 MB에 달할 수 있다. 이것이 매번 push/pull될 때 네트워크 대역폭과 Supabase PostgREST의 응답 시간에 영향을 미친다.
+
+더 심각한 문제는, "전체 사용자의 학습 통계를 보고 싶다"는 관리자 요구사항이 생겼을 때 대응이 불가능하다는 것이다. JSONB 안에 묻힌 quizHistory를 SQL로 집계하려면 jsonb_array_elements를 10,000번 풀어야 하므로, 사실상 불가능하다.
+
+수정 방안: 장기적으로는 quiz_results 테이블(정규화된 행 기반)을 별도로 만들어, 퀴즈 결과를 실시간으로 저장한다. JSONB 덤프는 "클라이언트 UI 상태 복원"용으로 유지하되, 분석 가능한 데이터는 정규화된 테이블에 이중 저장한다. 단기적으로는 quizHistory와 wrongNotes의 최대 저장량을 줄이는 것(현재 5,000/500 → 2,000/200)으로 JSONB 크기를 통제할 수 있다.
+
+### 6-2. quiz_questions 테이블의 확장성
+
+현재 getAllQuizzes()가 limit(10000)으로 전체 문제를 가져오고, getQuizCount()가 모든 과목 컬럼을 가져와서 클라이언트에서 집계한다. 10,000명의 사용자가 동시에 이 쿼리를 실행하면 Supabase 무료/프로 플랜의 커넥션 풀이 빠르게 소진된다.
+
+또한 daily-questions/route.ts가 모든 OX/fill_in/descriptive 문제를 한 번에 가져와서(select('id, type, question, answer, chapter, subject, explanation').in('type', ['ox', 'fill_in', 'descriptive'])), JavaScript에서 seeded 샘플링을 수행한다. 문제 수가 증가하면 이 쿼리의 응답 시간이 선형적으로 증가한다.
+
+수정 방안: (1) getAllQuizzes()는 페이지네이션이나 과목별 분할 로딩으로 대체한다. (2) getQuizCount()는 SQL GROUP BY 집계로 대체한다. (3) daily-questions는 DB 함수에서 ORDER BY random() + LIMIT으로 샘플링하거나, TABLESAMPLE 절을 활용한다. (4) 자주 변하지 않는 데이터(과목 목록, 문제 수)는 ISR(Incremental Static Regeneration)이나 서버 사이드 캐싱을 적용한다.
+
+### 6-3. RLS 정책의 일관성
+
+profiles와 user_data 테이블에는 RLS가 "본인만 읽기/수정"으로 설정되어 있다. 그러나 quiz_questions, subjects, worksheet_questions 등의 테이블에 대한 RLS 정책이 마이그레이션 파일에 보이지 않는다. 이 테이블들이 anon 키로 접근 가능하다면, 인증 없이 전체 문제 데이터를 덤프할 수 있다. 교육 콘텐츠라 심각한 보안 이슈는 아니지만, 경쟁사가 데이터를 쉽게 스크래핑할 수 있다는 의미이다.
+
+수정 방안: 모든 데이터 테이블에 최소한 SELECT만 허용하는 RLS 정책을 설정한다. INSERT/UPDATE/DELETE는 admin 역할 또는 인증된 사용자에게만 허용한다.
+
+---
+
+## 7. 성능 병목
+
+### 7-1. 파일시스템 기반 콘텐츠 로딩
+
+src/lib/kice.ts의 getAvailableExams()와 getExam()은 fs.readFileSync()와 fs.readdirSync()로 파일시스템에서 직접 JSON을 읽는다. getQuestionOfTheDay()는 모든 기출 시험의 모든 문제를 메모리에 로딩한 뒤 해시 기반으로 하나를 선택한다. 마찬가지로 src/lib/concepts.ts의 getSubjectFiles()는 MDX 파일을 동기적으로 읽고 gray-matter로 파싱한다.
+
+Next.js의 서버 컴포넌트에서 이 함수들이 호출되면, 매 요청마다 파일시스템 I/O가 발생한다. Vercel의 서버리스 환경에서는 람다 콜드 스타트 시 파일시스템 접근이 느리므로, 첫 요청의 응답 시간이 수 초에 달할 수 있다. 특히 getQuestionOfTheDay()는 12개 연도의 모든 JSON을 파싱하므로 콜드 스타트 시 상당한 지연이 예상된다.
+
+수정 방안: (1) getAvailableExams()의 결과를 모듈 레벨 변수에 캐싱한다(한 번 로딩하면 프로세스 수명 동안 유지). (2) getQuestionOfTheDay()를 ISR 페이지에서 호출하여 빌드 시점에 캐싱한다. (3) 장기적으로는 기출 데이터도 Supabase에 저장하여 파일시스템 의존을 제거한다. 이렇게 하면 콘텐츠 업데이트 시 재배포가 불필요해진다.
+
+### 7-2. SyncManager의 5중 구독
+
+SyncManager.tsx가 5개 Zustand 스토어를 모두 구독하고 있어, 어떤 스토어든 변경될 때마다 debounce 타이머가 시작된다. 사용자가 퀴즈를 풀면 useQuizStore(오답/히스토리 추가)와 useStudyStore(XP/통계 갱신)가 거의 동시에 변경되어, 1,500ms 내에 2개의 push 요청이 발생한다. 활발한 사용 시 분당 수십 건의 Supabase API 호출이 발생할 수 있다.
+
+수정 방안: (1) 개별 스토어 push 대신, 변경된 스토어들을 모아서 일괄 push하는 배치 전략을 도입한다. 예를 들어, 어떤 스토어든 변경되면 2초 후에 변경된 모든 스토어를 한 번에 push한다. (2) 퀴즈 결과 저장처럼 빈번한 이벤트는 debounce 간격을 5초로 늘린다. (3) visibilitychange 이벤트에 즉시 push를 추가하여, 사용자가 탭을 떠날 때 미저장 데이터를 보존한다.
+
+### 7-3. 클라이언트 번들 크기
+
+lucide-react가 optimizePackageImports에 포함되어 있어 트리셰이킹이 작동하고 있다. 그러나 @google/generative-ai가 클라이언트 번들에 포함되지 않도록 확인이 필요하다(현재는 서버 API 라우트에서만 사용되므로 문제없을 것이다). fuse.js(퍼지 검색)는 전체 번들에 포함되는지 확인해야 한다. 검색 페이지에서만 사용된다면 동적 임포트로 분리해야 한다.
+
+수정 방안: next build의 번들 분석 리포트를 확인하여, 특정 라우트에서만 사용되는 라이브러리가 공통 번들에 포함되는지 검증한다. @next/bundle-analyzer를 devDependencies에 추가하여 번들 구성을 가시화한다.
+
+---
+
+## 8. 보안 평가
+
+### 8-1. 양호한 보안 관행
+
+이 프로젝트는 기본적인 보안을 잘 지키고 있다. auth-utils.ts의 safeRedirectPath()가 Open Redirect를 방지하고, admin-auth.ts의 verifyAdmin()과 verifyAdminOrApiKey()가 관리자 API를 보호하며, middleware.ts가 /my/*와 /admin/* 경로를 인증 필수로 설정하고 있다. Supabase RLS가 profiles와 user_data에 적용되어 있다. searchQuizzes()의 입력 sanitization도 존재한다. AI API(ai-assist, ai/weakness)에 입력 크기 제한(MAX_FIELD_LENGTH)이 있다.
+
+### 8-2. 보안 개선이 필요한 부분
+
+관리자 권한 검증의 미들웨어 레벨 부재: 미들웨어는 /admin/*에 대해 "로그인 여부"만 확인하고, "admin 역할 여부"는 확인하지 않는다. 실제 역할 검증은 각 API 라우트 핸들러 안에서 verifyAdmin()으로 수행된다. 이는 새로운 admin API를 추가할 때 verifyAdmin() 호출을 빼먹으면 일반 사용자가 관리자 기능에 접근할 수 있다는 의미이다.
+
+커뮤니티 문제의 XSS 잠재성: community_questions 테이블의 question_text와 explanation이 사용자 입력을 그대로 저장하고, 이를 React에서 렌더링할 때 JSX의 자동 이스케이핑에 의존하고 있다. React가 dangerouslySetInnerHTML을 사용하지 않는 한 안전하지만, 향후 마크다운 렌더링 등을 추가할 때 주의가 필요하다.
+
+API 레이트 리밍 부재: 모든 API 라우트에 레이트 리밋이 없다. ai-assist와 ai/weakness는 Gemini API 호출을 트리거하므로, 악의적인 사용자가 반복 요청으로 API 비용을 발생시킬 수 있다.
+
+수정 방안: (1) 미들웨어에서 /admin/* 요청 시 프로필 역할을 확인하는 로직을 추가한다(캐싱 필요). (2) AI API에 사용자당 분당 5회 제한을 Map<userId, timestamp[]> 방식으로 구현한다(Edge Function 환경에서는 Upstash Rate Limit 같은 외부 서비스가 필요하다). (3) 커뮤니티 콘텐츠에 마크다운 렌더링을 추가할 때 반드시 sanitize-html 같은 라이브러리를 통과시킨다.
+
+---
+
+## 9. feature-audit-x 및 ux-human-review-x와의 교차 분석
+
+feature-audit-x가 식별한 "코어 직결 기능"(KICE 기출, 모의고사, 출제 경향 분석)은 기술적으로도 가장 견고한 부분이다. kice.ts와 kice-analytics.ts는 순수 함수로 구성되어 있고, 테스트도 존재한다. 반면 "후순위"로 분류된 기능들(커뮤니티, 시나리오, 인터랙티브)은 기술적으로도 가장 취약하다. 커뮤니티의 SQL 쿼리에 대한 테스트가 없고, 시나리오 데이터가 하드코딩된 JSON이며, 인터랙티브 학습의 3개 활동이 하드코딩되어 있다.
+
+ux-human-review-x가 지적한 "온보딩이 자동 실행 안 됨"은 코드를 보면 OnboardingGate 컴포넌트가 존재하지만 layout.tsx에 포함되어 있지 않기 때문이다. 이것은 기술적 이슈가 아니라 의도적 제외이거나 누락이다. "합격 시뮬레이션의 감정적 추락"은 mastery.ts의 simulatePass()가 정확한 계산을 하고 있지만, 사용하지 않은 과목의 점수가 0으로 처리되어 초기에 매우 낮은 합격률이 나오는 구조적 문제이다. 이것은 비즈니스 로직의 UX 번역 문제이지 코드 버그가 아니다.
+
+"기출문제 접근이 3단계 깊이"라는 UX 이슈는 nav-config.ts의 네비게이션 구조에서 비롯된다. 기술적으로는 nav-config 수정만으로 해결 가능하며, 이미 테스트(nav-config.test.ts)가 존재하므로 안전하게 변경할 수 있다.
+
+---
+
+## 10. 종합 리스크 매트릭스
+
+| 영역 | 현재 상태 | 2년 후 위험도 | 수정 비용 | 우선순위 |
+|------|-----------|---------------|-----------|----------|
+| 스토어 마이그레이션 테스트 | 0건 | 데이터 손실 | 낮음 (2일) | 즉시 |
+| user_data JSONB 크기 | 통제 중 | 성능 저하 | 중간 (1주) | 높음 |
+| 모놀리식 컴포넌트 | 6개 500줄+ | 유지보수 불가 | 중간 (2주) | 높음 |
+| DB 마이그레이션 자동화 | 수동 | 환경 불일치 | 낮음 (1일) | 높음 |
+| API 레이트 리밋 | 없음 | 비용 폭발 | 중간 (3일) | 높음 |
+| 에러 모니터링 | 없음 | 장애 감지 불가 | 낮음 (반나절) | 높음 |
+| lib/ 디렉토리 구조 | 45+ 평면 파일 | 탐색 불가 | 낮음 (1일) | 중간 |
+| 동기화 경쟁 조건 | 부분 완화 | 데이터 비일관 | 높음 (1주) | 중간 |
+| E2E 테스트 CI 통합 | 미구성 | 회귀 버그 | 낮음 (반나절) | 중간 |
+| Next.js 15 업그레이드 | 14.2 유지 | 보안 패치 누락 | 높음 (2주) | 낮음 |
+
+---
+
+## 11. 결론
+
+이 코드베이스는 "한 명의 개발자(또는 AI 에이전트 팀)가 빠르게 기능을 추가하면서 성장한 프로젝트"의 전형적인 모습을 보여준다. 기능의 깊이(적응형 난이도, Leitner SRS, 기출 분석 엔진, 합격 시뮬레이션)는 상당히 인상적이며, 코드 품질의 기본기(TypeScript strict, Supabase RLS, 입력 검증, 에러 처리)도 갖추고 있다. console.log 디버깅이 없고, 하드코딩된 시크릿이 없으며, Open Redirect 방지가 구현되어 있다는 점에서 보안 의식도 양호하다.
+
+가장 시급한 3가지 행동은 다음과 같다. 첫째, 스토어 마이그레이션 테스트를 작성하여 사용자 데이터 손실 리스크를 제거한다. 둘째, Sentry를 도입하여 프로덕션 에러를 가시화한다. 셋째, DB 마이그레이션을 자동화하여 환경 간 스키마 일관성을 보장한다. 이 세 가지는 각각 2일, 반나절, 1일이면 완료 가능하며, 프로젝트의 운영 안정성을 근본적으로 개선한다.
+
+2년 후의 지속가능성을 위해서는, 모놀리식 컴포넌트 분리와 user_data의 정규화가 가장 중요한 구조적 투자이다. 현재의 JSONB 덤프 패턴은 "빠르게 만들기"에는 최적이었지만, "오래 유지하기"에는 부적합하다. 정규화된 quiz_results 테이블을 만드는 것이 분석, 성능, 데이터 무결성 세 마리 토끼를 잡는 핵심 투자이다.
+
+전체적으로 이 프로젝트는 "프로토타입에서 프로덕션으로 가는 징검다리" 위에 있다. 기능은 프로덕션 수준이지만, 인프라(모니터링, 마이그레이션, 테스트)는 아직 프로토타입 수준이다. 위에서 제안한 수정을 순서대로 적용하면, 10,000명의 사용자를 안정적으로 서비스할 수 있는 기반이 마련된다.
