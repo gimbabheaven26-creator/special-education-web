@@ -7,6 +7,8 @@ import { BottomTabBar } from "@/components/layout/BottomTabBar";
 import { ConditionalReviewPanel } from "@/components/layout/ConditionalReviewPanel";
 import { StudySessionTracker } from "@/components/StudySessionTracker";
 import { SyncManager } from "@/components/SyncManager";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -64,6 +66,8 @@ export default function RootLayout({
           <StudySessionTracker />
           <SyncManager />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
