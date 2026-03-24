@@ -1,14 +1,17 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { TrendingUp, Hash, AlertTriangle, Flame } from 'lucide-react'
+import Link from 'next/link'
+import { TrendingUp, Hash, AlertTriangle, Flame, BookOpen } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SUBJECT_LABELS } from '@/types/kice'
 import type { AnalyticsData } from '@/lib/kice-analytics'
+import type { KeywordConceptLink } from '@/lib/keyword-concept-map'
 
 interface AnalyticsClientProps {
   data: AnalyticsData
+  keywordConceptMap: Record<string, KeywordConceptLink>
 }
 
 function HeatmapCell({ count, max }: { count: number; max: number }) {
@@ -28,7 +31,15 @@ function HeatmapCell({ count, max }: { count: number; max: number }) {
   )
 }
 
-export default function AnalyticsClient({ data }: AnalyticsClientProps) {
+/** 키워드 텍스트를 소문자로 정규화해서 conceptMap에서 찾기 */
+function findConceptLink(
+  keyword: string,
+  map: Record<string, KeywordConceptLink>,
+): KeywordConceptLink | null {
+  return map[keyword.trim().toLowerCase()] ?? null
+}
+
+export default function AnalyticsClient({ data, keywordConceptMap }: AnalyticsClientProps) {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null)
 
   const maxCount = useMemo(() => {
@@ -132,6 +143,7 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
               const barWidth = data.topKeywords[0]
                 ? Math.round((kw.count / data.topKeywords[0].count) * 100)
                 : 0
+              const conceptLink = findConceptLink(kw.keyword, keywordConceptMap)
               return (
                 <div key={kw.keyword} className="flex items-center gap-2">
                   <span className="text-xs text-muted-foreground w-5 text-right shrink-0">
@@ -140,6 +152,15 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium truncate">{kw.keyword}</span>
+                      {conceptLink && (
+                        <Link
+                          href={conceptLink.url}
+                          className="shrink-0 text-primary hover:text-primary/80 transition-colors"
+                          title={`개념학습: ${conceptLink.conceptTitle}`}
+                        >
+                          <BookOpen className="h-3.5 w-3.5" />
+                        </Link>
+                      )}
                       <span className="text-xs text-muted-foreground shrink-0">{kw.count}회</span>
                       {kw.recentStreak >= 3 && (
                         <Badge className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 text-[10px]">
@@ -172,17 +193,31 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {data.recentStreakKeywords.map((kw) => (
-                <div
-                  key={kw.keyword}
-                  className="rounded-lg border border-red-200 dark:border-red-800/30 bg-red-50 dark:bg-red-950/20 px-3 py-1.5"
-                >
-                  <div className="text-sm font-medium">{kw.keyword}</div>
-                  <div className="text-[10px] text-muted-foreground">
-                    {kw.recentStreak}년 연속 · {kw.count}회 출제 · {kw.subjects.map((s) => SUBJECT_LABELS[s] ?? s).join(', ')}
+              {data.recentStreakKeywords.map((kw) => {
+                const conceptLink = findConceptLink(kw.keyword, keywordConceptMap)
+                return (
+                  <div
+                    key={kw.keyword}
+                    className="rounded-lg border border-red-200 dark:border-red-800/30 bg-red-50 dark:bg-red-950/20 px-3 py-1.5"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-medium">{kw.keyword}</span>
+                      {conceptLink && (
+                        <Link
+                          href={conceptLink.url}
+                          className="text-primary hover:text-primary/80 transition-colors"
+                          title={`개념학습: ${conceptLink.conceptTitle}`}
+                        >
+                          <BookOpen className="h-3 w-3" />
+                        </Link>
+                      )}
+                    </div>
+                    <div className="text-[10px] text-muted-foreground">
+                      {kw.recentStreak}년 연속 · {kw.count}회 출제 · {kw.subjects.map((s) => SUBJECT_LABELS[s] ?? s).join(', ')}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </CardContent>
         </Card>

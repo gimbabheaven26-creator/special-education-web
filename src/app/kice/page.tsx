@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 }
 import { getSubjects, getAllWorksheetTopics } from '@/lib/db'
 import { computeAnalytics } from '@/lib/kice-analytics'
+import { buildKeywordConceptMap } from '@/lib/keyword-concept-map'
 import KiceClient from './KiceClient'
 import KiceByArea from './KiceByArea'
 import KiceSearch, { type KiceSearchItem } from './KiceSearch'
@@ -28,7 +29,8 @@ export default async function KicePage({ searchParams }: PageProps) {
 
   if (tab === 'analytics') {
     const data = computeAnalytics()
-    return <AnalyticsClient data={data} />
+    const keywordConceptMap = buildKeywordConceptMap()
+    return <AnalyticsClient data={data} keywordConceptMap={keywordConceptMap} />
   }
 
   if (tab === 'search') {
