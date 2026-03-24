@@ -79,6 +79,43 @@
 
 ---
 
+# 강선생2 세션 핸드오프 — 2026-03-24
+
+## 이번 세션 완료 커밋 (최신순)
+
+| 커밋 | 내용 |
+|------|------|
+| `23634a5` | fix(concepts): 과목 퀴즈 진입점 추가 |
+
+## 완료 작업
+
+### 퀴즈 진입점 연결 (`23634a5`)
+- `src/app/concepts/[subject]/page.tsx`: `dbSubject` 존재 시 LearningTimeline 위에 Brain 아이콘 + "과목 퀴즈 풀기" 버튼 추가
+- 지시서 위치 수정: `/subjects/[slug]`가 `ad4e00b`에서 `/concepts/[subject]`로 흡수됨 확인 후 올바른 파일에 적용
+- `docs/kangteacher2-0322-practice-auto-cmds.md` Step 1 완료 표시
+
+### concepts prerender 크래시 검증
+- `TypeError: Cannot read properties of undefined (slice/reduce)` — **이미 해소됨**
+- 강선생1 `71b975e` (MDX undefined props guard)에서 수정 완료 확인
+- 현재 build 출력에 TypeError 없음
+
+## 현재 상태
+
+- `main` 브랜치, **origin/main 동기화 완료** (미커밋 없음)
+- tsc --noEmit: 에러 0건
+- build: 188페이지 OK (lint 경고 5건 — 비크리티컬)
+
+## 미해결 항목
+
+- lint 경고 5건 (비크리티컬): `useMemo` 불필요 의존성 ×2, `<img>` ×2, ref cleanup ×1
+
+## 다음 작업 후보
+
+1. 카이란의 다음 지시서 대기
+2. lint 경고 정리 (선택사항)
+
+---
+
 # 강선생1 세션 핸드오프 — 2026-03-23
 
 ## 이번 세션 완료 커밋 (최신순)
