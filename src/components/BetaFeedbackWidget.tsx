@@ -55,7 +55,7 @@ export function BetaFeedbackWidget() {
       {/* 고정 버튼 */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg px-3 py-2 text-sm transition-colors"
+        className="fixed bottom-32 right-4 md:bottom-16 md:right-6 z-40 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg px-3 py-2 text-sm transition-colors"
         aria-label="피드백 보내기"
       >
         💬 피드백
