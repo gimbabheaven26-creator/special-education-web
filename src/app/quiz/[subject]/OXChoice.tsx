@@ -3,21 +3,25 @@
 import { useState, useEffect, useRef } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, Timer } from 'lucide-react';
 import { FeedbackSection } from './QuestionActions';
 
 export function OXChoice({
   question,
   onAnswer,
-  autoAdvanceMs,
+  autoAdvanceCorrectMs,
+  autoAdvanceWrongMs,
 }: {
   question: QuizQuestion;
   onAnswer: (answer: string, isCorrect: boolean) => void;
-  autoAdvanceMs?: number;
+  autoAdvanceCorrectMs?: number;
+  autoAdvanceWrongMs?: number;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [progress, setProgress] = useState(0);
   const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const normalizedAnswer = String(question.answer).toUpperCase();
   const isCorrect = submitted && selected === normalizedAnswer;
@@ -31,19 +35,35 @@ export function OXChoice({
   const handleNext = () => {
     if (!selected) return;
     if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+    if (progressRef.current) clearInterval(progressRef.current);
     onAnswer(selected, selected === normalizedAnswer);
   };
 
-  // 자동 이동 타이머
+  // 자동 이동 타이머 + 프로그레스 바
   useEffect(() => {
-    if (!submitted || !autoAdvanceMs || !selected) return;
+    if (!submitted || !selected) return;
+    const correct = selected === normalizedAnswer;
+    const delayMs = correct ? autoAdvanceCorrectMs : autoAdvanceWrongMs;
+    if (!delayMs) return;
+
+    const startTime = Date.now();
+    progressRef.current = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      setProgress(Math.min((elapsed / delayMs) * 100, 100));
+    }, 50);
+
     autoTimerRef.current = setTimeout(() => {
-      onAnswer(selected, selected === normalizedAnswer);
-    }, autoAdvanceMs);
+      if (progressRef.current) clearInterval(progressRef.current);
+      onAnswer(selected, correct);
+    }, delayMs);
+
     return () => {
       if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+      if (progressRef.current) clearInterval(progressRef.current);
     };
-  }, [submitted, autoAdvanceMs, selected, normalizedAnswer, onAnswer]);
+  }, [submitted, autoAdvanceCorrectMs, autoAdvanceWrongMs, selected, normalizedAnswer, onAnswer]);
+
+  const hasAutoAdvance = autoAdvanceCorrectMs || autoAdvanceWrongMs;
 
   return (
     <div>
@@ -96,13 +116,28 @@ export function OXChoice({
           selectedOptionIndex={selected === 'O' ? '0' : '1'}
         />
       )}
-      <div className="flex gap-3">
-        {submitted && (
+      {submitted && hasAutoAdvance && (
+        <button
+          onClick={handleNext}
+          className="w-full mt-3 rounded-lg overflow-hidden bg-muted/30 h-8 relative cursor-pointer hover:bg-muted/50 transition-colors"
+        >
+          <div
+            className={`absolute inset-y-0 left-0 transition-none ${isCorrect ? 'bg-green-500/30' : 'bg-amber-500/30'}`}
+            style={{ width: `${progress}%` }}
+          />
+          <div className="relative flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+            <Timer className="h-3.5 w-3.5" />
+            <span>다음 문제로 이동 중... (탭하여 건너뛰기)</span>
+          </div>
+        </button>
+      )}
+      {submitted && !hasAutoAdvance && (
+        <div className="flex gap-3">
           <Button onClick={handleNext} className="w-full min-h-[44px]">
             다음
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
