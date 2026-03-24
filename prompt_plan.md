@@ -1,174 +1,279 @@
-# Quiz Editor 시스템 — Google Sheets 동기화 + 앱 어드민
+# API 보안 강화 + analytics 테이블 생성
 
-> 작성: 2026-03-23 | 담당: V (v-0322.night) | 승인: 대기
+> 작성: 2026-03-24 | 담당: X | 승인: 대기
+> 근거: V 검증 보고서 (2026-03-24) CRITICAL/HIGH 항목 대응
 
 ## 요구사항
 
-- quiz_questions (3,334문항) 을 Google Sheets에서 일괄 검토/수정
-- 시트 수정 → Supabase 실시간 반영
-- 앱 내 어드민 페이지에서 개별 문제 빠른 편집
-- 두 채널 모두 같은 DB 테이블에 쓰기
+V의 검증 보고서에서 베타 런칭 전 필수 조치로 식별된 보안 취약점과 기술 부채를 해결한다.
 
-## 아키텍처
+| 우선순위 | 항목 | 현재 상태 |
+|---------|------|----------|
+| CRITICAL | API rate limiting 없음 | Gemini 비용 폭증 위험 |
+| CRITICAL | reviews POST 인증 없음 | 스팸 리뷰 삽입 가능 |
+| HIGH | analytics_events 테이블 미생성 | 코드만 있고 조용히 실패 중 |
+| HIGH | vitest exclude 패턴 불완전 | 워크트리 E2E가 Vitest에 잡힘 |
+| HIGH | PWA가 API 응답까지 캐싱 | stale 데이터 반환 위험 |
+| MEDIUM | admin 미들웨어 role 체크 없음 | 일반 사용자가 admin UI 접근 가능 |
+| MEDIUM | searchQuizzes .or() 문자열 보간 | PostgREST 필터 인젝션 가능성 |
 
+## 아키텍처 영향
+
+- DB 스키마 변경: analytics_events 테이블 1개 추가
+- 신규 파일: rate-limit.ts 유틸리티 1개
+- 수정 파일: 7개 (middleware.ts, reviews/route.ts, ai-assist/route.ts, ai/weakness/route.ts, next.config.mjs, vitest.config.ts, db.ts)
+- contract.md 업데이트: analytics_events 스키마 추가
+
+---
+
+## Phase 1: Rate Limiting 유틸리티 (CRITICAL, 선행)
+
+### 1-1. src/lib/rate-limit.ts 신규 생성
+
+외부 의존성 없는 in-memory rate limiter. 베타 규모(10~100명)에 충분.
+
+```typescript
+// IP 기반 sliding window rate limiter
+// Map<ip, { count, resetAt }>
+// 서버리스 환경에서는 인스턴스별 독립이지만 베타 규모에서 충분
+export function rateLimit(options: { interval: number; uniqueTokenPerInterval: number }): {
+  check: (limit: number, token: string) => Promise<void>;
+};
 ```
-┌─────────────────┐     webhook      ┌──────────────┐
-│  Google Sheets   │ ─────────────→  │  /api/admin/  │
-│  (일괄 편집)     │ ←────────────── │  sync         │
-└─────────────────┘   Apps Script    └──────┬───────┘
-                                           │
-                                    Supabase REST
-                                           │
-┌─────────────────┐                 ┌──────▼───────┐
-│  /admin/editor   │ ──────────────→│ quiz_questions│
-│  (개별 편집)     │  직접 mutation  │   테이블      │
-└─────────────────┘                 └──────────────┘
+
+### 1-2. AI API 엔드포인트에 rate limiting 적용
+
+- `src/app/api/ai-assist/route.ts` — POST에 분당 10회 제한
+- `src/app/api/ai/weakness/route.ts` — POST에 분당 5회 제한
+
+**변경 파일**: 3개 (1 신규 + 2 수정)
+
+---
+
+## Phase 2: Reviews POST 인증 추가 (CRITICAL)
+
+### 2-1. src/app/api/reviews/route.ts POST 함수 수정
+
+현재 (라인 23): 인증 없이 누구나 리뷰 작성 가능
+변경: `createClient()` → `getUser()` 체크 추가
+
+```typescript
+export async function POST(req: NextRequest) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: 'login required' }, { status: 401 });
+  }
+  // ... 기존 로직
+}
 ```
 
-## Phase 1: API 레이어 (필수 선행)
+**리스크**: 기존 비로그인 리뷰 작성 플로우가 있다면 깨짐. 현재 프론트엔드에서 리뷰 작성 UI를 확인해야 함.
 
-### 1-1. 어드민 인증 미들웨어
-- `src/middleware.ts` — `/admin/*` 경로 보호 추가
-- 관리자 판별: `profiles.role = 'admin'` 또는 허용 이메일 목록
-- 파일: `src/lib/admin-auth.ts`
-
-### 1-2. Quiz CRUD API
-- `src/app/api/admin/quiz/route.ts` — GET (페이지네이션 + 필터), POST (생성)
-- `src/app/api/admin/quiz/[id]/route.ts` — PATCH (수정), DELETE (삭제)
-- `src/app/api/admin/quiz/bulk/route.ts` — POST (일괄 upsert, Google Sheets용)
-- `src/app/api/admin/quiz/export/route.ts` — GET (전체 CSV/JSON export)
-
-### 1-3. API 인증
-- 모든 `/api/admin/*` — Bearer token 또는 세션 쿠키 필수
-- Google Sheets용 — API key 기반 인증 (`ADMIN_API_KEY` 환경변수)
-
-**변경 파일**: 6개 신규
+**변경 파일**: 1개 수정
 
 ---
 
-## Phase 2: 앱 어드민 페이지 (가벼운 CRUD)
+## Phase 3: analytics_events 마이그레이션 (HIGH)
 
-### 2-1. 레이아웃
-- `src/app/admin/layout.tsx` — 어드민 전용 레이아웃 (사이드바 없음, 심플)
-- `src/app/admin/page.tsx` — 대시보드 (문항 수, 과목별 통계)
+### 3-1. contract.md 업데이트
 
-### 2-2. 문제 목록/검색
-- `src/app/admin/editor/page.tsx` — 서버 컴포넌트 (페이지네이션)
-- `src/app/admin/editor/QuizTable.tsx` — 클라이언트 컴포넌트
-  - 50건씩 서버사이드 페이지네이션 (앱 부담 최소화)
-  - 필터: subject, chapter, type, difficulty
-  - 검색: question/explanation ILIKE
+analytics_events 테이블 스키마를 contract.md v2.9에 추가.
 
-### 2-3. 문제 편집
-- `src/app/admin/editor/[id]/page.tsx` — 단일 문항 편집 폼
-  - 인라인 프리뷰 (학생이 보는 화면과 동일)
-  - 저장 시 `/api/admin/quiz/[id]` PATCH
+### 3-2. 마이그레이션 SQL 작성
 
-### 2-4. 문제 추가
-- `src/app/admin/editor/new/page.tsx` — 신규 문항 생성 폼
-  - subject/chapter 선택 → type 선택 → 필드 동적 생성
-
-**변경 파일**: 6개 신규
-
----
-
-## Phase 3: Google Sheets 양방향 동기화
-
-### 3-1. 초기 시트 생성
-- `scripts/export-to-sheets.ts` — Supabase → Google Sheets 전체 내보내기
-- Google Sheets API 사용 (서비스 계정)
-- 시트 구조: 컬럼 = quiz_questions 필드 (id, subject, chapter, type, question, ...)
-
-### 3-2. Sheets → Supabase (실시간)
-- Google Apps Script:
-  - `onEdit()` 트리거 → 변경된 행 감지
-  - 변경 데이터를 `/api/admin/quiz/bulk` POST
-  - API key 인증
-
-### 3-3. Supabase → Sheets (주기적)
-- 옵션 A: Apps Script 타이머 (5분 간격) → `/api/admin/quiz/export` GET
-- 옵션 B: Supabase webhook → Apps Script 트리거
-- 추천: **옵션 A** (단순, 충분한 빈도)
-
-### 3-4. 충돌 해결
-- 전략: Last-Write-Wins (마지막 수정 우선)
-- `updated_at` 컬럼 추가 → 시트/앱 모두 비교
-
-**변경 파일**: 2개 신규 (스크립트 + Apps Script 템플릿)
-
----
-
-## Phase 4: DB 스키마 보강
+`supabase/migrations/20260324000001_analytics_events.sql`:
 
 ```sql
--- quiz_questions에 추적 컬럼 추가
-ALTER TABLE quiz_questions ADD COLUMN IF NOT EXISTS updated_at timestamptz DEFAULT now();
-ALTER TABLE quiz_questions ADD COLUMN IF NOT EXISTS updated_by text;
+CREATE TABLE analytics_events (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  event_type text NOT NULL,
+  payload jsonb NOT NULL DEFAULT '{}',
+  created_at timestamptz NOT NULL DEFAULT now()
+);
 
--- 자동 갱신 트리거
-CREATE OR REPLACE FUNCTION update_updated_at()
-RETURNS TRIGGER AS $$
-BEGIN NEW.updated_at = now(); RETURN NEW; END;
-$$ LANGUAGE plpgsql;
+-- 인덱스: 사용자별 + 시간순 조회
+CREATE INDEX idx_analytics_events_user_created
+  ON analytics_events (user_id, created_at DESC);
 
-CREATE TRIGGER quiz_questions_updated_at
-  BEFORE UPDATE ON quiz_questions
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+-- RLS: 본인 데이터만 INSERT, SELECT
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
 
--- 관리자 RLS (선택)
--- profiles 테이블에 role 컬럼이 없으면 추가
-ALTER TABLE profiles ADD COLUMN IF NOT EXISTS role text DEFAULT 'user';
+CREATE POLICY "Users can insert own events"
+  ON analytics_events FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can read own events"
+  ON analytics_events FOR SELECT
+  USING (auth.uid() = user_id);
 ```
+
+**주의**: 이 마이그레이션은 Supabase 대시보드에서 수동 실행 필요. `supabase db push`로는 로컬 환경에서만 적용.
+
+**변경 파일**: 2개 (1 SQL 신규 + contract.md 수정)
 
 ---
 
-## 우선순위 & 의존성
+## Phase 4: vitest.config.ts + PWA 캐싱 수정 (HIGH)
+
+### 4-1. vitest.config.ts exclude 패턴 수정
+
+현재: `exclude: ['node_modules', 'tests/e2e/**']`
+변경: `exclude: ['node_modules', 'tests/e2e/**', '.claude/**']`
+
+워크트리 내부의 E2E 테스트가 Vitest 스캔에 잡히는 문제 해결.
+
+### 4-2. next.config.mjs PWA 캐싱 정책 수정
+
+현재: `urlPattern: /^https?.*/` (모든 HTTP 요청 캐싱)
+변경: API 경로 제외, 정적 에셋만 캐싱
+
+```javascript
+runtimeCaching: [
+  {
+    // API 요청은 캐싱하지 않음
+    urlPattern: /\/api\//,
+    handler: 'NetworkOnly',
+  },
+  {
+    // Supabase API도 캐싱하지 않음
+    urlPattern: /supabase\.co/,
+    handler: 'NetworkOnly',
+  },
+  {
+    // 나머지 정적 에셋은 NetworkFirst
+    urlPattern: /^https?.*/,
+    handler: 'NetworkFirst',
+    options: {
+      cacheName: 'offlineCache',
+      expiration: { maxEntries: 200 },
+    },
+  },
+],
+```
+
+**변경 파일**: 2개 수정
+
+---
+
+## Phase 5: Admin 미들웨어 + searchQuizzes 개선 (MEDIUM)
+
+### 5-1. middleware.ts admin role 체크 추가
+
+현재 (라인 39-43): 미로그인만 체크
+변경: 로그인 사용자의 role === 'admin' 확인
+
+```typescript
+// /admin/* 보호: 미로그인 또는 비관리자 → /login
+if (request.nextUrl.pathname.startsWith('/admin')) {
+  if (!user) {
+    return NextResponse.redirect(loginUrl);
+  }
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+  if (profile?.role !== 'admin') {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+}
+```
+
+**리스크**: 미들웨어에서 DB 조회 추가로 /admin 페이지 첫 로드 약간 느려짐. 하지만 admin은 소수이므로 무시 가능.
+
+### 5-2. db.ts searchQuizzes 안전한 쿼리로 변경
+
+현재 (라인 254-265): `.or()` 문자열 보간
+변경: 개별 `.ilike()` 체인 사용
+
+```typescript
+export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
+  const supabase = await createClient();
+  const sanitized = query.replace(/[%_\\]/g, (c) => `\\${c}`);
+  const pattern = `%${sanitized}%`;
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('*')
+    .or(`question.ilike.${pattern},explanation.ilike.${pattern}`)
+    .limit(200);
+
+  if (error || !data) return [];
+  return data.map(mapQuizRow);
+}
+```
+
+실제로 Supabase JS SDK의 `.or()` 메서드는 PostgREST 필터 구문을 받으므로, 이스케이프 범위를 `.` (마침표)까지 확장하는 것이 더 안전하다. 현재 sanitize에서 `()`와 `,`가 이미 이스케이프되고 있어 실질적 인젝션 위험은 낮지만, 방어적으로 정리한다.
+
+**변경 파일**: 2개 수정
+
+---
+
+## 의존성 & 실행 순서
 
 ```
-Phase 4 (DB) ──→ Phase 1 (API) ──→ Phase 2 (어드민 페이지)
-                       │
-                       └──→ Phase 3 (Google Sheets)
+Phase 1 (rate-limit) ──→ Phase 2 (reviews auth)
+                     └──→ Phase 4 (vitest + PWA)
+                     └──→ Phase 5 (middleware + search)
+
+Phase 3 (analytics migration) — 독립 (병렬 가능)
 ```
 
-Phase 2와 3은 병렬 가능 (둘 다 Phase 1 API에 의존)
+Phase 1이 선행 (rate-limit 유틸리티를 다른 Phase에서 사용).
+Phase 3은 독립적이므로 병렬 실행 가능.
+Phase 4, 5는 Phase 1과 병렬 가능.
 
-## 복잡도
+---
 
-| Phase | 난이도 | 예상 파일 수 |
-|-------|--------|-------------|
-| 1. API | MEDIUM | 6 |
-| 2. 어드민 | MEDIUM | 6 |
-| 3. Google Sheets | LOW | 2 + Apps Script |
-| 4. DB 스키마 | LOW | 1 SQL |
-| **합계** | | **~15** |
+## 변경 파일 총괄
+
+| Phase | 파일 | 작업 |
+|-------|------|------|
+| 1 | `src/lib/rate-limit.ts` | **신규** |
+| 1 | `src/app/api/ai-assist/route.ts` | 수정 (rate limit 추가) |
+| 1 | `src/app/api/ai/weakness/route.ts` | 수정 (rate limit 추가) |
+| 2 | `src/app/api/reviews/route.ts` | 수정 (POST 인증 추가) |
+| 3 | `supabase/migrations/20260324000001_analytics_events.sql` | **신규** |
+| 3 | `docs/contract.md` | 수정 (v2.9 analytics_events 추가) |
+| 4 | `vitest.config.ts` | 수정 (exclude 패턴) |
+| 4 | `next.config.mjs` | 수정 (PWA 캐싱 정책) |
+| 5 | `src/middleware.ts` | 수정 (admin role 체크) |
+| 5 | `src/lib/db.ts` | 수정 (searchQuizzes 이스케이프) |
+
+**총 10개 파일** (2 신규 + 8 수정)
+
+---
+
+## 검증 계획
+
+| 검증 항목 | 명령/방법 |
+|----------|----------|
+| 빌드 성공 | `npm run build` exit 0 |
+| 테스트 통과 | `npx vitest run` — 워크트리 E2E 노이즈 제거 확인 |
+| rate limit 동작 | 테스트 코드로 11회 연속 호출 → 429 확인 |
+| reviews 401 | 미로그인 상태에서 POST → 401 확인 |
+| admin role 차단 | 일반 사용자로 /admin 접근 → / 리다이렉트 확인 |
+| PWA API 비캐싱 | 서비스 워커 설정에서 /api/* NetworkOnly 확인 |
+| analytics SQL | 마이그레이션 파일 문법 검증 |
+
+---
 
 ## 리스크
 
 | 리스크 | 영향 | 대응 |
 |--------|------|------|
-| Google API 서비스 계정 설정 복잡 | 3단계 지연 | Apps Script만으로 우회 가능 |
-| 관리자 인증 없이 API 노출 | 보안 취약 | Phase 1-1 필수 선행 |
-| 시트↔DB 동시 수정 충돌 | 데이터 불일치 | updated_at + Last-Write-Wins |
-| 3,334문항 전체 export 성능 | API 타임아웃 | 스트리밍 또는 분할 export |
+| reviews POST 인증 추가 → 기존 비로그인 리뷰 깨짐 | 프론트엔드 리뷰 UI 사용 불가 | 프론트에서 로그인 유도 UI 추가 필요 |
+| in-memory rate limit → 서버리스 인스턴스별 독립 | 인스턴스 N개면 실질 limit N배 | 베타 10명에서는 문제없음. 100명 이상 시 Upstash Redis 도입 |
+| middleware DB 조회 → /admin 페이지 로드 지연 | 50~100ms 추가 | admin 소수이므로 무시 가능 |
+| analytics 마이그레이션 수동 실행 필요 | 잊으면 계속 조용히 실패 | 커밋 메시지에 "Supabase 대시보드에서 실행 필요" 명시 |
 
 ---
 
 ## 이전 계획
 
-# 진단평가 버그 수정 계획 — 2026-03-22
+# Quiz Editor 시스템 — Google Sheets 동기화 + 앱 어드민
 
-> 작성: 2026-03-22 | 승인: 카이란 | 담당: 강선생
+> 작성: 2026-03-23 | 담당: V (v-0322.night) | 승인: 대기
 
-## Phase 1: 워크시트 뷰 플로우 복구 (CRITICAL)
-- `src/lib/db.ts`: `getWorksheetTopicById()`, `getWorksheetQuestionsByTopicId()` 추가
-- `src/app/worksheets/[id]/WorksheetViewClient.tsx`: 클라이언트 컴포넌트 신규 생성
-- `src/app/worksheets/[id]/page.tsx`: 서버 컴포넌트 전환, Supabase 직접 조회로 교체
-
-## Phase 2: 오늘학습 비로그인 허용 (HIGH)
-- `src/app/api/daily-questions/route.ts`: `getUser()` + 401 블록 제거
-
-## 검증
-- `npx tsc --noEmit` 에러 0건
-- `npm run build` exit 0
-- /worksheets 토픽 클릭 → 문제지 정상 표시
-- 비로그인 /daily → 문제 정상 로드
+(이전 계획 내용은 별도 보관. 보안 강화 완료 후 재개.)
