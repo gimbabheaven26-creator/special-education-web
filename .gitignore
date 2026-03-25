@@ -37,6 +37,7 @@ next-env.d.ts
 /data/*
 !/data/kice-기출/
 !/data/terminology/
+!/data/worksheets/
 # PDF 바이너리 — 로컬 참조용, Git 추적 제외 (32MB 절감)
 /data/kice-기출/**/*.pdf
 reviews.json

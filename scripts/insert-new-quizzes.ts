@@ -6,8 +6,12 @@ import { createClient } from '@supabase/supabase-js';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_aqOsWC1qTzUrKmb_YD3eUA_pA4rJu75';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  throw new Error('Missing env vars. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env.local');
+}
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 

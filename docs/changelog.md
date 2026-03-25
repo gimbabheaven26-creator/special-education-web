@@ -24,6 +24,52 @@
 
 ---
 
+## [2026-03-25] 클루디(X) — 데이터 정합성 7건 작업
+
+### 변경 내용
+- **챕터 참조 수정**: quiz_questions.chapter 한국어→영어 slug 매핑 (2593건 수정, 0 broken)
+- **emotional-behavioral 과목 퀴즈 재배치**: behavior-support/ebd로 33건 이동
+- **하드코딩 키 제거**: migrate-to-supabase.ts, insert-new-quizzes.ts → process.env 전환
+- **FK 제약 SQL 작성**: add-fk-constraints.sql (5개 FK, Supabase SQL Editor에서 실행 필요)
+- **워크시트 데이터 생성**: 4과목(시각/청각/지체/의사소통) 토픽+문제 (삽입 스크립트 포함)
+- **data-validator 검증**: Referential Integrity 0 violations 확인
+
+### 검증 결과 (validate-data.mjs)
+- Referential Integrity: **0 violations** (이전 2593)
+- ID Naming: 1290 (known exceptions — kice-*, term-*, OX 패턴)
+- Value Constraints: 34 (vi-q* 5개 선택지 — 별도 수정 필요)
+- Data Completeness: 6 (emotional-behavioral 과목 + 5개 빈 챕터)
+
+### 생성/수정 파일
+| 파일 | 작업 |
+|------|------|
+| scripts/fix-chapter-references.mjs | 신규 (챕터 참조 수정) |
+| scripts/add-fk-constraints.sql | 신규 (FK DDL) |
+| scripts/insert-worksheet-vi-hi-pd-cd.mjs | 신규 (워크시트 삽입) |
+| data/worksheets/vi-hi-pd-cd-topics.json | 신규 (12 토픽) |
+| data/worksheets/vi-hi-pd-cd-questions.json | 신규 (60+ 문제) |
+| scripts/migrate-to-supabase.ts | 수정 (키 제거) |
+| scripts/insert-new-quizzes.ts | 수정 (키 제거) |
+| prompt_plan.md | 수정 (실행 계획) |
+
+### 후속 작업 (카이란 확인 필요)
+- [ ] Supabase SQL Editor에서 add-fk-constraints.sql 실행
+- [ ] 워크시트 삽입 스크립트 실행: `SUPABASE_SERVICE_ROLE_KEY=xxx node scripts/insert-worksheet-vi-hi-pd-cd.mjs`
+- [ ] vi-q* 5개 선택지 → 4개로 수정 (34건)
+- [ ] emotional-behavioral 과목 삭제 여부 결정
+
+### 영향 범위
+- 강선생: quiz_questions.chapter 값 변경됨 → db.ts 쿼리에 영향 없음 (chapters 테이블과 일치하므로)
+- 클루디: FK 설정 후 데이터 삽입 시 참조 무결성 자동 검증됨
+
+### 상태
+- [x] contract.md 기존 규칙 준수
+- [x] 구현 완료 (DB 데이터 수정 적용됨)
+- [x] 빌드 성공
+- [ ] 카이란 승인 (FK 설정, emotional-behavioral 삭제)
+
+---
+
 ## [2026-03-25] 강선생2 — V 리뷰 보안 수정 + session-wrap 문서 정비
 
 ### 변경 내용

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "vi-topic-1",
+    "subject": "visual-impairment",
+    "name": "점자 체계와 규정"
+  },
+  {
+    "id": "vi-topic-2",
+    "subject": "visual-impairment",
+    "name": "보행 훈련과 시기능"
+  },
+  {
+    "id": "vi-topic-3",
+    "subject": "visual-impairment",
+    "name": "시각장애 보조공학"
+  },
+  {
+    "id": "hi-topic-1",
+    "subject": "hearing-impairment",
+    "name": "청력 검사와 청력도"
+  },
+  {
+    "id": "hi-topic-2",
+    "subject": "hearing-impairment",
+    "name": "보청기와 인공와우"
+  },
+  {
+    "id": "hi-topic-3",
+    "subject": "hearing-impairment",
+    "name": "수어와 의사소통"
+  },
+  {
+    "id": "pd-topic-1",
+    "subject": "physical-disability",
+    "name": "뇌성마비 유형과 분류"
+  },
+  {
+    "id": "pd-topic-2",
+    "subject": "physical-disability",
+    "name": "운동발달과 반사"
+  },
+  {
+    "id": "pd-topic-3",
+    "subject": "physical-disability",
+    "name": "자세보조와 보조기기"
+  },
+  {
+    "id": "cd-topic-1",
+    "subject": "communication-disorder",
+    "name": "조음음운 장애"
+  },
+  {
+    "id": "cd-topic-2",
+    "subject": "communication-disorder",
+    "name": "AAC와 언어중재"
+  },
+  {
+    "id": "cd-topic-3",
+    "subject": "communication-disorder",
+    "name": "유창성과 자발화"
+  }
+]
