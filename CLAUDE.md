@@ -58,6 +58,7 @@ data/terminology/nise-dictionary.json  # NISE 용어사전 1129개
 data/terminology/kice-terms.json       # KICE 기출 키워드 1417개
 data/kice-기출/                         # KICE 기출문제 (2016~2026)
 src/content/concepts/                  # MDX 개념학습 파일 (101개)
+src/components/ui/RouteErrorPage.tsx   # 13개 error.tsx 공통 컴포넌트 (WCAG role="alert")
 ```
 
 ---
@@ -112,6 +113,9 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] 로딩 스켈레톤 — quiz/ox, terms, concepts (6764ead, 2026-03-25)
 - [x] 에러/빈 상태 UI — error.tsx 12개, not-found.tsx, EmptyState (6764ead, 2026-03-25)
 - [x] WCAG 2.1 AA 접근성 기초 — aria-label 7곳, focus-visible, min-h-44px (6764ead, 2026-03-25)
+- [x] error.tsx 13개 → RouteErrorPage 공통 컴포넌트 + role="alert" (1ba5915, 2026-03-25)
+- [x] V리뷰 0325 전체 해소 7/7 — rate limiter, next-pwa, 접근성 (a5f7903, 2026-03-25)
+- [x] 노션 4DB 구조변경 — 태그 63→16, M0~M4 마일스톤, 담당자 통일 (d5d7c13, 2026-03-25)
 
 > M1 Day 1 전체 완료 (2026-03-25). Day 2~7 잔여 작업은 스프린트 계획 참조.
 
