@@ -8,8 +8,8 @@
 
 | # | 항목 | 심각도 | 담당 | 상태 |
 |---|------|--------|------|------|
-| 1 | error.tsx 12개 파일 — 구조 동일, 중복 코드 468줄 | MEDIUM | 강선생1 | OPEN |
-| 2 | error.tsx에 role="alert" / aria-live 누락 | MEDIUM | 강선생1 | OPEN |
+| 1 | error.tsx 12개 파일 — 구조 동일, 중복 코드 468줄 | MEDIUM | 강선생1 | FIXED (X 2026-03-25) |
+| 2 | error.tsx에 role="alert" / aria-live 누락 | MEDIUM | 강선생1 | FIXED (X 2026-03-25) |
 | 3 | feedback rate limiter — 인메모리 Map 무한 성장 | MEDIUM | 강선생1 | FIXED (1bc28c8) |
 | 4 | SyncManager — schedulePush 클로저가 stale userIdRef 참조 가능 | LOW | 강선생1 | OPEN |
 | 5 | sw.js — /api/ GET 경로 캐싱 활성화 상태 (기존 감시 항목 재확인) | MEDIUM | 강선생1 | FIXED (1bc28c8) |
