@@ -359,13 +359,13 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 
 > 아래 작업은 kangsaem-requests.md에도 등록됨
 
-1. **FK 제약 설정** — 위 5개 FK 관계를 DB에 적용
-2. **세분화 챕터 추가** — 4개 신규 과목에 챕터 데이터 삽입
-3. **퀴즈 ID 접두사 통일** — `behav-q*` → `bs-q*`, `curr-q*` → `cur-q*` 등
-4. **깨진 챕터 참조 수정** — 세분화 챕터 추가 후 자동 해결
-5. **4개 과목 워크시트 데이터 생성** — 시각/청각/지체/의사소통
-6. **마이그레이션 스크립트 키 제거** — .env.local 사용으로 전환
-7. **data-validator 실행** — 모든 작업 완료 후 검증
+1. **FK 제약 설정** — SQL 작성 완료 (`scripts/add-fk-constraints.sql`), SQL Editor 실행 대기
+2. ~~**세분화 챕터 추가**~~ — DB 확인 결과 20/20 이미 존재
+3. ~~**퀴즈 ID 접두사 통일**~~ — DB 확인 결과 이미 완료
+4. ~~**깨진 챕터 참조 수정**~~ — 2593/2750건 수정 완료 (`scripts/fix-chapter-references.mjs`)
+5. ~~**4개 과목 워크시트 데이터 생성**~~ — 12토픽 60문항 삽입 완료
+6. ~~**마이그레이션 스크립트 키 제거**~~ — .env.local 사용으로 전환 완료
+7. ~~**data-validator 실행**~~ — 참조 무결성 0건 위반 확인
 8. ~~**profiles 테이블 생성**~~ — v2.4에서 강선생 담당으로 이전
 9. ~~**user_data 테이블 생성**~~ — v2.4에서 강선생 담당으로 이전
 10. ~~**Auth 마이그레이션 SQL**~~ — v2.4에서 강선생 담당으로 이전
