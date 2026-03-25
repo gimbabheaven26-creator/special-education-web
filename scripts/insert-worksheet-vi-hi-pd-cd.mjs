@@ -30,13 +30,26 @@ async function main() {
   const topicsPath = new URL('../data/worksheets/vi-hi-pd-cd-topics.json', import.meta.url);
   const topics = JSON.parse(readFileSync(topicsPath, 'utf8'));
 
-  const { error: topicError } = await supabase
+  // 기존 토픽 확인 후 없는 것만 삽입
+  const { data: existing } = await supabase
     .from('worksheet_topics')
-    .upsert(topics, { onConflict: 'id' });
+    .select('id')
+    .in('id', topics.map(t => t.id));
+  const existingIds = new Set((existing || []).map(t => t.id));
+  const newTopics = topics.filter(t => !existingIds.has(t.id));
 
-  if (topicError) {
-    console.error('토픽 삽입 실패:', topicError.message);
-    process.exit(1);
+  if (newTopics.length === 0) {
+    console.log(`  ${topics.length}개 토픽 이미 존재 — 건너뜀`);
+  } else {
+    const { error: topicError } = await supabase
+      .from('worksheet_topics')
+      .insert(newTopics);
+
+    if (topicError) {
+      console.error('토픽 삽입 실패:', topicError.message);
+      process.exit(1);
+    }
+    console.log(`  ${newTopics.length}개 토픽 삽입 완료 (기존 ${existingIds.size}개)`);
   }
   console.log(`  ${topics.length}개 토픽 삽입 완료`);
 
@@ -52,7 +65,7 @@ async function main() {
     const batch = questions.slice(i, i + 50);
     const { error } = await supabase
       .from('worksheet_questions')
-      .upsert(batch, { onConflict: 'id' });
+      .insert(batch);
 
     if (error) {
       errors.push({ batch: `${i + 1}~${i + batch.length}`, error: error.message });
