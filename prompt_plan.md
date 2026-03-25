@@ -1,11 +1,48 @@
-# 클루디 작업 7건 — 실행 계획
+# 프라임 M1: 노션 구조변경 — 실행 계획
 
-> 작성: 2026-03-25 | 담당: 클루디 | 승인: 카이란 (연속 실행 지시)
-> 근거: contract.md v2 클루디 작업 목록 (#1~#7)
+> 작성: 2026-03-25 | 담당: 프라임 | 상태: 실행 완료
 
 ## 요구사항
 
-contract.md에 정의된 클루디 담당 7건의 DB 정합성 확보 작업을 순차/병렬 실행한다.
+프라임 지시서(auto-prime-notion.md) 기준, 노션 워크스페이스 4개 DB를 M0~M4 마일스톤 체계로 통일.
+
+## 실행 결과
+
+### Phase 1: 프로젝트 대시보드 (완료)
+- Phase 태그: 12개 → M0~M4 5개로 교체
+- 담당자: 안선생/스미스/스미스프라임 제거 → 강선생, 클루디, 프라임, V, X
+- 특수교육 웹 항목: M0+M1 태그 적용
+
+### Phase 2: 지식 베이스 (완료)
+- 태그: 63개 → 16개로 정제
+- 에이전트(5): X, 프라임, V, 강선생, 클루디
+- 도메인(5): quiz, kice, admin, concepts, wrong-notes
+- 유형(4): bugfix, refactor, sprint, review
+- 인프라(2): 데이터, 보안
+- 기존 문서 태그 리매핑: 서브에이전트 처리 중
+
+### Phase 3: 스프린트 로그 (완료)
+- 에이전트: 강선생, 클루디, 프라임, V, X
+- 태그: 강선생, 클루디, 프라임, V, X, 보안, bugfix, refactor, sprint
+- 기존 항목 리매핑: 스미스프라임 → 프라임
+
+### Phase 4: M1 작업 항목 생성 (완료)
+스프린트 로그에 6건 등록:
+1. 강선생 M1: Vercel Analytics + Speed Insights (완료, c749376)
+2. 강선생 M1: BetaFeedbackWidget + Discord 알림 (완료, 3898c54)
+3. 강선생 M1: V리뷰 보안 수정 (완료, 85a985c)
+4. X M1: V 리뷰 파이프라인 구축 (완료, a73fb71)
+5. 프라임 M1: 노션 구조변경 (진행중)
+6. 강선생 M1: 에러/로딩/빈상태 UI 21파일 (검토필요)
+
+---
+
+## 이전 계획
+
+### 클루디 작업 7건 (2026-03-25)
+> 담당: 클루디 | 승인: 카이란 (연속 실행 지시)
+> 근거: contract.md v2 클루디 작업 목록 (#1~#7)
+> 상태: 미착수
 
 | # | 작업 | 산출물 |
 |---|------|--------|
@@ -16,73 +53,6 @@ contract.md에 정의된 클루디 담당 7건의 DB 정합성 확보 작업을 
 | 5 | 4개 과목 워크시트 데이터 생성 | JSON + 삽입 스크립트 |
 | 6 | 마이그레이션 스크립트 키 제거 | 기존 스크립트 수정 |
 | 7 | data-validator 실행 | 검증 로그 |
-
-## 실행 순서 (의존성 기반)
-
-```
-Stream 1: Task 2 → Task 4 → Task 3 → Task 1 → Task 7
-Stream 2: Task 6 (독립, 병렬)
-Stream 3: Task 5 (Task 4 이후, 병렬)
-```
-
-- Task 2(챕터 추가)가 Task 4(참조 검증)의 선행 조건
-- Task 3(ID 통일)은 FK 설정 전에 해야 PK 변경이 안전
-- Task 6(키 제거)은 완전 독립
-
-## Phase A: 데이터 정합성 복구 (Tasks 2, 4, 3)
-
-### A-1: 세분화 챕터 추가 (Task 2)
-- DB 현재 상태 조회 → 누락 챕터 upsert
-- 4개 과목(시각/청각/지체/의사소통) x 5개 세분화 챕터
-- 스크립트: scripts/cloudy-insert-chapters.mjs
-
-### A-2: 깨진 챕터 참조 검증 (Task 4)
-- validate-data.mjs의 check1 referentialIntegrity 확인
-- 위반 0건이면 자동 해결 확인
-
-### A-3: 퀴즈 ID 접두사 통일 (Task 3)
-- 기존 scripts/unify-quiz-prefixes.mjs 실행
-- behav→bs, curr→cur, incl→inc, assess→asmnt 등
-
-## Phase B: 데이터 확장 (Task 5)
-- 4개 과목 각 토픽 3개 + 문제 15개 이상
-- JSON 데이터 + 삽입 스크립트
-
-## Phase C: DB 무결성 강화 (Task 1)
-- 5개 FK 제약 ALTER TABLE SQL
-- Phase A 완료 후에만 실행 가능
-
-## Phase D: 보안 정리 (Task 6)
-- migrate-to-supabase.ts, insert-new-quizzes.ts 하드코딩 키 제거
-- .env.local 읽기 패턴으로 전환
-
-## Phase E: 최종 검증 (Task 7)
-- validate-data.mjs 실행 → 0 violations 확인
-
-## 리스크
-
-| 리스크 | 영향 | 대응 |
-|--------|------|------|
-| FK 설정 시 기존 데이터 위반 | HIGH | Phase A 선행 완료 필수 |
-| 퀴즈 ID 변경 후 localStorage 오답노트 | MEDIUM | 강선생 REQ 등록 |
-| 챕터 slug 영어/한국어 혼란 | MEDIUM | DB 조회 후 실제 상태 기반 판단 |
-
-## 변경 파일
-
-| 파일 | 작업 |
-|------|------|
-| scripts/cloudy-insert-chapters.mjs | 신규 |
-| scripts/add-fk-constraints.sql | 신규 |
-| scripts/insert-worksheet-vi-hi-pd-cd.mjs | 신규 |
-| data/worksheets/vi-hi-pd-cd-topics.json | 신규 |
-| data/worksheets/vi-hi-pd-cd-questions.json | 신규 |
-| scripts/migrate-to-supabase.ts | 수정 (키 제거) |
-| scripts/insert-new-quizzes.ts | 수정 (키 제거) |
-| docs/changelog.md | 수정 (이력) |
-
----
-
-## 이전 계획
 
 ### API 보안 강화 + analytics 테이블 생성 (2026-03-24)
 > 담당: X | V 검증 보고서 CRITICAL/HIGH 대응
