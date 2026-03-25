@@ -165,14 +165,16 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
           </p>
         </div>
         <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-          <p className="text-lg font-medium text-muted-foreground">
+          <div className="text-5xl" aria-hidden="true">✨</div>
+          <p className="text-lg font-semibold text-foreground">
             아직 오답이 없어요
           </p>
-          <p className="text-sm text-muted-foreground">
-            퀴즈를 풀면 틀린 문제가 자동으로 저장됩니다.
+          <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
+            퀴즈를 풀면 틀린 문제가 자동으로 여기에 쌓여요.
+            틀리는 게 실력의 시작이에요!
           </p>
           <Button render={<Link href="/quiz" />} size="lg" className="min-h-[44px]">
-            퀴즈 풀러 가기
+            첫 퀴즈 시작하기
           </Button>
         </div>
       </main>

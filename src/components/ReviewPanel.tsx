@@ -186,6 +186,7 @@ export function ReviewPanel() {
           }}
           className="fixed right-4 bottom-20 md:bottom-6 z-50 flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-3 shadow-lg hover:bg-primary/90 hover:scale-105 transition-all min-w-[44px] min-h-[44px] print:hidden"
           title="나의 리뷰"
+          aria-label="나의 리뷰 열기"
         >
           <MessageSquarePlus className="h-5 w-5" />
           {hasNote && (
@@ -225,6 +226,7 @@ export function ReviewPanel() {
             <button
               onClick={() => setIsOpen(false)}
               className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+              aria-label="리뷰 패널 닫기"
             >
               <X className="h-4 w-4" />
             </button>
@@ -264,6 +266,7 @@ export function ReviewPanel() {
                       type="button"
                       onClick={() => removeImage(i)}
                       className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      aria-label={`이미지 ${i + 1} 삭제`}
                     >
                       <X className="h-3.5 w-3.5" />
                     </button>

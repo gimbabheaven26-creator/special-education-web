@@ -149,6 +149,11 @@
   }
 }
 
+:focus-visible {
+  outline: 2px solid oklch(0.55 0.14 250);
+  outline-offset: 2px;
+}
+
 html, body {
   overflow-x: hidden;
 }

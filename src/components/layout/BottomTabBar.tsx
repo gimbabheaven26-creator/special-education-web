@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home } from 'lucide-react';
@@ -8,6 +9,10 @@ import { NAV_GROUPS, getActiveGroupId, isPathMatch } from '@/lib/nav-config';
 export function BottomTabBar() {
   const pathname = usePathname();
   const activeGroupId = getActiveGroupId(pathname);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // 활성 그룹의 서브 항목 (홈이면 빈 배열)
   const activeGroup = NAV_GROUPS.find((g) => g.id === activeGroupId);
@@ -42,6 +47,7 @@ export function BottomTabBar() {
         {/* 홈 탭 */}
         <Link
           href="/"
+          onClick={scrollToTop}
           className={`relative flex flex-col items-center justify-center gap-0.5 min-w-0 flex-1 py-2 rounded-xl transition-colors ${
             pathname === '/' ? 'text-primary' : 'text-muted-foreground'
           }`}
@@ -64,6 +70,7 @@ export function BottomTabBar() {
             <Link
               key={group.id}
               href={firstHref}
+              onClick={scrollToTop}
               className={`relative flex flex-col items-center justify-center gap-0.5 min-w-0 flex-1 py-2 rounded-xl transition-colors ${
                 isActive ? 'text-primary' : 'text-muted-foreground'
               }`}

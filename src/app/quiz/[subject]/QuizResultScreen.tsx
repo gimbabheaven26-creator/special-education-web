@@ -111,6 +111,7 @@ function QuestionReviewSection({
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="w-full flex items-center justify-between px-6 py-4 text-left"
+        aria-label={isOpen ? '전체 문제 리뷰 접기' : '전체 문제 리뷰 펼치기'}
       >
         <span className="text-sm font-semibold">전체 문제 리뷰</span>
         {isOpen ? (
@@ -265,17 +266,21 @@ export function QuizResultScreen({
             <span className="text-sm ml-1">({total - answeredCount}문제 건너뜀)</span>
           )}
         </p>
-        {rate >= 80 ? (
+        {rate >= 91 ? (
           <p className="mt-1 text-emerald-600 dark:text-emerald-400 font-medium">
-            대단해요! 꾸준한 학습이 빛을 발하고 있어요.
+            거의 완벽해요! 다른 영역도 도전해볼까요?
           </p>
-        ) : rate >= 60 ? (
+        ) : rate >= 61 ? (
+          <p className="mt-1 text-emerald-600 dark:text-emerald-400 font-medium">
+            잘하고 있어요! 놓친 몇 문제만 정리하면 이 영역은 거의 완성이에요.
+          </p>
+        ) : rate >= 31 ? (
           <p className="mt-1 text-amber-600 dark:text-amber-400 font-medium">
-            잘 하고 있어요! 이 부분을 마스터하는 중이에요.
+            반 이상 맞았어요! 기본기가 잡히고 있어요.
           </p>
         ) : (
           <p className="mt-1 text-red-600 dark:text-red-400 font-medium">
-            아직 익히는 중이에요. 한 번 더 도전하면 달라질 거에요!
+            아직 익숙하지 않은 영역이에요. 괜찮아요, 틀린 문제부터 다시 보면 금방 감이 올 거예요.
           </p>
         )}
       </div>

@@ -68,6 +68,7 @@ export function TodayTermCardClient({ term }: { term: Term }) {
                 <button
                   onClick={() => setOpen(false)}
                   className="p-1.5 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
+                  aria-label="오늘의 단어 닫기"
                 >
                   <X className="h-4 w-4" />
                 </button>
