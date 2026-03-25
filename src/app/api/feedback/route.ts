@@ -12,6 +12,14 @@ const WINDOW_MS = 60_000;
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
+
+  // 만료 엔트리 정리 (Map 크기 1000 초과 시)
+  if (rateLimitMap.size > 1000) {
+    rateLimitMap.forEach((v, k) => {
+      if (v.resetAt < now) rateLimitMap.delete(k);
+    });
+  }
+
   const entry = rateLimitMap.get(ip);
   if (!entry || entry.resetAt < now) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });

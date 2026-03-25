@@ -23,6 +23,10 @@ const withPWA = withPWAInit({
   skipWaiting: true,
   runtimeCaching: [
     {
+      urlPattern: /\/api\/.*/,
+      handler: 'NetworkOnly',
+    },
+    {
       urlPattern: /^https?.*/,
       handler: 'NetworkFirst',
       options: {
