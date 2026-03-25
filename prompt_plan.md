@@ -1,190 +1,261 @@
-# 1기 최종 스프린트 — 기술 구조 완성
+# API 보안 강화 + analytics 테이블 생성
 
-> 작성: 2026-03-24 | 총괄: X | 승인: 카이란
-> 기간: 3/25 (수) ~ 4/14 (화), 21일
-> 원칙: 3주간 전력 투구. 5월 이후 페이지 구조 변경 없음. 유지보수 + 데이터만.
+> 작성: 2026-03-24 | 담당: X | 승인: 대기
+> 근거: V 검증 보고서 (2026-03-24) CRITICAL/HIGH 항목 대응
 
-## 5대 합의 (X 종합 보고서 기반)
+## 요구사항
 
-1. 기출 3층 시스템이 유일무이한 코어
-2. 분석→학습 경로 연결 미완성 (엔진은 있는데 바퀴가 없다)
-3. 기능 90점, 감정 설계 60점 (혼이 빠져 있다)
-4. 콘텐츠 비율 KICE와 불일치 (교육과정 -11.2%, 법령 +11.9%)
-5. 온보딩 + 기출 접근성이 첫 관문
+V의 검증 보고서에서 베타 런칭 전 필수 조치로 식별된 보안 취약점과 기술 부채를 해결한다.
 
-## 실행 구조
+| 우선순위 | 항목 | 현재 상태 |
+|---------|------|----------|
+| CRITICAL | API rate limiting 없음 | Gemini 비용 폭증 위험 |
+| CRITICAL | reviews POST 인증 없음 | 스팸 리뷰 삽입 가능 |
+| HIGH | analytics_events 테이블 미생성 | 코드만 있고 조용히 실패 중 |
+| HIGH | vitest exclude 패턴 불완전 | 워크트리 E2E가 Vitest에 잡힘 |
+| HIGH | PWA가 API 응답까지 캐싱 | stale 데이터 반환 위험 |
+| MEDIUM | admin 미들웨어 role 체크 없음 | 일반 사용자가 admin UI 접근 가능 |
+| MEDIUM | searchQuizzes .or() 문자열 보간 | PostgREST 필터 인젝션 가능성 |
 
-| 역할 | 담당 | 작업 |
-|------|------|------|
-| 총괄 + 품질 | X | 계획, 리뷰, 검증, 오케스트레이션 |
-| 전략 + 인프라 | 프라임 | 노션, Google Sheets, 관리자, 구조 |
-| 코드 실행 A | 강선생 | UX, 감성, 컴포넌트, 테스트 |
-| 코드 실행 B | 클루디 | 데이터, API, 스크립트, validation |
+## 아키텍처 영향
 
-에이전트 병렬: 하루 4~6개 동시. 카이란 하루 3~4시간 (검토 + 도메인 판단).
-
----
-
-## M0: 기반 구축 (완료, ~3/24)
-
-- [x] 40개 페이지 + 51개 라우트 구축
-- [x] quiz_questions 2,177+ 문항
-- [x] 에이전트 팀 (프라임, V, 강선생, 클루디, X)
-- [x] 진단평가 4개 라우트 검증 (워크시트 뷰어, 데일리, 채점)
-- [x] 실력쌓기 3개 라우트 검증 (UI/UX, 아키텍처 한글화)
-- [x] 워크시트 플로우 복구 (서버 컴포넌트 전환)
-- [x] 오답노트 구조 변경
-- [x] 진단평가 세션 묶음 + 기록 표시 + 빈 답변 수정
-- [x] fill-in 문항 정리 (174건 삭제, EBD 26문항, 복수 빈칸 패턴)
-- [x] 퀴즈 UX (자동이동, 해설 펼침, 결과 리뷰)
-- [x] 실력쌓기 + 진단 허브 페이지
-- [x] X 종합 보고서 (13개 문서, 6,744줄, 5관점 리뷰)
+- DB 스키마 변경: analytics_events 테이블 1개 추가
+- 신규 파일: rate-limit.ts 유틸리티 1개
+- 수정 파일: 7개 (middleware.ts, reviews/route.ts, ai-assist/route.ts, ai/weakness/route.ts, next.config.mjs, vitest.config.ts, db.ts)
+- contract.md 업데이트: analytics_events 스키마 추가
 
 ---
 
-## M1: 감성 + UX + 안전망 (Week 1, 3/25~3/31)
+## Phase 1: Rate Limiting 유틸리티 (CRITICAL, 선행)
 
-### 강선생 작업
-- [ ] 온보딩 자동 실행 — OnboardingGate → 홈 연결 (10줄 이내)
-- [ ] 기출분석 메인 탭 — 네비게이션에 '기출분석' 추가, 3단계→1단계 접근
-- [ ] 에러 메시지 12개 인간화 — '학습 기록은 안전합니다' 등
-- [ ] 점수별 감성 분기 — 0~30%/31~60%/61~90%/91~100% 구간별 메시지
-- [ ] 용어 순화 전체 — '진단평가'→'문제풀기', 'SRS'→'간격 반복' 등
-- [ ] 빈 상태(empty state) 메시지 + CTA 버튼 전체 추가
-- [ ] 마이크로카피 P0 (4건) + P1 (10건)
-- [ ] 기출↔개념 직링크 — 취약 키워드에서 MDX 페이지 연결
-- [ ] 로딩 상태 텍스트 전체 페이지
+### 1-1. src/lib/rate-limit.ts 신규 생성
 
-### 클루디 작업
-- [ ] 스토어 마이그레이션 테스트 (v3→v4→v5) — 오답노트 소실 방지
-- [ ] Sentry 에러 모니터링 도입
+외부 의존성 없는 in-memory rate limiter. 베타 규모(10~100명)에 충분.
 
-### 카이란 작업
-- 온보딩 5단계 문구 검토
-- 감성 분기 메시지 도메인 검토
-- 키워드↔MDX 매핑 정확도 검증
-- Week 1 배포 사이트 전체 점검
-
-### Week 1 완료 기준
-- 첫 방문자가 3초 안에 온보딩 진입
-- 기출 1단계 접근
-- 전문 용어 0개
-- 빈 화면 0개
-- 에러 메시지 전부 인간어
-
----
-
-## M2: 인프라 + 외부 통합 (Week 2, 4/1~4/7)
-
-### 강선생 작업
-- [ ] QuizForm (736줄) 분할 — 300줄 이하 컴포넌트 3~4개로
-- [ ] QuizClient (684줄) 분할 — 동일 기준
-- [ ] 관리자 대시보드 — 기출 브라우저 + 콘텐츠 갭 시각화
-
-### 클루디 작업
-- [ ] src/lib 45파일 → 도메인별 분리 (quiz-db, kice-db, user-db 등)
-- [ ] import 경로 전체 업데이트
-- [ ] quiz_questions 입력 validation 레이어 추가
-
-### 프라임 작업
-- [ ] Google Sheets "문제 마스터" 생성 + Apps Script 양방향 동기화
-- [ ] KICE 분석 시트 (키워드 히트맵 + 2027 예측)
-- [ ] KPI 대시보드 시트
-- [ ] 노션 재구조 — 태그 63→15개, 마일스톤 M0~M4, 중복 통합
-- [ ] CLAUDE.md 생성
-
-### 카이란 작업
-- src/lib 구조 변경 승인
-- Google Sheet 실제 수정 테스트
-- 시트 데이터 정확도 검증
-- 노션 구조 최종 승인
-- 관리자 페이지 실사용 테스트
-
-### Week 2 완료 기준
-- 500줄+ 컴포넌트 0개
-- src/lib 도메인별 분리 완료
-- Google Sheets ↔ Supabase 양방향 작동
-- 노션 4DB 정리, 마일스톤 통일
-- CLAUDE.md 존재
-
----
-
-## M3: 콘텐츠 + 테스트 + 최종 배포 (Week 3, 4/8~4/14)
-
-### 클루디 작업
-- [ ] AI 문항 생성 파이프라인 구축 (기출 키워드 기반)
-- [ ] 교육과정 100 + 행동지원 65 + 전환교육 39 = 204문항 초안
-- [ ] contract.md 정합성 해소
-- [ ] DB 마이그레이션 자동화 (supabase CLI)
-
-### 강선생 작업
-- [ ] 마이크로카피 P2 (5건) + P3 (5건) — 24건 전체 완료
-- [ ] 서술형 채점 한계 안내 문구
-- [ ] 40개 페이지 안내 문구 배치 — 박물관 안내문 수준
-- [ ] E2E 테스트 5개 핵심 시나리오
-
-### 프라임 작업
-- [ ] Google Drive 폴더 구조 + 안내 README
-- [ ] 노션 허브 안내 문구 정비
-- [ ] 스프린트 완료 보고서 작성
-- [ ] 5월 데이터 검증 로드맵
-
-### 카이란 작업
-- 204문항 과목별 10개씩 샘플 검수 (품질 기준 설정)
-- 전체 마이크로카피 최종 검토 (도메인 + 감성)
-- 안내 문구 톤 검토 (친절함 + 전문성 균형)
-- contract 변경 승인
-- 수험생 관점 최종 플로우 테스트
-- 스프린트 회고, 5월 확정
-
-### Week 3 완료 기준
-- 204문항 초안 완료 (5월 검수 원본)
-- 마이크로카피 24건 전체 완료
-- 40개 페이지 전부 안내 문구 존재
-- E2E 테스트 통과
-- 빌드 + 린트 + tsc 0 에러
-- 최종 배포
-
----
-
-## M4: 데이터 검증 (5월~, 유지보수 모드)
-
-- [ ] 204문항 + 기존 문항 정확도 검수 (카이란 주도)
-- [ ] 키워드↔MDX 매핑 검증
-- [ ] 용어사전 현행화 (2009 NISE → 2025)
-- [ ] 조언자 피드백 반영
-- [ ] 서술형 채점 키워드 보강
-- [ ] 버그 수정 (발견 시 에이전트)
-- 페이지 구조 변경 없음
-
----
-
-## Quiz Editor + Google Sheets 동기화 (M2에 통합)
-
-> V가 수립한 계획을 M2 프라임 작업으로 통합
-
-### DB 스키마 보강 (M2 선행)
-```sql
-ALTER TABLE quiz_questions ADD COLUMN IF NOT EXISTS updated_at timestamptz DEFAULT now();
-ALTER TABLE quiz_questions ADD COLUMN IF NOT EXISTS updated_by text;
-CREATE OR REPLACE FUNCTION update_updated_at()
-RETURNS TRIGGER AS $$ BEGIN NEW.updated_at = now(); RETURN NEW; END; $$ LANGUAGE plpgsql;
-CREATE TRIGGER quiz_questions_updated_at
-  BEFORE UPDATE ON quiz_questions
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
-ALTER TABLE profiles ADD COLUMN IF NOT EXISTS role text DEFAULT 'user';
+```typescript
+// IP 기반 sliding window rate limiter
+// Map<ip, { count, resetAt }>
+// 서버리스 환경에서는 인스턴스별 독립이지만 베타 규모에서 충분
+export function rateLimit(options: { interval: number; uniqueTokenPerInterval: number }): {
+  check: (limit: number, token: string) => Promise<void>;
+};
 ```
 
-### API (이미 구현됨)
-- /api/admin/quiz — GET, POST
-- /api/admin/quiz/[id] — PATCH, DELETE
-- /api/admin/quiz/bulk — POST (Sheets용)
-- /api/admin/quiz/export — GET
+### 1-2. AI API 엔드포인트에 rate limiting 적용
 
-### Google Sheets 동기화
-- Apps Script onEdit() → /api/admin/quiz/bulk
-- 5분 간격 타이머 → /api/admin/quiz/export
-- 충돌: Last-Write-Wins (updated_at 비교)
+- `src/app/api/ai-assist/route.ts` — POST에 분당 10회 제한
+- `src/app/api/ai/weakness/route.ts` — POST에 분당 5회 제한
+
+**변경 파일**: 3개 (1 신규 + 2 수정)
+
+---
+
+## Phase 2: Reviews POST 인증 추가 (CRITICAL)
+
+### 2-1. src/app/api/reviews/route.ts POST 함수 수정
+
+현재 (라인 23): 인증 없이 누구나 리뷰 작성 가능
+변경: `createClient()` → `getUser()` 체크 추가
+
+```typescript
+export async function POST(req: NextRequest) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: 'login required' }, { status: 401 });
+  }
+  // ... 기존 로직
+}
+```
+
+**리스크**: 기존 비로그인 리뷰 작성 플로우가 있다면 깨짐. 현재 프론트엔드에서 리뷰 작성 UI를 확인해야 함.
+
+**변경 파일**: 1개 수정
+
+---
+
+## Phase 3: analytics_events 마이그레이션 (HIGH)
+
+### 3-1. contract.md 업데이트
+
+analytics_events 테이블 스키마를 contract.md v2.9에 추가.
+
+### 3-2. 마이그레이션 SQL 작성
+
+`supabase/migrations/20260324000001_analytics_events.sql`:
+
+```sql
+CREATE TABLE analytics_events (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  event_type text NOT NULL,
+  payload jsonb NOT NULL DEFAULT '{}',
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+-- 인덱스: 사용자별 + 시간순 조회
+CREATE INDEX idx_analytics_events_user_created
+  ON analytics_events (user_id, created_at DESC);
+
+-- RLS: 본인 데이터만 INSERT, SELECT
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can insert own events"
+  ON analytics_events FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can read own events"
+  ON analytics_events FOR SELECT
+  USING (auth.uid() = user_id);
+```
+
+**주의**: 이 마이그레이션은 Supabase 대시보드에서 수동 실행 필요. `supabase db push`로는 로컬 환경에서만 적용.
+
+**변경 파일**: 2개 (1 SQL 신규 + contract.md 수정)
+
+---
+
+## Phase 4: vitest.config.ts + PWA 캐싱 수정 (HIGH)
+
+### 4-1. vitest.config.ts exclude 패턴 수정
+
+현재: `exclude: ['node_modules', 'tests/e2e/**']`
+변경: `exclude: ['node_modules', 'tests/e2e/**', '.claude/**']`
+
+워크트리 내부의 E2E 테스트가 Vitest 스캔에 잡히는 문제 해결.
+
+### 4-2. next.config.mjs PWA 캐싱 정책 수정
+
+현재: `urlPattern: /^https?.*/` (모든 HTTP 요청 캐싱)
+변경: API 경로 제외, 정적 에셋만 캐싱
+
+```javascript
+runtimeCaching: [
+  {
+    // API 요청은 캐싱하지 않음
+    urlPattern: /\/api\//,
+    handler: 'NetworkOnly',
+  },
+  {
+    // Supabase API도 캐싱하지 않음
+    urlPattern: /supabase\.co/,
+    handler: 'NetworkOnly',
+  },
+  {
+    // 나머지 정적 에셋은 NetworkFirst
+    urlPattern: /^https?.*/,
+    handler: 'NetworkFirst',
+    options: {
+      cacheName: 'offlineCache',
+      expiration: { maxEntries: 200 },
+    },
+  },
+],
+```
+
+**변경 파일**: 2개 수정
+
+---
+
+## Phase 5: Admin 미들웨어 + searchQuizzes 개선 (MEDIUM)
+
+### 5-1. middleware.ts admin role 체크 추가
+
+현재 (라인 39-43): 미로그인만 체크
+변경: 로그인 사용자의 role === 'admin' 확인
+
+```typescript
+// /admin/* 보호: 미로그인 또는 비관리자 → /login
+if (request.nextUrl.pathname.startsWith('/admin')) {
+  if (!user) {
+    return NextResponse.redirect(loginUrl);
+  }
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+  if (profile?.role !== 'admin') {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+}
+```
+
+**리스크**: 미들웨어에서 DB 조회 추가로 /admin 페이지 첫 로드 약간 느려짐. 하지만 admin은 소수이므로 무시 가능.
+
+### 5-2. db.ts searchQuizzes 안전한 쿼리로 변경
+
+현재 (라인 254-265): `.or()` 문자열 보간
+변경: 개별 `.ilike()` 체인 사용
+
+```typescript
+export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
+  const supabase = await createClient();
+  const sanitized = query.replace(/[%_\\]/g, (c) => `\\${c}`);
+  const pattern = `%${sanitized}%`;
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('*')
+    .or(`question.ilike.${pattern},explanation.ilike.${pattern}`)
+    .limit(200);
+
+  if (error || !data) return [];
+  return data.map(mapQuizRow);
+}
+```
+
+실제로 Supabase JS SDK의 `.or()` 메서드는 PostgREST 필터 구문을 받으므로, 이스케이프 범위를 `.` (마침표)까지 확장하는 것이 더 안전하다. 현재 sanitize에서 `()`와 `,`가 이미 이스케이프되고 있어 실질적 인젝션 위험은 낮지만, 방어적으로 정리한다.
+
+**변경 파일**: 2개 수정
+
+---
+
+## 의존성 & 실행 순서
+
+```
+Phase 1 (rate-limit) ──→ Phase 2 (reviews auth)
+                     └──→ Phase 4 (vitest + PWA)
+                     └──→ Phase 5 (middleware + search)
+
+Phase 3 (analytics migration) — 독립 (병렬 가능)
+```
+
+Phase 1이 선행 (rate-limit 유틸리티를 다른 Phase에서 사용).
+Phase 3은 독립적이므로 병렬 실행 가능.
+Phase 4, 5는 Phase 1과 병렬 가능.
+
+---
+
+## 변경 파일 총괄
+
+| Phase | 파일 | 작업 |
+|-------|------|------|
+| 1 | `src/lib/rate-limit.ts` | **신규** |
+| 1 | `src/app/api/ai-assist/route.ts` | 수정 (rate limit 추가) |
+| 1 | `src/app/api/ai/weakness/route.ts` | 수정 (rate limit 추가) |
+| 2 | `src/app/api/reviews/route.ts` | 수정 (POST 인증 추가) |
+| 3 | `supabase/migrations/20260324000001_analytics_events.sql` | **신규** |
+| 3 | `docs/contract.md` | 수정 (v2.9 analytics_events 추가) |
+| 4 | `vitest.config.ts` | 수정 (exclude 패턴) |
+| 4 | `next.config.mjs` | 수정 (PWA 캐싱 정책) |
+| 5 | `src/middleware.ts` | 수정 (admin role 체크) |
+| 5 | `src/lib/db.ts` | 수정 (searchQuizzes 이스케이프) |
+
+**총 10개 파일** (2 신규 + 8 수정)
+
+---
+
+## 검증 계획
+
+| 검증 항목 | 명령/방법 |
+|----------|----------|
+| 빌드 성공 | `npm run build` exit 0 |
+| 테스트 통과 | `npx vitest run` — 워크트리 E2E 노이즈 제거 확인 |
+| rate limit 동작 | 테스트 코드로 11회 연속 호출 → 429 확인 |
+| reviews 401 | 미로그인 상태에서 POST → 401 확인 |
+| admin role 차단 | 일반 사용자로 /admin 접근 → / 리다이렉트 확인 |
+| PWA API 비캐싱 | 서비스 워커 설정에서 /api/* NetworkOnly 확인 |
+| analytics SQL | 마이그레이션 파일 문법 검증 |
 
 ---
 
@@ -192,15 +263,17 @@ ALTER TABLE profiles ADD COLUMN IF NOT EXISTS role text DEFAULT 'user';
 
 | 리스크 | 영향 | 대응 |
 |--------|------|------|
-| Google API 서비스 계정 복잡 | M2 지연 | Apps Script만으로 우회 |
-| 204문항 AI 품질 | M4 검수 부담 | M3 Day 15에서 품질 기준 먼저 설정 |
-| 모놀리식 분할 회귀 | M2 버그 | 분할 전 기능 테스트 먼저 작성 |
-| 세션 컨텍스트 포화 | 품질 저하 | 40%에서 /strategic-compact, 매일 /checkpoint |
-| 창업자 번아웃 | 전체 | 하루 3~4시간 한도, 일요일 가벼운 작업 |
+| reviews POST 인증 추가 → 기존 비로그인 리뷰 깨짐 | 프론트엔드 리뷰 UI 사용 불가 | 프론트에서 로그인 유도 UI 추가 필요 |
+| in-memory rate limit → 서버리스 인스턴스별 독립 | 인스턴스 N개면 실질 limit N배 | 베타 10명에서는 문제없음. 100명 이상 시 Upstash Redis 도입 |
+| middleware DB 조회 → /admin 페이지 로드 지연 | 50~100ms 추가 | admin 소수이므로 무시 가능 |
+| analytics 마이그레이션 수동 실행 필요 | 잊으면 계속 조용히 실패 | 커밋 메시지에 "Supabase 대시보드에서 실행 필요" 명시 |
 
 ---
 
-## 이전 계획 아카이브
+## 이전 계획
 
-### Quiz Editor (V, 3/23) — M2로 통합
-### 진단평가 버그 (강선생, 3/22) — M0 완료
+# Quiz Editor 시스템 — Google Sheets 동기화 + 앱 어드민
+
+> 작성: 2026-03-23 | 담당: V (v-0322.night) | 승인: 대기
+
+(이전 계획 내용은 별도 보관. 보안 강화 완료 후 재개.)
