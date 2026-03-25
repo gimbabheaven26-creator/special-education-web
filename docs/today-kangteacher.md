@@ -1,3 +1,70 @@
+# X(V) 세션 핸드오프 — 2026-03-26 (M1 Day 2)
+
+## 이번 세션 완료 커밋 (최신순)
+
+| 커밋 | 내용 |
+|------|------|
+| `02b59fa` | docs: session-wrap 문서 정리 — changelog + CLAUDE.md |
+| `ac21fb0` | fix(ux): SCORE_TIERS 상수 분리 + global-error.tsx |
+| `a5f7903` | docs(v-review): V리뷰 0325 전체 해소 7/7 |
+| `f8b3109` | refactor: V리뷰 MEDIUM 4건 FIXED |
+| `9ca6e82` | refactor: RouteErrorPage 13개 error.tsx 1-liner화 |
+| `1bc28c8` | fix: API 캐싱 NetworkOnly + rateLimitMap 만료 정리 |
+
+## 다음 강선생이 알아야 할 것
+
+### RouteErrorPage 공통 컴포넌트 (신규)
+- **위치**: `src/components/ui/RouteErrorPage.tsx`
+- **역할**: 13개 error.tsx가 이 컴포넌트를 props로 호출하는 1-liner 구조
+- **새 라우트에 error.tsx 추가할 때**: RouteErrorPage import 후 emoji/title/description/resetLabel/backHref/backLabel 전달
+- **WCAG**: `role="alert"` 자동 포함 — 별도 접근성 처리 불필요
+
+### global-error.tsx (신규)
+- **위치**: `src/app/global-error.tsx`
+- **역할**: 루트 레이아웃 에러 처리. **Tailwind 사용 불가** (레이아웃 실패 시 CSS 로드 불가) → 인라인 스타일 필수
+- **수정 시 주의**: 인라인 스타일 코드리뷰 예외 대상
+
+### SCORE_TIERS 상수
+- **위치**: `src/app/quiz/[subject]/QuizResultScreen.tsx` 상단
+- 점수 구간별 감성 메시지 (91+/61+/31+/30-)
+
+### sw.js API 캐싱 수정
+- `next.config.mjs`에 `/api/` NetworkOnly 규칙 추가됨
+- `public/sw.js` 직접 수정 금지 (빌드 시 덮어쓰임)
+
+## 현재 상태
+- `main` 브랜치, origin/main 동기화 완료
+- V리뷰 7/7 전부 FIXED/WONTFIX — `docs/v-reviews/v-review-0325-m1-ux.md` 참조
+
+## 미해결 항목
+- `/interactive` 라우트 error.tsx 누락 (RouteErrorPage 1-liner로 추가 가능)
+- layout.tsx 컴포넌트 12개 — LayoutProviders 분리 감시 중
+
+---
+
+# 강선생1 세션 핸드오프 — 2026-03-25 (M1 Day 1)
+
+## 이번 세션 완료 커밋 (최신순)
+
+| 커밋 | 내용 |
+|------|------|
+| `6764ead` | feat(ux): M1 감성 UX — 에러 인간화, 스켈레톤, 접근성, 빈 상태 |
+| `c749376` | feat: Vercel Analytics + Speed Insights 연동 |
+| `3898c54` | feat: BetaFeedbackWidget + Discord 알림 |
+
+## 완료 작업
+- 에러 메시지 12개 인간화 (라우트별 맞춤 문구)
+- 로딩 스켈레톤 3개 (quiz/ox, terms, concepts)
+- EmptyState 범용 컴포넌트 + not-found.tsx 404 페이지
+- WCAG 2.1 AA 접근성 기초 (aria-label 7곳, focus-visible, min-h-44px)
+- Vercel Analytics + Speed Insights
+- BetaFeedbackWidget (Discord webhook 연동)
+
+## 현재 상태
+- `main` 브랜치, origin/main 동기화 완료
+
+---
+
 # 강선생1 세션 핸드오프 — 2026-03-22 (야간)
 
 ## 이번 세션 완료 커밋 (최신순)

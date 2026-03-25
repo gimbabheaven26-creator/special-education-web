@@ -1,7 +1,8 @@
 # Interface Contract
 
 > 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
-> 최종 수정: 2026-03-22 | 버전: 2.8
+> 최종 수정: 2026-03-26 | 버전: 2.8.1
+> v2.8.1: 클루디 작업 목록 완료 표기 (REQ-001~006 실행 완료 반영)
 > v2.8: reviews.image_urls 컬럼 추가 (첨부 이미지 URL 목록) — 카이란 승인
 > v2.7: reviews.admin_note 컬럼 추가 (관리자 내부 메모) — DB 확인 완료
 > v2.6: community_questions + question_votes 테이블 추가 (커뮤니티 문제 제작)

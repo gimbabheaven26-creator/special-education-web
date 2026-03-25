@@ -91,6 +91,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db.ts` 사용
 - **피드백 API** `POST /api/feedback`: Discord webhook 연동, rate limit IP당 3회/분, `DISCORD_WEBHOOK_URL` env var 필요
 - **BetaFeedbackWidget**: 베타 기간 한정 전역 위젯 — `src/app/layout.tsx`에 마운트, 베타 종료 시 제거 필요
+- **layout.tsx**: 현재 12개 컴포넌트 마운트 — LayoutProviders 분리 감시 중 (V 감시 항목)
 
 ---
 
@@ -103,6 +104,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - 새 컴포넌트: Server Component 우선, 상호작용 필요 시 `'use client'`
 - **API Route 입력 검증**: Zod 스키마 필수 (`z.string().min(N).max(N)` 등)
 - **접근성**: WCAG 2.1 AA 기준 — 모든 버튼에 `aria-label`, 이미지에 `alt`, `focus-visible` 스타일 유지
+- **global-error.tsx 예외**: 루트 레이아웃 에러 처리 특성상 Tailwind 미사용, 인라인 스타일 허용
 
 ---
 
