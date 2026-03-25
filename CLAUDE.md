@@ -59,6 +59,7 @@ data/terminology/kice-terms.json       # KICE 기출 키워드 1417개
 data/kice-기출/                         # KICE 기출문제 (2016~2026)
 src/content/concepts/                  # MDX 개념학습 파일 (101개)
 src/components/ui/RouteErrorPage.tsx   # 13개 error.tsx 공통 컴포넌트 (WCAG role="alert")
+src/app/global-error.tsx               # 루트 레이아웃 에러 처리 (인라인 스타일)
 ```
 
 ---
@@ -117,7 +118,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] V리뷰 0325 전체 해소 7/7 — rate limiter, next-pwa, 접근성 (a5f7903, 2026-03-25)
 - [x] 노션 4DB 구조변경 — 태그 63→16, M0~M4 마일스톤, 담당자 통일 (d5d7c13, 2026-03-25)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2~7 잔여 작업은 스프린트 계획 참조.
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~7 잔여 작업은 스프린트 계획 참조.
 
 ---
 

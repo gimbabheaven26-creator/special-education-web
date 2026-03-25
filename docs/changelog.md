@@ -24,6 +24,37 @@
 
 ---
 
+## [2026-03-26] X — V리뷰 0325 전체 해소 + 구조 개선
+
+### 변경 내용
+- **RouteErrorPage 공통 컴포넌트**: 13개 error.tsx 중복(468줄) → props 1-liner화(-288줄) + `role="alert"` WCAG 4.1.3 (9ca6e82, 1ba5915)
+- **rate limiter Map 만료 정리**: `rateLimitMap.size > 1000` 시 만료 엔트리 forEach 삭제 (1bc28c8)
+- **sw.js /api/ NetworkOnly**: next.config.mjs runtimeCaching에 `/api/` NetworkOnly 규칙 추가 (1bc28c8)
+- **global-error.tsx**: 루트 레이아웃 에러 처리용 인라인 스타일 컴포넌트 (ac21fb0)
+- **SCORE_TIERS 상수 분리**: QuizResultScreen 점수 감성 분기 정리 (ac21fb0)
+- **V리뷰 7/7 전체 해소**: FIXED 6 + WONTFIX 1 (a5f7903)
+
+### 생성/수정 파일
+| 파일 | 작업 |
+|------|------|
+| src/components/ui/RouteErrorPage.tsx | 신규 (공통 에러 컴포넌트) |
+| src/app/global-error.tsx | 신규 (루트 에러 처리) |
+| src/app/*/error.tsx (13개) | 수정 (RouteErrorPage 1-liner) |
+| src/app/api/feedback/route.ts | 수정 (rate limiter 정리) |
+| next.config.mjs | 수정 (NetworkOnly 규칙) |
+| src/app/quiz/[subject]/QuizResultScreen.tsx | 수정 (SCORE_TIERS) |
+| docs/v-reviews/v-review-0325-m1-ux.md | 수정 (7/7 해소) |
+
+### 영향 범위
+- 강선생: 에러 UI 수정 시 RouteErrorPage.tsx만 수정하면 13개 라우트에 반영
+- 클루디: 영향 없음
+
+### 상태
+- [x] 빌드 성공 (exit 0)
+- [x] V리뷰 전부 FIXED/WONTFIX 처리
+
+---
+
 ## [2026-03-25] 클루디(X) — 데이터 정합성 7건 작업
 
 ### 변경 내용
