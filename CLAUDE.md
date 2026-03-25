@@ -75,7 +75,7 @@ src/content/concepts/                  # MDX 개념학습 파일 (101개)
 Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 테이블: subjects, chapters, quiz_questions, worksheet_questions,
         worksheet_topics, reviews, community_questions, question_votes
-데이터: 11과목, 39챕터, 2061퀴즈, 33토픽, 324워크시트
+데이터: 11과목, 39챕터, 2061퀴즈, 45토픽, 384워크시트
 ```
 
 ---
