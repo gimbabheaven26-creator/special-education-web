@@ -79,6 +79,7 @@ export function SyncManager() {
   }
 
   async function syncOnLogin(userId: string) {
+    if (userIdRef.current === userId) return; // 이미 동기화한 유저 — 이중 호출 방지
     userIdRef.current = userId;
     isSyncing.current = true;
     try {
@@ -135,10 +136,11 @@ export function SyncManager() {
       }),
     ];
 
+    const pendingTimers = timers.current; // cleanup 시점 스냅샷
     return () => {
       subscription.unsubscribe();
       unsubs.forEach((u) => u());
-      Object.values(timers.current).forEach(clearTimeout);
+      Object.values(pendingTimers).forEach(clearTimeout);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
