@@ -107,13 +107,13 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 ## 현재 마일스톤 (M1: 2026-03-25~31)
 
 **감성 UX & 시스템 안정** (릴리 제언 기반)
-- [ ] Vercel Analytics + Speed Insights 연동
-- [ ] BetaFeedbackWidget + Discord 알림 (Discord Webhook 발급 필요)
-- [ ] 로딩 스켈레톤 (quiz/ox, terms, concepts)
-- [ ] 에러/빈 상태 UI (error.tsx, not-found.tsx, EmptyState)
-- [ ] WCAG 2.1 AA 접근성 기초 (aria-label, alt, focus-visible)
+- [x] Vercel Analytics + Speed Insights 연동 (c749376, 2026-03-25)
+- [x] BetaFeedbackWidget + Discord 알림 (3898c54, 2026-03-25)
+- [x] 로딩 스켈레톤 — quiz/ox, terms, concepts (6764ead, 2026-03-25)
+- [x] 에러/빈 상태 UI — error.tsx 12개, not-found.tsx, EmptyState (6764ead, 2026-03-25)
+- [x] WCAG 2.1 AA 접근성 기초 — aria-label 7곳, focus-visible, min-h-44px (6764ead, 2026-03-25)
 
-> 마일스톤 완료 후 이 섹션 업데이트.
+> M1 Day 1 전체 완료 (2026-03-25). Day 2~7 잔여 작업은 스프린트 계획 참조.
 
 ---
 
