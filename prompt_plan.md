@@ -1,60 +1,123 @@
-# 프라임 M1: 노션 구조변경 — 실행 계획
+# 나다운 (nadaun) MVP — 구현 계획
 
-> 작성: 2026-03-25 | 담당: 프라임 | 상태: 실행 완료
+> 작성: 2026-03-27 | 담당: X | 상태: 계획 확정, 실행 대기
+> 설계 문서: docs/superpowers/specs/2026-03-26-nadaun-design.md
 
 ## 요구사항
 
-프라임 지시서(auto-prime-notion.md) 기준, 노션 워크스페이스 4개 DB를 M0~M4 마일스톤 체계로 통일.
+기본교육과정 기반 IEP 계획 보조도구. 특수교사가 학생 현행수준을 입력하면 AI가 교과별 연간/주차 계획 초안을 생성하고, 교사가 수정한 뒤 텍스트/Excel/PDF로 내보낸다.
 
-## 실행 결과
+- 브랜드: 나다운 (nadaun)
+- 대상: 일반학교 특수학급 특수교사
+- 교육과정: 기본교육과정 (공통교육과정은 v2)
+- 별도 웹앱 (SEW와 분리, 나중에 통합 가능)
 
-### Phase 1: 프로젝트 대시보드 (완료)
-- Phase 태그: 12개 → M0~M4 5개로 교체
-- 담당자: 안선생/스미스/스미스프라임 제거 → 강선생, 클루디, 프라임, V, X
-- 특수교육 웹 항목: M0+M1 태그 적용
+## Phase 0: 선행 작업 (인프라 + 데이터)
 
-### Phase 2: 지식 베이스 (완료)
-- 태그: 63개 → 16개로 정제
-- 에이전트(5): X, 프라임, V, 강선생, 클루디
-- 도메인(5): quiz, kice, admin, concepts, wrong-notes
-- 유형(4): bugfix, refactor, sprint, review
-- 인프라(2): 데이터, 보안
-- 기존 문서 태그 리매핑: 서브에이전트 처리 중
+### 0-1. nadaun 레포 + 프로젝트 셋업
+- 별도 디렉토리 `nadaun/`
+- `npx create-next-app@14` + TypeScript + Tailwind + App Router
+- shadcn/ui, ESLint, Prettier
 
-### Phase 3: 스프린트 로그 (완료)
-- 에이전트: 강선생, 클루디, 프라임, V, X
-- 태그: 강선생, 클루디, 프라임, V, X, 보안, bugfix, refactor, sprint
-- 기존 항목 리매핑: 스미스프라임 → 프라임
+### 0-2. Supabase 프로젝트 생성
+- 별도 인스턴스 (SEW와 분리)
+- 구글 OAuth 설정
+- 환경변수: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 
-### Phase 4: M1 작업 항목 생성 (완료)
-스프린트 로그에 6건 등록:
-1. 강선생 M1: Vercel Analytics + Speed Insights (완료, c749376)
-2. 강선생 M1: BetaFeedbackWidget + Discord 알림 (완료, 3898c54)
-3. 강선생 M1: V리뷰 보안 수정 (완료, 85a985c)
-4. X M1: V 리뷰 파이프라인 구축 (완료, a73fb71)
-5. 프라임 M1: 노션 구조변경 (완료, d5d7c13)
-6. 강선생 M1: 에러/로딩/빈상태 UI 21파일 (완료, 6764ead + 1ba5915)
+### 0-3. 성취기준 DB 구축 (최소) ← 병목
+- 기본교육과정 국어/수학 중학교 성취기준 수집
+- 소스: NCIC, 미래앤 교과서, 교육부 고시문
+- JSON 정제 → `src/data/achievement-stds/`
+- Supabase `achievement_standards` 삽입
+
+## Phase 1: DB 스키마 + 인증
+
+### 1-1. 마이그레이션
+- 5개 테이블: teachers, students, iep_plans, weekly_plans, achievement_standards
+- RLS 정책: 교사별 접근 제어, achievement_standards 읽기 공개
+
+### 1-2. 인증
+- 구글 로그인 → teachers 자동 생성
+- 미인증 → 로그인 리다이렉트
+
+## Phase 2: 키움이들 (학생 관리)
+
+### 2-1. 학생 CRUD
+- 등록: 이름, 학년, 반, 장애유형, 현행수준(textarea)
+- 목록: 카드 레이아웃
+- 수정/삭제
+
+### 2-2. 대시보드
+- 키움이들 카드 + 채비 현황 + 주차 정보
+
+## Phase 3: 나다운 채비 (AI 계획 생성) — 핵심
+
+### 3-1. 생성 흐름
+- 학생 → 교과 → 학년군 → 현행수준 확인 → "채비 시작"
+
+### 3-2. Claude API
+- `src/app/api/generate/route.ts`
+- `ANTHROPIC_API_KEY` 서버 전용
+- 스트리밍 (SSE), 타임아웃 60초
+- **식별정보 제거**: 이름/학교 등 AI에 보내지 않음
+- Rate limit: 교사당 1일 30회
+
+### 3-3. 저장
+- iep_plans + weekly_plans에 저장, status: draft
+
+## Phase 4: 채비 다듬기 (편집)
+
+### 4-1. 편집 UI
+- 연간/단기 목표: 텍스트
+- 주차별 계획: 테이블, 셀 클릭 편집
+- 교수학습방법/평가계획: 텍스트
+
+### 4-2. 자동 저장
+- debounce 300ms → Supabase 업데이트
+
+### 4-3. 상태 전환
+- draft ↔ final (교사 버튼 클릭)
+
+## Phase 5: 채비 내보내기
+
+### 5-1. 텍스트 복사 (MVP 핵심)
+- 섹션별 "복사" 버튼 → NISE 붙여넣기용
+
+### 5-2. Excel
+- exceljs → .xlsx
+
+### 5-3. PDF
+- @react-pdf/renderer + 한글 폰트 임베딩
+
+## 리스크
+
+| 리스크 | 심각도 | 대응 |
+|--------|--------|------|
+| 성취기준 DB 미확보 | HIGH | 카이란 소스 제공 선행. Phase 0-3이 전체 병목 |
+| AI 생성 품질 | HIGH | 프롬프트 반복 개선. 카이란 직접 검증 |
+| 한글 PDF 폰트 | MEDIUM | 안 되면 v2로 미룸 |
+| API 비용 | LOW | 월 $28 수준 (교사 50명) |
+
+## 실행 순서
+
+```
+Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5
+```
+
+Phase 0-3 (성취기준 DB)은 카이란 소스 제공 시점에 따라 병렬 진행 가능.
 
 ---
 
 ## 이전 계획
 
+### 프라임 M1: 노션 구조변경 (2026-03-25)
+> 담당: 프라임 | 상태: 실행 완료
+> 4개 DB 구조변경 완료 (태그 63→16, M0~M4 마일스톤, 담당자 통일)
+
 ### 클루디 작업 7건 (2026-03-25)
-> 담당: 클루디 | 승인: 카이란 (연속 실행 지시)
-> 근거: contract.md v2 클루디 작업 목록 (#1~#7)
-> 상태: 미착수
+> 담당: 클루디 | 상태: 미착수
+> FK 제약, 세분화 챕터, 퀴즈 ID 통일, 워크시트 데이터 등
 
-| # | 작업 | 산출물 |
-|---|------|--------|
-| 1 | FK 제약 설정 (5개) | SQL 마이그레이션 스크립트 |
-| 2 | 세분화 챕터 추가 (4과목 x 5챕터) | 데이터 삽입 스크립트 |
-| 3 | 퀴즈 ID 접두사 통일 | 기존 unify-quiz-prefixes.mjs 활용 |
-| 4 | 깨진 챕터 참조 수정 | #2 완료 후 검증 |
-| 5 | 4개 과목 워크시트 데이터 생성 | JSON + 삽입 스크립트 |
-| 6 | 마이그레이션 스크립트 키 제거 | 기존 스크립트 수정 |
-| 7 | data-validator 실행 | 검증 로그 |
-
-### API 보안 강화 + analytics 테이블 생성 (2026-03-24)
-> 담당: X | V 검증 보고서 CRITICAL/HIGH 대응
-> 상태: 일부 완료 (rate limit, reviews auth 적용됨)
-> 미완: analytics_events 마이그레이션, admin role 체크
+### API 보안 강화 (2026-03-24)
+> 담당: X | 상태: 일부 완료
+> rate limit, reviews auth 적용. analytics 마이그레이션 미완.
