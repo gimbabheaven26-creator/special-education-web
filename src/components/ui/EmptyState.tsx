@@ -3,7 +3,7 @@ import Link from 'next/link';
 interface EmptyStateProps {
   title: string;
   description?: string;
-  action?: { label: string; href: string };
+  action?: { label: string; href: string; ariaLabel?: string };
 }
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
@@ -22,6 +22,7 @@ export function EmptyState({ title, description, action }: EmptyStateProps) {
         <Link
           href={action.href}
           className="inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground font-medium text-sm px-6 py-2.5 min-h-[44px] hover:bg-primary/90 transition-colors"
+          aria-label={action.ariaLabel}
         >
           {action.label}
         </Link>

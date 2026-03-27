@@ -11,7 +11,7 @@ export function BottomTabBar() {
   const activeGroupId = getActiveGroupId(pathname);
 
   const scrollToTop = useCallback(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // 활성 그룹의 서브 항목 (홈이면 빈 배열)
