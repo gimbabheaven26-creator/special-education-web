@@ -8,6 +8,8 @@
 | `007bdb9` | refactor(layout): LayoutProviders 분리 — client 위젯 6개 추출 |
 | `8b3def0` | refactor(infra): db.ts 도메인 분리 + QuizClient.tsx 유틸 추출 |
 | `0dd45b6` | feat(ux): /interactive error.tsx + 기출 결과 영역별 개념 직링크 |
+| `6c92a87` | fix(test): vitest exclude nadaun/** + 용어 순화 10건 + 빈 상태 + 접근성 |
+| `206e450` | test(db): db/ 도메인 분리 vitest 단위 테스트 38건 |
 | `518aff0` | docs: session-wrap 문서 정비 |
 
 ## 다음 X가 알아야 할 것
@@ -35,7 +37,7 @@
 ## 미해결 항목
 - QuizClient 정교화 질문 TODO 5건 (M2 DEFERRED 대기)
 - REQ-008 subjects 컬럼 추가 시 multi-tag 검색 복원 (db/quiz.ts:27)
-- db/ 분리 모듈 단위 테스트 미작성
+- ~~db/ 분리 모듈 단위 테스트 미작성~~ → 206e450으로 완료 (38건)
 - QuizForm.tsx (736줄), daily/page.tsx (579줄) 분리 후보
 
 ---

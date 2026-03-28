@@ -137,8 +137,13 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] Week 2 인프라: db.ts 도메인 분리 (356줄 → db/ 4파일 + index.ts) (8b3def0, 2026-03-28)
 - [x] Week 2 인프라: QuizClient.tsx 유틸 추출 (810줄 → 641줄) (8b3def0, 2026-03-28)
 - [x] Week 2 인프라: layout.tsx LayoutProviders 분리 — V 감시 해소 (007bdb9, 2026-03-28)
+- [x] db/ 도메인 분리 vitest 단위 테스트 38건 — mock-supabase + 4모듈 (206e450, 2026-03-28)
+- [x] 용어 순화 10건 — SRS→간격반복, BDS→상황시뮬레이션, Leitner→플래시카드, MDX 제거 (6c92a87, 2026-03-28)
+- [x] 빈 상태 개선 — WrongNotesClient 필터 EmptyState + CTA 적용 (6c92a87, 2026-03-28)
+- [x] EmptyState 접근성 — role="status" + aria-live="polite" (6c92a87, 2026-03-28)
+- [x] vitest exclude nadaun/** — npm run test 클린 통과 (6c92a87, 2026-03-28)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + **Week 2 인프라 재구조 3건** (2026-03-28).
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28).
 
 ---
 

@@ -24,6 +24,22 @@
 
 ---
 
+## [2026-03-28] X — 용어 순화 + vitest 38건 + 하네스 실전 검증
+
+### 변경 내용 (후반)
+- **용어 순화 10건**: SRS→간격반복, BDS→상황시뮬레이션, Leitner→플래시카드, MDX 노출 제거. 9개 파일 user-facing 텍스트 교체 (6c92a87)
+- **빈 상태 개선**: WrongNotesClient 필터 0건 시 EmptyState 컴포넌트 + CTA 적용 (6c92a87)
+- **EmptyState 접근성 보강**: role="status" + aria-live="polite" 추가 (6c92a87)
+- **db/ 도메인 분리 vitest 38건**: mock-supabase + subjects/quiz/worksheets/user-data 4모듈 테스트 (206e450)
+- **vitest exclude nadaun/**: nadaun 서브프로젝트 제외 → npm run test 클린 통과 (6c92a87)
+- **하네스 실전 검증**: /plan(Completion Contract) → 구현 → V 독립 검증(PASS 9/10) → 브라우저 실증
+
+### 상태
+- [x] 빌드 성공 (exit 0)
+- [x] V 검증 PASS 9/10 — Completion Contract 9/9 통과
+
+---
+
 ## [2026-03-28] X — 기본교육과정 성취기준 JSON 추출 + 에이전트 통합
 
 ### 변경 내용
