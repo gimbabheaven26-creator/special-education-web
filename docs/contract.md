@@ -314,13 +314,13 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 
 ## 데이터 정합성 규칙
 
-### FK 제약 (DB 레벨 — 클루디 설정)
+### FK 제약 (DB 레벨 — 2026-03-28 적용 완료)
 
-1. `chapters.subject_slug` → `subjects.slug` ON DELETE CASCADE
-2. `quiz_questions.subject` → `subjects.slug` ON DELETE CASCADE
-3. `worksheet_topics.subject` → `subjects.slug` ON DELETE CASCADE
-4. `worksheet_questions.topic_id` → `worksheet_topics.id` ON DELETE CASCADE
-5. `worksheet_questions.subject` → `subjects.slug` ON DELETE CASCADE
+1. `chapters.subject_slug` → `subjects.slug` ON DELETE CASCADE ✅
+2. `quiz_questions.subject` → `subjects.slug` ON DELETE CASCADE ✅
+3. `worksheet_topics.subject` → `subjects.slug` ON DELETE CASCADE ✅
+4. `worksheet_questions.topic_id` → `worksheet_topics.id` ON DELETE CASCADE ✅
+5. `worksheet_questions.subject` → `subjects.slug` ON DELETE CASCADE ✅
 6. `profiles.id` → `auth.users.id` ON DELETE CASCADE
 7. `user_data.user_id` → `profiles.id` ON DELETE CASCADE
 
@@ -360,7 +360,7 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 
 > 아래 작업은 kangsaem-requests.md에도 등록됨
 
-1. **FK 제약 설정** — SQL 작성 완료 (`scripts/add-fk-constraints.sql`), SQL Editor 실행 대기
+1. ~~**FK 제약 설정**~~ — 2026-03-28 SQL Editor 실행 완료 (FK 5개 + worksheet_topics PK/UNIQUE 추가)
 2. ~~**세분화 챕터 추가**~~ — DB 확인 결과 20/20 이미 존재
 3. ~~**퀴즈 ID 접두사 통일**~~ — DB 확인 결과 이미 완료
 4. ~~**깨진 챕터 참조 수정**~~ — 2593/2750건 수정 완료 (`scripts/fix-chapter-references.mjs`)
