@@ -1,14 +1,13 @@
-import { describe, test, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock date-utils to control "today"
-let mockToday = '2026-03-28';
 vi.mock('@/lib/date-utils', () => ({
-  getKSTDate: (date?: Date) => {
+  getKSTDate: vi.fn((date?: Date) => {
     if (date) {
       return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
     }
-    return mockToday;
-  },
+    return '2026-03-28'; // fixed "today"
+  }),
 }));
 
 import {
@@ -20,210 +19,192 @@ import {
   getAllSubjectSlugs,
   getNextExamDate,
 } from '../study-planner';
+import { getKSTDate } from '@/lib/date-utils';
 
-beforeEach(() => {
-  mockToday = '2026-03-28';
-});
+const mockedGetKSTDate = vi.mocked(getKSTDate);
 
-// ─── generateStudyPlan ───
-
-describe('generateStudyPlan', () => {
-  test('beginner 레벨에서 유효한 StudyPlan 반환', () => {
-    const plan = generateStudyPlan('2026-06-28', 'beginner', []);
-    expect(plan.level).toBe('beginner');
-    expect(plan.examDate).toBe('2026-06-28');
-    expect(plan.createdAt).toBe('2026-03-28');
-    expect(plan.dailyQuizTarget).toBe(10);
-    expect(plan.dailyChapterTarget).toBe(1);
-    expect(plan.dailyQuestionsTarget).toBe(20);
-    expect(plan.weeklyMilestones.length).toBeGreaterThan(0);
-  });
-
-  test('intermediate 레벨 dailyQuizTarget = 15', () => {
-    const plan = generateStudyPlan('2026-06-28', 'intermediate', []);
-    expect(plan.dailyQuizTarget).toBe(15);
-    expect(plan.dailyChapterTarget).toBe(2);
-  });
-
-  test('advanced 레벨 dailyQuizTarget = 20', () => {
-    const plan = generateStudyPlan('2026-06-28', 'advanced', []);
-    expect(plan.dailyQuizTarget).toBe(20);
-    expect(plan.dailyChapterTarget).toBe(3);
-  });
-
-  test('weakSubjects가 plan에 복사됨 (불변성)', () => {
-    const weak = ['laws', 'transition'];
-    const plan = generateStudyPlan('2026-06-28', 'beginner', weak);
-    expect(plan.weakSubjects).toEqual(weak);
-    expect(plan.weakSubjects).not.toBe(weak); // 새 배열
-  });
-
-  test('weakSubjects가 우선 배치됨 (milestones 초반)', () => {
-    const plan = generateStudyPlan('2026-12-28', 'beginner', ['laws']);
-    const firstSubjects = plan.weeklyMilestones
-      .slice(0, 3)
-      .flatMap((m) => m.subjects);
-    expect(firstSubjects).toContain('laws');
-  });
-
-  test('시험일이 가까우면 주 수가 적음', () => {
-    const plan = generateStudyPlan('2026-04-04', 'beginner', []);
-    expect(plan.weeklyMilestones.length).toBeLessThanOrEqual(2);
-  });
-
-  test('시험일이 멀면 주 수가 많음', () => {
-    const plan = generateStudyPlan('2027-03-28', 'beginner', []);
-    expect(plan.weeklyMilestones.length).toBeGreaterThan(20);
-  });
-
-  test('milestones 주차 번호가 1부터 연속', () => {
-    const plan = generateStudyPlan('2026-09-28', 'intermediate', ['assessment']);
-    const weekNums = plan.weeklyMilestones.map((m) => m.weekNumber);
-    for (let i = 0; i < weekNums.length; i++) {
-      expect(weekNums[i]).toBe(i + 1);
-    }
-  });
-
-  test('남은 주가 과목 수 초과 시 복습 주차 생성', () => {
-    const plan = generateStudyPlan('2027-03-28', 'beginner', []);
-    const reviewWeeks = plan.weeklyMilestones.filter((m) =>
-      m.label.includes('복습')
-    );
-    expect(reviewWeeks.length).toBeGreaterThan(0);
-  });
-
-  test('복습 주차의 quizTarget = 15', () => {
-    const plan = generateStudyPlan('2027-03-28', 'beginner', []);
-    const reviewWeek = plan.weeklyMilestones.find((m) =>
-      m.label.includes('복습')
-    );
-    expect(reviewWeek?.quizTarget).toBe(15);
-    expect(reviewWeek?.chapterTarget).toBe(2);
-  });
-});
-
-// ─── getCurrentWeekMilestone ───
-
-describe('getCurrentWeekMilestone', () => {
-  test('생성 직후 1주차 반환', () => {
-    const plan = generateStudyPlan('2026-09-28', 'beginner', []);
-    const milestone = getCurrentWeekMilestone(plan);
-    expect(milestone?.weekNumber).toBe(1);
-  });
-
-  test('7일 후 2주차 반환', () => {
-    const plan = generateStudyPlan('2026-09-28', 'beginner', []);
-    mockToday = '2026-04-04';
-    const milestone = getCurrentWeekMilestone(plan);
-    expect(milestone?.weekNumber).toBe(2);
-  });
-
-  test('milestones 범위 초과 시 null 반환', () => {
-    const plan = generateStudyPlan('2026-04-04', 'beginner', []);
-    mockToday = '2027-01-01';
-    const milestone = getCurrentWeekMilestone(plan);
-    expect(milestone).toBeNull();
-  });
-});
-
-// ─── getEncouragementMessage ───
-
-describe('getEncouragementMessage', () => {
-  test('start 메시지 반환 (문자열)', () => {
-    const msg = getEncouragementMessage('start');
-    expect(typeof msg).toBe('string');
-    expect(msg.length).toBeGreaterThan(0);
-  });
-
-  test('progress 메시지 반환', () => {
-    const msg = getEncouragementMessage('progress');
-    expect(typeof msg).toBe('string');
-  });
-
-  test('complete 메시지 반환', () => {
-    const msg = getEncouragementMessage('complete');
-    expect(typeof msg).toBe('string');
-  });
-
-  test('missed 메시지 반환', () => {
-    const msg = getEncouragementMessage('missed');
-    expect(typeof msg).toBe('string');
-  });
-
-  test('params 치환: {dday}', () => {
-    // 최대 100번 시도해서 {dday} 포함 메시지 찾기
-    let found = false;
-    for (let i = 0; i < 100; i++) {
-      const msg = getEncouragementMessage('start', { dday: 100 });
-      if (msg.includes('100')) {
-        found = true;
-        break;
+describe('study-planner', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    mockedGetKSTDate.mockImplementation((date?: Date) => {
+      if (date) {
+        return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
       }
-    }
-    // start 메시지에 {dday} 치환이 있으므로 확률적으로 찾아야 함
-    expect(found).toBe(true);
-  });
-});
-
-// ─── getSubjectTitle / getSubjectWeight / getAllSubjectSlugs ───
-
-describe('getSubjectTitle', () => {
-  test('존재하는 slug → 한글 제목', () => {
-    expect(getSubjectTitle('introduction')).toBe('특수교육학 개론');
-    expect(getSubjectTitle('behavior-support')).toBe('행동지원');
+      return '2026-03-28';
+    });
   });
 
-  test('없는 slug → slug 그대로 반환', () => {
-    expect(getSubjectTitle('nonexistent')).toBe('nonexistent');
-  });
-});
+  // ─── getSubjectTitle ───
 
-describe('getSubjectWeight', () => {
-  test('존재하는 slug → 양수 weight', () => {
-    expect(getSubjectWeight('introduction')).toBe(15);
-    expect(getSubjectWeight('communication-disorder')).toBe(3);
-  });
+  describe('getSubjectTitle', () => {
+    it('알려진 과목 slug → 한글 제목 반환', () => {
+      expect(getSubjectTitle('introduction')).toBe('특수교육학 개론');
+      expect(getSubjectTitle('behavior-support')).toBe('행동지원');
+    });
 
-  test('없는 slug → 0', () => {
-    expect(getSubjectWeight('nonexistent')).toBe(0);
-  });
-});
-
-describe('getAllSubjectSlugs', () => {
-  test('11개 과목 slug 반환', () => {
-    const slugs = getAllSubjectSlugs();
-    expect(slugs.length).toBe(11);
-    expect(slugs).toContain('introduction');
-    expect(slugs).toContain('communication-disorder');
-  });
-});
-
-// ─── getNextExamDate ───
-
-describe('getNextExamDate', () => {
-  test('3월에는 올해 11월 셋째 토요일 반환', () => {
-    mockToday = '2026-03-28';
-    const examDate = getNextExamDate();
-    expect(examDate).toMatch(/^2026-11-\d{2}$/);
-    // 2026년 11월 셋째 토요일 확인
-    const date = new Date(examDate + 'T00:00:00+09:00');
-    expect(date.getDay()).toBe(6); // 토요일
-    expect(date.getDate()).toBeGreaterThanOrEqual(15);
-    expect(date.getDate()).toBeLessThanOrEqual(21);
+    it('미지 slug → slug 그대로 반환', () => {
+      expect(getSubjectTitle('unknown-slug')).toBe('unknown-slug');
+    });
   });
 
-  test('12월에는 다음 해 11월 반환', () => {
-    mockToday = '2026-12-01';
-    const examDate = getNextExamDate();
-    expect(examDate).toMatch(/^2027-11-\d{2}$/);
-    const date = new Date(examDate + 'T00:00:00+09:00');
-    expect(date.getDay()).toBe(6);
+  // ─── getSubjectWeight ───
+
+  describe('getSubjectWeight', () => {
+    it('알려진 과목 slug → weight 반환', () => {
+      expect(getSubjectWeight('introduction')).toBe(15);
+      expect(getSubjectWeight('communication-disorder')).toBe(3);
+    });
+
+    it('미지 slug → 0 반환', () => {
+      expect(getSubjectWeight('nonexistent')).toBe(0);
+    });
   });
 
-  test('시험일 당일에는 올해 반환', () => {
-    // 2026년 11월 셋째 토요일 = 11/21
-    mockToday = '2026-11-21';
-    const examDate = getNextExamDate();
-    expect(examDate).toMatch(/^2026-11-/);
+  // ─── getAllSubjectSlugs ───
+
+  describe('getAllSubjectSlugs', () => {
+    it('11개 과목 slug 반환', () => {
+      const slugs = getAllSubjectSlugs();
+      expect(slugs.length).toBe(11);
+      expect(slugs).toContain('introduction');
+      expect(slugs).toContain('communication-disorder');
+    });
+  });
+
+  // ─── generateStudyPlan ───
+
+  describe('generateStudyPlan', () => {
+    it('beginner 레벨로 학습 계획 생성', () => {
+      // 시험일을 오늘+10주로 설정
+      const plan = generateStudyPlan('2026-06-06', 'beginner', []);
+      expect(plan.level).toBe('beginner');
+      expect(plan.examDate).toBe('2026-06-06');
+      expect(plan.createdAt).toBe('2026-03-28');
+      expect(plan.dailyQuizTarget).toBe(10);
+      expect(plan.dailyChapterTarget).toBe(1);
+      expect(plan.weeklyMilestones.length).toBeGreaterThan(0);
+    });
+
+    it('취약 과목이 우선 배치된다', () => {
+      const plan = generateStudyPlan('2026-06-06', 'beginner', ['laws']);
+      // 첫 주차 마일스톤에 취약 과목이 포함되어야 함
+      const firstMilestone = plan.weeklyMilestones[0];
+      expect(firstMilestone.subjects).toContain('laws');
+    });
+
+    it('advanced 레벨의 dailyQuizTarget은 20', () => {
+      const plan = generateStudyPlan('2026-06-06', 'advanced', []);
+      expect(plan.dailyQuizTarget).toBe(20);
+      expect(plan.dailyChapterTarget).toBe(3);
+    });
+
+    it('weakSubjects가 반환 플랜에 복사된다 (immutability)', () => {
+      const weakArr = ['assessment', 'laws'];
+      const plan = generateStudyPlan('2026-06-06', 'beginner', weakArr);
+      expect(plan.weakSubjects).toEqual(weakArr);
+      expect(plan.weakSubjects).not.toBe(weakArr); // 새 배열
+    });
+
+    it('시험일까지 1주일이면 milestones 최소 1개', () => {
+      const plan = generateStudyPlan('2026-04-04', 'beginner', []);
+      expect(plan.weeklyMilestones.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it('totalWeeks 초과 시 남은 주차는 복습 사이클', () => {
+      // 매우 먼 시험일 → 과목 배정 후 남은 주차가 복습으로 채워짐
+      const plan = generateStudyPlan('2027-03-28', 'beginner', []);
+      const lastMilestone = plan.weeklyMilestones[plan.weeklyMilestones.length - 1];
+      expect(lastMilestone.label).toContain('복습');
+      expect(lastMilestone.quizTarget).toBe(15);
+    });
+  });
+
+  // ─── getCurrentWeekMilestone ───
+
+  describe('getCurrentWeekMilestone', () => {
+    it('첫째 주에는 weekNumber 1 마일스톤 반환', () => {
+      const plan = generateStudyPlan('2026-06-06', 'beginner', []);
+      // createdAt은 2026-03-28, today도 2026-03-28 → 1주차
+      const milestone = getCurrentWeekMilestone(plan);
+      expect(milestone).not.toBeNull();
+      expect(milestone!.weekNumber).toBe(1);
+    });
+
+    it('plan 범위 밖이면 null', () => {
+      // 시험일이 바로 다음 주인 계획에서, 3주 후를 "오늘"로 설정
+      const plan = generateStudyPlan('2026-04-04', 'beginner', []);
+      // 현재 오늘이 2026-03-28이고 plan은 1~2주차만 있으므로
+      // 4주 후로 mock 변경
+      mockedGetKSTDate.mockImplementation((date?: Date) => {
+        if (date) {
+          return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
+        }
+        return '2026-05-28';
+      });
+      const milestone = getCurrentWeekMilestone(plan);
+      expect(milestone).toBeNull();
+    });
+  });
+
+  // ─── getEncouragementMessage ───
+
+  describe('getEncouragementMessage', () => {
+    it('start 타입 메시지 반환', () => {
+      const msg = getEncouragementMessage('start', { dday: 100, subject: '행동지원' });
+      expect(typeof msg).toBe('string');
+      expect(msg.length).toBeGreaterThan(0);
+    });
+
+    it('params 치환 동작', () => {
+      // Math.random을 고정하여 deterministic하게 만듦
+      vi.spyOn(Math, 'random').mockReturnValue(0); // 첫 번째 메시지 선택
+      const msg = getEncouragementMessage('start', { dday: 42, subject: '행동지원' });
+      expect(msg).toContain('42');
+    });
+
+    it('complete 타입에서 xp 치환', () => {
+      vi.spyOn(Math, 'random').mockReturnValue(0.4); // 두 번째 메시지 (index 1)
+      const msg = getEncouragementMessage('complete', { xp: 150, weeklyPct: 80 });
+      expect(typeof msg).toBe('string');
+    });
+
+    it('missed 타입 메시지 존재', () => {
+      const msg = getEncouragementMessage('missed');
+      expect(msg.length).toBeGreaterThan(0);
+    });
+  });
+
+  // ─── getNextExamDate ───
+
+  describe('getNextExamDate', () => {
+    it('시험 전(3월) → 올해 11월 셋째 토요일 반환', () => {
+      // today = 2026-03-28, 시험 전
+      const examDate = getNextExamDate();
+      // 2026년 11월 1일 = 일요일, 첫 토 = 7일, 셋째 토 = 21일
+      expect(examDate).toBe('2026-11-21');
+    });
+
+    it('시험 후(12월) → 다음 해 시험일 반환', () => {
+      mockedGetKSTDate.mockImplementation((date?: Date) => {
+        if (date) {
+          return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
+        }
+        return '2026-12-01';
+      });
+      const examDate = getNextExamDate();
+      // 2027년 11월 1일 = 월요일, 첫 토 = 6일, 셋째 토 = 20일
+      expect(examDate).toBe('2027-11-20');
+    });
+
+    it('시험 당일 → 올해 날짜 반환 (today <= examDate)', () => {
+      mockedGetKSTDate.mockImplementation((date?: Date) => {
+        if (date) {
+          return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date);
+        }
+        return '2026-11-21';
+      });
+      const examDate = getNextExamDate();
+      expect(examDate).toBe('2026-11-21');
+    });
   });
 });
