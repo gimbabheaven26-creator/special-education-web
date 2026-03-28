@@ -11,7 +11,7 @@
 | 1 | /api/feedback rate limiting 없음 | MEDIUM | 강선생1 | FIXED (강선생2 2026-03-25) |
 | 2 | Discord 메시지 인젝션 (@everyone) | MEDIUM | 강선생1 | FIXED (강선생2 2026-03-25) |
 | 3 | page 파라미터 미검증 (길이 제한 없음) | LOW | 강선생1 | FIXED (강선생2 2026-03-25) |
-| 4 | setTimeout 클린업 누락 | LOW | 강선생1 | DEFERRED |
+| 4 | setTimeout 클린업 누락 | LOW | 강선생1 | FIXED (X 2026-03-29, 4b52989) |
 
 ## 상세
 

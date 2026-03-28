@@ -104,7 +104,7 @@ function checkRateLimit(ip: string): boolean {
 
 - **layout.tsx 컴포넌트 수**: 현재 12개 (ThemeProvider, Header, Footer, BottomTabBar, ConditionalReviewPanel, StudySessionTracker, SyncManager, BetaFeedbackWidget, Analytics, SpeedInsights + main/children). 이전 리뷰에서 9개로 카운트했으나 실제로는 12개. `<LayoutProviders>` 분리 시점이 다가왔다.
 - **error.tsx 패턴**: 13개 파일 동일 구조 — 위 1번 항목 참조. 즉시 위험은 아니지만 유지보수 비용이 선형 증가.
-- **BetaFeedbackWidget setTimeout 클린업**: DEFERRED 상태 유지. 베타 종료 시 컴포넌트 자체를 제거할 예정이므로 수정 우선순위 낮음.
+- **BetaFeedbackWidget setTimeout 클린업**: FIXED (4b52989, 2026-03-29). useRef + useEffect cleanup 적용.
 
 ## PASS 항목
 
