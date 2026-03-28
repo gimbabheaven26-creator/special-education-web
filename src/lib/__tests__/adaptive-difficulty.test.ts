@@ -7,7 +7,7 @@ import {
   getProficiencyLabel,
   getProficiencyColor,
 } from '@/lib/adaptive-difficulty';
-import type { Proficiency, ProficiencyInfo } from '@/lib/adaptive-difficulty';
+import type { Proficiency } from '@/lib/adaptive-difficulty';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
