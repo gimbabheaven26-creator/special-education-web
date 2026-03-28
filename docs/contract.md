@@ -1,6 +1,6 @@
 # Interface Contract
 
-> 강선생(UI)과 클루디(데이터)의 인터페이스 계약서
+> X(실행)와 V(검증)의 인터페이스 계약서 (2026-03-27 이전: 강선생+클루디)
 > 최종 수정: 2026-03-26 | 버전: 2.8.1
 > v2.8.1: 클루디 작업 목록 완료 표기 (REQ-001~006 실행 완료 반영)
 > v2.8: reviews.image_urls 컬럼 추가 (첨부 이미지 URL 목록) — 카이란 승인
@@ -259,7 +259,7 @@ communication-disorder:
 
 ## API 레이어 (src/lib/db.ts)
 
-> 강선생이 관리. 클루디는 이 파일을 직접 수정하지 않음.
+> X가 관리. 데이터 작업 시에도 X가 통합 담당.
 
 ### 함수 시그니처
 
@@ -339,24 +339,24 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 
 | 영역 | 담당 | 상대가 하면 안 되는 것 |
 |------|------|---------------------|
-| Supabase 테이블 구조 | 클루디 (+ 카이란 승인) | 강선생이 직접 ALTER TABLE |
-| RLS 정책 | 클루디 | 강선생이 RLS 변경 |
-| 데이터 삽입/수정 | 클루디 | 강선생이 직접 INSERT/UPDATE |
-| src/lib/db.ts | 강선생 | 클루디가 db.ts 수정 |
-| src/types/*.ts | 강선생 | 클루디가 타입 수정 |
-| UI 컴포넌트 | 강선생 | 클루디가 src/components 수정 |
-| 공유 상수 (xp-constants.ts) | 강선생 | 클루디가 상수값 변경 |
-| 콘텐츠 리서치 | 클루디 | 강선생이 KICE 분석 |
-| 마이그레이션 스크립트 | 클루디 | 강선생이 scripts/ 수정 |
-| data-validator 실행 | 클루디 (데이터 변경 후) | — |
-| profiles, user_data 테이블 + RLS | **강선생** (v2.4 변경) | 클루디가 직접 DDL |
-| src/lib/supabase/auth.ts (신규) | 강선생 | 클루디가 auth 코드 수정 |
-| src/lib/sync.ts (신규) | 강선생 | 클루디가 sync 코드 수정 |
-| 미들웨어 (세션 관리) | 강선생 | 클루디가 middleware 수정 |
+| Supabase 테이블 구조 | X (+ 카이란 승인) | — |
+| RLS 정책 | X | — |
+| 데이터 삽입/수정 | X (데이터 모드) | — |
+| src/lib/db.ts | X (빌드 모드) | — |
+| src/types/*.ts | X (빌드 모드) | — |
+| UI 컴포넌트 | X (빌드 모드) | — |
+| 공유 상수 (xp-constants.ts) | X | — |
+| 콘텐츠 리서치 | X (데이터 모드) | — |
+| 마이그레이션 스크립트 | X (데이터 모드) | — |
+| data-validator 실행 | V (데이터 변경 후) | — |
+| profiles, user_data 테이블 + RLS | X | — |
+| src/lib/supabase/auth.ts (신규) | X (빌드 모드) | — |
+| src/lib/sync.ts (신규) | X (빌드 모드) | — |
+| 미들웨어 (세션 관리) | X (빌드 모드) | — |
 
 ---
 
-## 클루디 작업 목록 (v2 기준)
+## X 데이터 작업 목록 (v2 기준, 구 클루디 담당)
 
 > 아래 작업은 kangsaem-requests.md에도 등록됨
 

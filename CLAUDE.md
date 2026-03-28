@@ -120,7 +120,11 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] V리뷰 0325 전체 해소 7/7 — rate limiter, next-pwa, 접근성 (a5f7903, 2026-03-25)
 - [x] 노션 4DB 구조변경 — 태그 63→16, M0~M4 마일스톤, 담당자 통일 (d5d7c13, 2026-03-25)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~7 잔여 작업은 스프린트 계획 참조.
+- [x] EmptyState ariaLabel 접근성 보강 (d2f502f, 2026-03-27)
+- [x] BottomTabBar smooth scroll (d2f502f, 2026-03-27)
+- [x] X+V 2체제 에이전트 통합 (d7c9636, 2026-03-28)
+
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5~7 잔여 작업은 스프린트 계획 참조.
 
 ---
 

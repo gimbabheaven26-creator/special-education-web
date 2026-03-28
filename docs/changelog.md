@@ -1,6 +1,6 @@
 # Changelog
 
-> 강선생-클루디 간 DB/API 변경 이력
+> X-V 간 DB/API 변경 이력 (2026-03-27 이전: 강선생-클루디)
 > contract.md 변경 시 반드시 여기에 기록
 
 ## 작성 규칙
@@ -12,8 +12,8 @@
 - 구체적 변경 사항
 
 ### 영향 범위
-- 강선생: 어떤 코드에 영향?
-- 클루디: 어떤 데이터에 영향?
+- X(빌드): 어떤 코드에 영향?
+- X(데이터): 어떤 데이터에 영향?
 
 ### 상태
 - [ ] contract.md 업데이트
@@ -21,6 +21,33 @@
 - [ ] 구현 완료
 - [ ] 상대 세션 전달
 ```
+
+---
+
+## [2026-03-28] X — 기본교육과정 성취기준 JSON 추출 + 에이전트 통합
+
+### 변경 내용
+- **X+V 2체제 에이전트 통합**: 강선생/클루디/프라임 → X, 검증 에이전트 → V (d7c9636)
+- **기본교육과정 중학교 국어·수학 성취기준 JSON**: 교육부 고시 제2022-34호 [별책 3]에서 추출 — 국어 14개, 수학 33개 (c097e1f)
+- **smooth scroll + EmptyState ariaLabel**: BottomTabBar 부드러운 스크롤, EmptyState aria-label 접근성 보강 (d2f502f)
+
+### 생성/수정 파일
+| 파일 | 작업 |
+|------|------|
+| data/curriculum/achievement-stds/korean-middle.json | 신규 (국어 성취기준) |
+| data/curriculum/achievement-stds/math-middle.json | 신규 (수학 성취기준) |
+| CLAUDE.md | 수정 (X+V 2체제 반영) |
+| .claude/rules/v-review-pipeline.md | 수정 (에이전트명 통일) |
+| src/components/layout/BottomTabBar.tsx | 수정 (smooth scroll) |
+| src/components/ui/EmptyState.tsx | 수정 (ariaLabel) |
+
+### 영향 범위
+- X(빌드): 에이전트 참조 변경, 접근성 개선
+- X(데이터): 교육과정 데이터 신규 추가
+
+### 상태
+- [x] 빌드 성공 (exit 0)
+- [x] 커밋 + 푸시 완료
 
 ---
 
