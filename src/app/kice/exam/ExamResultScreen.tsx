@@ -2,11 +2,12 @@
 
 import { useMemo, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Clock, Target, Flag, CheckCircle2, XCircle, History } from 'lucide-react'
+import { ArrowLeft, Clock, Target, Flag, CheckCircle2, XCircle, History, BookOpen } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { SUBJECT_LABELS } from '@/types/kice'
+import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/concept-urls'
 import type { KiceExam, KiceQuestion } from '@/types/kice'
 import { checkBlank } from '@/lib/check-blank'
 
@@ -231,7 +232,18 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
               const pct = total > 0 ? Math.round((correct / total) * 100) : 0
               return (
                 <div key={subject} className="flex items-center gap-3">
-                  <span className="text-sm w-20 shrink-0">{SUBJECT_LABELS[subject] ?? subject}</span>
+                  <span className="text-sm w-20 shrink-0 flex items-center gap-1">
+                    {SUBJECT_LABELS[subject] ?? subject}
+                    {SLUG_TO_CONCEPTS_FOLDER[subject] && (
+                      <Link
+                        href={getConceptUrl(subject)}
+                        className="text-primary hover:text-primary/80 transition-colors"
+                        aria-label={`${SUBJECT_LABELS[subject] ?? subject} 개념 학습`}
+                      >
+                        <BookOpen className="h-3.5 w-3.5" />
+                      </Link>
+                    )}
+                  </span>
                   <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${
