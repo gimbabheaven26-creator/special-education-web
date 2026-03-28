@@ -1,6 +1,6 @@
 # 나다운 (nadaun) MVP — 구현 계획
 
-> 작성: 2026-03-27 | 담당: X | 상태: 계획 확정, 실행 대기
+> 작성: 2026-03-27 | 갱신: 2026-03-29 | 담당: X | 상태: Phase 0~4 완료, Phase 5 대기
 > 설계 문서: docs/superpowers/specs/2026-03-26-nadaun-design.md
 
 ## 요구사항
@@ -98,13 +98,18 @@
 | 한글 PDF 폰트 | MEDIUM | 안 되면 v2로 미룸 |
 | API 비용 | LOW | 월 $28 수준 (교사 50명) |
 
-## 실행 순서
+## 실행 현황 (2026-03-29)
 
 ```
-Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5
+Phase 0 ✅ → Phase 1 ✅ → Phase 2 ✅ → Phase 3 ✅ → Phase 4 ✅ → Phase 5 ⬜
 ```
 
-Phase 0-3 (성취기준 DB)은 카이란 소스 제공 시점에 따라 병렬 진행 가능.
+- Phase 0: 프로젝트 셋업 + Supabase + 성취기준 JSON (bb36e65, 190cdbc, 729707a)
+- Phase 1: DB 5테이블 + RLS + 89개 성취기준 + Google OAuth (18a2f47)
+- Phase 2: 성취기준 탐색 UI 5라우트 + 8컴포넌트 + 53테스트 (bc0d9d3)
+- Phase 3: 키움이들 학생 CRUD 5페이지 + 6컴포넌트 + loading.tsx (f3785ef)
+- Phase 4: IEP 계획 상세/편집/삭제 + IepPlanForm + GoalFormItem (f3785ef)
+- Phase 5: 텍스트 복사 / Excel / PDF 내보내기 — **미착수**
 
 ---
 
