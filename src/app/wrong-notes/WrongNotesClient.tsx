@@ -13,6 +13,7 @@ import WrongNoteCard from './WrongNoteCard';
 import SrsReviewMode from './SrsReviewMode';
 import { detectErrorPatterns } from '@/lib/error-patterns';
 import { WrongNoteAI } from '@/components/WrongNoteAI';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 export interface HydratedWrongNote extends WrongNote {
   question: QuizQuestion | null;
@@ -210,7 +211,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
               : 'border-transparent text-muted-foreground hover:text-foreground'
           }`}
         >
-          SRS 복습
+          간격 반복
           {srsStats.dueToday > 0 && (
             <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
               {srsStats.dueToday}
@@ -351,9 +352,11 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
 
       {/* Grouped notes */}
       {filteredNotes.length === 0 ? (
-        <p className="text-center text-muted-foreground py-10">
-          필터 조건에 맞는 오답이 없습니다.
-        </p>
+        <EmptyState
+          title="필터 조건에 맞는 오답이 없어요"
+          description="다른 과목이나 조건으로 검색해보세요."
+          action={{ label: '전체 오답 보기', href: '/wrong-notes', ariaLabel: '필터 초기화하고 전체 오답 보기' }}
+        />
       ) : (
         <div className="space-y-6">
           {Object.entries(grouped).map(([subject, notes]) => (

@@ -63,7 +63,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/community', label: '커뮤니티' },
       { href: '/reviews', label: '리뷰' },
-      { href: '/scenarios', label: 'BDS 시나리오' },
+      { href: '/scenarios', label: '상황 시뮬레이션' },
     ],
   },
 ];

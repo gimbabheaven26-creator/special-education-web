@@ -48,7 +48,7 @@ const SITE_STRUCTURE: RouteNode[] = [
         label: '개념학습',
         children: [
           { path: '/concepts/[subject]', label: '과목별 개념 목록' },
-          { path: '/concepts/[subject]/[slug]', label: '개념 상세 (MDX)' },
+          { path: '/concepts/[subject]/[slug]', label: '개념 상세' },
         ],
       },
       {
@@ -136,7 +136,7 @@ const SITE_STRUCTURE: RouteNode[] = [
       { path: '/reviews', label: '리뷰' },
       {
         path: '/scenarios',
-        label: 'BDS 시나리오',
+        label: '상황 시뮬레이션',
         children: [
           { path: '/scenarios/[id]', label: '시나리오 상세' },
           { path: '/scenarios/spaced/[groupId]', label: '간격 반복' },

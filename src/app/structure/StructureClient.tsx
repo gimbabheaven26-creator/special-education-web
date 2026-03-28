@@ -113,7 +113,7 @@ const SITE_MAP: SiteGroup[] = [
     color: 'border-purple-200 dark:border-purple-900/50',
     iconColor: 'text-purple-500 bg-purple-50 dark:bg-purple-950/30',
     pages: [
-      { title: '플래시카드', path: '/flashcards', desc: 'Leitner 간격 반복 학습', icon: Layers },
+      { title: '플래시카드', path: '/flashcards', desc: '플래시카드 간격 반복', icon: Layers },
       {
         title: '오답노트',
         path: '/wrong-notes',

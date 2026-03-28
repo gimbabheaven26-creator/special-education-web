@@ -45,7 +45,7 @@ const PRESETS: Array<{
     id: 'review',
     icon: RefreshCw,
     label: '빠른 복습',
-    description: '오답 + Leitner 카드 중심',
+    description: '오답 + 플래시카드 중심',
     color: 'bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-800',
   },
   {

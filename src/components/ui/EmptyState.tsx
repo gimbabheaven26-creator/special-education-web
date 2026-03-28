@@ -8,7 +8,7 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+    <div role="status" aria-live="polite" className="flex flex-col items-center justify-center py-20 text-center space-y-4">
       <div className="text-5xl" aria-hidden="true">
         📚
       </div>

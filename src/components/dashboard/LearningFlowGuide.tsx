@@ -72,7 +72,7 @@ export function LearningFlowGuide() {
       number: 4,
       icon: RefreshCw,
       title: '틀린 문제 다시 풀기',
-      description: 'SRS 간격 반복 복습',
+      description: '간격 반복 복습',
       href: '/wrong-notes?tab=srs',
       badge: dueCount > 0 ? `${dueCount}개 복습` : undefined,
       color: 'text-violet-500',
