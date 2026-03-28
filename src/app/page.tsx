@@ -5,6 +5,7 @@ import { ExamCountdown } from '@/components/ExamCountdown';
 import { TodayTermCard } from '@/components/TodayTermCard';
 import { AiBriefingCard } from '@/components/AiBriefingCard';
 import { AdminQuickAccess } from '@/components/dashboard/AdminQuickAccess';
+import { OnboardingGate } from '@/components/OnboardingGate';
 import Link from 'next/link';
 import { BookOpen, ArrowRight } from 'lucide-react';
 
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
+      <OnboardingGate />
 
       {/* D-day 카운트다운 */}
       <ExamCountdown />
