@@ -26,14 +26,14 @@ npm run test:e2e     # Playwright E2E
 
 ---
 
-## 에이전트 역할 분리
+## 에이전트 체제 (X+V 2체제, 2026-03-27~)
 
-| 에이전트 | 담당 | 금지 |
+| 에이전트 | 역할 | 모드 |
 |---------|------|------|
-| **강선생** | `src/` 컴포넌트, 페이지, 훅, 스타일 | DB 스키마 직접 변경 |
-| **클루디** | `scripts/`, `data/`, Supabase 데이터 삽입, DB 마이그레이션 | UI 코드 수정 |
+| **X** | 실행: 코드 작성, 데이터 파이프라인, 전략, 상담 | 빌드/데이터/전략/상담 4모드 자동 전환 |
+| **V** | 검증: 코드 리뷰, 보안 감사, 데이터 정합성 | 독립 검증 전담 |
 
-두 에이전트가 동시에 작업할 때 **`docs/contract.md`가 유일한 진실의 원천**.
+**`docs/contract.md`가 유일한 진실의 원천**.
 스키마/API 변경 → contract.md 먼저 수정 → 카이란 승인 → 구현.
 
 ---
@@ -42,15 +42,15 @@ npm run test:e2e     # Playwright E2E
 
 ```
 src/lib/supabase.ts        # Supabase 클라이언트
-src/lib/db.ts              # DB 쿼리 함수 (강선생 읽기용)
+src/lib/db.ts              # DB 쿼리 함수 (X 빌드모드 읽기용)
 src/app/layout.tsx         # 루트 레이아웃 (전역 컴포넌트 마운트)
 src/components/BetaFeedbackWidget.tsx  # 베타 피드백 위젯 (전역, 베타 기간 한정)
 src/app/api/feedback/route.ts          # Discord webhook 연동 피드백 POST API
 
 docs/contract.md           # DB 스키마 + API 계약 (변경 전 반드시 읽기)
 docs/changelog.md          # 변경 이력
-docs/kangsaem-requests.md  # 강선생 작업 요청 큐
-docs/cloudy-requests.md    # 클루디 작업 요청 큐
+docs/kangsaem-requests.md  # 작업 요청 큐 (구 강선생, 현 X)
+docs/cloudy-requests.md    # 작업 요청 큐 (구 클루디, 현 X)
 docs/v-reviews/            # V(외부 검증) 리뷰 파일 — 세션 시작 시 OPEN 항목 확인 필수
 
 scripts/insert-with-service-key.mjs  # Supabase 데이터 삽입 패턴
@@ -130,11 +130,11 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 ```json
 {
   "destination": "sprint",
-  "title": "강선생1 기능명 (2026-MM-DD)",
-  "agent": "강선생1",
+  "title": "X 기능명 (2026-MM-DD)",
+  "agent": "X",
   "status": "완료",
   "commit": "해시",
-  "tags": ["강선생", "특수교육웹"],
+  "tags": ["X", "특수교육웹"],
   "content": "## 완료\n- ..."
 }
 ```
