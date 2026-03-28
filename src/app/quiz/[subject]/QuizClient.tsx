@@ -6,9 +6,8 @@ import type { QuizQuestion } from '@/types/quiz';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { useQuizStore, type DiagnosticSession } from '@/stores/useQuizStore';
+import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
-import { getKSTTimeslot } from '@/lib/timeslot';
 import { shuffle } from '@/lib/array-utils';
 import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
@@ -21,12 +20,13 @@ import { ComboIndicator } from '@/components/quiz/ComboIndicator';
 import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import type { Confidence } from './QuizResultScreen';
 import { PenLine, FileText } from 'lucide-react';
-import { sortByAdaptiveDifficulty } from '@/lib/adaptive-difficulty';
 // TODO: 정교화 질문 추후 재활성화
 // import { shouldTriggerElaboration } from '@/lib/elaboration';
 // import ElaborationPrompt from '@/components/quiz/ElaborationPrompt';
 import { DiagnosticReport } from '@/components/quiz/DiagnosticReport';
 import type { QuizResult } from '@/types/quiz';
+import { buildSession, generateDiagnosticSessionId, findNextUnanswered, DIAGNOSTIC_CORRECT_MS, DIAGNOSTIC_WRONG_MS } from './quiz-session-utils';
+import { QuestionNav } from './QuestionNav';
 
 // ─── Question type categories ────────────────────────────────────────────────
 
@@ -34,159 +34,6 @@ type QuizTab = 'short' | 'essay';
 
 const SHORT_ANSWER_TYPES = new Set(['multiple', 'ox', 'fill_in']);
 const ESSAY_TYPES = new Set(['descriptive', 'scenario_composite']);
-
-// ─── Constants ───────────────────────────────────────────────────────────────
-
-const REVIEW_MIX_RATIO = 0.7; // 빠른 복습 프리셋에서 오답 비율
-const DIAGNOSTIC_CORRECT_MS = 2000; // 정답 시 자동 이동 딜레이
-const DIAGNOSTIC_WRONG_MS = 4000; // 오답 시 해설 읽기 시간
-
-
-/** Generate a unique diagnostic session ID based on today's KST date */
-function generateDiagnosticSessionId(
-  sessions: DiagnosticSession[]
-): { id: string; label: string } {
-  const { date } = getKSTTimeslot();
-  const todayCount = sessions.filter(s => s.id.startsWith(`diag-${date}`)).length;
-  const n = todayCount + 1;
-  const [, m, d] = date.split('-');
-  return {
-    id: `diag-${date}-${n}`,
-    label: `${Number(m)}월 ${Number(d)}일-${n}`,
-  };
-}
-
-/** Build session questions based on preset configuration */
-function buildSession(
-  allQuestions: QuizQuestion[],
-  reviewQuestions: QuizQuestion[],
-  quizHistory: Array<{ questionId: string; isCorrect: boolean; chapter: string }>,
-  config: SessionConfig,
-  leitnerDueIds?: ReadonlySet<string>,
-): QuizQuestion[] {
-  const { preset, questionCount, chapters, difficulty } = config;
-
-  // Filter by chapter
-  let pool = chapters.length > 0
-    ? allQuestions.filter((q) => chapters.includes(q.chapter))
-    : allQuestions;
-
-  // Filter by difficulty
-  if (difficulty === 'adaptive') {
-    pool = sortByAdaptiveDifficulty(pool, quizHistory);
-  } else if (difficulty !== 'all') {
-    const diffMap: Record<string, number[]> = {
-      basic: [1],
-      intermediate: [2],
-      advanced: [3],
-    };
-    const levels = diffMap[difficulty] ?? [];
-    const filtered = pool.filter((q) => levels.includes(q.difficulty ?? 2));
-    if (filtered.length > 0) pool = filtered;
-  }
-
-  if (preset === 'review') {
-    // 빠른 복습: 오답 + Leitner due 카드 중심 + 나머지 채움
-    const reviewMax = Math.ceil(questionCount * REVIEW_MIX_RATIO);
-    const reviewIds = new Set(reviewQuestions.map((q) => q.id));
-    // Leitner due 카드 중 퀴즈 문제와 매핑 가능한 것 합산
-    const leitnerDueQuestions = leitnerDueIds
-      ? pool.filter((q) => leitnerDueIds.has(q.id) && !reviewIds.has(q.id))
-      : [];
-    const mergedReviewPool = [...reviewQuestions, ...leitnerDueQuestions];
-    const reviewPool = shuffle(mergedReviewPool).slice(0, reviewMax);
-    const selectedIds = new Set(reviewPool.map((q) => q.id));
-    const freshPool = pool.filter((q) => !selectedIds.has(q.id));
-    const freshPick = shuffle(freshPool).slice(0, questionCount - reviewPool.length);
-    return shuffle([...reviewPool, ...freshPick]);
-  }
-
-  if (preset === 'weak') {
-    // 취약 집중: 정답률 60% 미만 챕터에서 출제
-    const chapterAccuracy: Record<string, { correct: number; total: number }> = {};
-    for (const r of quizHistory) {
-      if (!chapterAccuracy[r.chapter]) chapterAccuracy[r.chapter] = { correct: 0, total: 0 };
-      chapterAccuracy[r.chapter].total++;
-      if (r.isCorrect) chapterAccuracy[r.chapter].correct++;
-    }
-    const weakChapters = new Set(
-      Object.entries(chapterAccuracy)
-        .filter(([, stats]) => stats.total >= 3 && stats.correct / stats.total < 0.6)
-        .map(([ch]) => ch)
-    );
-
-    if (weakChapters.size > 0) {
-      const weakPool = pool.filter((q) => weakChapters.has(q.chapter));
-      if (weakPool.length >= questionCount) {
-        return shuffle(weakPool).slice(0, questionCount);
-      }
-      const rest = pool.filter((q) => !weakChapters.has(q.chapter));
-      return shuffle([...weakPool, ...shuffle(rest).slice(0, questionCount - weakPool.length)]);
-    }
-    return shuffle(pool).slice(0, questionCount);
-  }
-
-  // 'new': 아직 안 푼 문제 우선
-  const answeredIds = new Set(quizHistory.map((r) => r.questionId));
-  const newPool = pool.filter((q) => !answeredIds.has(q.id));
-  if (newPool.length >= questionCount) {
-    return shuffle(newPool).slice(0, questionCount);
-  }
-  const oldPool = pool.filter((q) => answeredIds.has(q.id));
-  return shuffle([...newPool, ...shuffle(oldPool).slice(0, questionCount - newPool.length)]);
-}
-
-// ─── Question Nav ────────────────────────────────────────────────────────────
-
-function QuestionNav({
-  questions,
-  chapterMap,
-  currentIndex,
-  answers,
-  onJump,
-}: {
-  questions: ReadonlyArray<QuizQuestion>;
-  chapterMap: Record<string, string>;
-  currentIndex: number;
-  answers: ReadonlyArray<AnswerRecord>;
-  onJump: (index: number) => void;
-}) {
-  const answeredMap = new Map(answers.map((a) => [a.questionIndex, a.isCorrect]));
-
-  return (
-    <div className="flex flex-wrap gap-2 mb-4">
-      {questions.map((q, i) => {
-        const chapterTitle = chapterMap[q.chapter] || q.chapter;
-        const isCurrent = i === currentIndex;
-        const result = answeredMap.get(i);
-
-        let pillClass =
-          'text-xs px-3 py-1.5 rounded-full cursor-pointer transition-all font-medium truncate max-w-[200px]';
-
-        if (isCurrent) {
-          pillClass += ' bg-primary text-primary-foreground ring-2 ring-primary/40';
-        } else if (result === true) {
-          pillClass += ' bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400';
-        } else if (result === false) {
-          pillClass += ' bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
-        } else {
-          pillClass += ' bg-muted text-muted-foreground hover:bg-muted/80';
-        }
-
-        return (
-          <button
-            key={i}
-            className={pillClass}
-            onClick={() => onJump(i)}
-            title={`${i + 1}. ${chapterTitle}`}
-          >
-            {i + 1}. {chapterTitle}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
 
 // ─── Main QuizClient ─────────────────────────────────────────────────────────
 
@@ -792,19 +639,3 @@ export function QuizClient({
   );
 }
 
-// ─── Utilities ───────────────────────────────────────────────────────────────
-
-function findNextUnanswered(
-  currentIndex: number,
-  total: number,
-  answeredIndices: Set<number>,
-  skippedIndices: ReadonlySet<number>
-): number {
-  for (let i = currentIndex + 1; i < total; i++) {
-    if (!answeredIndices.has(i) && !skippedIndices.has(i)) return i;
-  }
-  for (let i = 0; i < currentIndex; i++) {
-    if (!answeredIndices.has(i) && !skippedIndices.has(i)) return i;
-  }
-  return -1;
-}
