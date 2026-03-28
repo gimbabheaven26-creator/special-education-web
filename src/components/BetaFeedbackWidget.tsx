@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 type FeedbackType = 'bug' | 'suggestion' | 'compliment';
@@ -17,6 +17,13 @@ export function BetaFeedbackWidget() {
   const [type, setType] = useState<FeedbackType | null>(null);
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
 
   function reset() {
     setType(null);
@@ -40,7 +47,7 @@ export function BetaFeedbackWidget() {
       });
       if (!res.ok) throw new Error();
       setStatus('success');
-      setTimeout(() => {
+      closeTimerRef.current = setTimeout(() => {
         close();
       }, 2000);
     } catch {
