@@ -33,6 +33,11 @@ npm run test:e2e     # Playwright E2E
 | **X** | 실행: 코드 작성, 데이터 파이프라인, 전략, 상담 | 빌드/데이터/전략/상담 4모드 자동 전환 |
 | **V** | 검증: 코드 리뷰, 보안 감사, 데이터 정합성 | 독립 검증 전담 |
 
+**자동화 도구**:
+- **Playwright MCP**: 프로젝트 설정에 등록됨 (`~/.claude.json`). V가 접근성 트리 기반 E2E 동적 검증에 사용.
+- **v-auto-verify.sh**: `feat:` 커밋 감지 시 lint+typecheck 자동 실행 + V 심층 검증 추천 (`~/.claude/hooks/`)
+- **Completion Contract**: `/plan` 실행 시 완료 기준 체크리스트 필수 작성. V가 80%+ 통과 여부로 판정.
+
 **`docs/contract.md`가 유일한 진실의 원천**.
 스키마/API 변경 → contract.md 먼저 수정 → 카이란 승인 → 구현.
 
@@ -123,8 +128,11 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] EmptyState ariaLabel 접근성 보강 (d2f502f, 2026-03-27)
 - [x] BottomTabBar smooth scroll (d2f502f, 2026-03-27)
 - [x] X+V 2체제 에이전트 통합 (d7c9636, 2026-03-28)
+- [x] session-wrap 문서 정비 — changelog, CLAUDE.md, contract.md X+V 반영 (518aff0, 2026-03-28)
+- [x] /interactive error.tsx + 기출 결과 영역별 개념 직링크 (0dd45b6, 2026-03-28)
+- [x] 하네스 개선 6단계 — V 까다로움 기준, Completion Contract, GAN 루프, Playwright MCP, v-auto-verify 훅 (2026-03-28)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5~7 잔여 작업은 스프린트 계획 참조.
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 (2026-03-28). Day 6~7 잔여 작업은 스프린트 계획 참조.
 
 ---
 

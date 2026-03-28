@@ -50,4 +50,4 @@ V는 특수교육 웹의 **외부 검증 에이전트**다.
 
 ## 마지막 세션
 
-2026-03-25 — M1 감성 UX + SyncManager + 보안 수정 재검증 완료.
+2026-03-28 — 하네스 개선: V 까다로움 기준(10점), Completion Contract, GAN 루프, Playwright MCP 등록, v-auto-verify 훅.

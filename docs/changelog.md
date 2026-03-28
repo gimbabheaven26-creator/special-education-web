@@ -30,6 +30,9 @@
 - **X+V 2체제 에이전트 통합**: 강선생/클루디/프라임 → X, 검증 에이전트 → V (d7c9636)
 - **기본교육과정 중학교 국어·수학 성취기준 JSON**: 교육부 고시 제2022-34호 [별책 3]에서 추출 — 국어 14개, 수학 33개 (c097e1f)
 - **smooth scroll + EmptyState ariaLabel**: BottomTabBar 부드러운 스크롤, EmptyState aria-label 접근성 보강 (d2f502f)
+- **기본교육과정 중학교 진로와직업·생활영어 성취기준 JSON**: 진로와직업 21개, 생활영어 12개 추출 (e5e2877)
+- **session-wrap 문서 정비**: changelog 3/28 기록, CLAUDE.md M1 체크리스트, contract.md X+V 에이전트명 반영 (518aff0)
+- **/interactive error.tsx + 기출 결과 영역별 개념 직링크**: interactive 라우트 에러 페이지 추가, ExamResultScreen에 BookOpen 아이콘 개념 직링크 (0dd45b6)
 
 ### 생성/수정 파일
 | 파일 | 작업 |
