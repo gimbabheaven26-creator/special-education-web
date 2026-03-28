@@ -100,6 +100,7 @@ export function SessionSetup({
   const leitnerDueCount = useMemo(() => {
     const dueCards = leitnerGetDueCards(subjectSlug);
     return dueCards.filter((c) => c.id.startsWith('wrong-')).length;
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- leitnerCards triggers recomputation when cards change
   }, [leitnerGetDueCards, subjectSlug, leitnerCards]);
 
   // Subject proficiency

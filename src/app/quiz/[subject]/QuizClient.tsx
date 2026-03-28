@@ -67,6 +67,7 @@ export function QuizClient({
         .map((c) => c.id.startsWith('wrong-') ? c.id.slice(6) : null)
         .filter((id): id is string => id != null)
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- leitnerCards triggers recomputation when cards change
   }, [leitnerGetDueCards, subjectSlug, leitnerCards]);
 
   // Tab state

@@ -201,6 +201,7 @@ export function ReviewPanel() {
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4"
           onClick={() => setPreviewImage(null)}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element -- dynamic user-uploaded image URL */}
           <img
             src={previewImage}
             alt="리뷰 이미지 확대"
@@ -256,6 +257,7 @@ export function ReviewPanel() {
               <div className="grid grid-cols-3 gap-2">
                 {imageUrls.map((url, i) => (
                   <div key={url} className="relative group aspect-square rounded-lg overflow-hidden border border-border">
+                    {/* eslint-disable-next-line @next/next/no-img-element -- dynamic user-uploaded image URL */}
                     <img
                       src={url}
                       alt={`첨부 이미지 ${i + 1}`}
