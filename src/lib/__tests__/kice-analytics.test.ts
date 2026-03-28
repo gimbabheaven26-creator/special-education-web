@@ -22,8 +22,7 @@ function makeExam(questions: Array<{
   points?: number;
 }>): KiceExam {
   return {
-    year: 2024,
-    session: '전공A',
+    exam: { year: 2024, title: 'test', subject: 'test', session: '전공A', period: 'test', total_questions: questions.length, total_points: 0, duration_minutes: 0, question_types: {} },
     questions: questions.map((q, i) => ({
       number: i + 1,
       type: q.type ?? '서술형',
@@ -35,7 +34,7 @@ function makeExam(questions: Array<{
       analysis: '',
       difficulty: 'medium' as const,
     })),
-  } as KiceExam;
+  } as unknown as KiceExam;
 }
 
 describe('kice-analytics: computeAnalytics', () => {
@@ -55,7 +54,7 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('과목별 출제 빈도 집계', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024 전공A' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024 전공A.json' },
     ]);
     mockedGetExam.mockReturnValue(
       makeExam([
@@ -74,9 +73,9 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('키워드 빈도 + 최근 연속 출제 계산', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2022, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2022' },
-      { year: 2023, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2023' },
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024' },
+      { year: 2022, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2022.json' },
+      { year: 2023, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2023.json' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024.json' },
     ]);
     mockedGetExam.mockImplementation((year) => {
       if (year === 2022) return makeExam([{ subjects: ['행동지원'], keywords: ['PBS', 'ABA'] }]);
@@ -101,10 +100,10 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('recentStreakKeywords: 3년+ 연속 키워드 필터', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2021, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2021' },
-      { year: 2022, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2022' },
-      { year: 2023, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2023' },
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024' },
+      { year: 2021, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2021.json' },
+      { year: 2022, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2022.json' },
+      { year: 2023, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2023.json' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024.json' },
     ]);
     mockedGetExam.mockImplementation((year) =>
       makeExam([{ subjects: ['행동지원'], keywords: year >= 2022 ? ['긍정적행동지원'] : ['기타'] }])
@@ -119,8 +118,8 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('neverTestedKeywords: 1회 출제, 5년+ 전 키워드', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2018, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2018' },
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024' },
+      { year: 2018, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2018.json' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024.json' },
     ]);
     mockedGetExam.mockImplementation((year) => {
       if (year === 2018) return makeExam([{ subjects: ['시각장애'], keywords: ['점자규정'] }]);
@@ -137,7 +136,7 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('yearSummaries 연도별 문제 수/평균 배점', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024 전공A' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024 전공A.json' },
     ]);
     mockedGetExam.mockReturnValue(
       makeExam([
@@ -159,9 +158,9 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('allYears 오름차순 정렬', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024' },
-      { year: 2020, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2020' },
-      { year: 2022, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2022' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024.json' },
+      { year: 2020, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2020.json' },
+      { year: 2022, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2022.json' },
     ]);
     mockedGetExam.mockReturnValue(makeExam([{ subjects: ['행동지원'] }]));
 
@@ -171,9 +170,9 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('isIsomorphic / isPredicted 시험은 제외', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '원본' },
-      { year: 2024, session: '동형', isIsomorphic: true, isPredicted: false, label: '동형' },
-      { year: 2025, session: '예상', isIsomorphic: false, isPredicted: true, label: '예상' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '원본.json' },
+      { year: 2024, session: '동형', isIsomorphic: true, isPredicted: false, filename: 'iso.json' },
+      { year: 2025, session: '예상', isIsomorphic: false, isPredicted: true, filename: 'pred.json' },
     ]);
     mockedGetExam.mockReturnValue(makeExam([{ subjects: ['행동지원'], keywords: ['PBS'] }]));
 
@@ -187,7 +186,7 @@ describe('kice-analytics: computeAnalytics', () => {
     // 35개 서로 다른 키워드 생성
     const keywords = Array.from({ length: 35 }, (_, i) => `kw-${i}`);
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024.json' },
     ]);
     mockedGetExam.mockReturnValue(
       makeExam(keywords.map((kw) => ({ subjects: ['행동지원'], keywords: [kw] })))
@@ -199,7 +198,7 @@ describe('kice-analytics: computeAnalytics', () => {
 
   it('subjectFrequencies는 total 내림차순 정렬', () => {
     mockedGetAvailableExams.mockReturnValue([
-      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false, label: '2024' },
+      { year: 2024, session: '전공A', isIsomorphic: false, isPredicted: false,  filename: '2024.json' },
     ]);
     mockedGetExam.mockReturnValue(
       makeExam([

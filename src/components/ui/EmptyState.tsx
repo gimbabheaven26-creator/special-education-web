@@ -1,16 +1,18 @@
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 
 interface EmptyStateProps {
   title: string;
   description?: string;
+  icon?: ReactNode;
   action?: { label: string; href: string; ariaLabel?: string };
 }
 
-export function EmptyState({ title, description, action }: EmptyStateProps) {
+export function EmptyState({ title, description, icon, action }: EmptyStateProps) {
   return (
     <div role="status" aria-live="polite" className="flex flex-col items-center justify-center py-20 text-center space-y-4">
       <div className="text-5xl" aria-hidden="true">
-        📚
+        {icon ?? '📚'}
       </div>
       <p className="text-lg font-semibold text-foreground">{title}</p>
       {description && (

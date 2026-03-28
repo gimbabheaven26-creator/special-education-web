@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ThumbsUp, Plus, CheckCircle2 } from 'lucide-react';
+import { EmptyState } from '@/components/ui/EmptyState';
 import type { CommunityQuestion, SortOrder } from '@/types/community';
 
 interface Props {
@@ -84,10 +85,11 @@ export default function CommunityClient({ initialQuestions, subjects }: Props) {
 
       {/* 문제 목록 */}
       {filtered.length === 0 ? (
-        <div className="text-center py-16 text-muted-foreground">
-          <p className="text-lg font-medium">아직 문제가 없습니다.</p>
-          <p className="text-sm mt-1">첫 번째 문제를 만들어보세요!</p>
-        </div>
+        <EmptyState
+          title="아직 문제가 없습니다"
+          description="첫 번째 문제를 만들어보세요!"
+          action={{ label: '문제 만들기', href: '/community/create', ariaLabel: '커뮤니티 문제 만들기 페이지로 이동' }}
+        />
       ) : (
         <div className="space-y-3">
           {filtered.map((q) => (

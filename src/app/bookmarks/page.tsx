@@ -5,6 +5,7 @@ import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { Bookmark, Trash2 } from 'lucide-react';
 
 export default function BookmarksPage() {
@@ -18,19 +19,12 @@ export default function BookmarksPage() {
       </h1>
 
       {bookmarks.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <Bookmark className="h-16 w-16 text-muted-foreground/30 mb-4" />
-          <h2 className="text-xl font-semibold text-foreground mb-2">아직 북마크가 없어요</h2>
-          <p className="text-muted-foreground mb-6">
-            중요한 챕터를 북마크에 저장하면 언제든 빠르게 돌아올 수 있어요.
-          </p>
-          <Link
-            href="/concepts"
-            className="inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap transition-all h-11 gap-1.5 px-2.5"
-          >
-            과목 보러 가기
-          </Link>
-        </div>
+        <EmptyState
+          icon={<Bookmark className="h-16 w-16 text-muted-foreground/30" />}
+          title="아직 북마크가 없어요"
+          description="중요한 챕터를 북마크에 저장하면 언제든 빠르게 돌아올 수 있어요."
+          action={{ label: '과목 보러 가기', href: '/concepts', ariaLabel: '과목 학습 페이지로 이동' }}
+        />
       ) : (
         <div className="space-y-4">
           <div className="flex justify-end">

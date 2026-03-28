@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Plus } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import { EmptyState } from '@/components/ui/EmptyState';
 import type { CommunityQuestion } from '@/types/community';
 
 const TYPE_LABEL: Record<string, string> = {
@@ -69,15 +70,11 @@ export default async function MineQuestionsPage() {
       </div>
 
       {questions.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center space-y-3">
-          <p className="text-lg font-medium text-muted-foreground">아직 제출한 문제가 없어요</p>
-          <Link
-            href="/community/create"
-            className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium"
-          >
-            첫 문제 만들기
-          </Link>
-        </div>
+        <EmptyState
+          title="아직 제출한 문제가 없어요"
+          description="나만의 문제를 만들어 다른 수험생들과 공유해보세요."
+          action={{ label: '첫 문제 만들기', href: '/community/create', ariaLabel: '커뮤니티 문제 만들기 페이지로 이동' }}
+        />
       ) : (
         <div className="space-y-3">
           {questions.map((q) => (
