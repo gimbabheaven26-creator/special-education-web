@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="max-w-md mx-auto px-4 py-20 text-center space-y-6">
+    <div role="status" className="max-w-md mx-auto px-4 py-20 text-center space-y-6">
       <div className="text-5xl" aria-hidden="true">
         🔍
       </div>
