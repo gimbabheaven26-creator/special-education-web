@@ -14,6 +14,23 @@ export default function Home() {
 
         <Card>
           <CardHeader>
+            <CardTitle className="text-lg">키움이들</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              학생을 등록하고 IEP 계획을 작성합니다.
+            </p>
+            <Link
+              href="/students"
+              className="inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              키움이들 보기
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle className="text-lg">성취기준 탐색</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -22,7 +39,7 @@ export default function Home() {
             </p>
             <Link
               href="/standards"
-              className="inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex w-full items-center justify-center rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               성취기준 보기
             </Link>
