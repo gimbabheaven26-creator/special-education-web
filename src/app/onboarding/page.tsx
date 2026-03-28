@@ -268,7 +268,7 @@ function WeakSubjectsStep({
           onClick={onNext}
           className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity"
         >
-          {selected.length === 0 ? '모르겠어요 (건너뛰기)' : `다음 (${selected.length}개 선택)`}
+          {selected.length === 0 ? '나중에 정할게요' : `다음 (${selected.length}개 선택)`}
         </button>
       </div>
     </div>

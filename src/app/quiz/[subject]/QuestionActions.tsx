@@ -46,7 +46,7 @@ function ErrorReportSection({ questionId }: { questionId: string }) {
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="오류 내용을 간략히 적어주세요"
+            placeholder="어떤 점이 잘못되었는지 알려주세요"
             className="w-full text-xs rounded-md border border-border bg-background p-2 resize-none focus:outline-none focus:ring-1 focus:ring-ring"
             rows={2}
           />

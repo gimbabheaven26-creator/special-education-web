@@ -108,7 +108,7 @@ export default function AddFlashcardClient({ subjects }: { subjects: Subject[] }
                 id="answer"
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
-                placeholder="답을 입력하세요"
+                placeholder="핵심 내용이나 정답을 입력하세요"
                 rows={4}
                 className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 resize-none"
                 required

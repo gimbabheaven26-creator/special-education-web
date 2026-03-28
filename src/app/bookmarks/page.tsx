@@ -20,9 +20,9 @@ export default function BookmarksPage() {
       {bookmarks.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <Bookmark className="h-16 w-16 text-muted-foreground/30 mb-4" />
-          <h2 className="text-xl font-semibold text-foreground mb-2">북마크가 없습니다</h2>
+          <h2 className="text-xl font-semibold text-foreground mb-2">아직 북마크가 없어요</h2>
           <p className="text-muted-foreground mb-6">
-            학습 중에 관심 있는 챕터를 북마크에 추가해보세요.
+            중요한 챕터를 북마크에 저장하면 언제든 빠르게 돌아올 수 있어요.
           </p>
           <Link
             href="/concepts"

@@ -459,7 +459,7 @@ export function QuizClient({
         <h1 className="text-2xl font-bold text-foreground mb-4">{subjectTitle} 퀴즈</h1>
         <Card>
           <CardContent className="pt-6">
-            <p className="text-muted-foreground">퀴즈를 준비 중입니다.</p>
+            <p className="text-muted-foreground">문제를 준비하고 있어요...</p>
           </CardContent>
         </Card>
         <Link
