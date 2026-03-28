@@ -1,10 +1,12 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { TrendingUp, Hash, AlertTriangle, Flame } from 'lucide-react'
+import Link from 'next/link'
+import { TrendingUp, Hash, AlertTriangle, Flame, BookOpen } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SUBJECT_LABELS } from '@/types/kice'
+import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/concept-urls'
 import type { AnalyticsData } from '@/lib/kice-analytics'
 
 interface AnalyticsClientProps {
@@ -138,7 +140,7 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
                     {i + 1}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-sm font-medium truncate">{kw.keyword}</span>
                       <span className="text-xs text-muted-foreground shrink-0">{kw.count}회</span>
                       {kw.recentStreak >= 3 && (
@@ -146,6 +148,17 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
                           {kw.recentStreak}년 연속
                         </Badge>
                       )}
+                      {kw.subjects.filter((s) => s in SLUG_TO_CONCEPTS_FOLDER).map((s) => (
+                        <Link
+                          key={s}
+                          href={getConceptUrl(s)}
+                          className="inline-flex items-center gap-0.5 text-[10px] text-primary hover:underline"
+                          aria-label={`${SUBJECT_LABELS[s] ?? s} 개념학습`}
+                        >
+                          <BookOpen className="h-3 w-3" />
+                          {SUBJECT_LABELS[s] ?? s}
+                        </Link>
+                      ))}
                     </div>
                     <div className="h-1.5 bg-muted rounded-full mt-0.5 overflow-hidden">
                       <div
@@ -178,8 +191,19 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
                   className="rounded-lg border border-red-200 dark:border-red-800/30 bg-red-50 dark:bg-red-950/20 px-3 py-1.5"
                 >
                   <div className="text-sm font-medium">{kw.keyword}</div>
-                  <div className="text-[10px] text-muted-foreground">
-                    {kw.recentStreak}년 연속 · {kw.count}회 출제 · {kw.subjects.map((s) => SUBJECT_LABELS[s] ?? s).join(', ')}
+                  <div className="text-[10px] text-muted-foreground flex items-center gap-1 flex-wrap">
+                    <span>{kw.recentStreak}년 연속 · {kw.count}회 출제</span>
+                    {kw.subjects.filter((s) => s in SLUG_TO_CONCEPTS_FOLDER).map((s) => (
+                      <Link
+                        key={s}
+                        href={getConceptUrl(s)}
+                        className="inline-flex items-center gap-0.5 text-primary hover:underline"
+                        aria-label={`${SUBJECT_LABELS[s] ?? s} 개념학습`}
+                      >
+                        <BookOpen className="h-3 w-3" />
+                        {SUBJECT_LABELS[s] ?? s}
+                      </Link>
+                    ))}
                   </div>
                 </div>
               ))}

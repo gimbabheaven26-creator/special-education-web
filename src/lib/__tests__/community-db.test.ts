@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { MockQueryBuilder, makeSupabase } from '../db/__tests__/mock-supabase';
+import { makeSupabase } from '../db/__tests__/mock-supabase';
 
 // Mock supabase/server
 vi.mock('@/lib/supabase/server', () => ({
