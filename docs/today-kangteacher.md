@@ -1,3 +1,45 @@
+# X 세션 핸드오프 — 2026-03-28 (M1 Day 5 + Week 2 인프라)
+
+## 이번 세션 완료 커밋 (최신순)
+
+| 커밋 | 내용 |
+|------|------|
+| `b810e47` | docs: CLAUDE.md Week 2 인프라 재구조 반영 |
+| `007bdb9` | refactor(layout): LayoutProviders 분리 — client 위젯 6개 추출 |
+| `8b3def0` | refactor(infra): db.ts 도메인 분리 + QuizClient.tsx 유틸 추출 |
+| `0dd45b6` | feat(ux): /interactive error.tsx + 기출 결과 영역별 개념 직링크 |
+| `518aff0` | docs: session-wrap 문서 정비 |
+
+## 다음 X가 알아야 할 것
+
+### db/ 도메인 분리 (신규 구조)
+- **기존**: `src/lib/db.ts` (356줄 모놀리식) — **삭제됨**
+- **현재**: `src/lib/db/` 디렉토리 — subjects.ts, quiz.ts, worksheets.ts, user-data.ts
+- **호환**: `src/lib/db/index.ts`에서 전부 재수출 → 기존 `import { ... } from '@/lib/db'` 그대로 작동
+- **주의**: TypeScript는 db.ts를 db/index.ts보다 먼저 resolve하므로 **구파일이 남아있으면 안 됨**
+
+### QuizClient.tsx 유틸 추출
+- **810줄 → 641줄**: `quiz-session-utils.ts`(buildSession, generateDiagnosticSessionId, findNextUnanswered) + `QuestionNav.tsx` 추출
+- TODO: 정교화 질문 5건 주석 처리 상태 유지 (M2 DEFERRED 결정 대기)
+
+### LayoutProviders.tsx (신규)
+- **위치**: `src/components/layout/LayoutProviders.tsx`
+- **역할**: ThemeProvider, Header, BottomTabBar, ConditionalReviewPanel, StudySessionTracker, SyncManager, BetaFeedbackWidget 통합
+- **layout.tsx**: import 4개, Server Component 역할에 집중
+- V 감시 항목 해소됨
+
+## 현재 상태
+- `main` 브랜치, origin/main 동기화 완료
+- M1 체크리스트 17/17 [x] — Week 2 인프라 3건 포함
+
+## 미해결 항목
+- QuizClient 정교화 질문 TODO 5건 (M2 DEFERRED 대기)
+- REQ-008 subjects 컬럼 추가 시 multi-tag 검색 복원 (db/quiz.ts:27)
+- db/ 분리 모듈 단위 테스트 미작성
+- QuizForm.tsx (736줄), daily/page.tsx (579줄) 분리 후보
+
+---
+
 # X(V) 세션 핸드오프 — 2026-03-26 (M1 Day 2)
 
 ## 이번 세션 완료 커밋 (최신순)

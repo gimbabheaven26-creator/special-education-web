@@ -257,7 +257,7 @@ communication-disorder:
 
 ---
 
-## API 레이어 (src/lib/db.ts)
+## API 레이어 (src/lib/db/)
 
 > X가 관리. 데이터 작업 시에도 X가 통합 담당.
 
@@ -301,14 +301,14 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 
 | DB 컬럼명 (snake_case) | TS 필드명 (camelCase) | 매핑 위치 |
 |------------------------|----------------------|----------|
-| sort_order | order | db.ts (getSubjects) |
-| case_context | caseContext | db.ts (mapQuizRow) |
-| wrong_explanations | wrongExplanations | db.ts (mapQuizRow) |
-| subject_slug | (chapters 조인 시 사용) | db.ts (getSubjects) |
-| topic_id | topicId | db.ts (mapWorksheetRow) |
-| display_name | displayName | db.ts (mapProfile) |
-| store_key | storeKey | db.ts (getUserData) |
-| updated_at | updatedAt | db.ts (getUserData) |
+| sort_order | order | db/subjects.ts (getSubjects) |
+| case_context | caseContext | db/quiz.ts (mapQuizRow) |
+| wrong_explanations | wrongExplanations | db/quiz.ts (mapQuizRow) |
+| subject_slug | (chapters 조인 시 사용) | db/subjects.ts (getSubjects) |
+| topic_id | topicId | db/worksheets.ts |
+| display_name | displayName | db/user-data.ts (getProfile) |
+| store_key | storeKey | db/user-data.ts (getUserData) |
+| updated_at | updatedAt | db/user-data.ts (getUserData) |
 
 ---
 
@@ -342,7 +342,7 @@ getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; upda
 | Supabase 테이블 구조 | X (+ 카이란 승인) | — |
 | RLS 정책 | X | — |
 | 데이터 삽입/수정 | X (데이터 모드) | — |
-| src/lib/db.ts | X (빌드 모드) | — |
+| src/lib/db/ | X (빌드 모드) | — |
 | src/types/*.ts | X (빌드 모드) | — |
 | UI 컴포넌트 | X (빌드 모드) | — |
 | 공유 상수 (xp-constants.ts) | X | — |

@@ -33,19 +33,32 @@
 - **기본교육과정 중학교 진로와직업·생활영어 성취기준 JSON**: 진로와직업 21개, 생활영어 12개 추출 (e5e2877)
 - **session-wrap 문서 정비**: changelog 3/28 기록, CLAUDE.md M1 체크리스트, contract.md X+V 에이전트명 반영 (518aff0)
 - **/interactive error.tsx + 기출 결과 영역별 개념 직링크**: interactive 라우트 에러 페이지 추가, ExamResultScreen에 BookOpen 아이콘 개념 직링크 (0dd45b6)
+- **Week 2 인프라: db.ts 도메인 분리**: src/lib/db.ts(356줄) → src/lib/db/ 4개 도메인 파일(subjects, quiz, worksheets, user-data) + index.ts 재수출. 기존 `@/lib/db` import 호환 (8b3def0)
+- **Week 2 인프라: QuizClient.tsx 유틸 추출**: 810줄 → 641줄. buildSession, findNextUnanswered → quiz-session-utils.ts, QuestionNav → QuestionNav.tsx (8b3def0)
+- **Week 2 인프라: LayoutProviders 분리**: layout.tsx client 위젯 6개를 LayoutProviders.tsx로 추출. layout.tsx는 Server Component 역할에 집중 (007bdb9)
 
 ### 생성/수정 파일
 | 파일 | 작업 |
 |------|------|
 | data/curriculum/achievement-stds/korean-middle.json | 신규 (국어 성취기준) |
 | data/curriculum/achievement-stds/math-middle.json | 신규 (수학 성취기준) |
-| CLAUDE.md | 수정 (X+V 2체제 반영) |
+| CLAUDE.md | 수정 (X+V 2체제 반영 + Week 2 인프라 체크) |
 | .claude/rules/v-review-pipeline.md | 수정 (에이전트명 통일) |
 | src/components/layout/BottomTabBar.tsx | 수정 (smooth scroll) |
 | src/components/ui/EmptyState.tsx | 수정 (ariaLabel) |
+| src/lib/db.ts | 삭제 → src/lib/db/ 디렉토리로 분리 |
+| src/lib/db/index.ts | 신규 (재수출 호환 레이어) |
+| src/lib/db/subjects.ts | 신규 (과목/챕터 쿼리) |
+| src/lib/db/quiz.ts | 신규 (퀴즈 문제 8함수) |
+| src/lib/db/worksheets.ts | 신규 (학습지 5함수) |
+| src/lib/db/user-data.ts | 신규 (프로필/사용자 데이터) |
+| src/app/quiz/[subject]/quiz-session-utils.ts | 신규 (세션 빌드/유틸 추출) |
+| src/app/quiz/[subject]/QuestionNav.tsx | 신규 (네비 컴포넌트 추출) |
+| src/components/layout/LayoutProviders.tsx | 신규 (client 위젯 통합) |
+| src/app/layout.tsx | 수정 (LayoutProviders import) |
 
 ### 영향 범위
-- X(빌드): 에이전트 참조 변경, 접근성 개선
+- X(빌드): db 쿼리 모듈 구조 변경, 레이아웃 컴포넌트 분리, QuizClient 유틸 추출
 - X(데이터): 교육과정 데이터 신규 추가
 
 ### 상태
