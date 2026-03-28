@@ -47,8 +47,10 @@ npm run test:e2e     # Playwright E2E
 
 ```
 src/lib/supabase.ts        # Supabase 클라이언트
-src/lib/db.ts              # DB 쿼리 함수 (X 빌드모드 읽기용)
-src/app/layout.tsx         # 루트 레이아웃 (전역 컴포넌트 마운트)
+src/lib/db/                # DB 쿼리 도메인별 분리 (subjects, quiz, worksheets, user-data)
+src/lib/db/index.ts        # 재수출 — 기존 `@/lib/db` import 호환
+src/app/layout.tsx         # 루트 레이아웃 (Server Component, 구조만)
+src/components/layout/LayoutProviders.tsx  # client 위젯 통합 (ThemeProvider, Header 등)
 src/components/BetaFeedbackWidget.tsx  # 베타 피드백 위젯 (전역, 베타 기간 한정)
 src/app/api/feedback/route.ts          # Discord webhook 연동 피드백 POST API
 
@@ -93,10 +95,11 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - **라우팅**: App Router. 주요 페이지: `/`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`
 - **오늘학습 `/daily`**: 홈 메인 버튼에서만 접근 (네비 미노출)
 - **MDX 컴포넌트 API**: `FillBlank` = `text` prop, `MatchingExercise` = `items` prop
-- **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db.ts` 사용
+- **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db/` 사용
+- **DB 쿼리 모듈**: `src/lib/db/` 도메인별 분리 — subjects.ts, quiz.ts, worksheets.ts, user-data.ts + index.ts 재수출 (기존 `@/lib/db` import 호환)
 - **피드백 API** `POST /api/feedback`: Discord webhook 연동, rate limit IP당 3회/분, `DISCORD_WEBHOOK_URL` env var 필요
-- **BetaFeedbackWidget**: 베타 기간 한정 전역 위젯 — `src/app/layout.tsx`에 마운트, 베타 종료 시 제거 필요
-- **layout.tsx**: 현재 12개 컴포넌트 마운트 — LayoutProviders 분리 감시 중 (V 감시 항목)
+- **BetaFeedbackWidget**: 베타 기간 한정 전역 위젯 — `LayoutProviders.tsx`에 마운트, 베타 종료 시 제거 필요
+- **layout.tsx**: LayoutProviders 분리 완료 (007bdb9, 2026-03-28) — client 위젯 6개를 `LayoutProviders.tsx`로 추출, layout.tsx는 Server Component 역할에 집중
 
 ---
 
@@ -131,8 +134,11 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] session-wrap 문서 정비 — changelog, CLAUDE.md, contract.md X+V 반영 (518aff0, 2026-03-28)
 - [x] /interactive error.tsx + 기출 결과 영역별 개념 직링크 (0dd45b6, 2026-03-28)
 - [x] 하네스 개선 6단계 — V 까다로움 기준, Completion Contract, GAN 루프, Playwright MCP, v-auto-verify 훅 (2026-03-28)
+- [x] Week 2 인프라: db.ts 도메인 분리 (356줄 → db/ 4파일 + index.ts) (8b3def0, 2026-03-28)
+- [x] Week 2 인프라: QuizClient.tsx 유틸 추출 (810줄 → 641줄) (8b3def0, 2026-03-28)
+- [x] Week 2 인프라: layout.tsx LayoutProviders 분리 — V 감시 해소 (007bdb9, 2026-03-28)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 (2026-03-28). Day 6~7 잔여 작업은 스프린트 계획 참조.
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + **Week 2 인프라 재구조 3건** (2026-03-28).
 
 ---
 
