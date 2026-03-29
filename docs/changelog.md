@@ -24,6 +24,28 @@
 
 ---
 
+## [2026-03-29] X — 나다운 V 검증 + 보안 강화 (야간5)
+
+### 변경 내용
+- V 검증 3건 해소 — auth bypass 완전화, 성취기준 89건 삽입, 빈 상태 UI (55c91bc)
+- `getTeacherId()` 공유 유틸 추출 — 3파일 중복 제거, E2E bypass + production 가드 (dc29ffb)
+- `getStudents()` teacher_id 필터 추가 — 보안 강화 (dc29ffb)
+- E2E error-boundary 테스트 auth bypass 호환 — 79/79 PASS (77d4150)
+- 수동 테스트 체크리스트 63항목 생성 (nadaun/docs/manual-test-checklist.md)
+
+### 영향 범위
+- nadaun/src/lib/supabase/auth.ts (신규 — 공유 인증 유틸)
+- nadaun/src/lib/queries/students.ts (teacher_id 필터)
+- nadaun/src/lib/actions/students.ts, iep-plans.ts (import 변경)
+- nadaun/tests/e2e/error-boundary.spec.ts (테스트 호환)
+
+### 상태
+- [x] 구현 완료
+- [x] V 검증 통과 (F1+F2+F3 해소)
+- [x] E2E 79/79 PASS
+
+---
+
 ## [2026-03-29] X — 북마크 퀴즈 라우트 + loading 보강 (야간4)
 
 ### 변경 내용

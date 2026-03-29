@@ -1,3 +1,33 @@
+# X 세션 핸드오프 — 2026-03-29 (야간5: 나다운 V 검증 + 보안)
+
+## 야간5 세션
+
+### 완료
+| 커밋 | 내용 |
+|------|------|
+| `55c91bc` | fix(nadaun): V 발견 F1+F2+F3 해소 — auth bypass, 성취기준 89건, 빈 상태 UI |
+| `77d4150` | test(nadaun): E2E error-boundary auth bypass 호환 — 79/79 PASS |
+| `dc29ffb` | fix(nadaun): auth bypass production 가드 + getStudents teacher_id 필터 |
+| `f27726a` | fix(nadaun): Sprint 2 보안 강화 — teacher_id 가드 + sanitize 공유 유틸 |
+
+### 핵심 변경
+- `getTeacherId()` 공유 유틸 추출 → `nadaun/src/lib/supabase/auth.ts`
+- `getStudents()` teacher_id 필터 추가 (보안 — 전체 학생 노출 방지)
+- 성취기준 89건 Supabase 삽입 스크립트 (`nadaun/scripts/insert-achievement-stds.mjs`)
+- 수동 테스트 체크리스트 63항목 (`nadaun/docs/manual-test-checklist.md`)
+
+### 프로젝트 상태
+- **SEW**: 27/28 완료 (96%). 정교화 질문만 카이란 결정 대기.
+- **나다운**: 16/16 + CC 20/20 = MVP 100% PASS.
+
+### 카이란 결정/실행 필요
+1. 정교화 질문 활성화/제거/M3 보류 (ElaborationPrompt.tsx)
+2. M3 마일스톤 목표 합의
+3. Supabase SQL 4건 직접 실행 (FK, 워크시트, 5→4옵션, 빈과목삭제)
+4. 나다운 수동 테스트 63항목 실행
+
+---
+
 # X 세션 핸드오프 — 2026-03-29 (야간4: M2 최종)
 
 ## 야간4 세션
