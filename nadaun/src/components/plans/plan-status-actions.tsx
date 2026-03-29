@@ -46,8 +46,13 @@ export function PlanStatusActions({
 
   async function handleStatusChange(newStatus: 'draft' | 'active' | 'completed') {
     setIsPending(true)
-    await updateIepPlanStatus(planId, studentId, newStatus)
-    setIsPending(false)
+    try {
+      await updateIepPlanStatus(planId, studentId, newStatus)
+    } catch {
+      // revalidation redirect
+    } finally {
+      setIsPending(false)
+    }
   }
 
   async function handleDelete() {
