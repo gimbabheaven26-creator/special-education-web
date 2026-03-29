@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { GlobalHeader } from '@/components/layout/global-header'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <GlobalHeader />
+        {children}
+      </body>
     </html>
   )
 }
