@@ -4,13 +4,6 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { quickStart } from '@/lib/actions/quick-start'
 import { SUBJECTS } from '@/lib/schemas/iep-plan'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -66,19 +59,26 @@ export function QuickStartForm({ students }: { students: StudentOption[] }) {
       <CardContent>
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium">키움이</label>
-            <Select name="studentId" required>
-              <SelectTrigger aria-label="키움이 선택">
-                <SelectValue placeholder="키움이 선택" />
-              </SelectTrigger>
-              <SelectContent>
-                {students.map((s) => (
-                  <SelectItem key={s.id} value={s.id}>
-                    {s.name} ({s.grade})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <label htmlFor="studentId" className="block text-sm font-medium">
+              키움이
+            </label>
+            <select
+              id="studentId"
+              name="studentId"
+              required
+              aria-label="키움이 선택"
+              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                키움이 선택
+              </option>
+              {students.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name} ({s.grade})
+                </option>
+              ))}
+            </select>
           </div>
 
           <fieldset className="space-y-2">
