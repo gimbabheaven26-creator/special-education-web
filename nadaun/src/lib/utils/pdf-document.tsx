@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Font,
 } from '@react-pdf/renderer'
-import type { IepGoal, IepPlan, WeeklyPlan } from '@/types/students'
+import type { IepPlan, WeeklyPlan } from '@/types/students'
 
 /* ── Font ── */
 const NOTO_SANS_KR_CDN =

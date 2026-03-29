@@ -60,13 +60,25 @@ export default async function StudentDetailPage({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">IEP 계획</h2>
-          <Link
-            href={`/students/${student.id}/plans/new`}
-            className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            aria-label="새 IEP 계획 작성"
-          >
-            + 새 계획
-          </Link>
+          <div className="flex items-center gap-2">
+            {plans.length > 0 && (
+              <a
+                href={`/api/export/pdf?studentId=${student.id}`}
+                download
+                className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                aria-label="전체 IEP를 PDF로 다운로드"
+              >
+                전체 PDF
+              </a>
+            )}
+            <Link
+              href={`/students/${student.id}/plans/new`}
+              className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label="새 IEP 계획 작성"
+            >
+              + 새 계획
+            </Link>
+          </div>
         </div>
 
         {plans.length === 0 ? (
