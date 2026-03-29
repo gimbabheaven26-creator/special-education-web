@@ -57,7 +57,13 @@ export function PlanStatusActions({
 
   async function handleDelete() {
     setIsDeleting(true)
-    await deleteIepPlan(planId, studentId)
+    try {
+      await deleteIepPlan(planId, studentId)
+    } catch {
+      // redirect after revalidation
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   const transitions = STATUS_TRANSITIONS[currentStatus] ?? []

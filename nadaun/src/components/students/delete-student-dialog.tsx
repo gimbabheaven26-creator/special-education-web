@@ -25,7 +25,13 @@ export function DeleteStudentDialog({ studentId, studentName }: DeleteStudentDia
 
   async function handleDelete() {
     setIsPending(true)
-    await deleteStudent(studentId)
+    try {
+      await deleteStudent(studentId)
+    } catch {
+      // redirect after revalidation
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
