@@ -15,6 +15,7 @@ interface SessionResult {
 export default function ReviewPage() {
   const getDueCards = useLeitnerStore((s) => s.getDueCards);
   const answerCard = useLeitnerStore((s) => s.answerCard);
+  const totalCards = useLeitnerStore((s) => s.cards.length);
 
   // Snapshot of due cards at session start
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,13 +52,35 @@ export default function ReviewPage() {
     [currentCard, answerCard, currentIndex, total]
   );
 
-  // Empty state
+  // Empty state — no cards at all
+  if (totalCards === 0) {
+    return (
+      <main className="max-w-xl mx-auto px-4 py-16 flex flex-col items-center gap-6 text-center">
+        <span className="text-5xl" aria-hidden="true">🃏</span>
+        <h1 className="text-xl font-bold">플래시카드가 아직 없어요</h1>
+        <p className="text-muted-foreground text-sm max-w-sm">
+          나만의 플래시카드를 만들어 간격반복으로 효율적으로 암기하세요.
+          용어, 법령, 핵심 개념 등 시험에 자주 나오는 내용을 카드로 정리해보세요.
+        </p>
+        <Button
+          className="min-h-[44px]"
+          render={<Link href="/flashcards/add" />}
+        >
+          첫 카드 만들기
+        </Button>
+      </main>
+    );
+  }
+
+  // Empty state — cards exist but none due today
   if (total === 0) {
     return (
       <main className="max-w-xl mx-auto px-4 py-16 flex flex-col items-center gap-6 text-center">
-        <h1 className="text-xl font-bold">오늘 복습할 카드가 없어요</h1>
-        <p className="text-muted-foreground text-sm">
-          새 카드를 추가하거나 내일 다시 오세요.
+        <span className="text-5xl" aria-hidden="true">🎉</span>
+        <h1 className="text-xl font-bold">오늘 복습 완료!</h1>
+        <p className="text-muted-foreground text-sm max-w-sm">
+          오늘 복습할 카드를 모두 마쳤어요. 내일 새로운 카드가 준비됩니다.
+          새 카드를 추가하면 바로 복습할 수 있어요.
         </p>
         <div className="flex gap-3">
           <Button
@@ -67,8 +90,8 @@ export default function ReviewPage() {
           >
             카드 추가하기
           </Button>
-          <Button className="min-h-[44px]" render={<Link href="/flashcards" />}>
-            돌아가기
+          <Button className="min-h-[44px]" render={<Link href="/" />}>
+            홈으로
           </Button>
         </div>
       </main>
