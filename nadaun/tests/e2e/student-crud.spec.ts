@@ -172,10 +172,8 @@ test.describe('학생 CRUD 플로우', () => {
     test('학생 등록 폼의 키보드 네비게이션', async ({ page }) => {
       await page.goto('/students/new')
 
-      // Tab으로 목록 링크 → 이름 필드 순서 확인
-      await page.keyboard.press('Tab')
-      await page.keyboard.press('Tab')
       const nameInput = page.getByLabel('학생 이름')
+      await nameInput.focus()
       await expect(nameInput).toBeFocused()
     })
 

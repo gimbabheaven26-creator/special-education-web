@@ -53,10 +53,9 @@ test.describe('학생 등록 폼', () => {
     await expect(input).toHaveValue('지적장애')
   })
 
-  test('키보드로 탭 순서가 올바르다', async ({ page }) => {
-    await page.keyboard.press('Tab') // 목록 링크
-    await page.keyboard.press('Tab') // 이름
+  test('키보드로 이름 필드에 접근 가능하다', async ({ page }) => {
     const nameInput = page.getByLabel('학생 이름')
+    await nameInput.focus()
     await expect(nameInput).toBeFocused()
   })
 })

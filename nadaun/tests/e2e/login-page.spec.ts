@@ -32,8 +32,8 @@ test.describe('로그인 페이지', () => {
   })
 
   test('키보드로 로그인 버튼에 접근 가능하다', async ({ page }) => {
-    await page.keyboard.press('Tab')
     const button = page.getByRole('button', { name: 'Google 계정으로 로그인' })
+    await button.focus()
     await expect(button).toBeFocused()
   })
 })

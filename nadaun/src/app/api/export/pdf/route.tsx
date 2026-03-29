@@ -96,11 +96,12 @@ export async function GET(request: NextRequest) {
     const safeName = sanitizeFilename(student?.name ?? '')
     const safeSubject = sanitizeFilename(plan.subject)
     const safeTitle = sanitizeFilename(plan.title) || 'IEP'
-    const filename = `IEP_${safeName}_${safeSubject}_${safeTitle}`
+    const filename = `IEP_${safeName}_${safeSubject}_${safeTitle}.pdf`
+    const encoded = encodeURIComponent(filename)
     return new Response(Buffer.from(buffer), {
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="${filename}.pdf"`,
+        'Content-Disposition': `attachment; filename="${encoded}"; filename*=UTF-8''${encoded}`,
       },
     })
   } catch (err) {

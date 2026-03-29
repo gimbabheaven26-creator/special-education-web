@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// /api/ routes must implement their own auth check (supabase.auth.getUser)
 const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/']
 
 export async function middleware(request: NextRequest) {

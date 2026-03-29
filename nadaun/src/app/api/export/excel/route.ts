@@ -89,12 +89,13 @@ export async function GET(request: NextRequest) {
     const safeName = sanitizeFilename(studentName)
     const safeSubject = sanitizeFilename(plan.subject)
     const safeTitle = sanitizeFilename(plan.title) || 'IEP'
-    const filename = `IEP_${safeName}_${safeSubject}_${safeTitle}`
+    const filename = `IEP_${safeName}_${safeSubject}_${safeTitle}.xlsx`
+    const encoded = encodeURIComponent(filename)
     return new Response(new Uint8Array(buffer), {
       headers: {
         'Content-Type':
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'Content-Disposition': `attachment; filename="${filename}.xlsx"`,
+        'Content-Disposition': `attachment; filename="${encoded}"; filename*=UTF-8''${encoded}`,
       },
     })
   } catch (err) {
