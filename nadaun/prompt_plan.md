@@ -12,22 +12,22 @@ Vercel 서브디렉토리 배포 + 환경변수 + E2E 안전장치.
 
 - [ ] T1: vercel.json 루트 디렉토리 설정 (nadaun/) + 빌드 커맨드 확인
 - [ ] T2: 환경변수 체크리스트 문서 — NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ANTHROPIC_API_KEY
-- [ ] T3: E2E_AUTH_BYPASS 이중 안전장치 — NODE_ENV === 'production'이면 무시
+- [x] T3: E2E_AUTH_BYPASS 이중 안전장치 — NODE_ENV === 'production'이면 무시
 
 ## Phase 12: 보안 강화
 
 teacher_id 가드 누락 3건 수정 + 보안 테스트.
 
-- [ ] T4: deleteWeeklyPlan — getTeacherId() + IEP plan 소유권 검증
-- [ ] T5: updateWeeklyPlan — 동일 패턴 적용
-- [ ] T6: getStudents() — 명시적 .eq('teacher_id', teacherId) 추가
-- [ ] T7: 보안 테스트 3건 — 타 교사 데이터 접근 시도 → 실패 확인
+- [x] T4: deleteWeeklyPlan — getTeacherId() + IEP plan 소유권 검증
+- [x] T5: updateWeeklyPlan — 동일 패턴 적용
+- [x] T6: getStudents() — 명시적 .eq('teacher_id', teacherId) 추가
+- [x] T7: 보안 테스트 3건 — 타 교사 데이터 접근 시도 → 실패 확인
 
 ## Phase 13: 프로덕션 안정성
 
 rate limiter + 코드 정리.
 
-- [ ] T8: sanitizeFilename 공유 유틸 추출 — src/lib/utils/sanitize.ts
+- [x] T8: sanitizeFilename 공유 유틸 추출 — src/lib/utils/sanitize.ts
 - [ ] T9: rate limiter Supabase 기반 전환 — rate_limits 테이블 + upsert
 - [ ] T10: weekly-plan-section.tsx 분리 — WeeklyPlanItem + AddWeeklyPlanForm 추출
 
@@ -54,14 +54,14 @@ Phase 11 + Phase 12 **병렬** → Phase 13 → Phase 14
 ## Completion Contract (15개)
 
 ### 보안 기준
-- [ ] C1: deleteWeeklyPlan이 타 교사 plan 삭제 시 에러 반환
-- [ ] C2: updateWeeklyPlan이 타 교사 plan 수정 시 에러 반환
-- [ ] C3: getStudents()가 teacher_id로 필터링
-- [ ] C4: E2E_AUTH_BYPASS가 NODE_ENV=production에서 무시됨
-- [ ] C5: 보안 테스트 3건 PASS
+- [x] C1: deleteWeeklyPlan이 타 교사 plan 삭제 시 에러 반환
+- [x] C2: updateWeeklyPlan이 타 교사 plan 수정 시 에러 반환
+- [x] C3: getStudents()가 teacher_id로 필터링
+- [x] C4: E2E_AUTH_BYPASS가 NODE_ENV=production에서 무시됨
+- [x] C5: 보안 테스트 3건 PASS
 
 ### 프로덕션 기준
-- [ ] C6: sanitizeFilename이 단일 소스 (src/lib/utils/sanitize.ts)
+- [x] C6: sanitizeFilename이 단일 소스 (src/lib/utils/sanitize.ts)
 - [ ] C7: rate limiter가 Supabase 테이블 기반 동작
 - [ ] C8: weekly-plan-section.tsx 300줄 이하
 - [ ] C9: npm run build PASS
