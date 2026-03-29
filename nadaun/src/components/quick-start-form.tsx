@@ -1,9 +1,7 @@
 'use client'
 
 import { useFormState, useFormStatus } from 'react-dom'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { quickStart, type QuickStartResult } from '@/lib/actions/quick-start'
+import { quickStart } from '@/lib/actions/quick-start'
 import { SUBJECTS } from '@/lib/schemas/iep-plan'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -31,20 +29,13 @@ function SubmitButton() {
       aria-busy={pending}
       className="w-full"
     >
-      {pending ? '준비 중...' : '채비 시작'}
+      {pending ? '생성 중...' : '채비 시작'}
     </Button>
   )
 }
 
 export function QuickStartForm({ students }: { students: StudentOption[] }) {
-  const [state, formAction] = useFormState(quickStart, {} as QuickStartResult)
-  const router = useRouter()
-
-  useEffect(() => {
-    if (state.planUrl) {
-      router.push(state.planUrl + '?auto=1')
-    }
-  }, [state.planUrl, router])
+  const [state, formAction] = useFormState(quickStart, {})
 
   if (students.length === 0) {
     return (
@@ -75,14 +66,9 @@ export function QuickStartForm({ students }: { students: StudentOption[] }) {
       <CardContent>
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
-            <label
-              htmlFor="qs-student"
-              className="block text-sm font-medium"
-            >
-              키움이
-            </label>
+            <label className="block text-sm font-medium">키움이</label>
             <Select name="studentId" required>
-              <SelectTrigger id="qs-student" aria-label="키움이 선택">
+              <SelectTrigger aria-label="키움이 선택">
                 <SelectValue placeholder="키움이 선택" />
               </SelectTrigger>
               <SelectContent>
@@ -95,26 +81,25 @@ export function QuickStartForm({ students }: { students: StudentOption[] }) {
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <label
-              htmlFor="qs-subject"
-              className="block text-sm font-medium"
-            >
-              교과
-            </label>
-            <Select name="subject" required>
-              <SelectTrigger id="qs-subject" aria-label="교과 선택">
-                <SelectValue placeholder="교과 선택" />
-              </SelectTrigger>
-              <SelectContent>
-                {SUBJECTS.map((s) => (
-                  <SelectItem key={s} value={s}>
-                    {s}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <fieldset className="space-y-2">
+            <legend className="block text-sm font-medium">교과</legend>
+            <div className="grid grid-cols-2 gap-2">
+              {SUBJECTS.map((subject) => (
+                <label
+                  key={subject}
+                  className="flex items-center gap-2 rounded-lg border border-input px-3 py-2.5 text-sm transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5 hover:bg-muted cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    name="subjects"
+                    value={subject}
+                    className="accent-primary"
+                  />
+                  {subject}
+                </label>
+              ))}
+            </div>
+          </fieldset>
 
           {state.error && (
             <p className="text-sm text-destructive" role="alert">
@@ -125,7 +110,7 @@ export function QuickStartForm({ students }: { students: StudentOption[] }) {
           <SubmitButton />
 
           <p className="text-xs text-center text-muted-foreground">
-            키움이와 교과만 고르면 AI가 나머지를 한 번에
+            키움이 선택 + 교과 체크 → 전체 계획 한 번에 생성
           </p>
         </form>
       </CardContent>

@@ -1,17 +1,19 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { SUBJECTS } from '@/lib/schemas/iep-plan'
 
 const quickStartSchema = z.object({
   studentId: z.string().uuid('학생을 선택하세요.'),
-  subject: z.enum(SUBJECTS, { message: '과목을 선택하세요.' }),
+  subjects: z
+    .array(z.enum(SUBJECTS))
+    .min(1, '과목을 1개 이상 선택하세요.'),
 })
 
-export type QuickStartResult =
-  | { planUrl: string; error?: undefined }
-  | { error: string; planUrl?: undefined }
+export type QuickStartResult = { error?: string }
 
 function getSemesterDates(): {
   periodStart: string
@@ -50,21 +52,24 @@ export async function quickStart(
     return { error: '로그인이 필요합니다.' }
   }
 
+  const subjects = formData.getAll('subjects') as string[]
+
   const parsed = quickStartSchema.safeParse({
     studentId: formData.get('studentId'),
-    subject: formData.get('subject'),
+    subjects,
   })
 
   if (!parsed.success) {
     return { error: parsed.error.issues[0].message }
   }
 
-  const { studentId, subject } = parsed.data
+  const { studentId } = parsed.data
+  const validSubjects = parsed.data.subjects
 
-  // 1. 학생 정보 확인 (본인 학생인지 RLS로 검증)
+  // 1. 학생 확인 (RLS 검증)
   const { data: student, error: studentError } = await supabase
     .from('students')
-    .select('id, name, grade, disability_type')
+    .select('id, name')
     .eq('id', studentId)
     .single()
 
@@ -72,42 +77,43 @@ export async function quickStart(
     return { error: '학생을 찾을 수 없습니다.' }
   }
 
-  // 2. 해당 과목 성취기준 → 영역별 1개씩, 최대 3개
-  const { data: standards } = await supabase
-    .from('achievement_standards')
-    .select('id, code, content, domain_code')
-    .eq('subject', subject)
-    .order('domain_code')
-    .order('code')
-    .limit(10000)
-
-  if (!standards || standards.length === 0) {
-    return { error: `${subject} 과목의 성취기준을 찾을 수 없습니다.` }
-  }
-
-  const domainMap = new Map<string, (typeof standards)[0]>()
-  for (const s of standards) {
-    if (!domainMap.has(s.domain_code)) {
-      domainMap.set(s.domain_code, s)
-    }
-    if (domainMap.size >= 3) break
-  }
-
-  const goals = Array.from(domainMap.values()).map((s) => ({
-    achievement_standard_id: s.id,
-    achievement_standard_code: s.code,
-    description:
-      s.content.length > 200 ? s.content.slice(0, 197) + '...' : s.content,
-    target_level: '기초' as const,
-  }))
-
-  // 3. 학기 자동 계산 + IEP 계획 생성
   const { periodStart, periodEnd, semesterLabel } = getSemesterDates()
-  const title = `${new Date().getFullYear()} ${semesterLabel} ${subject}`
+  const year = new Date().getFullYear()
 
-  const { data: plan, error: planError } = await supabase
-    .from('iep_plans')
-    .insert({
+  // 2. 과목별 IEP 계획 일괄 생성
+  for (const subject of validSubjects) {
+    // 성취기준 조회 → 영역별 1개씩, 최대 3개
+    const { data: standards } = await supabase
+      .from('achievement_standards')
+      .select('id, code, content, domain_code')
+      .eq('subject', subject)
+      .order('domain_code')
+      .order('code')
+      .limit(10000)
+
+    if (!standards || standards.length === 0) continue
+
+    const domainMap = new Map<string, (typeof standards)[0]>()
+    for (const s of standards) {
+      if (!domainMap.has(s.domain_code)) {
+        domainMap.set(s.domain_code, s)
+      }
+      if (domainMap.size >= 3) break
+    }
+
+    const goals = Array.from(domainMap.values()).map((s) => ({
+      achievement_standard_id: s.id,
+      achievement_standard_code: s.code,
+      description:
+        s.content.length > 200
+          ? s.content.slice(0, 197) + '...'
+          : s.content,
+      target_level: '기초' as const,
+    }))
+
+    const title = `${year} ${semesterLabel} ${subject}`
+
+    await supabase.from('iep_plans').insert({
       student_id: student.id,
       teacher_id: user.id,
       title,
@@ -116,12 +122,8 @@ export async function quickStart(
       period_end: periodEnd,
       goals,
     })
-    .select('id')
-    .single()
-
-  if (planError) {
-    return { error: `계획 생성 실패: ${planError.message}` }
   }
 
-  return { planUrl: `/students/${student.id}/plans/${plan.id}` }
+  revalidatePath(`/students/${studentId}`)
+  redirect(`/students/${studentId}`)
 }
