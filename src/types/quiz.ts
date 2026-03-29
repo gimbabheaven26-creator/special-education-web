@@ -32,6 +32,8 @@ export interface QuizQuestion {
   subjects?: string[];  // 복합영역 다중 태그 (기존 subject는 주 영역으로 유지)
 }
 
+export type Confidence = 'sure' | 'unsure';
+
 export interface QuizResult {
   questionId: string;
   userAnswer: string | number;
@@ -39,6 +41,7 @@ export interface QuizResult {
   timestamp: number;
   subject: string;
   chapter: string;
+  confidence?: Confidence;
   sessionId?: string;
 }
 
