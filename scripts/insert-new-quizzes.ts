@@ -164,7 +164,13 @@ async function insertNewQuizzes() {
 
   for (const file of files) {
     const raw = readFileSync(join(dataDir, file), 'utf-8');
-    const questions = JSON.parse(raw) as QuizRow[];
+    const parsed = JSON.parse(raw);
+    const questions = (Array.isArray(parsed) ? parsed : parsed.questions ?? []) as QuizRow[];
+
+    if (questions.length === 0) {
+      console.log(`  ⚠️ ${file}: 배열 아님 또는 빈 파일 — 건너뜀`);
+      continue;
+    }
 
     for (const q of questions) {
       allRows.push({
@@ -189,13 +195,20 @@ async function insertNewQuizzes() {
 
   console.log(`\n총 ${allRows.length}문항 삽입 시작...\n`);
 
-  // ID 중복 체크
+  // ID 중복 체크 (upsert이므로 경고만)
   const ids = allRows.map((r) => r.id);
   const uniqueIds = new Set(ids);
   if (ids.length !== uniqueIds.size) {
-    const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
-    console.error(`❌ 중복 ID 발견: ${duplicates.join(', ')}`);
-    return;
+    const dupCount = ids.length - uniqueIds.size;
+    console.log(`  ⚠️ ${dupCount}개 중복 ID — upsert으로 최신 데이터 덮어쓰기`);
+    // 중복 제거: 나중 파일이 우선 (Map으로 덮어쓰기)
+    const deduped = new Map<string, typeof allRows[0]>();
+    for (const row of allRows) {
+      deduped.set(row.id, row);
+    }
+    allRows.length = 0;
+    allRows.push(...deduped.values());
+    console.log(`  → ${allRows.length}문항 (중복 제거 후)\n`);
   }
 
   // 배치 삽입 (50개씩)
