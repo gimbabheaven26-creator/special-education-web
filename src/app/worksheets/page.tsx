@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { FileText } from 'lucide-react';
 import { getSubjects, getAllWorksheetTopics } from '@/lib/db';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 export const metadata = {
   title: '워크시트 | 특수교육 공부방',
@@ -27,10 +28,22 @@ export default async function WorksheetsPage() {
         <p className="text-sm text-muted-foreground mt-1">과목별 핵심 개념 확인 문제지</p>
       </div>
 
+      {topicsBySubject.length === 0 && (
+        <EmptyState
+          icon="📝"
+          title="워크시트가 준비 중이에요"
+          description="곧 과목별 핵심 개념 확인 문제지가 추가됩니다."
+          action={{ label: '문제풀기로 이동', href: '/practice', ariaLabel: '문제풀기 페이지로 이동' }}
+        />
+      )}
+
       {topicsBySubject.map(({ slug, title, topics: subjectTopics }) => (
         <section key={slug}>
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
             {title}
+            <span className="text-xs px-1.5 py-0.5 rounded-full bg-muted font-normal normal-case">
+              {subjectTopics.length}개 토픽
+            </span>
           </h2>
           <ul className="space-y-2">
             {subjectTopics.map((topic) => (
