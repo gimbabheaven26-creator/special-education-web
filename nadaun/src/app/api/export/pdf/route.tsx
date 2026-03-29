@@ -3,8 +3,12 @@ export const runtime = 'nodejs'
 import { NextRequest, NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { createClient } from '@/lib/supabase/server'
+import { createRateLimiter } from '@/lib/rate-limit'
 import { IepPdfDocument } from '@/lib/utils/pdf-document'
 import type { IepPlan, WeeklyPlan } from '@/types/students'
+
+/** 교사당 분당 10회 */
+const exportLimiter = createRateLimiter({ windowMs: 60_000, max: 10 })
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -30,6 +34,22 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       { error: '인증이 필요합니다.' },
       { status: 401 },
+    )
+  }
+
+  const rateCheck = exportLimiter.check(user.id)
+  if (!rateCheck.allowed) {
+    return NextResponse.json(
+      { error: '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.' },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(
+            Math.ceil((rateCheck.resetAt - Date.now()) / 1000),
+          ),
+          'X-RateLimit-Remaining': '0',
+        },
+      },
     )
   }
 
