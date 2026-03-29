@@ -3,12 +3,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { SUBJECTS } from '@/lib/schemas/iep-plan'
-import { GRADES } from '@/lib/schemas/student'
 
 const quickStartSchema = z.object({
-  name: z.string().min(1, '이름을 입력하세요.').max(50),
+  studentId: z.string().uuid('학생을 선택하세요.'),
   subject: z.enum(SUBJECTS, { message: '과목을 선택하세요.' }),
-  grade: z.enum(GRADES, { message: '학년을 선택하세요.' }),
 })
 
 export type QuickStartResult =
@@ -53,29 +51,28 @@ export async function quickStart(
   }
 
   const parsed = quickStartSchema.safeParse({
-    name: formData.get('name'),
+    studentId: formData.get('studentId'),
     subject: formData.get('subject'),
-    grade: formData.get('grade'),
   })
 
   if (!parsed.success) {
     return { error: parsed.error.issues[0].message }
   }
 
-  const { name, subject, grade } = parsed.data
+  const { studentId, subject } = parsed.data
 
-  // 1. 학생 등록
+  // 1. 학생 정보 확인 (본인 학생인지 RLS로 검증)
   const { data: student, error: studentError } = await supabase
     .from('students')
-    .insert({ teacher_id: user.id, name, grade })
-    .select('id')
+    .select('id, name, grade, disability_type')
+    .eq('id', studentId)
     .single()
 
-  if (studentError) {
-    return { error: `학생 등록 실패: ${studentError.message}` }
+  if (studentError || !student) {
+    return { error: '학생을 찾을 수 없습니다.' }
   }
 
-  // 2. 해당 과목 성취기준 조회 → 영역별 1개씩, 최대 3개
+  // 2. 해당 과목 성취기준 → 영역별 1개씩, 최대 3개
   const { data: standards } = await supabase
     .from('achievement_standards')
     .select('id, code, content, domain_code')
@@ -99,7 +96,8 @@ export async function quickStart(
   const goals = Array.from(domainMap.values()).map((s) => ({
     achievement_standard_id: s.id,
     achievement_standard_code: s.code,
-    description: s.content.length > 200 ? s.content.slice(0, 197) + '...' : s.content,
+    description:
+      s.content.length > 200 ? s.content.slice(0, 197) + '...' : s.content,
     target_level: '기초' as const,
   }))
 
