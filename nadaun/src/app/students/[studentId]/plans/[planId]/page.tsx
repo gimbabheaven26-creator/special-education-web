@@ -26,10 +26,14 @@ const STATUS_VARIANTS: Record<string, 'default' | 'secondary' | 'outline'> = {
 
 export default async function PlanDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ studentId: string; planId: string }>
+  searchParams: Promise<{ auto?: string }>
 }) {
   const { studentId, planId } = await params
+  const { auto } = await searchParams
+  const autoGenerate = auto === '1'
   const [student, plan] = await Promise.all([
     getStudentById(studentId),
     getIepPlanById(planId),
@@ -113,6 +117,7 @@ export default async function PlanDetailPage({
             planId={plan.id}
             studentId={student.id}
             hasWeeklyPlans={weeklyPlans.length > 0}
+            autoGenerate={autoGenerate}
           />
         </div>
       </div>

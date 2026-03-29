@@ -2,7 +2,7 @@
 
 import { useAiGeneration } from '@/hooks/use-ai-generation'
 import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { bulkInsertWeeklyPlans } from '@/lib/actions/weekly-plans'
 import { Button } from '@/components/ui/button'
 import type { GenerationResult } from '@/lib/ai/prompts'
@@ -11,19 +11,29 @@ interface GenerateButtonProps {
   planId: string
   studentId: string
   hasWeeklyPlans: boolean
+  autoGenerate?: boolean
 }
 
 export function GenerateButton(props: GenerateButtonProps) {
-  const { planId, studentId, hasWeeklyPlans } = props
+  const { planId, studentId, hasWeeklyPlans, autoGenerate } = props
   const { status, streamText, result, remaining, error, generate, reset } =
     useAiGeneration()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const autoTriggered = useRef(false)
 
   const handleGenerate = useCallback(() => {
     generate(planId)
   }, [generate, planId])
+
+  // Auto-trigger: 원클릭 채비에서 리다이렉트 시 자동 생성
+  useEffect(() => {
+    if (autoGenerate && status === 'idle' && !hasWeeklyPlans && !autoTriggered.current) {
+      autoTriggered.current = true
+      handleGenerate()
+    }
+  }, [autoGenerate, status, hasWeeklyPlans, handleGenerate])
 
   const handleSave = useCallback(
     async (data: GenerationResult) => {
@@ -49,6 +59,13 @@ export function GenerateButton(props: GenerateButtonProps) {
     },
     [planId, studentId, reset, router],
   )
+
+  // Auto-save: 자동 생성 모드에서 완료 시 바로 저장
+  useEffect(() => {
+    if (autoGenerate && status === 'complete' && result && !isSaving) {
+      handleSave(result)
+    }
+  }, [autoGenerate, status, result, isSaving, handleSave])
 
   if (status === 'idle') {
     return (
