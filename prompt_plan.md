@@ -34,7 +34,7 @@
 - [x] 빌드 깨짐 복구 — lib 모듈 이동 후 재수출 6개 (f88e8b5, 47acf8f)
 - [x] `/flashcards` 빈 상태 — 0카드 vs 복습완료 분기 UI (54ba9b0)
 - [x] `/interactive` description 추가 — nav-config + practice-hub 동기화 (5609067)
-- [x] 홈 DailyReviewCard / AiBriefingCard — 신규 사용자 시 null 반환, 완료 시 축하 메시지 (기구현 확인)
+- [x] 홈 DailyReviewCard / AiBriefingCard — 신규 사용자 시 온보딩 안내 카드 표시 (d8220be)
 
 ## Phase 2: 실력쌓기 체감 개선 (현재 <20% → 50%+)
 
@@ -42,9 +42,9 @@
 
 - [x] `/practice-hub` 허브 페이지 재설계 — 4카드 2x2 그리드 + 시나리오 추가 (5609067)
 - [x] `/interactive` 콘텐츠 대폭 확장 — 3→9 활동 (검사도구·법령3조·교수적수정·UDL·PBS·전환교육) (5609067)
-- [ ] `/concepts` 학습 완료 추적 기능 — 읽었는지 알 수 없음
-- [ ] `/worksheets` 접근성 개선 — 토픽이 뭔지 사용자가 이해할 수 있는가
-- [ ] `/daily` 완료 후 피드백/요약 화면 개선
+- [x] `/concepts` 학습 완료 추적 기능 — CompletionBadge + SubjectProgress 표시 (e3846d3)
+- [x] `/worksheets` ��근성 개선 — 사용 안내 카드 + 총 문제수 표시 (045a719)
+- [x] `/daily` 완료 후 피드백/요약 화면 개선 — DAILY_TIERS 감성 피드백 + 복습추천챕터 (d8220be)
 - [x] `/scenarios` "실력쌓기" 탭으로 이동 완료 (5609067)
 
 ## Phase 3: 내기록 체감 개선 (현재 <20% → 50%+)
@@ -74,7 +74,7 @@
 - [ ] `/quiz/[subject]` 정교화 질문 재활성화 여부 결정
 - [ ] `/terms` — 용어 정의 품질 확인 (10자 미만 필터링 적절한지)
 - [ ] `/kice` — 4탭 간 네비게이션 자연스러운지
-- [ ] 퀴즈 결과 화면 감성 개선 — 점수별 피드백 메시지
+- [x] 퀴즈 결과 화면 감성 개선 — SCORE_TIERS 이모지 + 색상 카드 (92e3571)
 
 ## 리스크
 
