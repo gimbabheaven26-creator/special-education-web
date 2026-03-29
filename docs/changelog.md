@@ -24,6 +24,36 @@
 
 ---
 
+## [2026-03-29] X — daily 리팩토링 + 테스트 271→736건 + 스켈레톤 10개
+
+### 변경 내용
+- **daily/page.tsx 리팩토링**: 579→5줄, 11파일 분리 (types/daily.ts, lib/seeded-sample.ts, hooks/useDailyQuiz.ts, 7 _components) (a3f5d67)
+- **seeded-sample 중복 제거**: API route의 로컬 함수 삭제 → @/lib/seeded-sample import (d268088)
+- **테스트 커버리지 대폭 확대**: 271→736건 (41파일). Zustand 5스토어 + answer-checker + seeded-sample + adaptive-difficulty + badges + session-recovery + spaced-scenario + concept-urls + structure-utils + array-utils + mastery + study-planner + worksheet-utils + xp-constants
+- **loading.tsx 10개 스켈레톤 추가**: bookmarks, community, daily, flashcards, interactive, mastery, reviews, scenarios, stats, wrong-notes (28850bb)
+- **기출→개념 직링크**: AnalyticsClient 영역별 개념학습 바로가기 (28850bb)
+- **EmptyState icon prop 수정**: community, bookmarks, mine 3페이지 통합 (7ee5591)
+- **BetaFeedbackWidget setTimeout 클린업**: useRef + useEffect 언마운트 정리 (4b52989)
+- **UX 문구 개선 6페이지**: 감성 설계 60→70점 (d93beb7)
+- **의사소통장애 퀴즈 18문항**: 5챕터 분배 (a04007e)
+
+### 생성/수정 파일 (주요)
+| 구분 | 파일 |
+|------|------|
+| 신규 | src/types/daily.ts, src/lib/seeded-sample.ts, src/hooks/useDailyQuiz.ts |
+| 신규 | src/app/daily/_components/ (7파일) |
+| 신규 | src/**/loading.tsx (10파일) |
+| 신규 | src/lib/__tests__/ (12파일 테스트) |
+| 수정 | src/app/daily/page.tsx (579→5줄) |
+| 수정 | src/app/api/daily-questions/route.ts (중복 제거) |
+
+### 상태
+- [x] 빌드 성공 (exit 0)
+- [x] 41파일 736 tests 0 failures
+- [x] 푸시 완료
+
+---
+
 ## [2026-03-28] X — 용어 순화 + vitest 38건 + 하네스 실전 검증
 
 ### 변경 내용 (후반)

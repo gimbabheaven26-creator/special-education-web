@@ -142,8 +142,16 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] 빈 상태 개선 — WrongNotesClient 필터 EmptyState + CTA 적용 (6c92a87, 2026-03-28)
 - [x] EmptyState 접근성 — role="status" + aria-live="polite" (6c92a87, 2026-03-28)
 - [x] vitest exclude nadaun/** — npm run test 클린 통과 (6c92a87, 2026-03-28)
+- [x] daily/page.tsx 579→5줄 리팩토링 — 11파일 분리 (types, lib, hook, 7 components) (a3f5d67, 2026-03-29)
+- [x] seeded-sample API route 중복 제거 + 단위 테스트 33건 (d268088, 2026-03-29)
+- [x] 테스트 커버리지 대폭 확대 — 271→736건 (41파일), Zustand 5스토어 + lib 유틸 12파일 (2026-03-29)
+- [x] BetaFeedbackWidget setTimeout 클린업 + vitest worktree exclude (4b52989, 2026-03-29)
+- [x] UX 문구 개선 6페이지 — 감성 설계 60→70점 (d93beb7, 2026-03-29)
+- [x] loading.tsx 10개 스켈레톤 + 기출→개념 직링크 갭 해소 (28850bb, 2026-03-29)
+- [x] EmptyState icon prop 수정 + 3페이지 통합 (7ee5591, 2026-03-29)
+- [x] 의사소통장애 퀴즈 18문항 추가 (a04007e, 2026-03-29)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28).
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29).
 
 ---
 
