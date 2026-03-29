@@ -66,8 +66,12 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/community/create')).toBe('community');
   });
 
-  it('/reviews → community', () => {
-    expect(getActiveGroupId('/reviews')).toBe('community');
+  it('/reviews → null (관리자 전용, 네비에서 제거됨)', () => {
+    expect(getActiveGroupId('/reviews')).toBeNull();
+  });
+
+  it('/scenarios → practice (실력쌓기로 이동)', () => {
+    expect(getActiveGroupId('/scenarios')).toBe('practice');
   });
 
   it('/diagnosis → diagnosis', () => {
@@ -105,9 +109,9 @@ describe('NAV_GROUPS 구조', () => {
     }
   });
 
-  it('총 서브 항목 수 (3+3+6+3 = 15)', () => {
+  it('총 서브 항목 수 (3+4+6+1 = 14)', () => {
     const total = NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
-    expect(total).toBe(15);
+    expect(total).toBe(14);
   });
 
   it('개념학습이 practice 그룹에 존재', () => {

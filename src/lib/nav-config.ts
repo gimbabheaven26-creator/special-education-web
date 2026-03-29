@@ -40,7 +40,8 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/concepts', label: '개념학습', description: '과목별 핵심 개념 정리' },
       { href: '/practice', label: '문제풀기', description: '모의고사·워크시트 실전 대비' },
-      { href: '/interactive', label: '인터랙티브' },
+      { href: '/interactive', label: '인터랙티브', description: '매칭·빈칸·절차 연습' },
+      { href: '/scenarios', label: '상황 시뮬레이션', description: '교실 상황 분기형 의사결정' },
     ],
   },
   {
@@ -60,10 +61,9 @@ export const NAV_GROUPS: NavGroup[] = [
     id: 'community',
     label: '함께하기',
     icon: Users,
+    href: '/community',
     items: [
-      { href: '/community', label: '커뮤니티' },
-      { href: '/reviews', label: '리뷰' },
-      { href: '/scenarios', label: '상황 시뮬레이션' },
+      { href: '/community', label: '커뮤니티', description: '함께 문제 만들고 풀기' },
     ],
   },
 ];

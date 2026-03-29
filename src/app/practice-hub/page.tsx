@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Dumbbell, BookOpen, ClipboardList, Gamepad2, ChevronRight } from 'lucide-react';
+import { Dumbbell, BookOpen, ClipboardList, Gamepad2, Drama, ChevronRight } from 'lucide-react';
 import { PracticeProgress } from './PracticeProgress';
 
 export const metadata = {
@@ -13,21 +13,24 @@ const CARDS = [
     icon: BookOpen,
     title: '개념학습',
     description: '과목별 핵심 개념 정리',
-    span: 1,
   },
   {
     href: '/practice',
     icon: ClipboardList,
     title: '문제풀기',
     description: '모의고사·워크시트 실전 대비',
-    span: 1,
   },
   {
     href: '/interactive',
     icon: Gamepad2,
     title: '인터랙티브',
-    description: '참여형 학습 활동',
-    span: 2,
+    description: '매칭·빈칸·절차 연습',
+  },
+  {
+    href: '/scenarios',
+    icon: Drama,
+    title: '상황 시뮬레이션',
+    description: '교실 상황 분기형 의사결정',
   },
 ] as const;
 
@@ -55,9 +58,7 @@ export default function PracticeHubPage() {
             <Link
               key={card.href}
               href={card.href}
-              className={`group flex items-center justify-between p-5 rounded-xl border border-border hover:border-primary/40 hover:bg-muted/40 transition-all ${
-                card.span === 2 ? 'col-span-2' : ''
-              }`}
+              className="group flex items-center justify-between p-5 rounded-xl border border-border hover:border-primary/40 hover:bg-muted/40 transition-all"
             >
               <div className="flex items-start gap-3 min-w-0">
                 <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-muted group-hover:bg-primary/10 transition-colors shrink-0">
