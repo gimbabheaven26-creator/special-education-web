@@ -51,10 +51,26 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
   return (
     <main className="max-w-5xl mx-auto px-4 py-6 space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">출제 경향 분석</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-foreground">기출문제</h1>
         <p className="text-muted-foreground text-sm">
-          {data.allYears[0]}~{data.allYears[data.allYears.length - 1]}학년도 기출 데이터 기반
+          {data.allYears[0]}~{data.allYears[data.allYears.length - 1]}학년도 기출 데이터 기반 출제 경향 분석
         </p>
+      </div>
+
+      {/* 탭 전환 */}
+      <div className="flex border-b border-border" role="tablist" aria-label="기출문제 보기 방식">
+        <Link href="/kice?tab=by-year" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
+          연도별 기출
+        </Link>
+        <Link href="/kice?tab=by-area" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
+          영역별 기출
+        </Link>
+        <span role="tab" aria-selected="true" className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary min-h-[44px] flex items-center">
+          빈도분석
+        </span>
+        <Link href="/kice?tab=search" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
+          키워드 검색
+        </Link>
       </div>
 
       {/* ─── Subject Frequency Heatmap ─── */}

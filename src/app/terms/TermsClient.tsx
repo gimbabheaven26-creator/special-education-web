@@ -166,7 +166,6 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
         </h1>
         <p className="text-sm text-muted-foreground">
           NISE 특수교육학 용어사전 · {terms.length}개 용어
-          <span className="ml-1 text-xs text-muted-foreground/60">(정의 10자 미만 제외)</span>
         </p>
       </div>
 
