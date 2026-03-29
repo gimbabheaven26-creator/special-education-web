@@ -60,6 +60,11 @@ docs/kangsaem-requests.md  # 작업 요청 큐 (구 강선생, 현 X)
 docs/cloudy-requests.md    # 작업 요청 큐 (구 클루디, 현 X)
 docs/v-reviews/            # V(외부 검증) 리뷰 파일 — 세션 시작 시 OPEN 항목 확인 필수
 
+src/lib/content/                   # 개념/구조/URL 유틸 (concept-urls, concepts, structure-utils, worksheet-utils)
+src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-difficulty, answer-checker, elaboration 등)
+src/lib/study/                     # 학습 진도 (mastery, badges, xp-constants, stats-utils, study-planner 등)
+src/lib/kice/                      # 기출 데이터 (kice, kice-analytics)
+
 scripts/insert-with-service-key.mjs  # Supabase 데이터 삽입 패턴
 data/terminology/nise-dictionary.json  # NISE 용어사전 1129개
 data/terminology/kice-terms.json       # KICE 기출 키워드 1417개
@@ -96,7 +101,8 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - **오늘학습 `/daily`**: 홈 메인 버튼에서만 접근 (네비 미노출)
 - **MDX 컴포넌트 API**: `FillBlank` = `text` prop, `MatchingExercise` = `items` prop
 - **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db/` 사용
-- **DB 쿼리 모듈**: `src/lib/db/` 도메인별 분리 — subjects.ts, quiz.ts, worksheets.ts, user-data.ts + index.ts 재수출 (기존 `@/lib/db` import 호환)
+- **DB 쿼리 모듈**: `src/lib/db/` 도메인별 분리 — subjects, quiz, worksheets, user-data, analytics, community-db, review-db, admin-auth, profile, sync + index.ts 재수출
+- **lib/ 도메인 구조**: `src/lib/` 31파일 → content/, db/, kice/, quiz/, study/ 5개 서브디렉토리로 분리. 각 디렉토리에 index.ts barrel 재수출
 - **피드백 API** `POST /api/feedback`: Discord webhook 연동, rate limit IP당 3회/분, `DISCORD_WEBHOOK_URL` env var 필요
 - **BetaFeedbackWidget**: 베타 기간 한정 전역 위젯 — `LayoutProviders.tsx`에 마운트, 베타 종료 시 제거 필요
 - **layout.tsx**: LayoutProviders 분리 완료 (007bdb9, 2026-03-28) — client 위젯 6개를 `LayoutProviders.tsx`로 추출, layout.tsx는 Server Component 역할에 집중
@@ -152,8 +158,13 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] 의사소통장애 퀴즈 18문항 추가 (a04007e, 2026-03-29)
 - [x] REQ-003 Supabase 퀴즈 삽입 — 2750→3113문항, 4과목 363문항 추가 (df9e839, 2026-03-29)
 - [x] automation-scout 발견 패턴 3건 커맨드 생성 — generate-loading, empty-state-migrator, fixture-sync (9cc8678, 2026-03-29)
+- [x] 북마크 퀴즈 링크 수정 + /quiz/short loading·error 추가 (5e7be66, 2026-03-29)
+- [x] EmptyState 7페이지 공유 컴포넌트 교체 — search, kice, mastery, terms, stats, my (ef4b973, 2026-03-29)
+- [x] 빌드 복구 — error.tsx 2개 추가 + 이동된 lib 모듈 5개 재수출 (f88e8b5, 2026-03-29)
+- [x] lib/ 31파일 → content/db/kice/quiz/study/ 5도메인 분리 + 80 import 경로 갱신 (33f4d52, 2026-03-29)
+- [x] 테스트 894건 전체 통과 — mock 경로 수정 4건 + 재수출 1건 (47acf8f, 2026-03-29)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29).
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29).
 
 ---
 

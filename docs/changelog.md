@@ -24,6 +24,22 @@
 
 ---
 
+## [2026-03-29] X — lib/ 5도메인 분리 + 테스트 894건 + EmptyState 7페이지 통합
+
+### 변경 내용 (후반 세션)
+- **lib/ 31파일 도��인 분리**: src/lib/ flat → content/, db/, kice/, quiz/, study/ 5개 서브디렉토리 + 각 index.ts barrel 재수출. 80+ 파일 import 경로 갱신 (33f4d52)
+- **EmptyState 7페이지 통합**: search, kice, kice/area, mastery, terms, stats, my의 인라인 빈 상태 UI → 공유 EmptyState 컴포넌트 교체 (ef4b973)
+- **빌드 복구**: error.tsx 2개(concepts, flashcards) + 이동된 lib 모듈 5개 재수출 (f88e8b5)
+- **테스트 736→894건**: mock 경로 수정 4건 + 재���출 1건으로 전체 통과 (47acf8f)
+- **북마크 퀴즈 ���크 수정** + /quiz/short loading·error 추가 (5e7be66)
+
+### 상태
+- [x] 빌드 성공 (exit 0)
+- [x] 52파일 894 tests 0 failures
+- [x] 푸시 완료 (5e7be66..47acf8f)
+
+---
+
 ## [2026-03-29] X — daily 리팩토링 + 테스트 271→736건 + 스켈레톤 10개
 
 ### 변경 내용

@@ -1,3 +1,40 @@
+# X 세션 핸드오프 — 2026-03-29 (야간: lib 5도메인 분리 + 테스트 894건)
+
+## 야간 세션
+
+### 완료
+| 커밋 | 내용 |
+|------|------|
+| `5e7be66` | fix(ux): 북마크 퀴즈 링크 수정 + /quiz/short loading·error 추가 |
+| `ef4b973` | refactor(ux): 7개 파일 인라인 빈 상태 UI를 공유 EmptyState 교체 |
+| `f88e8b5` | fix: 빌드 복구 — error.tsx 2개 + lib 모듈 5개 재수출 |
+| `33f4d52` | refactor(lib): src/lib/ 31파일 → content/db/kice/quiz/study/ 5도메인 분리 |
+| `47acf8f` | fix: 테스트 894건 전체 통과 — mock 경로 수정 4건 + 재수출 1건 |
+
+### lib/ 새 구조
+```
+src/lib/
+├── content/   # concept-urls, concepts, structure-utils, worksheet-utils + index.ts
+├── db/        # subjects, quiz, worksheets, user-data, analytics, community-db, review-db, admin-auth, profile, sync + index.ts
+├── kice/      # kice, kice-analytics + index.ts
+├── quiz/      # seeded-sample, adaptive-difficulty, answer-checker, elaboration, check-blank, descriptive-scoring, session-recovery + index.ts
+├── study/     # mastery, badges, xp-constants, stats-utils, study-planner, error-patterns, spaced-scenario + index.ts
+└── supabase/  # (기존 유지)
+```
+
+### 빌드 상태
+- 52파일 894 tests 0 failures
+- build exit 0
+- origin/main 푸시 완료
+
+### 미해결 / 다음 X가 알아야 할 것
+- 3개 daily 테스트(StepOX/StepDescriptive/StepFillIn)가 vi.mock('@/lib/concept-urls') 구식 경로 사용 중 — 동작하지만 갱신 필요
+- ~20 소스파일이 barrel export 대신 deep import 사용 (e.g., '@/lib/quiz/adaptive-difficulty')
+- QuizClient.tsx에 elaboration TODO 5건 비활성화 상태
+- REQ-008 subjects column 미착수 (카이란 승인 대기)
+
+---
+
 # X 세션 핸드오프 — 2026-03-29 (오후: nadaun AI Generation + 커맨드 3건)
 
 ## 오후 세션

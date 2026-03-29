@@ -1,7 +1,7 @@
 # Interface Contract
 
 > X(실행)와 V(검증)의 인터페이스 계약서 (2026-03-27 이전: 강선생+클루디)
-> 최종 수정: 2026-03-26 | 버전: 2.8.1
+> 최종 수정: 2026-03-29 | 버전: 2.9
 > v2.8.1: 클루디 작업 목록 완료 표기 (REQ-001~006 실행 완료 반영)
 > v2.8: reviews.image_urls 컬럼 추가 (첨부 이미지 URL 목록) — 카이란 승인
 > v2.7: reviews.admin_note 컬럼 추가 (관리자 내부 메모) — DB 확인 완료
@@ -260,6 +260,7 @@ communication-disorder:
 ## API 레이어 (src/lib/db/)
 
 > X가 관리. 데이터 작업 시에도 X가 통합 담당.
+> v2.9: db/ 11파일 확장 + content/quiz/study/kice 4개 도메인 추가 (2026-03-29)
 
 ### 함수 시그니처
 
@@ -295,6 +296,26 @@ type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark'
 getUserData(userId: string, storeKey: StoreKey): Promise<{ data: JsonValue; updatedAt: string } | null>
 upsertUserData(userId: string, storeKey: StoreKey, data: JsonValue): Promise<boolean>
 getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; updatedAt: string }>>
+
+// 분석 (db/analytics.ts)
+getAnalyticsData(userId: string): Promise<AnalyticsRow[]>
+
+// 커뮤니티 (db/community-db.ts)
+getCommunityQuestions(): Promise<CommunityQuestion[]>
+getCommunityQuestionById(id: string): Promise<CommunityQuestion | null>
+createCommunityQuestion(data: CreateCommunityInput): Promise<CommunityQuestion>
+voteOnQuestion(questionId: string, userId: string, value: 1 | -1): Promise<boolean>
+
+// 프로필 (db/profile.ts)
+getProfile(userId: string): Promise<Profile | null>
+updateProfile(userId: string, data: Partial<Profile>): Promise<boolean>
+
+// 리뷰 (db/review-db.ts — getReviews, saveReview, updateReviewStatus)
+
+// 관리자 인증 (db/admin-auth.ts)
+isAdmin(userId: string): Promise<boolean>
+
+// 동기화 (db/sync.ts — getUserData, upsertUserData, getAllUserData)
 ```
 
 ### 타입 매핑 규칙
