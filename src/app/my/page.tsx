@@ -180,8 +180,8 @@ export default function MyPage() {
     {
       href: '/concepts',
       icon: BookOpen,
-      label: '과목 학습',
-      desc: '퀴즈·플래시카드·워크시트',
+      label: '개념학습',
+      desc: '과목별 핵심 개념 읽기·정리',
       color: 'text-indigo-500 bg-indigo-50 dark:bg-indigo-950/30',
     },
     {
