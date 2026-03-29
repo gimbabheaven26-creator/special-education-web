@@ -7,7 +7,7 @@ vi.mock('@/lib/timeslot', () => ({
 vi.mock('@/lib/array-utils', () => ({
   shuffle: vi.fn(<T>(arr: T[]): T[] => [...arr]),
 }));
-vi.mock('@/lib/adaptive-difficulty', () => ({
+vi.mock('@/lib/quiz/adaptive-difficulty', () => ({
   sortByAdaptiveDifficulty: vi.fn(<T>(pool: T[]): T[] => [...pool]),
 }));
 
