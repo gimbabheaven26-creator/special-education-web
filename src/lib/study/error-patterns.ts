@@ -1,7 +1,7 @@
 import type { QuizResult } from '@/types/quiz';
 import type { WrongNote } from '@/types/study';
 
-export type ErrorPattern = 'confusion' | 'careless' | 'conceptual_gap' | 'lucky_correct';
+export type ErrorPattern = 'confusion' | 'careless' | 'conceptual_gap';
 
 export interface ErrorPatternInfo {
   pattern: ErrorPattern;
@@ -25,11 +25,6 @@ const PATTERN_INFO: Record<ErrorPattern, Omit<ErrorPatternInfo, 'pattern'>> = {
     label: '개념 부족',
     description: '이 챕터 정답률이 낮아요',
     color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
-  },
-  lucky_correct: {
-    label: '찍어서 맞춤',
-    description: '불확실했지만 우연히 맞춘 문제예요',
-    color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
   },
 };
 
@@ -70,14 +65,6 @@ export function detectErrorPatterns(
     if (accuracy < 0.5) {
       patterns.push('conceptual_gap');
     }
-  }
-
-  // 4. Lucky correct: answered correctly but with low confidence
-  const luckyCount = questionHistory.filter(
-    (r) => r.isCorrect && r.confidence === 'unsure',
-  ).length;
-  if (luckyCount >= 1) {
-    patterns.push('lucky_correct');
   }
 
   return patterns;

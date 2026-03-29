@@ -16,7 +16,6 @@ export interface SavedSession {
     questionIndex: number;
     isCorrect: boolean;
     userAnswer: string | number;
-    confidence?: string;
   }>;
   skippedIndices: number[];
   currentIndex: number;

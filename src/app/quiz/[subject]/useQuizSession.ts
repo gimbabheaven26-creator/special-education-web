@@ -155,7 +155,6 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
         questionIndex: a.questionIndex,
         isCorrect: a.isCorrect,
         userAnswer: a.userAnswer,
-        confidence: a.confidence,
       })),
       skippedIndices: Array.from(skipped),
       currentIndex,

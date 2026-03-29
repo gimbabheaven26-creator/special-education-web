@@ -64,35 +64,4 @@ describe('detectErrorPatterns', () => {
     expect(patterns).toContain('conceptual_gap');
   });
 
-  it('detects lucky_correct when a correct answer had unsure confidence', () => {
-    const history: QuizResult[] = [
-      makeResult({ isCorrect: true, confidence: 'unsure' }),
-    ];
-    const patterns = detectErrorPatterns(makeNote(), history);
-    expect(patterns).toContain('lucky_correct');
-  });
-
-  it('does not detect lucky_correct for sure confidence', () => {
-    const history: QuizResult[] = [
-      makeResult({ isCorrect: true, confidence: 'sure' }),
-    ];
-    const patterns = detectErrorPatterns(makeNote(), history);
-    expect(patterns).not.toContain('lucky_correct');
-  });
-
-  it('does not detect lucky_correct for unsure but incorrect', () => {
-    const history: QuizResult[] = [
-      makeResult({ isCorrect: false, confidence: 'unsure' }),
-    ];
-    const patterns = detectErrorPatterns(makeNote(), history);
-    expect(patterns).not.toContain('lucky_correct');
-  });
-
-  it('does not detect lucky_correct when confidence is undefined (old data)', () => {
-    const history: QuizResult[] = [
-      makeResult({ isCorrect: true }),
-    ];
-    const patterns = detectErrorPatterns(makeNote(), history);
-    expect(patterns).not.toContain('lucky_correct');
-  });
 });

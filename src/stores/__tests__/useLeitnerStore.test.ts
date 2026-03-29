@@ -129,29 +129,12 @@ describe('useLeitnerStore', () => {
       expect(useLeitnerStore.getState().cards[0].box).toBe(5);
     });
 
-    it('confidence="unsure" + 정답이면 box가 올라가지 않는다', () => {
-      act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true, 'unsure');
-      });
-
-      const card = useLeitnerStore.getState().cards[0];
-      expect(card.box).toBe(1); // 그대로 유지
-    });
-
-    it('confidence="sure" + 정답이면 box가 정상 승급한다', () => {
-      act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true, 'sure');
-      });
-      expect(useLeitnerStore.getState().cards[0].box).toBe(2);
-    });
-
-    it('confidence="unsure" + 오답이면 box=1로 떨어진다', () => {
-      // 먼저 box 2로 올린다
+    it('오답이면 box=1로 떨어진다', () => {
       act(() => {
         useLeitnerStore.getState().answerCard('test-card', true); // 1->2
       });
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', false, 'unsure'); // 2->1
+        useLeitnerStore.getState().answerCard('test-card', false); // 2->1
       });
       expect(useLeitnerStore.getState().cards[0].box).toBe(1);
     });
@@ -420,31 +403,15 @@ describe('useLeitnerStore', () => {
       expect(due[0].id).toBe('new');
     });
 
-    it('unsure + 정답 반복은 box를 올리지 않는다', () => {
-      act(() => {
-        useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' }));
-        useLeitnerStore.getState().answerCard('c1', true, 'unsure');
-        useLeitnerStore.getState().answerCard('c1', true, 'unsure');
-        useLeitnerStore.getState().answerCard('c1', true, 'unsure');
-      });
-
-      expect(useLeitnerStore.getState().cards[0].box).toBe(1);
-    });
-
-    it('box 5 + unsure 정답 -> box 5 유지 (상한 + unsure 중복 적용)', () => {
+    it('정답 반복으로 box가 정상 승급한다', () => {
       act(() => {
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' }));
         useLeitnerStore.getState().answerCard('c1', true);
         useLeitnerStore.getState().answerCard('c1', true);
         useLeitnerStore.getState().answerCard('c1', true);
-        useLeitnerStore.getState().answerCard('c1', true); // box 5
       });
 
-      act(() => {
-        useLeitnerStore.getState().answerCard('c1', true, 'unsure');
-      });
-
-      expect(useLeitnerStore.getState().cards[0].box).toBe(5);
+      expect(useLeitnerStore.getState().cards[0].box).toBe(4);
     });
   });
 });

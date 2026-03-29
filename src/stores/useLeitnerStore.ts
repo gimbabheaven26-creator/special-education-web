@@ -66,7 +66,7 @@ export const useLeitnerStore = create<LeitnerStore>()(
         set((state) => ({ cards: [...state.cards, newCard] }));
       },
 
-      answerCard: (cardId, correct, confidence) => {
+      answerCard: (cardId, correct) => {
         set((state) => ({
           cards: state.cards.map((card) => {
             if (card.id !== cardId) return card;
@@ -75,10 +75,7 @@ export const useLeitnerStore = create<LeitnerStore>()(
             let newBox: 1 | 2 | 3 | 4 | 5;
 
             if (correct) {
-              // unsure + correct → stay in current box (no promotion)
-              newBox = confidence === 'unsure'
-                ? card.box
-                : (Math.min(card.box + 1, 5) as 1 | 2 | 3 | 4 | 5);
+              newBox = Math.min(card.box + 1, 5) as 1 | 2 | 3 | 4 | 5;
             } else {
               newBox = 1;
             }

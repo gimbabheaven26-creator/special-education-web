@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import type { QuizQuestion, Confidence } from '@/types/quiz';
+import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
@@ -18,13 +18,10 @@ const SCORE_TIERS = createScoreTiers([
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type { Confidence };
-
 export interface AnswerRecord {
   questionIndex: number;
   isCorrect: boolean;
   userAnswer: string | number;
-  confidence?: Confidence;
 }
 
 type QuestionTypeLabel = 'multiple' | 'ox' | 'fill_in' | 'descriptive' | 'scenario_composite';

@@ -147,14 +147,13 @@ describe('elaboration', () => {
 
   describe('shouldTriggerElaboration', () => {
     it('never triggers for incorrect answers', () => {
-      // Run many times — should always be false
       for (let i = 0; i < 100; i++) {
-        expect(shouldTriggerElaboration(false, 3, 'unsure')).toBe(false);
+        expect(shouldTriggerElaboration(false, 3)).toBe(false);
       }
     });
 
     it('returns boolean', () => {
-      const result = shouldTriggerElaboration(true, 1, undefined);
+      const result = shouldTriggerElaboration(true, 1);
       expect(typeof result).toBe('boolean');
     });
 
@@ -162,7 +161,7 @@ describe('elaboration', () => {
       let triggerCount = 0;
       const runs = 1000;
       for (let i = 0; i < runs; i++) {
-        if (shouldTriggerElaboration(true, 1, undefined)) {
+        if (shouldTriggerElaboration(true, 1)) {
           triggerCount++;
         }
       }
@@ -177,22 +176,11 @@ describe('elaboration', () => {
       let highDiffCount = 0;
       const runs = 5000;
       for (let i = 0; i < runs; i++) {
-        if (shouldTriggerElaboration(true, 1, undefined)) lowDiffCount++;
-        if (shouldTriggerElaboration(true, 3, undefined)) highDiffCount++;
+        if (shouldTriggerElaboration(true, 1)) lowDiffCount++;
+        if (shouldTriggerElaboration(true, 3)) highDiffCount++;
       }
       // difficulty 3 adds 10% more probability
       expect(highDiffCount).toBeGreaterThan(lowDiffCount);
-    });
-
-    it('unsure confidence increases trigger chance', () => {
-      let sureCount = 0;
-      let unsureCount = 0;
-      const runs = 5000;
-      for (let i = 0; i < runs; i++) {
-        if (shouldTriggerElaboration(true, 1, 'sure')) sureCount++;
-        if (shouldTriggerElaboration(true, 1, 'unsure')) unsureCount++;
-      }
-      expect(unsureCount).toBeGreaterThan(sureCount);
     });
   });
 });

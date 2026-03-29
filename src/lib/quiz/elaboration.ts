@@ -116,15 +116,13 @@ export function evaluateElaboration(
 export function shouldTriggerElaboration(
   isCorrect: boolean,
   difficulty: number,
-  confidence: 'sure' | 'unsure' | undefined,
 ): boolean {
   if (!isCorrect) return false;
 
-  // Higher chance for harder questions and unsure confidence
+  // Higher chance for harder questions
   let probability = 0.15;
   if (difficulty >= 2) probability += 0.05;
   if (difficulty >= 3) probability += 0.05;
-  if (confidence === 'unsure') probability += 0.15;
 
   return Math.random() < probability;
 }

@@ -13,7 +13,7 @@ function makeSession(
     subjectSlug: '행동수정',
     questionIds: ['q1', 'q2', 'q3', 'q4', 'q5'],
     answers: [
-      { questionIndex: 0, isCorrect: true, userAnswer: '정답', confidence: 'high' },
+      { questionIndex: 0, isCorrect: true, userAnswer: '정답' },
     ],
     skippedIndices: [],
     currentIndex: 1,
@@ -258,11 +258,11 @@ describe('session-recovery', () => {
       expect(loadSession('특수교육학')).not.toBeNull();
     });
 
-    it('skippedIndices와 confidence가 저장/복구된다', () => {
+    it('skippedIndices가 저장/복구된다', () => {
       const session = makeSession({
         skippedIndices: [2, 4],
         answers: [
-          { questionIndex: 0, isCorrect: true, userAnswer: '답', confidence: 'low' },
+          { questionIndex: 0, isCorrect: true, userAnswer: '답' },
         ],
       });
 
@@ -270,7 +270,6 @@ describe('session-recovery', () => {
       const loaded = loadSession('행동수정');
 
       expect(loaded!.skippedIndices).toEqual([2, 4]);
-      expect(loaded!.answers[0].confidence).toBe('low');
     });
 
     it('숫자 타입 userAnswer도 정확히 보존된다', () => {
