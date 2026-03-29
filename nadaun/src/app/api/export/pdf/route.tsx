@@ -93,11 +93,14 @@ export async function GET(request: NextRequest) {
       />,
     )
 
-    const filename = sanitizeFilename(plan.title) || 'IEP'
+    const safeName = sanitizeFilename(student?.name ?? '')
+    const safeSubject = sanitizeFilename(plan.subject)
+    const safeTitle = sanitizeFilename(plan.title) || 'IEP'
+    const filename = `IEP_${safeName}_${safeSubject}_${safeTitle}`
     return new Response(Buffer.from(buffer), {
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="IEP_${filename}.pdf"`,
+        'Content-Disposition': `attachment; filename="${filename}.pdf"`,
       },
     })
   } catch (err) {

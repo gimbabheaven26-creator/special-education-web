@@ -86,12 +86,15 @@ export async function GET(request: NextRequest) {
       (weeklyPlans ?? []) as WeeklyPlan[],
     )
 
-    const filename = sanitizeFilename(plan.title) || 'IEP'
+    const safeName = sanitizeFilename(studentName)
+    const safeSubject = sanitizeFilename(plan.subject)
+    const safeTitle = sanitizeFilename(plan.title) || 'IEP'
+    const filename = `IEP_${safeName}_${safeSubject}_${safeTitle}`
     return new Response(new Uint8Array(buffer), {
       headers: {
         'Content-Type':
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'Content-Disposition': `attachment; filename="IEP_${filename}.xlsx"`,
+        'Content-Disposition': `attachment; filename="${filename}.xlsx"`,
       },
     })
   } catch (err) {
