@@ -33,14 +33,16 @@ export function PlanExportToolbar({ plan, weeklyPlans }: PlanExportToolbarProps)
       />
       <a
         href={'/api/export/excel?planId=' + plan.id}
-        className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent"
+        download
+        className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         aria-label="IEP 계획을 Excel 파일로 다운로드"
       >
         Excel 다운로드
       </a>
       <a
         href={'/api/export/pdf?planId=' + plan.id}
-        className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent"
+        download
+        className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         aria-label="IEP 계획을 PDF 파일로 다운로드"
       >
         PDF 다운로드

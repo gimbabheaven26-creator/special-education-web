@@ -158,7 +158,7 @@ function PdfGoalsTable({ goals }: { goals: IepGoal[] }) {
       </View>
       {/* Rows */}
       {goals.map((goal, idx) => (
-        <View style={s.tableRow} key={goal.achievement_standard_id}>
+        <View style={s.tableRow} key={`${goal.achievement_standard_id}-${idx}`}>
           <View style={s.goalNumCell}>
             <Text style={s.cellText}>{idx + 1}</Text>
           </View>

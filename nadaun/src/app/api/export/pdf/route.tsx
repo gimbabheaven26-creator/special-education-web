@@ -6,9 +6,15 @@ import { createClient } from '@/lib/supabase/server'
 import { IepPdfDocument } from '@/lib/utils/pdf-document'
 import type { IepPlan, WeeklyPlan } from '@/types/students'
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+function sanitizeFilename(name: string): string {
+  return name.replace(/[^\w가-힣\s-]/g, '').slice(0, 100)
+}
+
 export async function GET(request: NextRequest) {
   const planId = request.nextUrl.searchParams.get('planId')
-  if (!planId) {
+  if (!planId || !UUID_RE.test(planId)) {
     return NextResponse.json(
       { error: '계획 ID가 필요합니다.' },
       { status: 400 },
@@ -67,10 +73,11 @@ export async function GET(request: NextRequest) {
       />,
     )
 
+    const filename = sanitizeFilename(plan.title) || 'IEP'
     return new Response(Buffer.from(buffer), {
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="IEP_${plan.title}.pdf"`,
+        'Content-Disposition': `attachment; filename="IEP_${filename}.pdf"`,
       },
     })
   } catch (err) {

@@ -45,14 +45,26 @@ export function CopyButton({ text, label, ariaLabel }: CopyButtonProps) {
     }, FEEDBACK_DURATION_MS)
   }, [text])
 
+  const liveMessage =
+    state === 'copied'
+      ? '클립보드에 복사되었습니다'
+      : state === 'failed'
+        ? '복사에 실패했습니다'
+        : ''
+
   return (
-    <Button
-      variant="outline"
-      size="sm"
-      aria-label={ariaLabel}
-      onClick={handleCopy}
-    >
-      {labelMap[state](label)}
-    </Button>
+    <>
+      <Button
+        variant="outline"
+        size="sm"
+        aria-label={ariaLabel}
+        onClick={handleCopy}
+      >
+        {labelMap[state](label)}
+      </Button>
+      <span role="status" aria-live="polite" className="sr-only">
+        {liveMessage}
+      </span>
+    </>
   )
 }
