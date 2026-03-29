@@ -1,3 +1,52 @@
+# X 세션 핸드오프 — 2026-03-29 (M1 UX 마무리 + nadaun Phase 3)
+
+## 이번 세션 완료 커밋
+
+| 커밋 | 내용 |
+|------|------|
+| `b759d31` | feat(nadaun): Phase 3 IEP Plan UI (4 components, 3 pages) |
+| `28850bb` | feat(ux): loading.tsx 10개 + 기출→개념 직링크 |
+| `7ee5591` | fix(ux): EmptyState icon prop + 3페이지 통합 + 테스트 타입 수정 |
+| `a590da8` | test(lib): study-planner, kice-analytics, community-db 단위 테스트 45건 |
+
+## 세션 컨텍스트
+- nadaun 3개 병렬 세션 중 3번째 — IEP Plan UI 전담 (다른 세션: 학생 CRUD, 내보내기)
+- SEW M1 kangseonsaeng 9항목 중 잔여 UX 갭 해소 (loading.tsx, concept links, EmptyState)
+- EmptyState API 변경: `icon?: ReactNode` prop 추가 (기본값 📚). 새 페이지 작성 시 Lucide 아이콘 전달 가능
+
+## 다음 X가 알아야 할 것
+
+### 테스트 현황 (2026-03-29)
+- **Vitest**: 43 suites, 755 tests 통과
+- **E2E**: 3 files, 36 tests (Playwright)
+- **합계**: 791 tests
+
+### 미테스트 src/lib/ 모듈 (커버리지 갭)
+| 파일 | 줄수 | 비고 |
+|------|------|------|
+| sync.ts | 190 | SyncManager, 네트워크 의존 |
+| concepts.ts | 174 | fs 의존, 파일 시스템 mock 필요 |
+| elaboration.ts | 130 | extractKeywords만 커버리지 있음 |
+| review-db.ts | 72 | Supabase 쿼리 |
+| profile.ts | 61 | 사용자 프로필 CRUD |
+
+### E2E 파일 충돌 주의
+다른 세션이 tests/e2e/ 3파일을 덮어씌운 흔적 있음. git HEAD 버전(5bbe69b)이 올바른 버전.
+
+### 린터 자동 수정
+- kice-analytics.test.ts: ExamEntry에 `filename` 필드 필요 (`label` 아님)
+- community-db.test.ts: 미사용 `MockQueryBuilder` import 제거됨
+
+## 현재 상태
+- `main` 브랜치, origin/main 동기화 완료, 빌드 통과
+
+## 미해결 항목
+- 위 미테스트 모듈 5개
+- QuizClient.tsx 642줄 (500줄 초과, Week 3 분할 후보)
+- nadaun Phase 5 완료 확인 (다른 세션 08adc6b)
+
+---
+
 # X 세션 핸드오프 — 2026-03-28 (M1 Day 5 + Week 2 인프라)
 
 ## 이번 세션 완료 커밋 (최신순)
