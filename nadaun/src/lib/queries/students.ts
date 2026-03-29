@@ -4,10 +4,12 @@ import type { Student, StudentWithIepCount, IepPlan, WeeklyPlan } from '@/types/
 
 /** Fetch teacher's students */
 export async function getStudents(): Promise<StudentWithIepCount[]> {
+  const teacherId = await getTeacherId()
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('students')
     .select('*')
+    .eq('teacher_id', teacherId)
     .order('name')
     .limit(10000)
 
@@ -20,6 +22,7 @@ export async function getStudents(): Promise<StudentWithIepCount[]> {
   const { data: plans } = await supabase
     .from('iep_plans')
     .select('student_id')
+    .eq('teacher_id', teacherId)
     .limit(10000)
 
   const countMap = new Map<string, number>()

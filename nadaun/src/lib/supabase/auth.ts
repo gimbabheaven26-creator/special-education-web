@@ -8,7 +8,10 @@ const E2E_TEACHER_ID = '00000000-0000-0000-0000-e2e000000001'
  * E2E_AUTH_BYPASS=true 환경에서는 더미 ID를 반환하여 인증 없이 테스트 가능.
  */
 export async function getTeacherId(): Promise<string> {
-  if (process.env.E2E_AUTH_BYPASS === 'true') {
+  if (
+    process.env.E2E_AUTH_BYPASS === 'true' &&
+    process.env.NODE_ENV !== 'production'
+  ) {
     return E2E_TEACHER_ID
   }
 
