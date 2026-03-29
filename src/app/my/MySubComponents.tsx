@@ -139,7 +139,9 @@ export function RecentWrongTab() {
               </span>
             )}
           </div>
-          <p className="text-sm line-clamp-2 text-foreground text-muted-foreground">{note.questionId}</p>
+          <p className="text-sm line-clamp-2 text-muted-foreground">
+            {note.chapter ?? note.subject}
+          </p>
         </Link>
       ))}
       <Link
