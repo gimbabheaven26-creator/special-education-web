@@ -6,7 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { Bookmark, Trash2 } from 'lucide-react';
+import { Bookmark, Trash2, Brain } from 'lucide-react';
+import { CONCEPTS_FOLDER_TO_SLUG } from '@/lib/content/concept-urls';
+
+/** bookmark.path에서 과목 slug 추출: /concepts/한글폴더/... → slug */
+function getSubjectSlugFromPath(path: string): string | null {
+  const match = path.match(/^\/concepts\/([^/]+)/);
+  if (!match) return null;
+  const folder = decodeURIComponent(match[1]);
+  return CONCEPTS_FOLDER_TO_SLUG[folder] ?? null;
+}
 
 export default function BookmarksPage() {
   const { bookmarks, removeBookmark } = useBookmarkStore();
@@ -58,7 +67,7 @@ export default function BookmarksPage() {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-3">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
                   <Badge variant="secondary">{bookmark.subject}</Badge>
                   <span>
@@ -69,6 +78,22 @@ export default function BookmarksPage() {
                     })}
                   </span>
                 </div>
+                {(() => {
+                  const slug = getSubjectSlugFromPath(bookmark.path);
+                  if (!slug) return null;
+                  return (
+                    <Button
+                      render={<Link href={`/quiz/${slug}`} />}
+                      variant="outline"
+                      size="sm"
+                      className="min-h-[44px] w-full"
+                      aria-label={`${bookmark.subject} 과목 퀴즈 풀기`}
+                    >
+                      <Brain className="h-4 w-4 mr-2" />
+                      이 과목 퀴즈 풀기
+                    </Button>
+                  );
+                })()}
               </CardContent>
             </Card>
           ))}
