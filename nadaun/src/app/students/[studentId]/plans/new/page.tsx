@@ -1,31 +1,16 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { getStudentById } from '@/lib/queries/students'
-import { createIepPlan } from '@/lib/actions/iep-plans'
-import { IepPlanForm } from '@/components/iep/iep-plan-form'
-import type { StandardForSelector } from '@/components/iep/standard-selector-dialog'
+import { IepPlanForm } from '@/components/plans/iep-plan-form'
 
 export default async function NewIepPlanPage({
   params,
 }: {
-  params: { studentId: string }
+  params: Promise<{ studentId: string }>
 }) {
-  const { studentId } = params
+  const { studentId } = await params
   const student = await getStudentById(studentId)
   if (!student) notFound()
-
-  const supabase = await createClient()
-  const { data: allStandards } = await supabase
-    .from('achievement_standards')
-    .select('id, subject, domain, domain_code, code, content')
-    .order('code')
-    .limit(10000)
-
-  const standards: StandardForSelector[] =
-    (allStandards ?? []) as StandardForSelector[]
-
-  const boundAction = createIepPlan.bind(null, student.id)
 
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-4">
@@ -41,11 +26,7 @@ export default async function NewIepPlanPage({
         새 IEP 계획 &mdash; {student.name}
       </h1>
 
-      <IepPlanForm
-        action={boundAction}
-        standards={standards}
-        submitLabel="저장"
-      />
+      <IepPlanForm studentId={student.id} />
     </div>
   )
 }
