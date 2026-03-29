@@ -11,6 +11,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // E2E 테스트 인증 우회 (테스트 환경 전용)
+  if (process.env.E2E_AUTH_BYPASS === 'true') {
+    return NextResponse.next()
+  }
+
   const response = NextResponse.next({
     request: { headers: request.headers },
   })
