@@ -28,8 +28,8 @@ export default function BookmarksPage() {
       ) : (
         <div className="space-y-4">
           <div className="flex justify-end">
-            <Button render={<Link href="/wrong-notes/quiz" />} size="sm">
-              북마크 퀴즈 풀기
+            <Button render={<Link href="/quiz" />} size="sm">
+              과목별 퀴즈 풀기
             </Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
