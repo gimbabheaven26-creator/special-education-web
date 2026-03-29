@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BookOpen, ChevronRight, FileText } from 'lucide-react';
-import { getAllSubjects, getSubjectFiles } from '@/lib/content/concepts';
+import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';
+import { SubjectProgress } from '@/components/chapter/SubjectProgress';
 
 export const metadata = {
   title: '개념학습 | 특수교육 공부방',
@@ -13,7 +14,8 @@ export default function ConceptsPage() {
   const subjectData = subjects.map((subject) => {
     const files = getSubjectFiles(subject);
     const totalKeywords = files.reduce((sum, f) => sum + f.kiceKeywords.length, 0);
-    return { subject, fileCount: files.length, totalKeywords };
+    const dbSlug = getDbSlugForFolder(subject);
+    return { subject, fileCount: files.length, totalKeywords, dbSlug };
   });
 
   const totalFiles = subjectData.reduce((sum, s) => sum + s.fileCount, 0);
@@ -35,7 +37,7 @@ export default function ConceptsPage() {
 
       {/* 과목 그리드 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {subjectData.map(({ subject, fileCount, totalKeywords }) => (
+        {subjectData.map(({ subject, fileCount, totalKeywords, dbSlug }) => (
           <Link
             key={subject}
             href={`/concepts/${encodeURIComponent(subject)}`}
@@ -45,7 +47,7 @@ export default function ConceptsPage() {
               <p className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
                 {subject}
               </p>
-              <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-2">
+              <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-2 flex-wrap">
                 <span className="flex items-center gap-1">
                   <FileText className="h-3 w-3" />
                   {fileCount}개 파일
@@ -53,6 +55,7 @@ export default function ConceptsPage() {
                 {totalKeywords > 0 && (
                   <span className="text-amber-600 dark:text-amber-400">기출 {totalKeywords}건</span>
                 )}
+                {dbSlug && <SubjectProgress subjectSlug={dbSlug} totalFiles={fileCount} />}
               </p>
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />

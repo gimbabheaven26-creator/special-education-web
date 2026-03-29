@@ -23,7 +23,8 @@ export function ChapterTracker({
   redirectUrl,
 }: ChapterTrackerProps) {
   const router = useRouter();
-  const [completed, setCompleted] = useState(false);
+  const alreadyCompleted = useStudyStore((s) => s.isChapterCompleted)(subjectSlug, chapterSlug);
+  const [completed, setCompleted] = useState(alreadyCompleted);
   const [showXP, setShowXP] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -48,7 +49,9 @@ export function ChapterTracker({
   const handleComplete = useCallback(() => {
     if (completed) return;
 
-    useStudyStore.getState().recordChapterComplete();
+    const store = useStudyStore.getState();
+    store.recordChapterComplete();
+    store.markChapterCompleted(subjectSlug, chapterSlug);
     setCompleted(true);
     setShowXP(true);
 
@@ -57,7 +60,7 @@ export function ChapterTracker({
       setShowXP(false);
       router.push(redirectUrl ?? `/subjects/${subjectSlug}`);
     }, 1500);
-  }, [completed, router, subjectSlug, redirectUrl]);
+  }, [completed, router, subjectSlug, chapterSlug, redirectUrl]);
 
   return (
     <div className="flex flex-col items-center gap-3 py-6">

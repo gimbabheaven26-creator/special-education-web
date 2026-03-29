@@ -4,6 +4,7 @@ import { ChevronRight, Tag, BookOpen, Calendar, Brain } from 'lucide-react';
 import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';
 import { getSubjectBySlug } from '@/lib/db';
 import LearningTimeline from '@/components/subjects/LearningTimeline';
+import { CompletionBadge } from '@/components/chapter/CompletionBadge';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -95,6 +96,7 @@ export default async function ConceptSubjectPage({ params }: Props) {
                   <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors truncate">
                     {file.title}
                   </p>
+                  {dbSlug && <CompletionBadge subjectSlug={dbSlug} chapterSlug={file.slug} />}
                 </div>
                 {file.description && (
                   <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 ml-5">
