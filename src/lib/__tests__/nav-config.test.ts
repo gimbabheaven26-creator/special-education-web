@@ -46,8 +46,12 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/concepts/시각장애')).toBe('practice');
   });
 
-  it('/kice/exam → null (네비에서 제거됨, /practice 허브에서 진입)', () => {
-    expect(getActiveGroupId('/kice/exam')).toBeNull();
+  it('/kice/exam → metacognition (/kice가 내 기록 항목)', () => {
+    expect(getActiveGroupId('/kice/exam')).toBe('metacognition');
+  });
+
+  it('/my → metacognition (내 기록 허브)', () => {
+    expect(getActiveGroupId('/my')).toBe('metacognition');
   });
 
   it('/kice/analytics → metacognition', () => {
