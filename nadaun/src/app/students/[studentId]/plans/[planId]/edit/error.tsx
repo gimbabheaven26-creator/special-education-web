@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect } from 'react'
+
 import { Button } from '@/components/ui/button'
 
 export default function EditPlanError({
@@ -9,6 +11,8 @@ export default function EditPlanError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  useEffect(() => { void error }, [error])
+
   return (
     <div
       role="alert"

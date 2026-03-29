@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect } from 'react'
+
 import { Button } from '@/components/ui/button'
 
 export default function RootError({
@@ -9,6 +11,8 @@ export default function RootError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  useEffect(() => { void error }, [error])
+
   return (
     <div
       role="alert"
