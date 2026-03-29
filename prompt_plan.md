@@ -33,39 +33,39 @@
 - [x] `/concepts`, `/flashcards` error.tsx 추가 (f88e8b5)
 - [x] 빌드 깨짐 복구 — lib 모듈 이동 후 재수출 6개 (f88e8b5, 47acf8f)
 - [ ] `/flashcards` 빈 스토어 시 빈 상태 UI 추가
-- [ ] `/interactive` description 추가 (nav-config에 비어있음)
+- [x] `/interactive` description 추가 — nav-config + practice-hub 동기화 (5609067)
 - [ ] 홈 DailyReviewCard / AiBriefingCard 데이터 없을 때 빈 상태 처리 확인
 
 ## Phase 2: 실력쌓기 체감 개선 (현재 <20% → 50%+)
 
 > 카이란 리뷰 기반. 피드백 오면 이 Phase 항목을 구체화.
 
-- [ ] `/practice-hub` 허브 페이지 재설계 — 진입점이 명확하지 않음
-- [ ] `/interactive` 콘텐츠 대폭 확장 — 현재 3개 하드코딩 → 최소 10+
+- [x] `/practice-hub` 허브 페이지 재설계 — 4카드 2x2 그리드 + 시나리오 추가 (5609067)
+- [x] `/interactive` 콘텐츠 대폭 확장 — 3→9 활동 (검사도구·법령3조·교수적수정·UDL·PBS·전환교육) (5609067)
 - [ ] `/concepts` 학습 완료 추적 기능 — 읽었는지 알 수 없음
 - [ ] `/worksheets` 접근성 개선 — 토픽이 뭔지 사용자가 이해할 수 있는가
 - [ ] `/daily` 완료 후 피드백/요약 화면 개선
-- [ ] `/scenarios` 콘텐츠 확장 + "실력쌓기" 탭으로 이동 검토
+- [x] `/scenarios` "실력쌓기" 탭으로 이동 완료 (5609067)
 
 ## Phase 3: 내기록 체감 개선 (현재 <20% → 50%+)
 
 > 카이란 리뷰 기반. 피드백 오면 이 Phase 항목을 구체화.
 
 - [ ] `/my` 마이페이지 — 기능 카드 8개의 실제 동작 확인, 비어있는 것 정리
-- [ ] `/stats` — 데이터 없을 때도 의미 있는 화면 (0문제 풀었어도 안내)
+- [x] `/stats` — EmptyState + CTA 구현 완료 (이전 세션)
 - [ ] `/wrong-notes` — SRS 모드 실제 동작 확인 + UX 개선
 - [ ] `/bookmarks` — 북마크한 챕터로 바로 퀴즈 시작 기능 (전용 퀴즈 페이지)
-- [ ] `/mastery` — 퀴즈 0건일 때 안내 + 시작 유도
+- [x] `/mastery` — EmptyState + 퀴즈 시작 CTA 구현 완료 (이전 세션)
 - [ ] `/flashcards` — 카드 0개일 때 빈 상태 + 추가 유도
 
 ## Phase 4: 함께하기 체감 개선 (현재 <20% → 50%+)
 
 > 카이란 리뷰 기반. 피드백 오면 이 Phase 항목을 구체화.
 
-- [ ] 네비 재구성 — `/scenarios`를 "실력쌓기"로 이동, `/reviews`는 관리자 전용이므로 일반 사용자에게 안 보이게
+- [x] 네비 재구성 — `/scenarios`→실력쌓기, `/reviews`→네비 제거 (5609067)
 - [ ] `/community` — 콘텐츠가 부족할 때 어떻게 보이는지 확인
 - [ ] `/community/create` — 문제 만들기 UX 개선 (현재 사용성 확인 필요)
-- [ ] 함께하기 탭 정체성 재정의 — 현재 커뮤니티+리뷰+시뮬레이션 혼합
+- [x] 함께하기 탭 정체성 재정의 — 커뮤니티 단독 탭으로 정리 (5609067)
 
 ## Phase 5: 진단평가 체감 개선 (현재 50% → 70%+)
 
