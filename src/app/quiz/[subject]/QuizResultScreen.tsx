@@ -2,30 +2,26 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import type { QuizQuestion, Confidence } from '@/types/quiz';
+import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { getConceptUrl } from '@/lib/content/concept-urls';
+import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 
-// ─── Score Tiers ─────────────────────────────────────────────────────────────
-
-const SCORE_TIERS = [
-  { min: 91, emoji: '🏆', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800', message: '거의 완벽해요! 다른 영역도 도전해볼까요?' },
-  { min: 61, emoji: '💪', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800', message: '잘하고 있어요! 놓친 몇 문제만 정리하면 이 영역은 거의 완성이에요.' },
-  { min: 31, emoji: '🌱', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800', message: '감이 잡히기 시작했어요! 틀린 문제를 중심으로 다시 보면 빠르게 오를 거예요.' },
-  { min: 0, emoji: '📖', color: 'text-slate-600 dark:text-slate-400', bg: 'bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800', message: '아직 익숙하지 않은 영역이에요. 괜찮아요, 틀린 문제부터 다시 보면 금방 감이 올 거예요.' },
-];
+const SCORE_TIERS = createScoreTiers([
+  '거의 완벽해요! 다른 영역도 도전해볼까요?',
+  '잘하고 있어요! 놓친 몇 문제만 정리하면 이 영역은 거의 완성이에요.',
+  '감이 잡히기 시작했어요! 틀린 문제를 중심으로 다시 보면 빠르게 오를 거예요.',
+  '아직 익숙하지 않은 영역이에요. 괜찮아요, 틀린 문제부터 다시 보면 금방 감이 올 거예요.',
+]);
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-
-export type { Confidence };
 
 export interface AnswerRecord {
   questionIndex: number;
   isCorrect: boolean;
   userAnswer: string | number;
-  confidence?: Confidence;
 }
 
 type QuestionTypeLabel = 'multiple' | 'ox' | 'fill_in' | 'descriptive' | 'scenario_composite';
@@ -276,8 +272,7 @@ export function QuizResultScreen({
           )}
         </p>
         {(() => {
-          const tier = SCORE_TIERS.find((t) => rate >= t.min);
-          if (!tier) return null;
+          const tier = getScoreTier(rate, SCORE_TIERS);
           return (
             <div className={`mt-3 mx-auto max-w-sm rounded-xl border px-4 py-3 ${tier.bg}`}>
               <span className="text-2xl mr-2" aria-hidden="true">{tier.emoji}</span>

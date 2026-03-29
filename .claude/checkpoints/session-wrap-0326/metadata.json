@@ -1,0 +1,23 @@
+{
+  "name": "session-wrap-0326",
+  "timestamp": "2026-03-27T02:31:24Z",
+  "branch": "main",
+  "commit": "dc3362f",
+  "files": [
+    "public/sw.js",
+    "src/components/layout/BottomTabBar.tsx",
+    "src/components/ui/EmptyState.tsx"
+  ],
+  "stats": {
+    "additions": 4,
+    "deletions": 3,
+    "files_changed": 3,
+    "untracked_count": 72
+  },
+  "tags": ["session-wrap", "pre-unification"],
+  "auto": false,
+  "description": "3/26 X+V 통합 상담 세션 종료 시점. session-context.md + handoff + 학습 기록 저장 완료. 3/27 에이전트 통합 실행 직전 상태.",
+  "v6_metadata": {
+    "security_status": "pass"
+  }
+}

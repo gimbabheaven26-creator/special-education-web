@@ -1,0 +1,27 @@
+{
+  "version": "v6",
+  "created": "2026-03-25T23:45:22+09:00",
+  "commit": "056c6d6",
+  "branch": "main",
+  "items": [
+    {"id": 1, "category": "데이터", "text": "퀴즈 챕터 참조 정상 — /quiz/ox, /quiz/short에서 과목 선택 후 퀴즈 로딩 확인", "done": false},
+    {"id": 2, "category": "데이터", "text": "4과목(시각/청각/지체/의사소통) 퀴즈 정상 — 각 과목에서 OX퀴즈 1문제 이상 풀기", "done": false},
+    {"id": 3, "category": "데이터", "text": "워크시트 4과목 표시 — /worksheets 페이지에서 시각/청각/지체/의사소통 토픽 노출 확인", "done": false},
+    {"id": 4, "category": "데이터", "text": "워크시트 문항 로딩 — 각 신규 토픽 클릭 시 15문항 표시 확인", "done": false},
+    {"id": 5, "category": "데이터", "text": "기존 7과목 퀴즈 영향 없음 — introduction, laws, assessment 등 기존 과목 퀴즈 정상", "done": false},
+    {"id": 6, "category": "DB", "text": "Supabase에서 quiz_questions 2750건 확인 (subject 필터 테스트)", "done": false},
+    {"id": 7, "category": "DB", "text": "worksheet_topics 44개, worksheet_questions 376개 확인", "done": false},
+    {"id": 8, "category": "DB", "text": "FK 제약 5건 적용 (SQL Editor에서 add-fk-constraints.sql 실행)", "done": false},
+    {"id": 9, "category": "환경-localhost", "text": "npm run dev 정상 실행", "done": false},
+    {"id": 10, "category": "환경-localhost", "text": "콘솔 에러 없음", "done": false},
+    {"id": 11, "category": "환경-production", "text": "Vercel 자동 배포 완료 확인", "done": false},
+    {"id": 12, "category": "환경-production", "text": "/quiz/ox 페이지 정상 로딩", "done": false},
+    {"id": 13, "category": "환경-production", "text": "/worksheets 페이지 신규 토픽 표시", "done": false}
+  ],
+  "completion": "0%",
+  "warnings": [
+    "FK 제약은 Supabase SQL Editor에서 수동 실행 필요",
+    "emotional-behavioral 과목 삭제 여부 미결",
+    "vi-q* 퀴즈 34건 선택지 5개 수정 여부 미결"
+  ]
+}

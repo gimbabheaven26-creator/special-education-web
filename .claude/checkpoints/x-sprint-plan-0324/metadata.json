@@ -1,0 +1,36 @@
+{
+  "name": "x-sprint-plan-0324",
+  "timestamp": "2026-03-24T14:21:03Z",
+  "branch": "main",
+  "commit": "c749376",
+  "description": "X 세션: 1기 최종 스프린트 계획 확정 + 에이전트 지시서 4건 + 프로젝트 메모리 복원 + 노션 업로드 + main 머지 완료",
+  "files": [
+    "prompt_plan.md",
+    ".claude/commands/auto-kangseonsaeng-m1.md",
+    ".claude/commands/auto-cloodi-m1.md",
+    ".claude/commands/auto-prime-notion.md",
+    ".claude/commands/review-v-final.md"
+  ],
+  "memory_files": [
+    "~/.claude/projects/-Users-gihoonkim-Projects-special-education-web/memory/session-context.md",
+    "~/.claude/projects/-Users-gihoonkim-Projects-special-education-web/memory/x-review-report.md",
+    "~/.claude/projects/-Users-gihoonkim-Projects-special-education-web/memory/sprint-plan.md",
+    "~/.claude/projects/-Users-gihoonkim-Projects-special-education-web/memory/MEMORY.md"
+  ],
+  "notion_pages": [
+    "https://www.notion.so/32dd10348f3f815583d3e8c89f5550c7"
+  ],
+  "lilys_sync": "~/Documents/sew ideas/0324/ (8 files)",
+  "stats": {
+    "additions": 421,
+    "deletions": 130,
+    "files_changed": 5,
+    "untracked_count": 68
+  },
+  "tags": ["sprint-plan", "m0-complete", "pre-m1"],
+  "auto": false,
+  "v6_metadata": {
+    "security_status": "unknown",
+    "session_context": "X 정체성 복원 + relaxed-borg/2eba4337 세션 맥락 추출 + 5대 합의 + 3주 스프린트 M0~M4 확정 + 에이전트 팀 (프라임/강선생/클루디/V) 지시서 배포 + 노션 업로드 + lilys 동기화 규칙 생성"
+  }
+}

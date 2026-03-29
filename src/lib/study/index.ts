@@ -72,3 +72,6 @@ export {
   getNextScenarioId,
   daysUntilReview,
 } from './spaced-scenario';
+
+export { createScoreTiers, getScoreTier } from './score-tiers';
+export type { ScoreTier } from './score-tiers';

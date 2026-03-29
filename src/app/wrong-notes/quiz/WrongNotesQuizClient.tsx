@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
-import type { Confidence, QuizQuestion } from '@/types/quiz';
+import type { QuizQuestion } from '@/types/quiz';
 import { Badge } from '@/components/ui/badge';
+import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -19,7 +20,6 @@ import {
 } from '@/app/quiz/[subject]/QuestionCard';
 import { XPToast } from '@/app/quiz/[subject]/ProgressDots';
 import { ComboIndicator } from '@/components/quiz/ComboIndicator';
-import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/study/xp-constants';
 
 interface QuizAnswer {
@@ -44,12 +44,12 @@ interface WrongNotesQuizClientProps {
   readonly allQuestions: readonly QuizQuestion[];
 }
 
-const WRONG_QUIZ_TIERS = [
-  { min: 91, emoji: '🏆', message: '거의 완벽하게 극복했어요! 이 오답들은 이제 실력이에요.' },
-  { min: 61, emoji: '💪', message: '많이 잡았어요! 나머지 몇 문제만 정리하면 될 거예요.' },
-  { min: 31, emoji: '🌱', message: '조금씩 감이 오고 있어요. 틀린 문제를 다시 보면 빠르게 올라요.' },
-  { min: 0, emoji: '📖', message: '아직 어려운 문제들이에요. 해설을 꼼꼼히 보고 다시 도전해봐요!' },
-];
+const WRONG_QUIZ_TIERS = createScoreTiers([
+  '거의 완벽하게 극복했어요! 이 오답들은 이제 실력이에요.',
+  '많이 잡았어요! 나머지 몇 문제만 정리하면 될 거예요.',
+  '조금씩 감이 오고 있어요. 틀린 문제를 다시 보면 빠르게 올라요.',
+  '아직 어려운 문제들이에요. 해설을 꼼꼼히 보고 다시 도전해봐요!',
+]);
 
 /** "2024 전공A 11번" → "2024년도 기출 A형 11번" / "...동형" → "2024 A-11 동형" */
 function formatSourceBadge(source: string): { label: string; variant: 'kice' | 'similar' | 'none' } {
@@ -85,7 +85,6 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
   const [finished, setFinished] = useState(false);
   const [comboStreak, setComboStreak] = useState(0);
-  const [confidence, setConfidence] = useState<Confidence>('sure');
   const [xpEarned, setXpEarned] = useState(0);
   const [xpToast, setXpToast] = useState<{ amount: number; visible: boolean }>({
     amount: 0,
@@ -117,7 +116,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
       // Record in study store (XP, streak, daily stats)
       recordQuizResult(isCorrect);
 
-      // Record in quiz store (history) with confidence
+      // Record in quiz store (history)
       addQuizResult({
         questionId: currentNote.questionId,
         userAnswer,
@@ -125,19 +124,14 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
         timestamp: Date.now(),
         subject: currentNote.question.subject,
         chapter: currentNote.question.chapter,
-        confidence,
       });
 
       if (isCorrect) {
         markMastered(currentNote.questionId);
-        // 정답 시 Leitner 박스 상승
-        useLeitnerStore.getState().answerCard(currentNote.questionId, true, confidence ?? undefined);
+        useLeitnerStore.getState().answerCard(currentNote.questionId, true);
       } else {
         addWrongNote(currentNote.question, userAnswer);
       }
-
-      // Reset confidence for next question
-      setConfidence('sure');
 
       // Combo tracking
       const newCombo = isCorrect ? comboStreak + 1 : 0;
@@ -158,7 +152,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
         setCurrentIndex((prev) => prev + 1);
       }
     },
-    [currentNote, answers, currentIndex, questions.length, comboStreak, confidence, markMastered, addWrongNote, recordQuizResult, addQuizResult, showXPToast],
+    [currentNote, answers, currentIndex, questions.length, comboStreak, markMastered, addWrongNote, recordQuizResult, addQuizResult, showXPToast],
   );
 
   // Empty state
@@ -201,7 +195,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
 
         {/* 감성 피드백 */}
         {(() => {
-          const tier = WRONG_QUIZ_TIERS.find((t) => rate >= t.min);
+          const tier = getScoreTier(rate, WRONG_QUIZ_TIERS);
           if (!tier) return null;
           return (
             <div className="flex flex-col items-center text-center space-y-2">
@@ -362,8 +356,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between">
-        <ConfidenceToggle value={confidence} onChange={setConfidence} />
+      <div className="flex items-center justify-end">
         <div className="flex items-center gap-2">
           <Link
             href={`/concepts/${encodeURIComponent(subjectTitleMap[question.subject] || question.subject)}`}

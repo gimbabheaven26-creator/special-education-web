@@ -6,7 +6,7 @@ import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { shuffle } from '@/lib/array-utils';
-import type { AnswerRecord, Confidence } from './QuizResultScreen';
+import type { AnswerRecord } from './QuizResultScreen';
 import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/study/xp-constants';
 import type { SessionConfig, SessionPreset } from './SessionSetup';
 import { saveSession, loadSession, clearSession, type SavedSession } from '@/lib/quiz/session-recovery';
@@ -83,7 +83,6 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
   const [currentPreset, setCurrentPreset] = useState<SessionPreset>('review');
   const [currentQuestionCount, setCurrentQuestionCount] = useState(10);
   const [comboStreak, setComboStreak] = useState(0);
-  const [confidence, setConfidence] = useState<Confidence>('sure');
 
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
@@ -205,8 +204,9 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
 
     setActiveQuestions(restored);
     setAnswers(savedSession.answers.map((a) => ({
-      ...a,
-      confidence: (a.confidence as Confidence) ?? 'sure',
+      questionIndex: a.questionIndex,
+      isCorrect: a.isCorrect,
+      userAnswer: a.userAnswer,
     })));
     setSkipped(new Set(savedSession.skippedIndices));
     setCurrentIndex(savedSession.currentIndex);
@@ -289,7 +289,6 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
       questionIndex: currentIndex,
       isCorrect,
       userAnswer: _answer,
-      confidence,
     };
     const updatedAnswers = [...answers, newAnswer];
 
@@ -304,7 +303,6 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
       timestamp: Date.now(),
       subject: currentQ.subject,
       chapter: currentQ.chapter,
-      confidence,
       ...(currentSessionId != null ? { sessionId: currentSessionId } : {}),
     });
 
@@ -322,9 +320,6 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
         });
       }
     }
-
-    // Reset confidence for next question
-    setConfidence('sure');
 
     // Combo tracking
     const newCombo = isCorrect ? comboStreak + 1 : 0;
@@ -376,8 +371,6 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
     xpEarned,
     xpToast,
     comboStreak,
-    confidence,
-    setConfidence,
     savedSession,
     filteredQuestions,
 

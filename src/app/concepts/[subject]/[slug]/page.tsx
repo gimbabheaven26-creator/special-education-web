@@ -5,7 +5,6 @@ import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 import { ChevronLeft, ChevronRight, BookOpen, Tag, Calendar } from 'lucide-react';
 import { getMDXContent, getAllSubjects, getSubjectFiles, getDbSlugForFolder, getConceptUrl } from '@/lib/content/concepts';
-import { getSubjectBySlug } from '@/lib/db';
 import { StepGuide, FillBlank, MatchingExercise } from '@/components/mdx';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';
 import { BookmarkButton } from '@/components/chapter/BookmarkButton';
@@ -36,9 +35,8 @@ export default async function ConceptSlugPage({ params }: Props) {
 
   const { title, description, kiceKeywords, lastUpdated, content, prev, next } = conceptData;
 
-  // DB subject 조회: ChapterTracker, BookmarkButton용
+  // DB slug 매핑만 사용 (Supabase 미호출 — 순수 정적)
   const dbSlug = getDbSlugForFolder(decodedSubject);
-  const dbSubject = dbSlug ? await getSubjectBySlug(dbSlug) : null;
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-8">
@@ -74,11 +72,11 @@ export default async function ConceptSlugPage({ params }: Props) {
         </div>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-foreground leading-tight">{title}</h1>
-          {dbSubject && (
+          {dbSlug && (
             <BookmarkButton
               path={`/concepts/${encodeURIComponent(decodedSubject)}/${encodeURIComponent(decodedSlug)}`}
               title={title}
-              subject={dbSubject.title}
+              subject={decodedSubject}
             />
           )}
         </div>
@@ -131,10 +129,10 @@ export default async function ConceptSlugPage({ params }: Props) {
       </div>
 
       {/* 학습 완료 트래커 */}
-      {dbSubject && dbSlug && (
+      {dbSlug && (
         <ChapterTracker
           subjectSlug={dbSlug}
-          subjectTitle={dbSubject.title}
+          subjectTitle={decodedSubject}
           chapterSlug={decodedSlug}
           chapterTitle={title}
           redirectUrl={getConceptUrl(dbSlug)}

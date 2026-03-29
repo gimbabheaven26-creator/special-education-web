@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, XCircle, RotateCcw } from 'lucide-react';
+import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 
 const BOX_LABELS: Record<number, string> = {
   1: '1단계',
@@ -16,12 +17,12 @@ const BOX_LABELS: Record<number, string> = {
   5: '마스터',
 };
 
-const SRS_RESULT_TIERS = [
-  { min: 91, emoji: '🏆', message: '거의 완벽한 복습이었어요! 내일도 꾸준히!' },
-  { min: 61, emoji: '💪', message: '잘하고 있어요! 틀린 카드는 내일 다시 나와요.' },
-  { min: 31, emoji: '🌱', message: '조금씩 자라고 있어요. 매일 하면 금방 올라요!' },
-  { min: 0, emoji: '📖', message: '괜찮아요! 반복할수록 기억에 남아요.' },
-];
+const SRS_RESULT_TIERS = createScoreTiers([
+  '거의 완벽한 복습이었어요! 내일도 꾸준히!',
+  '잘하고 있어요! 틀린 카드는 내일 다시 나와요.',
+  '조금씩 자라고 있어요. 매일 하면 금방 올라요!',
+  '괜찮아요! 반복할수록 기억에 남아요.',
+]);
 
 export default function SrsReviewMode() {
   const getDueCards = useLeitnerStore((s) => s.getDueCards);
@@ -127,7 +128,7 @@ export default function SrsReviewMode() {
   if (sessionFinished) {
     const correctCount = sessionResults.filter((r) => r.correct).length;
     const rate = sessionResults.length > 0 ? Math.round((correctCount / sessionResults.length) * 100) : 0;
-    const tier = SRS_RESULT_TIERS.find((t) => rate >= t.min);
+    const tier = getScoreTier(rate, SRS_RESULT_TIERS);
 
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">

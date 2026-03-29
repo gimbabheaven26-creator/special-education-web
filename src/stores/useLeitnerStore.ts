@@ -34,7 +34,7 @@ function todayStr(): string {
 interface LeitnerStore {
   cards: LeitnerCard[];
   addCard: (card: Omit<LeitnerCard, 'box' | 'lastReviewed' | 'nextReview' | 'createdAt'>) => void;
-  answerCard: (cardId: string, correct: boolean, confidence?: 'sure' | 'unsure') => void;
+  answerCard: (cardId: string, correct: boolean) => void;
   getDueCards: (subjectSlug?: string) => LeitnerCard[];
   getCardsByBox: (box: number) => LeitnerCard[];
   getStats: () => {

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Sun, Moon, BookOpen, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -38,6 +38,8 @@ function ThemeToggle() {
 function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isActive: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const touchedRef = useRef(false);
+  const router = useRouter();
   const Icon = group.icon;
 
   useEffect(() => {
@@ -50,19 +52,21 @@ function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isAct
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  const masterHref = group.href ?? group.items[0].href;
+
   return (
     <div
       ref={ref}
       className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={() => { if (!touchedRef.current) setOpen(true); }}
+      onMouseLeave={() => { touchedRef.current = false; setOpen(false); }}
       onBlur={(e) => {
         if (!ref.current?.contains(e.relatedTarget as Node)) setOpen(false);
       }}
     >
-      {/* 상위 메뉴 — Link로 첫 번째 항목으로 이동 */}
+      {/* 상위 메뉴 — 터치: 즉시 이동, 마우스: hover로 드롭다운 */}
       <Link
-        href={group.href ?? group.items[0].href}
+        href={masterHref}
         className={`flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
           isActive
             ? 'text-primary bg-primary/10'
@@ -72,6 +76,13 @@ function NavDropdown({ group, isActive }: { group: (typeof NAV_GROUPS)[0]; isAct
         aria-expanded={open}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setOpen(false);
+        }}
+        onTouchEnd={(e) => {
+          // 터치 디바이스: 첫 탭에 즉시 이동 (hover 드롭다운 우회)
+          e.preventDefault();
+          touchedRef.current = true;
+          setOpen(false);
+          router.push(masterHref);
         }}
         onClick={() => setOpen(false)}
       >

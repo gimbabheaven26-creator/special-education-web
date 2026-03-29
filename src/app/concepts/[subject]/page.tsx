@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, Tag, BookOpen, Calendar, Brain } from 'lucide-react';
 import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';
-import { getSubjectBySlug } from '@/lib/db';
 import LearningTimeline from '@/components/subjects/LearningTimeline';
 import { CompletionBadge } from '@/components/chapter/CompletionBadge';
 import { buttonVariants } from '@/components/ui/button';
@@ -31,9 +30,15 @@ export default async function ConceptSubjectPage({ params }: Props) {
   const files = getSubjectFiles(decodedSubject);
   if (files.length === 0) notFound();
 
-  // DB subject 조회: 존재하면 LearningTimeline 렌더
+  // DB slug → 퀴즈 링크·타임라인용 (Supabase 미호출 — 순수 정적)
   const dbSlug = getDbSlugForFolder(decodedSubject);
-  const dbSubject = dbSlug ? await getSubjectBySlug(dbSlug) : null;
+  const chapters = files.map((f) => ({
+    slug: f.slug,
+    title: f.title,
+    description: f.description,
+    keywords: f.kiceKeywords,
+    order: f.order,
+  }));
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -55,11 +60,11 @@ export default async function ConceptSubjectPage({ params }: Props) {
         <span className="text-xs text-muted-foreground">{files.length}개 파일</span>
       </div>
 
-      {/* 퀴즈 진입점 (DB subject 존재 시) */}
-      {dbSubject && (
+      {/* 퀴즈 진입점 (DB slug 매핑 존재 시) */}
+      {dbSlug && (
         <div className="mb-6">
           <Link
-            href={`/quiz/${dbSubject.slug}`}
+            href={`/quiz/${dbSlug}`}
             className={cn(buttonVariants({ variant: 'default' }), 'gap-2')}
           >
             <Brain className="h-4 w-4" />
@@ -68,12 +73,12 @@ export default async function ConceptSubjectPage({ params }: Props) {
         </div>
       )}
 
-      {/* 학습 타임라인 (DB subject 존재 시) */}
-      {dbSubject && (
+      {/* 학습 타임라인 (DB slug 매핑 존재 시) */}
+      {dbSlug && (
         <div className="mb-8">
           <LearningTimeline
-            subjectSlug={dbSubject.slug}
-            chapters={dbSubject.chapters}
+            subjectSlug={dbSlug}
+            chapters={chapters}
             conceptsFolder={decodedSubject}
           />
         </div>

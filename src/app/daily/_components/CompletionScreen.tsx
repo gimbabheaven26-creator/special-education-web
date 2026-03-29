@@ -5,13 +5,14 @@ import { AlertTriangle } from 'lucide-react';
 import { RecommendedChapters } from '@/components/RecommendedChapters';
 import type { DailyQuestion } from '@/types/daily';
 import { OX_COUNT, FILL_IN_COUNT, DESCRIPTIVE_COUNT } from '@/types/daily';
+import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 
-const DAILY_TIERS = [
-  { min: 91, emoji: '🏆', message: '거의 완벽해요! 오늘 학습 내용이 확실히 정리됐네요.', bg: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800' },
-  { min: 61, emoji: '💪', message: '좋은 흐름이에요! 놓친 문제만 정리하면 더 완벽해질 거예요.', bg: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800' },
-  { min: 31, emoji: '🌱', message: '감이 잡히기 시작했어요! 틀린 문제 위주로 복습하면 빠르게 성장할 거예요.', bg: 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800' },
-  { min: 0, emoji: '📖', message: '오늘 학습을 완료한 것 자체가 큰 진전이에요. 꾸준히 하면 반드시 올라요!', bg: 'bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800' },
-];
+const DAILY_TIERS = createScoreTiers([
+  '거의 완벽해요! 오늘 학습 내용이 확실히 정리됐네요.',
+  '좋은 흐름이에요! 놓친 문제만 정리하면 더 완벽해질 거예요.',
+  '감이 잡히기 시작했어요! 틀린 문제 위주로 복습하면 빠르게 성장할 거예요.',
+  '오늘 학습을 완료한 것 자체가 큰 진전이에요. 꾸준히 하면 반드시 올라요!',
+]);
 
 export function CompletionScreen({
   timeslotLabel,
@@ -29,7 +30,7 @@ export function CompletionScreen({
   ).length;
   const oxTotal = oxQuestions.length;
   const oxPct = oxTotal > 0 ? Math.round((oxCorrect / oxTotal) * 100) : 0;
-  const tier = DAILY_TIERS.find((t) => oxPct >= t.min) ?? DAILY_TIERS[DAILY_TIERS.length - 1];
+  const tier = getScoreTier(oxPct, DAILY_TIERS);
   const uniqueWrongChapters = Array.from(new Set(wrongChapters));
 
   return (

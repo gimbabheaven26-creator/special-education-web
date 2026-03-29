@@ -7,7 +7,8 @@ import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { CONCEPTS_FOLDER_TO_SLUG } from '@/lib/content/concept-urls';
-import type { Confidence, QuizQuestion } from '@/types/quiz';
+import type { QuizQuestion } from '@/types/quiz';
+import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +24,6 @@ import {
 } from '@/app/quiz/[subject]/QuestionCard';
 import { XPToast } from '@/app/quiz/[subject]/ProgressDots';
 import { ComboIndicator } from '@/components/quiz/ComboIndicator';
-import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/study/xp-constants';
 import { useMounted } from '@/hooks/useMounted';
 
@@ -33,12 +33,12 @@ interface BookmarkQuizClientProps {
   readonly allQuestions: readonly QuizQuestion[];
 }
 
-const BOOKMARK_QUIZ_TIERS = [
-  { min: 91, emoji: '🏆', message: '북마크한 챕터를 거의 완벽하게 소화했어요!' },
-  { min: 61, emoji: '💪', message: '잘하고 있어요! 몇 개만 더 정리하면 될 거예요.' },
-  { min: 31, emoji: '🌱', message: '조금씩 감을 잡고 있어요. 개념을 다시 보면 빠르게 올라요.' },
-  { min: 0, emoji: '📖', message: '북마크한 챕터를 개념학습에서 다시 읽어보면 도움이 될 거예요!' },
-];
+const BOOKMARK_QUIZ_TIERS = createScoreTiers([
+  '북마크한 챕터를 거의 완벽하게 소화했어요!',
+  '잘하고 있어요! 몇 개만 더 정리하면 될 거예요.',
+  '조금씩 감을 잡고 있어요. 개념을 다시 보면 빠르게 올라요.',
+  '북마크한 챕터를 개념학습에서 다시 읽어보면 도움이 될 거예요!',
+]);
 
 /** bookmark.path에서 { subjectSlug, chapterSlug } 추출 */
 function parseBookmarkPath(path: string): { subjectSlug: string; chapterSlug: string } | null {
@@ -85,7 +85,6 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
   const [answers, setAnswers] = useState<{ questionId: string; isCorrect: boolean }[]>([]);
   const [finished, setFinished] = useState(false);
   const [comboStreak, setComboStreak] = useState(0);
-  const [confidence, setConfidence] = useState<Confidence>('sure');
   const [xpEarned, setXpEarned] = useState(0);
   const [xpToast, setXpToast] = useState<{ amount: number; visible: boolean }>({ amount: 0, visible: false });
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -114,7 +113,6 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
         timestamp: Date.now(),
         subject: currentQuestion.subject,
         chapter: currentQuestion.chapter,
-        confidence,
       });
 
       if (!isCorrect) {
@@ -122,9 +120,7 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
       }
 
       // Leitner tracking
-      useLeitnerStore.getState().answerCard(currentQuestion.id, isCorrect, confidence ?? undefined);
-
-      setConfidence('sure');
+      useLeitnerStore.getState().answerCard(currentQuestion.id, isCorrect);
 
       // Combo
       const newCombo = isCorrect ? comboStreak + 1 : 0;
@@ -143,7 +139,7 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
         setCurrentIndex((prev) => prev + 1);
       }
     },
-    [currentQuestion, currentIndex, questions.length, comboStreak, confidence, addWrongNote, recordQuizResult, addQuizResult, showXPToast],
+    [currentQuestion, currentIndex, questions.length, comboStreak, addWrongNote, recordQuizResult, addQuizResult, showXPToast],
   );
 
   // Hydration guard
@@ -176,7 +172,7 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
     const correctCount = answers.filter((a) => a.isCorrect).length;
     const totalCount = answers.length;
     const rate = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
-    const tier = BOOKMARK_QUIZ_TIERS.find((t) => rate >= t.min);
+    const tier = getScoreTier(rate, BOOKMARK_QUIZ_TIERS);
 
     return (
       <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
@@ -277,8 +273,7 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between">
-        <ConfidenceToggle value={confidence} onChange={setConfidence} />
+      <div className="flex items-center justify-end">
         <div className="flex items-center gap-2">
           <Link
             href={`/concepts/${encodeURIComponent(subjectTitleMap[question.subject] || question.subject)}`}

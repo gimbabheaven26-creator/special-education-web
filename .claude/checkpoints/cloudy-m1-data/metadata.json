@@ -1,0 +1,39 @@
+{
+  "name": "cloudy-m1-data",
+  "timestamp": "2026-03-25T15:01:45Z",
+  "branch": "main",
+  "commit": "ac21fb0",
+  "files": [
+    "public/sw.js",
+    "src/components/layout/BottomTabBar.tsx",
+    "src/components/ui/EmptyState.tsx"
+  ],
+  "stats": {
+    "additions": 4,
+    "deletions": 3,
+    "files_changed": 3,
+    "untracked_count": 0
+  },
+  "tags": ["cloudy", "m1-data", "session-end"],
+  "auto": false,
+  "v6_metadata": {
+    "security_status": "pass"
+  },
+  "session_summary": {
+    "agent": "클루디",
+    "commits": [
+      "29f170e fix(data): 클루디 데이터 정합성 7건 — 챕터 참조 2593건 수정",
+      "5826eb1 feat(data): 4과목 워크시트 12토픽 60문항",
+      "575d905 docs(v-review): V 검증 문서",
+      "056c6d6 fix(scripts): worksheet upsert→insert",
+      "6db5a4b docs: session-wrap CLAUDE.md + contract.md"
+    ],
+    "pending_kairan_actions": [
+      "FK 제약 SQL Editor 실행",
+      "vi-q* 5선택지 수정 결정",
+      "emotional-behavioral 삭제 결정",
+      "프로덕션 web-checklist 13항목 확인"
+    ],
+    "followups": "/tmp/session-wrap/클루디-20260325-followups.md"
+  }
+}

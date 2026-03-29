@@ -9,7 +9,6 @@ import { ProgressDots, XPToast } from './ProgressDots';
 import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice, ScenarioCompositeChoice } from './QuestionCard';
 import { SessionSetup } from './SessionSetup';
 import { ComboIndicator } from '@/components/quiz/ComboIndicator';
-import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import { PenLine, FileText } from 'lucide-react';
 import { DiagnosticReport } from '@/components/quiz/DiagnosticReport';
 import type { QuizResult } from '@/types/quiz';
@@ -44,8 +43,6 @@ export function QuizClient({
     xpEarned,
     xpToast,
     comboStreak,
-    confidence,
-    setConfidence,
     savedSession,
     filteredQuestions,
     handleStart,
@@ -259,9 +256,8 @@ export function QuizClient({
         </CardContent>
       </Card>
 
-      {/* 확신도 + 건너뛰기 */}
-      <div className="flex items-center justify-between mt-2">
-        <ConfidenceToggle value={confidence} onChange={setConfidence} />
+      {/* 건너뛰기 */}
+      <div className="flex items-center justify-end mt-2">
         <button
           onClick={handleSkip}
           className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-muted"
