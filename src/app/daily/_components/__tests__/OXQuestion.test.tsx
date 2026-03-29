@@ -9,7 +9,7 @@ vi.mock('next/link', () => ({
     createElement('a', { href, ...props }, children),
 }));
 
-vi.mock('@/lib/concept-urls', () => ({
+vi.mock('@/lib/content/concept-urls', () => ({
   getConceptUrl: (s: string) => '/concepts/' + s,
 }));
 

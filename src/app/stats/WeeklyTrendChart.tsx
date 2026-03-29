@@ -1,6 +1,6 @@
 'use client';
 
-import type { WeeklyTrendEntry } from '@/lib/stats-utils';
+import type { WeeklyTrendEntry } from '@/lib/study/stats-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface WeeklyTrendChartProps {

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import type { SubjectStats, ChapterStats } from '@/lib/stats-utils';
+import type { SubjectStats, ChapterStats } from '@/lib/study/stats-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 

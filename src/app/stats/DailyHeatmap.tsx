@@ -1,6 +1,6 @@
 'use client';
 
-import type { HeatmapDay } from '@/lib/stats-utils';
+import type { HeatmapDay } from '@/lib/study/stats-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface DailyHeatmapProps {

@@ -15,7 +15,7 @@ import {
   computeWeeklySummary,
   computeWeeklyTrend,
   computeHeatmapData,
-} from '@/lib/stats-utils';
+} from '@/lib/study/stats-utils';
 
 export function useStatsData() {
   const quizHistory = useQuizStore((s) => s.quizHistory);

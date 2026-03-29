@@ -7,9 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { SUBJECT_LABELS } from '@/types/kice'
-import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/concept-urls'
+import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/content/concept-urls'
 import type { KiceExam, KiceQuestion } from '@/types/kice'
-import { checkBlank } from '@/lib/check-blank'
+import { checkBlank } from '@/lib/quiz/check-blank'
 
 interface UserAnswer {
   blanks: Record<string, string>

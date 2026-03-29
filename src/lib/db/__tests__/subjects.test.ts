@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('@/lib/supabase/server', () => ({ createClient: vi.fn() }));
-vi.mock('@/lib/concepts', () => ({ getConceptsForSubject: vi.fn() }));
+vi.mock('@/lib/content/concepts', () => ({ getConceptsForSubject: vi.fn() }));
 
 import { getSubjects, getSubjectBySlug } from '../subjects';
 import { createClient } from '@/lib/supabase/server';
-import { getConceptsForSubject } from '@/lib/concepts';
+import { getConceptsForSubject } from '@/lib/content/concepts';
 import { mockCreateClient } from './mock-supabase';
 
 const mockConcepts = [

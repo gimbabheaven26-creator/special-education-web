@@ -1,7 +1,7 @@
 'use client';
 
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import type { WeeklySummaryData } from '@/lib/stats-utils';
+import type { WeeklySummaryData } from '@/lib/study/stats-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface WeeklySummaryProps {

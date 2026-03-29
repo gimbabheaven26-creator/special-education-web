@@ -1,6 +1,6 @@
 'use client';
 
-import { getLevel, getLevelName, getLevelProgress, LEVEL_NAMES } from '@/lib/xp-constants';
+import { getLevel, getLevelName, getLevelProgress, LEVEL_NAMES } from '@/lib/study/xp-constants';
 
 interface LevelProgressProps {
   readonly totalXP: number;

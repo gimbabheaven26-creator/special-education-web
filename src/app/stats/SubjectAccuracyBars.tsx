@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SubjectStats, ChapterStats } from '@/lib/stats-utils';
+import type { SubjectStats, ChapterStats } from '@/lib/study/stats-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface SubjectAccuracyBarsProps {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { CheckCircle, AlertTriangle } from 'lucide-react';
-import type { WrongNoteSummaryData } from '@/lib/stats-utils';
+import type { WrongNoteSummaryData } from '@/lib/study/stats-utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface WrongNoteSummaryProps {

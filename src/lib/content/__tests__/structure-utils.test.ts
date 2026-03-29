@@ -1,13 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 
 // kice 모듈을 모킹 — structure-utils는 getAvailableExams, getExam에 의존
-vi.mock('@/lib/kice', () => ({
+vi.mock('@/lib/kice/kice', () => ({
   getAvailableExams: vi.fn(),
   getExam: vi.fn(),
 }));
 
-import { getKiceCounts } from '@/lib/structure-utils';
-import { getAvailableExams, getExam } from '@/lib/kice';
+import { getKiceCounts } from '@/lib/content/structure-utils';
+import { getAvailableExams, getExam } from '@/lib/kice/kice';
 
 const mockedGetAvailableExams = vi.mocked(getAvailableExams);
 const mockedGetExam = vi.mocked(getExam);
