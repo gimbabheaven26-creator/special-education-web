@@ -54,7 +54,7 @@ export function buildSystemPrompt(): string {
 3. 활동은 구체적이고 실행 가능해야 합니다 (모호한 표현 금지).
 4. 평가 방법은 특수교육 맥락에 맞게 (관찰, 수행평가, 포트폴리오 등).
 5. 교재/교구는 실제 구할 수 있는 것만 언급하세요.
-6. JSON 형식으로만 응답하세요. 다른 텍스트를 포함하지 마세요.`;
+6. 반드시 순수 JSON만 출력하세요. 마크다운 코드블록(\`\`\`), 설명, 주석을 절대 포함하지 마세요. 첫 글자가 { 이어야 합니다.`;
 }
 
 export function buildUserPrompt(input: GenerationInput): string {

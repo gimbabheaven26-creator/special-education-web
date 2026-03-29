@@ -157,11 +157,22 @@ export async function POST(request: NextRequest) {
             }
           }
 
-          // 파싱 (마크다운 코드블록 래핑 제거)
+          // 파싱 (마크다운 코드블록 래핑 제거 + JSON 객체 추출)
           let jsonText = fullText.trim();
+
+          // 1차: 코드 펜스 제거
           const fenceMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)```/);
           if (fenceMatch) {
             jsonText = fenceMatch[1].trim();
+          }
+
+          // 2차: JSON 객체 추출 (앞뒤 텍스트 제거)
+          if (!jsonText.startsWith('{')) {
+            const start = jsonText.indexOf('{');
+            const end = jsonText.lastIndexOf('}');
+            if (start !== -1 && end > start) {
+              jsonText = jsonText.slice(start, end + 1);
+            }
           }
 
           let result: GenerationResult;
