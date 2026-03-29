@@ -3,14 +3,13 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import type { QuizQuestion, QuizType, SubQuestion } from '@/types/quiz';
+import { OptionsEditor } from './OptionsEditor';
+import { SubQuestionsEditor } from './SubQuestionsEditor';
 
 // ── 스타일 상수 ──────────────────────────────────────
 
 const INPUT_CLASS =
   'w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none';
-
-const BTN_ICON_CLASS =
-  'p-1.5 text-sm text-gray-400 hover:text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed';
 
 // ── 상수 ──────────────────────────────────────────
 
@@ -423,55 +422,13 @@ export function QuizForm({ mode, initialData, subjects, initialChapters }: QuizF
       {/* 객관식 옵션 */}
       {type === 'multiple' && (
         <Section title="선택지">
-          <div className="space-y-2">
-            {options.map((opt, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <span className="text-sm font-medium text-gray-500 w-6 shrink-0">{i + 1}.</span>
-                <input
-                  type="text"
-                  value={opt}
-                  onChange={(e) => updateOption(i, e.target.value)}
-                  placeholder={`선택지 ${i + 1}`}
-                  className={`${INPUT_CLASS} flex-1`}
-                />
-                <button
-                  type="button"
-                  onClick={() => moveOption(i, 'up')}
-                  disabled={i === 0}
-                  className={BTN_ICON_CLASS}
-                  title="위로"
-                >
-                  ↑
-                </button>
-                <button
-                  type="button"
-                  onClick={() => moveOption(i, 'down')}
-                  disabled={i === options.length - 1}
-                  className={BTN_ICON_CLASS}
-                  title="아래로"
-                >
-                  ↓
-                </button>
-                {options.length > 2 && (
-                  <button
-                    type="button"
-                    onClick={() => removeOption(i)}
-                    className="p-1.5 text-sm text-red-500 hover:text-red-700"
-                    title="삭제"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={addOption}
-            className="mt-2 text-sm text-blue-600 hover:text-blue-800"
-          >
-            + 선택지 추가
-          </button>
+          <OptionsEditor
+            options={options}
+            onUpdate={updateOption}
+            onAdd={addOption}
+            onRemove={removeOption}
+            onMove={moveOption}
+          />
         </Section>
       )}
 
@@ -566,70 +523,12 @@ export function QuizForm({ mode, initialData, subjects, initialChapters }: QuizF
       {/* 시나리오 하위 문항 */}
       {type === 'scenario_composite' && (
         <Section title="하위 문항">
-          <div className="space-y-4">
-            {subQuestions.map((sq, i) => (
-              <div key={sq.id} className="border border-gray-200 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold text-gray-700">하위 문항 {i + 1}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeSubQuestion(i)}
-                    className="text-sm text-red-500 hover:text-red-700"
-                  >
-                    삭제
-                  </button>
-                </div>
-
-                <Field label="유형">
-                  <select
-                    value={sq.type}
-                    onChange={(e) => updateSubQuestion(i, 'type', e.target.value)}
-                    className={INPUT_CLASS}
-                  >
-                    <option value="fill_in">빈칸채우기</option>
-                    <option value="descriptive">서술형</option>
-                  </select>
-                </Field>
-
-                <Field label="문제">
-                  <textarea
-                    value={sq.question}
-                    onChange={(e) => updateSubQuestion(i, 'question', e.target.value)}
-                    placeholder="하위 문제를 입력하세요"
-                    rows={2}
-                    className={INPUT_CLASS}
-                  />
-                </Field>
-
-                <Field label="정답">
-                  <textarea
-                    value={sq.answer}
-                    onChange={(e) => updateSubQuestion(i, 'answer', e.target.value)}
-                    placeholder="하위 문항 정답"
-                    rows={2}
-                    className={INPUT_CLASS}
-                  />
-                </Field>
-
-                <Field label="해설 (선택)">
-                  <textarea
-                    value={sq.explanation ?? ''}
-                    onChange={(e) => updateSubQuestion(i, 'explanation', e.target.value)}
-                    placeholder="하위 문항 해설"
-                    rows={2}
-                    className={INPUT_CLASS}
-                  />
-                </Field>
-              </div>
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={addSubQuestion}
-            className="mt-3 text-sm text-blue-600 hover:text-blue-800"
-          >
-            + 하위 문항 추가
-          </button>
+          <SubQuestionsEditor
+            subQuestions={subQuestions}
+            onAdd={addSubQuestion}
+            onUpdate={updateSubQuestion}
+            onRemove={removeSubQuestion}
+          />
         </Section>
       )}
 
