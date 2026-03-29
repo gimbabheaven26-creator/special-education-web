@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getCommunityQuestions } from '@/lib/community-db';
+import { getCommunityQuestions } from '@/lib/db/community-db';
 
 export const metadata: Metadata = {
   title: '커뮤니티 문제',

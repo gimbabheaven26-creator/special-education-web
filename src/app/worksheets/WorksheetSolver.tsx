@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import type { WorksheetConfig } from '@/lib/worksheet-utils';
-import { checkFillInAnswer } from '@/lib/answer-checker';
+import type { WorksheetConfig } from '@/lib/content/worksheet-utils';
+import { checkFillInAnswer } from '@/lib/quiz/answer-checker';
 import { Button } from '@/components/ui/button';
 import {
   ChevronLeft,

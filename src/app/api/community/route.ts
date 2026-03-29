@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { createCommunityQuestion } from '@/lib/community-db';
+import { createCommunityQuestion } from '@/lib/db/community-db';
 import type { CreateQuestionInput } from '@/types/community';
 
 export async function POST(request: Request) {

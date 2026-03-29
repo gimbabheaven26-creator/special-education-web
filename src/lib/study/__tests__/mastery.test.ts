@@ -18,8 +18,8 @@ import {
   calculateChapterMasteries,
   calculateSubjectMasteries,
   simulatePass,
-} from '@/lib/mastery';
-import type { MasteryLevel, SubjectMastery } from '@/lib/mastery';
+} from '@/lib/study/mastery';
+import type { MasteryLevel, SubjectMastery } from '@/lib/study/mastery';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

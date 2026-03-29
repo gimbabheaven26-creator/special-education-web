@@ -6,8 +6,8 @@ import {
   sortByAdaptiveDifficulty,
   getProficiencyLabel,
   getProficiencyColor,
-} from '@/lib/adaptive-difficulty';
-import type { Proficiency } from '@/lib/adaptive-difficulty';
+} from '@/lib/quiz/adaptive-difficulty';
+import type { Proficiency } from '@/lib/quiz/adaptive-difficulty';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { BookOpen, ChevronRight, FileText } from 'lucide-react';
-import { getAllSubjects, getSubjectFiles } from '@/lib/concepts';
+import { getAllSubjects, getSubjectFiles } from '@/lib/content/concepts';
 
 export const metadata = {
   title: '개념학습 | 특수교육 공부방',

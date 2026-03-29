@@ -13,15 +13,15 @@ import { QuizResultScreen, TYPE_LABELS } from './QuizResultScreen';
 import type { AnswerRecord } from './QuizResultScreen';
 import { ProgressDots, XPToast } from './ProgressDots';
 import { CaseContextBox, MultipleChoice, OXChoice, FillInChoice, DescriptiveChoice, ScenarioCompositeChoice } from './QuestionCard';
-import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/xp-constants';
+import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/study/xp-constants';
 import { SessionSetup, type SessionConfig, type SessionPreset } from './SessionSetup';
-import { saveSession, loadSession, clearSession, type SavedSession } from '@/lib/session-recovery';
+import { saveSession, loadSession, clearSession, type SavedSession } from '@/lib/quiz/session-recovery';
 import { ComboIndicator } from '@/components/quiz/ComboIndicator';
 import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
 import type { Confidence } from './QuizResultScreen';
 import { PenLine, FileText } from 'lucide-react';
 // TODO: 정교화 질문 추후 재활성화
-// import { shouldTriggerElaboration } from '@/lib/elaboration';
+// import { shouldTriggerElaboration } from '@/lib/quiz/elaboration';
 // import ElaborationPrompt from '@/components/quiz/ElaborationPrompt';
 import { DiagnosticReport } from '@/components/quiz/DiagnosticReport';
 import type { QuizResult } from '@/types/quiz';

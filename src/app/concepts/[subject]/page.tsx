@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, Tag, BookOpen, Calendar, Brain } from 'lucide-react';
-import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/concepts';
+import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';
 import { getSubjectBySlug } from '@/lib/db';
 import LearningTimeline from '@/components/subjects/LearningTimeline';
 import { buttonVariants } from '@/components/ui/button';

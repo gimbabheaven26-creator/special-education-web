@@ -1,4 +1,4 @@
-import { getAvailableExams, getDefaultExamEntry, getExam } from '@/lib/kice'
+import { getAvailableExams, getDefaultExamEntry, getExam } from '@/lib/kice/kice'
 import ExamClient from './ExamClient'
 import Link from 'next/link'
 

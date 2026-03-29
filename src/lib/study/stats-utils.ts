@@ -1,6 +1,6 @@
 import type { QuizResult } from '@/types/quiz';
 import type { DailyHistoryEntry, WrongNote } from '@/types/study';
-import { XP_PER_QUIZ, XP_PER_CORRECT } from '@/lib/xp-constants';
+import { XP_PER_QUIZ, XP_PER_CORRECT } from './xp-constants';
 
 export interface SubjectStats {
   subject: string;

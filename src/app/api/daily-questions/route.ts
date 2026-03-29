@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { seededSample } from '@/lib/seeded-sample';
+import { seededSample } from '@/lib/quiz/seeded-sample';
 import { getKSTTimeslot } from '@/lib/timeslot';
 
 export async function GET() {

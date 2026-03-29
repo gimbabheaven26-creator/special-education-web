@@ -4,7 +4,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 import { ChevronLeft, ChevronRight, BookOpen, Tag, Calendar } from 'lucide-react';
-import { getMDXContent, getAllSubjects, getSubjectFiles, getDbSlugForFolder, getConceptUrl } from '@/lib/concepts';
+import { getMDXContent, getAllSubjects, getSubjectFiles, getDbSlugForFolder, getConceptUrl } from '@/lib/content/concepts';
 import { getSubjectBySlug } from '@/lib/db';
 import { StepGuide, FillBlank, MatchingExercise } from '@/components/mdx';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';

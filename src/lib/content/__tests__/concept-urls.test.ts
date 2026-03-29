@@ -3,7 +3,7 @@ import {
   SLUG_TO_CONCEPTS_FOLDER,
   CONCEPTS_FOLDER_TO_SLUG,
   getConceptUrl,
-} from '@/lib/concept-urls';
+} from '@/lib/content/concept-urls';
 
 describe('concept-urls', () => {
   // ─── SLUG_TO_CONCEPTS_FOLDER ──────────────────────────────────

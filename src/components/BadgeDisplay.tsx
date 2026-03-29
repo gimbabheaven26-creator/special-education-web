@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Award } from 'lucide-react';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
-import { computeBadges } from '@/lib/badges';
+import { computeBadges } from '@/lib/study/badges';
 
 export function BadgeDisplay() {
   const { currentStreak, totalQuizzes, totalXP } = useStudyStore();

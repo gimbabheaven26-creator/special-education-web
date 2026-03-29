@@ -14,7 +14,7 @@ import {
   isGroupComplete,
   getNextScenarioId,
   daysUntilReview,
-} from '@/lib/spaced-scenario';
+} from '@/lib/study/spaced-scenario';
 
 interface SpacedGroupClientProps {
   readonly group: ScenarioGroup;

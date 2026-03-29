@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
-import { checkFillInAnswer } from '@/lib/answer-checker';
+import { checkFillInAnswer } from '@/lib/quiz/answer-checker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CheckCircle, XCircle, Timer } from 'lucide-react';

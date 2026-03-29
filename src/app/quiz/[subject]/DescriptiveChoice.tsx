@@ -5,7 +5,7 @@ import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle, Eye } from 'lucide-react';
 import ScoringGuide from '@/components/quiz/ScoringGuide';
-import { scoreDescriptiveAnswer } from '@/lib/descriptive-scoring';
+import { scoreDescriptiveAnswer } from '@/lib/quiz/descriptive-scoring';
 
 export function DescriptiveChoice({
   question,

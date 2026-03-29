@@ -21,7 +21,7 @@ vi.mock('@/lib/date-utils', () => ({
 // ─── Store import (after mocks) ────────────────────────────────────────────
 
 import { useStudyStore } from '../useStudyStore';
-import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
+import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/study/xp-constants';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 

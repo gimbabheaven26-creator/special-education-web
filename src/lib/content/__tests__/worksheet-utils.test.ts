@@ -3,8 +3,8 @@ import {
   generateWorksheetId,
   saveWorksheet,
   loadWorksheet,
-} from '@/lib/worksheet-utils';
-import type { WorksheetConfig } from '@/lib/worksheet-utils';
+} from '@/lib/content/worksheet-utils';
+import type { WorksheetConfig } from '@/lib/content/worksheet-utils';
 
 // localStorage 모킹
 const storageMock: Record<string, string> = {};

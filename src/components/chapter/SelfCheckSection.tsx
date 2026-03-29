@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
-import { checkFillInAnswer } from '@/lib/answer-checker';
+import { checkFillInAnswer } from '@/lib/quiz/answer-checker';
 import { shuffle } from '@/lib/array-utils';
 import { CheckCircle, XCircle, ChevronDown, ChevronUp, Eye, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';

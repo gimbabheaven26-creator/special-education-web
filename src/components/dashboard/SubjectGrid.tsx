@@ -15,7 +15,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import type { Subject } from '@/types/content';
 import type { LucideIcon } from 'lucide-react';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 const iconMap: Record<string, LucideIcon> = {
   BookOpen,

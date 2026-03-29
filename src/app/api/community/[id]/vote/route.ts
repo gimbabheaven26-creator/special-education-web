@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { setVote } from '@/lib/community-db';
+import { setVote } from '@/lib/db/community-db';
 import type { VoteType } from '@/types/community';
 
 interface Params {

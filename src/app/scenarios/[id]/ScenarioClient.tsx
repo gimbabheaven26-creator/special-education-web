@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Scenario, ScenarioNode, ScenarioChoice, ScenarioProgress } from '@/types/scenario';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { getGroupByScenarioId } from '@/data/scenarios';
-import { advanceSchedule, createSchedule } from '@/lib/spaced-scenario';
+import { advanceSchedule, createSchedule } from '@/lib/study/spaced-scenario';
 
 interface ScenarioClientProps {
   readonly scenario: Scenario;

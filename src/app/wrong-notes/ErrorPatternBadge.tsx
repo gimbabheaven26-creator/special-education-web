@@ -1,7 +1,7 @@
 'use client';
 
-import type { ErrorPattern } from '@/lib/error-patterns';
-import { getPatternInfo } from '@/lib/error-patterns';
+import type { ErrorPattern } from '@/lib/study/error-patterns';
+import { getPatternInfo } from '@/lib/study/error-patterns';
 
 interface ErrorPatternBadgeProps {
   patterns: ErrorPattern[];

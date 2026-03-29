@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { evaluateElaboration, type ElaborationResult } from '@/lib/elaboration';
+import { evaluateElaboration, type ElaborationResult } from '@/lib/quiz/elaboration';
 
 interface ElaborationPromptProps {
   readonly explanation: string;

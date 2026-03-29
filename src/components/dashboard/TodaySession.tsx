@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useMounted } from '@/hooks/useMounted';
 import { getToday } from '@/lib/date-utils';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 export function TodaySession() {
   const mounted = useMounted();

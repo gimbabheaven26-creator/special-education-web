@@ -1,6 +1,6 @@
 // Server Component — 'use client' 없음
 import { redirect } from 'next/navigation';
-import { isAdmin } from '@/lib/profile';
+import { isAdmin } from '@/lib/db/profile';
 
 interface AdminOnlyProps {
   children: React.ReactNode;

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CalendarDays, GraduationCap, AlertTriangle, Rocket } from 'lucide-react';
 import { useOnboardingStore, type StudyLevel } from '@/stores/useOnboardingStore';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { generateStudyPlan, getSubjectTitle, getAllSubjectSlugs, getNextExamDate } from '@/lib/study-planner';
+import { generateStudyPlan, getSubjectTitle, getAllSubjectSlugs, getNextExamDate } from '@/lib/study/study-planner';
 
 type Step = 'exam-date' | 'level' | 'weak-subjects' | 'daily-questions' | 'confirm';
 

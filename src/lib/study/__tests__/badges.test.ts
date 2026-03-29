@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { BADGES, computeBadges } from '@/lib/badges';
-import type { BadgeStats } from '@/lib/badges';
+import { BADGES, computeBadges } from '@/lib/study/badges';
+import type { BadgeStats } from '@/lib/study/badges';
 
 // ─── BADGES 상수 ──────────────────────────────────────────────────────────────
 

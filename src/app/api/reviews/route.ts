@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getReviews, saveReview, deleteReview, updateAdminNote } from '@/lib/review-db';
-import { isAdmin } from '@/lib/profile';
+import { getReviews, saveReview, deleteReview, updateAdminNote } from '@/lib/db/review-db';
+import { isAdmin } from '@/lib/db/profile';
 
 const MAX_CONTENT_LENGTH = 10000;
 const MAX_NAME_LENGTH = 50;

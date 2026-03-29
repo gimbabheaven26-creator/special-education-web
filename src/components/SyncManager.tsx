@@ -18,7 +18,7 @@ import {
   serializeState,
   syncAllStores,
   type StoreKey,
-} from '@/lib/sync';
+} from '@/lib/db/sync';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';

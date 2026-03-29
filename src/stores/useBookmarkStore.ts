@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Bookmark } from '@/types/study';
-import { SLUG_TO_CONCEPTS_FOLDER } from '@/lib/concept-urls';
+import { SLUG_TO_CONCEPTS_FOLDER } from '@/lib/content/concept-urls';
 
 interface BookmarkStore {
   bookmarks: Bookmark[];

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 import { useQuizStore } from '@/stores/useQuizStore';
-import { getChapterProficiency } from '@/lib/adaptive-difficulty';
+import { getChapterProficiency } from '@/lib/quiz/adaptive-difficulty';
 import examStructure from '@/data/exam-structure.json';
 
 const subjectWeights = examStructure.subjectWeights as Record<

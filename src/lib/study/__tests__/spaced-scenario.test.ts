@@ -12,7 +12,7 @@ import {
   isGroupComplete,
   getNextScenarioId,
   daysUntilReview,
-} from '@/lib/spaced-scenario';
+} from '@/lib/study/spaced-scenario';
 import type { SpacedScenarioSchedule, ScenarioGroup } from '@/types/scenario';
 
 const TODAY = '2026-03-29';

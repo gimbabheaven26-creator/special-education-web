@@ -6,8 +6,8 @@ import { TrendingUp, Hash, AlertTriangle, Flame, BookOpen } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SUBJECT_LABELS } from '@/types/kice'
-import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/concept-urls'
-import type { AnalyticsData } from '@/lib/kice-analytics'
+import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/content/concept-urls'
+import type { AnalyticsData } from '@/lib/kice/kice-analytics'
 
 interface AnalyticsClientProps {
   data: AnalyticsData

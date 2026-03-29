@@ -8,8 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { RefreshCw, Target, Sparkles, ChevronDown, ChevronUp, Play, Zap } from 'lucide-react';
-import type { SavedSession } from '@/lib/session-recovery';
-import { getSubjectProficiency, getProficiencyLabel } from '@/lib/adaptive-difficulty';
+import type { SavedSession } from '@/lib/quiz/session-recovery';
+import { getSubjectProficiency, getProficiencyLabel } from '@/lib/quiz/adaptive-difficulty';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

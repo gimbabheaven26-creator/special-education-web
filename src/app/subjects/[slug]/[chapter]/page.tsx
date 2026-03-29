@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { SLUG_TO_CONCEPTS_FOLDER } from '@/lib/concepts';
+import { SLUG_TO_CONCEPTS_FOLDER } from '@/lib/content/concepts';
 
 export default function ChapterPage({
   params,

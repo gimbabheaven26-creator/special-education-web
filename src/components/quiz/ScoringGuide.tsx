@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import type { ScoringResult } from '@/lib/descriptive-scoring';
+import type { ScoringResult } from '@/lib/quiz/descriptive-scoring';
 
 interface ScoringGuideProps {
   readonly result: ScoringResult;

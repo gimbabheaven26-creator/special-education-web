@@ -6,7 +6,7 @@ import type { QuizQuestion, Confidence } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 // ─── Score Tiers ─────────────────────────────────────────────────────────────
 

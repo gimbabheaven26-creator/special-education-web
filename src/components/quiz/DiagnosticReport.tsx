@@ -7,7 +7,7 @@ import {
   buildWeakChapters,
   buildRecommendations,
 } from './diagnostic-utils';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 import type { QuizResult } from '@/types/quiz';
 
 interface DiagnosticReportProps {

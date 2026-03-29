@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Flame } from 'lucide-react';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { getLevel, getLevelProgress, getLevelName } from '@/lib/xp-constants';
+import { getLevel, getLevelProgress, getLevelName } from '@/lib/study/xp-constants';
 import { useMounted } from '@/hooks/useMounted';
 
 export function StreakBanner() {

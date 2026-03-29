@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { DailyQuestion } from '@/types/daily';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 export function TextQuestion({
   question,

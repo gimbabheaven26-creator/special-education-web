@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { getConceptsForSubject } from '@/lib/concepts';
+import { getConceptsForSubject } from '@/lib/content/concepts';
 import type { Subject } from '@/types/content';
 
 /** MDX title에서 "과목명 — " 접두어 제거 (예: "진단평가 — 지능 검사" → "지능 검사") */

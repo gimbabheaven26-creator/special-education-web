@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getMyProfile, upsertNickname } from '@/lib/profile';
+import { getMyProfile, upsertNickname } from '@/lib/db/profile';
 
 export async function GET() {
   const profile = await getMyProfile();

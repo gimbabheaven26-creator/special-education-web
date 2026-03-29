@@ -1,6 +1,6 @@
 'use client';
 
-import { getComboBonus } from '@/lib/xp-constants';
+import { getComboBonus } from '@/lib/study/xp-constants';
 import { Flame } from 'lucide-react';
 
 interface ComboIndicatorProps {

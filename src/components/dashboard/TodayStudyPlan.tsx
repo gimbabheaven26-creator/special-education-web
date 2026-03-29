@@ -11,8 +11,8 @@ import {
   getCurrentWeekMilestone,
   getEncouragementMessage,
   getSubjectTitle,
-} from '@/lib/study-planner';
-import { getConceptUrl } from '@/lib/concept-urls';
+} from '@/lib/study/study-planner';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 function DdayBadge({ dday }: { dday: number }) {
   const urgency = dday <= 30 ? 'text-red-600 bg-red-500/10' :

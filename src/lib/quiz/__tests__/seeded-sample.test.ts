@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { seededRandom, seededSample, selectWithWrongPriority } from '@/lib/seeded-sample';
+import { seededRandom, seededSample, selectWithWrongPriority } from '@/lib/quiz/seeded-sample';
 import type { DailyQuestion } from '@/types/daily';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

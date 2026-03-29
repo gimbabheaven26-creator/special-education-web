@@ -1,7 +1,7 @@
 import StructureClient from './StructureClient';
 import { AdminOnly } from '@/components/AdminOnly';
 import { createClient } from '@/lib/supabase/server';
-import { getConceptsForSubject } from '@/lib/concepts';
+import { getConceptsForSubject } from '@/lib/content/concepts';
 
 export interface SubjectStat {
   title: string;

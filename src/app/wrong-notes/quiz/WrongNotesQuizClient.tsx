@@ -20,7 +20,7 @@ import {
 import { XPToast } from '@/app/quiz/[subject]/ProgressDots';
 import { ComboIndicator } from '@/components/quiz/ComboIndicator';
 import { ConfidenceToggle } from '@/components/quiz/ConfidenceToggle';
-import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/xp-constants';
+import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/study/xp-constants';
 
 interface QuizAnswer {
   questionId: string;

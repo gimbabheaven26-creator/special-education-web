@@ -11,7 +11,7 @@
 
 import { useState } from 'react';
 import { CloudUpload, X } from 'lucide-react';
-import { migrateGuestData } from '@/lib/sync';
+import { migrateGuestData } from '@/lib/db/sync';
 
 const MIGRATED_KEY = 'sew-migrated';
 

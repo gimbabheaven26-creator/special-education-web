@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import WrongNoteCard from './WrongNoteCard';
 import SrsReviewMode from './SrsReviewMode';
-import { detectErrorPatterns } from '@/lib/error-patterns';
+import { detectErrorPatterns } from '@/lib/study/error-patterns';
 import { WrongNoteAI } from '@/components/WrongNoteAI';
 import { EmptyState } from '@/components/ui/EmptyState';
 

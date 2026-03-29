@@ -26,7 +26,7 @@ export const DIFFICULTY_MAP: Record<Difficulty, ReadonlyArray<1 | 2 | 3> | null>
 
 // ─── Apply Config ───────────────────────────────────────────────────────────
 
-import type { WorksheetConfig } from '@/lib/worksheet-utils';
+import type { WorksheetConfig } from '@/lib/content/worksheet-utils';
 
 export function applyConfig(
   ws: WorksheetConfig,

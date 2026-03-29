@@ -30,3 +30,38 @@ export {
   getAllUserData,
 } from './user-data';
 export type { Profile, StoreKey, UserDataRow } from './user-data';
+
+// Community
+export {
+  getCommunityQuestions,
+  getCommunityQuestionById,
+  getUserVoteForQuestion,
+  createCommunityQuestion,
+  setVote,
+} from './community-db';
+
+// Reviews
+export { getReviews, saveReview, deleteReview, updateAdminNote } from './review-db';
+export type { ReviewRow } from './review-db';
+
+// Profile (server-side auth)
+export { getMyProfile, upsertNickname, isAdmin } from './profile';
+export type { UserRole, UserProfile } from './profile';
+
+// Analytics (client-side event logging)
+export { logEvent, logQuizCompleted, logWrongNoteMastered, logDailyStreak } from './analytics';
+export type { AnalyticsEvent } from './analytics';
+
+// Sync (Zustand ↔ Supabase)
+export {
+  serializeState,
+  pushStore,
+  pullStore,
+  pushToServer,
+  pullFromServer,
+  migrateGuestData,
+  syncAllStores,
+} from './sync';
+
+// Admin auth
+export { verifyAdmin, verifyAdminOrApiKey } from './admin-auth';

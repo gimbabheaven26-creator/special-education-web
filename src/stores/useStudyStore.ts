@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { DailyHistoryEntry } from '@/types/study';
 import type { ScenarioProgress, SpacedScenarioSchedule } from '@/types/scenario';
-import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/xp-constants';
+import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/study/xp-constants';
 import { getKSTDate, getToday } from '@/lib/date-utils';
 
 interface RecentActivity {

@@ -2,7 +2,7 @@ import type { QuizQuestion } from '@/types/quiz';
 import type { DiagnosticSession } from '@/stores/useQuizStore';
 import { getKSTTimeslot } from '@/lib/timeslot';
 import { shuffle } from '@/lib/array-utils';
-import { sortByAdaptiveDifficulty } from '@/lib/adaptive-difficulty';
+import { sortByAdaptiveDifficulty } from '@/lib/quiz/adaptive-difficulty';
 import type { SessionConfig } from './SessionSetup';
 
 // ─── Constants ───────────────────────────────────────────────────────────────

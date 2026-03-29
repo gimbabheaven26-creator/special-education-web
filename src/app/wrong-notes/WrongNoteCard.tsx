@@ -8,9 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BookOpen, CopyPlus } from 'lucide-react';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
-import type { ErrorPattern } from '@/lib/error-patterns';
+import type { ErrorPattern } from '@/lib/study/error-patterns';
 import { ErrorPatternBadge } from './ErrorPatternBadge';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 const TYPE_LABELS: Record<string, string> = {
   ox: 'OX',

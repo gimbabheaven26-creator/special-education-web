@@ -1,6 +1,6 @@
 'use client';
 
-import type { WorksheetConfig } from '@/lib/worksheet-utils';
+import type { WorksheetConfig } from '@/lib/content/worksheet-utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {

@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { getAvailableExams, getExam } from '@/lib/kice'
+import { getAvailableExams, getExam } from '@/lib/kice/kice'
 
 export const metadata: Metadata = {
   title: '기출문제 분석',
   description: '특수교육 임용시험 기출문제 연도별·영역별 분석 및 모의고사 풀이.',
 }
 import { getSubjects, getAllWorksheetTopics } from '@/lib/db'
-import { computeAnalytics } from '@/lib/kice-analytics'
+import { computeAnalytics } from '@/lib/kice/kice-analytics'
 import KiceClient from './KiceClient'
 import KiceByArea from './KiceByArea'
 import KiceSearch, { type KiceSearchItem } from './KiceSearch'

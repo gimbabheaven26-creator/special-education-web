@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getCommunityQuestionById, getUserVoteForQuestion } from '@/lib/community-db';
+import { getCommunityQuestionById, getUserVoteForQuestion } from '@/lib/db/community-db';
 import { getSubjects } from '@/lib/db';
 import QuestionDetailClient from './QuestionDetailClient';
 import type { CommunityQuestionDetail } from '@/types/community';

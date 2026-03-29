@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { DailyQuestion, Step } from '@/types/daily';
 import { OX_COUNT, FILL_IN_COUNT, DESCRIPTIVE_COUNT } from '@/types/daily';
-import { seededSample, selectWithWrongPriority } from '@/lib/seeded-sample';
+import { seededSample, selectWithWrongPriority } from '@/lib/quiz/seeded-sample';
 
 export function useDailyQuiz() {
   const [step, setStep] = useState<Step>(1);

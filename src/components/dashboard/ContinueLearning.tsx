@@ -5,7 +5,7 @@ import { Clock, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useMounted } from '@/hooks/useMounted';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 function timeAgo(timestamp: number): string {
   const diff = Date.now() - timestamp;

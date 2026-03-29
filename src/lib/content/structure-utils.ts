@@ -1,4 +1,4 @@
-import { getAvailableExams, getExam } from './kice';
+import { getAvailableExams, getExam } from '@/lib/kice/kice';
 
 export interface KiceCounts {
   bySubject: Record<string, number>;

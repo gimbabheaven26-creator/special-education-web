@@ -3,8 +3,8 @@
  * 컴포넌트(DiagnosticReport.tsx)와 테스트에서 공용으로 사용.
  */
 
-import { computeSubjectStats, computeChapterStats } from '@/lib/stats-utils';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { computeSubjectStats, computeChapterStats } from '@/lib/study/stats-utils';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 import type { QuizResult } from '@/types/quiz';
 
 // ─── 마스터리 레벨 판정 (mastery.ts 의존 제거: json import 회피) ────────────

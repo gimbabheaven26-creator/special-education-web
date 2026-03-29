@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { WorksheetQuestion } from '@/lib/worksheet-utils';
+import type { WorksheetQuestion } from '@/lib/content/worksheet-utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';

@@ -12,7 +12,7 @@ import {
   getLevel,
   getLevelProgress,
   getLevelName,
-} from '@/lib/xp-constants';
+} from '@/lib/study/xp-constants';
 
 describe('xp-constants', () => {
   // ─── 상수 존재 여부 및 타입 ──────────────────────────────────

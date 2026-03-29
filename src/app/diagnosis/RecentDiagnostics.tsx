@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import type { DiagnosticSession } from '@/stores/useQuizStore';
 import { ChevronDown, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
-import { getConceptUrl } from '@/lib/concept-urls';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 const TYPE_LABELS: Record<DiagnosticSession['type'], string> = {
   ox: 'OX 진단',
