@@ -101,7 +101,7 @@
 ## 실행 현황 (2026-03-29)
 
 ```
-Phase 0 ✅ → Phase 1 ✅ → Phase 2 ✅ → Phase 3 ✅ → Phase 4 ✅ → Phase 5 ✅
+Phase 0 ✅ → Phase 1 ✅ → Phase 2 ✅ → Phase 3 ✅ → Phase 4 ✅ → Phase 5 ✅ → Phase 3-AI ✅
 ```
 
 - Phase 0: 프로젝트 셋업 + Supabase + 성취기준 JSON (bb36e65, 190cdbc, 729707a)
@@ -110,6 +110,7 @@ Phase 0 ✅ → Phase 1 ✅ → Phase 2 ✅ → Phase 3 ✅ → Phase 4 ✅ → 
 - Phase 3: 키움이들 학생 CRUD 5페이지 + 6컴포넌트 + loading.tsx (f3785ef)
 - Phase 4: IEP 계획 상세/편집/삭제 + IepPlanForm + GoalFormItem (f3785ef)
 - Phase 5: 텍스트 복사 + Excel + PDF 내보내기 (08adc6b, e30be69)
+- Phase 3-AI: Claude API 연동 주차별 계획 자동 생성 — SSE 스트리밍, PII 필터, Rate limit 30회/일, 27 tests (2026-03-29)
 
 ---
 

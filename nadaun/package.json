@@ -12,6 +12,7 @@
     "sync-stds": "bash scripts/sync-achievement-stds.sh"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@base-ui/react": "^1.3.0",
     "@react-pdf/renderer": "^4.3.2",
     "@supabase/ssr": "^0.9.0",
