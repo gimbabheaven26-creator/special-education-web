@@ -44,6 +44,13 @@ interface WrongNotesQuizClientProps {
   readonly allQuestions: readonly QuizQuestion[];
 }
 
+const WRONG_QUIZ_TIERS = [
+  { min: 91, emoji: '🏆', message: '거의 완벽하게 극복했어요! 이 오답들은 이제 실력이에요.' },
+  { min: 61, emoji: '💪', message: '많이 잡았어요! 나머지 몇 문제만 정리하면 될 거예요.' },
+  { min: 31, emoji: '🌱', message: '조금씩 감이 오고 있어요. 틀린 문제를 다시 보면 빠르게 올라요.' },
+  { min: 0, emoji: '📖', message: '아직 어려운 문제들이에요. 해설을 꼼꼼히 보고 다시 도전해봐요!' },
+];
+
 /** "2024 전공A 11번" → "2024년도 기출 A형 11번" / "...동형" → "2024 A-11 동형" */
 function formatSourceBadge(source: string): { label: string; variant: 'kice' | 'similar' | 'none' } {
   const m = source.match(/(\d{4})\s+전공([AB])\s+(\d+)번/);
@@ -192,6 +199,20 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
           <h1 className="text-2xl font-bold tracking-tight">재시험 결과</h1>
         </div>
 
+        {/* 감성 피드백 */}
+        {(() => {
+          const tier = WRONG_QUIZ_TIERS.find((t) => rate >= t.min);
+          if (!tier) return null;
+          return (
+            <div className="flex flex-col items-center text-center space-y-2">
+              <span className="text-5xl" aria-hidden="true">{tier.emoji}</span>
+              <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
+                {tier.message}
+              </p>
+            </div>
+          );
+        })()}
+
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-3xl">
@@ -220,12 +241,12 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
             )}
             {correctCount > 0 && (
               <p className="text-center text-sm text-green-600">
-                맞은 문제 {correctCount}개가 완료 처리되었습니다.
+                맞은 문제 {correctCount}개가 완료 처리되었어요.
               </p>
             )}
             {totalCount - correctCount > 0 && (
-              <p className="text-center text-sm text-red-600">
-                틀린 문제 {totalCount - correctCount}개의 시도 횟수가 증가했습니다.
+              <p className="text-center text-sm text-muted-foreground">
+                틀린 문제 {totalCount - correctCount}개는 다음 재시험에서 다시 만나요.
               </p>
             )}
           </CardContent>

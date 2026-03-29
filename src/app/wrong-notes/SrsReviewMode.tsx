@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
+import Link from 'next/link';
 import { useLeitnerStore, type LeitnerCard } from '@/stores/useLeitnerStore';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,13 @@ const BOX_LABELS: Record<number, string> = {
   4: '4단계',
   5: '마스터',
 };
+
+const SRS_RESULT_TIERS = [
+  { min: 91, emoji: '🏆', message: '거의 완벽한 복습이었어요! 내일도 꾸준히!' },
+  { min: 61, emoji: '💪', message: '잘하고 있어요! 틀린 카드는 내일 다시 나와요.' },
+  { min: 31, emoji: '🌱', message: '조금씩 자라고 있어요. 매일 하면 금방 올라요!' },
+  { min: 0, emoji: '📖', message: '괜찮아요! 반복할수록 기억에 남아요.' },
+];
 
 export default function SrsReviewMode() {
   const getDueCards = useLeitnerStore((s) => s.getDueCards);
@@ -61,12 +69,56 @@ export default function SrsReviewMode() {
   // No due cards
   if (dueCards.length === 0 && !sessionFinished) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center space-y-4">
-        <CheckCircle className="h-12 w-12 text-green-500" />
-        <p className="text-lg font-medium">오늘 복습할 카드가 없습니다</p>
-        <p className="text-sm text-muted-foreground">
-          전체 {stats.total}장 · 마스터 {stats.box5}장
-        </p>
+      <div className="space-y-6">
+        <div className="flex flex-col items-center justify-center py-12 text-center space-y-3">
+          <CheckCircle className="h-12 w-12 text-green-500" />
+          <p className="text-lg font-medium">오늘 복습할 카드가 없어요</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {stats.total === 0
+              ? '오답 노트에서 플래시카드로 저장하면 간격 반복이 시작돼요.'
+              : '내일 다시 와서 복습해보세요!'}
+          </p>
+        </div>
+
+        {/* Leitner 박스 분포 */}
+        {stats.total > 0 && (
+          <div className="rounded-xl border border-border bg-card p-4 space-y-3">
+            <p className="text-sm font-semibold">단계별 카드 분포</p>
+            <div className="grid grid-cols-5 gap-2">
+              {[1, 2, 3, 4, 5].map((box) => {
+                const count = stats[`box${box}` as keyof typeof stats] as number;
+                const pct = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0;
+                return (
+                  <div key={box} className="text-center space-y-1">
+                    <div className="text-xs text-muted-foreground">{BOX_LABELS[box]}</div>
+                    <div className="relative h-16 rounded bg-muted overflow-hidden flex items-end justify-center">
+                      <div
+                        className={`w-full rounded transition-all ${box === 5 ? 'bg-green-500' : 'bg-primary/60'}`}
+                        style={{ height: `${Math.max(pct, count > 0 ? 10 : 0)}%` }}
+                      />
+                    </div>
+                    <div className="text-sm font-medium">{count}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground text-center">
+              전체 {stats.total}장 · 마스터 {stats.box5}장
+            </p>
+          </div>
+        )}
+
+        {stats.total === 0 && (
+          <div className="flex justify-center">
+            <Button
+              render={<Link href="/wrong-notes" />}
+              variant="outline"
+              className="min-h-[44px]"
+            >
+              오답 노트에서 카드 추가하기
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -74,17 +126,33 @@ export default function SrsReviewMode() {
   // Session complete
   if (sessionFinished) {
     const correctCount = sessionResults.filter((r) => r.correct).length;
+    const rate = sessionResults.length > 0 ? Math.round((correctCount / sessionResults.length) * 100) : 0;
+    const tier = SRS_RESULT_TIERS.find((t) => rate >= t.min);
+
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center space-y-4">
-        <CheckCircle className="h-12 w-12 text-green-500" />
-        <p className="text-lg font-medium">복습 완료!</p>
+      <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">
+        <div className="text-5xl" aria-hidden="true">{tier?.emoji ?? '✅'}</div>
+        <p className="text-lg font-semibold">복습 완료!</p>
         <p className="text-sm text-muted-foreground">
-          {sessionResults.length}장 중 {correctCount}장 정답
+          {sessionResults.length}장 중 <span className="font-semibold text-foreground">{correctCount}장</span> 정답 ({rate}%)
         </p>
-        <Button onClick={handleRestart} className="min-h-[44px]">
-          <RotateCcw className="h-4 w-4 mr-2" />
-          다시 복습
-        </Button>
+        {tier && (
+          <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+            {tier.message}
+          </p>
+        )}
+        <div className="flex gap-3 pt-2">
+          <Button onClick={handleRestart} variant="outline" className="min-h-[44px]">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            다시 복습
+          </Button>
+          <Button
+            render={<Link href="/wrong-notes" />}
+            className="min-h-[44px]"
+          >
+            오답 노트로
+          </Button>
+        </div>
       </div>
     );
   }
@@ -136,6 +204,7 @@ export default function SrsReviewMode() {
             onClick={() => handleAnswer(false)}
             variant="outline"
             className="flex-1 min-h-[48px] text-red-600 border-red-200 hover:bg-red-50 dark:text-red-400 dark:border-red-900 dark:hover:bg-red-950"
+            aria-label="틀렸어요 — 1단계로 돌아감"
           >
             <XCircle className="h-4 w-4 mr-2" />
             틀림
@@ -143,6 +212,7 @@ export default function SrsReviewMode() {
           <Button
             onClick={() => handleAnswer(true)}
             className="flex-1 min-h-[48px] bg-green-600 hover:bg-green-700 text-white"
+            aria-label="맞았어요 — 다음 단계로 승급"
           >
             <CheckCircle className="h-4 w-4 mr-2" />
             맞음

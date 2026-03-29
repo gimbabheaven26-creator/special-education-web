@@ -192,10 +192,12 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
       </div>
 
       {/* 탭 전환 */}
-      <div className="flex border-b border-border">
+      <div className="flex border-b border-border" role="tablist" aria-label="오답 노트 보기 방식">
         <button
+          role="tab"
+          aria-selected={activeTab === 'all'}
           onClick={() => setActiveTab('all')}
-          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors min-h-[44px] ${
             activeTab === 'all'
               ? 'border-primary text-primary font-semibold'
               : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -204,8 +206,10 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
           전체 오답
         </button>
         <button
+          role="tab"
+          aria-selected={activeTab === 'srs'}
           onClick={() => setActiveTab('srs')}
-          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 min-h-[44px] ${
             activeTab === 'srs'
               ? 'border-primary text-primary font-semibold'
               : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -213,7 +217,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
         >
           간격 반복
           {srsStats.dueToday > 0 && (
-            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" aria-label={`오늘 복습할 카드 ${srsStats.dueToday}장`}>
               {srsStats.dueToday}
             </span>
           )}
