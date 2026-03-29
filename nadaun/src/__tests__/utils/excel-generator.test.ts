@@ -52,7 +52,8 @@ function makeWeekly(overrides: Partial<WeeklyPlan> = {}): WeeklyPlan {
 
 async function bufferToWorkbook(buf: Buffer): Promise<ExcelJS.Workbook> {
   const wb = new ExcelJS.Workbook()
-  await wb.xlsx.load(buf)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await wb.xlsx.load(buf as any)
   return wb
 }
 
