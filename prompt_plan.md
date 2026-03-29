@@ -1,6 +1,6 @@
 # SEW 사용자 체감 개선 — M2 사용자 만족도
 
-> 작성: 2026-03-29 | 담당: X | 상태: Phase 1 대기 (카이란 리뷰 필요)
+> 작성: 2026-03-29 | 담당: X | 상태: 전체 완료 (Phase 1~5 100%, 정교화 질문만 카이란 결정 대기)
 > 배경: 1주간 인프라 작업 후 전략 전환. 사용자가 체감 가능한 변화에만 집중.
 > 참고: docs/page-map-for-review.md (30+ 라우트 현황)
 
@@ -55,6 +55,7 @@
 - [x] `/stats` — EmptyState + CTA 구현 완료 (이전 세션)
 - [x] `/wrong-notes` — SRS Leitner 박스 시각화 + 감성 피드백 + 탭 접근성 (e1ca90f)
 - [x] `/bookmarks` — 각 카드에 과목별 퀴즈 직링크 버튼 추가 (541544d)
+- [x] `/bookmarks/quiz` — 북마크 챕터 전용 퀴즈 라우트 신설 (dbdced6)
 - [x] `/mastery` — EmptyState + 퀴즈 시작 CTA 구현 완료 (이전 세션)
 - [x] `/flashcards` — 0카드 vs 복습완료 분기 + 추가 유도 CTA (54ba9b0)
 
