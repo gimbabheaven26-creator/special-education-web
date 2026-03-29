@@ -30,13 +30,24 @@ export default async function StandardsPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {summaries.map((s) => {
-          const meta = getSubjectMeta(s.slug as SubjectSlug)
-          if (!meta) return null
-          return <SubjectCard key={s.slug} meta={meta} count={s.count} />
-        })}
-      </div>
+      {summaries.length === 0 ? (
+        <div className="rounded-lg border border-dashed p-8 text-center">
+          <p className="text-muted-foreground">
+            성취기준 데이터가 아직 준비되지 않았습니다.
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            관리자에게 데이터 삽입을 요청해주세요.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {summaries.map((s) => {
+            const meta = getSubjectMeta(s.slug as SubjectSlug)
+            if (!meta) return null
+            return <SubjectCard key={s.slug} meta={meta} count={s.count} />
+          })}
+        </div>
+      )}
     </div>
   )
 }

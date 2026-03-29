@@ -1,13 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
+import { getTeacherId } from '@/lib/supabase/auth'
 import type { Student, StudentWithIepCount, IepPlan, WeeklyPlan } from '@/types/students'
-
-/** Get authenticated teacher's ID */
-async function getTeacherId(): Promise<string> {
-  const supabase = await createClient()
-  const { data: { user }, error } = await supabase.auth.getUser()
-  if (error || !user) throw new Error('인증이 필요합니다.')
-  return user.id
-}
 
 /** Fetch teacher's students */
 export async function getStudents(): Promise<StudentWithIepCount[]> {

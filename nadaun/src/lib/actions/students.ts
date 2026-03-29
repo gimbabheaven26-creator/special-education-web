@@ -3,16 +3,10 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getTeacherId } from '@/lib/supabase/auth'
 import { studentSchema } from '@/lib/schemas/student'
 
 export type ActionResult = { error?: string }
-
-async function getTeacherId(): Promise<string> {
-  const supabase = await createClient()
-  const { data: { user }, error } = await supabase.auth.getUser()
-  if (error || !user) throw new Error('인증이 필요합니다.')
-  return user.id
-}
 
 export async function createStudent(
   _prev: ActionResult,
