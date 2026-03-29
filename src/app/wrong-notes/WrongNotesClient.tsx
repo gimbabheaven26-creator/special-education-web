@@ -204,6 +204,11 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
           }`}
         >
           전체 오답
+          {stats.unmastered > 0 && (
+            <span className="ml-1.5 text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400" aria-label={`미완료 오답 ${stats.unmastered}개`}>
+              {stats.unmastered}
+            </span>
+          )}
         </button>
         <button
           role="tab"

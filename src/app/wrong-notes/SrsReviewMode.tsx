@@ -162,13 +162,21 @@ export default function SrsReviewMode() {
   return (
     <div className="space-y-6">
       {/* Progress */}
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-foreground">
-          {sessionResults.length + 1} / {dueCards.length}
-        </span>
-        <Badge variant="outline">
-          {BOX_LABELS[currentCard.box]}
-        </Badge>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-muted-foreground">
+            {sessionResults.length + 1} / {dueCards.length}
+          </span>
+          <Badge variant="outline">
+            {BOX_LABELS[currentCard.box]}
+          </Badge>
+        </div>
+        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+          <div
+            className="h-full rounded-full bg-primary transition-all duration-300"
+            style={{ width: `${Math.round((sessionResults.length / dueCards.length) * 100)}%` }}
+          />
+        </div>
       </div>
 
       {/* Card */}
