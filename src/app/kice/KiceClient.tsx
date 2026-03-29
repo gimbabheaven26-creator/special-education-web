@@ -103,28 +103,36 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
       </div>
 
       {/* 탭 전환 */}
-      <div className="flex border-b border-border">
+      <div className="flex border-b border-border" role="tablist" aria-label="기출문제 보기 방식">
         <Link
           href="/kice?tab=by-year"
-          className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary"
+          role="tab"
+          aria-selected="true"
+          className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary min-h-[44px] flex items-center"
         >
           연도별 기출
         </Link>
         <Link
           href="/kice?tab=by-area"
-          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+          role="tab"
+          aria-selected="false"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center"
         >
           영역별 기출
         </Link>
         <Link
           href="/kice?tab=analytics"
-          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+          role="tab"
+          aria-selected="false"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center"
         >
           빈도분석
         </Link>
         <Link
           href="/kice?tab=search"
-          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+          role="tab"
+          aria-selected="false"
+          className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center"
         >
           키워드 검색
         </Link>
@@ -145,6 +153,22 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
             {year}
           </button>
         ))}
+      </div>
+
+      {/* 세션 색상 범례 */}
+      <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-blue-500" />
+          원본 기출
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-amber-500" />
+          동형 문제
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-purple-500" />
+          예상 문제
+        </span>
       </div>
 
       {/* 세션 그룹 선택 — 원본↔동형↔예상 관계 표시 */}
