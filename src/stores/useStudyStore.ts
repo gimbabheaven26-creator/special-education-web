@@ -50,12 +50,16 @@ interface StudyState {
   // Spaced scenario schedules (by groupId)
   spacedScenarioSchedules: Record<string, SpacedScenarioSchedule>;
 
+  // Persistent chapter completion tracking (key: subjectSlug, value: chapterSlug[])
+  completedChapters: Record<string, string[]>;
 }
 
 interface StudyActions {
   recordActivity: (activity: Omit<RecentActivity, 'timestamp'>) => void;
   recordQuizResult: (correct: boolean) => void;
   recordChapterComplete: () => void;
+  markChapterCompleted: (subjectSlug: string, chapterSlug: string) => void;
+  isChapterCompleted: (subjectSlug: string, chapterSlug: string) => boolean;
   recordStudyTime: (minutes: number) => void;
   setDailyGoal: (chapters: number, quizzes: number) => void;
   getDailyHistory: (days: number) => DailyHistoryEntry[];
@@ -116,6 +120,7 @@ export const useStudyStore = create<StudyState & StudyActions>()(
       dailyHistory: [],
       scenarioProgress: {},
       spacedScenarioSchedules: {},
+      completedChapters: {},
 
       recordActivity: (activity) =>
         set((state) => {
@@ -201,6 +206,23 @@ export const useStudyStore = create<StudyState & StudyActions>()(
           };
         }),
 
+      markChapterCompleted: (subjectSlug, chapterSlug) =>
+        set((state) => {
+          const existing = state.completedChapters[subjectSlug] ?? [];
+          if (existing.includes(chapterSlug)) return state;
+          return {
+            completedChapters: {
+              ...state.completedChapters,
+              [subjectSlug]: [...existing, chapterSlug],
+            },
+          };
+        }),
+
+      isChapterCompleted: (subjectSlug, chapterSlug) => {
+        const chapters = get().completedChapters[subjectSlug];
+        return chapters ? chapters.includes(chapterSlug) : false;
+      },
+
       recordStudyTime: (minutes) =>
         set((state) => {
           if (minutes <= 0) return state;
@@ -270,7 +292,7 @@ export const useStudyStore = create<StudyState & StudyActions>()(
     }),
     {
       name: 'special-edu-study',
-      version: 5,
+      version: 6,
       migrate: (persistedState, version) => {
         let state = persistedState as Record<string, unknown>;
 
@@ -292,6 +314,13 @@ export const useStudyStore = create<StudyState & StudyActions>()(
           state = {
             ...state,
             spacedScenarioSchedules: state.spacedScenarioSchedules ?? {},
+          };
+        }
+
+        if (version < 6) {
+          state = {
+            ...state,
+            completedChapters: state.completedChapters ?? {},
           };
         }
 

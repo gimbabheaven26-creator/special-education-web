@@ -53,8 +53,20 @@ export function AiBriefingCard() {
     }
   }
 
-  // 오답 자체가 없는 신규 유저 — 카드 숨김
-  if (wrongNotes.length === 0) return null;
+  // 오답 자체가 없는 신규 유저 — 온보딩 안내
+  if (wrongNotes.length === 0) {
+    return (
+      <div className="rounded-xl border border-border bg-card p-4 space-y-2">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-semibold text-muted-foreground">AI 브리핑</span>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          퀴즈를 풀고 오답이 쌓이면, AI가 취약 챕터와 학습 전략을 분석해드려요.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl border border-border bg-card p-4 space-y-3">

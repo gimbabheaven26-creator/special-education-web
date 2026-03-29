@@ -3,7 +3,9 @@
 import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { useMounted } from '@/hooks/useMounted';
 import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { FlashcardScene } from '@/components/flashcard/FlashcardScene';
 
 interface SessionResult {
@@ -13,6 +15,7 @@ interface SessionResult {
 }
 
 export default function ReviewPage() {
+  const mounted = useMounted();
   const getDueCards = useLeitnerStore((s) => s.getDueCards);
   const answerCard = useLeitnerStore((s) => s.answerCard);
   const totalCards = useLeitnerStore((s) => s.cards.length);
@@ -52,22 +55,25 @@ export default function ReviewPage() {
     [currentCard, answerCard, currentIndex, total]
   );
 
+  // Hydration guard — persist store is empty during SSR
+  if (!mounted) {
+    return (
+      <main className="max-w-xl mx-auto px-4 py-16">
+        <div className="h-48 rounded-2xl bg-muted animate-pulse" />
+      </main>
+    );
+  }
+
   // Empty state — no cards at all
   if (totalCards === 0) {
     return (
-      <main className="max-w-xl mx-auto px-4 py-16 flex flex-col items-center gap-6 text-center">
-        <span className="text-5xl" aria-hidden="true">🃏</span>
-        <h1 className="text-xl font-bold">플래시카드가 아직 없어요</h1>
-        <p className="text-muted-foreground text-sm max-w-sm">
-          나만의 플래시카드를 만들어 간격반복으로 효율적으로 암기하세요.
-          용어, 법령, 핵심 개념 등 시험에 자주 나오는 내용을 카드로 정리해보세요.
-        </p>
-        <Button
-          className="min-h-[44px]"
-          render={<Link href="/flashcards/add" />}
-        >
-          첫 카드 만들기
-        </Button>
+      <main className="max-w-xl mx-auto px-4 py-16">
+        <EmptyState
+          icon="🃏"
+          title="플래시카드가 아직 없어요"
+          description="나만의 플래시카드를 만들어 간격반복으로 효율적으로 암기하세요. 용어, 법령, 핵심 개념 등 시험에 자주 나오는 내용을 카드로 정리해보세요."
+          action={{ label: '첫 카드 만들기', href: '/flashcards/add', ariaLabel: '플래시카드 추가 페이지로 이동' }}
+        />
       </main>
     );
   }

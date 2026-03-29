@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { RefreshCw, CheckCircle } from 'lucide-react';
+import { RefreshCw, CheckCircle, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -23,9 +23,22 @@ export function DailyReviewCard() {
   const totalTodo = dueCount + wrongCount;
   const hasAnyData = totalCards > 0 || wrongNotes.length > 0;
 
-  // 데이터가 없는 신규 사용자 — 복습 완료와 구분
+  // 데이터가 없는 신규 사용자 — 온보딩 안내
   if (!hasAnyData) {
-    return null;
+    return (
+      <div className="flex items-center gap-3 p-4 rounded-2xl bg-muted/50 border border-border">
+        <BookOpen className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-foreground">복습 시스템을 시작해보세요</p>
+          <p className="text-xs text-muted-foreground mt-0.5">퀴즈를 풀면 오답이, 카드를 만들면 간격반복이 시작돼요</p>
+        </div>
+        <Link href="/practice" className="shrink-0">
+          <Button variant="outline" size="sm" className="min-h-[36px] text-xs">
+            시작하기
+          </Button>
+        </Link>
+      </div>
+    );
   }
 
   // 진짜 완료 상태
