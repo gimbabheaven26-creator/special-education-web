@@ -1,9 +1,16 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getStudentById, getIepPlansByStudent } from '@/lib/queries/students'
+import { getStudentById, getIepPlansByStudent, getWeeklyPlanCountsByStudent } from '@/lib/queries/students'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { DeleteStudentDialog } from '@/components/students/delete-student-dialog'
+
+function calculateTotalWeeks(periodStart: string, periodEnd: string): number {
+  const start = new Date(periodStart)
+  const end = new Date(periodEnd)
+  const diffMs = end.getTime() - start.getTime()
+  return Math.max(1, Math.ceil(diffMs / (7 * 24 * 60 * 60 * 1000)))
+}
 
 export default async function StudentDetailPage({
   params,
@@ -13,7 +20,10 @@ export default async function StudentDetailPage({
   const student = await getStudentById(params.studentId)
   if (!student) notFound()
 
-  const plans = await getIepPlansByStudent(student.id)
+  const [plans, weeklyCountMap] = await Promise.all([
+    getIepPlansByStudent(student.id),
+    getWeeklyPlanCountsByStudent(student.id),
+  ])
 
   return (
     <div className="space-y-8">
@@ -89,41 +99,58 @@ export default async function StudentDetailPage({
           </div>
         ) : (
           <div className="grid gap-3">
-            {plans.map((plan) => (
-              <Link
-                key={plan.id}
-                href={`/students/${student.id}/plans/${plan.id}`}
-                className="block rounded-lg border p-4 transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                aria-label={`${plan.title} — ${plan.subject}`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">{plan.title}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {plan.subject} &middot; {plan.period_start} ~ {plan.period_end}
-                    </p>
-                  </div>
-                  <Badge
-                    variant={
-                      plan.status === 'active'
-                        ? 'default'
-                        : plan.status === 'completed'
-                          ? 'secondary'
-                          : 'outline'
-                    }
+            {plans.map((plan) => {
+                const writtenWeeks = weeklyCountMap.get(plan.id) ?? 0
+                const totalWeeks = calculateTotalWeeks(plan.period_start, plan.period_end)
+                const progressPct = Math.round((writtenWeeks / totalWeeks) * 100)
+
+                return (
+                  <Link
+                    key={plan.id}
+                    href={`/students/${student.id}/plans/${plan.id}`}
+                    className="block rounded-lg border p-4 transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    aria-label={`${plan.title} — ${plan.subject}, 주간계획 ${writtenWeeks}/${totalWeeks}주 작성 완료`}
                   >
-                    {plan.status === 'draft'
-                      ? '초안'
-                      : plan.status === 'active'
-                        ? '진행 중'
-                        : '완료'}
-                  </Badge>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  목표 {plan.goals.length}개
-                </p>
-              </Link>
-            ))}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">{plan.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {plan.subject} &middot; {plan.period_start} ~ {plan.period_end}
+                        </p>
+                      </div>
+                      <Badge
+                        variant={
+                          plan.status === 'active'
+                            ? 'default'
+                            : plan.status === 'completed'
+                              ? 'secondary'
+                              : 'outline'
+                        }
+                      >
+                        {plan.status === 'draft'
+                          ? '초안'
+                          : plan.status === 'active'
+                            ? '진행 중'
+                            : '완료'}
+                      </Badge>
+                    </div>
+                    <p
+                      className="mt-1 text-xs text-muted-foreground"
+                      aria-label={`목표 ${plan.goals.length}개, 주간계획 진행률 ${writtenWeeks}주 작성 / 총 ${totalWeeks}주`}
+                    >
+                      목표 {plan.goals.length}개
+                      {' · '}
+                      {writtenWeeks === 0 ? (
+                        <span>아직 시작 전</span>
+                      ) : progressPct >= 100 ? (
+                        <Badge variant="secondary" className="ml-1 text-xs">완료</Badge>
+                      ) : (
+                        <span>진행률 {writtenWeeks}/{totalWeeks}주 ({progressPct}%)</span>
+                      )}
+                    </p>
+                  </Link>
+                )
+              })}
           </div>
         )}
       </div>

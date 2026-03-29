@@ -1,14 +1,9 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import {
-  createWeeklyPlan,
-  updateWeeklyPlan,
-  deleteWeeklyPlan,
-} from '@/lib/actions/weekly-plans'
-import { WeeklyPlanForm } from './weekly-plan-form'
 import { WeeklyPlanItem } from './weekly-plan-item'
+import { AddWeeklyPlanForm } from './add-weekly-plan-form'
 import type { WeeklyPlan, IepGoal } from '@/types/students'
 
 interface WeeklyPlanSectionProps {
@@ -25,74 +20,6 @@ export function WeeklyPlanSection({
   planGoals,
 }: WeeklyPlanSectionProps) {
   const [showForm, setShowForm] = useState(false)
-  const [isPending, startTransition] = useTransition()
-  const [error, setError] = useState<string | null>(null)
-  const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [editError, setEditError] = useState<string | null>(null)
-
-  function handleSubmit(formData: FormData) {
-    startTransition(async () => {
-      try {
-        const result = await createWeeklyPlan(
-          iepPlanId,
-          studentId,
-          {},
-          formData,
-        )
-        if (result?.error) {
-          setError(result.error)
-        } else {
-          setShowForm(false)
-          setError(null)
-        }
-      } catch {
-        // revalidation
-      }
-    })
-  }
-
-  async function handleDelete(weeklyPlanId: string) {
-    setDeletingId(weeklyPlanId)
-    try {
-      await deleteWeeklyPlan(weeklyPlanId, iepPlanId, studentId)
-    } catch {
-      // revalidation redirect
-    } finally {
-      setDeletingId(null)
-    }
-  }
-
-  function handleEdit(formData: FormData) {
-    if (!editingId) return
-    const weekNum = Number(formData.get('week_number'))
-    const duplicate = weeklyPlans.find(
-      (w) => w.week_number === weekNum && w.id !== editingId,
-    )
-    if (duplicate) {
-      setEditError(`${weekNum}주차가 이미 존재합니다.`)
-      return
-    }
-    startTransition(async () => {
-      try {
-        const result = await updateWeeklyPlan(
-          editingId,
-          iepPlanId,
-          studentId,
-          {},
-          formData,
-        )
-        if (result?.error) {
-          setEditError(result.error)
-        } else {
-          setEditingId(null)
-          setEditError(null)
-        }
-      } catch {
-        // revalidation
-      }
-    })
-  }
 
   const nextWeekNumber =
     weeklyPlans.length > 0
@@ -117,15 +44,13 @@ export function WeeklyPlanSection({
       </div>
 
       {showForm && (
-        <WeeklyPlanForm
+        <AddWeeklyPlanForm
+          iepPlanId={iepPlanId}
+          studentId={studentId}
           planGoals={planGoals}
-          onSubmit={handleSubmit}
+          nextWeekNumber={nextWeekNumber}
+          onSuccess={() => setShowForm(false)}
           onCancel={() => setShowForm(false)}
-          error={error}
-          isPending={isPending}
-          submitLabel="주차 추가"
-          pendingLabel="추가 중..."
-          defaultValues={{ week_number: nextWeekNumber, activity: '' }}
         />
       )}
 
@@ -142,15 +67,10 @@ export function WeeklyPlanSection({
           <WeeklyPlanItem
             key={wp.id}
             weeklyPlan={wp}
+            allWeeklyPlans={weeklyPlans}
+            iepPlanId={iepPlanId}
+            studentId={studentId}
             planGoals={planGoals}
-            isEditing={editingId === wp.id}
-            isDeletingThis={deletingId === wp.id}
-            isPending={isPending}
-            editError={editError}
-            onEdit={(id) => { setEditingId(id); setEditError(null) }}
-            onCancelEdit={() => { setEditingId(null); setEditError(null) }}
-            onSubmitEdit={handleEdit}
-            onDelete={handleDelete}
           />
         ))}
       </div>

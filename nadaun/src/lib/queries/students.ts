@@ -94,3 +94,26 @@ export async function getWeeklyPlansByIepPlan(iepPlanId: string): Promise<Weekly
   if (error) throw new Error(error.message)
   return (data ?? []) as WeeklyPlan[]
 }
+
+/** Fetch weekly plan counts per IEP plan for a student (efficient single query) */
+export async function getWeeklyPlanCountsByStudent(
+  studentId: string
+): Promise<Map<string, number>> {
+  const supabase = await createClient()
+
+  // Join through iep_plans to get weekly_plans belonging to this student
+  const { data, error } = await supabase
+    .from('weekly_plans')
+    .select('iep_plan_id, iep_plans!inner(student_id)')
+    .eq('iep_plans.student_id', studentId)
+    .limit(10000)
+
+  if (error) throw new Error(error.message)
+
+  const countMap = new Map<string, number>()
+  for (const row of data ?? []) {
+    const planId = (row as { iep_plan_id: string }).iep_plan_id
+    countMap.set(planId, (countMap.get(planId) ?? 0) + 1)
+  }
+  return countMap
+}
