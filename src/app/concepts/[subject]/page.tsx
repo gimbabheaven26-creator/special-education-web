@@ -4,8 +4,6 @@ import { ChevronRight, Tag, BookOpen, Calendar, Brain } from 'lucide-react';
 import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';
 import LearningTimeline from '@/components/subjects/LearningTimeline';
 import { CompletionBadge } from '@/components/chapter/CompletionBadge';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 
 interface Props {
   params: Promise<{ subject: string }>;
@@ -65,7 +63,7 @@ export default async function ConceptSubjectPage({ params }: Props) {
         <div className="mb-6">
           <Link
             href={`/quiz/${dbSlug}`}
-            className={cn(buttonVariants({ variant: 'default' }), 'gap-2')}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
           >
             <Brain className="h-4 w-4" />
             과목 퀴즈 풀기
