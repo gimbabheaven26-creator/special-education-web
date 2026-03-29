@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { getTeacherId } from '@/lib/supabase/auth'
 import { weeklyPlanSchema } from '@/lib/schemas/iep-plan'
 
 export type ActionResult = { error?: string }
@@ -43,6 +44,7 @@ export async function updateWeeklyPlan(
   _prev: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
   const parsed = weeklyPlanSchema.safeParse({
     week_number: Number(formData.get('week_number')),
     achievement_standard_id: formData.get('achievement_standard_id') || undefined,
@@ -57,10 +59,22 @@ export async function updateWeeklyPlan(
   }
 
   const supabase = await createClient()
+
+  // 소유권 검증: IEP plan이 현재 교사의 것인지 확인
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
   const { error } = await supabase
     .from('weekly_plans')
     .update(parsed.data)
     .eq('id', weeklyPlanId)
+    .eq('iep_plan_id', iepPlanId)
 
   if (error) return { error: error.message }
 
@@ -103,11 +117,24 @@ export async function deleteWeeklyPlan(
   iepPlanId: string,
   studentId: string
 ): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
   const supabase = await createClient()
+
+  // 소유권 검증: IEP plan이 현재 교사의 것인지 확인
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
   const { error } = await supabase
     .from('weekly_plans')
     .delete()
     .eq('id', weeklyPlanId)
+    .eq('iep_plan_id', iepPlanId)
 
   if (error) return { error: error.message }
 

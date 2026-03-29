@@ -36,6 +36,10 @@ vi.mock('@/lib/supabase/server', () => ({
   }),
 }))
 
+vi.mock('@/lib/supabase/auth', () => ({
+  getTeacherId: vi.fn().mockResolvedValue('teacher-1'),
+}))
+
 const {
   getStudents,
   getStudentById,
@@ -67,6 +71,12 @@ describe('getStudents', () => {
     createChainMock(STUDENT_FIXTURES)
     await getStudents()
     expect(mockFrom).toHaveBeenCalledWith('students')
+  })
+
+  it('filters by teacher_id', async () => {
+    createChainMock(STUDENT_FIXTURES)
+    await getStudents()
+    expect(mockEq).toHaveBeenCalledWith('teacher_id', 'teacher-1')
   })
 
   it('returns student list', async () => {

@@ -12,8 +12,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // E2E 테스트 인증 우회 (테스트 환경 전용)
-  if (process.env.E2E_AUTH_BYPASS === 'true') {
+  // E2E 테스트 인증 우회 (테스트 환경 전용, production에서는 무시)
+  if (
+    process.env.E2E_AUTH_BYPASS === 'true' &&
+    process.env.NODE_ENV !== 'production'
+  ) {
     return NextResponse.next()
   }
 

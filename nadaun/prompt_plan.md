@@ -1,93 +1,93 @@
-# nadaun Post-MVP: 프로덕션 준비 + 품질 개선
+# nadaun Sprint 2: 배포 + 보안 + UX 성숙
 
 > 확정일: 2026-03-29 | 승인: 카이란
 
 ## 목표
 
-MVP 완료(Phase 0~6 + QA) 후 프로덕션 배포 전 안정성/품질/테스트 강화.
+MVP + Post-MVP 완료 후 실제 배포 + 보안 강화 + 교사 대시보드.
 
-## Phase 7: 프로덕션 안정성
+## Phase 11: 배포 준비
 
-에러 바운더리 + 누락 로딩 + 스크립트 정비.
+Vercel 서브디렉토리 배포 + 환경변수 + E2E 안전장치.
 
-- [x] T1: error.tsx 5개 — students, plans/new, plans/[planId], plans/[planId]/edit, 루트
-- [x] T2: loading.tsx 누락분 — 이미 존재 확인 (추가 불필요)
-- [x] T3: package.json scripts — test:e2e 추가 (나머지 이미 존재)
+- [ ] T1: vercel.json 루트 디렉토리 설정 (nadaun/) + 빌드 커맨드 확인
+- [ ] T2: 환경변수 체크리스트 문서 — NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ANTHROPIC_API_KEY
+- [ ] T3: E2E_AUTH_BYPASS 이중 안전장치 — NODE_ENV === 'production'이면 무시
 
-## Phase 8: 코드 정리
+## Phase 12: 보안 강화
 
-중복/orphan/import 불일치 해소.
+teacher_id 가드 누락 3건 수정 + 보안 테스트.
 
-- [x] T4: IepPlanForm 통합 — 이전 세션에서 완료 (new/page.tsx → plans/ import)
-- [x] T5: orphan 삭제 — 이전 커밋(fcc871d)에서 components/iep/ 삭제 완료
-- [x] T6: supabase import 통일 — 이미 전부 browser 사용 확인 (변경 불필요)
-- [x] T7: generate-button 리팩토링 — bulkInsertWeeklyPlans server action + Button 컴포넌트
-- [x] T8: handleDelete try/catch — plan-status-actions, delete-student-dialog 2건 추가
+- [ ] T4: deleteWeeklyPlan — getTeacherId() + IEP plan 소유권 검증
+- [ ] T5: updateWeeklyPlan — 동일 패턴 적용
+- [ ] T6: getStudents() — 명시적 .eq('teacher_id', teacherId) 추가
+- [ ] T7: 보안 테스트 3건 — 타 교사 데이터 접근 시도 → 실패 확인
 
-## Phase 9: 테스트 확장
+## Phase 13: 프로덕션 안정성
 
-서버 액션 + 컴포넌트 + API + E2E.
+rate limiter + 코드 정리.
 
-- [x] T9: server actions 테스트 — iep-plans(14건), weekly-plans(15건), students(10건) = 39건
-- [x] T10: 컴포넌트 로직 테스트 — PlanStatusActions(5건), WeeklyPlanSection 중복검증(5건) = 10건
-- [x] T11: API route 테스트 — generate(6건), sanitizeFilename(5건), UUID검증(4건) = 15건
-- [x] T12: E2E 워크플로우 — student-crud(18건) + iep-workflow(10건) + error-boundary(4건) + student-form(10건)
+- [ ] T8: sanitizeFilename 공유 유틸 추출 — src/lib/utils/sanitize.ts
+- [ ] T9: rate limiter Supabase 기반 전환 — rate_limits 테이블 + upsert
+- [ ] T10: weekly-plan-section.tsx 분리 — WeeklyPlanItem + AddWeeklyPlanForm 추출
 
-## Phase 10: 주간계획 인라인 수정
+## Phase 14: 교사 대시보드
 
-현재 추가/삭제만 가능 → 인라인 편집 추가.
+홈 화면 개편 + IEP 진행률.
 
-- [x] T13: updateWeeklyPlan server action — 이미 존재 확인
-- [x] T14: WeeklyPlanItem 편집 모드 토글 — editingId 상태 + 인라인 폼
-- [x] T15: 주차 번호 중복 방지 검증 — handleEdit에서 duplicate 체크
-- [x] T16: E2E 확장 — weekly-plan(4건) + standards-navigation(27건) + middleware E2E_AUTH_BYPASS
+- [ ] T11: / 홈 개편 — 학생 수, IEP 수, 이번 주 계획 요약 카드
+- [ ] T12: IEP 진행률 표시 — 주간계획 작성 주차/총 주차 비율 배지
 
 ## 실행 순서
 
-Phase 7 + Phase 8 **병렬** → Phase 9 → Phase 10
+Phase 11 + Phase 12 **병렬** → Phase 13 → Phase 14
 
 ## 설계 결정
 
 | 결정 | 이유 |
 |------|------|
-| error.tsx Server Component | 클라이언트 번들 최소화, reset 버튼만 client |
-| IepPlanForm plans/ 기준 통합 | edit 페이지가 이미 plans/ 사용, new 페이지만 import 변경 |
-| generate-button server action | 직접 Supabase insert는 RLS 우회 리스크 + 서버 검증 불가 |
-| handleDelete try/catch | 네트워크 에러 시 UI stuck 방지 |
+| Supabase rate limiter | 서버리스 다중 인스턴스에서 인메모리 카운터 무력화 |
+| 애플리케이션 레벨 teacher_id 체크 | RLS는 최종 방어선, 앱 레벨이 1차 (심층 방어) |
+| 홈 대시보드 | 비전의 "IEP↔수업 연결" 시각화 첫 단계 |
+| E2E_AUTH_BYPASS 이중 가드 | production 실수 방지 |
 
-## Completion Contract (20개 — 20/20 = PASS)
+## Completion Contract (15개)
 
-### 안정성 (Phase 7)
-- [x] C1: 5개 라우트에 error.tsx 존재
-- [x] C2: error.tsx에 reset 버튼 + 사용자 친화 메시지
-- [x] C3: loading.tsx — 이미 존재 확인
-- [x] C4: npm run dev/build/test/lint/test:e2e 모두 package.json에 정의
+### 보안 기준
+- [ ] C1: deleteWeeklyPlan이 타 교사 plan 삭제 시 에러 반환
+- [ ] C2: updateWeeklyPlan이 타 교사 plan 수정 시 에러 반환
+- [ ] C3: getStudents()가 teacher_id로 필터링
+- [ ] C4: E2E_AUTH_BYPASS가 NODE_ENV=production에서 무시됨
+- [ ] C5: 보안 테스트 3건 PASS
 
-### 코드 품질 (Phase 8)
-- [x] C5: components/iep/ 디렉토리 삭제됨
-- [x] C6: IepPlanForm 단일 소스 (plans/)
-- [x] C7: supabase import가 모두 @/lib/supabase/browser
-- [x] C8: generate-button이 server action 사용
-- [x] C9: 모든 handleDelete에 try/catch 존재
-- [x] C10: 빌드 PASS (0 errors)
+### 프로덕션 기준
+- [ ] C6: sanitizeFilename이 단일 소스 (src/lib/utils/sanitize.ts)
+- [ ] C7: rate limiter가 Supabase 테이블 기반 동작
+- [ ] C8: weekly-plan-section.tsx 300줄 이하
+- [ ] C9: npm run build PASS
 
-### 테스트 (Phase 9)
-- [x] C11: server actions 테스트 3개 파일 (39건)
-- [x] C12: 컴포넌트 로직 테스트 1파일 (10건)
-- [x] C13: API route 테스트 1파일 (15건)
-- [x] C14: 전체 vitest PASS (194건)
+### 배포 기준
+- [ ] C10: Vercel에 배포되어 접근 가능
+- [ ] C11: Google OAuth가 배포 환경에서 동작
+- [ ] C12: AI 생성이 배포 환경에서 동작
 
-### 인라인 수정 (Phase 10)
-- [x] C15: 주간계획 수정 가능 (편집 버튼 + 인라인 폼)
-- [x] C16: 수정 후 DB 반영 확인 (updateWeeklyPlan 서버액션)
-- [x] C17: 주차 번호 중복 시 에러 표시
-- [x] C18: 수정 취소 시 원래 값 복원 (defaultValue 패턴)
-
-### 전체
-- [x] C19: 빌드 + 타입체크 + 린트 전체 PASS
-- [x] C20: E2E 79건 전체 PASS (login-page 6 + student-form 10 + student-crud 18 + error-boundary 4 + iep-workflow 10 + weekly-plan 4 + standards-navigation 27)
+### UX 기준
+- [ ] C13: 홈에서 학생 수 + IEP 수 확인 가능
+- [ ] C14: IEP 상세에서 주간계획 진행률 확인 가능
+- [ ] C15: 기존 E2E 79건 + 신규 테스트 전부 PASS
 
 ## 이전 계획
+
+<details>
+<summary>Post-MVP: Phase 7~10 (완료, 2026-03-29)</summary>
+
+16/16 Task 완료. 20/20 Completion Contract PASS.
+- Phase 7: error.tsx 5개 + loading + scripts
+- Phase 8: IepPlanForm 통합 + orphan 삭제 + try/catch
+- Phase 9: vitest 194건 + E2E 79건
+- Phase 10: 주간계획 인라인 수정 + E2E 확장
+
+</details>
 
 <details>
 <summary>Phase 2 — 성취기준 탐색 UI (완료)</summary>

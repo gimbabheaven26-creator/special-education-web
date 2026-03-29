@@ -5,20 +5,15 @@ import { renderToBuffer } from '@react-pdf/renderer'
 import { createClient } from '@/lib/supabase/server'
 import { createRateLimiter } from '@/lib/rate-limit'
 import { IepPdfDocument } from '@/lib/utils/pdf-document'
+import { sanitizeFilename, isValidUUID } from '@/lib/utils/sanitize'
 import type { IepPlan, WeeklyPlan } from '@/types/students'
 
 /** 교사당 분당 10회 */
 const exportLimiter = createRateLimiter({ windowMs: 60_000, max: 10 })
 
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-
-function sanitizeFilename(name: string): string {
-  return name.replace(/[^\w가-힣\s-]/g, '').slice(0, 100)
-}
-
 export async function GET(request: NextRequest) {
   const planId = request.nextUrl.searchParams.get('planId')
-  if (!planId || !UUID_RE.test(planId)) {
+  if (!planId || !isValidUUID(planId)) {
     return NextResponse.json(
       { error: '계획 ID가 필요합니다.' },
       { status: 400 },

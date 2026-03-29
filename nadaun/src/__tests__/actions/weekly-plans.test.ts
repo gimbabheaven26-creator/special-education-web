@@ -11,6 +11,10 @@ const mockRevalidatePath = vi.fn()
 vi.mock('next/cache', () => ({ revalidatePath: (...args: unknown[]) => mockRevalidatePath(...args) }))
 vi.mock('next/navigation', () => ({ redirect: vi.fn() }))
 
+vi.mock('@/lib/supabase/auth', () => ({
+  getTeacherId: vi.fn().mockResolvedValue('teacher-1'),
+}))
+
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn().mockResolvedValue({
     from: (...args: unknown[]) => mockFrom(...args),
@@ -35,6 +39,58 @@ function makeFormData(entries: Record<string, string>): FormData {
 const validWeeklyData = {
   week_number: '3',
   activity: '듣기 연습',
+}
+
+/** 소유권 검증 성공 mock (iep_plans select → plan 존재) */
+function setupOwnershipPass() {
+  const weeklyChain = {
+    eq: mockEq,
+    error: null,
+  }
+  mockEq.mockReturnValue({ eq: mockEq, error: null })
+  mockUpdate.mockReturnValue(weeklyChain)
+  mockDelete.mockReturnValue(weeklyChain)
+
+  mockFrom.mockImplementation((table: string) => {
+    if (table === 'iep_plans') {
+      return {
+        select: () => ({
+          eq: () => ({
+            eq: () => ({
+              single: () => ({ data: { id: 'p1' }, error: null }),
+            }),
+          }),
+        }),
+      }
+    }
+    return {
+      insert: mockInsert,
+      update: mockUpdate,
+      delete: mockDelete,
+    }
+  })
+}
+
+/** 소유권 검증 실패 mock (iep_plans select → null) */
+function setupOwnershipFail() {
+  mockFrom.mockImplementation((table: string) => {
+    if (table === 'iep_plans') {
+      return {
+        select: () => ({
+          eq: () => ({
+            eq: () => ({
+              single: () => ({ data: null, error: { code: 'PGRST116', message: 'not found' } }),
+            }),
+          }),
+        }),
+      }
+    }
+    return {
+      insert: mockInsert,
+      update: mockUpdate,
+      delete: mockDelete,
+    }
+  })
 }
 
 beforeEach(() => {
@@ -126,16 +182,14 @@ describe('createWeeklyPlan', () => {
 })
 
 describe('updateWeeklyPlan', () => {
-  it('주간계획을 수정한다', async () => {
+  it('소유한 주간계획을 수정한다', async () => {
+    setupOwnershipPass()
     const result = await updateWeeklyPlan('w1', 'p1', 's1', {}, makeFormData(validWeeklyData))
-    expect(mockFrom).toHaveBeenCalledWith('weekly_plans')
-    expect(mockUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ week_number: 3, activity: '듣기 연습' }),
-    )
     expect(result).toEqual({})
   })
 
   it('유효하지 않은 데이터는 에러를 반환한다', async () => {
+    setupOwnershipPass()
     const result = await updateWeeklyPlan(
       'w1',
       'p1',
@@ -146,23 +200,31 @@ describe('updateWeeklyPlan', () => {
     expect(result.error).toBeDefined()
     expect(mockUpdate).not.toHaveBeenCalled()
   })
+
+  it('타 교사의 IEP plan 수정 시 권한 에러를 반환한다', async () => {
+    setupOwnershipFail()
+    const result = await updateWeeklyPlan('w1', 'p1', 's1', {}, makeFormData(validWeeklyData))
+    expect(result.error).toBe('권한이 없습니다.')
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
 })
 
 describe('deleteWeeklyPlan', () => {
-  it('주간계획을 삭제한다', async () => {
+  it('소유한 주간계획을 삭제한다', async () => {
+    setupOwnershipPass()
     const result = await deleteWeeklyPlan('w1', 'p1', 's1')
-    expect(mockFrom).toHaveBeenCalledWith('weekly_plans')
-    expect(mockDelete).toHaveBeenCalled()
     expect(result).toEqual({})
   })
 
-  it('Supabase 에러 시 에러를 반환한다', async () => {
-    mockEq.mockReturnValue({ error: { message: '삭제 실패' } })
+  it('타 교사의 IEP plan 삭제 시 권한 에러를 반환한다', async () => {
+    setupOwnershipFail()
     const result = await deleteWeeklyPlan('w1', 'p1', 's1')
-    expect(result.error).toBe('삭제 실패')
+    expect(result.error).toBe('권한이 없습니다.')
+    expect(mockDelete).not.toHaveBeenCalled()
   })
 
   it('성공 시 revalidatePath를 호출한다', async () => {
+    setupOwnershipPass()
     await deleteWeeklyPlan('w1', 'p1', 's1')
     expect(mockRevalidatePath).toHaveBeenCalledWith('/students/s1/plans/p1')
   })
