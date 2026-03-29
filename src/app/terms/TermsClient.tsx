@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Search, BookOpen, ChevronDown, ChevronUp, List, ArrowUp, BarChart2 } from 'lucide-react';
+import { EmptyState } from '@/components/ui/EmptyState';
 import type { Term } from './page';
 
 interface TermsClientProps {
@@ -272,10 +273,11 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
             <>
               <p className="text-xs text-muted-foreground mb-3">{filtered.length}개 결과</p>
               {filtered.length === 0 ? (
-                <div className="py-16 text-center text-muted-foreground">
-                  <BookOpen className="h-12 w-12 mx-auto mb-3 opacity-20" />
-                  <p className="text-sm">검색 결과가 없습니다</p>
-                </div>
+                <EmptyState
+                  icon="🔍"
+                  title="검색 결과가 없습니다"
+                  description="다른 키워드로 검색해보세요."
+                />
               ) : (
                 <div className="space-y-2">
                   {filtered.slice(0, 200).map((term, i) => (

@@ -7,6 +7,7 @@ import type { Subject, SearchItem } from '@/types/content';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { Search } from 'lucide-react';
 
 export interface QuizSearchItem {
@@ -108,11 +109,11 @@ export default function SearchClient({ subjects, quizItems }: SearchClientProps)
       {query.trim() && (
         <div>
           {results.length === 0 ? (
-            <div className="text-center py-16">
-              <Search className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
-              <p className="text-lg font-medium text-foreground mb-1">검색 결과가 없습니다</p>
-              <p className="text-muted-foreground">&ldquo;{query}&rdquo;에 해당하는 결과를 찾을 수 없습니다.</p>
-            </div>
+            <EmptyState
+              icon="🔍"
+              title="검색 결과가 없습니다"
+              description={`"${query}"에 해당하는 결과를 찾을 수 없습니다.`}
+            />
           ) : (
             <>
               <p className="text-sm text-muted-foreground mb-4">

@@ -18,6 +18,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { EmptyState } from '@/components/ui/EmptyState';
 import type { Subject } from '@/types/content';
 import type { WorksheetTopicRow } from '@/lib/db';
 import type { LucideIcon } from 'lucide-react';
@@ -137,9 +138,11 @@ export default function KiceByArea({ subjects, topics }: KiceByAreaProps) {
 
           {/* 영역 목록 */}
           {subjectTopics.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              이 과목에는 아직 영역별 문제가 없습니다.
-            </div>
+            <EmptyState
+              icon="📂"
+              title="아직 영역별 문제가 없습니다"
+              description="이 과목의 영역별 문제는 준비 중이에요."
+            />
           ) : (
             <div className="space-y-2">
               {subjectTopics.map((topic) => (

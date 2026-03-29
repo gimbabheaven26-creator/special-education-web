@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useQuizStore } from '@/stores/useQuizStore';
+import { EmptyState } from '@/components/ui/EmptyState';
 import {
   calculateChapterMasteries,
   calculateSubjectMasteries,
@@ -12,7 +13,7 @@ import {
   getMasteryInfo,
   type SubjectMastery,
   type PassSimulation,
-} from '@/lib/mastery';
+} from '@/lib/study/mastery';
 import examStructure from '@/data/exam-structure.json';
 
 const subjectWeights = examStructure.subjectWeights as Record<
@@ -263,15 +264,12 @@ export default function MasteryPage() {
           </p>
         </div>
         {tabBar}
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <p className="text-4xl mb-4">🌳</p>
-          <p className="text-lg font-medium text-muted-foreground">
-            아직 학습 기록이 없어요
-          </p>
-          <p className="text-sm text-muted-foreground mt-1">
-            퀴즈를 풀어보면 여기에 숙련도 트리가 표시됩니다.
-          </p>
-        </div>
+        <EmptyState
+          icon="🌳"
+          title="아직 학습 기록이 없어요"
+          description="퀴즈를 풀어보면 여기에 숙련도 트리가 표시됩니다."
+          action={{ label: '퀴즈 시작하기', href: '/quiz', ariaLabel: '퀴즈 페이지로 이동' }}
+        />
       </main>
     );
   }

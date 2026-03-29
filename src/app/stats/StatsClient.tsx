@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { useStatsData } from './useStatsData';
 import { WrongNoteAI } from '@/components/WrongNoteAI';
 import OverallAccuracy from './OverallAccuracy';
@@ -74,15 +75,12 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
           </p>
         </div>
         {tabBar}
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <p className="text-4xl mb-4">📊</p>
-          <p className="text-lg font-medium text-muted-foreground">
-            아직 학습 기록이 없어요
-          </p>
-          <p className="text-sm text-muted-foreground mt-1">
-            퀴즈를 풀어보면 여기에 통계가 표시됩니다.
-          </p>
-        </div>
+        <EmptyState
+          icon="📊"
+          title="아직 학습 기록이 없어요"
+          description="퀴즈를 풀어보면 여기에 통계가 표시됩니다."
+          action={{ label: '퀴즈 시작하기', href: '/quiz', ariaLabel: '퀴즈 페이지로 이동' }}
+        />
       </main>
     );
   }

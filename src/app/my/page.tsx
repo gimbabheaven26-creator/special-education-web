@@ -25,6 +25,7 @@ import {
 import { NicknamePrompt } from '@/components/NicknamePrompt';
 import { ExamCountdown } from '@/components/ExamCountdown';
 import { BadgeDisplay } from '@/components/BadgeDisplay';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { createClient } from '@/lib/supabase/browser';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -88,13 +89,12 @@ function SubjectProgressTab() {
 
   if (subjects.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-2 py-12 text-center">
-        <BookOpen className="h-8 w-8 text-muted-foreground/40" />
-        <p className="text-sm text-muted-foreground">아직 학습 기록이 없어요. 첫 과목을 시작해보세요!</p>
-        <Link href="/concepts" className="text-xs text-primary hover:underline">
-          과목 학습 시작하기
-        </Link>
-      </div>
+      <EmptyState
+        icon="📖"
+        title="아직 학습 기록이 없어요"
+        description="첫 과목을 시작해보세요!"
+        action={{ label: '과목 학습 시작하기', href: '/concepts', ariaLabel: '과목 학습 페이지로 이동' }}
+      />
     );
   }
 
@@ -141,10 +141,11 @@ function RecentWrongTab() {
 
   if (recent.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-2 py-12 text-center">
-        <CheckCircle2 className="h-8 w-8 text-green-500/40" />
-        <p className="text-sm text-muted-foreground">틀린 문제가 없어요. 이대로 꾸준히 풀어보세요!</p>
-      </div>
+      <EmptyState
+        icon="✅"
+        title="틀린 문제가 없어요"
+        description="이대로 꾸준히 풀어보세요!"
+      />
     );
   }
 

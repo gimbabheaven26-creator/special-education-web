@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Search, FileText, Clock, Award, GitFork, Sparkles, Play, BookOpen, ChevronLeft, ChevronRight as ChevronRightIcon } from 'lucide-react'
 import { QuestionCard } from '@/components/kice/QuestionCard'
 import { Button } from '@/components/ui/button'
+import { EmptyState } from '@/components/ui/EmptyState'
 import type { KiceExam, ExamEntry } from '@/types/kice'
 
 interface KiceClientProps {
@@ -300,9 +301,11 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
       {practiceIndex !== null && (
         <>
           {filteredQuestions.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              검색 결과가 없습니다.
-            </div>
+            <EmptyState
+              icon="🔍"
+              title="검색 결과가 없습니다"
+              description="키워드를 바꿔서 다시 검색해보세요."
+            />
           ) : (
             <div className="space-y-4">
               {/* 상단 네비게이션 */}
@@ -383,13 +386,17 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
       {practiceIndex === null && (
         <>
           {!exam ? (
-            <div className="text-center py-12 text-muted-foreground">
-              선택한 시험을 찾을 수 없습니다.
-            </div>
+            <EmptyState
+              icon="📝"
+              title="선택한 시험을 찾을 수 없습니다"
+              description="다른 연도나 세션을 선택해보세요."
+            />
           ) : filteredQuestions.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              검색 결과가 없습니다.
-            </div>
+            <EmptyState
+              icon="🔍"
+              title="검색 결과가 없습니다"
+              description="키워드를 바꿔서 다시 검색해보세요."
+            />
           ) : (
             <div className="space-y-4">
               {filteredQuestions.map(q => {
