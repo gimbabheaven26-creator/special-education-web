@@ -157,10 +157,16 @@ export async function POST(request: NextRequest) {
             }
           }
 
-          // 파싱
+          // 파싱 (마크다운 코드블록 래핑 제거)
+          let jsonText = fullText.trim();
+          const fenceMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)```/);
+          if (fenceMatch) {
+            jsonText = fenceMatch[1].trim();
+          }
+
           let result: GenerationResult;
           try {
-            result = JSON.parse(fullText) as GenerationResult;
+            result = JSON.parse(jsonText) as GenerationResult;
           } catch {
             controller.enqueue(
               encoder.encode(
