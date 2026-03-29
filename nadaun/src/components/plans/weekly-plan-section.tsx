@@ -182,7 +182,7 @@ export function WeeklyPlanSection({
                 />
               </div>
 
-              <Button type="submit" disabled={isPending} className="w-full">
+              <Button type="submit" disabled={isPending} aria-busy={isPending} className="w-full">
                 {isPending ? '추가 중...' : '주차 추가'}
               </Button>
             </form>

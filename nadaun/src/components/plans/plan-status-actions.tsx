@@ -65,6 +65,7 @@ export function PlanStatusActions({
           variant="outline"
           size="sm"
           disabled={isPending}
+          aria-busy={isPending}
           onClick={() => handleStatusChange(t.next)}
           aria-label={t.label}
         >

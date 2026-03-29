@@ -10,6 +10,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { PlanStatusActions } from '@/components/plans/plan-status-actions'
 import { PlanExportToolbar } from '@/components/export/plan-export-toolbar'
 import { WeeklyPlanSection } from '@/components/plans/weekly-plan-section'
+import { GenerateButton } from '@/components/ai/generate-button'
 
 const STATUS_LABELS: Record<string, string> = {
   draft: '초안',
@@ -103,6 +104,17 @@ export default async function PlanDetailPage({
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">주차별 수업 계획</h2>
+          <GenerateButton
+            planId={plan.id}
+            studentId={student.id}
+            hasWeeklyPlans={weeklyPlans.length > 0}
+          />
+        </div>
       </div>
 
       <WeeklyPlanSection

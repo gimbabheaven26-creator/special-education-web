@@ -77,12 +77,23 @@ export function IepPlanForm({ studentId, plan }: IepPlanFormProps) {
   function handleSubjectChange(value: unknown) {
     const v = value as string
     if (v !== selectedSubject && goals.length > 0) {
+      const confirmed = window.confirm(
+        '과목을 변경하면 추가된 목표가 모두 삭제됩니다. 계속하시겠습니까?',
+      )
+      if (!confirmed) return
       setGoals([])
     }
     setSelectedSubject(v)
   }
 
   function handleSubmit(formData: FormData) {
+    const start = formData.get('period_start') as string
+    const end = formData.get('period_end') as string
+    if (start && end && end < start) {
+      setError('종료일은 시작일 이후여야 합니다.')
+      return
+    }
+
     const iepGoals: IepGoal[] = goals.map((g) => ({
       achievement_standard_id: g.standard.id,
       achievement_standard_code: g.standard.code,
@@ -274,6 +285,7 @@ export function IepPlanForm({ studentId, plan }: IepPlanFormProps) {
       <Button
         type="submit"
         disabled={isPending || goals.length === 0}
+        aria-busy={isPending}
         className="w-full"
         size="lg"
       >

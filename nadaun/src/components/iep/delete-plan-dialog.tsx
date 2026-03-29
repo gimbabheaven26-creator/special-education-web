@@ -55,6 +55,7 @@ export function DeletePlanDialog({
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isPending}
+            aria-busy={isPending}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             {isPending ? '삭제 중...' : '삭제'}
