@@ -6,22 +6,15 @@ import {
   StyleSheet,
   Font,
 } from '@react-pdf/renderer'
-import path from 'path'
 import type { IepGoal, IepPlan, WeeklyPlan } from '@/types/students'
 
-/* ── Font Registration ── */
+/* ── Font Registration (CDN for Vercel serverless compatibility) ── */
+const NOTO_SANS_KR_CDN =
+  'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/notosanskr/NotoSansKR%5Bwght%5D.ttf'
+
 Font.register({
   family: 'NotoSansKR',
-  fonts: [
-    {
-      src: path.join(process.cwd(), 'public/fonts/NotoSansKR-Regular.ttf'),
-      fontWeight: 'normal',
-    },
-    {
-      src: path.join(process.cwd(), 'public/fonts/NotoSansKR-Bold.ttf'),
-      fontWeight: 'bold',
-    },
-  ],
+  src: NOTO_SANS_KR_CDN,
 })
 
 /* ── Styles ── */
