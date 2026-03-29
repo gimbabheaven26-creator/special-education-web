@@ -3,13 +3,10 @@ import { getAvailableExams, getExam } from '@/lib/kice/kice'
 
 export const metadata: Metadata = {
   title: '기출문제 분석',
-  description: '특수교육 임용시험 기출문제 연도별·영역별 분석 및 모의고사 풀이.',
+  description: '특수교육 임용시험 기출문제 연도별 분석 및 모의고사 풀이.',
 }
-import { getSubjects, getAllWorksheetTopics } from '@/lib/db'
 import { computeAnalytics } from '@/lib/kice/kice-analytics'
 import KiceClient from './KiceClient'
-import KiceByArea from './KiceByArea'
-import KiceSearch, { type KiceSearchItem } from './KiceSearch'
 import AnalyticsClient from './analytics/AnalyticsClient'
 
 interface PageProps {
@@ -20,37 +17,9 @@ export default async function KicePage({ searchParams }: PageProps) {
   const params = await searchParams
   const tab = params.tab ?? 'by-year'
 
-  if (tab === 'by-area') {
-    const subjects = await getSubjects()
-    const topics = await getAllWorksheetTopics()
-    return <KiceByArea subjects={subjects} topics={topics} />
-  }
-
   if (tab === 'analytics') {
     const data = computeAnalytics()
     return <AnalyticsClient data={data} />
-  }
-
-  if (tab === 'search') {
-    const entries = getAvailableExams()
-    const items: KiceSearchItem[] = []
-    for (const entry of entries) {
-      const exam = getExam(entry.year, entry.session)
-      if (exam) {
-        for (const q of exam.questions) {
-          items.push({
-            year: entry.year,
-            session: entry.session,
-            number: q.number,
-            points: q.points,
-            context: q.context,
-            keywords: q.keywords,
-            subjects: q.subjects,
-          })
-        }
-      }
-    }
-    return <KiceSearch items={items} />
   }
 
   const entries = getAvailableExams()

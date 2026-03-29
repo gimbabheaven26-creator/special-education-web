@@ -36,6 +36,9 @@ export default function BookmarksPage() {
         />
       ) : (
         <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            개념학습에서 중요한 챕터를 북마크하면 여기에 모여요. 시험 전 복습할 핵심만 골라두세요.
+          </p>
           <div className="flex justify-end gap-2">
             <Button render={<Link href="/bookmarks/quiz" />} size="sm">
               <Brain className="h-4 w-4 mr-1" />

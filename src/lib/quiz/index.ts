@@ -15,14 +15,9 @@ export { checkBlank } from './check-blank';
 
 export {
   scoreDescriptiveAnswer,
+  extractKeywords,
 } from './descriptive-scoring';
 export type { ScoringResult } from './descriptive-scoring';
-
-export {
-  extractKeywords,
-  evaluateElaboration,
-} from './elaboration';
-export type { ElaborationResult } from './elaboration';
 
 export { seededRandom, seededSample, selectWithWrongPriority } from './seeded-sample';
 

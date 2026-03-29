@@ -2,13 +2,11 @@
 
 import Link from 'next/link';
 
-export type KiceTab = 'by-year' | 'by-area' | 'analytics' | 'search';
+export type KiceTab = 'by-year' | 'analytics';
 
 const TABS: { key: KiceTab; label: string; href: string }[] = [
-  { key: 'by-year', label: '연도별 기출', href: '/kice?tab=by-year' },
-  { key: 'by-area', label: '영역별 기출', href: '/kice?tab=by-area' },
-  { key: 'analytics', label: '빈도분석', href: '/kice?tab=analytics' },
-  { key: 'search', label: '키워드 검색', href: '/kice?tab=search' },
+  { key: 'by-year', label: '기출문제', href: '/kice?tab=by-year' },
+  { key: 'analytics', label: '출제분석', href: '/kice?tab=analytics' },
 ];
 
 const INACTIVE =

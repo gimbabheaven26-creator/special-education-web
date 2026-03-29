@@ -43,3 +43,23 @@ next-env.d.ts
 # PDF 바이너리 — 로컬 참조용, Git 추적 제외 (32MB 절감)
 /data/kice-기출/**/*.pdf
 reviews.json
+
+# test artifacts
+test-results/
+playwright-report/
+nadaun/test-results/
+nadaun/playwright-report/
+
+# scripts output
+scripts/output/
+
+# claude internal
+.claude/checkpoints/
+.claude/worktrees/
+.claude/web-checklist-state.json
+.claude/launch.json
+.claude/handoff.md
+.claude/agent-memory/
+
+# superpowers
+.superpowers/
