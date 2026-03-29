@@ -32,9 +32,9 @@
 - [x] `/quiz/short` loading.tsx + error.tsx 추가 (5e7be66)
 - [x] `/concepts`, `/flashcards` error.tsx 추가 (f88e8b5)
 - [x] 빌드 깨짐 복구 — lib 모듈 이동 후 재수출 6개 (f88e8b5, 47acf8f)
-- [ ] `/flashcards` 빈 스토어 시 빈 상태 UI 추가
+- [x] `/flashcards` 빈 상태 — 0카드 vs 복습완료 분기 UI (54ba9b0)
 - [x] `/interactive` description 추가 — nav-config + practice-hub 동기화 (5609067)
-- [ ] 홈 DailyReviewCard / AiBriefingCard 데이터 없을 때 빈 상태 처리 확인
+- [x] 홈 DailyReviewCard / AiBriefingCard — 신규 사용자 시 null 반환, 완료 시 축하 메시지 (기구현 확인)
 
 ## Phase 2: 실력쌓기 체감 개선 (현재 <20% → 50%+)
 
@@ -56,7 +56,7 @@
 - [ ] `/wrong-notes` — SRS 모드 실제 동작 확인 + UX 개선
 - [ ] `/bookmarks` — 북마크한 챕터로 바로 퀴즈 시작 기능 (전용 퀴즈 페이지)
 - [x] `/mastery` — EmptyState + 퀴즈 시작 CTA 구현 완료 (이전 세션)
-- [ ] `/flashcards` — 카드 0개일 때 빈 상태 + 추가 유도
+- [x] `/flashcards` — 0카드 vs 복습완료 분기 + 추가 유도 CTA (54ba9b0)
 
 ## Phase 4: 함께하기 체감 개선 (현재 <20% → 50%+)
 
@@ -120,8 +120,15 @@ V(평가자)가 이 기준으로 PASS/FAIL을 판정한다. 80% 이상 통과해
 > 담당: 프라임 | 상태: 실행 완료
 
 ### 클루디 작업 7건 (2026-03-25)
-> 담당: 클루디 | 상태: 미착수
+> 담당: X(데이터 모드) | 상태: 구현 완료, 카이란 실행 대기 4건
 > FK 제약, 세분화 챕터, 퀴즈 ID 통일, 워크시트 데이터 등
+>
+> 완료: 챕터 참조 수정(2593건), emotional-behavioral 재배치(33건), 하드코딩 키 제거, 검증 0 violations
+> 카이란 실행 대기:
+> 1. `add-fk-constraints.sql` Supabase SQL Editor 실행
+> 2. `insert-worksheet-vi-hi-pd-cd.mjs` 워크시트 삽입
+> 3. `fix-options-5to4.mjs` 선택지 5→4 통일 (34건)
+> 4. `cleanup-emotional-behavioral.mjs` 빈 과목 삭제
 
 ### API 보안 강화 (2026-03-24)
 > 담당: X | 상태: 일부 완료
