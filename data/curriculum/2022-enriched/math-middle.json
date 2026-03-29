@@ -1,0 +1,1972 @@
+{
+  "subject": "수학",
+  "school_level": "중학교",
+  "grade_group": "1~3학년군",
+  "source": "2022 개정 특수교육 기본 교육과정 수학과 평가 자료",
+  "extracted_date": "2026-03-29",
+  "domains": [
+    {
+      "domain": "수와 연산",
+      "sub_domains": [
+        {
+          "sub_domain": "수",
+          "standards": [
+            {
+              "code": "9수학01-01",
+              "description": "100의 개념을 알고, 몇백을 센다.",
+              "content_elements": {
+                "knowledge_understanding": "100의 개념과 몇백",
+                "process_skills": "수 모형을 100으로 나타내기",
+                "value_attitude": "생활 속 수에 대한 흥미와 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 10개씩 묶어 세는 활동을 한 후 그 묶음의 수를 세어 몇 십을 경험하게 한다. 수 모형을 제시하여 10이 10개이면 100이 됨을 알게 한다. 이때에 100의 크기에 대한 양감을 경험할 수 있도록 실생활의 여러 가지 구체물을 활용한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "수 모형과 100의 관계",
+                  "process_skills": "수 모형을 100으로 나타내기",
+                  "value_attitude": "생활 속 수에 대해 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "수 모형과 10의 묶음",
+                  "process_skills": "10개씩 묶어 세기",
+                  "value_attitude": "수 세기에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "수 모형과 수 세기",
+                  "process_skills": "하나씩 세기",
+                  "value_attitude": "수 세기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["100의 개념을 알고", "몇백을 센다."],
+                "items": [
+                  {
+                    "col1": [
+                      "모형 달걀 10개가 달걀판 10줄에 모두 담기면 100개임을 알고",
+                      "10개씩 10묶음이 100임을 알고",
+                      "달걀판의 빈칸에 모형 달걀을 하나씩 넣으며 100을 알고",
+                      "수 모형 낱개 10개가 십 모형 1개와 같음을 알고 십 모형 10개가 백 모형 1개와 같음을 알고",
+                      "수 모형으로 10개씩 묶어 100을 알고",
+                      "수 모형으로 하나씩 세어 100을 알고",
+                      "수 배열표에서 10개씩 묶어 100을 알고",
+                      "수 배열표에서 하나씩 세어 100을 알고",
+                      "바둑돌을 10개씩 묶어 100을 알고",
+                      "바둑돌을 하나씩 세어 100을 알고",
+                      "구체물을 하나씩 세어 100을 알고"
+                    ],
+                    "col2": [
+                      "백, 이백, 삼백…을 센다.",
+                      "수 모형으로 몇백을 센다.",
+                      "바둑돌로 몇백을 센다.",
+                      "수 배열표로 몇백을 센다.",
+                      "구체물로 100씩 세며 몇백을 센다.",
+                      "100원짜리 동전으로 몇백을 센다.",
+                      "몇백을 소리내어 센다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "모형 달걀, 달걀판",
+                  "수 모형(낱개, 십 모형, 백 모형)",
+                  "수 배열표",
+                  "바둑돌",
+                  "100원짜리 동전"
+                ],
+                "guidance": [
+                  "10개씩 묶어 세는 경험에서 10이 10개이면 100이 됨을 발견하게 한다.",
+                  "100의 양감을 경험할 수 있도록 실생활 구체물을 활용한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-02",
+              "description": "일, 십, 백의 자릿값을 알고, 세 자리 수를 읽고 쓴다.",
+              "content_elements": {
+                "knowledge_understanding": "세 자리 수의 자릿값",
+                "process_skills": "세 자리 수 읽고 쓰기",
+                "value_attitude": "생활 속 수에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 수 모형을 활용하여 백 모형, 십 모형, 낱개의 수를 세는 활동을 통해 각 자릿값의 의미를 탐색하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "몇백 몇십몇의 세 자리 수",
+                  "process_skills": "세 자리 수에서 자릿값 나타내기",
+                  "value_attitude": "수에 관심"
+                },
+                {
+                  "knowledge_understanding": "몇백 몇십의 세 자리 수",
+                  "process_skills": "세 자리 수 읽고 쓰기",
+                  "value_attitude": "수에 흥미"
+                },
+                {
+                  "knowledge_understanding": "몇백의 수",
+                  "process_skills": "몇백 읽고 쓰기",
+                  "value_attitude": "수 읽기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["일, 십, 백의 자릿값을 알고", "세 자리 수를 읽고 쓴다."],
+                "items": [
+                  {
+                    "col1": [
+                      "수 모형으로 일, 십, 백의 자릿값을 알고",
+                      "자릿값 표에서 일, 십, 백의 자릿값을 알고",
+                      "수 모형으로 십, 백의 자릿값을 알고",
+                      "자릿값 표에서 십, 백의 자릿값을 알고",
+                      "수 모형으로 백의 자릿값을 알고",
+                      "자릿값 표에서 백의 자릿값을 알고"
+                    ],
+                    "col2": [
+                      "세 자리 수를 읽는다.",
+                      "세 자리 수를 쓴다.",
+                      "세 자리 수를 읽고 쓴다.",
+                      "몇백 몇십을 읽고 쓴다.",
+                      "몇백을 읽고 쓴다.",
+                      "몇백을 읽는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "수 모형(백 모형, 십 모형, 낱개)",
+                  "자릿값 표",
+                  "수 카드"
+                ],
+                "guidance": [
+                  "수 모형을 활용하여 각 자릿값의 의미를 탐색하게 한다.",
+                  "생활 속에서 세 자리 수를 찾아보는 활동을 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-03",
+              "description": "세 자리 수의 크기를 비교한다.",
+              "content_elements": {
+                "knowledge_understanding": "세 자리 수의 크기 비교",
+                "process_skills": "수의 크기를 비교하여 나타내기",
+                "value_attitude": "수의 크기에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 수 모형을 사용하여 두 수의 크기를 직관적으로 비교하게 한다. 구체물의 양을 비교하는 활동에서 시작하여 수의 크기 비교로 나아가게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "몇백 몇십몇의 세 자리 수",
+                  "process_skills": "크기의 차이를 여러 가지 방식으로 표현하기",
+                  "value_attitude": "수의 크기 비교에 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "몇백 몇십의 세 자리 수",
+                  "process_skills": "크기의 차이를 부등호로 나타내기",
+                  "value_attitude": "수의 크기 비교 활동에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "몇백의 수",
+                  "process_skills": "크기를 비교하여 큰 수와 작은 수 구분하기",
+                  "value_attitude": "수의 크기 비교 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["세 자리 수의 크기를 비교한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "수 모형으로 세 자리 수의 크기를 비교한다.",
+                      "수직선에서 세 자리 수의 크기를 비교한다.",
+                      "부등호를 사용하여 세 자리 수의 크기를 비교한다.",
+                      "수 모형으로 몇백의 크기를 비교한다.",
+                      "수직선에서 몇백의 크기를 비교한다.",
+                      "부등호를 사용하여 몇백의 크기를 비교한다.",
+                      "구체물로 두 수의 크기를 비교한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "수 모형",
+                  "수직선",
+                  "부등호 카드"
+                ],
+                "guidance": [
+                  "구체물의 양 비교에서 시작하여 수의 크기 비교로 나아가게 한다.",
+                  "생활 속 상황에서 수의 크기를 비교하는 활동을 제공한다."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sub_domain": "수의 연산",
+          "standards": [
+            {
+              "code": "9수학01-04",
+              "description": "실생활에서 활용되는 몇백의 덧셈과 뺄셈의 의미를 안다.",
+              "content_elements": {
+                "knowledge_understanding": "몇백의 덧셈과 뺄셈의 의미",
+                "process_skills": "실생활에서 덧셈과 뺄셈의 상황 알기",
+                "value_attitude": "수의 연산에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 실생활에서 덧셈과 뺄셈이 이루어지는 상황을 직접 경험하게 하고, 구체물을 활용하여 합치기와 빼기의 의미를 탐색하게 한다. 곱셈의 경우 같은 수를 여러 번 더하는 상황에서 곱셈이 활용됨을 경험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "몇백의 덧셈과 뺄셈 상황",
+                  "process_skills": "실생활에서 덧셈과 뺄셈 상황 알기",
+                  "value_attitude": "덧셈과 뺄셈에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "두 자리 수의 덧셈과 뺄셈 상황",
+                  "process_skills": "구체물로 덧셈과 뺄셈 상황 나타내기",
+                  "value_attitude": "덧셈과 뺄셈에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "한 자리 수의 덧셈과 뺄셈 상황",
+                  "process_skills": "합치기와 빼기 경험하기",
+                  "value_attitude": "덧셈과 뺄셈 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["실생활에서 활용되는", "몇백의 덧셈과 뺄셈의 의미를 안다."],
+                "items": [
+                  {
+                    "col1": [
+                      "물건값을 합하는 상황에서",
+                      "거스름돈 상황에서",
+                      "여러 개를 모으는 상황에서",
+                      "일부를 나누어 주는 상황에서",
+                      "구체물을 합치는 상황에서",
+                      "구체물을 빼는 상황에서"
+                    ],
+                    "col2": [
+                      "몇백의 덧셈의 의미를 안다.",
+                      "몇백의 뺄셈의 의미를 안다.",
+                      "두 자리 수의 덧셈의 의미를 안다.",
+                      "두 자리 수의 뺄셈의 의미를 안다.",
+                      "한 자리 수의 덧셈의 의미를 안다.",
+                      "한 자리 수의 뺄셈의 의미를 안다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "모형 화폐",
+                  "수 모형",
+                  "구체물(바둑돌, 블록 등)"
+                ],
+                "guidance": [
+                  "실생활 상황에서 덧셈과 뺄셈이 이루어지는 장면을 직접 경험하게 한다.",
+                  "구체물을 활용하여 합치기와 빼기의 의미를 탐색하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-05",
+              "description": "받아올림(내림)이 없는 몇백의 덧셈과 뺄셈을 한다.",
+              "content_elements": {
+                "knowledge_understanding": "받아올림(내림)이 없는 몇백의 덧셈과 뺄셈",
+                "process_skills": "식을 세워 계산하기",
+                "value_attitude": "계산에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 수 모형이나 구체물을 활용하여 받아올림이 없는 덧셈과 뺄셈을 경험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "받아올림(내림)이 없는 몇백의 덧셈과 뺄셈",
+                  "process_skills": "식을 세워 계산하기",
+                  "value_attitude": "계산에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "받아올림(내림)이 없는 두 자리 수의 덧셈과 뺄셈",
+                  "process_skills": "가로셈/세로셈으로 계산하기",
+                  "value_attitude": "계산에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "받아올림(내림)이 없는 한 자리 수의 덧셈과 뺄셈",
+                  "process_skills": "구체물로 계산하기",
+                  "value_attitude": "계산 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["받아올림(내림)이 없는 몇백의 덧셈과 뺄셈을 한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "식을 세워 받아올림(내림)이 없는 몇백의 덧셈과 뺄셈을 한다.",
+                      "가로셈으로 받아올림(내림)이 없는 몇백의 덧셈과 뺄셈을 한다.",
+                      "세로셈으로 받아올림(내림)이 없는 몇백의 덧셈과 뺄셈을 한다.",
+                      "수 모형으로 받아올림(내림)이 없는 몇백의 덧셈과 뺄셈을 한다.",
+                      "구체물로 받아올림(내림)이 없는 두 자리 수의 덧셈과 뺄셈을 한다.",
+                      "구체물로 받아올림(내림)이 없는 한 자리 수의 덧셈과 뺄셈을 한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "수 모형",
+                  "가로셈/세로셈 기록지",
+                  "구체물"
+                ],
+                "guidance": [
+                  "수 모형이나 구체물을 활용하여 받아올림이 없는 계산을 경험하게 한다.",
+                  "가로셈과 세로셈을 모두 경험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-06",
+              "description": "받아올림(내림)이 없는 몇백의 덧셈, 뺄셈과 관련된 실생활 문제를 해결한다.",
+              "content_elements": {
+                "knowledge_understanding": "실생활 속 덧셈과 뺄셈 문제",
+                "process_skills": "식을 세워 문제 해결하기",
+                "value_attitude": "문제 해결에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 암산이 어려우면 계산기를 활용하여 실생활 문제를 해결하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "몇백의 덧셈, 뺄셈 관련 실생활 문제",
+                  "process_skills": "식을 세워 문제 해결하기",
+                  "value_attitude": "문제 해결에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "두 자리 수의 덧셈, 뺄셈 관련 실생활 문제",
+                  "process_skills": "가로셈/세로셈으로 문제 해결하기",
+                  "value_attitude": "문제 해결에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "한 자리 수의 덧셈, 뺄셈 관련 실생활 문제",
+                  "process_skills": "구체물이나 계산기로 문제 해결하기",
+                  "value_attitude": "문제 해결 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["받아올림(내림)이 없는 몇백의 덧셈, 뺄셈과 관련된 실생활 문제를 해결한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "암산으로 받아올림(내림)이 없는 몇백의 덧셈, 뺄셈 관련 실생활 문제를 해결한다.",
+                      "식을 세워 받아올림(내림)이 없는 몇백의 덧셈, 뺄셈 관련 실생활 문제를 해결한다.",
+                      "가로셈으로 몇백의 덧셈, 뺄셈 관련 실생활 문제를 해결한다.",
+                      "세로셈으로 몇백의 덧셈, 뺄셈 관련 실생활 문제를 해결한다.",
+                      "계산기를 활용하여 몇백의 덧셈, 뺄셈 관련 실생활 문제를 해결한다.",
+                      "구체물을 활용하여 실생활 문제를 해결한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "계산기",
+                  "모형 화폐",
+                  "실생활 문제 상황 카드"
+                ],
+                "guidance": [
+                  "암산이 어려운 학생은 계산기를 활용하게 한다.",
+                  "실생활 맥락의 문제를 다양하게 제공한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-07",
+              "description": "받아올림이 있는 한 자리 수의 덧셈을 한다.",
+              "content_elements": {
+                "knowledge_understanding": "받아올림이 있는 한 자리 수의 덧셈",
+                "process_skills": "계산식을 세워 계산하기",
+                "value_attitude": "계산에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 구체물을 활용하여 10이 되는 경험을 충분히 하게 한 후 받아올림의 원리를 이해하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "받아올림이 있는 한 자리 수 덧셈",
+                  "process_skills": "계산식 세워 계산하기",
+                  "value_attitude": "계산에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "합이 10이 되는 덧셈",
+                  "process_skills": "10의 보수를 활용하여 계산하기",
+                  "value_attitude": "계산에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "합이 10 이하인 덧셈",
+                  "process_skills": "구체물로 계산하기",
+                  "value_attitude": "계산 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["받아올림이 있는 한 자리 수의 덧셈을 한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "계산으로 받아올림이 있는 한 자리 수의 덧셈을 한다.",
+                      "가로식으로 받아올림이 있는 한 자리 수의 덧셈을 한다.",
+                      "세로식으로 받아올림이 있는 한 자리 수의 덧셈을 한다.",
+                      "10의 보수를 활용하여 받아올림이 있는 한 자리 수의 덧셈을 한다.",
+                      "구체물을 활용하여 합이 10이 되는 덧셈을 한다.",
+                      "구체물을 활용하여 합이 10 이하인 덧셈을 한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "수 모형",
+                  "바둑돌",
+                  "10 채우기 판"
+                ],
+                "guidance": [
+                  "10이 되는 경험을 충분히 한 후 받아올림의 원리를 이해하게 한다.",
+                  "구체물에서 반구체물, 추상적 표현으로 단계적으로 진행한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-08",
+              "description": "실생활에서 활용되는 곱셈의 의미를 안다.",
+              "content_elements": {
+                "knowledge_understanding": "곱셈의 필요성",
+                "process_skills": "곱셈의 활용 상황 알기",
+                "value_attitude": "곱셈에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 같은 수의 묶음을 반복하여 세는 활동을 통해 곱셈의 의미를 경험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "곱셈의 필요성",
+                  "process_skills": "곱셈의 활용 상황 알기",
+                  "value_attitude": "곱셈에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "같은 수의 반복 덧셈",
+                  "process_skills": "묶어 세기 상황을 식으로 나타내기",
+                  "value_attitude": "곱셈에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "묶어 세기",
+                  "process_skills": "같은 수씩 묶어 세기",
+                  "value_attitude": "묶어 세기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["실생활에서 활용되는", "곱셈의 의미를 안다."],
+                "items": [
+                  {
+                    "col1": [
+                      "묶음으로 세는 상황에서",
+                      "같은 수씩 반복하여 더하는 상황에서",
+                      "배의 개념이 사용되는 상황에서",
+                      "몇씩 몇 묶음인 상황에서"
+                    ],
+                    "col2": [
+                      "곱셈의 의미를 안다.",
+                      "곱셈식으로 나타낸다.",
+                      "같은 수의 반복 덧셈으로 곱셈의 의미를 안다.",
+                      "묶어 세기를 통해 곱셈의 의미를 경험한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "묶음 카드",
+                  "구체물(바둑돌, 블록 등)",
+                  "그림 자료"
+                ],
+                "guidance": [
+                  "같은 수의 묶음을 반복하여 세는 활동에서 곱셈의 의미를 경험하게 한다.",
+                  "실생활에서 곱셈이 활용되는 상황을 다양하게 제공한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-09",
+              "description": "곱셈구구의 원리를 알고 1단부터 9단까지 나타낸다.",
+              "content_elements": {
+                "knowledge_understanding": "곱셈구구의 원리",
+                "process_skills": "곱셈식으로 나타내기",
+                "value_attitude": "곱셈구구에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 같은 수를 반복하여 더하는 활동을 통해 곱셈구구의 원리를 경험하게 한다. 곱셈구구표를 활용하여 규칙을 찾아보게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "곱셈구구의 원리",
+                  "process_skills": "곱셈식으로 나타내기",
+                  "value_attitude": "곱셈구구에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "곱셈구구의 결과",
+                  "process_skills": "곱셈구구표에서 결과 찾기",
+                  "value_attitude": "곱셈구구에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "같은 수의 반복 덧셈",
+                  "process_skills": "같은 수를 반복하여 더하기",
+                  "value_attitude": "곱셈구구 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["곱셈구구의 원리를 알고", "1단부터 9단까지 나타낸다."],
+                "items": [
+                  {
+                    "col1": [
+                      "n단 곱셈구구의 원리를 알고",
+                      "곱셈구구표에서 규칙을 찾고",
+                      "같은 수의 반복 덧셈으로 곱셈구구의 원리를 알고",
+                      "구체물을 묶어 세며 곱셈구구의 원리를 알고"
+                    ],
+                    "col2": [
+                      "1단부터 9단까지 곱셈식으로 나타낸다.",
+                      "곱셈구구표를 완성한다.",
+                      "곱셈구구의 결과를 말한다.",
+                      "곱셈구구표에서 결과를 찾는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "곱셈구구표",
+                  "구체물(바둑돌, 블록 등)",
+                  "곱셈 카드"
+                ],
+                "guidance": [
+                  "같은 수를 반복하여 더하는 활동에서 곱셈구구의 원리를 발견하게 한다.",
+                  "곱셈구구표를 활용하여 규칙을 찾아보게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-10",
+              "description": "곱셈구구를 활용하여 실생활 문제를 해결한다.",
+              "content_elements": {
+                "knowledge_understanding": "곱셈구구",
+                "process_skills": "곱셈식으로 실생활 문제 해결하기",
+                "value_attitude": "곱셈 활용에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 곱셈구구표를 활용하여 실생활 문제를 해결하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "곱셈구구",
+                  "process_skills": "곱셈식으로 실생활 문제 해결하기",
+                  "value_attitude": "곱셈 활용에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "곱셈구구의 결과",
+                  "process_skills": "곱셈구구표를 활용하여 문제 해결하기",
+                  "value_attitude": "곱셈 활용에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "같은 수의 반복 덧셈",
+                  "process_skills": "반복 덧셈으로 문제 해결하기",
+                  "value_attitude": "곱셈 활용 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["곱셈구구를 활용하여", "실생활 문제를 해결한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "반복되는 같은 수의 합을 곱셈구구를 활용하여",
+                      "곱셈구구표를 활용하여",
+                      "곱셈 카드를 활용하여",
+                      "같은 수의 반복 덧셈을 활용하여"
+                    ],
+                    "col2": [
+                      "실생활 문제를 해결한다.",
+                      "물건의 총 개수를 구한다.",
+                      "물건값의 합계를 구한다.",
+                      "필요한 물건의 수를 구한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "곱셈구구표",
+                  "실생활 문제 상황 카드",
+                  "모형 화폐"
+                ],
+                "guidance": [
+                  "곱셈구구표를 활용하여 실생활 문제를 해결하게 한다.",
+                  "실생활에서 곱셈이 필요한 상황을 다양하게 제공한다."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sub_domain": "화폐",
+          "standards": [
+            {
+              "code": "9수학01-11",
+              "description": "지폐(오만 원)의 액면가를 읽고 크기를 비교한다.",
+              "content_elements": {
+                "knowledge_understanding": "오만 원 지폐의 액면가",
+                "process_skills": "액면가를 읽고 순서대로 나타내기",
+                "value_attitude": "화폐에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 오만 원권 확대 사진이나 실물 크기의 모형 화폐를 활용하여 지폐의 특징을 탐색하게 한다. 지폐에 표시된 숫자를 읽는 활동에서 시작한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "오만 원 지폐의 액면가",
+                  "process_skills": "액면가를 읽고 순서대로 나타내기",
+                  "value_attitude": "화폐에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "만 원, 오천 원, 천 원 지폐의 액면가",
+                  "process_skills": "액면가를 읽고 크기 비교하기",
+                  "value_attitude": "화폐에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "지폐의 종류",
+                  "process_skills": "지폐를 보고 액면가 읽기",
+                  "value_attitude": "화폐 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["지폐(오만 원)의 액면가를 읽고", "크기를 비교한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "지폐를 보고 오만 원을 읽고",
+                      "지폐를 보고 만 원, 오천 원, 천 원을 읽고",
+                      "여러 종류의 지폐에서 같은 액면가를 찾고",
+                      "지폐에 표시된 숫자를 읽고"
+                    ],
+                    "col2": [
+                      "액면가의 크기를 비교한다.",
+                      "액면가 순서대로 나열한다.",
+                      "큰 액면가의 지폐를 찾는다.",
+                      "작은 액면가의 지폐를 찾는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "모형 화폐(지폐)",
+                  "오만 원권 확대 사진",
+                  "지폐 분류 활동지"
+                ],
+                "guidance": [
+                  "실물 크기의 모형 화폐를 활용하여 지폐의 특징을 탐색하게 한다.",
+                  "지폐에 표시된 숫자를 읽는 활동에서 시작한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-12",
+              "description": "지폐(오만 원)를 다른 액면가의 지폐로 교환한다.",
+              "content_elements": {
+                "knowledge_understanding": "다양한 액면가의 지폐 활용",
+                "process_skills": "오만 원 지폐를 다른 액면가 지폐로 교환하기",
+                "value_attitude": "화폐 교환에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 모형 화폐를 활용하여 실제 교환 상황을 경험하게 한다. 한 종류의 지폐로 교환하는 것에서 시작하여 여러 종류의 지폐로 교환하는 것으로 나아가게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "다양한 액면가의 지폐 활용",
+                  "process_skills": "오만 원 지폐를 다른 액면가 지폐로 교환하기",
+                  "value_attitude": "화폐 교환에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "만 원 지폐의 교환",
+                  "process_skills": "만 원 지폐를 다른 액면가 지폐로 교환하기",
+                  "value_attitude": "화폐 교환에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "지폐의 종류",
+                  "process_skills": "같은 금액의 지폐 찾기",
+                  "value_attitude": "화폐 교환 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["지폐(오만 원)를", "다른 액면가의 지폐로 교환한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "오만 원 지폐를",
+                      "만 원 지폐를",
+                      "오천 원 지폐를"
+                    ],
+                    "col2": [
+                      "여러 종류의 지폐로 교환한다.",
+                      "한 종류의 지폐로 교환한다.",
+                      "같은 금액의 다른 지폐로 교환한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "모형 화폐(여러 종류의 지폐)",
+                  "교환 활동지"
+                ],
+                "guidance": [
+                  "한 종류의 지폐로 교환하는 것에서 시작하여 여러 종류로 나아간다.",
+                  "모형 화폐를 활용하여 실제 교환 상황을 경험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-13",
+              "description": "몇만 몇천 원짜리 상품과 교환할 수 있는 지폐를 찾는다.",
+              "content_elements": {
+                "knowledge_understanding": "상품 구입에 알맞은 지폐",
+                "process_skills": "몇만 몇천 원 가격에 맞는 지폐 찾기",
+                "value_attitude": "화폐 활용에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 가격표를 읽는 활동에서 시작하여 알맞은 지폐를 찾는 활동으로 나아가게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "상품 구입에 알맞은 지폐",
+                  "process_skills": "몇만 몇천 원 가격에 맞는 지폐 찾기",
+                  "value_attitude": "화폐 활용에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "몇만 원짜리 상품의 지폐",
+                  "process_skills": "몇만 원 가격에 맞는 지폐 찾기",
+                  "value_attitude": "화폐 활용에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "몇천 원짜리 상품의 지폐",
+                  "process_skills": "몇천 원 가격에 맞는 지폐 찾기",
+                  "value_attitude": "화폐 활용 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["몇만 몇천 원짜리 상품과", "교환할 수 있는 지폐를 찾는다."],
+                "items": [
+                  {
+                    "col1": [
+                      "가격표를 읽고 몇만 몇천 원짜리 상품과",
+                      "가격표를 읽고 몇만 원짜리 상품과",
+                      "가격표를 읽고 몇천 원짜리 상품과"
+                    ],
+                    "col2": [
+                      "교환할 수 있는 지폐를 찾는다.",
+                      "알맞은 금액의 지폐를 고른다.",
+                      "여러 종류의 지폐를 조합하여 찾는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "모형 화폐",
+                  "가격표 카드",
+                  "모의 상점 자료"
+                ],
+                "guidance": [
+                  "가격표를 읽는 활동에서 시작한다.",
+                  "모의 상점 놀이를 통해 지폐 교환을 경험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학01-14",
+              "description": "대용 화폐를 활용하여 상품을 교환한다.",
+              "content_elements": {
+                "knowledge_understanding": "대용 화폐의 활용",
+                "process_skills": "상점이나 인터넷에서 물건값 계산하기",
+                "value_attitude": "대용 화폐에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 카드로 상품을 구입하는 경험을 제공한다. 현금 카드, 상품권, 쿠폰 등 다양한 대용 화폐를 경험하게 한다. 모의 상점이나 실제 매장에서의 구매 경험을 통해 대용 화폐의 활용을 익히게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "대용 화폐의 활용",
+                  "process_skills": "상점이나 인터넷에서 물건값 계산하기",
+                  "value_attitude": "대용 화폐에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "현금 카드의 활용",
+                  "process_skills": "카드를 사용하여 물건 구입하기",
+                  "value_attitude": "대용 화폐에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "상품권/쿠폰의 활용",
+                  "process_skills": "상품권/쿠폰으로 물건 교환하기",
+                  "value_attitude": "대용 화폐 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["대용 화폐를 활용하여", "상품을 교환한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "현금 카드를 활용하여",
+                      "상품권/쿠폰을 활용하여",
+                      "모의 상점에서 대용 화폐를 활용하여",
+                      "인터넷 쇼핑에서 대용 화폐를 활용하여"
+                    ],
+                    "col2": [
+                      "상품을 교환한다.",
+                      "물건을 구입한다.",
+                      "물건값을 계산한다.",
+                      "거스름을 확인한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "모형 현금 카드",
+                  "모형 상품권/쿠폰",
+                  "모의 상점 자료",
+                  "태블릿/컴퓨터(인터넷 쇼핑 시뮬레이션)"
+                ],
+                "guidance": [
+                  "카드로 상품을 구입하는 경험을 제공한다.",
+                  "모의 상점이나 실제 매장에서의 구매 경험을 통해 대용 화폐 활용을 익히게 한다."
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain": "도형",
+      "sub_domains": [
+        {
+          "sub_domain": "모양과 도형",
+          "standards": [
+            {
+              "code": "9수학02-01",
+              "description": "사각형, 삼각형, 원을 탐색한다.",
+              "content_elements": {
+                "knowledge_understanding": "원, 삼각형, 사각형",
+                "process_skills": "도형의 특징 비교하기",
+                "value_attitude": "평면도형의 특징에 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 구체물끼리 맞대어보는 활동을 통해 도형의 특징을 직관적으로 경험하게 한다. 촉각을 활용하여 도형의 모양을 탐색하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형",
+                  "process_skills": "도형의 특징 비교하기",
+                  "value_attitude": "평면도형의 특징에 관심"
+                },
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형의 모양",
+                  "process_skills": "도형의 모양 관찰하기",
+                  "value_attitude": "평면도형에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "여러 가지 모양",
+                  "process_skills": "모양 탐색하기",
+                  "value_attitude": "모양 탐색 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["사각형, 삼각형, 원을 탐색한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "사물을 관찰하고 사각형, 삼각형, 원의 특징을 말한다.",
+                      "사물을 만져보고 사각형, 삼각형, 원의 특징을 말한다.",
+                      "사물의 테두리를 그려보고 사각형, 삼각형, 원의 특징을 말한다.",
+                      "사물을 관찰하고 사각형, 삼각형, 원을 찾는다.",
+                      "사물을 만져보고 사각형, 삼각형, 원을 찾는다.",
+                      "사물의 테두리를 그려보고 사각형, 삼각형, 원을 찾는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "도형 블록",
+                  "도형 카드",
+                  "생활 속 도형 모양 물건"
+                ],
+                "guidance": [
+                  "구체물끼리 맞대어보는 활동을 통해 도형의 특징을 직관적으로 경험하게 한다.",
+                  "촉각을 활용하여 도형의 모양을 탐색하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학02-02",
+              "description": "직관적 비교를 통하여 사각형, 삼각형, 원을 분류한다.",
+              "content_elements": {
+                "knowledge_understanding": "원, 삼각형, 사각형",
+                "process_skills": "도형의 특성 보고 분류하기",
+                "value_attitude": "도형 분류에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 도형의 크기나 색깔 등 명확한 특성을 기준으로 분류하는 활동에서 시작하여 모양을 기준으로 분류하는 것으로 나아가게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형",
+                  "process_skills": "도형의 특성 보고 분류하기",
+                  "value_attitude": "도형 분류에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형의 모양",
+                  "process_skills": "같은 모양끼리 모으기",
+                  "value_attitude": "도형 분류에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "여러 가지 모양",
+                  "process_skills": "모양 구분하기",
+                  "value_attitude": "도형 분류 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["직관적 비교를 통하여 사각형, 삼각형, 원을 분류한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "같은 모양끼리 모아 나열한다.",
+                      "같은 모양끼리 모은다.",
+                      "같은 모양끼리 상자에 담는다.",
+                      "같은 모양끼리 정리한다.",
+                      "모양에 따라 가르기를 한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "도형 블록",
+                  "분류 상자",
+                  "도형 카드"
+                ],
+                "guidance": [
+                  "크기나 색깔 기준 분류에서 시작하여 모양 기준 분류로 나아간다.",
+                  "실생활 물건을 모양별로 분류하는 활동을 제공한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학02-03",
+              "description": "사각형, 삼각형, 원의 특성을 이해한다.",
+              "content_elements": {
+                "knowledge_understanding": "원, 삼각형, 사각형",
+                "process_skills": "도형의 의미와 특징 파악하기",
+                "value_attitude": "도형의 특성에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 도형을 직접 만져보고 그려보는 활동을 통해 도형의 특성을 경험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형",
+                  "process_skills": "도형의 의미와 특징 파악하기",
+                  "value_attitude": "도형의 특성에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형의 모양",
+                  "process_skills": "도형의 특징 관찰하기",
+                  "value_attitude": "도형의 특성에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "여러 가지 모양",
+                  "process_skills": "모양의 차이 경험하기",
+                  "value_attitude": "도형 탐색 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["사각형, 삼각형, 원의 특성을 이해한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "도형을 관찰하고 특성을 말한다.",
+                      "도형을 그려보고 특성을 말한다.",
+                      "뾰족한 부분을 세어보고 특성을 말한다.",
+                      "곧은 선의 수를 확인하고 특성을 말한다.",
+                      "도형을 관찰하고 의미를 말한다.",
+                      "도형을 그려보고 의미를 말한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "도형 블록",
+                  "도형 그리기 도구",
+                  "모눈종이"
+                ],
+                "guidance": [
+                  "도형을 직접 만져보고 그려보는 활동을 제공한다.",
+                  "뾰족한 부분과 곧은 선의 수를 세어보는 활동을 통해 특성을 이해하게 한다."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sub_domain": "만들기와 꾸미기",
+          "standards": [
+            {
+              "code": "9수학02-04",
+              "description": "다양한 방법으로 사각형, 삼각형, 원을 만들거나 그린다.",
+              "content_elements": {
+                "knowledge_understanding": "원, 삼각형, 사각형",
+                "process_skills": "컴퍼스나 막대자를 이용하여 그리기",
+                "value_attitude": "도형 만들기에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 형식에 구애받지 않고 자유롭게 도형을 만들거나 그리게 한다. 점선 따라 그리기, 모양자 활용, 물건 본뜨기 등 다양한 방법을 제공한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형",
+                  "process_skills": "컴퍼스나 막대자를 이용하여 그리기",
+                  "value_attitude": "도형 만들기에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "원, 삼각형, 사각형의 모양",
+                  "process_skills": "모양자나 본뜨기로 그리기",
+                  "value_attitude": "도형 만들기에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "여러 가지 모양",
+                  "process_skills": "점선 따라 그리기",
+                  "value_attitude": "도형 만들기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["다양한 방법으로 사각형, 삼각형, 원을 만들거나 그린다."],
+                "items": [
+                  {
+                    "col1": [
+                      "컴퍼스를 사용하여 원을 만들거나 그린다.",
+                      "막대자를 사용하여 삼각형, 사각형을 만들거나 그린다.",
+                      "종이를 오려서 도형을 만든다.",
+                      "모양자를 사용하여 도형을 그린다.",
+                      "모눈종이에 도형을 그린다.",
+                      "물건을 본떠서 도형을 만든다.",
+                      "점선을 따라 도형을 완성한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "컴퍼스",
+                  "막대자",
+                  "모양자",
+                  "모눈종이",
+                  "가위, 색종이"
+                ],
+                "guidance": [
+                  "형식에 구애받지 않고 자유롭게 도형을 만들거나 그리게 한다.",
+                  "다양한 도구를 활용하여 도형 만들기를 경험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학02-05",
+              "description": "여러 가지 도형을 활용하여 모양을 만들거나 꾸민다.",
+              "content_elements": {
+                "knowledge_understanding": "여러 가지 평면 도형",
+                "process_skills": "모양이나 형태를 만들거나 꾸미기",
+                "value_attitude": "도형 활용에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 형식에 구애받지 않고 자유롭게 도형을 조합하여 모양을 만들거나 꾸미게 한다. 소프트웨어나 앱, AI 도구 등 디지털 도구도 활용할 수 있다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "여러 가지 평면 도형",
+                  "process_skills": "모양이나 형태를 만들거나 꾸미기",
+                  "value_attitude": "도형 활용에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "기본 도형의 조합",
+                  "process_skills": "도형을 조합하여 모양 만들기",
+                  "value_attitude": "도형 활용에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "여러 가지 모양",
+                  "process_skills": "모양 붙이기/색칠하기",
+                  "value_attitude": "도형 활용 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["여러 가지 도형을 활용하여 모양을 만들거나 꾸민다."],
+                "items": [
+                  {
+                    "col1": [
+                      "소프트웨어/프로그램/앱/AI 도구를 활용하여 다양한 모양을 만든다.",
+                      "도형을 오려서 다양한 모양을 만든다.",
+                      "도형을 그려서 다양한 모양을 만든다.",
+                      "도형에 색칠하여 다양한 모양을 꾸민다.",
+                      "도형을 붙여서 다양한 모양을 만든다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "도형 블록",
+                  "색종이, 가위, 풀",
+                  "그리기 소프트웨어/앱",
+                  "AI 도구"
+                ],
+                "guidance": [
+                  "형식에 구애받지 않고 자유롭게 도형을 조합하게 한다.",
+                  "디지털 도구를 활용한 도형 만들기도 경험하게 한다."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sub_domain": "공간 감각",
+          "standards": [
+            {
+              "code": "9수학02-06",
+              "description": "쌓기나무를 이용하여 자유롭게 늘어놓거나 쌓는다.",
+              "content_elements": {
+                "knowledge_understanding": "높이 쌓기, 한 줄로 늘어놓기, 자유롭게 쌓기",
+                "process_skills": "제시한 모양과 같은 모양으로 쌓기",
+                "value_attitude": "쌓기 활동에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 쌓기나무의 크기를 크게 하여 조작이 쉽게 하고, 쌓기나무가 미끄러지지 않도록 바닥판을 제공한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "높이 쌓기, 한 줄로 늘어놓기, 자유롭게 쌓기",
+                  "process_skills": "제시한 모양과 같은 모양으로 쌓기",
+                  "value_attitude": "쌓기 활동에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "높이 쌓기, 한 줄로 늘어놓기",
+                  "process_skills": "안내에 따라 쌓기",
+                  "value_attitude": "쌓기 활동에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "자유롭게 쌓기",
+                  "process_skills": "자유롭게 늘어놓거나 쌓기",
+                  "value_attitude": "쌓기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["쌓기나무를 이용하여 자유롭게 늘어놓거나 쌓는다."],
+                "items": [
+                  {
+                    "col1": [
+                      "줄 맞춰 높이 쌓는다.",
+                      "층별로 어긋나게 쌓는다.",
+                      "ABAB 형식으로 번갈아 쌓는다.",
+                      "한 줄로 늘어놓는다.",
+                      "두 줄로 늘어놓는다.",
+                      "자유롭게 늘어놓는다.",
+                      "자유롭게 쌓는다.",
+                      "여러 가지 모양으로 쌓는다.",
+                      "제시한 모양과 같은 모양으로 쌓는다.",
+                      "안내된 순서에 따라 쌓는다.",
+                      "계단 모양으로 쌓는다.",
+                      "탑 모양으로 쌓는다.",
+                      "담장 모양으로 쌓는다.",
+                      "집 모양으로 쌓는다.",
+                      "다리 모양으로 쌓는다.",
+                      "로봇 모양으로 쌓는다.",
+                      "자동차 모양으로 쌓는다.",
+                      "동물 모양으로 쌓는다.",
+                      "기차 모양으로 쌓는다.",
+                      "성 모양으로 쌓는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "쌓기나무(다양한 크기)",
+                  "바닥판",
+                  "모양 카드"
+                ],
+                "guidance": [
+                  "쌓기나무의 크기를 크게 하여 조작이 쉽게 한다.",
+                  "바닥판을 제공하여 미끄러지지 않게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학02-07",
+              "description": "입체 모양을 보고 똑같이 쌓기나무로 쌓는다.",
+              "content_elements": {
+                "knowledge_understanding": "쌓기나무로 모양 만들기",
+                "process_skills": "쌓기나무를 하나씩 쌓아 입체모양과 똑같이 쌓기",
+                "value_attitude": "모양 만들기에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 간단한 모양부터 시작하여 점차 복잡한 모양으로 나아가게 한다. 모양을 보면서 하나씩 쌓는 활동을 충분히 경험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "쌓기나무로 모양 만들기",
+                  "process_skills": "쌓기나무를 하나씩 쌓아 입체모양과 똑같이 쌓기",
+                  "value_attitude": "모양 만들기에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "간단한 입체 모양",
+                  "process_skills": "안내된 순서에 따라 쌓기",
+                  "value_attitude": "모양 만들기에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "쌓기나무 쌓기",
+                  "process_skills": "모양을 보고 따라 쌓기",
+                  "value_attitude": "모양 만들기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["입체 모양을 보고 똑같이 쌓기나무로 쌓는다."],
+                "items": [
+                  {
+                    "col1": [
+                      "입체 모양을 보고 하나씩 쌓아서 똑같은 모양으로 쌓는다.",
+                      "안내된 순서에 따라 입체 모양과 똑같이 쌓는다.",
+                      "간단한 입체 모양을 보고 따라 쌓는다.",
+                      "사진을 보고 똑같이 쌓는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "쌓기나무",
+                  "입체 모양 사진/카드",
+                  "단계별 안내 카드"
+                ],
+                "guidance": [
+                  "간단한 모양부터 시작하여 점차 복잡한 모양으로 나아간다.",
+                  "모양을 보면서 하나씩 쌓는 활동을 충분히 경험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학02-08",
+              "description": "쌓기나무로 만든 입체 모양에 사용된 쌓기나무의 개수를 센다.",
+              "content_elements": {
+                "knowledge_understanding": "입체 모양에 사용된 쌓기나무의 개수",
+                "process_skills": "쌓기나무 위치를 옮기며 개수 세기",
+                "value_attitude": "수 세기에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 쌓기나무를 하나씩 빼면서 세는 활동을 통해 개수를 세게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "입체 모양에 사용된 쌓기나무의 개수",
+                  "process_skills": "쌓기나무 위치를 옮기며 개수 세기",
+                  "value_attitude": "수 세기에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "한 층의 쌓기나무 개수",
+                  "process_skills": "층별로 개수 세기",
+                  "value_attitude": "수 세기에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "쌓기나무 개수",
+                  "process_skills": "하나씩 빼며 개수 세기",
+                  "value_attitude": "수 세기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["쌓기나무로 만든 입체 모양에 사용된 쌓기나무의 개수를 센다."],
+                "items": [
+                  {
+                    "col1": [
+                      "한 층씩 똑같이 쌓으며 개수를 센다.",
+                      "층별로 합하여 개수를 센다.",
+                      "하나씩 빼면서 개수를 센다.",
+                      "위치를 옮기며 개수를 센다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "쌓기나무",
+                  "수 세기 기록지"
+                ],
+                "guidance": [
+                  "쌓기나무를 하나씩 빼면서 세는 활동을 통해 개수를 세게 한다.",
+                  "층별로 세는 방법을 경험하게 한다."
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain": "측정",
+      "sub_domains": [
+        {
+          "sub_domain": "양의 측정",
+          "standards": [
+            {
+              "code": "9수학03-01",
+              "description": "길이(m)의 단위를 알고 측정 도구(줄자 등)를 사용하여 길이를 측정한다.",
+              "content_elements": {
+                "knowledge_understanding": "몇 m 몇 cm",
+                "process_skills": "여러 가지 자를 사용하여 몇 m 몇 cm로 나타내기",
+                "value_attitude": "길이 측정에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 50cm나 10cm 끈이나 스티커를 이어 붙여 1m를 경험하게 한다. 신체를 활용하여 1m의 길이를 체험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "몇 m 몇 cm",
+                  "process_skills": "여러 가지 자를 사용하여 몇 m 몇 cm로 나타내기",
+                  "value_attitude": "길이 측정에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "몇 m",
+                  "process_skills": "줄자를 사용하여 몇 m로 나타내기",
+                  "value_attitude": "길이 측정에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "길이 단위 m",
+                  "process_skills": "길이 단위 알기",
+                  "value_attitude": "길이 측정 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["물건에 표시된 길이 단위를 알고", "여러 가지 종류의 자를 사용하여", "물건의 길이를 측정한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "물건에 표시된 길이 단위 m를 알고",
+                      "물건에 표시된 길이 단위 cm를 알고",
+                      "생활 속 길이 단위를 알고"
+                    ],
+                    "col2": [
+                      "줄자를 사용하여",
+                      "m자를 사용하여",
+                      "30cm자를 사용하여",
+                      "여러 가지 자를 사용하여"
+                    ],
+                    "col3": [
+                      "물건의 길이를 몇 m 몇 cm로 나타낸다.",
+                      "물건의 길이를 몇 m로 나타낸다.",
+                      "물건의 길이를 잰다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "줄자",
+                  "m자",
+                  "30cm자",
+                  "50cm/10cm 끈이나 스티커"
+                ],
+                "guidance": [
+                  "50cm나 10cm 끈이나 스티커를 이어 붙여 1m를 경험하게 한다.",
+                  "신체를 활용하여 1m의 길이를 체험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학03-02",
+              "description": "무게(kg)의 단위를 알고 측정 도구(저울 등)를 사용하여 무게를 측정한다.",
+              "content_elements": {
+                "knowledge_understanding": "물건과 상황의 무게 몇 kg",
+                "process_skills": "여러 가지 저울을 사용하여 몇 kg 나타내기",
+                "value_attitude": "무게 측정에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 1kg 물체를 직접 들어보는 신체 경험을 통해 무게 단위의 양감을 형성하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "물건과 상황의 무게 몇 kg",
+                  "process_skills": "여러 가지 저울을 사용하여 몇 kg 나타내기",
+                  "value_attitude": "무게 측정에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "무게 단위 kg",
+                  "process_skills": "저울을 사용하여 무게 재기",
+                  "value_attitude": "무게 측정에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "무거운 것과 가벼운 것",
+                  "process_skills": "무게 비교하기",
+                  "value_attitude": "무게 측정 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["생활 속 무게 단위를 알고", "여러 가지 저울을 사용하여", "물건의 무게를 측정한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "물건에 표시된 무게 단위 kg을 알고",
+                      "생활 속 무게 단위를 알고"
+                    ],
+                    "col2": [
+                      "체중계를 사용하여",
+                      "양팔 저울을 사용하여",
+                      "전자저울을 사용하여",
+                      "여러 가지 저울을 사용하여"
+                    ],
+                    "col3": [
+                      "물건의 무게를 몇 kg으로 나타낸다.",
+                      "물건의 무게를 잰다.",
+                      "무게를 비교한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "체중계",
+                  "양팔 저울",
+                  "전자저울",
+                  "1kg 물체(물, 설탕 등)"
+                ],
+                "guidance": [
+                  "1kg 물체를 직접 들어보는 신체 경험을 제공한다.",
+                  "여러 가지 저울을 사용하여 무게를 재는 경험을 제공한다."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sub_domain": "시간",
+          "standards": [
+            {
+              "code": "9수학03-03",
+              "description": "1시간은 60분임을 알고 시간을 '몇 분', '몇 시간'으로 나타낸다.",
+              "content_elements": {
+                "knowledge_understanding": "1시간 = 60분",
+                "process_skills": "몇 시간(또는 몇 분) 전/후의 시간 찾기",
+                "value_attitude": "시간 측정에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 시계 모형과 디지털 시계를 함께 활용하여 시간 개념을 형성하게 한다. 긴 바늘의 움직임을 관찰하며 60분의 개념을 경험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "1시간 = 60분",
+                  "process_skills": "몇 시간(또는 몇 분) 전/후의 시간 찾기",
+                  "value_attitude": "시간 측정에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "30분, 1시간",
+                  "process_skills": "시계를 보고 시간 읽기",
+                  "value_attitude": "시간 측정에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "긴바늘의 움직임",
+                  "process_skills": "긴바늘의 움직임 관찰하기",
+                  "value_attitude": "시간 측정 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["1시간은 60분임을 알고 시간을 '몇 분', '몇 시간'으로 나타낸다."],
+                "items": [
+                  {
+                    "col1": [
+                      "시계를 보고 60분이 1시간임을 안다.",
+                      "긴바늘이 한 바퀴 도는 것을 관찰하며 60분을 안다.",
+                      "활동 시간을 '몇 분'으로 말한다.",
+                      "활동 시간을 '몇 시간'으로 말한다.",
+                      "몇 시간 전/후의 시간을 찾는다.",
+                      "몇 분 전/후의 시간을 찾는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "시계 모형",
+                  "디지털 시계",
+                  "타이머"
+                ],
+                "guidance": [
+                  "시계 모형과 디지털 시계를 함께 활용하여 시간 개념을 형성하게 한다.",
+                  "긴바늘의 움직임을 관찰하며 60분의 개념을 경험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학03-04",
+              "description": "다양한 형태의 달력을 경험하고 날짜를 '몇 월', '몇 월 며칠'로 나타낸다.",
+              "content_elements": {
+                "knowledge_understanding": "몇 월, 몇 월 며칠",
+                "process_skills": "일정을 달력에 나타내기",
+                "value_attitude": "달력 활용에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 달력 만들기 활동을 통해 달력의 구조를 경험하게 한다. 학생이 좋아하는 사진이나 그림이 포함된 달력을 활용하면 흥미를 높일 수 있다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "몇 월, 몇 월 며칠",
+                  "process_skills": "일정을 달력에 나타내기",
+                  "value_attitude": "달력 활용에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "몇 월",
+                  "process_skills": "달력에서 날짜 찾기",
+                  "value_attitude": "달력 활용에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "달력의 구조",
+                  "process_skills": "달력 관찰하기",
+                  "value_attitude": "달력 활용 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["다양한 형태의 달력을 경험하고 날짜를 '몇 월', '몇 월 며칠'로 나타낸다."],
+                "items": [
+                  {
+                    "col1": [
+                      "다양한 형태의 달력을 알아본다.",
+                      "달력에서 행사일/기념일을 찾는다.",
+                      "날짜를 '몇 월'로 말한다.",
+                      "날짜를 '몇 월 며칠'로 말한다.",
+                      "일정을 달력에 표시한다.",
+                      "달력을 만든다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "여러 형태의 달력(벽걸이, 탁상, 다이어리 등)",
+                  "달력 만들기 자료",
+                  "스티커"
+                ],
+                "guidance": [
+                  "달력 만들기 활동을 통해 달력의 구조를 경험하게 한다.",
+                  "학생이 좋아하는 사진이나 그림이 포함된 달력을 활용한다."
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain": "규칙성",
+      "sub_domains": [
+        {
+          "sub_domain": "대응 관계",
+          "standards": [
+            {
+              "code": "09수학04-01",
+              "description": "대응 관계의 의미를 알고 생활 주변에서 대응 관계가 있는 것을 찾는다.",
+              "content_elements": {
+                "knowledge_understanding": "대응하는 규칙",
+                "process_skills": "규칙에 따른 변화 찾기, 한 양에 대응하는 다른 양 추측하기",
+                "value_attitude": "규칙 활용의 유용성"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 책상과 의자를 배열하거나 옷걸이에 옷을 거는 것과 같이 생활 주변에서 일대일 대응 관계가 있는 구체물을 짝 지어 볼 수 있는 충분한 기회를 제공한다. 이러한 경험을 통해 하나의 대상과 어떤 관계나 규칙에 의해 짝이 이루는 대상을 다양한 방법으로 찾게 한다. 다음으로 대상의 개수를 늘려 가며 조작해 봄으로써 한 양이 변할 때 다른 한 양이 종속하여 변화하는 것을 경험할 수 있게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "생활 주변의 다양한 대응 규칙",
+                  "process_skills": "한 양에 대응하는 다른 양 추측하기",
+                  "value_attitude": "생활 속에서 규칙 활용의 유용성을 찾아 인식하는 태도"
+                },
+                {
+                  "knowledge_understanding": "생활 장면에서의 다대다, 일대일 대응 규칙",
+                  "process_skills": "안내된 절차에 따라 한 양에 대응하는 다른 양 추측하기",
+                  "value_attitude": "생활 속에서 규칙 활용의 유용성을 찾고 경험하는 태도"
+                },
+                {
+                  "knowledge_understanding": "제한된 장면에서의 일대이, 일대일 대응 규칙",
+                  "process_skills": "대응 관계에 있는 것을 연결하기",
+                  "value_attitude": "생활 속에서 규칙 활용의 유용성에 관심을 갖는 태도"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["대응 관계의 의미를 알고", "생활 주변에서", "대응 관계가 있는 것을 찾는다."],
+                "items": [
+                  {
+                    "col1": [
+                      "대응 관계의 의미를 알고",
+                      "개념을 짝지어 보며 대응 관계의 의미를 알고",
+                      "사물을 짝지어 보며 대응 관계의 의미를 알고",
+                      "짝이 있는 물건을 찾으며 대응 관계를 경험하고"
+                    ],
+                    "col2": [
+                      "운동 경기에서",
+                      "일상생활에서",
+                      "학교생활에서",
+                      "만들기를 하며",
+                      "놀이 장면에서",
+                      "상차림을 보고",
+                      "교실에서"
+                    ],
+                    "col3": [
+                      "대응 관계가 있는 것을 말한다.",
+                      "대응 관계가 있는 것을 찾는다.",
+                      "다대다 대응 관계가 있는 것을 말한다.",
+                      "다대다 대응 관계가 있는 것을 찾는다.",
+                      "일대다 대응 관계가 있는 것을 말한다.",
+                      "일대다 대응 관계가 있는 것을 찾는다.",
+                      "일대일 대응 관계가 있는 것을 말한다.",
+                      "일대일 대응 관계가 있는 것을 찾는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "생활 주변에서 1대1 대응 찾기: 책상과 의자, 컵과 컵 받침, 칫솔과 칫솔꽂이, 트라이앵글과 채, 수나사와 암나사, 포크와 칼, 사람과 이름표, 병과 뚜껑 등",
+                  "생활 주변에서 1대多 대응 찾기: 가면에 두 개의 고무줄 끼우기, 한 사람이 2개의 응원 도구 들기, 끈 3개로 세모 만들기, 세발자전거와 바퀴, 막대 4개로 네모 만들기, 보자기의 네 귀퉁이 잡고 놀이하기, 손과 손가락, 손 하나에 고깔 과자 5개 끼우기, 동물과 동물의 다리, 달걀판과 달걀 개수 등",
+                  "생활 주변에서 多대多 대응 찾기: 운동 경기(5대5의 농구 경기 등), 콘센트 구멍 2개와 플러그의 꽂는 부분 2개 등"
+                ],
+                "guidance": [
+                  "대응에 대한 기초 개념 형성을 위해 다양한 구체물의 조작 활동 및 놀이 활동을 활용한다.",
+                  "생활 주변에서 쉽게 볼 수 있는 소재를 활용하여 대응의 개념을 인식시키되 생활 연령을 고려해서 학습자의 수준에 적합한 내용으로 제시한다."
+                ]
+              }
+            },
+            {
+              "code": "09수학04-02",
+              "description": "두 양 사이의 대응 관계를 대응표에 나타내고, 규칙을 찾는다.",
+              "content_elements": {
+                "knowledge_understanding": "대응하는 규칙",
+                "process_skills": "규칙에 따른 변화 찾기, 한 양에 대응하는 다른 양 추측하기",
+                "value_attitude": "규칙 활용의 유용성"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 책상과 의자를 배열하거나 옷걸이에 옷을 거는 것과 같이 생활 주변에서 일대일 대응 관계가 있는 구체물을 짝 지어 볼 수 있는 충분한 기회를 제공한다. 이러한 경험을 통해 하나의 대상과 어떤 관계나 규칙에 의해 짝이 이루는 대상을 다양한 방법으로 찾게 한다. 다음으로 대상의 개수를 늘려 가며 조작해 봄으로써 한 양이 변할 때 다른 한 양이 종속하여 변화하는 것을 경험할 수 있게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "두 양 사이의 대응 관계",
+                  "process_skills": "한 양에 대응하는 다른 양 추측하기",
+                  "value_attitude": "생활 속에서 규칙 활용의 유용성을 찾아 인식하는 태도"
+                },
+                {
+                  "knowledge_understanding": "한 양이 변할 때 그에 종속하여 변화하는 관계",
+                  "process_skills": "안내된 절차에 따라 한 양에 대응하는 다른 양 추측하기",
+                  "value_attitude": "생활 속에서 규칙 활용의 유용성을 찾고 경험하는 태도"
+                },
+                {
+                  "knowledge_understanding": "일대이/일대일 대응 관계",
+                  "process_skills": "대응 관계에 있는 것을 연결하기",
+                  "value_attitude": "생활 속에서 규칙 활용의 유용성에 관심을 갖는 태도"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["두 양 사이의 대응 관계를 대응표에 나타내고", "규칙을 찾는다."],
+                "items": [
+                  {
+                    "col1": [
+                      "두 양 사이의 대응 관계를 대응표에 수로 나타내고",
+                      "두 양 사이의 대응 관계를 대응표에 그림으로 그려 넣고",
+                      "두 양 사이의 대응 관계를 대응표에 기호로 그려 넣고",
+                      "두 양 사이의 대응 관계를 대응표에 붙임딱지로 붙이고",
+                      "한 양이 변할 때 다른 양이 그에 종속하여 변화하는 관계를 대응표에 그림으로 그려 넣고",
+                      "한 양이 변할 때 다른 양이 그에 종속하여 변화하는 관계를 대응표에 기호로 나타내고",
+                      "한 양이 변할 때 다른 양이 그에 종속하여 변화하는 관계를 대응표에 붙임딱지로 붙이고"
+                    ],
+                    "col2": [
+                      "규칙을 말한다.",
+                      "규칙을 찾는다.",
+                      "규칙에 표시한다.",
+                      "규칙을 선택한다.",
+                      "규칙을 확인한다."
+                    ]
+                  }
+                ],
+                "additional_items": [
+                  "그림에 붙임딱지를 붙이며 일대이/일대일 대응 관계에 있는 규칙을 경험한다.",
+                  "만들기 활동을 하며 일대이/일대일 대응 관계에 있는 규칙을 경험한다.",
+                  "구체물로 조작하며 일대이/일대일 대응 관계에 있는 규칙을 경험한다."
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "규칙적 대응 관계의 예시: 화분에 심은 꽃, 접시에 담긴 음식, 사진과 고정용 집게, 볼트와 너트, 자전거와 바퀴 수, 달걀과 달걀판, 수건과 빨래집게 등"
+                ],
+                "guidance": [
+                  "한 양이 변할 때 다른 양이 함께 종속적으로 변하는 규칙적 대응 관계를 찾는다.",
+                  "구체물 및 반구체물의 충분한 조작을 통해 규칙적 대응 관계를 경험할 수 있게 돕는다.",
+                  "공통 교육과정 관련 성취기준 [6수02-01] 한 양이 변할 때 다른 양이 그에 종속하여 변하는 대응 관계를 나타낸 표에서 규칙을 찾아 설명하고, □, △ 등을 사용하여 식으로 나타낼 수 있다. 성취기준과 관련 짓거나 연계를 고려할 수 있음."
+                ]
+              }
+            },
+            {
+              "code": "09수학04-03",
+              "description": "한 양이 변할 때 다른 양이 그에 종속하여 변화하는 대응 관계를 추측하고 확인한다.",
+              "content_elements": {
+                "knowledge_understanding": "대응하는 규칙",
+                "process_skills": "규칙에 따른 변화 찾기, 한 양에 대응하는 다른 양 추측하기",
+                "value_attitude": "규칙 활용의 유용성"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 책상과 의자를 배열하거나 옷걸이에 옷을 거는 것과 같이 생활 주변에서 일대일 대응 관계가 있는 구체물을 짝 지어 볼 수 있는 충분한 기회를 제공한다. 이러한 경험을 통해 하나의 대상과 어떤 관계나 규칙에 의해 짝이 이루는 대상을 다양한 방법으로 찾게 한다. 다음으로 대상의 개수를 늘려 가며 조작해 봄으로써 한 양이 변할 때 다른 한 양이 종속하여 변화하는 것을 경험할 수 있게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "여러 가지 대응 관계에서의 대응 규칙",
+                  "process_skills": "한 양에 대응하는 다른 양 추측하고 확인하기",
+                  "value_attitude": "규칙 활용의 유용성을 찾아 인식하는 태도"
+                },
+                {
+                  "knowledge_understanding": "일대일 또는 일대다 대응 관계에서의 대응 규칙",
+                  "process_skills": "안내된 절차에 따라 한 양에 대응하는 다른 양 추측하기",
+                  "value_attitude": "놀이를 하며 규칙 활용의 유용성을 찾고 경험하는 태도"
+                },
+                {
+                  "knowledge_understanding": "일대일 또는 일대이 대응 관계에서의 대응 규칙",
+                  "process_skills": "대응 관계에 있는 것을 구체물로 조작하고 연결하기",
+                  "value_attitude": "조작활동을 경험하며 규칙 활용의 유용성에 관심을 갖는 태도"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["한 양이 변할 때 다른 양이 그에 종속하여 변화하는 대응 관계를", "추측하고 확인한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "한 양이 1개씩 변화할 때마다 그에 종속하여 변화하는 여러 가지 대응 관계를 추측하고 확인한다.",
+                      "한 양이 1개씩 변화할 때마다 그에 종속하여 4개씩 변화하는 다른 한 양의 대응 관계를",
+                      "한 양이 1개씩 변화할 때마다 그에 종속하여 3개씩 변화하는 다른 한 양의 대응 관계를",
+                      "한 양이 1개씩 변화할 때마다 그에 종속하여 2개씩 변화하는 다른 한 양의 대응 관계를",
+                      "한 양이 1개씩 변화할 때마다 그에 종속하여 1개씩 변화하는 다른 한 양의 대응 관계를"
+                    ],
+                    "col2": [
+                      "놀이를 하며 확인한다.",
+                      "만들기를 하며 확인한다.",
+                      "구체물로 조작하며 확인한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "한 양이 변할 때 다른 양이 그에 종속하여 변하는 관계의 예시: 초대장 만들어 보내기, 컵에 뚜껑 닫기, 열쇠고리 만들기(고리 1개에 장식 2개 달기), 봉지에 포장하기(1봉지에 빵 4개), 떡꼬치 만들기, 포장 용기의 내용 파악하기(라면 1팩에 라면 5개) 등"
+                ],
+                "guidance": [
+                  "한 양이 변할 때 다른 양이 함께 종속적으로 변하는 규칙적 대응 관계를 찾는다.",
+                  "구체물 및 반구체물의 충분한 조작을 통해 규칙적 대응 관계를 경험할 수 있게 돕는다.",
+                  "공통 교육과정 관련 성취기준 [6수02-01] 한 양이 변할 때 다른 양이 그에 종속하여 변하는 대응 관계를 나타낸 표에서 규칙을 찾아 설명하고, □, △ 등을 사용하여 식으로 나타낼 수 있다. 성취기준과 관련 짓거나 연계를 고려할 수 있음."
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain": "자료와 가능성",
+      "sub_domains": [
+        {
+          "sub_domain": "분류하기",
+          "standards": [
+            {
+              "code": "9수학05-01",
+              "description": "두 가지 기준에 따라 자료를 순차적으로 분류한다.",
+              "content_elements": {
+                "knowledge_understanding": "모양/용도에 따라 분류된 자료의 모음",
+                "process_skills": "기준을 순차적으로 적용하며 자료 분류하기",
+                "value_attitude": "자료 분류에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 한 가지 기준으로 분류한 후 추가 기준으로 다시 분류하는 활동을 경험하게 한다. 학생에게 친숙한 물건이나 자료를 사용하여 분류의 의미를 이해하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "모양/용도에 따라 분류된 자료의 모음",
+                  "process_skills": "기준을 순차적으로 적용하며 자료 분류하기",
+                  "value_attitude": "자료 분류에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "한 가지 기준으로 분류된 자료",
+                  "process_skills": "추가 기준으로 다시 분류하기",
+                  "value_attitude": "자료 분류에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "여러 가지 자료",
+                  "process_skills": "한 가지 기준으로 분류하기",
+                  "value_attitude": "자료 분류 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["두 가지 기준에 따라 자료를 순차적으로 분류한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "두 가지 기준에 따라 나누는 자료를 또 다른 기준으로 정리한다.",
+                      "용도별로 분류한 자료를 종류별로 다시 정리한다.",
+                      "모양별로 분류한 자료를 색깔별로 다시 정리한다.",
+                      "크기별로 분류한 자료를 모양별로 다시 정리한다.",
+                      "도형 자료를 모양으로 구분한 후 색으로 다시 구분한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "분류 카드",
+                  "도형 블록",
+                  "생활 물건"
+                ],
+                "guidance": [
+                  "한 가지 기준으로 분류한 후 추가 기준으로 다시 분류하는 활동을 경험하게 한다.",
+                  "학생에게 친숙한 물건이나 자료를 사용한다."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sub_domain": "표와 그래프",
+          "standards": [
+            {
+              "code": "9수학05-02",
+              "description": "자료를 간단한 그래프로 나타낸다.",
+              "content_elements": {
+                "knowledge_understanding": "막대그래프",
+                "process_skills": "막대의 길이로 항목별 수량과 상대적 크기 비교하기",
+                "value_attitude": "그래프에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 그래프 표현에 여러 가지 방안을 활용한다. 구체물을 쌓아 올리거나 스티커를 붙이는 등 다양한 방법으로 그래프를 경험하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "막대그래프",
+                  "process_skills": "막대의 길이로 항목별 수량과 상대적 크기 비교하기",
+                  "value_attitude": "그래프에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "그림그래프",
+                  "process_skills": "그림으로 항목별 수량 나타내기",
+                  "value_attitude": "그래프에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "간단한 그래프",
+                  "process_skills": "구체물로 그래프 모양 만들기",
+                  "value_attitude": "그래프 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["자료를 간단한 그래프로 나타낸다."],
+                "items": [
+                  {
+                    "col1": [
+                      "자료를 막대그래프로 나타낸다.",
+                      "자료를 그림그래프로 나타낸다.",
+                      "여러 가지 재료로 막대그래프 모양으로 쌓는다.",
+                      "표로 정리하고 그래프로 나타낸다.",
+                      "스티커를 붙여 그래프를 만든다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "그래프 용지",
+                  "스티커",
+                  "블록/구체물",
+                  "그림 카드"
+                ],
+                "guidance": [
+                  "구체물을 쌓아 올리거나 스티커를 붙이는 등 다양한 방법으로 그래프를 경험하게 한다.",
+                  "표로 정리한 자료를 그래프로 나타내는 과정을 경험하게 한다."
+                ]
+              }
+            },
+            {
+              "code": "9수학05-03",
+              "description": "간단한 그래프를 보고 필요한 내용을 찾는다.",
+              "content_elements": {
+                "knowledge_understanding": "막대그래프의 정보",
+                "process_skills": "항목별 상대적인 비교 결과 파악하기",
+                "value_attitude": "그래프 읽기에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 그래프 표현에 여러 가지 방안을 활용한다. 단순한 그래프에서 시작하여 점차 복잡한 그래프로 나아가게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "막대그래프의 정보",
+                  "process_skills": "항목별 상대적인 비교 결과 파악하기",
+                  "value_attitude": "그래프 읽기에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "그림그래프의 정보",
+                  "process_skills": "그래프에서 수량 파악하기",
+                  "value_attitude": "그래프 읽기에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "간단한 그래프의 정보",
+                  "process_skills": "그래프에서 가장 많은/적은 것 찾기",
+                  "value_attitude": "그래프 읽기 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["간단한 그래프를 보고 필요한 내용을 찾는다."],
+                "items": [
+                  {
+                    "col1": [
+                      "막대그래프를 보고 필요한 내용을 찾는다.",
+                      "그림그래프를 보고 필요한 내용을 찾는다.",
+                      "간단한 기호를 활용한 그래프를 보고 필요한 내용을 찾는다.",
+                      "그래프를 보고 더 많은 것을 찾는다.",
+                      "그래프를 보고 더 적은 것을 찾는다.",
+                      "그래프를 보고 가장 많은 것을 찾는다.",
+                      "그래프를 보고 가장 적은 것을 찾는다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "다양한 그래프 자료",
+                  "그래프 읽기 활동지"
+                ],
+                "guidance": [
+                  "단순한 그래프에서 시작하여 점차 복잡한 그래프로 나아간다.",
+                  "그래프에서 필요한 정보를 찾는 활동을 다양하게 제공한다."
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sub_domain": "가능성",
+          "standards": [
+            {
+              "code": "9수학05-04",
+              "description": "놀이로 가능성을 경험한다.",
+              "content_elements": {
+                "knowledge_understanding": "놀이 속 경우의 수",
+                "process_skills": "결과를 추측하며 놀이하기",
+                "value_attitude": "가능성에 대한 관심"
+              },
+              "considerations": "장애 정도가 심한 학생의 경우 단순하고 명료한 형태의 놀이를 제공하고, 경우의 수를 2개로 최소화하여 가능성을 경험하게 한다. 결과를 예측하고 확인하는 경험을 반복하게 한다.",
+              "curriculum_levels": [
+                {
+                  "knowledge_understanding": "놀이 속 경우의 수",
+                  "process_skills": "결과를 추측하며 놀이하기",
+                  "value_attitude": "가능성에 대한 흥미와 관심"
+                },
+                {
+                  "knowledge_understanding": "간단한 놀이의 결과",
+                  "process_skills": "결과 예측하기",
+                  "value_attitude": "가능성에 대한 흥미"
+                },
+                {
+                  "knowledge_understanding": "놀이의 결과",
+                  "process_skills": "놀이에 참여하기",
+                  "value_attitude": "가능성 경험 활동에 참여하는 경험"
+                }
+              ],
+              "achievement_pool": {
+                "columns": ["놀이로 가능성을 경험한다."],
+                "items": [
+                  {
+                    "col1": [
+                      "경우의 수가 6개인 주사위 놀이로 가능성을 경험한다.",
+                      "경우의 수가 5개 이하인 사다리 타기로 가능성을 경험한다.",
+                      "4개의 면적으로 분할된 원판 돌리기로 가능성을 경험한다.",
+                      "경우의 수가 3개 이하인 제비뽑기로 가능성을 경험한다.",
+                      "가위 바위 보로 가능성을 경험한다.",
+                      "경우의 수가 2개인 맞히기/겨루기/꺼내기/던지기 놀이로 가능성을 경험한다.",
+                      "결과를 예측하고 확인하는 경험을 한다.",
+                      "생각했던 결과와 다른/같은 경험을 말한다."
+                    ]
+                  }
+                ]
+              },
+              "teaching_references": {
+                "materials": [
+                  "주사위",
+                  "사다리 타기 판",
+                  "원판(4분할)",
+                  "제비뽑기 상자",
+                  "동전"
+                ],
+                "guidance": [
+                  "단순하고 명료한 형태의 놀이를 제공한다.",
+                  "경우의 수를 2개로 최소화하여 가능성을 경험하게 한다.",
+                  "결과를 예측하고 확인하는 경험을 반복하게 한다."
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "total_standards": 33,
+  "standards_by_domain": {
+    "수와 연산": 14,
+    "도형": 8,
+    "측정": 4,
+    "규칙성": 3,
+    "자료와 가능성": 4
+  }
+}
