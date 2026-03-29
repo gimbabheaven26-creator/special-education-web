@@ -163,8 +163,9 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] 빌드 복구 — error.tsx 2개 추가 + 이동된 lib 모듈 5개 재수출 (f88e8b5, 2026-03-29)
 - [x] lib/ 31파일 → content/db/kice/quiz/study/ 5도메인 분리 + 80 import 경로 갱신 (33f4d52, 2026-03-29)
 - [x] 테스트 894건 전체 통과 — mock 경로 수정 4건 + 재수출 1건 (47acf8f, 2026-03-29)
+- [x] M2 D9 컴포넌트 분해 3건 — QuizForm 736→635, QuizClient 642→274(useQuizSession 훅), my/page 513→365 (811d528, 2026-03-29)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29).
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29).
 
 ---
 

@@ -1,3 +1,31 @@
+# X 세션 핸드오프 — 2026-03-29 (야간2: M2 D9 컴포넌트 분해 3건)
+
+## 야간2 세션
+
+### 완료
+| 커밋 | 내용 |
+|------|------|
+| `811d528` | refactor: M2 D9 대형 컴포넌트 분해 — QuizForm·QuizClient·MyPage 3건 |
+
+### D9 결과
+| 컴포넌트 | Before | After | 추출 파일 |
+|-----------|--------|-------|-----------|
+| QuizForm.tsx | 736줄 | 635줄 | OptionsEditor(71줄) + SubQuestionsEditor(95줄) |
+| QuizClient.tsx | 642줄 | 274줄 | useQuizSession 훅(393줄) |
+| my/page.tsx | 513줄 | 365줄 | MySubComponents(154줄) |
+
+### 빌드 상태
+- 52파일 894 tests 0 failures
+- build exit 0, lint 0 errors
+
+### 미해결 / 다음 X가 알아야 할 것
+- useQuizSession.ts에 elaboration TODO 5건 비활성화 상태 유지 (M2 DEFERRED 대기)
+- QuizForm.tsx 여전히 635줄 — 추가 분리 가능 (BasicFields, AnswerSection 등)
+- ~20 소스파일이 barrel export 대신 deep import 사용 중
+- REQ-008 subjects column 미착수 (카이란 승인 대기)
+
+---
+
 # X 세션 핸드오프 — 2026-03-29 (야간: lib 5도메인 분리 + 테스트 894건)
 
 ## 야간 세션

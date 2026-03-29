@@ -24,6 +24,21 @@
 
 ---
 
+## [2026-03-29] X — M2 D9 컴포넌트 분해 3건
+
+### 변경 내용
+- **QuizForm.tsx 736→635줄**: OptionsEditor(71줄) + SubQuestionsEditor(95줄) 추출 → `src/app/admin/editor/`
+- **QuizClient.tsx 642→274줄**: useQuizSession 커스텀 훅(393줄) 추출 → `src/app/quiz/[subject]/useQuizSession.ts`. 세션 상태 15+ useState + diagnostic 로직 캡슐화
+- **my/page.tsx 513→365줄**: GuestBanner + SubjectProgressTab + RecentWrongTab → `src/app/my/MySubComponents.tsx`(154줄)
+- 모든 컴포넌트 500줄 미만 달성
+
+### 상태
+- [x] 빌드 성공 (exit 0)
+- [x] 52파일 894 tests 0 failures
+- [x] 커밋 811d528
+
+---
+
 ## [2026-03-29] X — lib/ 5도메인 분리 + 테스트 894건 + EmptyState 7페이지 통합
 
 ### 변경 내용 (후반 세션)
