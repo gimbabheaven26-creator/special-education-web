@@ -24,6 +24,27 @@
 
 ---
 
+## [2026-03-29] X — 북마크 퀴즈 라우트 + loading 보강 (야간4)
+
+### 변경 내용
+- `/bookmarks/quiz` 전용 퀴즈 라우트 신설 — 북마크한 챕터의 퀴즈만 필터링하여 풀기 (dbdced6)
+- `/bookmarks` 페이지에 '북마크 퀴즈' CTA 버튼 추가
+- `loading.tsx` 4곳 추가 — `/diagnosis`, `/practice`, `/practice-hub`, `/kice/analytics` (5827734)
+- `e1ca90f` feat(ux): 오답노트 SRS 모드 + 재시험 UX 개선
+- `541544d` feat(ux): 북마크 카드에 과목별 퀴즈 직링크 추가
+- `e4422c6` feat(ux): 용어사전 필터 안내 + 기출 탭 접근성·색상 범례
+
+### 신규 파일
+- `src/app/bookmarks/quiz/page.tsx` — server component (subjects + quizzes fetch)
+- `src/app/bookmarks/quiz/BookmarkQuizClient.tsx` — client quiz loop (296줄)
+- `src/app/bookmarks/quiz/loading.tsx`, `error.tsx`
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드/린트/테스트 통과 (910 tests)
+
+---
+
 ## [2026-03-29] X — Phase 3~5 UX 마무리 (야간3)
 
 ### 변경 내용

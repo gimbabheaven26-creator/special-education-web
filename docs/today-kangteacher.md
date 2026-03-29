@@ -1,3 +1,29 @@
+# X 세션 핸드오프 — 2026-03-29 (야간4: M2 최종)
+
+## 야간4 세션
+
+### 완료
+| 커밋 | 내용 |
+|------|------|
+| `e1ca90f` | feat(ux): 오답노트 SRS 모드 + 재시험 UX 개선 |
+| `541544d` | feat(ux): 북마크 카드에 과목별 퀴즈 직링크 추가 |
+| `e4422c6` | feat(ux): 용어사전 필터 안내 + 기출 탭 접근성·색상 범례 |
+| `28f7a91` | fix(ux): /terms 불필요 안내 제거 + /kice 빈도분석 탭 바 |
+| `edcaea6` | fix(ux): /wrong-notes SRS 미완료 뱃지 + 리뷰 진행 바 |
+| `5827734` | feat(ux): loading.tsx 4곳 추가 (V 검증 해소) |
+| `dbdced6` | feat(bookmarks): 북마크 퀴즈 전용 라우트 /bookmarks/quiz |
+
+### M2 Completion Contract: 8/8 PASS
+### prompt_plan: Phase 1~5 전체 완료 (정교화 질문만 카이란 결정 대기)
+
+### 카이란 결정 필요
+1. 정교화 질문 활성화/제거/M3 보류 (ElaborationPrompt.tsx)
+2. M3 마일스톤 목표 합의
+3. REQ-007/008 DB 컬럼 승인
+4. Supabase SQL 4건 직접 실행
+
+---
+
 # X 세션 핸드오프 — 2026-03-29 (야간3: Phase 3~5 UX 마무리)
 
 ## 야간3 세션

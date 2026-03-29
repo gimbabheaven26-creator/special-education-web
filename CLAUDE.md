@@ -97,7 +97,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 ## 아키텍처 요점
 
 - **상태 관리**: Zustand 4개 스토어 (`useStudyStore`, `useLeitnerStore`, `useQuizStore`, `useBookmarkStore`)
-- **라우팅**: App Router. 주요 페이지: `/`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`
+- **라우팅**: App Router. 주요 페이지: `/`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`, `/bookmarks/quiz`
 - **오늘학습 `/daily`**: 홈 메인 버튼에서만 접근 (네비 미노출)
 - **MDX 컴포넌트 API**: `FillBlank` = `text` prop, `MatchingExercise` = `items` prop
 - **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db/` 사용
@@ -106,6 +106,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - **피드백 API** `POST /api/feedback`: Discord webhook 연동, rate limit IP당 3회/분, `DISCORD_WEBHOOK_URL` env var 필요
 - **BetaFeedbackWidget**: 베타 기간 한정 전역 위젯 — `LayoutProviders.tsx`에 마운트, 베타 종료 시 제거 필요
 - **layout.tsx**: LayoutProviders 분리 완료 (007bdb9, 2026-03-28) — client 위젯 6개를 `LayoutProviders.tsx`로 추출, layout.tsx는 Server Component 역할에 집중
+- **퀴즈 세션 훅**: `src/app/quiz/[subject]/useQuizSession.ts` — QuizClient에서 추출한 세션 상태 전담 훅 (buildSession, answers, navigation)
 
 ---
 
@@ -164,8 +165,16 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] lib/ 31파일 → content/db/kice/quiz/study/ 5도메인 분리 + 80 import 경로 갱신 (33f4d52, 2026-03-29)
 - [x] 테스트 894건 전체 통과 — mock 경로 수정 4건 + 재수출 1건 (47acf8f, 2026-03-29)
 - [x] M2 D9 컴포넌트 분해 3건 — QuizForm 736→635, QuizClient 642→274(useQuizSession 훅), my/page 513→365 (811d528, 2026-03-29)
+- [x] 오답노트 SRS 모드 + 재시험 UX 개선 (e1ca90f, 2026-03-29)
+- [x] 북마크 카드에 과목별 퀴즈 직링크 추가 (541544d, 2026-03-29)
+- [x] 용어사전 필터 안내 + 기출 탭 접근성·색상 범례 (e4422c6, 2026-03-29)
+- [x] /my 기능카드 0건 행동유도 문구 — 오답노트·북마크·플래시카드 (e5d9937, 2026-03-29)
+- [x] /wrong-notes SRS UX 개선 — 미완료 뱃지 + 리뷰 진행 바 (edcaea6, 2026-03-29)
+- [x] /terms 불필요 안내 제거 + /kice 빈도분석 탭 바 추가 (28f7a91, 2026-03-29)
+- [x] loading.tsx 4곳 추가 — diagnosis, practice, practice-hub, bookmarks/quiz (5827734, 2026-03-29)
+- [x] 북마크 퀴즈 전용 라우트 /bookmarks/quiz (dbdced6, 2026-03-29)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29).
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29). Day 10: **UX fix 3건 + loading 4곳 + 북마크 퀴즈 라우트** (2026-03-29).
 
 ---
 
