@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
+import KiceTabBar from './_components/KiceTabBar'
 
 export interface KiceSearchItem {
   year: number
@@ -38,21 +39,7 @@ export default function KiceSearch({ items }: KiceSearchProps) {
         <p className="text-sm text-muted-foreground mt-1">키워드, 과목, 지문으로 기출문제를 찾아보세요</p>
       </div>
 
-      {/* 탭 */}
-      <div className="flex border-b border-border" role="tablist" aria-label="기출문제 보기 방식">
-        <Link href="/kice?tab=by-year" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
-          연도별 기출
-        </Link>
-        <Link href="/kice?tab=by-area" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
-          영역별 기출
-        </Link>
-        <Link href="/kice?tab=analytics" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
-          빈도분석
-        </Link>
-        <span role="tab" aria-selected="true" className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary min-h-[44px] flex items-center">
-          키워드 검색
-        </span>
-      </div>
+      <KiceTabBar activeTab="search" />
 
       {/* 검색창 */}
       <div className="relative">

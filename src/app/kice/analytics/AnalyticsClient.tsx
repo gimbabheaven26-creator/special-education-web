@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { TrendingUp, Hash, AlertTriangle, Flame, BookOpen } from 'lucide-react'
+import KiceTabBar from '../_components/KiceTabBar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SUBJECT_LABELS } from '@/types/kice'
@@ -57,21 +58,7 @@ export default function AnalyticsClient({ data }: AnalyticsClientProps) {
         </p>
       </div>
 
-      {/* 탭 전환 */}
-      <div className="flex border-b border-border" role="tablist" aria-label="기출문제 보기 방식">
-        <Link href="/kice?tab=by-year" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
-          연도별 기출
-        </Link>
-        <Link href="/kice?tab=by-area" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
-          영역별 기출
-        </Link>
-        <span role="tab" aria-selected="true" className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary min-h-[44px] flex items-center">
-          빈도분석
-        </span>
-        <Link href="/kice?tab=search" role="tab" aria-selected="false" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 border-b-2 border-transparent transition-colors min-h-[44px] flex items-center">
-          키워드 검색
-        </Link>
-      </div>
+      <KiceTabBar activeTab="analytics" />
 
       {/* ─── Subject Frequency Heatmap ─── */}
       <Card>
