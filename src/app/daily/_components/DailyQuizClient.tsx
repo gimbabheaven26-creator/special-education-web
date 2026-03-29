@@ -54,6 +54,7 @@ export function DailyQuizClient() {
         timeslotLabel={TIMESLOT.label}
         oxQuestions={oxQuestions}
         oxAnswers={oxAnswers}
+        wrongChapters={wrongChaptersStep1}
       />
     );
   }

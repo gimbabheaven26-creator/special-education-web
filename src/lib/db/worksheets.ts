@@ -63,6 +63,21 @@ export async function getAllWorksheetTopics(): Promise<WorksheetTopicRow[]> {
   return data as WorksheetTopicRow[];
 }
 
+/** Returns question count per topic_id: { [topicId]: count } */
+export async function getWorksheetQuestionCounts(): Promise<Record<string, number>> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('worksheet_questions')
+    .select('topic_id');
+
+  if (error || !data) return {};
+  const counts: Record<string, number> = {};
+  for (const row of data) {
+    counts[row.topic_id] = (counts[row.topic_id] ?? 0) + 1;
+  }
+  return counts;
+}
+
 export async function getWorksheetTopicById(id: string): Promise<WorksheetTopicRow | null> {
   const supabase = await createClient();
   const { data, error } = await supabase

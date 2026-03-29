@@ -43,6 +43,7 @@ function resetStore() {
     dailyHistory: [],
     scenarioProgress: {},
     spacedScenarioSchedules: {},
+    completedChapters: {},
   });
 }
 
@@ -314,6 +315,49 @@ describe('recordChapterComplete', () => {
 
     expect(getState().dailyProgress.date).toBe('2026-03-30');
     expect(getState().dailyProgress.chaptersCompleted).toBe(1); // 리셋 후 1
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 4.5 markChapterCompleted / isChapterCompleted
+// ═══════════════════════════════════════════════════════════════════════════
+
+describe('markChapterCompleted / isChapterCompleted', () => {
+  it('챕터 완료 기록', () => {
+    act(() => getState().markChapterCompleted('통합교육', 'ch-1'));
+
+    expect(getState().completedChapters['통합교육']).toEqual(['ch-1']);
+    expect(getState().isChapterCompleted('통합교육', 'ch-1')).toBe(true);
+  });
+
+  it('같은 과목 여러 챕터 기록', () => {
+    act(() => getState().markChapterCompleted('통합교육', 'ch-1'));
+    act(() => getState().markChapterCompleted('통합교육', 'ch-2'));
+
+    expect(getState().completedChapters['통합교육']).toEqual(['ch-1', 'ch-2']);
+  });
+
+  it('중복 챕터 무시', () => {
+    act(() => getState().markChapterCompleted('통합교육', 'ch-1'));
+    act(() => getState().markChapterCompleted('통합교육', 'ch-1'));
+
+    expect(getState().completedChapters['통합교육']).toEqual(['ch-1']);
+  });
+
+  it('다른 과목은 독립', () => {
+    act(() => getState().markChapterCompleted('통합교육', 'ch-1'));
+    act(() => getState().markChapterCompleted('행동지원', 'ch-a'));
+
+    expect(getState().completedChapters['통합교육']).toEqual(['ch-1']);
+    expect(getState().completedChapters['행동지원']).toEqual(['ch-a']);
+  });
+
+  it('미완료 챕터는 false', () => {
+    expect(getState().isChapterCompleted('통합교육', 'ch-1')).toBe(false);
+  });
+
+  it('미등록 과목은 false', () => {
+    expect(getState().isChapterCompleted('존재안함', 'ch-1')).toBe(false);
   });
 });
 
@@ -639,9 +683,9 @@ describe('persist 설정', () => {
     expect(persistApi.getOptions().name).toBe('special-edu-study');
   });
 
-  it('persist version = 5', () => {
+  it('persist version = 6', () => {
     const persistApi = (useStudyStore as unknown as { persist: { getOptions: () => { version: number } } }).persist;
-    expect(persistApi.getOptions().version).toBe(5);
+    expect(persistApi.getOptions().version).toBe(6);
   });
 });
 
@@ -688,7 +732,15 @@ describe('migrate', () => {
     expect(migrated.spacedScenarioSchedules).toEqual({});
   });
 
-  it('version 1 → 5 — 모든 마이그레이션 순차 적용', () => {
+  it('version < 6 — completedChapters 필드 추가', () => {
+    const persistApi = (useStudyStore as unknown as { persist: { getOptions: () => { migrate: (s: unknown, v: number) => unknown } } }).persist;
+    const migrate = persistApi.getOptions().migrate;
+
+    const migrated = migrate({}, 5) as Record<string, unknown>;
+    expect(migrated.completedChapters).toEqual({});
+  });
+
+  it('version 1 → 6 — 모든 마���그레이션 순차 적용', () => {
     const persistApi = (useStudyStore as unknown as { persist: { getOptions: () => { migrate: (s: unknown, v: number) => unknown } } }).persist;
     const migrate = persistApi.getOptions().migrate;
 
@@ -698,14 +750,15 @@ describe('migrate', () => {
     expect(migrated.dailyHistory).toEqual([]);
     expect(migrated.scenarioProgress).toEqual({});
     expect(migrated.spacedScenarioSchedules).toEqual({});
+    expect(migrated.completedChapters).toEqual({});
   });
 
-  it('현재 버전이면 마이그레이션 없음', () => {
+  it('현재 버��이면 마이그레이션 없음', () => {
     const persistApi = (useStudyStore as unknown as { persist: { getOptions: () => { migrate: (s: unknown, v: number) => unknown } } }).persist;
     const migrate = persistApi.getOptions().migrate;
 
     const state = { totalXP: 200 };
-    const migrated = migrate(state, 5) as Record<string, unknown>;
+    const migrated = migrate(state, 6) as Record<string, unknown>;
 
     // 추가 필드 없음 (이미 최신)
     expect(migrated).toEqual({ totalXP: 200 });

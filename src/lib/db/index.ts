@@ -19,6 +19,7 @@ export {
   getWorksheetTopics,
   getAllWorksheetTopics,
   getWorksheetTopicById,
+  getWorksheetQuestionCounts,
 } from './worksheets';
 export type { WorksheetQuestionRow, WorksheetTopicRow } from './worksheets';
 
