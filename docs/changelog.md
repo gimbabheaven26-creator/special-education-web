@@ -24,6 +24,29 @@
 
 ---
 
+## [2026-03-29] X — UX 피드백 반영 + 코드 정리 (야간6)
+
+### 변경 내용
+- concepts 과목 페이지 SSG 오류 해결 — buttonVariants 인라인 교체 (1418463)
+- Confidence/확신도 기능 완전 제거 — 12파일, ConfidenceToggle 삭제, Leitner 무조건 승급 (1c8a93f)
+- KICE 4탭→2탭 간소화 — KiceByArea, KiceSearch, ElaborationPrompt 삭제 (b768112)
+- 네비 1클릭 직행 — "내 기록" 탭 href='/my' 허브 설정 (b768112)
+- 북마크 용도 안내 텍스트 추가 (b768112)
+- admin editor force-dynamic 추가 + nav-config 테스트 갱신 (27c9002)
+
+### 영향 범위
+- src/types/quiz.ts (Confidence 타입 제거)
+- src/lib/nav-config.ts (metacognition href, /kice 항목 이동)
+- src/app/kice/ (2파일 삭제, 탭바/페이지 간소화)
+- src/stores/useLeitnerStore.ts (confidence 매개변수 제거)
+
+### 상태
+- [x] 빌드 통과 (exit 0, 191 static pages)
+- [x] 테스트 통과 (887건)
+- [x] 커밋 완료
+
+---
+
 ## [2026-03-29] X — 나다운 V 검증 + 보안 강화 (야간5)
 
 ### 변경 내용

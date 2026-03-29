@@ -107,6 +107,8 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - **BetaFeedbackWidget**: 베타 기간 한정 전역 위젯 — `LayoutProviders.tsx`에 마운트, 베타 종료 시 제거 필요
 - **layout.tsx**: LayoutProviders 분리 완료 (007bdb9, 2026-03-28) — client 위젯 6개를 `LayoutProviders.tsx`로 추출, layout.tsx는 Server Component 역할에 집중
 - **퀴즈 세션 훅**: `src/app/quiz/[subject]/useQuizSession.ts` — QuizClient에서 추출한 세션 상태 전담 훅 (buildSession, answers, navigation)
+- **네비 1클릭 직행**: 모든 NavGroup에 `href` 필드 설정 — 진단평가→`/diagnosis`, 실력쌓기→`/practice-hub`, 내 기록→`/my`, 함께하기→`/community`. 하단탭 1클릭으로 허브 이동
+- **출제경향 탭**: `/kice` 2탭 구성 (기출문제, 출제분석). 영역별·키워드검색 탭 제거 (27c9002)
 
 ---
 
@@ -173,8 +175,12 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] /terms 불필요 안내 제거 + /kice 빈도분석 탭 바 추가 (28f7a91, 2026-03-29)
 - [x] loading.tsx 4곳 추가 — diagnosis, practice, practice-hub, bookmarks/quiz (5827734, 2026-03-29)
 - [x] 북마크 퀴즈 전용 라우트 /bookmarks/quiz (dbdced6, 2026-03-29)
+- [x] concepts 과목 페이지 SSG 오류 해결 — buttonVariants() 제거 (1418463, 2026-03-29)
+- [x] Confidence/확신도 기능 완전 제거 — 14파일 정리 (1c8a93f, 2026-03-29)
+- [x] 정교화 질문 삭제 + kice 데드코드 정리 (b768112, 2026-03-29)
+- [x] 출제경향 4→2탭 간소화 + 북마크 안내 문구 + 네비 1클릭 직행 (27c9002, 2026-03-29)
 
-> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29). Day 10: **UX fix 3건 + loading 4곳 + 북마크 퀴즈 라우트** (2026-03-29).
+> M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29). Day 10: **UX fix 3건 + loading 4곳 + 북마크 퀴즈 라우트** (2026-03-29). Day 11: **concepts SSG 수정 + Confidence 완전 제거 + 출제경향 4→2탭 + 네비 1클릭** (2026-03-29).
 
 ---
 

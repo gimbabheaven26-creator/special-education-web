@@ -1,4 +1,31 @@
-# X 세션 핸드오프 — 2026-03-29 (야간5: 나다운 V 검증 + 보안)
+# X 세션 핸드오프 — 2026-03-29 (야간6: concepts SSG + UX 간소화)
+
+## 야간6 세션
+
+### 완료
+| 커밋 | 내용 |
+|------|------|
+| `1418463` | fix: concepts 과목 페이지 SSG 오류 해결 — buttonVariants() 제거 |
+| `1c8a93f` | refactor: Confidence/확신도 기능 완전 제거 (14파일) |
+| `b768112` | refactor: 정교화 질문 삭제 + kice 데드코드 정리 |
+| `27c9002` | fix: 출제경향 4→2탭 + 북마크 안내 + 네비 1클릭 + admin force-dynamic |
+
+### 핵심 변경
+- **concepts SSG 수정**: iPad에서 과목 클릭 시 오류 → `buttonVariants()` (CVA 함수)가 Server Component에서 실행 불가 → Link+className으로 교체
+- **Confidence 완전 제거**: types/quiz.ts, QuizResultScreen, session-recovery 등 14파일에서 확신도 관련 코드 삭제
+- **출제경향 4→2탭**: 영역별(KiceByArea)·키워드검색(KiceSearch) 삭제, 기출문제+출제분석만 유지
+- **네비 1클릭 직행**: 모든 NavGroup에 hub href 설정 → 하단탭 1클릭으로 허브 이동
+- **nav-config 테스트 갱신**: `/kice/exam`→metacognition, `/my`→metacognition 매칭 확인
+
+### 미결 (P0)
+- DB 스크립트 4건 (카이란 승인 필요)
+- 정교화 질문 재활성화 여부 (카이란 결정 대기)
+- Completion Contract 자가평가 4건
+
+### 후속 작업 파일
+`/tmp/session-wrap/X-20260329-followups.md`
+
+---
 
 ## 야간5 세션
 
