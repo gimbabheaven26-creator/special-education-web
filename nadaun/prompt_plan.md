@@ -10,8 +10,8 @@ MVP + Post-MVP 완료 후 실제 배포 + 보안 강화 + 교사 대시보드.
 
 Vercel 서브디렉토리 배포 + 환경변수 + E2E 안전장치.
 
-- [ ] T1: vercel.json 루트 디렉토리 설정 (nadaun/) + 빌드 커맨드 확인
-- [ ] T2: 환경변수 체크리스트 문서 — NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ANTHROPIC_API_KEY
+- [x] T1: vercel.json 루트 디렉토리 설정 (nadaun/) + 빌드 커맨드 확인
+- [x] T2: 환경변수 체크리스트 문서 — NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ANTHROPIC_API_KEY
 - [x] T3: E2E_AUTH_BYPASS 이중 안전장치 — NODE_ENV === 'production'이면 무시
 
 ## Phase 12: 보안 강화
@@ -29,14 +29,14 @@ rate limiter + 코드 정리.
 
 - [x] T8: sanitizeFilename 공유 유틸 추출 — src/lib/utils/sanitize.ts
 - [ ] T9: rate limiter Supabase 기반 전환 — rate_limits 테이블 + upsert
-- [ ] T10: weekly-plan-section.tsx 분리 — WeeklyPlanItem + AddWeeklyPlanForm 추출
+- [x] T10: weekly-plan-section.tsx 분리 — WeeklyPlanItem + AddWeeklyPlanForm 추출
 
 ## Phase 14: 교사 대시보드
 
 홈 화면 개편 + IEP 진행률.
 
-- [ ] T11: / 홈 개편 — 학생 수, IEP 수, 이번 주 계획 요약 카드
-- [ ] T12: IEP 진행률 표시 — 주간계획 작성 주차/총 주차 비율 배지
+- [x] T11: / 홈 개편 — 학생 수, IEP 수, 이번 주 계획 요약 카드
+- [x] T12: IEP 진행률 표시 — 주간계획 작성 주차/총 주차 비율 배지
 
 ## 실행 순서
 
@@ -63,17 +63,17 @@ Phase 11 + Phase 12 **병렬** → Phase 13 → Phase 14
 ### 프로덕션 기준
 - [x] C6: sanitizeFilename이 단일 소스 (src/lib/utils/sanitize.ts)
 - [ ] C7: rate limiter가 Supabase 테이블 기반 동작
-- [ ] C8: weekly-plan-section.tsx 300줄 이하
-- [ ] C9: npm run build PASS
+- [x] C8: weekly-plan-section.tsx 300줄 이하
+- [x] C9: npm run build PASS
 
 ### 배포 기준
-- [ ] C10: Vercel에 배포되어 접근 가능
+- [x] C10: Vercel에 배포되어 접근 가능
 - [ ] C11: Google OAuth가 배포 환경에서 동작
 - [ ] C12: AI 생성이 배포 환경에서 동작
 
 ### UX 기준
-- [ ] C13: 홈에서 학생 수 + IEP 수 확인 가능
-- [ ] C14: IEP 상세에서 주간계획 진행률 확인 가능
+- [x] C13: 홈에서 학생 수 + IEP 수 확인 가능
+- [x] C14: IEP 상세에서 주간계획 진행률 확인 가능
 - [ ] C15: 기존 E2E 79건 + 신규 테스트 전부 PASS
 
 ## 이전 계획
