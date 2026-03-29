@@ -11,10 +11,10 @@ import { getConceptUrl } from '@/lib/content/concept-urls';
 // ─── Score Tiers ─────────────────────────────────────────────────────────────
 
 const SCORE_TIERS = [
-  { min: 91, color: 'text-emerald-600 dark:text-emerald-400', message: '거의 완벽해요! 다른 영역도 도전해볼까요?' },
-  { min: 61, color: 'text-emerald-600 dark:text-emerald-400', message: '잘하고 있어요! 놓친 몇 문제만 정리하면 이 영역은 거의 완성이에요.' },
-  { min: 31, color: 'text-amber-600 dark:text-amber-400', message: '감이 잡히기 시작했어요! 틀린 문제를 중심으로 다시 보면 빠르게 오를 거예요.' },
-  { min: 0, color: 'text-red-600 dark:text-red-400', message: '아직 익숙하지 않은 영역이에요. 괜찮아요, 틀린 문제부터 다시 보면 금방 감이 올 거예요.' },
+  { min: 91, emoji: '🏆', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800', message: '거의 완벽해요! 다른 영역도 도전해볼까요?' },
+  { min: 61, emoji: '💪', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800', message: '잘하고 있어요! 놓친 몇 문제만 정리하면 이 영역은 거의 완성이에요.' },
+  { min: 31, emoji: '🌱', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800', message: '감이 잡히기 시작했어요! 틀린 문제를 중심으로 다시 보면 빠르게 오를 거예요.' },
+  { min: 0, emoji: '📖', color: 'text-slate-600 dark:text-slate-400', bg: 'bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800', message: '아직 익숙하지 않은 영역이에요. 괜찮아요, 틀린 문제부터 다시 보면 금방 감이 올 거예요.' },
 ];
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -279,9 +279,10 @@ export function QuizResultScreen({
           const tier = SCORE_TIERS.find((t) => rate >= t.min);
           if (!tier) return null;
           return (
-            <p className={`mt-1 font-medium ${tier.color}`}>
-              {tier.message}
-            </p>
+            <div className={`mt-3 mx-auto max-w-sm rounded-xl border px-4 py-3 ${tier.bg}`}>
+              <span className="text-2xl mr-2" aria-hidden="true">{tier.emoji}</span>
+              <span className={`text-sm font-medium ${tier.color}`}>{tier.message}</span>
+            </div>
           );
         })()}
       </div>
