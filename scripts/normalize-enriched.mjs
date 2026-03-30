@@ -15,7 +15,8 @@
  *       content_elements: { knowledge_understanding, process_skills, values_attitudes },
  *       considerations: string[],
  *       curriculum_levels: [{ knowledge_understanding, process_skills, values_attitudes }],
- *       achievement_pool: { columns: string[], items: string[][] }
+ *       achievement_pool: { columns: string[], items: string[][] },
+ *       teaching_references: Array<{ title: string, items: string[] } | string>
  *     }]
  *   }]
  * }
@@ -49,6 +50,7 @@ function normalizeKorean(raw) {
       considerations: Array.isArray(s.considerations) ? s.considerations : [s.considerations],
       curriculum_levels: normalizeCurriculumLevels(s.curriculum_levels, 'korean'),
       achievement_pool: normalizePoolKorean(s.achievement_pool),
+      teaching_references: normalizeTeachingRefs(s.teaching_references),
     })),
   }));
 
@@ -114,6 +116,7 @@ function normalizeMath(raw) {
             considerations: Array.isArray(s.considerations) ? s.considerations : s.considerations ? [s.considerations] : [],
             curriculum_levels: normalizeCurriculumLevels(s.curriculum_levels, 'math'),
             achievement_pool: normalizePoolMath(s.achievement_pool),
+            teaching_references: normalizeTeachingRefs(s.teaching_references),
           })),
         });
       });
@@ -129,6 +132,7 @@ function normalizeMath(raw) {
           considerations: Array.isArray(s.considerations) ? s.considerations : s.considerations ? [s.considerations] : [],
           curriculum_levels: normalizeCurriculumLevels(s.curriculum_levels, 'math'),
           achievement_pool: normalizePoolMath(s.achievement_pool),
+          teaching_references: normalizeTeachingRefs(s.teaching_references),
         })),
       });
     }
@@ -201,6 +205,7 @@ function normalizeCareer(raw) {
       considerations: Array.isArray(s.considerations) ? s.considerations : s.considerations ? [s.considerations] : [],
       curriculum_levels: normalizeCurriculumLevels(s.curriculum_levels, 'career'),
       achievement_pool: normalizePoolCareer(s.achievement_pool),
+      teaching_references: normalizeTeachingRefs(s.teaching_references),
     })),
   }));
 
@@ -282,6 +287,24 @@ function normalizePoolCareer(pool) {
   }
 
   return { columns, items: [] };
+}
+
+// ─── 교수학습 참고자료 정규화 ───
+
+function normalizeTeachingRefs(refs) {
+  if (!refs || !Array.isArray(refs)) return [];
+
+  return refs.map(r => {
+    // { title, items } 형태 (국어)
+    if (typeof r === 'object' && r.title) {
+      return { title: r.title, items: Array.isArray(r.items) ? r.items : [] };
+    }
+    // 문자열 형태 (진로)
+    if (typeof r === 'string') {
+      return { title: r, items: [] };
+    }
+    return { title: String(r), items: [] };
+  });
 }
 
 // ─── 공통 유틸 ───
