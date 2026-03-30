@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { ArrowRight, BookOpen } from 'lucide-react';
+import { DiagnosticsSummary } from './DiagnosticsSummary';
 import { RecentDiagnostics } from './RecentDiagnostics';
 
 export const metadata: Metadata = {
@@ -8,68 +9,66 @@ export const metadata: Metadata = {
   description: '실력을 진단하고 약점을 파악하세요. OX 진단, 단답형 진단, 용어학습을 제공합니다.',
 };
 
-const DIAGNOSIS_CARDS = [
-  {
-    href: '/quiz/ox',
-    icon: '\u2B55',
-    title: 'OX 진단',
-    description: '전 과목 OX 문제로 실력 진단',
-  },
-  {
-    href: '/quiz/short',
-    icon: '\u270F\uFE0F',
-    title: '단답형 진단',
-    description: '전 과목 단답형으로 실력 진단',
-  },
-] as const;
-
 export default function DiagnosisPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
-      <h1 className="text-3xl font-bold text-foreground mb-2">진단평가</h1>
-      <p className="text-muted-foreground mb-8">
-        실력을 진단하고 약점을 파악하세요.
-      </p>
-
-      {/* 진단 카드 — 2열 그리드 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {DIAGNOSIS_CARDS.map((card) => (
-          <Link key={card.href} href={card.href} className="block group">
-            <Card className="h-full transition-shadow duration-200 hover:shadow-md cursor-pointer">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl" aria-hidden="true">
-                    {card.icon}
-                  </span>
-                  <CardTitle className="text-base font-semibold">
-                    {card.title}
-                  </CardTitle>
-                </div>
-                <CardDescription>{card.description}</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        ))}
+    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-foreground">진단평가</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          실력을 진단하고 약점을 파악하세요
+        </p>
       </div>
 
-      {/* 용어학습 — 전체 너비 */}
-      <Link href="/terms" className="block group mt-4">
-        <Card className="transition-shadow duration-200 hover:shadow-md cursor-pointer">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <span className="text-2xl" aria-hidden="true">
-                &#128218;
-              </span>
-              <CardTitle className="text-base font-semibold">
-                용어학습
-              </CardTitle>
-            </div>
-            <CardDescription>핵심 용어 플래시카드</CardDescription>
-          </CardHeader>
-        </Card>
-      </Link>
+      {/* 진단 요약 — 총 풀이 + 최근 정답률 */}
+      <DiagnosticsSummary />
 
-      {/* 최근 진단 기록 (클라이언트 컴포넌트) */}
+      {/* 바로 시작 — 큰 액션 버튼 */}
+      <div className="space-y-3">
+        <h2 className="text-sm font-semibold text-muted-foreground px-1">바로 시작</h2>
+        <Link
+          href="/quiz/ox"
+          className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors group"
+        >
+          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-950/30 flex items-center justify-center">
+            <span className="text-lg" aria-hidden="true">&#x2B55;</span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-medium text-foreground">OX 진단</p>
+            <p className="text-sm text-muted-foreground">전 과목 OX 문제로 빠르게 실력 확인</p>
+          </div>
+          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+        </Link>
+
+        <Link
+          href="/quiz/short"
+          className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors group"
+        >
+          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-950/30 flex items-center justify-center">
+            <span className="text-lg" aria-hidden="true">&#x270F;&#xFE0F;</span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-medium text-foreground">단답형 진단</p>
+            <p className="text-sm text-muted-foreground">전 과목 단답형으로 실력 진단</p>
+          </div>
+          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+        </Link>
+
+        <Link
+          href="/terms"
+          className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors group"
+        >
+          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-950/30 flex items-center justify-center">
+            <BookOpen className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-medium text-foreground">용어학습</p>
+            <p className="text-sm text-muted-foreground">핵심 용어 플래시카드로 암기</p>
+          </div>
+          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+        </Link>
+      </div>
+
+      {/* 최근 진단 기록 */}
       <RecentDiagnostics />
     </div>
   );

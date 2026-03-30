@@ -6,16 +6,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { User } from '@supabase/supabase-js';
 import {
-  Flame,
-  Star,
-  AlertCircle,
   Bookmark,
   BarChart2,
   Brain,
   BookOpen,
   Layers,
   ChevronRight,
-  CheckCircle2,
   Map,
   Users,
   RefreshCw,
@@ -29,9 +25,11 @@ import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
-import { GuestBanner, SubjectProgressTab, RecentWrongTab } from './MySubComponents';
-
-type MyTab = 'progress' | 'wrong';
+import { GuestBanner, RecentWrongTab } from './MySubComponents';
+import { LevelBadge } from './LevelBadge';
+import { WeeklyActivityChart } from './WeeklyActivityChart';
+import { SmartRecommendations } from './SmartRecommendations';
+import { WeaknessInsight } from './WeaknessInsight';
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
@@ -42,9 +40,8 @@ export default function MyPage() {
   const [nickname, setNickname] = useState<string | null>(null);
   const [nicknameLoaded, setNicknameLoaded] = useState(false);
   const [role, setRole] = useState<'admin' | 'user'>('user');
-  const [activeTab, setActiveTab] = useState<MyTab>('progress');
 
-  const { currentStreak, totalXP, totalQuizzes, dailyProgress } = useStudyStore();
+  const { totalQuizzes } = useStudyStore();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const wrongNotesCount = wrongNotes.length;
   const unmasteredCount = wrongNotes.filter((n) => !n.mastered).length;
@@ -56,7 +53,6 @@ export default function MyPage() {
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data }) => {
       if (!data.user) {
-        // 게스트: 로그인 강제 안 함, 게스트 뷰 표시
         setUser(null);
       } else {
         setUser(data.user);
@@ -87,40 +83,8 @@ export default function MyPage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 space-y-6">
         <GuestBanner />
-
-        {/* 비로그인 상태에서도 로컬 데이터 표시 */}
-        {(totalQuizzes > 0 || wrongNotesCount > 0) && (
-          <div className="space-y-4">
-            <h2 className="text-sm font-semibold text-muted-foreground px-1 flex items-center gap-2">
-              <RefreshCw className="h-3.5 w-3.5" />
-              현재 기기 데이터
-              <span className="text-[10px] font-normal text-muted-foreground/70">· 이 기기에서만 유지</span>
-            </h2>
-            <div className="grid grid-cols-3 gap-3">
-              <div className="flex flex-col items-center p-3 rounded-xl border border-border bg-card">
-                <div className="flex items-center gap-1 text-orange-500">
-                  <Flame className="h-4 w-4" />
-                  <span className="text-lg font-bold">{currentStreak}</span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">연속 학습</p>
-              </div>
-              <div className="flex flex-col items-center p-3 rounded-xl border border-border bg-card">
-                <div className="flex items-center gap-1 text-yellow-500">
-                  <Star className="h-4 w-4" />
-                  <span className="text-lg font-bold">{totalXP.toLocaleString()}</span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">총 XP</p>
-              </div>
-              <div className="flex flex-col items-center p-3 rounded-xl border border-border bg-card">
-                <div className="flex items-center gap-1 text-primary">
-                  <BookOpen className="h-4 w-4" />
-                  <span className="text-lg font-bold">{totalQuizzes}</span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">총 문제</p>
-              </div>
-            </div>
-          </div>
-        )}
+        {totalQuizzes > 0 && <LevelBadge />}
+        {totalQuizzes > 0 && <WeeklyActivityChart />}
       </div>
     );
   }
@@ -132,19 +96,6 @@ export default function MyPage() {
   const avatarUrl: string | undefined = meta.avatar_url;
   const initial = (user.email ?? '?')[0].toUpperCase();
 
-  const streakMessage =
-    currentStreak >= 7
-      ? `${currentStreak}일 연속 학습 중! 대단해요 🔥`
-      : currentStreak >= 3
-      ? `${currentStreak}일 연속 학습 중! 계속 가요!`
-      : currentStreak === 1
-      ? '오늘 학습을 시작했어요!'
-      : null;
-
-  const todayQuizzes = dailyProgress.quizzesCompleted ?? 0;
-  const todayCorrect = dailyProgress.quizzesCorrect ?? 0;
-  const todayAccuracy = todayQuizzes > 0 ? Math.round((todayCorrect / todayQuizzes) * 100) : null;
-
   const features = [
     {
       href: '/stats',
@@ -155,7 +106,7 @@ export default function MyPage() {
     },
     {
       href: '/wrong-notes',
-      icon: AlertCircle,
+      icon: Brain,
       label: '오답노트',
       desc: unmasteredCount > 0
         ? `${unmasteredCount}개 미해결 · 총 ${wrongNotesCount}개`
@@ -170,7 +121,7 @@ export default function MyPage() {
       label: '북마크',
       desc: bookmarkCount > 0
         ? `${bookmarkCount}개 저장 · 시험 전 복습용`
-        : '개념학습에서 중요한 챕터를 ⭐ 저장하세요',
+        : '개념학습에서 중요한 챕터를 저장하세요',
       color: 'text-amber-500 bg-amber-50 dark:bg-amber-950/30',
     },
     {
@@ -183,13 +134,6 @@ export default function MyPage() {
           ? `${leitnerCount}장 보유 · 오늘 복습 완료`
           : '나만의 암기 카드를 만들어보세요',
       color: 'text-purple-500 bg-purple-50 dark:bg-purple-950/30',
-    },
-    {
-      href: '/mastery',
-      icon: Brain,
-      label: '마스터리 트리',
-      desc: '챕터별 숙련도 확인',
-      color: 'text-green-500 bg-green-50 dark:bg-green-950/30',
     },
     {
       href: '/concepts',
@@ -248,113 +192,30 @@ export default function MyPage() {
         </div>
       )}
 
-      {/* 스트릭 알림 */}
-      {currentStreak > 0 && streakMessage && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-900">
-          <Flame className="h-5 w-5 text-orange-500 flex-shrink-0" />
-          <p className="text-sm font-medium text-orange-700 dark:text-orange-300">{streakMessage}</p>
-        </div>
-      )}
+      {/* 레벨 + 스트릭 */}
+      <LevelBadge />
 
-      {/* 오늘 성과 */}
-      {todayQuizzes > 0 && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900">
-          <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
-          <p className="text-sm font-medium text-green-700 dark:text-green-300">
-            오늘 {todayQuizzes}문제 풀었어요
-            {todayAccuracy !== null && ` · 정답률 ${todayAccuracy}%`}
-          </p>
-        </div>
-      )}
+      {/* 주간 활동 차트 */}
+      <WeeklyActivityChart />
 
-      {/* 핵심 수치 */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="flex flex-col items-center p-3 rounded-xl border border-border bg-card">
-          <div className="flex items-center gap-1 text-orange-500">
-            <Flame className="h-4 w-4" />
-            <span className="text-lg font-bold">{currentStreak}</span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">연속 학습</p>
-        </div>
-        <div className="flex flex-col items-center p-3 rounded-xl border border-border bg-card">
-          <div className="flex items-center gap-1 text-yellow-500">
-            <Star className="h-4 w-4" />
-            <span className="text-lg font-bold">{totalXP.toLocaleString()}</span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">총 XP</p>
-        </div>
-        <div className="flex flex-col items-center p-3 rounded-xl border border-border bg-card">
-          <div className="flex items-center gap-1 text-primary">
-            <BookOpen className="h-4 w-4" />
-            <span className="text-lg font-bold">{totalQuizzes}</span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">총 문제</p>
-        </div>
-      </div>
+      {/* 추천 액션 */}
+      <SmartRecommendations />
+
+      {/* 약점 분석 */}
+      <WeaknessInsight />
 
       {/* 배지 */}
       <BadgeDisplay />
 
-      {/* 학습 데이터 탭 */}
+      {/* 최근 오답 */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
-        <div className="flex border-b border-border">
-          {(['progress', 'wrong'] as MyTab[]).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
-                activeTab === tab
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {tab === 'progress' ? '과목별 진도' : '최근 오답'}
-            </button>
-          ))}
+        <div className="px-4 pt-4 pb-2">
+          <h3 className="text-sm font-semibold text-foreground">최근 오답</h3>
         </div>
-        <div className="p-4">
-          {activeTab === 'progress' ? <SubjectProgressTab /> : <RecentWrongTab />}
+        <div className="p-4 pt-0">
+          <RecentWrongTab />
         </div>
       </div>
-
-      {/* 오늘 할 일 — 행동 유도 */}
-      {(leitnerStats.dueToday > 0 || unmasteredCount > 0 || todayQuizzes === 0) && (
-        <div>
-          <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-1">오늘 할 일</h2>
-          <div className="space-y-2">
-            {todayQuizzes === 0 && (
-              <Link
-                href="/today"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-colors"
-              >
-                <span className="text-base" aria-hidden="true">📝</span>
-                <span className="text-sm font-medium text-foreground">오늘의 퀴즈 아직 안 풀었어요</span>
-                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
-              </Link>
-            )}
-            {leitnerStats.dueToday > 0 && (
-              <Link
-                href="/flashcards/review"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-purple-50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/30 hover:bg-purple-100 dark:hover:bg-purple-950/30 transition-colors"
-              >
-                <span className="text-base" aria-hidden="true">🃏</span>
-                <span className="text-sm font-medium text-foreground">플래시카드 {leitnerStats.dueToday}장 복습</span>
-                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
-              </Link>
-            )}
-            {unmasteredCount > 0 && (
-              <Link
-                href="/wrong-notes"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 hover:bg-red-100 dark:hover:bg-red-950/30 transition-colors"
-              >
-                <span className="text-base" aria-hidden="true">📋</span>
-                <span className="text-sm font-medium text-foreground">오답 {unmasteredCount}개 복습하기</span>
-                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* 기능 카드 */}
       <div>

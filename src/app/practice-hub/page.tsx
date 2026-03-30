@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Dumbbell, BookOpen, ClipboardList, Gamepad2, Drama, ChevronRight } from 'lucide-react';
+import { BookOpen, ClipboardList, Gamepad2, Drama, ArrowRight } from 'lucide-react';
 import { PracticeProgress } from './PracticeProgress';
 
 export const metadata = {
@@ -13,74 +13,67 @@ const CARDS = [
     icon: BookOpen,
     title: '개념학습',
     description: '과목별 핵심 개념 정리',
+    color: 'bg-blue-100 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400',
   },
   {
     href: '/practice',
     icon: ClipboardList,
     title: '문제풀기',
     description: '모의고사·워크시트 실전 대비',
+    color: 'bg-emerald-100 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400',
   },
   {
     href: '/interactive',
     icon: Gamepad2,
     title: '인터랙티브',
     description: '매칭·빈칸·절차 연습',
+    color: 'bg-purple-100 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400',
   },
   {
     href: '/scenarios',
     icon: Drama,
     title: '상황 시뮬레이션',
     description: '교실 상황 분기형 의사결정',
+    color: 'bg-amber-100 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400',
   },
 ] as const;
 
 export default function PracticeHubPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* 헤더 */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-3">
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary text-primary-foreground">
-            <Dumbbell className="h-5 w-5" />
-          </div>
-          <h1 className="text-2xl font-bold text-foreground">실력쌓기</h1>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          개념부터 실전까지, 체계적으로 실력을 쌓으세요.
+    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-foreground">실력쌓기</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          개념부터 실전까지, 체계적으로 실력을 쌓으세요
         </p>
       </div>
 
-      {/* 카드 그리드 */}
-      <div className="grid grid-cols-2 gap-3 mb-10">
+      {/* 학습 현황 + 이어서 학습 */}
+      <PracticeProgress />
+
+      {/* 학습 메뉴 */}
+      <div className="space-y-3">
+        <h2 className="text-sm font-semibold text-muted-foreground px-1">학습 메뉴</h2>
         {CARDS.map((card) => {
           const Icon = card.icon;
           return (
             <Link
               key={card.href}
               href={card.href}
-              className="group flex items-center justify-between p-5 rounded-xl border border-border hover:border-primary/40 hover:bg-muted/40 transition-all"
+              className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors group"
             >
-              <div className="flex items-start gap-3 min-w-0">
-                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-muted group-hover:bg-primary/10 transition-colors shrink-0">
-                  <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">
-                    {card.title}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {card.description}
-                  </p>
-                </div>
+              <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${card.color}`}>
+                <Icon className="h-5 w-5" />
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-foreground">{card.title}</p>
+                <p className="text-sm text-muted-foreground">{card.description}</p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
             </Link>
           );
         })}
       </div>
-
-      {/* 학습 현황 */}
-      <PracticeProgress />
     </div>
   );
 }
