@@ -53,6 +53,8 @@ function TermCard({ term, initialOpen = false }: { term: Term; initialOpen?: boo
   );
 }
 
+const PREVIEW_COUNT = 3;
+
 function SubjectSection({
   subject,
   terms: subjectTerms,
@@ -62,12 +64,15 @@ function SubjectSection({
   terms: Term[];
   sectionRef: (el: HTMLElement | null) => void;
 }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+  const visibleTerms = open && !showAll ? subjectTerms.slice(0, PREVIEW_COUNT) : subjectTerms;
+  const hasMore = subjectTerms.length > PREVIEW_COUNT;
 
   return (
     <section ref={sectionRef}>
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => { setOpen((v) => !v); if (!open) setShowAll(false); }}
         className="w-full flex items-center gap-2 mb-3 pb-2 border-b border-border hover:text-primary transition-colors group"
       >
         <h2 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
@@ -80,9 +85,17 @@ function SubjectSection({
       </button>
       {open && (
         <div className="space-y-2">
-          {subjectTerms.map((term, i) => (
+          {visibleTerms.map((term, i) => (
             <TermCard key={`${term.subject}-${term.term_ko}-${i}`} term={term} />
           ))}
+          {hasMore && !showAll && (
+            <button
+              onClick={() => setShowAll(true)}
+              className="w-full py-2 text-sm text-primary hover:underline"
+            >
+              나머지 {subjectTerms.length - PREVIEW_COUNT}개 더보기
+            </button>
+          )}
         </div>
       )}
     </section>
