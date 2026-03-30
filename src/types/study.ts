@@ -43,3 +43,23 @@ export interface DailyGoal {
   studyTime: number;
   actualTime: number;
 }
+
+// Phase 2: Focus Mode + Daily Missions
+export type MissionBlockType = 'wrong-review' | 'flashcard' | 'quiz' | 'term';
+
+export interface MissionBlock {
+  id: string;
+  type: MissionBlockType;
+  label: string;
+  description: string;
+  count: number;
+  estimatedMinutes: number;
+  href: string;
+  completed: boolean;
+}
+
+export interface DailyMission {
+  date: string;
+  focusSubject: string | null;
+  blocks: MissionBlock[];
+}
