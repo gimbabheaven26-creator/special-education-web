@@ -91,6 +91,7 @@ export default function MyPage() {
             <h2 className="text-sm font-semibold text-muted-foreground px-1 flex items-center gap-2">
               <RefreshCw className="h-3.5 w-3.5" />
               현재 기기 데이터
+              <span className="text-[10px] font-normal text-muted-foreground/70">· 이 기기에서만 유지</span>
             </h2>
             <div className="grid grid-cols-3 gap-3">
               <div className="flex flex-col items-center p-3 rounded-xl border border-border bg-card">
@@ -214,7 +215,7 @@ export default function MyPage() {
         <div className="min-w-0">
           {name && <p className="font-semibold text-foreground truncate">{name}</p>}
           <p className="text-sm text-muted-foreground truncate">{user.email}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">데이터 자동 동기화 중</p>
+          <p className="text-xs text-muted-foreground mt-0.5">학습 기록은 이 기기에서만 유지돼요</p>
         </div>
       </div>
 
