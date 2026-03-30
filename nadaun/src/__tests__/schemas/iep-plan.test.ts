@@ -1,5 +1,118 @@
 import { describe, it, expect } from 'vitest'
-import { iepPlanSchema, goalSchema, weeklyPlanSchema } from '@/lib/schemas/iep-plan'
+import {
+  iepPlanSchema,
+  goalSchema,
+  weeklyPlanSchema,
+  presentLevelSchema,
+  presentLevelAxisSchema,
+} from '@/lib/schemas/iep-plan'
+
+describe('presentLevelAxisSchema', () => {
+  it('accepts valid axis', () => {
+    const result = presentLevelAxisSchema.safeParse({
+      axis: 'knowledge_understanding',
+      axis_label: '지식·이해',
+      selected_index: 1,
+      selected_text: '기본 개념을 이해한다',
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('rejects invalid axis name', () => {
+    const result = presentLevelAxisSchema.safeParse({
+      axis: 'invalid_axis',
+      axis_label: '테스트',
+      selected_index: 0,
+      selected_text: '텍스트',
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it('rejects negative selected_index', () => {
+    const result = presentLevelAxisSchema.safeParse({
+      axis: 'process_skills',
+      axis_label: '과정·기능',
+      selected_index: -1,
+      selected_text: '텍스트',
+    })
+    expect(result.success).toBe(false)
+  })
+})
+
+describe('presentLevelSchema', () => {
+  const validPresentLevel = {
+    levels: [
+      {
+        axis: 'knowledge_understanding' as const,
+        axis_label: '지식·이해',
+        selected_index: 1,
+        selected_text: '기본 개념을 이해한다',
+      },
+      {
+        axis: 'process_skills' as const,
+        axis_label: '과정·기능',
+        selected_index: 0,
+        selected_text: '문제 해결 과정을 독립적으로 수행한다',
+      },
+    ],
+    notes: '수 세기에서 10까지 독립 수행 가능',
+    recommended_target: '보통' as const,
+  }
+
+  it('accepts valid present level', () => {
+    const result = presentLevelSchema.safeParse(validPresentLevel)
+    expect(result.success).toBe(true)
+  })
+
+  it('rejects empty levels array', () => {
+    const result = presentLevelSchema.safeParse({
+      ...validPresentLevel,
+      levels: [],
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it('rejects more than 3 levels', () => {
+    const result = presentLevelSchema.safeParse({
+      ...validPresentLevel,
+      levels: [
+        ...validPresentLevel.levels,
+        {
+          axis: 'values_attitudes',
+          axis_label: '가치·태도',
+          selected_index: 2,
+          selected_text: '학습에 관심을 보인다',
+        },
+        {
+          axis: 'values_attitudes',
+          axis_label: '가치·태도',
+          selected_index: 1,
+          selected_text: '추가',
+        },
+      ],
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it('defaults notes to empty string', () => {
+    const result = presentLevelSchema.safeParse({
+      levels: validPresentLevel.levels,
+      recommended_target: '보통',
+    })
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.notes).toBe('')
+    }
+  })
+
+  it('rejects invalid recommended_target', () => {
+    const result = presentLevelSchema.safeParse({
+      ...validPresentLevel,
+      recommended_target: '상',
+    })
+    expect(result.success).toBe(false)
+  })
+})
 
 describe('goalSchema', () => {
   it('accepts valid goal', () => {
@@ -41,6 +154,41 @@ describe('goalSchema', () => {
         target_level: level,
       })
       expect(result.success).toBe(true)
+    }
+  })
+
+  it('accepts goal with present_level', () => {
+    const result = goalSchema.safeParse({
+      achievement_standard_id: '550e8400-e29b-41d4-a716-446655440000',
+      achievement_standard_code: '9국어01-01',
+      description: '듣기 능력 향상',
+      target_level: '보통',
+      present_level: {
+        levels: [
+          {
+            axis: 'knowledge_understanding',
+            axis_label: '지식·이해',
+            selected_index: 1,
+            selected_text: '기본 개념',
+          },
+        ],
+        notes: '현재 수준 메모',
+        recommended_target: '보통',
+      },
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts goal without present_level (optional)', () => {
+    const result = goalSchema.safeParse({
+      achievement_standard_id: '550e8400-e29b-41d4-a716-446655440000',
+      achievement_standard_code: '9국어01-01',
+      description: '목표',
+      target_level: '기초',
+    })
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.present_level).toBeUndefined()
     }
   })
 })

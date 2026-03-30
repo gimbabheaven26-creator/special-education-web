@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useCallback } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -16,14 +16,18 @@ import {
   StandardSelector,
   type SelectedStandard,
 } from '@/components/plans/standard-selector'
+import { PresentLevelAssessment } from '@/components/plans/present-level-assessment'
+import { GoalComposer } from '@/components/plans/goal-composer'
 import { SUBJECTS, TARGET_LEVELS } from '@/lib/schemas/iep-plan'
+import type { TargetLevel } from '@/lib/schemas/iep-plan'
 import { createIepPlan, updateIepPlan } from '@/lib/actions/iep-plans'
-import type { IepGoal, IepPlan } from '@/types/students'
+import type { IepGoal, IepPlan, PresentLevel } from '@/types/students'
 
 interface GoalDraft {
   standard: SelectedStandard
   description: string
   target_level: (typeof TARGET_LEVELS)[number]
+  present_level?: PresentLevel
 }
 
 interface IepPlanFormProps {
@@ -74,6 +78,19 @@ export function IepPlanForm({ studentId, plan }: IepPlanFormProps) {
     )
   }
 
+  const handlePresentLevelChange = useCallback(
+    (index: number, presentLevel: PresentLevel, recommendedTarget: TargetLevel) => {
+      setGoals((prev) =>
+        prev.map((g, i) =>
+          i === index
+            ? { ...g, present_level: presentLevel, target_level: recommendedTarget }
+            : g,
+        ),
+      )
+    },
+    [],
+  )
+
   function handleSubjectChange(value: unknown) {
     const v = value as string
     if (v !== selectedSubject && goals.length > 0) {
@@ -99,6 +116,7 @@ export function IepPlanForm({ studentId, plan }: IepPlanFormProps) {
       achievement_standard_code: g.standard.code,
       description: g.description,
       target_level: g.target_level,
+      ...(g.present_level ? { present_level: g.present_level } : {}),
     }))
 
     startTransition(async () => {
@@ -214,71 +232,126 @@ export function IepPlanForm({ studentId, plan }: IepPlanFormProps) {
         )}
 
         <div className="space-y-4">
-          {goals.map((goal, i) => (
-            <div
-              key={goal.standard.id}
-              className="rounded-lg border p-4 space-y-3"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex items-start gap-2 min-w-0">
-                  <Badge variant="outline" className="mt-0.5 shrink-0">
-                    {goal.standard.code}
-                  </Badge>
-                  {goal.standard.content && (
-                    <span className="text-sm text-muted-foreground">
-                      {goal.standard.content}
-                    </span>
-                  )}
-                </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-xs"
-                  onClick={() => handleRemoveGoal(i)}
-                  aria-label={`목표 ${i + 1} 삭제`}
-                >
-                  ✕
-                </Button>
-              </div>
+          {goals.map((goal, i) => {
+            const hasLevels =
+              goal.standard.curriculum_levels &&
+              goal.standard.curriculum_levels.length > 0
+            const hasPool =
+              goal.standard.achievement_pool &&
+              goal.standard.achievement_pool.columns.length > 0
 
-              <div className="space-y-2">
-                <Label htmlFor={`goal-desc-${i}`}>목표 설명 *</Label>
-                <Input
-                  id={`goal-desc-${i}`}
-                  value={goal.description}
-                  onChange={(e) => handleGoalDescChange(i, e.target.value)}
-                  placeholder="이 성취기준에 대한 구체적 목표"
-                  required
-                  maxLength={500}
-                  aria-label={`목표 ${i + 1} 설명`}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor={`goal-level-${i}`}>도달 수준</Label>
-                <Select
-                  value={goal.target_level}
-                  onValueChange={(v) =>
-                    handleGoalLevelChange(i, v as string)
-                  }
-                >
-                  <SelectTrigger
-                    id={`goal-level-${i}`}
-                    aria-label={`목표 ${i + 1} 도달 수준`}
+            return (
+              <div
+                key={goal.standard.id}
+                className="rounded-lg border p-4 space-y-4"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-start gap-2 min-w-0">
+                    <Badge variant="outline" className="mt-0.5 shrink-0">
+                      {goal.standard.code}
+                    </Badge>
+                    {goal.standard.content && (
+                      <span className="text-sm text-muted-foreground">
+                        {goal.standard.content}
+                      </span>
+                    )}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-xs"
+                    onClick={() => handleRemoveGoal(i)}
+                    aria-label={`목표 ${i + 1} 삭제`}
                   >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {TARGET_LEVELS.map((l) => (
-                      <SelectItem key={l} value={l}>
-                        {l}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    ✕
+                  </Button>
+                </div>
+
+                {goal.standard.considerations &&
+                  goal.standard.considerations.length > 0 && (
+                    <div className="rounded-md bg-muted/50 p-3">
+                      <span className="text-xs font-medium text-muted-foreground">
+                        적용 시 고려사항
+                      </span>
+                      <ul className="mt-1 space-y-0.5">
+                        {goal.standard.considerations.map((c, ci) => (
+                          <li
+                            key={ci}
+                            className="text-xs text-muted-foreground"
+                          >
+                            • {c}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                {hasLevels && (
+                  <PresentLevelAssessment
+                    curriculumLevels={goal.standard.curriculum_levels!}
+                    standardCode={goal.standard.code}
+                    initialValue={goal.present_level}
+                    onChange={(pl, target) =>
+                      handlePresentLevelChange(i, pl, target)
+                    }
+                  />
+                )}
+
+                {hasPool ? (
+                  <GoalComposer
+                    pool={goal.standard.achievement_pool!}
+                    standardCode={goal.standard.code}
+                    initialDescription={goal.description}
+                    onChange={(desc) => handleGoalDescChange(i, desc)}
+                  />
+                ) : (
+                  <div className="space-y-2">
+                    <Label htmlFor={`goal-desc-${i}`}>목표 설명 *</Label>
+                    <Input
+                      id={`goal-desc-${i}`}
+                      value={goal.description}
+                      onChange={(e) => handleGoalDescChange(i, e.target.value)}
+                      placeholder="이 성취기준에 대한 구체적 목표"
+                      required
+                      maxLength={500}
+                      aria-label={`목표 ${i + 1} 설명`}
+                    />
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor={`goal-level-${i}`}>
+                    도달 수준
+                    {goal.present_level && (
+                      <span className="ml-2 text-xs text-muted-foreground font-normal">
+                        (현행수준 기반 추천 적용됨)
+                      </span>
+                    )}
+                  </Label>
+                  <Select
+                    value={goal.target_level}
+                    onValueChange={(v) =>
+                      handleGoalLevelChange(i, v as string)
+                    }
+                  >
+                    <SelectTrigger
+                      id={`goal-level-${i}`}
+                      aria-label={`목표 ${i + 1} 도달 수준`}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TARGET_LEVELS.map((l) => (
+                        <SelectItem key={l} value={l}>
+                          {l}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 

@@ -103,6 +103,123 @@ describe('buildUserPrompt', () => {
   });
 });
 
+describe('buildUserPrompt - enriched data', () => {
+  it('present_level 정보가 프롬프트에 포함된다', () => {
+    const input: GenerationInput = {
+      grade: '중1',
+      disabilityType: '지적장애',
+      subject: '국어',
+      goals: [
+        {
+          achievement_standard_id: 'uuid-1',
+          achievement_standard_code: '09국어01-01',
+          description: '듣기 목표',
+          target_level: '보통',
+          standardContent: '내용 이해',
+          present_level: {
+            levels: [
+              {
+                axis: 'knowledge_understanding',
+                axis_label: '지식·이해',
+                selected_index: 1,
+                selected_text: '기본 개념을 이해한다',
+              },
+            ],
+            notes: '10까지 수 세기 가능',
+            recommended_target: '보통',
+          },
+        },
+      ],
+      periodStart: '2026-03-02',
+      periodEnd: '2026-06-22',
+      totalWeeks: 16,
+    };
+    const prompt = buildUserPrompt(input);
+    expect(prompt).toContain('현행수준');
+    expect(prompt).toContain('지식·이해: 기본 개념을 이해한다');
+    expect(prompt).toContain('10까지 수 세기 가능');
+  });
+
+  it('considerations가 프롬프트에 포함된다', () => {
+    const input: GenerationInput = {
+      grade: '중1',
+      disabilityType: null,
+      subject: '국어',
+      goals: [
+        {
+          achievement_standard_id: 'uuid-1',
+          achievement_standard_code: '09국어01-01',
+          description: '듣기',
+          target_level: '기초',
+          standardContent: '내용',
+          considerations: ['시각 자료 활용', '반복 연습 필요'],
+        },
+      ],
+      periodStart: '2026-03-01',
+      periodEnd: '2026-06-30',
+      totalWeeks: 16,
+    };
+    const prompt = buildUserPrompt(input);
+    expect(prompt).toContain('고려사항');
+    expect(prompt).toContain('시각 자료 활용');
+  });
+
+  it('curriculum_levels 최고수준이 프롬프트에 포함된다', () => {
+    const input: GenerationInput = {
+      grade: '중2',
+      disabilityType: null,
+      subject: '수학',
+      goals: [
+        {
+          achievement_standard_id: 'uuid-1',
+          achievement_standard_code: '09수학01-01',
+          description: '수 세기',
+          target_level: '보통',
+          standardContent: '100까지 수',
+          curriculum_levels: [
+            {
+              knowledge_understanding: '핵심 개념 설명',
+              process_skills: '독립 수행',
+              values_attitudes: '적극 참여',
+            },
+          ],
+        },
+      ],
+      periodStart: '2026-03-01',
+      periodEnd: '2026-06-30',
+      totalWeeks: 16,
+    };
+    const prompt = buildUserPrompt(input);
+    expect(prompt).toContain('교육과정 최고수준');
+    expect(prompt).toContain('핵심 개념 설명');
+    expect(prompt).toContain('독립 수행');
+  });
+
+  it('enriched 없는 목표는 기본 형식 유지', () => {
+    const input: GenerationInput = {
+      grade: '중1',
+      disabilityType: null,
+      subject: '국어',
+      goals: [
+        {
+          achievement_standard_id: 'uuid-1',
+          achievement_standard_code: '09국어01-01',
+          description: '듣기',
+          target_level: '보통',
+          standardContent: '내용',
+        },
+      ],
+      periodStart: '2026-03-01',
+      periodEnd: '2026-06-30',
+      totalWeeks: 16,
+    };
+    const prompt = buildUserPrompt(input);
+    expect(prompt).not.toContain('현행수준');
+    expect(prompt).not.toContain('고려사항');
+    expect(prompt).not.toContain('교육과정 최고수준');
+  });
+});
+
 describe('buildUserPrompt - JSON 스키마', () => {
   it('출력 스키마에 weekly_plans 필드가 포함된다', () => {
     const input: GenerationInput = {

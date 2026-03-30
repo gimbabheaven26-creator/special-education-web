@@ -49,6 +49,19 @@ export interface SubjectCurriculum {
   domains: Domain[]
 }
 
+/** 교육과정 성취수준 3축 (1행) */
+export interface CurriculumLevel {
+  knowledge_understanding: string
+  process_skills: string
+  values_attitudes: string
+}
+
+/** 성취수준 풀 */
+export interface AchievementPool {
+  columns: string[]
+  items: string[][]
+}
+
 /** DB achievement_standards 테이블 행 */
 export interface AchievementStandardRow {
   id: string
@@ -64,5 +77,8 @@ export interface AchievementStandardRow {
   explanation: string
   key_ideas: string[]
   content_elements: ContentElements
+  considerations: string[]
+  curriculum_levels: CurriculumLevel[]
+  achievement_pool: AchievementPool
   created_at: string
 }

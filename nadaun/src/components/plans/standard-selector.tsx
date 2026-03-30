@@ -12,11 +12,18 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import type {
+  CurriculumLevel,
+  AchievementPool,
+} from '@/types/achievement-standards'
 
 export interface SelectedStandard {
   id: string
   code: string
   content: string
+  curriculum_levels?: CurriculumLevel[]
+  achievement_pool?: AchievementPool
+  considerations?: string[]
 }
 
 interface StandardSelectorProps {
@@ -35,7 +42,13 @@ interface StandardRow {
   id: string
   code: string
   content: string
+  curriculum_levels: CurriculumLevel[] | null
+  achievement_pool: AchievementPool | null
+  considerations: string[] | null
 }
+
+const ENRICHED_SELECT =
+  'id, code, content, curriculum_levels, achievement_pool, considerations'
 
 export function StandardSelector({
   subject,
@@ -43,13 +56,16 @@ export function StandardSelector({
   excludeIds = [],
 }: StandardSelectorProps) {
   const [open, setOpen] = useState(false)
-  const [view, setView] = useState<'domains' | 'standards' | 'search'>('domains')
+  const [view, setView] = useState<'domains' | 'standards' | 'search' | 'detail'>(
+    'domains'
+  )
   const [domains, setDomains] = useState<DomainItem[]>([])
   const [standards, setStandards] = useState<StandardRow[]>([])
   const [selectedDomainLabel, setSelectedDomainLabel] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<StandardRow[]>([])
   const [loading, setLoading] = useState(false)
+  const [detailStandard, setDetailStandard] = useState<StandardRow | null>(null)
 
   useEffect(() => {
     if (!open || !subject) return
@@ -57,6 +73,7 @@ export function StandardSelector({
     setSelectedDomainLabel('')
     setSearchQuery('')
     setSearchResults([])
+    setDetailStandard(null)
 
     async function fetchDomains() {
       setLoading(true)
@@ -98,7 +115,7 @@ export function StandardSelector({
       const supabase = createClient()
       const { data } = await supabase
         .from('achievement_standards')
-        .select('id, code, content')
+        .select(ENRICHED_SELECT)
         .eq('subject', subject)
         .eq('domain_code', domainCode)
         .order('code')
@@ -121,7 +138,7 @@ export function StandardSelector({
     const pattern = `%${searchQuery.trim()}%`
     const { data } = await supabase
       .from('achievement_standards')
-      .select('id, code, content')
+      .select(ENRICHED_SELECT)
       .eq('subject', subject)
       .or(`content.ilike.${pattern},code.ilike.${pattern}`)
       .order('code')
@@ -138,13 +155,26 @@ export function StandardSelector({
       id: standard.id,
       code: standard.code,
       content: standard.content,
+      curriculum_levels: standard.curriculum_levels || undefined,
+      achievement_pool: standard.achievement_pool || undefined,
+      considerations: standard.considerations || undefined,
     })
     setOpen(false)
+  }
+
+  function showDetail(standard: StandardRow) {
+    setDetailStandard(standard)
+    setView('detail')
   }
 
   const visibleStandards = (
     view === 'search' ? searchResults : standards
   ).filter((s) => !excludeIds.includes(s.id))
+
+  const hasEnriched = (s: StandardRow) =>
+    s.achievement_pool &&
+    Array.isArray(s.achievement_pool.columns) &&
+    s.achievement_pool.columns.length > 0
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -187,17 +217,35 @@ export function StandardSelector({
             <button
               type="button"
               className="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-1"
-              onClick={() => setView('domains')}
+              onClick={() => {
+                setDetailStandard(null)
+                setView('domains')
+              }}
             >
               영역
             </button>
-            {selectedDomainLabel && (
+            {selectedDomainLabel && view !== 'search' && (
               <>
                 <span>/</span>
-                <span>{selectedDomainLabel}</span>
+                <button
+                  type="button"
+                  className="hover:text-foreground rounded px-1"
+                  onClick={() => {
+                    setDetailStandard(null)
+                    setView('standards')
+                  }}
+                >
+                  {selectedDomainLabel}
+                </button>
               </>
             )}
             {view === 'search' && <span>/ 검색 결과</span>}
+            {view === 'detail' && detailStandard && (
+              <>
+                <span>/</span>
+                <span>{detailStandard.code}</span>
+              </>
+            )}
           </div>
         )}
 
@@ -206,6 +254,11 @@ export function StandardSelector({
             <div className="py-8 text-center text-sm text-muted-foreground">
               불러오는 중...
             </div>
+          ) : view === 'detail' && detailStandard ? (
+            <StandardDetailPanel
+              standard={detailStandard}
+              onSelect={() => handleSelect(detailStandard)}
+            />
           ) : view === 'domains' ? (
             domains.map((d) => (
               <button
@@ -228,23 +281,141 @@ export function StandardSelector({
             </div>
           ) : (
             visibleStandards.map((s) => (
-              <button
+              <div
                 key={s.id}
-                type="button"
-                className="w-full rounded-lg border p-3 text-left transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                onClick={() => handleSelect(s)}
+                className="rounded-lg border p-3 transition-colors hover:bg-accent"
               >
                 <div className="flex items-start gap-2">
                   <Badge variant="outline" className="mt-0.5 shrink-0">
                     {s.code}
                   </Badge>
-                  <span className="text-sm">{s.content}</span>
+                  <span className="text-sm flex-1">{s.content}</span>
                 </div>
-              </button>
+                <div className="mt-2 flex gap-2">
+                  {hasEnriched(s) && (
+                    <button
+                      type="button"
+                      className="text-xs text-primary hover:underline"
+                      onClick={() => showDetail(s)}
+                    >
+                      상세보기
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="text-xs text-primary font-medium hover:underline"
+                    onClick={() => handleSelect(s)}
+                  >
+                    선택
+                  </button>
+                </div>
+              </div>
             ))
           )}
         </div>
       </DialogContent>
     </Dialog>
+  )
+}
+
+/** 성취기준 상세 패널 — enriched 데이터 표시 */
+function StandardDetailPanel({
+  standard,
+  onSelect,
+}: {
+  standard: StandardRow
+  onSelect: () => void
+}) {
+  const pool = standard.achievement_pool
+  const levels = standard.curriculum_levels
+  const considerations = standard.considerations
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <Badge variant="outline">{standard.code}</Badge>
+        <p className="mt-1 text-sm font-medium">{standard.content}</p>
+      </div>
+
+      {considerations && considerations.length > 0 && (
+        <div>
+          <h5 className="text-xs font-semibold text-muted-foreground mb-1">
+            적용 시 고려사항
+          </h5>
+          <ul className="space-y-1">
+            {considerations.map((c, i) => (
+              <li key={i} className="text-xs text-muted-foreground leading-relaxed">
+                • {c}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {levels && levels.length > 0 && (
+        <div>
+          <h5 className="text-xs font-semibold text-muted-foreground mb-1">
+            교육과정 성취수준 (3축)
+          </h5>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="py-1 pr-2 text-left font-medium">지식·이해</th>
+                  <th className="py-1 pr-2 text-left font-medium">과정·기능</th>
+                  <th className="py-1 text-left font-medium">가치·태도</th>
+                </tr>
+              </thead>
+              <tbody>
+                {levels.map((lv, i) => (
+                  <tr key={i} className="border-b last:border-0">
+                    <td className="py-1 pr-2 text-muted-foreground">
+                      {lv.knowledge_understanding}
+                    </td>
+                    <td className="py-1 pr-2 text-muted-foreground">
+                      {lv.process_skills}
+                    </td>
+                    <td className="py-1 text-muted-foreground">
+                      {lv.values_attitudes}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {pool && pool.columns && pool.columns.length > 0 && (
+        <div>
+          <h5 className="text-xs font-semibold text-muted-foreground mb-1">
+            성취수준 풀
+          </h5>
+          <div className="grid gap-2 md:grid-cols-2">
+            {pool.columns.map((header, colIdx) => (
+              <div key={colIdx}>
+                <span className="text-xs font-medium">{header}</span>
+                <ul className="mt-1 space-y-0.5">
+                  {(pool.items[colIdx] || []).slice(0, 4).map((item, i) => (
+                    <li key={i} className="text-xs text-muted-foreground">
+                      • {item}
+                    </li>
+                  ))}
+                  {(pool.items[colIdx] || []).length > 4 && (
+                    <li className="text-xs text-muted-foreground italic">
+                      외 {(pool.items[colIdx] || []).length - 4}개
+                    </li>
+                  )}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <Button type="button" size="sm" className="w-full" onClick={onSelect}>
+        이 성취기준 선택
+      </Button>
+    </div>
   )
 }

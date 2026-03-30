@@ -1,98 +1,95 @@
-# nadaun Sprint 2: 배포 + 보안 + UX 성숙
+# nadaun Phase 3: 현행수준 평가 + enriched 데이터 연동
 
-> 확정일: 2026-03-29 | 승인: 카이란
+> 확정일: 2026-03-30 | 승인: 카이란
 
 ## 목표
 
-MVP + Post-MVP 완료 후 실제 배포 + 보안 강화 + 교사 대시보드.
+IEP의 구조적 빈틈(현행수준 없음)을 메우고, 2022 개정 교육과정 성취수준 풀 데이터를 활용하여 목표 설정 품질을 높인다.
 
-## Phase 11: 배포 준비
+**목표 흐름:**
+```
+학생 등록 → 성취기준 선택 → 현행수준 평가 → target_level 자동 추천 → 풀 기반 목표 구성 → AI 주간계획 (풀 데이터 포함)
+```
 
-Vercel 서브디렉토리 배포 + 환경변수 + E2E 안전장치.
+## Phase 3-1: DB enrichment 컬럼 추가 + 데이터 삽입
 
-- [x] T1: vercel.json 루트 디렉토리 설정 (nadaun/) + 빌드 커맨드 확인
-- [x] T2: 환경변수 체크리스트 문서 — NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ANTHROPIC_API_KEY
-- [x] T3: E2E_AUTH_BYPASS 이중 안전장치 — NODE_ENV === 'production'이면 무시
+achievement_standards 테이블에 enriched 데이터 4컬럼 추가 + normalized JSON 74개 upsert.
 
-## Phase 12: 보안 강화
+- [ ] Task 1: migration SQL — considerations(text[]), curriculum_levels(jsonb), achievement_pool(jsonb), content_elements(jsonb)
+- [ ] Task 2: 삽입 스크립트 — normalized JSON → Supabase upsert (code 기준)
+- [ ] Task 3: 삽입 실행 + 74개 검증
 
-teacher_id 가드 누락 3건 수정 + 보안 테스트.
+## Phase 3-2: 현행수준(PLAAFP) 평가 UI
 
-- [x] T4: deleteWeeklyPlan — getTeacherId() + IEP plan 소유권 검증
-- [x] T5: updateWeeklyPlan — 동일 패턴 적용
-- [x] T6: getStudents() — 명시적 .eq('teacher_id', teacherId) 추가
-- [x] T7: 보안 테스트 3건 — 타 교사 데이터 접근 시도 → 실패 확인
+성취기준 선택 후 curriculum_levels 기반 간단 평가 → target_level 자동 추천.
 
-## Phase 13: 프로덕션 안정성
+- [ ] Task 4: present_level Zod 스키마 + 타입 정의
+- [ ] Task 5: PresentLevelAssessment 컴포넌트 — 3축 수준 선택 UI (depends: Task 3)
+- [ ] Task 6: target_level 자동 추천 로직 (depends: Task 4)
+- [ ] Task 7: IEP Plan Form에 현행수준 평가 단계 통합 (depends: Task 5, Task 6)
 
-rate limiter + 코드 정리.
+## Phase 3-3: 성취기준 선택기 enrichment
 
-- [x] T8: sanitizeFilename 공유 유틸 추출 — src/lib/utils/sanitize.ts
-- [ ] T9: rate limiter Supabase 기반 전환 — rate_limits 테이블 + upsert
-- [x] T10: weekly-plan-section.tsx 분리 — WeeklyPlanItem + AddWeeklyPlanForm 추출
+StandardSelector에 풀 미리보기 + curriculum_levels + considerations 표시.
 
-## Phase 14: 교사 대시보드
+- [ ] Task 8: StandardSelector enriched 데이터 fetch + 표시 (depends: Task 3)
+- [ ] Task 9: 성취기준 상세 패널 — 풀 + 수준 + 고려사항 (depends: Task 8)
 
-홈 화면 개편 + IEP 진행률.
+## Phase 3-4: 풀 기반 IEP 목표 자동 구성
 
-- [x] T11: / 홈 개편 — 학생 수, IEP 수, 이번 주 계획 요약 카드
-- [x] T12: IEP 진행률 표시 — 주간계획 작성 주차/총 주차 비율 배지
+achievement_pool에서 행동기술어 선택 → 목표 문장 조합.
 
-## 실행 순서
+- [ ] Task 10: GoalComposer 컴포넌트 — 풀 columns별 기술어 선택 → 문장 조합 (depends: Task 3)
+- [ ] Task 11: IEP Plan Form goals에 GoalComposer 통합 (depends: Task 7, Task 10)
 
-Phase 11 + Phase 12 **병렬** → Phase 13 → Phase 14
+## Phase 3-5: AI 프롬프트 enrichment
 
-## 설계 결정
+현행수준 + 풀 데이터를 AI 주간계획 프롬프트에 주입.
 
-| 결정 | 이유 |
-|------|------|
-| Supabase rate limiter | 서버리스 다중 인스턴스에서 인메모리 카운터 무력화 |
-| 애플리케이션 레벨 teacher_id 체크 | RLS는 최종 방어선, 앱 레벨이 1차 (심층 방어) |
-| 홈 대시보드 | 비전의 "IEP↔수업 연결" 시각화 첫 단계 |
-| E2E_AUTH_BYPASS 이중 가드 | production 실수 방지 |
+- [ ] Task 12: AI 프롬프트 템플릿에 enriched + present_level 추가 (depends: Task 7)
+- [ ] Task 13: iep_plans.goals JSONB에 present_level 필드 추가 migration (depends: Task 4)
 
-## Completion Contract (15개)
+## Phase 3-6: 테스트 + 검증
 
-### 보안 기준
-- [x] C1: deleteWeeklyPlan이 타 교사 plan 삭제 시 에러 반환
-- [x] C2: updateWeeklyPlan이 타 교사 plan 수정 시 에러 반환
-- [x] C3: getStudents()가 teacher_id로 필터링
-- [x] C4: E2E_AUTH_BYPASS가 NODE_ENV=production에서 무시됨
-- [x] C5: 보안 테스트 3건 PASS
+- [ ] Task 14: present_level 스키마 + 추천 로직 단위 테스트 (depends: Task 6)
+- [ ] Task 15: enriched 데이터 삽입 검증 테스트 (depends: Task 3)
+- [ ] Task 16: npm run build + lint 통과 (depends: all)
 
-### 프로덕션 기준
-- [x] C6: sanitizeFilename이 단일 소스 (src/lib/utils/sanitize.ts)
-- [ ] C7: rate limiter가 Supabase 테이블 기반 동작
-- [x] C8: weekly-plan-section.tsx 300줄 이하
-- [x] C9: npm run build PASS
+## Completion Contract
 
-### 배포 기준
-- [x] C10: Vercel에 배포되어 접근 가능
-- [ ] C11: Google OAuth가 배포 환경에서 동작
-- [ ] C12: AI 생성이 배포 환경에서 동작
+V가 80% 이상 (16/20건) 통과 시 PASS.
 
-### UX 기준
-- [x] C13: 홈에서 학생 수 + IEP 수 확인 가능
-- [x] C14: IEP 상세에서 주간계획 진행률 확인 가능
-- [ ] C15: 기존 E2E 79건 + 신규 테스트 전부 PASS
+### 기능 (8건)
+- [ ] enriched 74개 DB 삽입 완료
+- [ ] 성취기준 선택 시 curriculum_levels 표시
+- [ ] 성취기준 선택 시 achievement_pool 미리보기 표시
+- [ ] 현행수준 평가 UI에서 3축 수준 선택 가능
+- [ ] 현행수준 → target_level 자동 추천
+- [ ] 풀 행동기술어 선택 → 목표 문장 자동 조합
+- [ ] AI 프롬프트에 현행수준 + 풀 포함
+- [ ] enriched 없는 성취기준도 기존 흐름 동작 (fallback)
+
+### UX (5건)
+- [ ] 현행수준 평가 직관적 (up/down 또는 클릭)
+- [ ] target_level 추천 근거 화면 표시
+- [ ] 풀 기반 목표 교사 수정 가능
+- [ ] considerations(고려사항) 표시
+- [ ] 로딩 스켈레톤 표시
+
+### 데이터 (3건)
+- [ ] normalized 74개 ↔ DB 1:1 매칭
+- [ ] present_level이 goals JSONB에 저장
+- [ ] achievement_pool이 {columns, items} 형태
+
+### 보안 (2건)
+- [ ] 타 교사 현행수준 데이터 접근 불가 (RLS)
+- [ ] enriched 읽기 인증 필요
+
+### 테스트 (2건)
+- [ ] target_level 추천 단위 테스트 통과
+- [ ] npm run build exit 0
 
 ## 이전 계획
 
-<details>
-<summary>Post-MVP: Phase 7~10 (완료, 2026-03-29)</summary>
-
-16/16 Task 완료. 20/20 Completion Contract PASS.
-- Phase 7: error.tsx 5개 + loading + scripts
-- Phase 8: IepPlanForm 통합 + orphan 삭제 + try/catch
-- Phase 9: vitest 194건 + E2E 79건
-- Phase 10: 주간계획 인라인 수정 + E2E 확장
-
-</details>
-
-<details>
-<summary>Phase 2 — 성취기준 탐색 UI (완료)</summary>
-
-Phase 2 전체 완료 (bc0d9d3, 2026-03-28).
-16개 Completion Contract 전체 통과.
-
-</details>
+### Sprint 2 (2026-03-29, 완료)
+배포 + 보안 + UX 성숙. Phase 11-14 전체 완료. C7(rate limiter Supabase 전환) 미완.
