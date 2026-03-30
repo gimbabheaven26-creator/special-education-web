@@ -47,7 +47,7 @@ export default async function ConceptSlugPage({ params }: Props) {
         </Link>
         <ChevronRight className="h-3 w-3" />
         <Link
-          href={`/concepts/${encodeURIComponent(decodedSubject)}`}
+          href={`/concepts/${decodedSubject}`}
           className="hover:text-foreground transition-colors"
         >
           {decodedSubject}
@@ -74,7 +74,7 @@ export default async function ConceptSlugPage({ params }: Props) {
           <h1 className="text-2xl font-bold text-foreground leading-tight">{title}</h1>
           {dbSlug && (
             <BookmarkButton
-              path={`/concepts/${encodeURIComponent(decodedSubject)}/${encodeURIComponent(decodedSlug)}`}
+              path={`/concepts/${decodedSubject}/${decodedSlug}`}
               title={title}
               subject={decodedSubject}
             />
@@ -143,7 +143,7 @@ export default async function ConceptSlugPage({ params }: Props) {
       <div className="mt-12 pt-6 border-t border-border grid grid-cols-2 gap-4">
         {prev ? (
           <Link
-            href={`/concepts/${encodeURIComponent(prev.subject)}/${encodeURIComponent(prev.slug)}`}
+            href={`/concepts/${prev.subject}/${prev.slug}`}
             className="flex items-start gap-2 p-3 rounded-xl border border-border hover:bg-muted/50 transition-colors group"
           >
             <ChevronLeft className="h-4 w-4 mt-0.5 text-muted-foreground group-hover:text-foreground shrink-0" />
@@ -157,7 +157,7 @@ export default async function ConceptSlugPage({ params }: Props) {
         )}
         {next ? (
           <Link
-            href={`/concepts/${encodeURIComponent(next.subject)}/${encodeURIComponent(next.slug)}`}
+            href={`/concepts/${next.subject}/${next.slug}`}
             className="flex items-start gap-2 p-3 rounded-xl border border-border hover:bg-muted/50 transition-colors group text-right ml-auto w-full"
           >
             <div className="min-w-0 flex-1">

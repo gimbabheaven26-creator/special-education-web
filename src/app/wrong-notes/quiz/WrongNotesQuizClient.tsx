@@ -359,7 +359,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
       <div className="flex items-center justify-end">
         <div className="flex items-center gap-2">
           <Link
-            href={`/concepts/${encodeURIComponent(subjectTitleMap[question.subject] || question.subject)}`}
+            href={`/concepts/${subjectTitleMap[question.subject] || question.subject}`}
             className="text-xs text-primary hover:underline px-2 py-1"
           >
             개념 보기

@@ -28,6 +28,6 @@ export const CONCEPTS_FOLDER_TO_SLUG: Record<string, string> = Object.fromEntrie
 export function getConceptUrl(subjectSlug: string, conceptSlug?: string): string {
   const folder = SLUG_TO_CONCEPTS_FOLDER[subjectSlug];
   if (!folder) return '/concepts';
-  const base = `/concepts/${encodeURIComponent(folder)}`;
-  return conceptSlug ? `${base}/${encodeURIComponent(conceptSlug)}` : base;
+  const base = `/concepts/${folder}`;
+  return conceptSlug ? `${base}/${conceptSlug}` : base;
 }

@@ -59,14 +59,12 @@ describe('concept-urls', () => {
   describe('getConceptUrl', () => {
     it('유효한 slug → /concepts/한글폴더 URL', () => {
       const url = getConceptUrl('behavior-support');
-      expect(url).toBe(`/concepts/${encodeURIComponent('행동수정')}`);
+      expect(url).toBe('/concepts/행동수정');
     });
 
     it('slug + conceptSlug → 하위 URL', () => {
       const url = getConceptUrl('curriculum', '기본교육과정');
-      expect(url).toBe(
-        `/concepts/${encodeURIComponent('교육과정')}/${encodeURIComponent('기본교육과정')}`,
-      );
+      expect(url).toBe('/concepts/교육과정/기본교육과정');
     });
 
     it('존재하지 않는 slug → /concepts 폴백', () => {
@@ -83,7 +81,7 @@ describe('concept-urls', () => {
 
     it('한글 conceptSlug가 올바르게 인코딩된다', () => {
       const url = getConceptUrl('aac', '보완대체의사소통');
-      expect(url).toContain(encodeURIComponent('보완대체의사소통'));
+      expect(url).toContain('보완대체의사소통');
     });
   });
 });

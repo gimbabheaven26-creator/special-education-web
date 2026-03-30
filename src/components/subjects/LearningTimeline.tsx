@@ -103,7 +103,7 @@ function TimelineNode({
   conceptsFolder?: string;
 }) {
   const href = conceptsFolder
-    ? `/concepts/${encodeURIComponent(conceptsFolder)}/${encodeURIComponent(chapter.slug)}`
+    ? `/concepts/${conceptsFolder}/${chapter.slug}`
     : `/subjects/${subjectSlug}/${chapter.slug}`;
 
   return (

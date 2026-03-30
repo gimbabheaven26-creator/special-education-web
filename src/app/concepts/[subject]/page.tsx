@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, Tag, BookOpen, Calendar, Brain } from 'lucide-react';
 import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';
-import LearningTimeline from '@/components/subjects/LearningTimeline';
 import { CompletionBadge } from '@/components/chapter/CompletionBadge';
 
 interface Props {
@@ -30,13 +29,6 @@ export default async function ConceptSubjectPage({ params }: Props) {
 
   // DB slug → 퀴즈 링크·타임라인용 (Supabase 미호출 — 순수 정적)
   const dbSlug = getDbSlugForFolder(decodedSubject);
-  const chapters = files.map((f) => ({
-    slug: f.slug,
-    title: f.title,
-    description: f.description,
-    keywords: f.kiceKeywords,
-    order: f.order,
-  }));
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -71,23 +63,12 @@ export default async function ConceptSubjectPage({ params }: Props) {
         </div>
       )}
 
-      {/* 학습 타임라인 (DB slug 매핑 존재 시) */}
-      {dbSlug && (
-        <div className="mb-8">
-          <LearningTimeline
-            subjectSlug={dbSlug}
-            chapters={chapters}
-            conceptsFolder={decodedSubject}
-          />
-        </div>
-      )}
-
       {/* 개념 파일 목록 */}
       <div className="flex flex-col gap-3">
         {files.map((file, idx) => (
           <Link
             key={file.slug}
-            href={`/concepts/${encodeURIComponent(decodedSubject)}/${encodeURIComponent(file.slug)}`}
+            href={`/concepts/${decodedSubject}/${file.slug}`}
             className="group block p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-muted/30 transition-all"
           >
             <div className="flex items-start justify-between gap-3">

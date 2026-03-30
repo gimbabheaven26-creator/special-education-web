@@ -10,7 +10,7 @@ export default function SubjectDetailPage({
   const folder = SLUG_TO_CONCEPTS_FOLDER[slug];
 
   if (folder) {
-    redirect(`/concepts/${encodeURIComponent(folder)}`);
+    redirect(`/concepts/${folder}`);
   }
 
   redirect('/concepts');

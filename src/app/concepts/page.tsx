@@ -40,7 +40,7 @@ export default function ConceptsPage() {
         {subjectData.map(({ subject, fileCount, totalKeywords, dbSlug }) => (
           <Link
             key={subject}
-            href={`/concepts/${encodeURIComponent(subject)}`}
+            href={`/concepts/${subject}`}
             className="group flex items-center justify-between p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-muted/40 transition-all"
           >
             <div className="min-w-0">
