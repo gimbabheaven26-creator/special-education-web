@@ -1,7 +1,7 @@
 # Interface Contract
 
 > X(실행)와 V(검증)의 인터페이스 계약서 (2026-03-27 이전: 강선생+클루디)
-> 최종 수정: 2026-03-29 | 버전: 2.9
+> 최종 수정: 2026-03-30 | 버전: 2.10
 > v2.8.1: 클루디 작업 목록 완료 표기 (REQ-001~006 실행 완료 반영)
 > v2.8: reviews.image_urls 컬럼 추가 (첨부 이미지 URL 목록) — 카이란 승인
 > v2.7: reviews.admin_note 컬럼 추가 (관리자 내부 메모) — DB 확인 완료
@@ -261,6 +261,7 @@ communication-disorder:
 
 > X가 관리. 데이터 작업 시에도 X가 통합 담당.
 > v2.9: db/ 11파일 확장 + content/quiz/study/kice 4개 도메인 추가 (2026-03-29)
+> v2.10: useLeitnerStore answerCard 시그니처 변경 — boolean → AnswerGrade (2026-03-30)
 
 ### 함수 시그니처
 
@@ -290,6 +291,10 @@ updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
 // Auth (v2.3)
 getProfile(userId: string): Promise<Profile | null>
 updateProfile(userId: string, data: Partial<Profile>): Promise<boolean>
+
+// Leitner 플래시카드 (v2.10)
+type AnswerGrade = 'knew' | 'hint' | 'forgot'
+// answerCard(cardId: string, grade: AnswerGrade) — knew→box+1, hint→유지, forgot→Box 1
 
 // 동기화 (v2.3)
 type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark'

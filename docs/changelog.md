@@ -24,6 +24,50 @@
 
 ---
 
+## [2026-03-30] X — Phase 2 UX + SSG 완전 해소
+
+### 변경 내용
+- Phase 2 — 집중 모드(useFocusStore) + 데일리 미션(MissionBlockList) + 홈 재설계(HomeDashboard) (31ca279)
+- RecordDashboard 타입 수정 + nav-config 테스트 /record 반영 (c932940)
+- page.tsx 홈 미션 대시보드 복원 + force-dynamic SSG 에러 방지 (07b8bbd)
+- optimizePackageImports 비활성화 — SSG prerender 'call' 에러 해결 (6067d27)
+- concepts SSG 119건 해소 (Array.from + optimizePackageImports off)
+
+### 영향 범위
+- 신규 5파일: useFocusStore.ts, focus-utils.ts, HomeDashboard.tsx, FocusBanner.tsx, MissionBlockList.tsx
+- 수정: next.config.mjs, page.tsx, RecordDashboard.tsx, nav-config.test.ts, study.ts
+- 빌드: exit 0 (concepts SSG 해소)
+
+### 상태
+- [x] CLAUDE.md 업데이트
+- [ ] 카이란 확인 대기
+
+---
+
+## [2026-03-30] X — 플래시카드 UX 재설계 (B3)
+
+### 변경 내용
+- 플래시카드 3단계 힌트 UX — question→hint→answer 순차 공개 (3D flip 제거)
+- `AnswerGrade` 타입 도입 (`'knew'|'hint'|'forgot'`) — answerCard 시그니처 boolean→AnswerGrade 변경
+- Leitner Box 3분기 이동: knew→+1, hint→유지, forgot→Box 1
+- 초성 추출 힌트 (유니코드 분해) + 맥락 힌트 (줄 수/글자 수)
+- /flashcards/review 결과 화면 3열 (바로 앎/힌트 후 앎/모름) + 박스 이동 요약
+- 키보드 단축키: H=힌트, Space=답 확인, ←=모름, →=앎
+
+### 영향 범위
+- src/stores/useLeitnerStore.ts (AnswerGrade 타입 + answerCard 시그니처)
+- src/components/flashcard/FlashcardScene.tsx (완전 재작성)
+- src/app/flashcards/review/page.tsx (결과 화면 3열)
+- src/app/wrong-notes/SrsReviewMode.tsx (answerCard 호출 변경)
+- 테스트 3파일 갱신 (useLeitnerStore, SrsReviewMode, FlashcardScene)
+
+### 상태
+- [x] contract.md 업데이트
+- [x] CLAUDE.md 업데이트
+- [ ] 카이란 만족도 재평가 대기
+
+---
+
 ## [2026-03-30] X — M3 허브 통합 + /concepts 버그 수정
 
 ### 변경 내용

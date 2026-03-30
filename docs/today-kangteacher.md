@@ -1,23 +1,29 @@
-# X 세션 핸드오프 — 2026-03-30 20:03 KST
+# X 세션 핸드오프 — 2026-03-30 22:30 KST
 
-## 2026-03-30 세션
+## 2026-03-30 세션 2 (플래시카드 UX)
 
 ### 완료
-1. **B1 /concepts 버그 수정 + 배포**: encodeURIComponent SSG 경로 불일치 → 9파일 제거 (73159bd) + git push 완료
-2. **B2 허브 통합 3페이지**: /diagnosis DiagnosticsSummary (500d4ff), /practice-hub PracticeProgress (500d4ff), /my 오늘 할 일 (6ab6665)
-3. **session-wrap**: CLAUDE.md + changelog + instinct 3개 + skill candidate 1개
+1. **B3 플래시카드 UX 재설계**: 3단계 힌트 (question→hint→answer), AnswerGrade 3분기 (knew/hint/forgot), 초성 힌트, 키보드 단축키
+   - FlashcardScene.tsx 완전 재작성, useLeitnerStore answerCard boolean→AnswerGrade
+   - /flashcards/review 결과 화면 3열 (바로 앎/힌트 후 앎/모름) + 박스 이동 요약
+   - 테스트 891/891 통과, 빌드 통과
+2. **session-wrap**: CLAUDE.md + changelog + contract.md + prompt_plan.md 업데이트
+
+### 미푸시 (6커밋 ahead)
+- B1 concepts 수정, B2 허브 통합, B3 플래시카드 UX — 모두 main에 미푸시
+- `git push` 필요 → Vercel 배포 확인
 
 ### 미완료 (다음 세션)
-- **P0**: Vercel /concepts 실제 렌더링 검증 (HTTP 200 ≠ 렌더링)
-- **P0**: 카이란 만족도 재평가 (B1+B2 배포 후)
-- **P1**: B3 플래시카드 UX 재설계, B4 AI 문제 만들기
-- **P2**: HubCard 공유 컴포넌트 추출
+- **P0**: git push + Vercel 프로덕션 검증
+- **P0**: 북마크 P0 이슈 (접근 경로, CTA)
+- **P1**: B4 AI 커뮤니티 문제 생성, 플래시카드 진행 바, /concepts 중복, /my vs /record 분리
+- **P2**: /terms 재설계, 학습구조, mastery UI, 만족도 재평가
 
 ### Completion Contract 진행
 - 기능 4/5 PASS (AI 문제 생성 미완)
-- UX 4/4 PASS
+- UX 5/5 PASS (플래시카드 UX 해소)
 - 만족도 0/4 (재평가 대기)
-- 빌드 미검증
+- 빌드 PASS (891 tests, exit 0)
 
 ---
 
