@@ -1,3 +1,34 @@
+# X 세션 핸드오프 — 2026-03-30 세션 5 (지니 성능 개선)
+
+## 2026-03-30 세션 5 (OpenClaw 지니 성능 개선 + 인프라)
+
+### 완료
+1. **openclaw.json 설정 최적화**: contextTokens 20K→50K, idle timeout 120→360분, compaction 4K→8K
+2. **지니 workspace 문서 동기화 4파일**: TEAM.md, USER.md, GENIE.md, IDENTITY.md → X+V 체제 반영
+3. **신규 스킬 4개 생성**: git-ops, build-check, session-wrap, orchestrator (관제탑)
+4. **X→지니 자동 동기화 훅 3개**: genie-session-start.sh, genie-commit-sync.sh, genie-session-stop.sh
+5. **stale 메모리 5파일 갱신**: projects, infrastructure, agent-team, genie-role, TOOLS
+6. **GUIDE.md 사용 설명서 작성**: 248줄, 5가지 빠른 시작 + 전체 기능 + 커뮤니티 팁
+7. **HEARTBEAT.md 관제 루프 설정**: 5단계 (X 로그, 작업 끊김, 미커밋, Vercel, 세션 관리)
+8. **instinct 5건 생성**: protocol-over-intelligence, cross-agent-sync, provider-isolation, memory-staleness, openclaw-tips
+
+### 핵심 설계 결정
+- **Protocol over Intelligence**: 지니(Sonnet)는 SKILL.md 프로토콜로 지능 갭 보완. 코드를 직접 짜지 않고 감지→라우팅
+- **토큰 경쟁 격리**: X=Anthropic primary, 지니=GitHub Copilot primary → rate limit 상호 간섭 방지
+- **파일시스템 기반 동기화**: API 통합 없이 Claude Code 훅 → daily log append → 지니 읽기
+
+### 미완료 (다음 세션)
+- **P0**: OpenClaw 게이트웨이 재시작 (새 설정 적용)
+- **P0**: OpenClaw 업데이트 2026.3.8 → 3.24
+- **P0**: tools.profile "full" 설정 확인
+- **P1**: feed-back Discord 웹훅 수리
+- **P1**: 아침 브리핑 cron 설정
+- **P1**: 채널 격리 (프로젝트별 전용 채널)
+- **P2**: Anthropic API 직접 연결 검토
+- **P2**: 오늘의문제 채널 재활성화
+
+---
+
 # X 세션 핸드오프 — 2026-03-30 세션 4 (3-Task Plan + 빌드 수정)
 
 ## 2026-03-30 세션 4 (concepts 수정 + /my 대시보드 + nadaun Phase 4-2)
