@@ -3,17 +3,52 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Search, BookOpen, ChevronDown, ChevronUp, List, ArrowUp, BarChart2 } from 'lucide-react';
+import { Search, BookOpen, ChevronDown, ChevronUp, List, ArrowUp, BarChart2, Plus, Check } from 'lucide-react';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { Term } from './page';
+
+const SUBJECT_LABEL_TO_SLUG: Record<string, string> = {
+  '특수교육 개론': 'introduction',
+  '지체·중복장애': 'physical-disability',
+  '시각장애': 'visual-impairment',
+  '청각장애': 'hearing-impairment',
+  '의사소통장애': 'communication-disorder',
+  '행동지원': 'behavior-support',
+  '교육과정': 'curriculum',
+  '진단평가': 'assessment',
+  '통합교육': 'inclusive-education',
+  '특수교육 법령': 'laws',
+  '전환교육': 'transition',
+};
 
 interface TermsClientProps {
   terms: Term[];
   subjects: string[];
 }
 
+function termCardId(termKo: string): string {
+  return 'term-' + termKo;
+}
+
 function TermCard({ term, initialOpen = false }: { term: Term; initialOpen?: boolean }) {
   const [open, setOpen] = useState(initialOpen);
+  const cardId = termCardId(term.term_ko);
+  const exists = useLeitnerStore((s) => s.cards.some((c) => c.id === cardId));
+  const [justAdded, setJustAdded] = useState(false);
+
+  const handleAddFlashcard = () => {
+    if (exists) return;
+    const slug = SUBJECT_LABEL_TO_SLUG[term.subject] ?? 'introduction';
+    useLeitnerStore.getState().addCard({
+      id: cardId,
+      subjectSlug: slug,
+      question: term.term_ko + (term.term_en ? ` (${term.term_en})` : ''),
+      answer: term.definition,
+      source: 'term',
+    });
+    setJustAdded(true);
+  };
 
   return (
     <div className="border border-border rounded-xl overflow-hidden bg-card hover:border-primary/30 transition-colors">
@@ -44,9 +79,27 @@ function TermCard({ term, initialOpen = false }: { term: Term; initialOpen?: boo
           <p className="text-sm text-foreground/80 leading-relaxed pt-3 whitespace-pre-line">
             {term.definition}
           </p>
-          <span className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
-            {term.subject}
-          </span>
+          <div className="flex items-center gap-2 mt-3">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
+              {term.subject}
+            </span>
+            <button
+              onClick={handleAddFlashcard}
+              disabled={exists}
+              className={`ml-auto flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg transition-colors ${
+                exists || justAdded
+                  ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                  : 'bg-violet-100 text-violet-700 hover:bg-violet-200 dark:bg-violet-900/30 dark:text-violet-400 dark:hover:bg-violet-900/50'
+              }`}
+              aria-label={exists ? '이미 플래시카드에 추가됨' : '플래시카드에 추가'}
+            >
+              {exists || justAdded ? (
+                <><Check className="h-3 w-3" /> 추가됨</>
+              ) : (
+                <><Plus className="h-3 w-3" /> 플래시카드</>
+              )}
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -17,7 +17,14 @@ export interface QuizSearchItem {
   disability?: string;
 }
 
-function buildSearchIndex(subjects: Subject[], quizItems: QuizSearchItem[]): SearchItem[] {
+export interface TermSearchItem {
+  term_ko: string;
+  term_en: string;
+  definition: string;
+  subject: string;
+}
+
+function buildSearchIndex(subjects: Subject[], quizItems: QuizSearchItem[], termItems: TermSearchItem[]): SearchItem[] {
   const items: SearchItem[] = [];
 
   const subjectTitleMap: Record<string, string> = {};
@@ -55,19 +62,31 @@ function buildSearchIndex(subjects: Subject[], quizItems: QuizSearchItem[]): Sea
     });
   }
 
+  for (const term of termItems) {
+    items.push({
+      title: term.term_ko,
+      description: term.definition,
+      keywords: term.term_en ? [term.term_en] : [],
+      path: `/terms?q=${encodeURIComponent(term.term_ko)}`,
+      subject: term.subject,
+      type: 'term',
+    });
+  }
+
   return items;
 }
 
 interface SearchClientProps {
   readonly subjects: ReadonlyArray<Subject>;
   readonly quizItems: ReadonlyArray<QuizSearchItem>;
+  readonly termItems?: ReadonlyArray<TermSearchItem>;
 }
 
-export default function SearchClient({ subjects, quizItems }: SearchClientProps) {
+export default function SearchClient({ subjects, quizItems, termItems = [] }: SearchClientProps) {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const searchIndex = useMemo(() => buildSearchIndex([...subjects], [...quizItems]), [subjects, quizItems]);
+  const searchIndex = useMemo(() => buildSearchIndex([...subjects], [...quizItems], [...termItems]), [subjects, quizItems, termItems]);
 
   const fuse = useMemo(
     () =>
@@ -101,7 +120,7 @@ export default function SearchClient({ subjects, quizItems }: SearchClientProps)
           ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="과목, 챕터, 퀴즈 문제를 검색하세요..."
+          placeholder="과목, 챕터, 퀴즈, 용어를 검색하세요..."
           className="pl-10 h-12 text-base"
         />
       </div>
@@ -132,6 +151,9 @@ export default function SearchClient({ subjects, quizItems }: SearchClientProps)
                         {item.type === 'quiz' && (
                           <Badge variant="outline" className="text-xs">퀴즈</Badge>
                         )}
+                        {item.type === 'term' && (
+                          <Badge variant="outline" className="text-xs text-violet-600 border-violet-300">용어</Badge>
+                        )}
                       </CardContent>
                     </Card>
                   </Link>
@@ -145,7 +167,7 @@ export default function SearchClient({ subjects, quizItems }: SearchClientProps)
       {!query.trim() && (
         <div className="text-center py-16">
           <Search className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
-          <p className="text-muted-foreground">검색어를 입력하면 과목, 챕터, 퀴즈 문제를 검색할 수 있습니다.</p>
+          <p className="text-muted-foreground">검색어를 입력하면 과목, 챕터, 퀴즈, 용어를 검색할 수 있습니다.</p>
         </div>
       )}
     </div>
