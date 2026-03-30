@@ -24,6 +24,31 @@
 
 ---
 
+## [2026-03-30] X — M3 허브 통합 + /concepts 버그 수정
+
+### 변경 내용
+- B1 /concepts encodeURIComponent SSG 경로 불일치 수정 — 9파일 + concept-urls.ts (73159bd)
+- B2 /diagnosis 허브 통합 — DiagnosticsSummary 클라��언트 컴포넌트 + 바로 시작 액션 (500d4ff)
+- B2 /practice-hub 허브 통합 — 3�� 통계카드 + 이어서 학습 + 색상 메뉴 (500d4ff)
+- B2 /my 허브 강화 — 오늘 할 일 섹션 + 기능카드 동적 카운트 (6ab6665)
+- /today 대시보드 — 3개 Zustand 스토어 연동 4카드 현황 (77362cb)
+- /stats 학습 마일스톤 6+4단계 (4128d39)
+- /flashcards 카드 관리 페이지 (4128d39)
+- /bookmarks 과목 필터 + 3단 정렬 (4128d39)
+
+### 영향 범위
+- src/app/diagnosis/ (DiagnosticsSummary.tsx 신규, page.tsx 재작성)
+- src/app/practice-hub/ (PracticeProgress.tsx 리디자인, page.tsx 재작성)
+- src/app/my/ (LevelBadge, WeeklyActivityChart, WeaknessInsight, SmartRecommendations, useMyPageData 신규)
+- src/lib/content/concept-urls.ts (encodeURIComponent 제거)
+
+### 상태
+- [x] CLAUDE.md 업데이트
+- [x] prompt_plan.md 업데이트
+- [ ] 카이란 만족도 재평가 대기
+
+---
+
 ## [2026-03-29] X — UX 피드백 반영 + 코드 정리 (야간6)
 
 ### 변경 내용

@@ -1,3 +1,26 @@
+# X 세션 핸드오프 — 2026-03-30 20:03 KST
+
+## 2026-03-30 세션
+
+### 완료
+1. **B1 /concepts 버그 수정 + 배포**: encodeURIComponent SSG 경로 불일치 → 9파일 제거 (73159bd) + git push 완료
+2. **B2 허브 통합 3페이지**: /diagnosis DiagnosticsSummary (500d4ff), /practice-hub PracticeProgress (500d4ff), /my 오늘 할 일 (6ab6665)
+3. **session-wrap**: CLAUDE.md + changelog + instinct 3개 + skill candidate 1개
+
+### 미완료 (다음 세션)
+- **P0**: Vercel /concepts 실제 렌더링 검증 (HTTP 200 ≠ 렌더링)
+- **P0**: 카이란 만족도 재평가 (B1+B2 배포 후)
+- **P1**: B3 플래시카드 UX 재설계, B4 AI 문제 만들기
+- **P2**: HubCard 공유 컴포넌트 추출
+
+### Completion Contract 진행
+- 기능 4/5 PASS (AI 문제 생성 미완)
+- UX 4/4 PASS
+- 만족도 0/4 (재평가 대기)
+- 빌드 미검증
+
+---
+
 # X 세션 핸드오프 — 2026-03-29 (야간7: session-wrap + M2 판정)
 
 ## 야간7 세션 (session-wrap)

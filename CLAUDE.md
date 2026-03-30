@@ -97,7 +97,8 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 ## 아키텍처 요점
 
 - **상태 관리**: Zustand 4개 스토어 (`useStudyStore`, `useLeitnerStore`, `useQuizStore`, `useBookmarkStore`)
-- **라우팅**: App Router. 주요 페이지: `/`, `/today`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`, `/bookmarks/quiz`
+- **라우팅**: App Router. 주요 페이지: `/`, `/today`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`, `/bookmarks/quiz`, `/diagnosis`, `/practice-hub`, `/my`, `/stats`, `/flashcards`
+- **허브 페이지 패턴**: `/diagnosis`, `/practice-hub`, `/today` — 도착지 페이지로 설계 (메뉴가 아님). 각각 클라이언트 요약 컴포넌트(DiagnosticsSummary, PracticeProgress, TodayDashboard) + 액션 링크 구성
 - **오늘학습 `/daily`**: 홈 메인 버튼에서만 접근 (네비 미노출)
 - **MDX 컴포넌트 API**: `FillBlank` = `text` prop, `MatchingExercise` = `items` prop
 - **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db/` 사용
