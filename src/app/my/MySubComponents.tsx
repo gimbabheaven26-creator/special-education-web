@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { LogIn, ChevronRight } from 'lucide-react';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import type { WrongNote } from '@/types/study';
 
@@ -32,76 +31,7 @@ export function GuestBanner() {
   );
 }
 
-// ─── Subject progress tab ─────────────────────────────────────────────────────
-
-export function SubjectProgressTab() {
-  const { recentActivities } = useStudyStore();
-  const wrongNotes = useQuizStore((s) => s.wrongNotes);
-
-  // Group recent activities by subject
-  type SubjectEntry = { slug: string; title: string; chapters: string[] };
-  const subjectMap: Record<string, SubjectEntry> = {};
-  for (const act of recentActivities) {
-    if (!subjectMap[act.subjectSlug]) {
-      subjectMap[act.subjectSlug] = { slug: act.subjectSlug, title: act.subjectTitle, chapters: [] };
-    }
-    if (!subjectMap[act.subjectSlug].chapters.includes(act.chapterSlug)) {
-      subjectMap[act.subjectSlug].chapters.push(act.chapterSlug);
-    }
-  }
-
-  // Wrong note counts by subject
-  const wrongBySubject: Record<string, number> = {};
-  for (const n of wrongNotes) {
-    const subj = n.subject;
-    wrongBySubject[subj] = (wrongBySubject[subj] ?? 0) + 1;
-  }
-
-  const subjects = Object.values(subjectMap);
-
-  if (subjects.length === 0) {
-    return (
-      <EmptyState
-        icon="📖"
-        title="아직 학습 기록이 없어요"
-        description="첫 과목을 시작해보세요!"
-        action={{ label: '과목 학습 시작하기', href: '/concepts', ariaLabel: '과목 학습 페이지로 이동' }}
-      />
-    );
-  }
-
-  const maxChapters = Math.max(...subjects.map((s) => s.chapters.length), 1);
-
-  return (
-    <div className="space-y-3">
-      {subjects.slice(0, 11).map(({ slug, title, chapters }) => {
-        const pct = Math.round((chapters.length / Math.max(maxChapters, 1)) * 100);
-        const wrongs = wrongBySubject[slug] ?? 0;
-        return (
-          <div key={slug}>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-sm font-medium text-foreground truncate">{title}</span>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground shrink-0">
-                {wrongs > 0 && (
-                  <span className="text-red-500">오답 {wrongs}</span>
-                )}
-                <span>{chapters.length}챕터</span>
-              </div>
-            </div>
-            <div className="h-2 rounded-full bg-muted overflow-hidden">
-              <div
-                className="h-full rounded-full bg-primary transition-all"
-                style={{ width: `${pct}%` }}
-              />
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-// ─── Recent wrong notes tab ───────────────────────────────────────────────────
+// ─── Recent wrong notes ───────────────────────────────────────────────────────
 
 export function RecentWrongTab() {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
