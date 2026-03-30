@@ -29,7 +29,7 @@ describe('useLeitnerStore', () => {
   beforeEach(() => {
     // 매 테스트마다 스토어 초기화
     act(() => {
-      useLeitnerStore.setState({ cards: [] });
+      useLeitnerStore.setState({ cards: [], reviewLogs: [] });
     });
     fakeToday = '2026-03-29';
   });
@@ -452,6 +452,118 @@ describe('useLeitnerStore', () => {
       });
 
       expect(useLeitnerStore.getState().cards[0].box).toBe(4);
+    });
+  });
+
+  // ─── source 필드 ────────────────────────────────────────
+  describe('source 필드', () => {
+    it('source를 지정하면 카드에 저장된다', () => {
+      act(() => {
+        useLeitnerStore.getState().addCard({
+          id: 'term-card',
+          subjectSlug: 'diagnosis',
+          question: '테스트',
+          answer: '답',
+          source: 'term',
+        });
+      });
+
+      const card = useLeitnerStore.getState().cards[0];
+      expect(card.source).toBe('term');
+    });
+
+    it('source 미지정이면 undefined', () => {
+      act(() => {
+        useLeitnerStore.getState().addCard(makeCardInput({ id: 'no-source' }));
+      });
+
+      expect(useLeitnerStore.getState().cards[0].source).toBeUndefined();
+    });
+  });
+
+  // ─── reviewLogs ─────────────────────────────────────────
+  describe('reviewLogs', () => {
+    beforeEach(() => {
+      act(() => {
+        useLeitnerStore.getState().addCard(makeCardInput({ id: 'log-card' }));
+      });
+    });
+
+    it('answerCard 시 ReviewLog가 생성된다', () => {
+      act(() => {
+        useLeitnerStore.getState().answerCard('log-card', 'knew');
+      });
+
+      const logs = useLeitnerStore.getState().reviewLogs;
+      expect(logs).toHaveLength(1);
+      expect(logs[0]).toMatchObject({
+        cardId: 'log-card',
+        grade: 'knew',
+        fromBox: 1,
+        toBox: 2,
+      });
+      expect(logs[0].timestamp).toBeGreaterThan(0);
+    });
+
+    it('여러 번 응답하면 로그가 누적된다', () => {
+      act(() => {
+        useLeitnerStore.getState().answerCard('log-card', 'knew');
+        useLeitnerStore.getState().answerCard('log-card', 'hint');
+        useLeitnerStore.getState().answerCard('log-card', 'forgot');
+      });
+
+      const logs = useLeitnerStore.getState().reviewLogs;
+      expect(logs).toHaveLength(3);
+      expect(logs[0].grade).toBe('knew');
+      expect(logs[1].grade).toBe('hint');
+      expect(logs[2].grade).toBe('forgot');
+    });
+
+    it('getReviewLogs()가 전체 로그를 반환한다', () => {
+      act(() => {
+        useLeitnerStore.getState().answerCard('log-card', 'knew');
+      });
+
+      const logs = useLeitnerStore.getState().getReviewLogs();
+      expect(logs).toHaveLength(1);
+    });
+
+    it('getReviewLogs(cardId)가 해당 카드 로그만 반환한다', () => {
+      act(() => {
+        useLeitnerStore.getState().addCard(makeCardInput({ id: 'other-card' }));
+        useLeitnerStore.getState().answerCard('log-card', 'knew');
+        useLeitnerStore.getState().answerCard('other-card', 'forgot');
+      });
+
+      const logs = useLeitnerStore.getState().getReviewLogs('log-card');
+      expect(logs).toHaveLength(1);
+      expect(logs[0].cardId).toBe('log-card');
+    });
+
+    it('로그가 500개를 넘으면 오래된 것부터 제거', () => {
+      // 500개 로그를 미리 채운다
+      const existingLogs = Array.from({ length: 500 }, (_, i) => ({
+        cardId: 'log-card',
+        grade: 'knew' as const,
+        fromBox: 1,
+        toBox: 2,
+        timestamp: i,
+      }));
+      act(() => {
+        useLeitnerStore.setState({ reviewLogs: existingLogs });
+      });
+
+      // 1개 더 추가
+      act(() => {
+        useLeitnerStore.getState().answerCard('log-card', 'forgot');
+      });
+
+      const logs = useLeitnerStore.getState().reviewLogs;
+      expect(logs).toHaveLength(500);
+      // 가장 오래된(timestamp=0) 것이 제거됨
+      expect(logs[0].timestamp).toBe(1);
+      // 마지막이 새로 추가된 것
+      expect(logs[logs.length - 1].grade).toBe('forgot');
     });
   });
 });

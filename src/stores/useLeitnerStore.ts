@@ -11,6 +11,15 @@ export interface LeitnerCard {
   lastReviewed: string;
   nextReview: string;
   createdAt: string;
+  source?: 'manual' | 'term' | 'kice-recommend';
+}
+
+export interface ReviewLog {
+  cardId: string;
+  grade: AnswerGrade;
+  fromBox: number;
+  toBox: number;
+  timestamp: number;
 }
 
 const BOX_INTERVALS: Record<number, number> = {
@@ -36,6 +45,7 @@ export type AnswerGrade = 'knew' | 'hint' | 'forgot';
 
 interface LeitnerStore {
   cards: LeitnerCard[];
+  reviewLogs: ReviewLog[];
   addCard: (card: Omit<LeitnerCard, 'box' | 'lastReviewed' | 'nextReview' | 'createdAt'>) => void;
   answerCard: (cardId: string, grade: AnswerGrade) => void;
   getDueCards: (subjectSlug?: string) => LeitnerCard[];
@@ -49,6 +59,7 @@ interface LeitnerStore {
     total: number;
     dueToday: number;
   };
+  getReviewLogs: (cardId?: string) => ReviewLog[];
   removeCard: (cardId: string) => void;
 }
 
@@ -56,6 +67,7 @@ export const useLeitnerStore = create<LeitnerStore>()(
   persist(
     (set, get) => ({
       cards: [],
+      reviewLogs: [],
 
       addCard: (cardData) => {
         const today = todayStr();
@@ -70,23 +82,29 @@ export const useLeitnerStore = create<LeitnerStore>()(
       },
 
       answerCard: (cardId, grade) => {
-        set((state) => ({
-          cards: state.cards.map((card) => {
+        set((state) => {
+          const newLogs: ReviewLog[] = [];
+          const cards = state.cards.map((card) => {
             if (card.id !== cardId) return card;
 
             const today = todayStr();
             let newBox: 1 | 2 | 3 | 4 | 5;
 
             if (grade === 'knew') {
-              // 힌트 없이 맞춤 → 다음 박스로 승격
               newBox = Math.min(card.box + 1, 5) as 1 | 2 | 3 | 4 | 5;
             } else if (grade === 'hint') {
-              // 힌트 보고 떠올림 → 현재 박스 유지
               newBox = card.box;
             } else {
-              // 모르겠어요 → 박스 1로 복귀
               newBox = 1;
             }
+
+            newLogs.push({
+              cardId: card.id,
+              grade,
+              fromBox: card.box,
+              toBox: newBox,
+              timestamp: Date.now(),
+            });
 
             const intervalDays = BOX_INTERVALS[newBox];
             const nextReview = addDays(today, intervalDays);
@@ -97,8 +115,16 @@ export const useLeitnerStore = create<LeitnerStore>()(
               lastReviewed: today,
               nextReview,
             };
-          }),
-        }));
+          });
+
+          const MAX_REVIEW_LOGS = 500;
+          const allLogs = [...state.reviewLogs, ...newLogs];
+          const cappedLogs = allLogs.length > MAX_REVIEW_LOGS
+            ? allLogs.slice(allLogs.length - MAX_REVIEW_LOGS)
+            : allLogs;
+
+          return { cards, reviewLogs: cappedLogs };
+        });
       },
 
       getDueCards: (subjectSlug) => {
@@ -128,12 +154,27 @@ export const useLeitnerStore = create<LeitnerStore>()(
         };
       },
 
+      getReviewLogs: (cardId) => {
+        const logs = get().reviewLogs;
+        return cardId ? logs.filter((l) => l.cardId === cardId) : logs;
+      },
+
       removeCard: (cardId) => {
         set((state) => ({
           cards: state.cards.filter((card) => card.id !== cardId),
         }));
       },
     }),
-    { name: 'leitner-cards' }
+    {
+      name: 'leitner-cards',
+      version: 2,
+      migrate: (persistedState, version) => {
+        const state = persistedState as Record<string, unknown>;
+        if (version < 2) {
+          return { ...state, reviewLogs: [] };
+        }
+        return state;
+      },
+    }
   )
 );

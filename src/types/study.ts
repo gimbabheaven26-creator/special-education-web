@@ -32,6 +32,7 @@ export interface DailyHistoryEntry {
   questionsCorrect: number;
   xpEarned: number;
   studyTimeMinutes?: number; // 자동 추적된 학습 시간 (분)
+  flashcardsReviewed?: number; // 플래시카드 복습 횟수
 }
 
 export interface DailyGoal {

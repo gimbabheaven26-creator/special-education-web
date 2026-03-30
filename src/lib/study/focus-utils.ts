@@ -81,7 +81,7 @@ export function generateDailyMission(params: MissionParams): DailyMission {
   if (dueFlashcardCount > 0) {
     const count = Math.min(dueFlashcardCount, 5);
     blocks.push(
-      makeBlock('flashcard', '플래시카드', '복습 카드 ' + count + '장', count, Math.ceil(count * 0.8), '/terms')
+      makeBlock('flashcard', '플래시카드', '복습 카드 ' + count + '장', count, Math.ceil(count * 0.8), '/flashcards/review')
     );
   }
 

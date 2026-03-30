@@ -21,7 +21,7 @@ vi.mock('@/lib/date-utils', () => ({
 // ─── Store import (after mocks) ────────────────────────────────────────────
 
 import { useStudyStore } from '../useStudyStore';
-import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/study/xp-constants';
+import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER, XP_PER_FLASHCARD } from '@/lib/study/xp-constants';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -34,7 +34,7 @@ function resetStore() {
     currentStreak: 0,
     longestStreak: 0,
     lastActiveDate: null,
-    dailyProgress: { date: mockTodayRef.value, chaptersCompleted: 0, quizzesCompleted: 0, quizzesCorrect: 0 },
+    dailyProgress: { date: mockTodayRef.value, chaptersCompleted: 0, quizzesCompleted: 0, quizzesCorrect: 0, flashcardsReviewed: 0 },
     dailyGoal: { chapters: 2, quizzes: 10 },
     recentActivities: [],
     totalXP: 0,
@@ -81,6 +81,7 @@ describe('초기 상태', () => {
       chaptersCompleted: 0,
       quizzesCompleted: 0,
       quizzesCorrect: 0,
+      flashcardsReviewed: 0,
     });
   });
 
@@ -683,9 +684,9 @@ describe('persist 설정', () => {
     expect(persistApi.getOptions().name).toBe('special-edu-study');
   });
 
-  it('persist version = 6', () => {
+  it('persist version = 7', () => {
     const persistApi = (useStudyStore as unknown as { persist: { getOptions: () => { version: number } } }).persist;
-    expect(persistApi.getOptions().version).toBe(6);
+    expect(persistApi.getOptions().version).toBe(7);
   });
 });
 
@@ -753,15 +754,94 @@ describe('migrate', () => {
     expect(migrated.completedChapters).toEqual({});
   });
 
+  it('version < 7 — dailyProgress.flashcardsReviewed 필드 추가', () => {
+    const persistApi = (useStudyStore as unknown as { persist: { getOptions: () => { migrate: (s: unknown, v: number) => unknown } } }).persist;
+    const migrate = persistApi.getOptions().migrate;
+
+    const oldState = {
+      dailyProgress: { date: '2026-03-29', chaptersCompleted: 1, quizzesCompleted: 3, quizzesCorrect: 2 },
+    };
+    const migrated = migrate(oldState, 6) as Record<string, unknown>;
+    const dp = migrated.dailyProgress as Record<string, unknown>;
+    expect(dp.flashcardsReviewed).toBe(0);
+  });
+
   it('현재 버��이면 마이그레이션 없음', () => {
     const persistApi = (useStudyStore as unknown as { persist: { getOptions: () => { migrate: (s: unknown, v: number) => unknown } } }).persist;
     const migrate = persistApi.getOptions().migrate;
 
     const state = { totalXP: 200 };
-    const migrated = migrate(state, 6) as Record<string, unknown>;
+    const migrated = migrate(state, 7) as Record<string, unknown>;
 
     // 추가 필드 없음 (이미 최신)
     expect(migrated).toEqual({ totalXP: 200 });
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 12.5 recordFlashcardReview
+// ═══════════════════════════════════════════════════════════════════════════
+
+describe('recordFlashcardReview', () => {
+  it('XP 증가 = count * XP_PER_FLASHCARD', () => {
+    act(() => getState().recordFlashcardReview(5));
+
+    expect(getState().totalXP).toBe(5 * XP_PER_FLASHCARD);
+  });
+
+  it('일일 flashcardsReviewed 증가', () => {
+    act(() => getState().recordFlashcardReview(3));
+    act(() => getState().recordFlashcardReview(2));
+
+    expect(getState().dailyProgress.flashcardsReviewed).toBe(5);
+  });
+
+  it('dailyHistory에 flashcardsReviewed 기록', () => {
+    act(() => getState().recordFlashcardReview(4));
+
+    const history = getState().dailyHistory;
+    expect(history).toHaveLength(1);
+    expect(history[0].flashcardsReviewed).toBe(4);
+    expect(history[0].xpEarned).toBe(4 * XP_PER_FLASHCARD);
+  });
+
+  it('같은 날 퀴즈 + 플래시카드 — dailyHistory 병합', () => {
+    act(() => getState().recordQuizResult(true));
+    act(() => getState().recordFlashcardReview(3));
+
+    const history = getState().dailyHistory;
+    expect(history).toHaveLength(1);
+    expect(history[0].questionsAttempted).toBe(1);
+    expect(history[0].flashcardsReviewed).toBe(3);
+    expect(history[0].xpEarned).toBe(
+      XP_PER_QUIZ + XP_PER_CORRECT + 3 * XP_PER_FLASHCARD
+    );
+  });
+
+  it('스트릭 업데이트', () => {
+    act(() => getState().recordFlashcardReview(2));
+
+    expect(getState().currentStreak).toBe(1);
+    expect(getState().lastActiveDate).toBe('2026-03-29');
+  });
+
+  it('count <= 0이면 무시', () => {
+    act(() => getState().recordFlashcardReview(0));
+    act(() => getState().recordFlashcardReview(-1));
+
+    expect(getState().totalXP).toBe(0);
+    expect(getState().dailyHistory).toHaveLength(0);
+  });
+
+  it('날짜가 바뀌면 dailyProgress 리셋', () => {
+    act(() => getState().recordFlashcardReview(3));
+    expect(getState().dailyProgress.flashcardsReviewed).toBe(3);
+
+    setToday('2026-03-30');
+    act(() => getState().recordFlashcardReview(2));
+
+    expect(getState().dailyProgress.date).toBe('2026-03-30');
+    expect(getState().dailyProgress.flashcardsReviewed).toBe(2);
   });
 });
 

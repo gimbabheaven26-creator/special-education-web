@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { DailyHistoryEntry } from '@/types/study';
 import type { ScenarioProgress, SpacedScenarioSchedule } from '@/types/scenario';
-import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER } from '@/lib/study/xp-constants';
+import { XP_PER_QUIZ, XP_PER_CORRECT, XP_PER_CHAPTER, XP_PER_FLASHCARD } from '@/lib/study/xp-constants';
 import { getKSTDate, getToday } from '@/lib/date-utils';
 
 interface RecentActivity {
@@ -18,6 +18,7 @@ interface DailyProgress {
   chaptersCompleted: number;
   quizzesCompleted: number;
   quizzesCorrect: number;
+  flashcardsReviewed: number;
 }
 
 interface StudyState {
@@ -60,6 +61,7 @@ interface StudyActions {
   recordChapterComplete: () => void;
   markChapterCompleted: (subjectSlug: string, chapterSlug: string) => void;
   isChapterCompleted: (subjectSlug: string, chapterSlug: string) => boolean;
+  recordFlashcardReview: (count: number) => void;
   recordStudyTime: (minutes: number) => void;
   setDailyGoal: (chapters: number, quizzes: number) => void;
   getDailyHistory: (days: number) => DailyHistoryEntry[];
@@ -80,7 +82,7 @@ function ensureTodayProgress(state: StudyState): DailyProgress {
   if (state.dailyProgress.date === today) {
     return state.dailyProgress;
   }
-  return { date: today, chaptersCompleted: 0, quizzesCompleted: 0, quizzesCorrect: 0 };
+  return { date: today, chaptersCompleted: 0, quizzesCompleted: 0, quizzesCorrect: 0, flashcardsReviewed: 0 };
 }
 
 function updateStreak(state: StudyState): Pick<StudyState, 'currentStreak' | 'longestStreak' | 'lastActiveDate'> {
@@ -111,7 +113,7 @@ export const useStudyStore = create<StudyState & StudyActions>()(
       currentStreak: 0,
       longestStreak: 0,
       lastActiveDate: null,
-      dailyProgress: { date: getToday(), chaptersCompleted: 0, quizzesCompleted: 0, quizzesCorrect: 0 },
+      dailyProgress: { date: getToday(), chaptersCompleted: 0, quizzesCompleted: 0, quizzesCorrect: 0, flashcardsReviewed: 0 },
       dailyGoal: { chapters: 2, quizzes: 10 },
       recentActivities: [],
       totalXP: 0,
@@ -206,6 +208,52 @@ export const useStudyStore = create<StudyState & StudyActions>()(
           };
         }),
 
+      recordFlashcardReview: (count) =>
+        set((state) => {
+          if (count <= 0) return state;
+          const streakUpdate = updateStreak(state);
+          const dailyProgress = ensureTodayProgress(state);
+          const xpEarned = count * XP_PER_FLASHCARD;
+
+          const today = getToday();
+          const existingIndex = state.dailyHistory.findIndex((e) => e.date === today);
+
+          let updatedHistory: DailyHistoryEntry[];
+          if (existingIndex >= 0) {
+            const existing = state.dailyHistory[existingIndex];
+            updatedHistory = state.dailyHistory.map((entry, i) =>
+              i === existingIndex
+                ? {
+                    ...existing,
+                    xpEarned: existing.xpEarned + xpEarned,
+                    flashcardsReviewed: (existing.flashcardsReviewed ?? 0) + count,
+                  }
+                : entry
+            );
+          } else {
+            updatedHistory = [
+              ...state.dailyHistory,
+              {
+                date: today,
+                questionsAttempted: 0,
+                questionsCorrect: 0,
+                xpEarned,
+                flashcardsReviewed: count,
+              },
+            ];
+          }
+
+          return {
+            ...streakUpdate,
+            dailyProgress: {
+              ...dailyProgress,
+              flashcardsReviewed: dailyProgress.flashcardsReviewed + count,
+            },
+            totalXP: state.totalXP + xpEarned,
+            dailyHistory: updatedHistory,
+          };
+        }),
+
       markChapterCompleted: (subjectSlug, chapterSlug) =>
         set((state) => {
           const existing = state.completedChapters[subjectSlug] ?? [];
@@ -292,7 +340,7 @@ export const useStudyStore = create<StudyState & StudyActions>()(
     }),
     {
       name: 'special-edu-study',
-      version: 6,
+      version: 7,
       migrate: (persistedState, version) => {
         let state = persistedState as Record<string, unknown>;
 
@@ -322,6 +370,16 @@ export const useStudyStore = create<StudyState & StudyActions>()(
             ...state,
             completedChapters: state.completedChapters ?? {},
           };
+        }
+
+        if (version < 7) {
+          const dp = state.dailyProgress as Record<string, unknown> | undefined;
+          if (dp && dp.flashcardsReviewed === undefined) {
+            state = {
+              ...state,
+              dailyProgress: { ...dp, flashcardsReviewed: 0 },
+            };
+          }
         }
 
         return state;
