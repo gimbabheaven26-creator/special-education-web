@@ -1,4 +1,4 @@
-import type { IepGoal, IepPlan, WeeklyPlan, Student, GoalAchievementSummary, AchievementRating } from '@/types/students'
+import type { IepGoal, IepPlan, WeeklyPlan, Student, GoalAchievementSummary, AchievementRating, TeachingMaterial } from '@/types/students'
 import type { WeeklyPlanProgress } from '@/lib/queries/students'
 
 const SEPARATOR = '────────────────────────────────'
@@ -162,4 +162,60 @@ export function formatReportAsText(
   }
 
   return sections.join('\n\n')
+}
+
+const MATERIAL_TYPE_LABELS: Record<string, string> = {
+  link: '링크',
+  file: '파일',
+  note: '메모',
+}
+
+/**
+ * 교수학습 자료를 포함한 주차별 계획 텍스트를 포맷한다.
+ */
+export function formatWeeklyPlansWithMaterials(
+  weeklyPlans: WeeklyPlan[],
+  goals: IepGoal[],
+  materialsMap: Map<string, TeachingMaterial[]>,
+): string {
+  if (weeklyPlans.length === 0) {
+    return '등록된 주차별 계획이 없습니다.'
+  }
+
+  const goalMap = new Map(
+    goals.map((g) => [g.achievement_standard_id, g.achievement_standard_code]),
+  )
+
+  return weeklyPlans
+    .map((wp) => {
+      const code = wp.achievement_standard_id
+        ? goalMap.get(wp.achievement_standard_id)
+        : undefined
+      const header = code
+        ? `${wp.week_number}주차 | ${code} ${wp.activity}`
+        : `${wp.week_number}주차 | ${wp.activity}`
+
+      const details: string[] = []
+      if (wp.materials) details.push(`  교재: ${wp.materials}`)
+      if (wp.evaluation_method) details.push(`  평가: ${wp.evaluation_method}`)
+      if (wp.notes) details.push(`  비고: ${wp.notes}`)
+
+      const mats = materialsMap.get(wp.id) ?? []
+      if (mats.length > 0) {
+        details.push(`  교수학습 자료:`)
+        mats.forEach((m) => {
+          const typeLabel = MATERIAL_TYPE_LABELS[m.type] ?? m.type
+          if (m.type === 'link' && m.content) {
+            details.push(`    [${typeLabel}] ${m.title}: ${m.content}`)
+          } else if (m.type === 'file' && m.file_url) {
+            details.push(`    [${typeLabel}] ${m.title}: ${m.file_url}`)
+          } else {
+            details.push(`    [${typeLabel}] ${m.title}${m.content ? ': ' + m.content : ''}`)
+          }
+        })
+      }
+
+      return [header, ...details].join('\n')
+    })
+    .join('\n')
 }

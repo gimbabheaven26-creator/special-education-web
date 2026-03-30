@@ -1,6 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getStudents } from '@/lib/queries/students'
 import { StudentCard } from '@/components/students/student-card'
+
+export const metadata: Metadata = {
+  title: '내 학생',
+  description: '등록된 학생 목록과 IEP 계획을 관리합니다.',
+}
 
 export default async function StudentsPage() {
   const students = await getStudents()

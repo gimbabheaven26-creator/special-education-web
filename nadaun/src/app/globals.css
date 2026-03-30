@@ -93,3 +93,30 @@
   outline: 2px solid oklch(0.55 0.12 155);
   outline-offset: 2px;
 }
+
+/* 모바일 터치 타겟 최소 크기 */
+@media (pointer: coarse) {
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* 인쇄용 스타일 */
+@media print {
+  header,
+  nav,
+  [data-print-hide] {
+    display: none !important;
+  }
+  body {
+    padding: 0 !important;
+    font-size: 12pt;
+  }
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+}

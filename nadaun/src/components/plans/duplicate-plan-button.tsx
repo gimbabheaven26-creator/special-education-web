@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { duplicateIepPlan } from '@/lib/actions/weekly-plans'
+import { showSuccess, showError } from '@/lib/utils/toast'
 
 interface DuplicatePlanButtonProps {
   planId: string
@@ -56,7 +57,9 @@ export function DuplicatePlanButton({
       )
       if (result.error) {
         setError(result.error)
+        showError(result.error)
       } else if (result.planId) {
+        showSuccess('계획이 복제되었습니다.')
         router.push(`/students/${studentId}/plans/${result.planId}`)
       }
     })

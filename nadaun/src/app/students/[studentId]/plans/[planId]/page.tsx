@@ -16,6 +16,7 @@ import { GenerateButton } from '@/components/ai/generate-button'
 import { CalendarView } from '@/components/plans/calendar-view'
 import { DuplicatePlanButton } from '@/components/plans/duplicate-plan-button'
 import { getGoalAchievementSummary } from '@/lib/queries/students'
+import { getTeachingMaterialsByIepPlan } from '@/lib/queries/teaching-materials'
 
 const STATUS_LABELS: Record<string, string> = {
   draft: '초안',
@@ -53,12 +54,20 @@ export default async function PlanDetailPage({
   if (!student || !plan) notFound()
 
   const standardIds = plan.goals.map((g) => g.achievement_standard_id)
-  const [weeklyPlans, considerationsMap, progress, goalSummaries] = await Promise.all([
+  const [weeklyPlans, considerationsMap, progress, goalSummaries, allMaterials] = await Promise.all([
     getWeeklyPlansByIepPlan(plan.id),
     getConsiderationsByStandardIds(standardIds),
     getWeeklyPlanProgress(plan.id),
     getGoalAchievementSummary(plan.id),
+    getTeachingMaterialsByIepPlan(plan.id),
   ])
+
+  const materialsMap = new Map<string, typeof allMaterials>()
+  for (const m of allMaterials) {
+    const arr = materialsMap.get(m.weekly_plan_id) ?? []
+    arr.push(m)
+    materialsMap.set(m.weekly_plan_id, arr)
+  }
 
   return (
     <div className="space-y-8">
@@ -293,6 +302,7 @@ export default async function PlanDetailPage({
         studentId={student.id}
         weeklyPlans={weeklyPlans}
         planGoals={plan.goals}
+        materialsMap={materialsMap}
       />
     </div>
   )

@@ -97,6 +97,25 @@ export default async function Home() {
           </div>
         )}
 
+        {studentCount === 0 && (
+          <div
+            className="rounded-lg border border-dashed p-6 text-center"
+            role="status"
+            aria-live="polite"
+          >
+            <p className="text-muted-foreground">
+              아직 등록된 학생이 없습니다.
+            </p>
+            <Link
+              href="/students/new"
+              className="mt-3 inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              aria-label="첫 학생 등록하기"
+            >
+              첫 학생 등록하기
+            </Link>
+          </div>
+        )}
+
         <QuickStartForm students={students} />
 
         <div className="flex gap-3">

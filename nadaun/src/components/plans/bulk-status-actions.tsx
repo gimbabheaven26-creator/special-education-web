@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { bulkUpdateWeeklyPlanStatus } from '@/lib/actions/weekly-plans'
+import { showSuccess } from '@/lib/utils/toast'
 import type { WeeklyPlan, WeeklyPlanStatus } from '@/types/students'
 
 const STATUS_OPTIONS: Array<{ value: WeeklyPlanStatus; label: string }> = [
@@ -56,6 +57,7 @@ export function BulkStatusActions({
         studentId,
         status,
       )
+      showSuccess(`${selectedIds.size}개 주차 상태 변경 완료`)
       clearSelection()
     })
   }

@@ -24,7 +24,9 @@ import {
   updateWeeklyPlanProgressNotes,
   updateWeeklyPlanAchievement,
 } from '@/lib/actions/weekly-plans'
-import type { WeeklyPlan, IepGoal, WeeklyPlanStatus, AchievementRating } from '@/types/students'
+import { showSuccess } from '@/lib/utils/toast'
+import { TeachingMaterialsSection } from '@/components/plans/teaching-materials-section'
+import type { WeeklyPlan, IepGoal, WeeklyPlanStatus, AchievementRating, TeachingMaterial } from '@/types/students'
 
 const RATING_LABELS: Record<AchievementRating, string> = {
   not_met: '미달',
@@ -65,6 +67,7 @@ interface WeeklyPlanItemProps {
   iepPlanId: string
   studentId: string
   planGoals: IepGoal[]
+  materials: TeachingMaterial[]
 }
 
 export function WeeklyPlanItem({
@@ -73,6 +76,7 @@ export function WeeklyPlanItem({
   iepPlanId,
   studentId,
   planGoals,
+  materials,
 }: WeeklyPlanItemProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editError, setEditError] = useState<string | null>(null)
@@ -95,6 +99,7 @@ export function WeeklyPlanItem({
     const nextStatus = STATUS_CYCLE[(currentIdx + 1) % STATUS_CYCLE.length]
     startTransition(async () => {
       await updateWeeklyPlanStatus(wp.id, iepPlanId, studentId, nextStatus)
+      showSuccess(`${wp.week_number}주차: ${STATUS_LABELS[nextStatus]}`)
     })
   }
 
@@ -102,6 +107,7 @@ export function WeeklyPlanItem({
     startTransition(async () => {
       await updateWeeklyPlanProgressNotes(wp.id, iepPlanId, studentId, memoValue)
       setIsEditingMemo(false)
+      showSuccess('메모 저장됨')
     })
   }
 
@@ -110,6 +116,7 @@ export function WeeklyPlanItem({
     startTransition(async () => {
       await updateWeeklyPlanAchievement(wp.id, iepPlanId, studentId, rating, observationValue)
       setIsEditingRating(false)
+      if (rating) showSuccess(`달성도: ${RATING_LABELS[rating]}`)
     })
   }
 
@@ -124,6 +131,7 @@ export function WeeklyPlanItem({
     setDeletingId(wp.id)
     try {
       await deleteWeeklyPlan(wp.id, iepPlanId, studentId)
+      showSuccess(`${wp.week_number}주차 삭제됨`)
     } catch {
       // revalidation redirect handles update
     } finally {
@@ -349,6 +357,14 @@ export function WeeklyPlanItem({
                 </button>
               )
             )}
+            {/* 교수학습 자료 */}
+            <TeachingMaterialsSection
+              weeklyPlanId={wp.id}
+              iepPlanId={iepPlanId}
+              studentId={studentId}
+              materials={materials}
+              weekNumber={wp.week_number}
+            />
           </div>
           <div className="flex items-center gap-1">
             <Button

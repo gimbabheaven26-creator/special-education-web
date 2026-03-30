@@ -87,3 +87,20 @@ export interface GoalAchievementSummary {
   exceeded: number
   metRate: number
 }
+
+/** 교수학습 자료 타입 */
+export type TeachingMaterialType = 'link' | 'file' | 'note'
+
+/** 교수학습 자료 (DB row) */
+export interface TeachingMaterial {
+  id: string
+  weekly_plan_id: string
+  type: TeachingMaterialType
+  title: string
+  content: string | null
+  file_url: string | null
+  mime_type: string | null
+  file_size: number | null
+  created_at: string
+  updated_at: string
+}

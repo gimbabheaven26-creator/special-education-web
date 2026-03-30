@@ -5,13 +5,14 @@ import { Button } from '@/components/ui/button'
 import { WeeklyPlanItem } from './weekly-plan-item'
 import { AddWeeklyPlanForm } from './add-weekly-plan-form'
 import { BulkStatusActions } from './bulk-status-actions'
-import type { WeeklyPlan, IepGoal } from '@/types/students'
+import type { WeeklyPlan, IepGoal, TeachingMaterial } from '@/types/students'
 
 interface WeeklyPlanSectionProps {
   iepPlanId: string
   studentId: string
   weeklyPlans: WeeklyPlan[]
   planGoals: IepGoal[]
+  materialsMap: Map<string, TeachingMaterial[]>
 }
 
 export function WeeklyPlanSection({
@@ -19,6 +20,7 @@ export function WeeklyPlanSection({
   studentId,
   weeklyPlans,
   planGoals,
+  materialsMap,
 }: WeeklyPlanSectionProps) {
   const [showForm, setShowForm] = useState(false)
   const [showBulk, setShowBulk] = useState(false)
@@ -82,6 +84,16 @@ export function WeeklyPlanSection({
           <p className="text-sm text-muted-foreground">
             아직 주차별 계획이 없습니다.
           </p>
+          <Button
+            type="button"
+            variant="default"
+            size="sm"
+            className="mt-3"
+            onClick={() => setShowForm(true)}
+            aria-label="첫 주차 계획 만들기"
+          >
+            첫 주차 계획 만들기
+          </Button>
         </div>
       )}
 
@@ -94,6 +106,7 @@ export function WeeklyPlanSection({
             iepPlanId={iepPlanId}
             studentId={studentId}
             planGoals={planGoals}
+            materials={materialsMap.get(wp.id) ?? []}
           />
         ))}
       </div>
