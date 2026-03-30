@@ -109,6 +109,7 @@ beforeEach(() => {
 
 describe('createWeeklyPlan', () => {
   it('유효한 데이터로 주간계획을 생성한다', async () => {
+    setupOwnershipPass()
     const result = await createWeeklyPlan('p1', 's1', {}, makeFormData(validWeeklyData))
     expect(mockFrom).toHaveBeenCalledWith('weekly_plans')
     expect(mockInsert).toHaveBeenCalledWith(
@@ -153,17 +154,20 @@ describe('createWeeklyPlan', () => {
   })
 
   it('Supabase 에러 시 에러 메시지를 반환한다', async () => {
+    setupOwnershipPass()
     mockInsert.mockReturnValue({ error: { message: '삽입 실패' } })
     const result = await createWeeklyPlan('p1', 's1', {}, makeFormData(validWeeklyData))
     expect(result.error).toBe('삽입 실패')
   })
 
   it('성공 시 revalidatePath를 호출한다', async () => {
+    setupOwnershipPass()
     await createWeeklyPlan('p1', 's1', {}, makeFormData(validWeeklyData))
     expect(mockRevalidatePath).toHaveBeenCalledWith('/students/s1/plans/p1')
   })
 
   it('선택적 필드가 포함된다', async () => {
+    setupOwnershipPass()
     const data = {
       ...validWeeklyData,
       materials: '교과서',
@@ -178,6 +182,13 @@ describe('createWeeklyPlan', () => {
         notes: '주의사항',
       }),
     )
+  })
+
+  it('타 교사의 IEP plan에 생성 시 권한 에러를 반환한다', async () => {
+    setupOwnershipFail()
+    const result = await createWeeklyPlan('p1', 's1', {}, makeFormData(validWeeklyData))
+    expect(result.error).toBe('권한이 없습니다.')
+    expect(mockInsert).not.toHaveBeenCalled()
   })
 })
 
@@ -251,6 +262,7 @@ describe('bulkInsertWeeklyPlans', () => {
   ]
 
   it('여러 주간계획을 일괄 삽입한다', async () => {
+    setupOwnershipPass()
     const result = await bulkInsertWeeklyPlans('p1', 's1', plans)
     expect(mockFrom).toHaveBeenCalledWith('weekly_plans')
     expect(mockInsert).toHaveBeenCalledWith(
@@ -263,13 +275,30 @@ describe('bulkInsertWeeklyPlans', () => {
   })
 
   it('Supabase 에러 시 에러를 반환한다', async () => {
+    setupOwnershipPass()
     mockInsert.mockReturnValue({ error: { message: '일괄 삽입 실패' } })
     const result = await bulkInsertWeeklyPlans('p1', 's1', plans)
     expect(result.error).toBe('일괄 삽입 실패')
   })
 
   it('성공 시 revalidatePath를 호출한다', async () => {
+    setupOwnershipPass()
     await bulkInsertWeeklyPlans('p1', 's1', plans)
     expect(mockRevalidatePath).toHaveBeenCalledWith('/students/s1/plans/p1')
+  })
+
+  it('타 교사의 IEP plan에 삽입 시 권한 에러를 반환한다', async () => {
+    setupOwnershipFail()
+    const result = await bulkInsertWeeklyPlans('p1', 's1', plans)
+    expect(result.error).toBe('권한이 없습니다.')
+    expect(mockInsert).not.toHaveBeenCalled()
+  })
+
+  it('유효하지 않은 주차 데이터는 에러를 반환한다', async () => {
+    setupOwnershipPass()
+    const invalidPlans = [{ week_number: 0, achievement_standard_id: null, activity: '활동', materials: null, evaluation_method: null, notes: null }]
+    const result = await bulkInsertWeeklyPlans('p1', 's1', invalidPlans)
+    expect(result.error).toBeDefined()
+    expect(mockInsert).not.toHaveBeenCalled()
   })
 })

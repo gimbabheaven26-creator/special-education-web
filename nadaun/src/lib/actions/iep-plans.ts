@@ -4,7 +4,10 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getTeacherId } from '@/lib/supabase/auth'
+import { z } from 'zod'
 import { iepPlanSchema } from '@/lib/schemas/iep-plan'
+
+const statusSchema = z.enum(['draft', 'active', 'completed'])
 import type { IepGoal } from '@/types/students'
 
 export type ActionResult = { error?: string }
@@ -96,6 +99,9 @@ export async function updateIepPlanStatus(
   studentId: string,
   newStatus: 'draft' | 'active' | 'completed'
 ): Promise<ActionResult> {
+  const parsed = statusSchema.safeParse(newStatus)
+  if (!parsed.success) return { error: '올바르지 않은 상태값입니다.' }
+
   const teacherId = await getTeacherId()
   const supabase = await createClient()
 

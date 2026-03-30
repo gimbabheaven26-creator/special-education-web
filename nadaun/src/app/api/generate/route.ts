@@ -10,7 +10,10 @@ import {
   type GenerationResult,
 } from '@/lib/ai/prompts';
 import { stripPii } from '@/lib/ai/pii-filter';
-import { checkRateLimit } from '@/lib/ai/rate-limiter';
+import { createRateLimiter } from '@/lib/rate-limit';
+
+// AI 생성 일일 한도: 교사당 24시간 내 30회 (sliding window)
+const aiLimiter = createRateLimiter({ windowMs: 24 * 60 * 60 * 1000, max: 30 });
 
 
 const requestSchema = z.object({
@@ -31,7 +34,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 2. Rate limit
-  const rateResult = checkRateLimit(user.id);
+  const rateResult = aiLimiter.check(user.id);
   if (!rateResult.allowed) {
     return NextResponse.json(
       {
@@ -78,7 +81,7 @@ export async function POST(request: NextRequest) {
 
   const { data: student } = await supabase
     .from('students')
-    .select('grade, disability_type')
+    .select('name, grade, disability_type')
     .eq('id', plan.student_id)
     .single();
 
@@ -118,9 +121,10 @@ export async function POST(request: NextRequest) {
     }>).map((g) => ({
       ...g,
       standardContent: stripPii(
-        standardMap.get(g.achievement_standard_id) ?? '(내용 없음)'
+        standardMap.get(g.achievement_standard_id) ?? '(내용 없음)',
+        student.name
       ),
-      description: stripPii(g.description),
+      description: stripPii(g.description, student.name),
     })),
     periodStart: plan.period_start,
     periodEnd: plan.period_end,

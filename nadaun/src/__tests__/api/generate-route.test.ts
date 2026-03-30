@@ -16,9 +16,9 @@ vi.mock('@/lib/supabase/server', () => ({
   }),
 }))
 
-const mockCheckRateLimit = vi.fn()
-vi.mock('@/lib/ai/rate-limiter', () => ({
-  checkRateLimit: (...args: unknown[]) => mockCheckRateLimit(...args),
+const mockCheck = vi.fn()
+vi.mock('@/lib/rate-limit', () => ({
+  createRateLimiter: () => ({ check: (...args: unknown[]) => mockCheck(...args) }),
 }))
 
 vi.mock('@/lib/ai/client', () => ({
@@ -47,7 +47,7 @@ function makeRequest(body: unknown): Request {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  mockCheckRateLimit.mockReturnValue({ allowed: true, remaining: 29, resetAt: Date.now() + 86400000 })
+  mockCheck.mockReturnValue({ allowed: true, remaining: 29, resetAt: Date.now() + 86400000 })
 })
 
 describe('POST /api/generate', () => {
@@ -61,7 +61,7 @@ describe('POST /api/generate', () => {
 
   it('rate limit 초과 시 429를 반환한다', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: 'u1' } }, error: null })
-    mockCheckRateLimit.mockReturnValue({ allowed: false, remaining: 0, resetAt: Date.now() + 3600000 })
+    mockCheck.mockReturnValue({ allowed: false, remaining: 0, resetAt: Date.now() + 3600000 })
     const res = await POST(makeRequest({ planId: '550e8400-e29b-41d4-a716-446655440000' }) as never)
     expect(res.status).toBe(429)
   })

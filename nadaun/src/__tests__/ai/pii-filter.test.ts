@@ -27,6 +27,18 @@ describe('stripPii', () => {
     expect(stripPii(text)).toBe(text);
   });
 
+  it('학생 이름을 targeted 치환한다', () => {
+    expect(stripPii('김철수 학생이 듣기 연습을 잘함', '김철수')).toBe('[학생] 학생이 듣기 연습을 잘함');
+  });
+
+  it('학생 이름이 여러 번 등장하면 모두 치환한다', () => {
+    expect(stripPii('박지민이 국어, 박지민이 수학', '박지민')).toBe('[학생]이 국어, [학생]이 수학');
+  });
+
+  it('1자 이름은 오탐 방지로 치환하지 않는다', () => {
+    expect(stripPii('김 학생이 잘함', '김')).toBe('김 학생이 잘함');
+  });
+
   it('여러 PII를 동시에 제거한다', () => {
     const input = '한빛중학교 김선생(010-1234-5678)';
     const result = stripPii(input);

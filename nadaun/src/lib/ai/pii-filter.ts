@@ -9,12 +9,19 @@ const ADDRESS_PATTERN =
   /(?:서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충북|충남|전북|전남|경북|경남|제주)[시도]?\s*[가-힣]+[시군구]/g;
 
 /** 텍스트에서 PII 패턴을 제거하고 [정보제거]로 대체 */
-export function stripPii(text: string): string {
-  return text
+export function stripPii(text: string, studentName?: string): string {
+  let result = text
     .replace(SCHOOL_PATTERN, '[학교명]')
     .replace(PHONE_PATTERN, '[전화번호]')
     .replace(EMAIL_PATTERN, '[이메일]')
     .replace(ADDRESS_PATTERN, '[주소]');
+
+  // 학생 이름 targeted 치환 (2자 이상일 때만 — 1자는 오탐 위험)
+  if (studentName && studentName.length >= 2) {
+    result = result.replaceAll(studentName, '[학생]');
+  }
+
+  return result;
 }
 
 /** 객체의 모든 string 값에서 PII 제거 */

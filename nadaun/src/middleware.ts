@@ -1,8 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// /api/ routes must implement their own auth check (supabase.auth.getUser)
-const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/']
+const PUBLIC_PATHS = ['/login', '/auth/callback']
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -47,8 +46,12 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // 미인증 → 로그인 페이지
+  // 미인증 처리
   if (!user) {
+    // API routes: 401 JSON (리다이렉트하면 클라이언트가 HTML을 받게 됨)
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ error: '인증이 필요합니다' }, { status: 401 })
+    }
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('next', pathname)
     return NextResponse.redirect(loginUrl)

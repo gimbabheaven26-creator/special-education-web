@@ -13,6 +13,7 @@ export async function createWeeklyPlan(
   _prev: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
   const parsed = weeklyPlanSchema.safeParse({
     week_number: Number(formData.get('week_number')),
     achievement_standard_id: formData.get('achievement_standard_id') || undefined,
@@ -27,6 +28,17 @@ export async function createWeeklyPlan(
   }
 
   const supabase = await createClient()
+
+  // 소유권 검증: IEP plan이 현재 교사의 것인지 확인
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
   const { error } = await supabase
     .from('weekly_plans')
     .insert({ ...parsed.data, iep_plan_id: iepPlanId })
@@ -94,7 +106,34 @@ export async function bulkInsertWeeklyPlans(
     notes: string | null
   }>
 ): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
   const supabase = await createClient()
+
+  // 소유권 검증: IEP plan이 현재 교사의 것인지 확인
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
+  // 각 항목 Zod 검증
+  for (const wp of plans) {
+    const parsed = weeklyPlanSchema.safeParse({
+      week_number: wp.week_number,
+      achievement_standard_id: wp.achievement_standard_id || undefined,
+      activity: wp.activity,
+      materials: wp.materials || undefined,
+      evaluation_method: wp.evaluation_method || undefined,
+      notes: wp.notes || undefined,
+    })
+    if (!parsed.success) {
+      return { error: `주차 ${wp.week_number}: ${parsed.error.issues[0].message}` }
+    }
+  }
+
   const rows = plans.map((wp) => ({
     iep_plan_id: iepPlanId,
     week_number: wp.week_number,
