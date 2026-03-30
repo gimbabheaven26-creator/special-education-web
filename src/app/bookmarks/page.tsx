@@ -71,13 +71,13 @@ export default function BookmarksPage() {
         <EmptyState
           icon={<Bookmark className="h-16 w-16 text-muted-foreground/30" />}
           title="아직 북마크가 없어요"
-          description="개념학습에서 중요한 챕터에 ⭐ 를 누르면 여기에 모여요. 시험 전 복습할 핵심만 골라두세요."
+          description="개념학습 페이지에서 '북마크' 버튼을 누르면 여기에 모여요. 시험 전 복습할 핵심만 골라두세요."
           action={{ label: '개념학습 보러 가기', href: '/concepts', ariaLabel: '개념학습 페이지로 이동' }}
         />
       ) : (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            개념학습 페이지에서 ⭐ 를 눌러 저장한 챕터예요. 시험 전 복습에 활용하세요. 총 {bookmarks.length}개.
+            개념학습 페이지에서 북마크한 챕터예요. 시험 전 복습에 활용하세요. 총 {bookmarks.length}개.
           </p>
 
           {/* Action buttons */}

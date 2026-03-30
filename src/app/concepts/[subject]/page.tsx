@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, Tag, BookOpen, Calendar, Brain } from 'lucide-react';
+import { ChevronRight, Tag, BookOpen, Brain } from 'lucide-react';
 import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';
 import { CompletionBadge } from '@/components/chapter/CompletionBadge';
+import { BookmarkButton } from '@/components/chapter/BookmarkButton';
 
 interface Props {
   params: Promise<{ subject: string }>;
@@ -106,12 +107,13 @@ export default async function ConceptSubjectPage({ params }: Props) {
                   </div>
                 )}
               </div>
-              <div className="shrink-0 flex flex-col items-end gap-1">
-                {file.lastUpdated && (
-                  <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                    <Calendar className="h-3 w-3" />
-                    {file.lastUpdated}
-                  </span>
+              <div className="shrink-0 flex flex-col items-end gap-1.5">
+                {dbSlug && (
+                  <BookmarkButton
+                    path={`/concepts/${decodedSubject}/${file.slug}`}
+                    title={file.title}
+                    subject={decodedSubject}
+                  />
                 )}
                 <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
