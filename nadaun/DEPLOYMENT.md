@@ -28,13 +28,29 @@
    - Client ID / Secret 입력
    - Redirect URL이 위와 일치하는지 확인
 
+## Supabase 설정
+
+1. [Supabase Dashboard](https://supabase.com/dashboard) → Authentication → URL Configuration
+2. **Site URL**에 Vercel 배포 도메인 입력: `https://<your-domain>`
+3. **Redirect URLs**에 콜백 경로 추가: `https://<your-domain>/auth/callback`
+
 ## 배포 후 체크리스트
 
-- [ ] 홈페이지 (`/`) 접속 확인
+### 인증
+- [ ] 미인증 → `/students` 접근 시 `/login`으로 리다이렉트
 - [ ] Google 로그인 → 콜백 → 리다이렉트 정상 동작
-- [ ] 키움이 등록 (`/students/new`) 정상 동작
-- [ ] IEP 계획 생성 → 주차별 계획 추가 확인
-- [ ] AI 주차별 계획 생성 버튼 동작 (ANTHROPIC_API_KEY 확인)
+- [ ] E2E_AUTH_BYPASS가 프로덕션에서 무시 확인
+
+### 핵심 기능
+- [ ] 홈페이지 (`/`) 접속 + 대시보드 확인
+- [ ] 키움이 등록 (`/students/new`)
+- [ ] IEP 계획 생성 → 목표 추가 → 현행수준 평가
+- [ ] AI 주차별 계획 생성 (ANTHROPIC_API_KEY 확인)
+- [ ] 주간계획 상태 토글 (예정→진행→완료) + 달성도 입력
+- [ ] 학기말 보고서 페이지 확인 + 인쇄 레이아웃
 - [ ] Excel / PDF 내보내기 정상 동작
-- [ ] 미인증 상태에서 `/students` 접근 시 `/login`으로 리다이렉트
-- [ ] E2E_AUTH_BYPASS가 프로덕션에서 무시되는지 확인 (NODE_ENV=production 가드)
+
+### PWA + 모바일
+- [ ] 모바일에서 하단 네비게이션 표시
+- [ ] 홈화면 추가(A2HS) 동작 확인
+- [ ] 오프라인 페이지 (`/offline`) 표시 확인
