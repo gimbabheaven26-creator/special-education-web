@@ -11,11 +11,9 @@ interface BookmarkButtonProps {
 }
 
 export function BookmarkButton({ path, title, subject }: BookmarkButtonProps) {
-  const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const addBookmark = useBookmarkStore((s) => s.addBookmark);
   const removeBookmark = useBookmarkStore((s) => s.removeBookmark);
-
-  const isBookmarked = bookmarks.some((b) => b.path === path);
+  const isBookmarked = useBookmarkStore((s) => s.isBookmarked(path));
 
   const handleToggle = () => {
     if (isBookmarked) {

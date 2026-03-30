@@ -27,8 +27,14 @@ vi.mock('@/lib/supabase/server', () => ({
   }),
 }))
 
-const { createWeeklyPlan, updateWeeklyPlan, deleteWeeklyPlan, bulkInsertWeeklyPlans } =
-  await import('@/lib/actions/weekly-plans')
+const {
+  createWeeklyPlan,
+  updateWeeklyPlan,
+  deleteWeeklyPlan,
+  bulkInsertWeeklyPlans,
+  updateWeeklyPlanStatus,
+  updateWeeklyPlanProgressNotes,
+} = await import('@/lib/actions/weekly-plans')
 
 function makeFormData(entries: Record<string, string>): FormData {
   const fd = new FormData()
@@ -300,5 +306,41 @@ describe('bulkInsertWeeklyPlans', () => {
     const result = await bulkInsertWeeklyPlans('p1', 's1', invalidPlans)
     expect(result.error).toBeDefined()
     expect(mockInsert).not.toHaveBeenCalled()
+  })
+})
+
+describe('updateWeeklyPlanStatus', () => {
+  it('소유권 검증 실패 시 에러를 반환한다', async () => {
+    setupOwnershipFail()
+    const result = await updateWeeklyPlanStatus('w1', 'p1', 's1', 'completed')
+    expect(result.error).toBe('권한이 없습니다.')
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it('성공 시 status를 업데이트한다', async () => {
+    setupOwnershipPass()
+    const result = await updateWeeklyPlanStatus('w1', 'p1', 's1', 'in_progress')
+    expect(mockFrom).toHaveBeenCalledWith('weekly_plans')
+    expect(mockUpdate).toHaveBeenCalledWith({ status: 'in_progress' })
+    expect(mockRevalidatePath).toHaveBeenCalledWith('/students/s1/plans/p1')
+    expect(result).toEqual({})
+  })
+})
+
+describe('updateWeeklyPlanProgressNotes', () => {
+  it('소유권 검증 실패 시 에러를 반환한다', async () => {
+    setupOwnershipFail()
+    const result = await updateWeeklyPlanProgressNotes('w1', 'p1', 's1', '잘하고 있음')
+    expect(result.error).toBe('권한이 없습니다.')
+    expect(mockUpdate).not.toHaveBeenCalled()
+  })
+
+  it('성공 시 progress_notes를 업데이트한다', async () => {
+    setupOwnershipPass()
+    const result = await updateWeeklyPlanProgressNotes('w1', 'p1', 's1', '잘하고 있음')
+    expect(mockFrom).toHaveBeenCalledWith('weekly_plans')
+    expect(mockUpdate).toHaveBeenCalledWith({ progress_notes: '잘하고 있음' })
+    expect(mockRevalidatePath).toHaveBeenCalledWith('/students/s1/plans/p1')
+    expect(result).toEqual({})
   })
 })

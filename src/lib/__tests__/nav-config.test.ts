@@ -50,8 +50,8 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/kice/exam')).toBe('metacognition');
   });
 
-  it('/my → metacognition (내 기록 허브)', () => {
-    expect(getActiveGroupId('/my')).toBe('metacognition');
+  it('/my → null (프로필/설정 전용, 내 기록에서 분리됨)', () => {
+    expect(getActiveGroupId('/my')).toBeNull();
   });
 
   it('/kice/analytics → metacognition', () => {
@@ -113,9 +113,9 @@ describe('NAV_GROUPS 구조', () => {
     }
   });
 
-  it('총 서브 항목 수 (3+4+6+1 = 14)', () => {
+  it('총 서브 항목 수 (3+4+5+1 = 13)', () => {
     const total = NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
-    expect(total).toBe(14);
+    expect(total).toBe(13);
   });
 
   it('개념학습이 practice 그룹에 존재', () => {
@@ -130,6 +130,12 @@ describe('NAV_GROUPS 구조', () => {
     const diagnosis = NAV_GROUPS.find((g) => g.id === 'diagnosis');
     expect(diagnosis).toBeDefined();
     expect(diagnosis!.href).toBe('/diagnosis');
+  });
+
+  it('metacognition 그룹에 href가 /mastery', () => {
+    const metacognition = NAV_GROUPS.find((g) => g.id === 'metacognition');
+    expect(metacognition).toBeDefined();
+    expect(metacognition!.href).toBe('/mastery');
   });
 
   it('diagnosis 그룹에 /concepts 항목 없음', () => {

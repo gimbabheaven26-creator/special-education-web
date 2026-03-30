@@ -10,17 +10,26 @@ interface BookmarkStore {
   isBookmarked: (path: string) => boolean;
 }
 
+/** 경로 정규화: 항상 디코딩된 상태로 저장하여 인코딩 불일치 방지 */
+function normalizePath(p: string): string {
+  try {
+    return decodeURIComponent(p);
+  } catch {
+    return p;
+  }
+}
+
 /**
  * /subjects/slug/chapter 형태의 기존 path를 /concepts/한글폴더 로 변환.
  * 매핑에 없는 slug는 원본 그대로 유지.
  */
 function migrateBookmarkPath(oldPath: string): string {
-  if (!oldPath.startsWith('/subjects/')) return oldPath;
+  if (!oldPath.startsWith('/subjects/')) return normalizePath(oldPath);
   const parts = oldPath.replace('/subjects/', '').split('/');
   const slug = parts[0];
   const folder = SLUG_TO_CONCEPTS_FOLDER[slug];
-  if (!folder) return oldPath;
-  return `/concepts/${encodeURIComponent(folder)}`;
+  if (!folder) return normalizePath(oldPath);
+  return `/concepts/${folder}`;
 }
 
 export const useBookmarkStore = create<BookmarkStore>()(
@@ -32,28 +41,49 @@ export const useBookmarkStore = create<BookmarkStore>()(
         set((state) => ({
           bookmarks: [
             ...state.bookmarks,
-            { ...bookmark, id: crypto.randomUUID(), createdAt: Date.now() },
+            {
+              ...bookmark,
+              path: normalizePath(bookmark.path),
+              id: crypto.randomUUID(),
+              createdAt: Date.now(),
+            },
           ],
         })),
 
-      removeBookmark: (path) =>
+      removeBookmark: (path) => {
+        const np = normalizePath(path);
         set((state) => ({
-          bookmarks: state.bookmarks.filter((b) => b.path !== path),
-        })),
+          bookmarks: state.bookmarks.filter(
+            (b) => normalizePath(b.path) !== np,
+          ),
+        }));
+      },
 
-      isBookmarked: (path) => get().bookmarks.some((b) => b.path === path),
+      isBookmarked: (path) => {
+        const np = normalizePath(path);
+        return get().bookmarks.some((b) => normalizePath(b.path) === np);
+      },
     }),
     {
       name: 'bookmarks',
-      version: 1,
+      version: 2,
       migrate: (persisted, version) => {
+        const state = persisted as { bookmarks?: Bookmark[] };
         if (version === 0 || version === undefined) {
-          const state = persisted as { bookmarks?: Bookmark[] };
           return {
             ...state,
             bookmarks: (state.bookmarks ?? []).map((b) => ({
               ...b,
               path: migrateBookmarkPath(b.path),
+            })),
+          };
+        }
+        if (version === 1) {
+          return {
+            ...state,
+            bookmarks: (state.bookmarks ?? []).map((b) => ({
+              ...b,
+              path: normalizePath(b.path),
             })),
           };
         }

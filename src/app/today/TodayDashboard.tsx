@@ -142,7 +142,7 @@ export default function TodayDashboard() {
           label="연속 학습"
           value={`${currentStreak}일`}
           sub={currentStreak === 0 ? '오늘 시작해보세요' : '잘하고 있어요!'}
-          href="/stats"
+          href="/mastery"
         />
       </div>
     </div>

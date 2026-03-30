@@ -22,9 +22,10 @@ import StudyMilestones from './StudyMilestones';
 interface StatsClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
+  readonly tabBar?: React.ReactNode;
 }
 
-export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsClientProps) {
+export default function StatsClient({ subjectTitleMap, chapterTitleMap, tabBar }: StatsClientProps) {
   const {
     quizHistory,
     overall,
@@ -59,12 +60,13 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
     [chapterStats, subjectTitleMap, chapterTitleMap],
   );
 
-  const tabBar = (
+  const defaultTabBar = (
     <div className="flex border-b border-border">
       <span className="px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary">학습통계</span>
       <Link href="/mastery" className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b-2 border-transparent">마스터리</Link>
     </div>
   );
+  const renderedTabBar = tabBar ?? defaultTabBar;
 
   if (quizHistory.length === 0) {
     return (
@@ -75,7 +77,7 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
             퀴즈를 풀면 학습 통계를 확인할 수 있어요.
           </p>
         </div>
-        {tabBar}
+        {renderedTabBar}
         <EmptyState
           icon="📊"
           title="아직 학습 기록이 없어요"
@@ -94,7 +96,7 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
           나의 학습 현황을 한눈에 확인하세요.
         </p>
       </div>
-      {tabBar}
+      {renderedTabBar}
 
       {/* Overall Accuracy */}
       <OverallAccuracy

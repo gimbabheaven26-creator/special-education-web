@@ -48,10 +48,9 @@ export const NAV_GROUPS: NavGroup[] = [
     id: 'metacognition',
     label: '내 기록',
     icon: Brain,
-    href: '/my',
+    href: '/mastery',
     items: [
-      { href: '/mastery', label: '마스터리 트리' },
-      { href: '/stats', label: '학습통계' },
+      { href: '/mastery', label: '학습현황' },
       { href: '/bookmarks', label: '북마크' },
       { href: '/kice', label: '출제경향' },
       { href: '/wrong-notes', label: '오답노트' },

@@ -5,6 +5,7 @@ import {
   getIepPlanById,
   getWeeklyPlansByIepPlan,
   getConsiderationsByStandardIds,
+  getWeeklyPlanProgress,
 } from '@/lib/queries/students'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -49,9 +50,10 @@ export default async function PlanDetailPage({
   if (!student || !plan) notFound()
 
   const standardIds = plan.goals.map((g) => g.achievement_standard_id)
-  const [weeklyPlans, considerationsMap] = await Promise.all([
+  const [weeklyPlans, considerationsMap, progress] = await Promise.all([
     getWeeklyPlansByIepPlan(plan.id),
     getConsiderationsByStandardIds(standardIds),
+    getWeeklyPlanProgress(plan.id),
   ])
 
   return (
@@ -97,6 +99,42 @@ export default async function PlanDetailPage({
       </Card>
 
       <PlanExportToolbar plan={plan} weeklyPlans={weeklyPlans} />
+
+      {progress.total > 0 && (
+        <div className="rounded-lg border p-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <div
+              className="h-2 flex-1 overflow-hidden rounded-full bg-muted"
+              role="progressbar"
+              aria-valuenow={progress.completedPct}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`진도 ${progress.completedPct}% 완료`}
+            >
+              <div className="flex h-full">
+                {progress.completed > 0 && (
+                  <div
+                    className="bg-green-500 transition-all"
+                    style={{ width: `${(progress.completed / progress.total) * 100}%` }}
+                  />
+                )}
+                {progress.inProgress > 0 && (
+                  <div
+                    className="bg-blue-500 transition-all"
+                    style={{ width: `${(progress.inProgress / progress.total) * 100}%` }}
+                  />
+                )}
+              </div>
+            </div>
+            <span className="text-xs tabular-nums text-muted-foreground">
+              {progress.completedPct}%
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            완료 {progress.completed} / 진행 중 {progress.inProgress} / 예정 {progress.planned} (총 {progress.total}주)
+          </p>
+        </div>
+      )}
 
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">
