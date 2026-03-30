@@ -9,12 +9,13 @@ test.describe('/my 대시보드', () => {
     expect(hasContent!.length).toBeGreaterThan(0);
   });
 
-  test('LevelBadge 컴포넌트 렌더링', async ({ page }) => {
+  test('프로필 또는 바로가기 링크 렌더링', async ({ page }) => {
     await page.goto('/my');
-    // LevelBadge는 /mastery로 향하는 링크를 포함
-    const masteryLink = page.locator('a[href="/mastery"]');
-    const count = await masteryLink.count();
-    // 데이터 없으면 게스트 뷰일 수 있으므로 0 이상
+    // /my는 프로필 전용 — /record 또는 /onboarding 링크가 있어야 함
+    const recordLink = page.locator('a[href="/record"]');
+    const onboardingLink = page.locator('a[href="/onboarding"]');
+    const count = await recordLink.count() + await onboardingLink.count();
+    // 게스트 뷰에서는 없을 수 있으므로 0 이상
     expect(count).toBeGreaterThanOrEqual(0);
   });
 

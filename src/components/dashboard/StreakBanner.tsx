@@ -22,7 +22,7 @@ export function StreakBanner() {
   const isNewUser = currentStreak === 0;
 
   return (
-    <Link href="/my" className="block rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-4 sm:p-5 text-primary-foreground hover:from-primary/90 hover:to-primary/70 transition-colors">
+    <Link href="/record" className="block rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-4 sm:p-5 text-primary-foreground hover:from-primary/90 hover:to-primary/70 transition-colors">
       {isNewUser ? (
         <div className="flex items-center gap-3 sm:gap-4">
           <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/20 flex items-center justify-center">

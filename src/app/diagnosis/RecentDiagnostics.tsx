@@ -138,7 +138,7 @@ export function RecentDiagnostics() {
         </h2>
         {sorted.length > VISIBLE_COUNT && (
           <Link
-            href="/my"
+            href="/record"
             className="text-xs text-primary hover:underline"
           >
             전체 기록 보기
