@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/browser';
 import type { CreateQuestionInput, QuestionType } from '@/types/community';
+import { Button } from '@/components/ui/button';
+import { Sparkles, Pencil, Loader2, ChevronLeft } from 'lucide-react';
 
 interface SubjectOption {
   slug: string;
@@ -15,8 +17,9 @@ interface Props {
   subjects: SubjectOption[];
 }
 
-interface WizardState {
-  step: 1 | 2 | 3 | 4;
+type Step = 1 | 2 | 3;
+
+interface DraftState {
   subjectId: string;
   chapterId: string | null;
   questionType: QuestionType;
@@ -26,8 +29,7 @@ interface WizardState {
   explanation: string;
 }
 
-const INITIAL: WizardState = {
-  step: 1,
+const INITIAL_DRAFT: DraftState = {
   subjectId: '',
   chapterId: null,
   questionType: 'multiple',
@@ -37,8 +39,6 @@ const INITIAL: WizardState = {
   explanation: '',
 };
 
-const STEP_LABELS = ['과목 선택', '문제 입력', '정답 작성', '미리보기'];
-
 const TYPE_LABEL: Record<QuestionType, string> = {
   multiple: '객관식',
   ox: 'OX 퀴즈',
@@ -46,14 +46,18 @@ const TYPE_LABEL: Record<QuestionType, string> = {
   descriptive: '서술형',
 };
 
+const STEP_LABELS = ['과목·유형', 'AI 생성 + 편집', '미리보기'];
+
 export default function CreateClient({ subjects }: Props) {
   const router = useRouter();
-  const [state, setState] = useState<WizardState>(INITIAL);
+  const [step, setStep] = useState<Step>(1);
+  const [draft, setDraft] = useState<DraftState>(INITIAL_DRAFT);
   const [authChecked, setAuthChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-  const [aiSuggestion, setAiSuggestion] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [manualMode, setManualMode] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -69,48 +73,66 @@ export default function CreateClient({ subjects }: Props) {
   if (!authChecked) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <p className="text-muted-foreground">인증 확인 중...</p>
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
-  const selectedSubject = subjects.find((s) => s.slug === state.subjectId);
+  const selectedSubject = subjects.find((s) => s.slug === draft.subjectId);
+  const selectedChapter = selectedSubject?.chapters.find((c) => c.slug === draft.chapterId);
 
-  async function handleAiAssist() {
+  // ─── AI 문제 생성 ───
+  async function handleGenerate() {
     setAiLoading(true);
-    setAiSuggestion('');
+    setAiError('');
     try {
-      const res = await fetch('/api/ai-assist', {
+      const res = await fetch('/api/community/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          question_type: state.questionType,
-          question_text: state.questionText,
-          correct_answer: state.correctAnswer,
-          explanation: state.explanation,
+          subject_id: draft.subjectId,
+          subject_title: selectedSubject?.title,
+          chapter_title: selectedChapter?.title,
+          question_type: draft.questionType,
         }),
       });
-      const json = await res.json();
-      setAiSuggestion(json.suggestion ?? '');
-    } catch {
-      setAiSuggestion('AI 검증 중 오류가 발생했습니다.');
+
+      if (!res.ok) {
+        const json = await res.json();
+        throw new Error(json.error ?? 'AI 생성 실패');
+      }
+
+      const data = await res.json();
+      setDraft((prev) => ({
+        ...prev,
+        questionText: data.question_text ?? '',
+        options: data.options
+          ? [data.options[0] ?? '', data.options[1] ?? '', data.options[2] ?? '', data.options[3] ?? ''] as [string, string, string, string]
+          : prev.options,
+        correctAnswer: data.correct_answer ?? '',
+        explanation: data.explanation ?? '',
+      }));
+      setStep(2);
+    } catch (err) {
+      setAiError(err instanceof Error ? err.message : 'AI 생성 중 오류가 발생했습니다.');
     } finally {
       setAiLoading(false);
     }
   }
 
+  // ─── 제출 ───
   async function handleSubmit() {
-    setLoading(true);
+    setSubmitLoading(true);
     setSubmitError('');
     try {
       const input: CreateQuestionInput = {
-        question_type: state.questionType,
-        question_text: state.questionText,
-        options: state.questionType === 'multiple' ? [...state.options] : null,
-        correct_answer: state.correctAnswer,
-        explanation: state.explanation,
-        subject_id: state.subjectId,
-        chapter_id: state.chapterId,
+        question_type: draft.questionType,
+        question_text: draft.questionText,
+        options: draft.questionType === 'multiple' ? [...draft.options] : null,
+        correct_answer: draft.correctAnswer,
+        explanation: draft.explanation,
+        subject_id: draft.subjectId,
+        chapter_id: draft.chapterId,
       };
       const res = await fetch('/api/community', {
         method: 'POST',
@@ -126,310 +148,34 @@ export default function CreateClient({ subjects }: Props) {
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : '제출 중 오류가 발생했습니다.');
     } finally {
-      setLoading(false);
+      setSubmitLoading(false);
     }
   }
 
-  // ─── Step 1: 과목/챕터 선택 ───
-  function Step1() {
-    return (
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1.5">과목 *</label>
-          <select
-            value={state.subjectId}
-            onChange={(e) =>
-              setState((s) => ({ ...s, subjectId: e.target.value, chapterId: null }))
-            }
-            className="w-full px-3 py-2 rounded-lg border bg-background"
-          >
-            <option value="">과목을 선택하세요</option>
-            {subjects.map((s) => (
-              <option key={s.slug} value={s.slug}>{s.title}</option>
-            ))}
-          </select>
-        </div>
-        {selectedSubject && (
-          <div>
-            <label className="block text-sm font-medium mb-1.5">챕터 (선택)</label>
-            <select
-              value={state.chapterId ?? ''}
-              onChange={(e) =>
-                setState((s) => ({ ...s, chapterId: e.target.value || null }))
-              }
-              className="w-full px-3 py-2 rounded-lg border bg-background"
-            >
-              <option value="">챕터 선택 안 함</option>
-              {selectedSubject.chapters.map((c) => (
-                <option key={c.slug} value={c.slug}>{c.title}</option>
-              ))}
-            </select>
-          </div>
-        )}
-        <button
-          onClick={() => setState((s) => ({ ...s, step: 2 }))}
-          disabled={!state.subjectId}
-          className="w-full py-2 rounded-lg bg-primary text-primary-foreground font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          다음
-        </button>
-      </div>
-    );
-  }
-
-  // ─── Step 2: 문제 유형 + 본문 ───
-  function Step2() {
-    return (
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1.5">문제 유형 *</label>
-          <div className="grid grid-cols-2 gap-2">
-            {(Object.keys(TYPE_LABEL) as QuestionType[]).map((type) => (
-              <button
-                key={type}
-                onClick={() => setState((s) => ({ ...s, questionType: type }))}
-                className={`py-2 px-3 rounded-lg border text-sm font-medium transition-colors ${
-                  state.questionType === type
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'hover:bg-muted'
-                }`}
-              >
-                {TYPE_LABEL[type]}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1.5">문제 본문 *</label>
-          <textarea
-            value={state.questionText}
-            onChange={(e) => setState((s) => ({ ...s, questionText: e.target.value }))}
-            placeholder="문제를 입력하세요..."
-            rows={4}
-            className="w-full px-3 py-2 rounded-lg border bg-background resize-none text-sm"
-          />
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setState((s) => ({ ...s, step: 1 }))}
-            className="flex-1 py-2 rounded-lg border font-medium text-sm"
-          >
-            이전
-          </button>
-          <button
-            onClick={() => setState((s) => ({ ...s, step: 3 }))}
-            disabled={!state.questionText.trim()}
-            className="flex-1 py-2 rounded-lg bg-primary text-primary-foreground font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            다음
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── Step 3: 보기/정답/해설 ───
-  function Step3() {
-    return (
-      <div className="space-y-4">
-        {state.questionType === 'multiple' && (
-          <div>
-            <label className="block text-sm font-medium mb-1.5">선택지 (4개) *</label>
-            {state.options.map((opt, i) => (
-              <div key={i} className="flex items-center gap-2 mb-2">
-                <span className="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold shrink-0">
-                  {i + 1}
-                </span>
-                <input
-                  value={opt}
-                  onChange={(e) => {
-                    const next = [...state.options] as [string, string, string, string];
-                    next[i] = e.target.value;
-                    setState((s) => ({ ...s, options: next }));
-                  }}
-                  placeholder={`선택지 ${i + 1}`}
-                  className="flex-1 px-3 py-1.5 rounded-lg border bg-background text-sm"
-                />
-              </div>
-            ))}
-          </div>
-        )}
-        <div>
-          <label className="block text-sm font-medium mb-1.5">정답 *</label>
-          {state.questionType === 'ox' ? (
-            <div className="flex gap-2">
-              {['O', 'X'].map((v) => (
-                <button
-                  key={v}
-                  onClick={() => setState((s) => ({ ...s, correctAnswer: v }))}
-                  className={`flex-1 py-3 rounded-lg border font-bold text-xl transition-colors ${
-                    state.correctAnswer === v
-                      ? 'border-primary bg-primary/10 text-primary'
-                      : 'hover:bg-muted'
-                  }`}
-                >
-                  {v}
-                </button>
-              ))}
-            </div>
-          ) : state.questionType === 'multiple' ? (
-            <div className="flex gap-2">
-              {['1', '2', '3', '4'].map((v) => (
-                <button
-                  key={v}
-                  onClick={() => setState((s) => ({ ...s, correctAnswer: v }))}
-                  className={`flex-1 py-2 rounded-lg border font-medium transition-colors ${
-                    state.correctAnswer === v
-                      ? 'border-primary bg-primary/10 text-primary'
-                      : 'hover:bg-muted'
-                  }`}
-                >
-                  {v}번
-                </button>
-              ))}
-            </div>
-          ) : (
-            <input
-              value={state.correctAnswer}
-              onChange={(e) => setState((s) => ({ ...s, correctAnswer: e.target.value }))}
-              placeholder="정답을 입력하세요"
-              className="w-full px-3 py-2 rounded-lg border bg-background text-sm"
-            />
-          )}
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1.5">해설 (선택)</label>
-          <textarea
-            value={state.explanation}
-            onChange={(e) => setState((s) => ({ ...s, explanation: e.target.value }))}
-            placeholder="해설을 입력하세요..."
-            rows={3}
-            className="w-full px-3 py-2 rounded-lg border bg-background resize-none text-sm"
-          />
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setState((s) => ({ ...s, step: 2 }))}
-            className="flex-1 py-2 rounded-lg border font-medium text-sm"
-          >
-            이전
-          </button>
-          <button
-            onClick={() => setState((s) => ({ ...s, step: 4 }))}
-            disabled={!state.correctAnswer}
-            className="flex-1 py-2 rounded-lg bg-primary text-primary-foreground font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            미리보기
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── Step 4: 미리보기 + AI 검증 + 제출 ───
-  function Step4() {
-    return (
-      <div className="space-y-4">
-        {/* 미리보기 카드 */}
-        <div className="rounded-xl border bg-muted/30 p-4 space-y-3">
-          <div className="flex gap-2 flex-wrap">
-            <span className="text-xs px-2 py-0.5 rounded-full bg-muted font-medium">
-              {TYPE_LABEL[state.questionType]}
-            </span>
-            <span className="text-xs text-muted-foreground">
-              {subjects.find((s) => s.slug === state.subjectId)?.title}
-            </span>
-          </div>
-          <p className="text-sm font-medium whitespace-pre-wrap">{state.questionText}</p>
-          {state.questionType === 'multiple' && (
-            <ol className="space-y-1">
-              {state.options.map((opt, i) => (
-                <li
-                  key={i}
-                  className={`text-sm px-3 py-1.5 rounded-lg ${
-                    state.correctAnswer === String(i + 1)
-                      ? 'bg-green-100 dark:bg-green-900/30 font-medium'
-                      : ''
-                  }`}
-                >
-                  {i + 1}. {opt}
-                </li>
-              ))}
-            </ol>
-          )}
-          <p className="text-sm">
-            <span className="font-medium">정답: </span>
-            {state.questionType === 'multiple' ? `${state.correctAnswer}번` : state.correctAnswer}
-          </p>
-          {state.explanation && (
-            <p className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">해설: </span>
-              {state.explanation}
-            </p>
-          )}
-        </div>
-
-        {/* AI 검증 */}
-        <div className="rounded-xl border p-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium">AI 검증 (선택)</p>
-            <button
-              onClick={handleAiAssist}
-              disabled={aiLoading}
-              className="text-xs px-3 py-1 rounded-lg bg-muted hover:bg-muted/80 disabled:opacity-50"
-            >
-              {aiLoading ? '검증 중...' : 'AI로 검증하기'}
-            </button>
-          </div>
-          {aiSuggestion && (
-            <p className="text-sm text-muted-foreground whitespace-pre-wrap">{aiSuggestion}</p>
-          )}
-        </div>
-
-        {submitError && <p className="text-sm text-destructive">{submitError}</p>}
-
-        <div className="flex gap-2">
-          <button
-            onClick={() => setState((s) => ({ ...s, step: 3 }))}
-            className="flex-1 py-2 rounded-lg border font-medium text-sm"
-          >
-            이전
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className="flex-1 py-2 rounded-lg bg-primary text-primary-foreground font-medium text-sm disabled:opacity-50"
-          >
-            {loading ? '제출 중...' : '문제 제출'}
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const canGenerate = !!draft.subjectId;
+  const canPreview = !!draft.questionText.trim() && !!draft.correctAnswer;
 
   return (
     <div className="max-w-xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-2">문제 만들기</h1>
       <p className="text-sm text-muted-foreground mb-6">
-        특수교육 문제를 제작하고 커뮤니티와 공유하세요.
+        AI가 문제 초안을 만들어드려요. 수정해서 제출하세요.
       </p>
 
       {/* 진행 표시 */}
       <div className="flex gap-1 mb-8">
         {STEP_LABELS.map((label, i) => {
-          const stepNum = (i + 1) as 1 | 2 | 3 | 4;
-          const active = state.step === stepNum;
-          const done = state.step > stepNum;
+          const s = (i + 1) as Step;
           return (
             <div key={i} className="flex-1 text-center">
               <div
                 className={`h-1.5 rounded-full mb-1 ${
-                  done ? 'bg-primary' : active ? 'bg-primary/60' : 'bg-muted'
+                  step > s ? 'bg-primary' : step === s ? 'bg-primary/60' : 'bg-muted'
                 }`}
               />
               <span
                 className={`text-xs ${
-                  active || done ? 'text-primary font-medium' : 'text-muted-foreground'
+                  step >= s ? 'text-primary font-medium' : 'text-muted-foreground'
                 }`}
               >
                 {label}
@@ -439,10 +185,284 @@ export default function CreateClient({ subjects }: Props) {
         })}
       </div>
 
-      {state.step === 1 && <Step1 />}
-      {state.step === 2 && <Step2 />}
-      {state.step === 3 && <Step3 />}
-      {state.step === 4 && <Step4 />}
+      {/* Step 1: 과목 + 유형 선택 */}
+      {step === 1 && (
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1.5">과목 *</label>
+            <select
+              value={draft.subjectId}
+              onChange={(e) => setDraft((s) => ({ ...s, subjectId: e.target.value, chapterId: null }))}
+              className="w-full px-3 py-2 rounded-lg border bg-background min-h-[44px]"
+            >
+              <option value="">과목을 선택하세요</option>
+              {subjects.map((s) => (
+                <option key={s.slug} value={s.slug}>{s.title}</option>
+              ))}
+            </select>
+          </div>
+
+          {selectedSubject && (
+            <div>
+              <label className="block text-sm font-medium mb-1.5">챕터 (선택)</label>
+              <select
+                value={draft.chapterId ?? ''}
+                onChange={(e) => setDraft((s) => ({ ...s, chapterId: e.target.value || null }))}
+                className="w-full px-3 py-2 rounded-lg border bg-background min-h-[44px]"
+              >
+                <option value="">전체 범위</option>
+                {selectedSubject.chapters.map((c) => (
+                  <option key={c.slug} value={c.slug}>{c.title}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium mb-1.5">문제 유형 *</label>
+            <div className="grid grid-cols-2 gap-2">
+              {(Object.keys(TYPE_LABEL) as QuestionType[]).map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setDraft((s) => ({ ...s, questionType: type }))}
+                  className={`py-2 px-3 rounded-lg border text-sm font-medium transition-colors min-h-[44px] ${
+                    draft.questionType === type
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'hover:bg-muted'
+                  }`}
+                >
+                  {TYPE_LABEL[type]}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {aiError && (
+            <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-lg">{aiError}</p>
+          )}
+
+          <div className="flex flex-col gap-2">
+            <Button
+              onClick={handleGenerate}
+              disabled={!canGenerate || aiLoading}
+              className="w-full min-h-[48px] text-base"
+            >
+              {aiLoading ? (
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />AI가 문제를 만들고 있어요...</>
+              ) : (
+                <><Sparkles className="h-4 w-4 mr-2" />AI로 문제 생성</>
+              )}
+            </Button>
+            <button
+              onClick={() => { setManualMode(true); setStep(2); }}
+              disabled={!canGenerate}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2 disabled:opacity-50"
+            >
+              <Pencil className="h-3 w-3 inline mr-1" />
+              직접 작성할게요
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Step 2: 편집 폼 (AI 결과 프리필 또는 빈 폼) */}
+      {step === 2 && (
+        <div className="space-y-4">
+          {!manualMode && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 rounded-lg px-3 py-2">
+              <Sparkles className="h-4 w-4 text-primary shrink-0" />
+              AI가 작성한 초안이에요. 자유롭게 수정하세요.
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium mb-1.5">문제 본문 *</label>
+            <textarea
+              value={draft.questionText}
+              onChange={(e) => setDraft((s) => ({ ...s, questionText: e.target.value }))}
+              placeholder="문제를 입력하세요..."
+              rows={4}
+              className="w-full px-3 py-2 rounded-lg border bg-background resize-none text-sm"
+            />
+          </div>
+
+          {draft.questionType === 'multiple' && (
+            <div>
+              <label className="block text-sm font-medium mb-1.5">선택지 (4개) *</label>
+              {draft.options.map((opt, i) => (
+                <div key={i} className="flex items-center gap-2 mb-2">
+                  <span className="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold shrink-0">
+                    {i + 1}
+                  </span>
+                  <input
+                    value={opt}
+                    onChange={(e) => {
+                      const next = [...draft.options] as [string, string, string, string];
+                      next[i] = e.target.value;
+                      setDraft((s) => ({ ...s, options: next }));
+                    }}
+                    placeholder={`선택지 ${i + 1}`}
+                    className="flex-1 px-3 py-1.5 rounded-lg border bg-background text-sm min-h-[44px]"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium mb-1.5">정답 *</label>
+            {draft.questionType === 'ox' ? (
+              <div className="flex gap-2">
+                {['O', 'X'].map((v) => (
+                  <button
+                    key={v}
+                    onClick={() => setDraft((s) => ({ ...s, correctAnswer: v }))}
+                    className={`flex-1 py-3 rounded-lg border font-bold text-xl transition-colors min-h-[48px] ${
+                      draft.correctAnswer === v
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'hover:bg-muted'
+                    }`}
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+            ) : draft.questionType === 'multiple' ? (
+              <div className="flex gap-2">
+                {['1', '2', '3', '4'].map((v) => (
+                  <button
+                    key={v}
+                    onClick={() => setDraft((s) => ({ ...s, correctAnswer: v }))}
+                    className={`flex-1 py-2 rounded-lg border font-medium transition-colors min-h-[44px] ${
+                      draft.correctAnswer === v
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'hover:bg-muted'
+                    }`}
+                  >
+                    {v}번
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <input
+                value={draft.correctAnswer}
+                onChange={(e) => setDraft((s) => ({ ...s, correctAnswer: e.target.value }))}
+                placeholder="정답을 입력하세요"
+                className="w-full px-3 py-2 rounded-lg border bg-background text-sm min-h-[44px]"
+              />
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1.5">해설 (선택)</label>
+            <textarea
+              value={draft.explanation}
+              onChange={(e) => setDraft((s) => ({ ...s, explanation: e.target.value }))}
+              placeholder="해설을 입력하세요..."
+              rows={3}
+              className="w-full px-3 py-2 rounded-lg border bg-background resize-none text-sm"
+            />
+          </div>
+
+          {/* AI 재생성 버튼 */}
+          {!manualMode && (
+            <button
+              onClick={handleGenerate}
+              disabled={aiLoading}
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {aiLoading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+              다른 문제 생성
+            </button>
+          )}
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setStep(1)}
+              className="flex-1 min-h-[44px]"
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />이전
+            </Button>
+            <Button
+              onClick={() => setStep(3)}
+              disabled={!canPreview}
+              className="flex-1 min-h-[44px]"
+            >
+              미리보기
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Step 3: 미리보기 + 제출 */}
+      {step === 3 && (
+        <div className="space-y-4">
+          <div className="rounded-xl border bg-muted/30 p-4 space-y-3">
+            <div className="flex gap-2 flex-wrap">
+              <span className="text-xs px-2 py-0.5 rounded-full bg-muted font-medium">
+                {TYPE_LABEL[draft.questionType]}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {selectedSubject?.title}
+                {selectedChapter ? ` > ${selectedChapter.title}` : ''}
+              </span>
+            </div>
+            <p className="text-sm font-medium whitespace-pre-wrap">{draft.questionText}</p>
+            {draft.questionType === 'multiple' && (
+              <ol className="space-y-1">
+                {draft.options.map((opt, i) => (
+                  <li
+                    key={i}
+                    className={`text-sm px-3 py-1.5 rounded-lg ${
+                      draft.correctAnswer === String(i + 1)
+                        ? 'bg-green-100 dark:bg-green-900/30 font-medium'
+                        : ''
+                    }`}
+                  >
+                    {i + 1}. {opt}
+                  </li>
+                ))}
+              </ol>
+            )}
+            <p className="text-sm">
+              <span className="font-medium">정답: </span>
+              {draft.questionType === 'multiple' ? `${draft.correctAnswer}번` : draft.correctAnswer}
+            </p>
+            {draft.explanation && (
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">해설: </span>
+                {draft.explanation}
+              </p>
+            )}
+          </div>
+
+          {submitError && (
+            <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-lg">{submitError}</p>
+          )}
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setStep(2)}
+              className="flex-1 min-h-[44px]"
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />수정
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              disabled={submitLoading}
+              className="flex-1 min-h-[44px]"
+            >
+              {submitLoading ? (
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />제출 중...</>
+              ) : (
+                '문제 제출'
+              )}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -312,6 +312,12 @@ updateReviewStatus(id: number, status: ReviewRow['status']): Promise<boolean>
 getProfile(userId: string): Promise<Profile | null>
 updateProfile(userId: string, data: Partial<Profile>): Promise<boolean>
 
+// 커뮤니티 AI 문제 생성 (v2.11)
+// POST /api/community/generate — AI 문제 초안 생성
+// 입력: { subject_id, subject_title?, chapter_title?, question_type }
+// 출력: { question_text, options: string[]|null, correct_answer, explanation, mock: boolean }
+// 인증 필수, rate limit 5/min/user, GEMINI_API_KEY 미설정 시 mock 반환
+
 // Leitner 플래시카드 (v2.10)
 type AnswerGrade = 'knew' | 'hint' | 'forgot'
 // answerCard(cardId: string, grade: AnswerGrade) — knew→box+1, hint→유지, forgot→Box 1
