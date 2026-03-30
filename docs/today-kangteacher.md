@@ -1,3 +1,30 @@
+# X 세션 핸드오프 — 2026-03-30 세션 4 (3-Task Plan + 빌드 수정)
+
+## 2026-03-30 세션 4 (concepts 수정 + /my 대시보드 + nadaun Phase 4-2)
+
+### 완료
+1. **concepts encodeURIComponent 버그 수정**: 10파일에서 불필요한 인코딩 제거 (73159bd)
+2. **/my 대시보드 강화**: 5개 신규 컴포넌트 — LevelBadge, WeeklyActivityChart, WeaknessInsight, SmartRecommendations, useMyPageData (0c694f3)
+3. **nadaun Phase 4-2 보강**: Plan Detail 진도 바 + 단위 테스트 (ea5e985)
+4. **빌드 수정**: optimizePackageImports 비활성화 — SSG prerender TypeError 119건 해소 (6067d27)
+5. **E2E**: concepts 네비게이션 Playwright 3건 통과
+6. **handoff-verify**: lint 0, tests 888/888, build 0 errors (192 pages), E2E 3/3
+7. **session-wrap**: CLAUDE.md + changelog + instinct 2건 + followup 10건
+
+### 주요 교훈
+- `optimizePackageImports: ['lucide-react']`는 새 클라이언트 컴포넌트 대량 추가 시 webpack 모듈 분할 충돌 → CLAUDE.md에 재활성화 금지 기록
+- 병렬 세션 3+개가 같은 main에 동시 커밋 → stash pop 부분 실패. worktree 격리 필수
+
+### 미완료 (다음 세션)
+- **P0**: git push + Vercel 배포 확인
+- **P0**: /record vs /my 겹침 정리 결정
+- **P1**: /my 5컴포넌트 테스트 작성
+- **P1**: nadaun migration 3건 DB 확인
+- **P1**: v-review OPEN 2건 (RouteErrorPage 마이그레이션 16건 + rateLimitMap)
+- **P2**: sw.js API GET 캐싱 수정, optimizePackageImports 원인 재조사
+
+---
+
 # X 세션 핸드오프 — 2026-03-30 야간5 (나다운 Phase 5/6)
 
 ## 2026-03-30 세션 3 (나다운 Phase 5 코드 품질 + Phase 6 배포 준비)

@@ -24,6 +24,25 @@
 
 ---
 
+## [2026-03-30] X — /my 대시보드 강화 + concepts 버그 수정 + nadaun Phase 4-2
+
+### 변경 내용
+- /my 대시보드 강화 — LevelBadge·WeeklyActivityChart·WeaknessInsight·SmartRecommendations·useMyPageData 5컴포넌트 (0c694f3)
+- concepts encodeURIComponent 버그 수정 — 10파일 surgical fix, SSG raw 경로 호환 (73159bd)
+- nadaun Phase 4-2 보강 — Plan Detail 진도 바 + updateWeeklyPlanStatus/ProgressNotes 단위 테스트 (ea5e985)
+- optimizePackageImports 비활성화 — SSG prerender TypeError 119건 해소 (6067d27)
+
+### 영향 범위
+- 신규: src/app/my/ 5컴포넌트, src/app/mastery/LearningDashboard.tsx
+- 수정: 10파일 encodeURIComponent 제거, next.config.mjs
+- 빌드: exit 0 (888 tests, 192 pages, 0 prerender errors)
+
+### 상태
+- [x] CLAUDE.md 업데이트
+- [ ] 카이란 확인 대기
+
+---
+
 ## [2026-03-30] X — 나다운 Phase 5 코드 품질 + Phase 6 배포/폴리싱/5층 MVP
 
 ### 변경 내용

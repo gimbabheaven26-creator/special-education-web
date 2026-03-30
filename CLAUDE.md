@@ -65,6 +65,12 @@ src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-diff
 src/lib/study/                     # 학습 진도 (mastery, badges, xp-constants, stats-utils, study-planner, focus-utils 등)
 src/stores/useFocusStore.ts        # 집중 모드 + 오늘의 미션 (Zustand persist, 6시간 로테이션)
 src/components/dashboard/          # 홈 재설계 — HomeDashboard, FocusBanner, MissionBlockList
+src/app/my/useMyPageData.ts        # /my 대시보드 통합 훅 (3스토어 데이터 가공)
+src/app/my/LevelBadge.tsx          # XP 레벨 + 진행바 + 스트릭 → /mastery 링크
+src/app/my/WeeklyActivityChart.tsx  # 7일 학습 CSS 바 차트
+src/app/my/WeaknessInsight.tsx     # 약점 과목 3개 + 정답률 + 연습 링크
+src/app/my/SmartRecommendations.tsx # 데이터 기반 추천 액션 최대 3개
+src/app/mastery/LearningDashboard.tsx  # 학습 현황 대시보드 (mastery/page.tsx에서 추출)
 src/lib/kice/                      # 기출 데이터 (kice, kice-analytics)
 
 scripts/insert-with-service-key.mjs  # Supabase 데이터 삽입 패턴
@@ -98,7 +104,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 
 ## 아키텍처 요점
 
-- **상태 관리**: Zustand 5개 스토어 (`useStudyStore`, `useLeitnerStore`, `useQuizStore`, `useBookmarkStore`, `useFocusStore`)
+- **상태 관리**: Zustand 6개 스토어 (`useStudyStore`, `useLeitnerStore`, `useQuizStore`, `useBookmarkStore`, `useFocusStore`, `useOnboardingStore`)
 - **라우팅**: App Router. 주요 페이지: `/`, `/today`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`, `/bookmarks/quiz`, `/diagnosis`, `/practice-hub`, `/my`, `/record`, `/mastery`, `/stats`, `/flashcards`
 - **허브 페이지 패턴**: `/diagnosis`, `/practice-hub`, `/today` — 도착지 페이지로 설계 (메뉴가 아님). 각각 클라이언트 요약 컴포넌트(DiagnosticsSummary, PracticeProgress, TodayDashboard) + 액션 링크 구성
 - **오늘학습 `/daily`**: 홈 메인 버튼에서만 접근 (네비 미노출)
@@ -127,6 +133,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - **API Route 입력 검증**: Zod 스키마 필수 (`z.string().min(N).max(N)` 등)
 - **접근성**: WCAG 2.1 AA 기준 — 모든 버튼에 `aria-label`, 이미지에 `alt`, `focus-visible` 스타일 유지
 - **global-error.tsx 예외**: 루트 레이아웃 에러 처리 특성상 Tailwind 미사용, 인라인 스타일 허용
+- **optimizePackageImports 재활성화 금지**: `next.config.mjs`의 `experimental.optimizePackageImports: ['lucide-react']`는 webpack 모듈 분할과 충돌하여 SSG prerender TypeError 발생 (6067d27). 재활성화 시 119페이지 빌드 실패
 
 ---
 
@@ -189,6 +196,8 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] page.tsx 홈 미션 대시보드 복원 + force-dynamic SSG 에러 방지 (07b8bbd, 2026-03-30)
 - [x] optimizePackageImports 비활성화 — SSG prerender 'call' 에러 해결 (6067d27, 2026-03-30)
 - [x] answerCard boolean→AnswerGrade 타입 통일 + FlashcardScene 3단계 평가 + concepts SSG 해소 (fbffa58, 2026-03-30)
+- [x] /my 대시보드 강화 — LevelBadge·WeeklyActivityChart·WeaknessInsight·SmartRecommendations·useMyPageData 5컴포넌트 (0c694f3, 2026-03-30)
+- [x] nadaun Phase 4-2 보강 — Plan Detail 진도 바 + 단위 테스트 (ea5e985, 2026-03-30)
 
 > M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29). Day 10: **UX fix 3건 + loading 4곳 + 북마크 퀴즈 라우트** (2026-03-29). Day 11: **concepts SSG 수정 + Confidence 완전 제거 + 출제경향 4→2탭 + 네비 1클릭** (2026-03-29).
 
