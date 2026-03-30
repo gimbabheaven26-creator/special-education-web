@@ -43,6 +43,7 @@ function flattenStandards(data) {
         curriculum_levels: std.curriculum_levels || [],
         achievement_pool: std.achievement_pool || {},
         content_elements: std.content_elements || {},
+        teaching_references: std.teaching_references || [],
       })
     }
   }
@@ -79,6 +80,7 @@ async function upsertEnriched() {
           curriculum_levels: std.curriculum_levels,
           achievement_pool: std.achievement_pool,
           content_elements: std.content_elements,
+          teaching_references: std.teaching_references,
         })
         .eq('code', std.code)
 

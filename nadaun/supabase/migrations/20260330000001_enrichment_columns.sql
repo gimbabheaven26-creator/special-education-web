@@ -13,6 +13,11 @@ ALTER TABLE public.achievement_standards
 ALTER TABLE public.achievement_standards
   ADD COLUMN IF NOT EXISTS achievement_pool jsonb NOT NULL DEFAULT '{}';
 
+-- teaching_references: 교수학습 참고자료 — [{title: string, items: string[]}]
+ALTER TABLE public.achievement_standards
+  ADD COLUMN IF NOT EXISTS teaching_references jsonb NOT NULL DEFAULT '[]';
+
 COMMENT ON COLUMN public.achievement_standards.considerations IS '적용 시 고려사항 배열';
 COMMENT ON COLUMN public.achievement_standards.curriculum_levels IS '교육과정 성취수준 3축 [{knowledge_understanding, process_skills, values_attitudes}]';
 COMMENT ON COLUMN public.achievement_standards.achievement_pool IS '성취수준 풀 {columns: string[], items: string[][]}';
+COMMENT ON COLUMN public.achievement_standards.teaching_references IS '교수학습 참고자료 [{title, items}]';
