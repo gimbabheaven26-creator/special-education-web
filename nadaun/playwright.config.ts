@@ -19,6 +19,11 @@ export default defineConfig({
       testMatch: /\/login-page\.spec\.ts$/,
     },
     {
+      name: 'api-security',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: /\/api-security\.spec\.ts$/,
+    },
+    {
       name: 'authenticated',
       use: { ...devices['Desktop Chrome'] },
       testMatch: /\/(student-form|student-crud|error-boundary|weekly-plan|iep-workflow|standards-navigation)\.spec\.ts$/,
