@@ -1,5 +1,10 @@
-import { redirect } from 'next/navigation';
+export const dynamic = 'force-dynamic';
 
-export default function FlashcardsPage() {
-  redirect('/flashcards/review');
+import { getSubjects } from '@/lib/db';
+import FlashcardsClient from './FlashcardsClient';
+
+export default async function FlashcardsPage() {
+  const subjects = await getSubjects();
+
+  return <FlashcardsClient subjects={subjects} />;
 }

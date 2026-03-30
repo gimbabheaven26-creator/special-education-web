@@ -17,6 +17,7 @@ import WeeklyTrendChart from './WeeklyTrendChart';
 import DailyHeatmap from './DailyHeatmap';
 import FlashcardStats from './FlashcardStats';
 import LevelProgress from './LevelProgress';
+import StudyMilestones from './StudyMilestones';
 
 interface StatsClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
@@ -124,6 +125,13 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap }: StatsC
           </Badge>
         )}
       </div>
+
+      {/* Study Milestones */}
+      <StudyMilestones
+        totalQuestions={overall.total}
+        currentStreak={currentStreak}
+        subjectCount={subjectStats.length}
+      />
 
       {/* Weekly Summary */}
       <WeeklySummary summary={weeklySummary} />
