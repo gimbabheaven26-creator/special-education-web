@@ -1,6 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { getTeacherId } from '@/lib/supabase/auth'
-import type { Student, StudentWithIepCount, IepPlan, WeeklyPlan, WeeklyPlanStatus } from '@/types/students'
+import type {
+  Student,
+  StudentWithIepCount,
+  IepPlan,
+  WeeklyPlan,
+  WeeklyPlanStatus,
+  AchievementRating,
+  GoalAchievementSummary,
+} from '@/types/students'
 
 /** Fetch teacher's students */
 export async function getStudents(): Promise<StudentWithIepCount[]> {
@@ -288,4 +296,130 @@ export async function getThisWeekTodos(
   }
 
   return todos.slice(0, 10) // 최대 10건
+}
+
+/** Task 5: 목표별 달성도 집계 */
+export async function getGoalAchievementSummary(
+  iepPlanId: string,
+): Promise<GoalAchievementSummary[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('weekly_plans')
+    .select('achievement_standard_id, achievement_rating')
+    .eq('iep_plan_id', iepPlanId)
+    .not('achievement_standard_id', 'is', null)
+    .limit(10000)
+
+  if (error) throw new Error(error.message)
+
+  const byGoal = new Map<string, Array<{ rating: AchievementRating | null }>>()
+  for (const row of data ?? []) {
+    const r = row as { achievement_standard_id: string; achievement_rating: AchievementRating | null }
+    const arr = byGoal.get(r.achievement_standard_id) ?? []
+    arr.push({ rating: r.achievement_rating })
+    byGoal.set(r.achievement_standard_id, arr)
+  }
+
+  const results: GoalAchievementSummary[] = []
+  for (const [stdId, rows] of byGoal) {
+    const rated = rows.filter((r) => r.rating !== null)
+    const total = rated.length
+    const notMet = rated.filter((r) => r.rating === 'not_met').length
+    const met = rated.filter((r) => r.rating === 'met').length
+    const exceeded = rated.filter((r) => r.rating === 'exceeded').length
+    results.push({
+      achievementStandardId: stdId,
+      total,
+      notMet,
+      met,
+      exceeded,
+      metRate: total > 0 ? Math.round(((met + exceeded) / total) * 100) : 0,
+    })
+  }
+  return results
+}
+
+/** Task 6: 진행 보고서 데이터 집계 */
+export interface ProgressReportData {
+  student: Student
+  plan: IepPlan
+  progress: WeeklyPlanProgress
+  goalSummaries: GoalAchievementSummary[]
+  weeklyPlans: WeeklyPlan[]
+  observations: Array<{ weekNumber: number; notes: string; rating: AchievementRating }>
+}
+
+export async function generateProgressReportData(
+  planId: string,
+): Promise<ProgressReportData | null> {
+  const teacherId = await getTeacherId()
+  const supabase = await createClient()
+
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('*')
+    .eq('id', planId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return null
+
+  const { data: student } = await supabase
+    .from('students')
+    .select('*')
+    .eq('id', (plan as IepPlan).student_id)
+    .single()
+
+  if (!student) return null
+
+  const [progress, goalSummaries, weeklyPlans] = await Promise.all([
+    getWeeklyPlanProgress(planId),
+    getGoalAchievementSummary(planId),
+    getWeeklyPlansByIepPlan(planId),
+  ])
+
+  const observations = weeklyPlans
+    .filter((wp) => wp.observation_notes && wp.achievement_rating)
+    .map((wp) => ({
+      weekNumber: wp.week_number,
+      notes: wp.observation_notes!,
+      rating: wp.achievement_rating!,
+    }))
+
+  return {
+    student: student as Student,
+    plan: plan as IepPlan,
+    progress,
+    goalSummaries,
+    weeklyPlans,
+    observations,
+  }
+}
+
+/** Task 10: 학생별 최근 4주 달성률 */
+export async function getRecentAchievementByStudent(
+  studentId: string,
+): Promise<Map<string, { met: number; total: number }>> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('weekly_plans')
+    .select('iep_plan_id, achievement_rating, iep_plans!inner(student_id)')
+    .eq('iep_plans.student_id', studentId)
+    .not('achievement_rating', 'is', null)
+    .order('week_number', { ascending: false })
+    .limit(20)
+
+  if (error) throw new Error(error.message)
+
+  const byPlan = new Map<string, { met: number; total: number }>()
+  for (const row of data ?? []) {
+    const r = row as { iep_plan_id: string; achievement_rating: AchievementRating }
+    const prev = byPlan.get(r.iep_plan_id) ?? { met: 0, total: 0 }
+    prev.total++
+    if (r.achievement_rating === 'met' || r.achievement_rating === 'exceeded') {
+      prev.met++
+    }
+    byPlan.set(r.iep_plan_id, prev)
+  }
+  return byPlan
 }

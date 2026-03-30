@@ -1,4 +1,5 @@
-import type { IepGoal, IepPlan, WeeklyPlan } from '@/types/students'
+import type { IepGoal, IepPlan, WeeklyPlan, Student, GoalAchievementSummary, AchievementRating } from '@/types/students'
+import type { WeeklyPlanProgress } from '@/lib/queries/students'
 
 const SEPARATOR = '────────────────────────────────'
 
@@ -100,4 +101,65 @@ export function formatFullPlanAsText(
     '【 주차별 계획 】',
     weeklyText,
   ].join('\n\n')
+}
+
+const RATING_LABELS: Record<AchievementRating, string> = {
+  not_met: '미달',
+  met: '달성',
+  exceeded: '초과',
+}
+
+/**
+ * IEP 진행 보고서를 텍스트로 포맷한다.
+ */
+export function formatReportAsText(
+  student: Student,
+  plan: IepPlan,
+  progress: WeeklyPlanProgress,
+  goalSummaries: GoalAchievementSummary[],
+  observations: Array<{ weekNumber: number; notes: string; rating: AchievementRating }>,
+): string {
+  const sections: string[] = []
+
+  sections.push('IEP 진행 보고서')
+  sections.push(SEPARATOR)
+
+  sections.push(
+    [
+      `학생: ${student.name} (${student.grade})`,
+      `제목: ${plan.title}`,
+      `과목: ${plan.subject}`,
+      `기간: ${plan.period_start} ~ ${plan.period_end}`,
+    ].join('\n'),
+  )
+
+  sections.push(SEPARATOR)
+  sections.push('【 전체 진도 】')
+  sections.push(
+    `완료 ${progress.completed} / 진행 중 ${progress.inProgress} / 예정 ${progress.planned} (총 ${progress.total}주, ${progress.completedPct}%)`,
+  )
+
+  if (goalSummaries.length > 0) {
+    sections.push(SEPARATOR)
+    sections.push('【 목표별 달성도 】')
+    const goalLines = goalSummaries.map((gs) => {
+      const goal = plan.goals.find(
+        (g) => g.achievement_standard_id === gs.achievementStandardId,
+      )
+      const code = goal?.achievement_standard_code ?? gs.achievementStandardId
+      return `${code}: 평가 ${gs.total}회, 달성+초과 ${gs.met + gs.exceeded}회 (달성률 ${gs.metRate}%)`
+    })
+    sections.push(goalLines.join('\n'))
+  }
+
+  if (observations.length > 0) {
+    sections.push(SEPARATOR)
+    sections.push('【 관찰 기록 】')
+    const obsLines = observations.map(
+      (obs) => `${obs.weekNumber}주차 [${RATING_LABELS[obs.rating]}]: ${obs.notes}`,
+    )
+    sections.push(obsLines.join('\n'))
+  }
+
+  return sections.join('\n\n')
 }

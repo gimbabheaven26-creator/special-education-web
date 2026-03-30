@@ -13,6 +13,9 @@ import { PlanStatusActions } from '@/components/plans/plan-status-actions'
 import { PlanExportToolbar } from '@/components/export/plan-export-toolbar'
 import { WeeklyPlanSection } from '@/components/plans/weekly-plan-section'
 import { GenerateButton } from '@/components/ai/generate-button'
+import { CalendarView } from '@/components/plans/calendar-view'
+import { DuplicatePlanButton } from '@/components/plans/duplicate-plan-button'
+import { getGoalAchievementSummary } from '@/lib/queries/students'
 
 const STATUS_LABELS: Record<string, string> = {
   draft: '초안',
@@ -50,10 +53,11 @@ export default async function PlanDetailPage({
   if (!student || !plan) notFound()
 
   const standardIds = plan.goals.map((g) => g.achievement_standard_id)
-  const [weeklyPlans, considerationsMap, progress] = await Promise.all([
+  const [weeklyPlans, considerationsMap, progress, goalSummaries] = await Promise.all([
     getWeeklyPlansByIepPlan(plan.id),
     getConsiderationsByStandardIds(standardIds),
     getWeeklyPlanProgress(plan.id),
+    getGoalAchievementSummary(plan.id),
   ])
 
   return (
@@ -88,6 +92,11 @@ export default async function PlanDetailPage({
               >
                 수정
               </Link>
+              <DuplicatePlanButton
+                planId={plan.id}
+                studentId={student.id}
+                planTitle={plan.title}
+              />
               <PlanStatusActions
                 planId={plan.id}
                 studentId={student.id}
@@ -98,7 +107,16 @@ export default async function PlanDetailPage({
         </CardHeader>
       </Card>
 
-      <PlanExportToolbar plan={plan} weeklyPlans={weeklyPlans} />
+      <div className="flex flex-wrap gap-2">
+        <PlanExportToolbar plan={plan} weeklyPlans={weeklyPlans} />
+        <Link
+          href={`/students/${student.id}/plans/${plan.id}/report`}
+          className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          aria-label="IEP 진행 보고서 보기"
+        >
+          진행 보고서
+        </Link>
+      </div>
 
       {progress.total > 0 && (
         <div className="rounded-lg border p-4 space-y-2">
@@ -133,6 +151,50 @@ export default async function PlanDetailPage({
           <p className="text-xs text-muted-foreground">
             완료 {progress.completed} / 진행 중 {progress.inProgress} / 예정 {progress.planned} (총 {progress.total}주)
           </p>
+        </div>
+      )}
+
+      {/* Task 5: 목표별 달성도 요약 */}
+      {goalSummaries.length > 0 && (
+        <div className="rounded-lg border p-4 space-y-3">
+          <h3 className="text-sm font-semibold">목표별 달성도</h3>
+          <div className="space-y-2">
+            {goalSummaries.map((gs) => {
+              const goal = plan.goals.find(
+                (g) => g.achievement_standard_id === gs.achievementStandardId,
+              )
+              return (
+                <div key={gs.achievementStandardId} className="flex items-center gap-2 text-sm">
+                  <Badge variant="outline" className="shrink-0 text-xs">
+                    {goal?.achievement_standard_code ?? ''}
+                  </Badge>
+                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                    {gs.total > 0 && (
+                      <div className="flex h-full">
+                        {gs.exceeded > 0 && (
+                          <div className="bg-blue-500" style={{ width: `${(gs.exceeded / gs.total) * 100}%` }} />
+                        )}
+                        {gs.met > 0 && (
+                          <div className="bg-green-500" style={{ width: `${(gs.met / gs.total) * 100}%` }} />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-xs tabular-nums text-muted-foreground">
+                    {gs.metRate}%
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Task 11: 캘린더 뷰 */}
+      {weeklyPlans.length > 0 && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold">주차 캘린더</h3>
+          <CalendarView weeklyPlans={weeklyPlans} periodStart={plan.period_start} />
         </div>
       )}
 

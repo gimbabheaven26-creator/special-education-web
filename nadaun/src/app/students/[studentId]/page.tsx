@@ -4,6 +4,7 @@ import {
   getStudentById,
   getIepPlansByStudent,
   getWeeklyPlanProgressByStudent,
+  getRecentAchievementByStudent,
 } from '@/lib/queries/students'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -17,9 +18,10 @@ export default async function StudentDetailPage({
   const student = await getStudentById(params.studentId)
   if (!student) notFound()
 
-  const [plans, progressMap] = await Promise.all([
+  const [plans, progressMap, achievementMap] = await Promise.all([
     getIepPlansByStudent(student.id),
     getWeeklyPlanProgressByStudent(student.id),
+    getRecentAchievementByStudent(student.id),
   ])
 
   return (
@@ -102,6 +104,10 @@ export default async function StudentDetailPage({
                 const completed = progress?.completed ?? 0
                 const inProg = progress?.inProgress ?? 0
                 const completedPct = progress?.completedPct ?? 0
+                const achievement = achievementMap.get(plan.id)
+                const achRate = achievement && achievement.total > 0
+                  ? Math.round((achievement.met / achievement.total) * 100)
+                  : null
 
                 return (
                   <Link
@@ -167,6 +173,11 @@ export default async function StudentDetailPage({
                         </div>
                         <p className="text-xs text-muted-foreground">
                           목표 {plan.goals.length}개 · 완료 {completed} / 진행 {inProg} / 예정 {total - completed - inProg}
+                          {achRate !== null && (
+                            <span className={achRate >= 70 ? ' text-green-600 dark:text-green-400' : ' text-amber-600 dark:text-amber-400'}>
+                              {' '}· 달성률 {achRate}%
+                            </span>
+                          )}
                         </p>
                       </div>
                     ) : (

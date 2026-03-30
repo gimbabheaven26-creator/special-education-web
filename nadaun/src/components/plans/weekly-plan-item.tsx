@@ -2,11 +2,10 @@
 
 import { useState, useTransition } from 'react'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { WeeklyPlanEditForm } from '@/components/plans/weekly-plan-edit-form'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,8 +22,30 @@ import {
   deleteWeeklyPlan,
   updateWeeklyPlanStatus,
   updateWeeklyPlanProgressNotes,
+  updateWeeklyPlanAchievement,
 } from '@/lib/actions/weekly-plans'
-import type { WeeklyPlan, IepGoal, WeeklyPlanStatus } from '@/types/students'
+import type { WeeklyPlan, IepGoal, WeeklyPlanStatus, AchievementRating } from '@/types/students'
+
+const RATING_LABELS: Record<AchievementRating, string> = {
+  not_met: '미달',
+  met: '달성',
+  exceeded: '초과',
+}
+const RATING_COLORS: Record<AchievementRating, string> = {
+  not_met: 'text-red-600 dark:text-red-400',
+  met: 'text-green-600 dark:text-green-400',
+  exceeded: 'text-blue-600 dark:text-blue-400',
+}
+const RATING_BG: Record<AchievementRating, string> = {
+  not_met: 'bg-red-100 hover:bg-red-200 dark:bg-red-900/30',
+  met: 'bg-green-100 hover:bg-green-200 dark:bg-green-900/30',
+  exceeded: 'bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30',
+}
+const RATING_ICONS: Record<AchievementRating, string> = {
+  not_met: '△',
+  met: '○',
+  exceeded: '◎',
+}
 
 const STATUS_CYCLE: WeeklyPlanStatus[] = ['planned', 'in_progress', 'completed']
 const STATUS_LABELS: Record<WeeklyPlanStatus, string> = {
@@ -59,6 +80,9 @@ export function WeeklyPlanItem({
   const [isPending, startTransition] = useTransition()
   const [isEditingMemo, setIsEditingMemo] = useState(false)
   const [memoValue, setMemoValue] = useState(wp.progress_notes ?? '')
+  const [isEditingRating, setIsEditingRating] = useState(false)
+  const [ratingValue, setRatingValue] = useState<AchievementRating | null>(wp.achievement_rating ?? null)
+  const [observationValue, setObservationValue] = useState(wp.observation_notes ?? '')
 
   const linkedGoal = planGoals.find(
     (g) => g.achievement_standard_id === wp.achievement_standard_id,
@@ -78,6 +102,21 @@ export function WeeklyPlanItem({
     startTransition(async () => {
       await updateWeeklyPlanProgressNotes(wp.id, iepPlanId, studentId, memoValue)
       setIsEditingMemo(false)
+    })
+  }
+
+  function handleRatingSave(rating: AchievementRating | null) {
+    setRatingValue(rating)
+    startTransition(async () => {
+      await updateWeeklyPlanAchievement(wp.id, iepPlanId, studentId, rating, observationValue)
+      setIsEditingRating(false)
+    })
+  }
+
+  function handleObservationSave() {
+    startTransition(async () => {
+      await updateWeeklyPlanAchievement(wp.id, iepPlanId, studentId, ratingValue, observationValue)
+      setIsEditingRating(false)
     })
   }
 
@@ -124,107 +163,17 @@ export function WeeklyPlanItem({
 
   if (isEditing) {
     return (
-      <Card>
-        <CardContent className="pt-4">
-          <form action={handleEdit} className="space-y-3">
-            {editError && (
-              <div
-                role="alert"
-                className="rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive"
-              >
-                {editError}
-              </div>
-            )}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <Label htmlFor={`edit-week-${wp.id}`}>주차</Label>
-                <Input
-                  id={`edit-week-${wp.id}`}
-                  name="week_number"
-                  type="number"
-                  min={1}
-                  max={52}
-                  defaultValue={wp.week_number}
-                  required
-                />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor={`edit-standard-${wp.id}`}>성취기준</Label>
-                <select
-                  id={`edit-standard-${wp.id}`}
-                  name="achievement_standard_id"
-                  defaultValue={wp.achievement_standard_id ?? ''}
-                  className="flex h-8 w-full items-center rounded-lg border border-input bg-transparent px-2.5 text-sm"
-                >
-                  <option value="">선택 안 함</option>
-                  {planGoals.map((g) => (
-                    <option
-                      key={g.achievement_standard_id}
-                      value={g.achievement_standard_id}
-                    >
-                      {g.achievement_standard_code}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor={`edit-activity-${wp.id}`}>활동 내용</Label>
-              <Textarea
-                id={`edit-activity-${wp.id}`}
-                name="activity"
-                required
-                rows={2}
-                defaultValue={wp.activity}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <Label htmlFor={`edit-materials-${wp.id}`}>교재</Label>
-                <Input
-                  id={`edit-materials-${wp.id}`}
-                  name="materials"
-                  defaultValue={wp.materials ?? ''}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor={`edit-eval-${wp.id}`}>평가</Label>
-                <Input
-                  id={`edit-eval-${wp.id}`}
-                  name="evaluation_method"
-                  defaultValue={wp.evaluation_method ?? ''}
-                />
-              </div>
-            </div>
-            <Input
-              name="notes"
-              defaultValue={wp.notes ?? ''}
-              placeholder="비고"
-            />
-            <div className="flex gap-2">
-              <Button
-                type="submit"
-                size="sm"
-                disabled={isPending}
-                aria-busy={isPending}
-              >
-                {isPending ? '저장 중...' : '저장'}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setIsEditing(false)
-                  setEditError(null)
-                }}
-              >
-                취소
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+      <WeeklyPlanEditForm
+        weeklyPlan={wp}
+        planGoals={planGoals}
+        error={editError}
+        isPending={isPending}
+        onSubmit={handleEdit}
+        onCancel={() => {
+          setIsEditing(false)
+          setEditError(null)
+        }}
+      />
     )
   }
 
@@ -250,6 +199,14 @@ export function WeeklyPlanItem({
               >
                 {STATUS_LABELS[currentStatus]}
               </button>
+              {wp.achievement_rating && (
+                <span
+                  className={`text-sm font-bold ${RATING_COLORS[wp.achievement_rating]}`}
+                  title={RATING_LABELS[wp.achievement_rating]}
+                >
+                  {RATING_ICONS[wp.achievement_rating]}
+                </span>
+              )}
             </div>
             <p className="text-sm">{wp.activity}</p>
             {wp.materials && (
@@ -310,6 +267,87 @@ export function WeeklyPlanItem({
                   ? `메모: ${wp.progress_notes}`
                   : '+ 진도 메모 추가'}
               </button>
+            )}
+
+            {/* Task 2 & 4: 달성도 입력 + 관찰 기록 */}
+            {currentStatus === 'completed' && (
+              isEditingRating ? (
+                <div className="mt-2 space-y-2 rounded-lg border border-dashed p-3">
+                  <p className="text-xs font-semibold text-muted-foreground">달성도 평가</p>
+                  <div className="flex flex-wrap gap-1">
+                    {(['not_met', 'met', 'exceeded'] as AchievementRating[]).map((r) => (
+                      <button
+                        key={r}
+                        type="button"
+                        onClick={() => handleRatingSave(r)}
+                        disabled={isPending}
+                        className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                          ratingValue === r
+                            ? `${RATING_BG[r]} ring-2 ring-offset-1`
+                            : 'bg-muted hover:bg-muted/80'
+                        } ${RATING_COLORS[r]}`}
+                        aria-label={`${wp.week_number}주차 달성도: ${RATING_LABELS[r]}`}
+                      >
+                        {RATING_ICONS[r]} {RATING_LABELS[r]}
+                      </button>
+                    ))}
+                    {ratingValue && (
+                      <button
+                        type="button"
+                        onClick={() => handleRatingSave(null)}
+                        disabled={isPending}
+                        className="rounded-full px-2 py-1 text-xs text-muted-foreground hover:bg-muted"
+                        aria-label="달성도 초기화"
+                      >
+                        &times;
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={observationValue}
+                      onChange={(e) => setObservationValue(e.target.value)}
+                      placeholder="관찰 기록 (선택)"
+                      className="h-7 text-xs"
+                      aria-label="관찰 기록 입력"
+                    />
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      className="h-7 text-xs"
+                      onClick={handleObservationSave}
+                      disabled={isPending}
+                    >
+                      {isPending ? '...' : '저장'}
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      className="h-7 text-xs"
+                      onClick={() => {
+                        setIsEditingRating(false)
+                        setRatingValue(wp.achievement_rating ?? null)
+                        setObservationValue(wp.observation_notes ?? '')
+                      }}
+                    >
+                      닫기
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsEditingRating(true)}
+                  className="mt-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={`${wp.week_number}주차 달성도 ${wp.achievement_rating ? '수정' : '입력'}`}
+                >
+                  {wp.achievement_rating
+                    ? `${RATING_ICONS[wp.achievement_rating]} ${RATING_LABELS[wp.achievement_rating]}${wp.observation_notes ? ` — ${wp.observation_notes}` : ''}`
+                    : '+ 달성도 입력'}
+                </button>
+              )
             )}
           </div>
           <div className="flex items-center gap-1">

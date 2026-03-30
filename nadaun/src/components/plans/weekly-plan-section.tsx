@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { WeeklyPlanItem } from './weekly-plan-item'
 import { AddWeeklyPlanForm } from './add-weekly-plan-form'
+import { BulkStatusActions } from './bulk-status-actions'
 import type { WeeklyPlan, IepGoal } from '@/types/students'
 
 interface WeeklyPlanSectionProps {
@@ -20,6 +21,7 @@ export function WeeklyPlanSection({
   planGoals,
 }: WeeklyPlanSectionProps) {
   const [showForm, setShowForm] = useState(false)
+  const [showBulk, setShowBulk] = useState(false)
 
   const nextWeekNumber =
     weeklyPlans.length > 0
@@ -32,15 +34,28 @@ export function WeeklyPlanSection({
         <h2 className="text-lg font-semibold">
           주차별 계획 ({weeklyPlans.length}개)
         </h2>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => setShowForm(!showForm)}
-          aria-label={showForm ? '주차 추가 취소' : '주차 추가'}
-        >
-          {showForm ? '취소' : '+ 주차 추가'}
-        </Button>
+        <div className="flex gap-2">
+          {weeklyPlans.length > 1 && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setShowBulk(!showBulk)}
+              aria-label={showBulk ? '일괄 변경 닫기' : '일괄 상태 변경'}
+            >
+              {showBulk ? '닫기' : '일괄 변경'}
+            </Button>
+          )}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowForm(!showForm)}
+            aria-label={showForm ? '주차 추가 취소' : '주차 추가'}
+          >
+            {showForm ? '취소' : '+ 주차 추가'}
+          </Button>
+        </div>
       </div>
 
       {showForm && (
@@ -51,6 +66,14 @@ export function WeeklyPlanSection({
           nextWeekNumber={nextWeekNumber}
           onSuccess={() => setShowForm(false)}
           onCancel={() => setShowForm(false)}
+        />
+      )}
+
+      {showBulk && weeklyPlans.length > 0 && (
+        <BulkStatusActions
+          weeklyPlans={weeklyPlans}
+          iepPlanId={iepPlanId}
+          studentId={studentId}
         />
       )}
 

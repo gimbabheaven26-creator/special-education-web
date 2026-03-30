@@ -57,6 +57,9 @@ export interface IepPlan {
 /** 주차별 계획 상태 */
 export type WeeklyPlanStatus = 'planned' | 'in_progress' | 'completed'
 
+/** 달성도 등급 */
+export type AchievementRating = 'not_met' | 'met' | 'exceeded'
+
 /** 주차별 계획 (DB row) */
 export interface WeeklyPlan {
   id: string
@@ -69,6 +72,18 @@ export interface WeeklyPlan {
   notes: string | null
   status: WeeklyPlanStatus
   progress_notes: string | null
+  achievement_rating: AchievementRating | null
+  observation_notes: string | null
   created_at: string
   updated_at: string
+}
+
+/** 목표별 달성도 집계 */
+export interface GoalAchievementSummary {
+  achievementStandardId: string
+  total: number
+  notMet: number
+  met: number
+  exceeded: number
+  metRate: number
 }

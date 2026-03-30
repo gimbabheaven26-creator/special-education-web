@@ -211,6 +211,109 @@ export async function updateWeeklyPlanProgressNotes(
   return {}
 }
 
+export async function updateWeeklyPlanAchievement(
+  weeklyPlanId: string,
+  iepPlanId: string,
+  studentId: string,
+  achievementRating: 'not_met' | 'met' | 'exceeded' | null,
+  observationNotes: string | null,
+): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
+  const supabase = await createClient()
+
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
+  const { error } = await supabase
+    .from('weekly_plans')
+    .update({
+      achievement_rating: achievementRating,
+      observation_notes: observationNotes || null,
+    })
+    .eq('id', weeklyPlanId)
+    .eq('iep_plan_id', iepPlanId)
+
+  if (error) return { error: error.message }
+
+  revalidatePath(`/students/${studentId}/plans/${iepPlanId}`)
+  return {}
+}
+
+export async function duplicateIepPlan(
+  sourcePlanId: string,
+  studentId: string,
+  newPeriodStart: string,
+  newPeriodEnd: string,
+): Promise<ActionResult & { planId?: string }> {
+  const teacherId = await getTeacherId()
+  const supabase = await createClient()
+
+  const { data: source } = await supabase
+    .from('iep_plans')
+    .select('*')
+    .eq('id', sourcePlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!source) return { error: '원본 계획을 찾을 수 없습니다.' }
+
+  const { data: newPlan, error: insertError } = await supabase
+    .from('iep_plans')
+    .insert({
+      student_id: studentId,
+      teacher_id: teacherId,
+      title: `${source.title} (복제)`,
+      subject: source.subject,
+      period_start: newPeriodStart,
+      period_end: newPeriodEnd,
+      status: 'draft',
+      goals: source.goals,
+    })
+    .select('id')
+    .single()
+
+  if (insertError || !newPlan) return { error: insertError?.message ?? '복제 실패' }
+
+  revalidatePath(`/students/${studentId}`)
+  return { planId: newPlan.id }
+}
+
+export async function bulkUpdateWeeklyPlanStatus(
+  weeklyPlanIds: string[],
+  iepPlanId: string,
+  studentId: string,
+  status: 'planned' | 'in_progress' | 'completed',
+): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
+  const supabase = await createClient()
+
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
+  const { error } = await supabase
+    .from('weekly_plans')
+    .update({ status })
+    .in('id', weeklyPlanIds)
+    .eq('iep_plan_id', iepPlanId)
+
+  if (error) return { error: error.message }
+
+  revalidatePath(`/students/${studentId}/plans/${iepPlanId}`)
+  return {}
+}
+
 export async function deleteWeeklyPlan(
   weeklyPlanId: string,
   iepPlanId: string,
