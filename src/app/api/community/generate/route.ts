@@ -15,7 +15,7 @@ function checkRateLimit(userId: string): boolean {
     return true;
   }
   if (entry.count >= 5) return false;
-  entry.count++;
+  rateLimitMap.set(userId, { ...entry, count: entry.count + 1 });
   return true;
 }
 
@@ -26,7 +26,59 @@ interface GenerateInput {
   question_type: (typeof ALLOWED_TYPES)[number];
 }
 
-const MOCK_QUESTIONS: Record<string, { question_text: string; options: string[] | null; correct_answer: string; explanation: string }> = {
+type QuestionDraft = { question_text: string; options: string[] | null; correct_answer: string; explanation: string };
+
+const TYPE_LABELS: Record<string, string> = {
+  multiple: '객관식 (4지선다)',
+  ox: 'OX 퀴즈',
+  fill_in: '빈칸 채우기',
+  descriptive: '서술형',
+};
+
+function buildPrompt(questionType: string, subjectTitle: string, chapterTitle: string | null): string {
+  const optionsInstruction = questionType === 'multiple'
+    ? '\n- "options": 정확히 4개의 선택지 배열 (정답 포함)'
+    : '';
+  const answerInstruction = questionType === 'ox'
+    ? '"O" 또는 "X"'
+    : questionType === 'multiple'
+      ? '"1", "2", "3", "4" 중 하나 (정답 번호)'
+      : '정답 텍스트';
+
+  return `당신은 특수교육학 임용시험 문제 출제 전문가입니다.
+다음 조건에 맞는 문제를 1개 생성하세요.
+
+조건:
+- 과목: ${subjectTitle}${chapterTitle ? ` > ${chapterTitle}` : ''}
+- 유형: ${TYPE_LABELS[questionType] ?? questionType}
+- 난이도: 임용시험 수준 (2015 개정 또는 2022 개정 교육과정 기반)
+- 실제 법령, 이론, 학자명을 정확히 인용하세요
+
+JSON 형식으로만 응답하세요 (마크다운 코드블록 없이):
+{
+  "question_text": "문제 본문"${optionsInstruction},
+  "correct_answer": ${answerInstruction},
+  "explanation": "2~3문장 해설 (관련 법령이나 이론 근거 포함)"
+}`;
+}
+
+async function callGemini(apiKey: string, prompt: string): Promise<QuestionDraft> {
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const result = await model.generateContent(prompt);
+  const text = result.response.text().trim();
+  const jsonStr = text.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+  const parsed = JSON.parse(jsonStr) as Record<string, unknown>;
+
+  return {
+    question_text: String(parsed.question_text ?? ''),
+    options: Array.isArray(parsed.options) ? parsed.options.map(String) : null,
+    correct_answer: String(parsed.correct_answer ?? ''),
+    explanation: String(parsed.explanation ?? ''),
+  };
+}
+
+const MOCK_QUESTIONS: Record<string, QuestionDraft> = {
   multiple: {
     question_text: '통합교육 환경에서 특수교육대상학생의 사회적 통합을 위해 가장 적절한 교수 전략은?',
     options: ['또래 교수', '직접 교수', '개별화 교수', '강의식 교수'],
@@ -86,59 +138,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ...mock, mock: true });
   }
 
-  const typeLabel: Record<string, string> = {
-    multiple: '객관식 (4지선다)',
-    ox: 'OX 퀴즈',
-    fill_in: '빈칸 채우기',
-    descriptive: '서술형',
-  };
-
-  const optionsInstruction = questionType === 'multiple'
-    ? '\n- "options": 정확히 4개의 선택지 배열 (정답 포함)'
-    : '';
-
-  const answerInstruction = questionType === 'ox'
-    ? '"O" 또는 "X"'
-    : questionType === 'multiple'
-      ? '"1", "2", "3", "4" 중 하나 (정답 번호)'
-      : '정답 텍스트';
-
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-    const prompt = `당신은 특수교육학 임용시험 문제 출제 전문가입니다.
-다음 조건에 맞는 문제를 1개 생성하세요.
-
-조건:
-- 과목: ${subjectTitle}${chapterTitle ? ` > ${chapterTitle}` : ''}
-- 유형: ${typeLabel[questionType] ?? questionType}
-- 난이도: 임용시험 수준 (2015 개정 또는 2022 개정 교육과정 기반)
-- 실제 법령, 이론, 학자명을 정확히 인용하세요
-
-JSON 형식으로만 응답하세요 (마크다운 코드블록 없이):
-{
-  "question_text": "문제 본문"${optionsInstruction},
-  "correct_answer": ${answerInstruction},
-  "explanation": "2~3문장 해설 (관련 법령이나 이론 근거 포함)"
-}`;
-
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
-
-    // Strip markdown code fences if present
-    const jsonStr = text.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
-    const parsed = JSON.parse(jsonStr) as Record<string, unknown>;
-
-    return NextResponse.json({
-      question_text: String(parsed.question_text ?? ''),
-      options: Array.isArray(parsed.options) ? parsed.options.map(String) : null,
-      correct_answer: String(parsed.correct_answer ?? ''),
-      explanation: String(parsed.explanation ?? ''),
-      mock: false,
-    });
+    const prompt = buildPrompt(questionType, subjectTitle, chapterTitle);
+    const draft = await callGemini(apiKey, prompt);
+    return NextResponse.json({ ...draft, mock: false });
   } catch (err) {
-    // Fallback to mock on AI failure
     const mock = MOCK_QUESTIONS[questionType] ?? MOCK_QUESTIONS.multiple;
     return NextResponse.json({
       ...mock,
