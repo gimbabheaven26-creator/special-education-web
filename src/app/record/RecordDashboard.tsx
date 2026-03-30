@@ -130,7 +130,7 @@ export default function RecordDashboard() {
         <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
           <div
             className="h-full bg-primary rounded-full transition-all duration-500"
-            style={{ width: `${Math.round(level.progress * 100)}%` }}
+            style={{ width: `${level.progress.percent}%` }}
           />
         </div>
       </div>

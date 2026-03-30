@@ -132,10 +132,10 @@ describe('NAV_GROUPS 구조', () => {
     expect(diagnosis!.href).toBe('/diagnosis');
   });
 
-  it('metacognition 그룹에 href가 /mastery', () => {
+  it('metacognition 그룹에 href가 /record', () => {
     const metacognition = NAV_GROUPS.find((g) => g.id === 'metacognition');
     expect(metacognition).toBeDefined();
-    expect(metacognition!.href).toBe('/mastery');
+    expect(metacognition!.href).toBe('/record');
   });
 
   it('diagnosis 그룹에 /concepts 항목 없음', () => {
