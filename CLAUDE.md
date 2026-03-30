@@ -98,6 +98,9 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 테이블: subjects, chapters, quiz_questions, worksheet_questions,
         worksheet_topics, reviews, community_questions, question_votes
 데이터: 11과목, 39챕터, 3113퀴즈, 44토픽, 376워크시트
+
+nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
+테이블: students, iep_plans, goals, weekly_plan_items, achievement_standards, teaching_materials
 ```
 
 ---
@@ -199,6 +202,10 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 - [x] /my 대시보드 강화 — LevelBadge·WeeklyActivityChart·WeaknessInsight·SmartRecommendations·useMyPageData 5컴포넌트 (0c694f3, 2026-03-30)
 - [x] nadaun Phase 4-2 보강 — Plan Detail 진도 바 + 단위 테스트 (ea5e985, 2026-03-30)
 - [x] 지니(OpenClaw) 성능 개선 — contextTokens 50K, 스킬 4개(git-ops/build-check/session-wrap/orchestrator), 하트비트, X→지니 훅 동기화 3개, stale 메모리 5파일 갱신, GUIDE.md (2026-03-30)
+- [x] nadaun Phase 6 완료 — PWA, 교수학습자료 5층 MVP, 토스트, 인쇄 CSS, V검증 PASS 82.5% (023f842, 2026-03-30)
+- [x] 용어→플래시카드 브릿지 + 통합검색 용어 1,129개 (8a3b35e, 2026-03-30)
+- [x] E2E /my + /record Playwright 8건 (ccd1d43, 2026-03-30)
+- [x] B4 커뮤니티 AI 문제 만들기 — Gemini 1.5 Flash + AI-First 3단계 + 직접작성 병행
 
 > M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29). Day 10: **UX fix 3건 + loading 4곳 + 북마크 퀴즈 라우트** (2026-03-29). Day 11: **concepts SSG 수정 + Confidence 완전 제거 + 출제경향 4→2탭 + 네비 1클릭** (2026-03-29).
 
