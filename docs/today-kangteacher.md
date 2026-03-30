@@ -1,3 +1,27 @@
+# X 세션 핸드오프 — 2026-03-30 야간5 (나다운 Phase 5/6)
+
+## 2026-03-30 세션 3 (나다운 Phase 5 코드 품질 + Phase 6 배포 준비)
+
+### 완료
+1. **Phase 5 코드 품질**: error/loading 4곳 + 컴포넌트 분해 3건 (5fc99f5)
+   - pdf-document 532→410줄, standard-selector 421→321줄, weekly-plan-edit-form 127줄 추출
+2. **Phase 6 16/16 tasks 완료** (다른 세션 023f842): PWA, 모바일, 토스트, 인쇄 CSS, 교수학습자료 5층 MVP
+3. **DEPLOYMENT.md 배포 가이드 보강** (57920bf): Supabase URL 설정 + 체크리스트 3카테고리
+4. **contract.md v2.11**: teaching_materials 테이블 스키마 + nadaun-files Storage 등록
+5. **session-wrap**: changelog + contract + 핸드오프 + instinct 1건
+
+### 미완료 (카이란 필수 — 코드 아닌 인프라)
+- **P0**: Supabase 마이그레이션 3건 실행 (SQL Editor에서)
+  - `20260330000003_phase4_weekly_plan_status.sql`
+  - `20260330100000_phase5_achievement_rating.sql`
+  - `20260330200000_teaching_materials.sql`
+- **P0**: Supabase Storage `nadaun-files` 버킷 생성 (Public)
+- **P0**: Vercel 배포 — 환경변수 3개 + Google OAuth redirect URI + Supabase Site URL
+- **P1**: teaching_materials 단위 테스트 추가
+- **P1**: 배포 후 Completion Contract 실검증 (20건)
+
+---
+
 # X 세션 핸드오프 — 2026-03-30 22:30 KST
 
 ## 2026-03-30 세션 2 (플래시카드 UX)

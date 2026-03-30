@@ -34,6 +34,23 @@
 2. **Site URL**에 Vercel 배포 도메인 입력: `https://<your-domain>`
 3. **Redirect URLs**에 콜백 경로 추가: `https://<your-domain>/auth/callback`
 
+## Supabase Storage 설정
+
+1. [Supabase Dashboard](https://supabase.com/dashboard) → Storage
+2. **New Bucket** → 이름: `nadaun-files`, **Public** 버킷으로 생성
+3. 버킷 정책 설정:
+   - 허용 MIME 타입: `image/*`, `application/pdf`
+   - 파일 크기 제한: 5MB
+4. 코드에서 `getPublicUrl`을 사용하므로 반드시 Public 버킷이어야 함
+
+## DB 마이그레이션 (배포 전 필수)
+
+Supabase Dashboard → SQL Editor에서 아래 3개 파일을 **순서대로** 실행:
+
+1. `supabase/migrations/20260330000003_phase4_weekly_plan_status.sql`
+2. `supabase/migrations/20260330100000_phase5_achievement_rating.sql`
+3. `supabase/migrations/20260330200000_teaching_materials.sql`
+
 ## 배포 후 체크리스트
 
 ### 인증

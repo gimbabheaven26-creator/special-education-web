@@ -1,7 +1,8 @@
 # Interface Contract
 
 > X(실행)와 V(검증)의 인터페이스 계약서 (2026-03-27 이전: 강선생+클루디)
-> 최종 수정: 2026-03-30 | 버전: 2.10
+> 최종 수정: 2026-03-30 | 버전: 2.11
+> v2.11: teaching_materials 테이블 + nadaun-files Storage 버킷 추가 — 나다운 Phase 6
 > v2.8.1: 클루디 작업 목록 완료 표기 (REQ-001~006 실행 완료 반영)
 > v2.8: reviews.image_urls 컬럼 추가 (첨부 이미지 URL 목록) — 카이란 승인
 > v2.7: reviews.admin_note 컬럼 추가 (관리자 내부 메모) — DB 확인 완료
@@ -254,6 +255,25 @@ communication-disorder:
 
 - **UNIQUE(question_id, user_id)** — 사용자당 문제 1표
 - RLS: 읽기 공개; INSERT = 인증 사용자(user_id = auth.uid()); DELETE = 본인
+
+### teaching_materials (v2.10 신규 — 나다운 Phase 6 교수학습 자료)
+
+| 컬럼 | 타입 | 제약 | 설명 |
+|------|------|------|------|
+| id | uuid | **PK**, DEFAULT gen_random_uuid() | 자료 ID |
+| weekly_plan_id | uuid | NOT NULL, FK → weekly_plans(id) ON DELETE CASCADE | 연결된 주간계획 |
+| type | text | NOT NULL CHECK (IN 'link','file','note') | 자료 유형 |
+| title | text | NOT NULL | 자료 제목 |
+| content | text | | URL(link) 또는 텍스트(note) |
+| file_url | text | | Supabase Storage URL (type=file) |
+| mime_type | text | | MIME 타입 (type=file) |
+| file_size | integer | | 파일 크기 바이트 (type=file) |
+| created_at | timestamptz | NOT NULL DEFAULT now() | 생성 시간 |
+| updated_at | timestamptz | NOT NULL DEFAULT now() | 수정 시간 |
+
+- INDEX: `idx_teaching_materials_weekly_plan` ON weekly_plan_id
+- RLS: SELECT/INSERT/UPDATE/DELETE 모두 `weekly_plans → iep_plans.teacher_id = auth.uid()` 스코프
+- Supabase Storage: `nadaun-files` 버킷 (Public, 5MB 제한, PDF/이미지만 허용)
 
 ---
 

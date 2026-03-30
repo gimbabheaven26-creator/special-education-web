@@ -24,6 +24,27 @@
 
 ---
 
+## [2026-03-30] X — 나다운 Phase 5 코드 품질 + Phase 6 배포/폴리싱/5층 MVP
+
+### 변경 내용
+- Phase 5 코드 품질: error/loading 4곳 + 컴포넌트 분해 3건 (5fc99f5)
+- Phase 6 16/16 tasks: PWA, 모바일, 토스트, 인쇄 CSS, 교수학습자료 5층 MVP (023f842)
+- teaching_materials 테이블 신규 + RLS 4정책 (마이그레이션: 20260330200000)
+- nadaun-files Supabase Storage 버킷 (수동 생성 필요)
+- DEPLOYMENT.md 배포 체크리스트 보강 (57920bf)
+
+### 영향 범위
+- X(빌드): nadaun/ 하위 16개 파일 신규, 6개 수정
+- X(데이터): teaching_materials 테이블 + nadaun-files 버킷 (Supabase Dashboard에서 수동 작업 필요)
+
+### 상태
+- [x] contract.md 업데이트 (v2.11)
+- [ ] 카이란 승인 (마이그레이션 실행 대기)
+- [x] 구현 완료
+- [x] 상대 세션 전달
+
+---
+
 ## [2026-03-30] X — Phase 2 UX + SSG 완전 해소
 
 ### 변경 내용
