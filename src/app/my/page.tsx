@@ -45,9 +45,12 @@ export default function MyPage() {
   const [activeTab, setActiveTab] = useState<MyTab>('progress');
 
   const { currentStreak, totalXP, totalQuizzes, dailyProgress } = useStudyStore();
-  const wrongNotesCount = useQuizStore((s) => s.wrongNotes.length);
+  const wrongNotes = useQuizStore((s) => s.wrongNotes);
+  const wrongNotesCount = wrongNotes.length;
+  const unmasteredCount = wrongNotes.filter((n) => !n.mastered).length;
   const bookmarkCount = useBookmarkStore((s) => s.bookmarks.length);
-  const leitnerCount = useLeitnerStore((s) => s.cards.length);
+  const leitnerStats = useLeitnerStore((s) => s.getStats());
+  const leitnerCount = leitnerStats.total;
 
   useEffect(() => {
     const supabase = createClient();
@@ -154,21 +157,31 @@ export default function MyPage() {
       href: '/wrong-notes',
       icon: AlertCircle,
       label: '오답노트',
-      desc: wrongNotesCount > 0 ? `${wrongNotesCount}개 복습 대기` : '퀴즈를 풀면 자동 기록돼요',
+      desc: unmasteredCount > 0
+        ? `${unmasteredCount}개 미해결 · 총 ${wrongNotesCount}개`
+        : wrongNotesCount > 0
+          ? `${wrongNotesCount}개 전부 해결!`
+          : '퀴즈를 풀면 틀린 문제가 자동 기록돼요',
       color: 'text-red-500 bg-red-50 dark:bg-red-950/30',
     },
     {
       href: '/bookmarks',
       icon: Bookmark,
       label: '북마크',
-      desc: bookmarkCount > 0 ? `${bookmarkCount}개 저장됨` : '퀴즈에서 ⭐ 눌러 저장하세요',
+      desc: bookmarkCount > 0
+        ? `${bookmarkCount}개 저장 · 시험 전 복습용`
+        : '개념학습에서 중요한 챕터를 ⭐ 저장하세요',
       color: 'text-amber-500 bg-amber-50 dark:bg-amber-950/30',
     },
     {
       href: '/flashcards',
       icon: Layers,
       label: '플래시카드',
-      desc: leitnerCount > 0 ? `${leitnerCount}장 학습 중` : '오답노트에서 카드를 추가해보세요',
+      desc: leitnerStats.dueToday > 0
+        ? `${leitnerStats.dueToday}장 복습 대기 · 총 ${leitnerCount}장`
+        : leitnerCount > 0
+          ? `${leitnerCount}장 보유 · 오늘 복습 완료`
+          : '나만의 암기 카드를 만들어보세요',
       color: 'text-purple-500 bg-purple-50 dark:bg-purple-950/30',
     },
     {
@@ -303,6 +316,45 @@ export default function MyPage() {
           {activeTab === 'progress' ? <SubjectProgressTab /> : <RecentWrongTab />}
         </div>
       </div>
+
+      {/* 오늘 할 일 — 행동 유도 */}
+      {(leitnerStats.dueToday > 0 || unmasteredCount > 0 || todayQuizzes === 0) && (
+        <div>
+          <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-1">오늘 할 일</h2>
+          <div className="space-y-2">
+            {todayQuizzes === 0 && (
+              <Link
+                href="/today"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-colors"
+              >
+                <span className="text-base" aria-hidden="true">📝</span>
+                <span className="text-sm font-medium text-foreground">오늘의 퀴즈 아직 안 풀었어요</span>
+                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
+              </Link>
+            )}
+            {leitnerStats.dueToday > 0 && (
+              <Link
+                href="/flashcards/review"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-purple-50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/30 hover:bg-purple-100 dark:hover:bg-purple-950/30 transition-colors"
+              >
+                <span className="text-base" aria-hidden="true">🃏</span>
+                <span className="text-sm font-medium text-foreground">플래시카드 {leitnerStats.dueToday}장 복습</span>
+                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
+              </Link>
+            )}
+            {unmasteredCount > 0 && (
+              <Link
+                href="/wrong-notes"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 hover:bg-red-100 dark:hover:bg-red-950/30 transition-colors"
+              >
+                <span className="text-base" aria-hidden="true">📋</span>
+                <span className="text-sm font-medium text-foreground">오답 {unmasteredCount}개 복습하기</span>
+                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* 기능 카드 */}
       <div>
