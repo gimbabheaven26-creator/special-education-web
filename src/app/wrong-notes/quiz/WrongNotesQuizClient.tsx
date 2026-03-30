@@ -128,7 +128,7 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
 
       if (isCorrect) {
         markMastered(currentNote.questionId);
-        useLeitnerStore.getState().answerCard(currentNote.questionId, true);
+        useLeitnerStore.getState().answerCard(currentNote.questionId, 'knew');
       } else {
         addWrongNote(currentNote.question, userAnswer);
       }

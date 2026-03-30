@@ -49,7 +49,7 @@ export default function SrsReviewMode() {
     (correct: boolean) => {
       if (!currentCard) return;
 
-      answerCard(currentCard.id, correct);
+      answerCard(currentCard.id, correct ? 'knew' : 'forgot');
       const updated = [...sessionResults, { cardId: currentCard.id, correct }];
       setSessionResults(updated);
       setShowAnswer(false);

@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import type { AnswerGrade } from '@/stores/useLeitnerStore';
 import { useMounted } from '@/hooks/useMounted';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -10,7 +11,7 @@ import { FlashcardScene } from '@/components/flashcard/FlashcardScene';
 
 interface SessionResult {
   cardId: string;
-  correct: boolean;
+  grade: AnswerGrade;
   fromBox: number;
 }
 
@@ -32,14 +33,14 @@ export default function ReviewPage() {
   const currentCard = dueCards[currentIndex];
 
   const handleAnswer = useCallback(
-    (correct: boolean) => {
+    (grade: AnswerGrade) => {
       if (!currentCard) return;
 
-      answerCard(currentCard.id, correct);
+      answerCard(currentCard.id, grade);
 
       const newResult: SessionResult = {
         cardId: currentCard.id,
-        correct,
+        grade,
         fromBox: currentCard.box,
       };
 
@@ -106,10 +107,15 @@ export default function ReviewPage() {
 
   // Session results screen
   if (done) {
-    const correctCount = results.filter((r) => r.correct).length;
-    const wrongCount = results.length - correctCount;
-    const movedUp = results.filter((r) => r.correct && r.fromBox < 5).length;
-    const movedDown = results.filter((r) => !r.correct && r.fromBox > 1).length;
+    const knewCount = results.filter((r) => r.grade === 'knew').length;
+    const hintCount = results.filter((r) => r.grade === 'hint').length;
+    const forgotCount = results.filter((r) => r.grade === 'forgot').length;
+    const movedUp = results.filter((r) => r.grade === 'knew' && r.fromBox < 5).length;
+    const stayed = results.filter((r) => r.grade === 'hint').length;
+    const movedDown = results.filter((r) => r.grade === 'forgot' && r.fromBox > 1).length;
+
+    const dotColor = (grade: AnswerGrade) =>
+      grade === 'knew' ? 'bg-emerald-500' : grade === 'hint' ? 'bg-amber-500' : 'bg-red-500';
 
     return (
       <main className="max-w-xl mx-auto px-4 py-16 flex flex-col items-center gap-6 text-center">
@@ -121,32 +127,37 @@ export default function ReviewPage() {
           {results.map((r, i) => (
             <span
               key={i}
-              className={`inline-block w-3 h-3 rounded-full ${
-                r.correct ? 'bg-emerald-500' : 'bg-red-500'
-              }`}
+              className={`inline-block w-3 h-3 rounded-full ${dotColor(r.grade)}`}
             />
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
+        <div className="grid grid-cols-3 gap-3 w-full max-w-sm">
           <div className="rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-4 flex flex-col items-center gap-1">
             <span className="text-3xl font-bold text-green-700 dark:text-green-400">
-              {correctCount}
+              {knewCount}
             </span>
-            <span className="text-xs text-green-600 dark:text-green-400">맞았어요</span>
+            <span className="text-xs text-green-600 dark:text-green-400">바로 앎</span>
+          </div>
+          <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-4 flex flex-col items-center gap-1">
+            <span className="text-3xl font-bold text-amber-700 dark:text-amber-400">
+              {hintCount}
+            </span>
+            <span className="text-xs text-amber-600 dark:text-amber-400">힌트 후 앎</span>
           </div>
           <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 flex flex-col items-center gap-1">
             <span className="text-3xl font-bold text-red-700 dark:text-red-400">
-              {wrongCount}
+              {forgotCount}
             </span>
-            <span className="text-xs text-red-600 dark:text-red-400">틀렸어요</span>
+            <span className="text-xs text-red-600 dark:text-red-400">모름</span>
           </div>
         </div>
 
-        {(movedUp > 0 || movedDown > 0) && (
+        {(movedUp > 0 || stayed > 0 || movedDown > 0) && (
           <div className="text-sm text-muted-foreground space-y-1">
-            {movedUp > 0 && <p>{movedUp}장이 다음 박스로 이동했어요</p>}
-            {movedDown > 0 && <p>{movedDown}장이 박스 1로 돌아갔어요</p>}
+            {movedUp > 0 && <p>↑ {movedUp}장이 다음 박스로 승격했어요</p>}
+            {stayed > 0 && <p>→ {stayed}장이 현재 박스에서 한 번 더 복습해요</p>}
+            {movedDown > 0 && <p>↓ {movedDown}장이 박스 1로 돌아갔어요</p>}
           </div>
         )}
 

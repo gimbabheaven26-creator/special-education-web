@@ -31,10 +31,13 @@ function todayStr(): string {
   return getKSTDate();
 }
 
+/** 자가 평가 결과: 힌트 없이 맞춤 / 힌트 보고 맞춤 / 모름 */
+export type AnswerGrade = 'knew' | 'hint' | 'forgot';
+
 interface LeitnerStore {
   cards: LeitnerCard[];
   addCard: (card: Omit<LeitnerCard, 'box' | 'lastReviewed' | 'nextReview' | 'createdAt'>) => void;
-  answerCard: (cardId: string, correct: boolean) => void;
+  answerCard: (cardId: string, grade: AnswerGrade) => void;
   getDueCards: (subjectSlug?: string) => LeitnerCard[];
   getCardsByBox: (box: number) => LeitnerCard[];
   getStats: () => {
@@ -66,7 +69,7 @@ export const useLeitnerStore = create<LeitnerStore>()(
         set((state) => ({ cards: [...state.cards, newCard] }));
       },
 
-      answerCard: (cardId, correct) => {
+      answerCard: (cardId, grade) => {
         set((state) => ({
           cards: state.cards.map((card) => {
             if (card.id !== cardId) return card;
@@ -74,9 +77,14 @@ export const useLeitnerStore = create<LeitnerStore>()(
             const today = todayStr();
             let newBox: 1 | 2 | 3 | 4 | 5;
 
-            if (correct) {
+            if (grade === 'knew') {
+              // 힌트 없이 맞춤 → 다음 박스로 승격
               newBox = Math.min(card.box + 1, 5) as 1 | 2 | 3 | 4 | 5;
+            } else if (grade === 'hint') {
+              // 힌트 보고 떠올림 → 현재 박스 유지
+              newBox = card.box;
             } else {
+              // 모르겠어요 → 박스 1로 복귀
               newBox = 1;
             }
 

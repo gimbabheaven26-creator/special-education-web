@@ -120,7 +120,7 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
       }
 
       // Leitner tracking
-      useLeitnerStore.getState().answerCard(currentQuestion.id, isCorrect);
+      useLeitnerStore.getState().answerCard(currentQuestion.id, isCorrect ? 'knew' : 'forgot');
 
       // Combo
       const newCombo = isCorrect ? comboStreak + 1 : 0;

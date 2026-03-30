@@ -106,24 +106,24 @@ describe('SrsReviewMode', () => {
       expect(screen.getByText('틀림')).toBeDefined();
     });
 
-    it('calls answerCard with correct=true on "맞음"', () => {
+    it('calls answerCard with knew on "맞음"', () => {
       mockGetDueCards.mockReturnValue([makeCard('c1')]);
 
       render(<SrsReviewMode />);
       fireEvent.click(screen.getByText('정답 보기'));
       fireEvent.click(screen.getByText('맞음'));
 
-      expect(mockAnswerCard).toHaveBeenCalledWith('c1', true);
+      expect(mockAnswerCard).toHaveBeenCalledWith('c1', 'knew');
     });
 
-    it('calls answerCard with correct=false on "틀림"', () => {
+    it('calls answerCard with forgot on "틀림"', () => {
       mockGetDueCards.mockReturnValue([makeCard('c1')]);
 
       render(<SrsReviewMode />);
       fireEvent.click(screen.getByText('정답 보기'));
       fireEvent.click(screen.getByText('틀림'));
 
-      expect(mockAnswerCard).toHaveBeenCalledWith('c1', false);
+      expect(mockAnswerCard).toHaveBeenCalledWith('c1', 'forgot');
     });
   });
 

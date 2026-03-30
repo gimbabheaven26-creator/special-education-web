@@ -91,7 +91,7 @@ describe('useLeitnerStore', () => {
 
     it('정답이면 box가 1 올라간다 (1 -> 2)', () => {
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true);
+        useLeitnerStore.getState().answerCard('test-card', 'knew');
       });
 
       const card = useLeitnerStore.getState().cards[0];
@@ -102,13 +102,13 @@ describe('useLeitnerStore', () => {
     it('오답이면 box=1로 돌아간다', () => {
       // 먼저 box 3까지 올린다
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true); // 1->2
-        useLeitnerStore.getState().answerCard('test-card', true); // 2->3
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 1->2
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 2->3
       });
       expect(useLeitnerStore.getState().cards[0].box).toBe(3);
 
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', false); // 3->1
+        useLeitnerStore.getState().answerCard('test-card', 'forgot'); // 3->1
       });
       expect(useLeitnerStore.getState().cards[0].box).toBe(1);
     });
@@ -116,25 +116,25 @@ describe('useLeitnerStore', () => {
     it('box 5에서 정답이면 5를 유지한다 (상한)', () => {
       // box 1->2->3->4->5
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true);
-        useLeitnerStore.getState().answerCard('test-card', true);
-        useLeitnerStore.getState().answerCard('test-card', true);
-        useLeitnerStore.getState().answerCard('test-card', true);
+        useLeitnerStore.getState().answerCard('test-card', 'knew');
+        useLeitnerStore.getState().answerCard('test-card', 'knew');
+        useLeitnerStore.getState().answerCard('test-card', 'knew');
+        useLeitnerStore.getState().answerCard('test-card', 'knew');
       });
       expect(useLeitnerStore.getState().cards[0].box).toBe(5);
 
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true); // 5->5
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 5->5
       });
       expect(useLeitnerStore.getState().cards[0].box).toBe(5);
     });
 
     it('오답이면 box=1로 떨어진다', () => {
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true); // 1->2
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 1->2
       });
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', false); // 2->1
+        useLeitnerStore.getState().answerCard('test-card', 'forgot'); // 2->1
       });
       expect(useLeitnerStore.getState().cards[0].box).toBe(1);
     });
@@ -142,7 +142,7 @@ describe('useLeitnerStore', () => {
     it('nextReview가 BOX_INTERVALS에 맞게 설정된다', () => {
       // box 1->2: interval=2일
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true);
+        useLeitnerStore.getState().answerCard('test-card', 'knew');
       });
       const card = useLeitnerStore.getState().cards[0];
       expect(card.box).toBe(2);
@@ -152,9 +152,9 @@ describe('useLeitnerStore', () => {
 
     it('box 3 정답 -> box 4: nextReview = today + 8일', () => {
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true); // 1->2
-        useLeitnerStore.getState().answerCard('test-card', true); // 2->3
-        useLeitnerStore.getState().answerCard('test-card', true); // 3->4
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 1->2
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 2->3
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 3->4
       });
       const card = useLeitnerStore.getState().cards[0];
       expect(card.box).toBe(4);
@@ -164,8 +164,8 @@ describe('useLeitnerStore', () => {
 
     it('오답 후 box=1: nextReview = today + 1일', () => {
       act(() => {
-        useLeitnerStore.getState().answerCard('test-card', true); // 1->2
-        useLeitnerStore.getState().answerCard('test-card', false); // 2->1
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 1->2
+        useLeitnerStore.getState().answerCard('test-card', 'forgot'); // 2->1
       });
       const card = useLeitnerStore.getState().cards[0];
       expect(card.box).toBe(1);
@@ -176,10 +176,50 @@ describe('useLeitnerStore', () => {
     it('존재하지 않는 cardId에 대해서는 아무 변경 없다', () => {
       const before = useLeitnerStore.getState().cards[0];
       act(() => {
-        useLeitnerStore.getState().answerCard('non-existent', true);
+        useLeitnerStore.getState().answerCard('non-existent', 'knew');
       });
       const after = useLeitnerStore.getState().cards[0];
       expect(after).toEqual(before);
+    });
+
+    it('hint 등급이면 box가 유지된다 (2 -> 2)', () => {
+      act(() => {
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 1->2
+      });
+      expect(useLeitnerStore.getState().cards[0].box).toBe(2);
+
+      act(() => {
+        useLeitnerStore.getState().answerCard('test-card', 'hint'); // 2->2 유지
+      });
+      const card = useLeitnerStore.getState().cards[0];
+      expect(card.box).toBe(2);
+      // nextReview = today + BOX_INTERVALS[2] = 2026-03-29 + 2 = 2026-03-31
+      expect(card.nextReview).toBe('2026-03-31');
+    });
+
+    it('hint 등급은 box 1에서도 유지된다 (1 -> 1)', () => {
+      act(() => {
+        useLeitnerStore.getState().answerCard('test-card', 'hint'); // 1->1 유지
+      });
+      const card = useLeitnerStore.getState().cards[0];
+      expect(card.box).toBe(1);
+      expect(card.nextReview).toBe('2026-03-30'); // today + 1
+    });
+
+    it('hint 등급은 box 5에서도 유지된다 (5 -> 5)', () => {
+      act(() => {
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 1->2
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 2->3
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 3->4
+        useLeitnerStore.getState().answerCard('test-card', 'knew'); // 4->5
+      });
+      expect(useLeitnerStore.getState().cards[0].box).toBe(5);
+
+      act(() => {
+        useLeitnerStore.getState().answerCard('test-card', 'hint'); // 5->5 유지
+      });
+      const card = useLeitnerStore.getState().cards[0];
+      expect(card.box).toBe(5);
     });
   });
 
@@ -191,7 +231,7 @@ describe('useLeitnerStore', () => {
         // due-card: nextReview = 2026-03-29 (오늘) -> due
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'future-card' }));
         // future-card를 정답 처리하여 nextReview를 미래로 보낸다
-        useLeitnerStore.getState().answerCard('future-card', true);
+        useLeitnerStore.getState().answerCard('future-card', 'knew');
         // future-card: box=2, nextReview = 2026-03-31
       });
 
@@ -250,7 +290,7 @@ describe('useLeitnerStore', () => {
       act(() => {
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' }));
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c2' }));
-        useLeitnerStore.getState().answerCard('c2', true); // c2 -> box 2
+        useLeitnerStore.getState().answerCard('c2', 'knew'); // c2 -> box 2
       });
 
       expect(useLeitnerStore.getState().getCardsByBox(1)).toHaveLength(1);
@@ -271,9 +311,9 @@ describe('useLeitnerStore', () => {
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' })); // box 1
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c2' })); // box 1
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c3' })); // box 1
-        useLeitnerStore.getState().answerCard('c2', true); // c2 -> box 2
-        useLeitnerStore.getState().answerCard('c3', true); // c3 -> box 2
-        useLeitnerStore.getState().answerCard('c3', true); // c3 -> box 3
+        useLeitnerStore.getState().answerCard('c2', 'knew'); // c2 -> box 2
+        useLeitnerStore.getState().answerCard('c3', 'knew'); // c3 -> box 2
+        useLeitnerStore.getState().answerCard('c3', 'knew'); // c3 -> box 3
       });
 
       const stats = useLeitnerStore.getState().getStats();
@@ -289,7 +329,7 @@ describe('useLeitnerStore', () => {
       act(() => {
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' })); // due today
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c2' })); // due today
-        useLeitnerStore.getState().answerCard('c2', true); // c2 nextReview = 2026-03-31 (미래)
+        useLeitnerStore.getState().answerCard('c2', 'knew'); // c2 nextReview = 2026-03-31 (미래)
       });
 
       const stats = useLeitnerStore.getState().getStats();
@@ -348,15 +388,15 @@ describe('useLeitnerStore', () => {
       act(() => {
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' }));
         // 1->2->3->4->5
-        useLeitnerStore.getState().answerCard('c1', true);
-        useLeitnerStore.getState().answerCard('c1', true);
-        useLeitnerStore.getState().answerCard('c1', true);
-        useLeitnerStore.getState().answerCard('c1', true);
+        useLeitnerStore.getState().answerCard('c1', 'knew');
+        useLeitnerStore.getState().answerCard('c1', 'knew');
+        useLeitnerStore.getState().answerCard('c1', 'knew');
+        useLeitnerStore.getState().answerCard('c1', 'knew');
       });
       expect(useLeitnerStore.getState().cards[0].box).toBe(5);
 
       act(() => {
-        useLeitnerStore.getState().answerCard('c1', false); // 5->1
+        useLeitnerStore.getState().answerCard('c1', 'forgot'); // 5->1
       });
 
       const card = useLeitnerStore.getState().cards[0];
@@ -367,7 +407,7 @@ describe('useLeitnerStore', () => {
     it('날짜가 바뀌면 dueToday가 갱신된다', () => {
       act(() => {
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' }));
-        useLeitnerStore.getState().answerCard('c1', true); // box 2, nextReview = 03-31
+        useLeitnerStore.getState().answerCard('c1', 'knew'); // box 2, nextReview = 03-31
       });
 
       // 오늘은 3/29 -> c1은 due 아님 (nextReview = 3/31)
@@ -387,7 +427,7 @@ describe('useLeitnerStore', () => {
       expect(useLeitnerStore.getState().cards).toHaveLength(2);
       // answerCard는 둘 다 영향받는다 (map으로 전체 순회)
       act(() => {
-        useLeitnerStore.getState().answerCard('dup', true);
+        useLeitnerStore.getState().answerCard('dup', 'knew');
       });
       const cards = useLeitnerStore.getState().cards;
       expect(cards.every(c => c.box === 2)).toBe(true);
@@ -406,9 +446,9 @@ describe('useLeitnerStore', () => {
     it('정답 반복으로 box가 정상 승급한다', () => {
       act(() => {
         useLeitnerStore.getState().addCard(makeCardInput({ id: 'c1' }));
-        useLeitnerStore.getState().answerCard('c1', true);
-        useLeitnerStore.getState().answerCard('c1', true);
-        useLeitnerStore.getState().answerCard('c1', true);
+        useLeitnerStore.getState().answerCard('c1', 'knew');
+        useLeitnerStore.getState().answerCard('c1', 'knew');
+        useLeitnerStore.getState().answerCard('c1', 'knew');
       });
 
       expect(useLeitnerStore.getState().cards[0].box).toBe(4);

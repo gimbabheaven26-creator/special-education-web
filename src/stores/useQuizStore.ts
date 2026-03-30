@@ -151,7 +151,7 @@ export const useQuizStore = create<QuizStore>()(
             answer: String(question.answer),
           });
         } else {
-          leitner.answerCard(question.id, false);
+          leitner.answerCard(question.id, 'forgot');
         }
       },
 
