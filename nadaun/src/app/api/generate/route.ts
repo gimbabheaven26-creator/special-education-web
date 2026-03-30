@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
     // prefill: assistant 메시지를 '{'로 시작시켜 순수 JSON 출력 강제
     const prefill = '{"weekly_plans":[';
     const stream = await client.messages.stream({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-sonnet-4-6',
       max_tokens: 16384,
       system: buildSystemPrompt(),
       messages: [
