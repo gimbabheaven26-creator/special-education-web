@@ -61,7 +61,7 @@ docs/cloudy-requests.md    # 작업 요청 큐 (구 클루디, 현 X)
 docs/v-reviews/            # V(외부 검증) 리뷰 파일 — 세션 시작 시 OPEN 항목 확인 필수
 
 src/lib/content/                   # 개념/구조/URL 유틸 (concept-urls, concepts, structure-utils, worksheet-utils)
-src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-difficulty, answer-checker, elaboration 등)
+src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-difficulty, answer-checker 등)
 src/lib/study/                     # 학습 진도 (mastery, badges, xp-constants, stats-utils, study-planner 등)
 src/lib/kice/                      # 기출 데이터 (kice, kice-analytics)
 
@@ -97,7 +97,7 @@ Supabase URL: https://ssluhxvbyzqmdkbjwoke.supabase.co
 ## 아키텍처 요점
 
 - **상태 관리**: Zustand 4개 스토어 (`useStudyStore`, `useLeitnerStore`, `useQuizStore`, `useBookmarkStore`)
-- **라우팅**: App Router. 주요 페이지: `/`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`, `/bookmarks/quiz`
+- **라우팅**: App Router. 주요 페이지: `/`, `/today`, `/quiz/ox`, `/quiz/short`, `/terms`, `/practice`, `/daily`, `/concepts`, `/community`, `/bookmarks/quiz`
 - **오늘학습 `/daily`**: 홈 메인 버튼에서만 접근 (네비 미노출)
 - **MDX 컴포넌트 API**: `FillBlank` = `text` prop, `MatchingExercise` = `items` prop
 - **`src/data/` TS 파일**: 기존 페이지 참조 중 — 새 UI는 `src/lib/db/` 사용

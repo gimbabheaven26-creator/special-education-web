@@ -1,4 +1,37 @@
-# X 세션 핸드오프 — 2026-03-29 (야간6: concepts SSG + UX 간소화)
+# X 세션 핸드오프 — 2026-03-29 (야간7: session-wrap + M2 판정)
+
+## 야간7 세션 (session-wrap)
+
+### M2 Completion Contract 최종 판정: FAIL (8/12 = 66.7%)
+- **기능 기준 4/4 PASS**: 실력쌓기 접근, 내기록 시각화, 함께하기 플로우, 404/에러 제거
+- **UX 기준 4/4 PASS**: 스켈레톤 41개, EmptyState 14페이지, SCORE_TIERS 감성, 깨진 링크 0건
+- **만족도 기준 0/4 FAIL**: 실력쌓기 30%(목표50%), 내기록 20%(목표50%), 함께하기 5%(목표50%), 진단평가 30%(목표70%)
+
+### 카이란 피드백 6건 (M3 입력)
+1. **데이터 연동**: localStorage 기기간 동기화 불가 → Supabase Auth + user_data 테이블 전환 필요
+2. **개념학습 안됨**: `.next` 캐시 손상 — `rm -rf .next`로 해결. 코드 정상. Vercel은 항상 클린 빌드라 영향 없음
+3. **네비 2클릭→1클릭**: ✅ 해결 (27c9002) — NavGroup에 hub href 설정
+4. **함께하기 AI 위자드**: 4단계 수동→AI 생성+편집 재설계 필요 (M3 핵심)
+5. **확신도 제거**: ✅ 해결 (1c8a93f) — 14파일에서 Confidence 완전 삭제
+6. **내기록 UX 4건**: 학습통계 빈약, 북마크 용도 불명, 출제경향 탭 과다(→2탭 해결), 플래시카드 인터랙션 부족
+
+### .next 캐시 이슈 발견
+- `Cannot find module './vendor-chunks/tailwind-merge.js'` — 코드 버그 아님
+- `pkill -f "next dev"; rm -rf .next; npm run dev`로 해결
+- Vercel 배포에는 영향 없음 (항상 클린 빌드)
+
+### 라우트 검증 (17개 전수)
+- curl 기반 HTTP 상태 코드 검증: 15/17 PASS, 2개 실패는 모두 .next 캐시 → 클린 후 17/17 PASS
+- 코드 레벨 라우트 문제: 0건
+
+### 문서 업데이트
+- CLAUDE.md: elaboration 참조 제거, `/today` 라우팅 추가
+- prompt_plan.md: M2 FAIL 판정 + 카이란 피드백 6건 기록
+
+### 후속 작업 파일
+`/tmp/session-wrap/X-20260329-followups.md`
+
+---
 
 ## 야간6 세션
 
@@ -20,7 +53,6 @@
 ### 미결 (P0)
 - DB 스크립트 4건 (카이란 승인 필요)
 - 정교화 질문 재활성화 여부 (카이란 결정 대기)
-- Completion Contract 자가평가 4건
 
 ### 후속 작업 파일
 `/tmp/session-wrap/X-20260329-followups.md`
