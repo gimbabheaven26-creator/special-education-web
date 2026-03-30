@@ -4,9 +4,9 @@ import withPWAInit from '@ducanh2912/next-pwa'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-  experimental: {
-    optimizePackageImports: ['lucide-react'],
-  },
+  // experimental: {
+  //   optimizePackageImports: ['lucide-react'],
+  // },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
