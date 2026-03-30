@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { BookOpen, FileText, Printer, ArrowRight } from 'lucide-react';
 import { getKSTDate } from '@/lib/date-utils';
 import { makeSheetCode } from '@/lib/sheet-code';
+import TodayDashboard from './TodayDashboard';
 
 export default function TodayPage() {
   const today = getKSTDate();
@@ -14,7 +15,7 @@ export default function TodayPage() {
   });
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
       <div>
         <div className="flex items-center gap-3">
           <h1 className="text-xl font-bold text-foreground">오늘의 학습</h1>
@@ -25,6 +26,10 @@ export default function TodayPage() {
         <p className="text-sm text-muted-foreground mt-1">{dateLabel}</p>
       </div>
 
+      {/* Dynamic dashboard — streak, progress, flashcards, wrong notes */}
+      <TodayDashboard />
+
+      {/* Action links */}
       <div className="space-y-3">
         <Link
           href="/daily"
@@ -55,7 +60,7 @@ export default function TodayPage() {
         </Link>
 
         <Link
-          href={`/today/answers?date=${today}`}
+          href={`/today/answers?date=${today}&print=1`}
           className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors group"
         >
           <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-950/30 flex items-center justify-center">
