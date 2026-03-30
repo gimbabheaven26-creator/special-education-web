@@ -13,10 +13,14 @@ import {
 } from 'lucide-react';
 import { useMyPageData } from '@/app/my/useMyPageData';
 import { RecentWrongTab } from '@/app/my/MySubComponents';
+import { WeeklyActivityChart } from '@/app/my/WeeklyActivityChart';
+import { BadgeDisplay } from '@/components/BadgeDisplay';
+import { ExamCountdown } from '@/components/ExamCountdown';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { FlashcardReviewStats } from '@/components/dashboard/FlashcardReviewStats';
 import { useMounted } from '@/hooks/useMounted';
 import { EmptyState } from '@/components/ui/EmptyState';
 
@@ -67,6 +71,8 @@ export default function RecordDashboard() {
         <p className="text-xs text-muted-foreground mt-1">이 기기에서만 유지되는 학습 데이터입니다</p>
       </div>
 
+      <ExamCountdown />
+
       {todayQuizzes > 0 && (
         <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20">
           <p className="text-xs text-muted-foreground mb-1">오늘</p>
@@ -102,6 +108,10 @@ export default function RecordDashboard() {
           <p className="text-[10px] text-muted-foreground mt-1">총 문제</p>
         </div>
       </div>
+
+      <WeeklyActivityChart />
+
+      <FlashcardReviewStats />
 
       {weakness.overall.total > 0 && (
         <div className="flex items-center justify-between p-4 rounded-2xl border border-border bg-card">
@@ -175,6 +185,8 @@ export default function RecordDashboard() {
           ))}
         </div>
       )}
+
+      <BadgeDisplay />
 
       <div className="grid grid-cols-3 gap-3">
         <Link href="/wrong-notes" className="flex flex-col items-center p-3 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors">

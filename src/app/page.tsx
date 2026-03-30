@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { HomeDashboard } from '@/components/dashboard/HomeDashboard';
 import { AdminQuickAccess } from '@/components/dashboard/AdminQuickAccess';
+import { KiceRecommendCard } from '@/components/dashboard/KiceRecommendCard';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <HomeDashboard>
+      <KiceRecommendCard />
       <AdminQuickAccess />
     </HomeDashboard>
   );
