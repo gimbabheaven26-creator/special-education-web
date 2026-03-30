@@ -18,8 +18,25 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { updateWeeklyPlan, deleteWeeklyPlan } from '@/lib/actions/weekly-plans'
-import type { WeeklyPlan, IepGoal } from '@/types/students'
+import {
+  updateWeeklyPlan,
+  deleteWeeklyPlan,
+  updateWeeklyPlanStatus,
+  updateWeeklyPlanProgressNotes,
+} from '@/lib/actions/weekly-plans'
+import type { WeeklyPlan, IepGoal, WeeklyPlanStatus } from '@/types/students'
+
+const STATUS_CYCLE: WeeklyPlanStatus[] = ['planned', 'in_progress', 'completed']
+const STATUS_LABELS: Record<WeeklyPlanStatus, string> = {
+  planned: '예정',
+  in_progress: '진행 중',
+  completed: '완료',
+}
+const STATUS_COLORS: Record<WeeklyPlanStatus, string> = {
+  planned: 'bg-muted text-muted-foreground',
+  in_progress: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+  completed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+}
 
 interface WeeklyPlanItemProps {
   weeklyPlan: WeeklyPlan
@@ -40,10 +57,29 @@ export function WeeklyPlanItem({
   const [editError, setEditError] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
+  const [isEditingMemo, setIsEditingMemo] = useState(false)
+  const [memoValue, setMemoValue] = useState(wp.progress_notes ?? '')
 
   const linkedGoal = planGoals.find(
     (g) => g.achievement_standard_id === wp.achievement_standard_id,
   )
+
+  const currentStatus: WeeklyPlanStatus = wp.status ?? 'planned'
+
+  function handleStatusToggle() {
+    const currentIdx = STATUS_CYCLE.indexOf(currentStatus)
+    const nextStatus = STATUS_CYCLE[(currentIdx + 1) % STATUS_CYCLE.length]
+    startTransition(async () => {
+      await updateWeeklyPlanStatus(wp.id, iepPlanId, studentId, nextStatus)
+    })
+  }
+
+  function handleMemoSave() {
+    startTransition(async () => {
+      await updateWeeklyPlanProgressNotes(wp.id, iepPlanId, studentId, memoValue)
+      setIsEditingMemo(false)
+    })
+  }
 
   async function handleDelete() {
     setDeletingId(wp.id)
@@ -204,6 +240,16 @@ export function WeeklyPlanItem({
                   {linkedGoal.achievement_standard_code}
                 </Badge>
               )}
+              {/* Task 8: 상태별 색상 뱃지 */}
+              <button
+                type="button"
+                onClick={handleStatusToggle}
+                disabled={isPending}
+                className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${STATUS_COLORS[currentStatus]}`}
+                aria-label={`${wp.week_number}주차 상태: ${STATUS_LABELS[currentStatus]}. 클릭하여 변경`}
+              >
+                {STATUS_LABELS[currentStatus]}
+              </button>
             </div>
             <p className="text-sm">{wp.activity}</p>
             {wp.materials && (
@@ -218,6 +264,52 @@ export function WeeklyPlanItem({
             )}
             {wp.notes && (
               <p className="text-xs text-muted-foreground">비고: {wp.notes}</p>
+            )}
+
+            {/* Task 6: 진도 메모 인라인 편집 */}
+            {isEditingMemo ? (
+              <div className="flex items-center gap-2 mt-1">
+                <Input
+                  value={memoValue}
+                  onChange={(e) => setMemoValue(e.target.value)}
+                  placeholder="진도 메모"
+                  className="h-7 text-xs"
+                  aria-label="진도 메모 입력"
+                />
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="default"
+                  className="h-7 text-xs"
+                  onClick={handleMemoSave}
+                  disabled={isPending}
+                >
+                  {isPending ? '...' : '저장'}
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="h-7 text-xs"
+                  onClick={() => {
+                    setIsEditingMemo(false)
+                    setMemoValue(wp.progress_notes ?? '')
+                  }}
+                >
+                  취소
+                </Button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsEditingMemo(true)}
+                className="mt-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                aria-label={`${wp.week_number}주차 진도 메모 ${wp.progress_notes ? '수정' : '추가'}`}
+              >
+                {wp.progress_notes
+                  ? `메모: ${wp.progress_notes}`
+                  : '+ 진도 메모 추가'}
+              </button>
             )}
           </div>
           <div className="flex items-center gap-1">

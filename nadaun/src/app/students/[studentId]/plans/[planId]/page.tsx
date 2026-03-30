@@ -4,6 +4,7 @@ import {
   getStudentById,
   getIepPlanById,
   getWeeklyPlansByIepPlan,
+  getConsiderationsByStandardIds,
 } from '@/lib/queries/students'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -24,6 +25,12 @@ const STATUS_VARIANTS: Record<string, 'default' | 'secondary' | 'outline'> = {
   completed: 'secondary',
 }
 
+const TARGET_LEVEL_VARIANTS: Record<string, 'default' | 'secondary' | 'outline'> = {
+  우수: 'default',
+  보통: 'secondary',
+  기초: 'outline',
+}
+
 export default async function PlanDetailPage({
   params,
   searchParams,
@@ -41,7 +48,11 @@ export default async function PlanDetailPage({
 
   if (!student || !plan) notFound()
 
-  const weeklyPlans = await getWeeklyPlansByIepPlan(plan.id)
+  const standardIds = plan.goals.map((g) => g.achievement_standard_id)
+  const [weeklyPlans, considerationsMap] = await Promise.all([
+    getWeeklyPlansByIepPlan(plan.id),
+    getConsiderationsByStandardIds(standardIds),
+  ])
 
   return (
     <div className="space-y-8">
@@ -91,23 +102,78 @@ export default async function PlanDetailPage({
         <h2 className="text-lg font-semibold">
           목표 ({plan.goals.length}개)
         </h2>
-        {plan.goals.map((goal, i) => (
-          <Card key={i}>
-            <CardContent className="pt-4">
-              <div className="flex items-start gap-2">
-                <Badge variant="outline" className="shrink-0">
-                  {goal.achievement_standard_code}
-                </Badge>
-                <div className="min-w-0">
-                  <p className="font-medium">{goal.description}</p>
-                  <Badge variant="secondary" className="mt-1">
-                    {goal.target_level}
+        {plan.goals.map((goal, i) => {
+          const considerations = considerationsMap.get(goal.achievement_standard_id)
+          return (
+            <Card key={i}>
+              <CardContent className="pt-4 space-y-3">
+                <div className="flex items-start gap-2">
+                  <Badge variant="outline" className="shrink-0">
+                    {goal.achievement_standard_code}
                   </Badge>
+                  <div className="min-w-0">
+                    <p className="font-medium">{goal.description}</p>
+                    <Badge
+                      variant={TARGET_LEVEL_VARIANTS[goal.target_level] ?? 'secondary'}
+                      className="mt-1"
+                    >
+                      {goal.target_level}
+                    </Badge>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+
+                {/* Task 1: 현행수준 평가 결과 표시 */}
+                {goal.present_level && (
+                  <div className="rounded-lg bg-muted/50 p-3 space-y-2">
+                    <p className="text-xs font-semibold text-muted-foreground">
+                      현행수준 평가
+                    </p>
+                    <div className="grid gap-1">
+                      {goal.present_level.levels.map((lv, j) => (
+                        <div key={j} className="flex items-center gap-2 text-sm">
+                          <span className="w-16 shrink-0 text-xs font-medium text-muted-foreground">
+                            {lv.axis_label}
+                          </span>
+                          <span>{lv.selected_text}</span>
+                        </div>
+                      ))}
+                    </div>
+                    {goal.present_level.notes && (
+                      <p className="text-sm text-muted-foreground">
+                        {goal.present_level.notes}
+                      </p>
+                    )}
+                    <p className="text-xs text-muted-foreground">
+                      추천 도달수준:{' '}
+                      <Badge
+                        variant={TARGET_LEVEL_VARIANTS[goal.present_level.recommended_target] ?? 'secondary'}
+                        className="text-xs"
+                      >
+                        {goal.present_level.recommended_target}
+                      </Badge>
+                    </p>
+                  </div>
+                )}
+
+                {/* Task 2: 고려사항 표시 */}
+                {considerations && considerations.length > 0 && (
+                  <div className="rounded-lg border border-dashed p-3">
+                    <p className="text-xs font-semibold text-muted-foreground mb-1">
+                      수업 시 고려사항
+                    </p>
+                    <ul className="list-disc list-inside space-y-0.5">
+                      {considerations.map((c, j) => (
+                        <li key={j} className="text-sm text-muted-foreground">
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
 
       <div className="space-y-4">

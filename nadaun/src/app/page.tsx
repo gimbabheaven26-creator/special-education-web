@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { QuickStartForm } from '@/components/quick-start-form'
-import { getStudents } from '@/lib/queries/students'
+import { getStudents, getThisWeekTodos } from '@/lib/queries/students'
+import { getTeacherId } from '@/lib/supabase/auth'
 import { Card, CardContent } from '@/components/ui/card'
 
 export default async function Home() {
+  const teacherId = await getTeacherId()
   const allStudents = await getStudents()
   const students = allStudents.map((s) => ({
     id: s.id,
@@ -13,6 +15,8 @@ export default async function Home() {
 
   const studentCount = allStudents.length
   const iepCount = allStudents.reduce((sum, s) => sum + s.iep_count, 0)
+
+  const todos = await getThisWeekTodos(teacherId)
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
@@ -56,14 +60,42 @@ export default async function Home() {
             <CardContent className="flex flex-col items-center gap-1 py-3">
               <span
                 className="text-3xl font-bold text-primary"
-                aria-label={`주차 계획 있는 IEP ${iepCount > 0 ? iepCount : 0}개`}
+                aria-label={`이번 주 할 일 ${todos.length}건`}
               >
-                {iepCount}
+                {todos.length}
               </span>
-              <span className="text-xs text-muted-foreground">이번 주 계획</span>
+              <span className="text-xs text-muted-foreground">이번 주 할 일</span>
             </CardContent>
           </Card>
         </div>
+
+        {/* Task 10: 이번 주 할 일 섹션 */}
+        {todos.length > 0 && (
+          <div className="space-y-2 text-left">
+            <h2 className="text-sm font-semibold text-muted-foreground">
+              이번 주 할 일
+            </h2>
+            <div className="space-y-1.5">
+              {todos.map((todo) => (
+                <Link
+                  key={todo.weeklyPlanId}
+                  href={`/students/${todo.studentId}/plans/${todo.iepPlanId}`}
+                  className="block rounded-lg border p-2.5 text-left transition-colors hover:bg-accent"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center rounded-full bg-blue-100 px-1.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                      {todo.weekNumber}주차
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {todo.studentName}
+                    </span>
+                  </div>
+                  <p className="mt-0.5 text-sm truncate">{todo.activity}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         <QuickStartForm students={students} />
 

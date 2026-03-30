@@ -151,6 +151,66 @@ export async function bulkInsertWeeklyPlans(
   return {}
 }
 
+export async function updateWeeklyPlanStatus(
+  weeklyPlanId: string,
+  iepPlanId: string,
+  studentId: string,
+  status: 'planned' | 'in_progress' | 'completed'
+): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
+  const supabase = await createClient()
+
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
+  const { error } = await supabase
+    .from('weekly_plans')
+    .update({ status })
+    .eq('id', weeklyPlanId)
+    .eq('iep_plan_id', iepPlanId)
+
+  if (error) return { error: error.message }
+
+  revalidatePath(`/students/${studentId}/plans/${iepPlanId}`)
+  return {}
+}
+
+export async function updateWeeklyPlanProgressNotes(
+  weeklyPlanId: string,
+  iepPlanId: string,
+  studentId: string,
+  progressNotes: string
+): Promise<ActionResult> {
+  const teacherId = await getTeacherId()
+  const supabase = await createClient()
+
+  const { data: plan } = await supabase
+    .from('iep_plans')
+    .select('id')
+    .eq('id', iepPlanId)
+    .eq('teacher_id', teacherId)
+    .single()
+
+  if (!plan) return { error: '권한이 없습니다.' }
+
+  const { error } = await supabase
+    .from('weekly_plans')
+    .update({ progress_notes: progressNotes || null })
+    .eq('id', weeklyPlanId)
+    .eq('iep_plan_id', iepPlanId)
+
+  if (error) return { error: error.message }
+
+  revalidatePath(`/students/${studentId}/plans/${iepPlanId}`)
+  return {}
+}
+
 export async function deleteWeeklyPlan(
   weeklyPlanId: string,
   iepPlanId: string,

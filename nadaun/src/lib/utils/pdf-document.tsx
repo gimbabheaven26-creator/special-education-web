@@ -309,9 +309,25 @@ function SubjectSection({
           </View>
           <View style={[s.cellValueNoBorder, { flex: 1, minHeight: 40 }]}>
             {plan.goals.map((g, i) => (
-              <Text key={i} style={s.bullet}>
-                • {g.achievement_standard_code}: {g.description}
-              </Text>
+              <View key={i} style={{ marginBottom: 4 }}>
+                <Text style={s.bullet}>
+                  • {g.achievement_standard_code}: {g.description}
+                </Text>
+                {g.present_level && (
+                  <View style={{ paddingLeft: 16 }}>
+                    {g.present_level.levels.map((lv, j) => (
+                      <Text key={j} style={s.small}>
+                        {lv.axis_label}: {lv.selected_text}
+                      </Text>
+                    ))}
+                    {g.present_level.notes && (
+                      <Text style={[s.small, { color: '#555' }]}>
+                        현재 할 수 있는 것: {g.present_level.notes}
+                      </Text>
+                    )}
+                  </View>
+                )}
+              </View>
             ))}
           </View>
         </View>

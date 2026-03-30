@@ -54,7 +54,8 @@ function buildGoalsSheet(
   // Row 3: empty (spacer)
 
   // Row 4: column headers
-  const headers = ['번호', '성취기준코드', '목표 설명', '도달 수준']
+  const headers = ['번호', '성취기준코드', '목표 설명', '도달 수준', '현행수준']
+  const colCountGoals = 5
   const headerRow = sheet.getRow(4)
   headers.forEach((h, i) => {
     const cell = headerRow.getCell(i + 1)
@@ -66,11 +67,24 @@ function buildGoalsSheet(
   // Row 5+: goal data
   plan.goals.forEach((goal, idx) => {
     const row = sheet.getRow(5 + idx)
+
+    let presentLevelText = ''
+    if (goal.present_level) {
+      const axes = goal.present_level.levels
+        .map((lv) => `${lv.axis_label}: ${lv.selected_text}`)
+        .join('; ')
+      presentLevelText = axes
+      if (goal.present_level.notes) {
+        presentLevelText += ` | ${goal.present_level.notes}`
+      }
+    }
+
     const values = [
       idx + 1,
       goal.achievement_standard_code,
       goal.description,
       goal.target_level,
+      presentLevelText,
     ]
     values.forEach((v, i) => {
       const cell = row.getCell(i + 1)
@@ -79,7 +93,7 @@ function buildGoalsSheet(
     })
   })
 
-  applyAutoWidth(sheet, colCount)
+  applyAutoWidth(sheet, colCountGoals)
 }
 
 /** Sheet 2: 주차별 계획 */

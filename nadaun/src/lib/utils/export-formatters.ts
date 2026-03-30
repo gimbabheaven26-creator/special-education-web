@@ -15,6 +15,7 @@ export function formatPlanHeaderAsText(plan: IepPlan): string {
 
 /**
  * IEP 목표 배열을 번호 매긴 텍스트 목록으로 포맷한다.
+ * present_level이 있으면 현행수준 정보를 함께 표시한다.
  * 빈 배열이면 안내 문구를 반환한다.
  */
 export function formatGoalsAsText(goals: IepGoal[]): string {
@@ -23,10 +24,23 @@ export function formatGoalsAsText(goals: IepGoal[]): string {
   }
 
   return goals
-    .map(
-      (g, i) =>
+    .map((g, i) => {
+      const lines: string[] = [
         `${i + 1}. ${g.achievement_standard_code} ${g.description} (도달수준: ${g.target_level})`,
-    )
+      ]
+
+      if (g.present_level) {
+        const axes = g.present_level.levels
+          .map((lv) => `${lv.axis_label}: ${lv.selected_text}`)
+          .join(', ')
+        lines.push(`   현행수준: ${axes}`)
+        if (g.present_level.notes) {
+          lines.push(`   현재 할 수 있는 것: ${g.present_level.notes}`)
+        }
+      }
+
+      return lines.join('\n')
+    })
     .join('\n')
 }
 

@@ -54,6 +54,9 @@ export interface IepPlan {
   updated_at: string
 }
 
+/** 주차별 계획 상태 */
+export type WeeklyPlanStatus = 'planned' | 'in_progress' | 'completed'
+
 /** 주차별 계획 (DB row) */
 export interface WeeklyPlan {
   id: string
@@ -64,6 +67,8 @@ export interface WeeklyPlan {
   materials: string | null
   evaluation_method: string | null
   notes: string | null
+  status: WeeklyPlanStatus
+  progress_notes: string | null
   created_at: string
   updated_at: string
 }

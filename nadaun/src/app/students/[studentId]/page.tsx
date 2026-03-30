@@ -1,16 +1,13 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getStudentById, getIepPlansByStudent, getWeeklyPlanCountsByStudent } from '@/lib/queries/students'
+import {
+  getStudentById,
+  getIepPlansByStudent,
+  getWeeklyPlanProgressByStudent,
+} from '@/lib/queries/students'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { DeleteStudentDialog } from '@/components/students/delete-student-dialog'
-
-function calculateTotalWeeks(periodStart: string, periodEnd: string): number {
-  const start = new Date(periodStart)
-  const end = new Date(periodEnd)
-  const diffMs = end.getTime() - start.getTime()
-  return Math.max(1, Math.ceil(diffMs / (7 * 24 * 60 * 60 * 1000)))
-}
 
 export default async function StudentDetailPage({
   params,
@@ -20,9 +17,9 @@ export default async function StudentDetailPage({
   const student = await getStudentById(params.studentId)
   if (!student) notFound()
 
-  const [plans, weeklyCountMap] = await Promise.all([
+  const [plans, progressMap] = await Promise.all([
     getIepPlansByStudent(student.id),
-    getWeeklyPlanCountsByStudent(student.id),
+    getWeeklyPlanProgressByStudent(student.id),
   ])
 
   return (
@@ -100,16 +97,18 @@ export default async function StudentDetailPage({
         ) : (
           <div className="grid gap-3">
             {plans.map((plan) => {
-                const writtenWeeks = weeklyCountMap.get(plan.id) ?? 0
-                const totalWeeks = calculateTotalWeeks(plan.period_start, plan.period_end)
-                const progressPct = Math.round((writtenWeeks / totalWeeks) * 100)
+                const progress = progressMap.get(plan.id)
+                const total = progress?.total ?? 0
+                const completed = progress?.completed ?? 0
+                const inProg = progress?.inProgress ?? 0
+                const completedPct = progress?.completedPct ?? 0
 
                 return (
                   <Link
                     key={plan.id}
                     href={`/students/${student.id}/plans/${plan.id}`}
                     className="block rounded-lg border p-4 transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    aria-label={`${plan.title} — ${plan.subject}, 주간계획 ${writtenWeeks}/${totalWeeks}주 작성 완료`}
+                    aria-label={`${plan.title} — ${plan.subject}, 진도 ${completed}/${total}주 완료`}
                   >
                     <div className="flex items-center justify-between">
                       <div>
@@ -134,20 +133,47 @@ export default async function StudentDetailPage({
                             : '완료'}
                       </Badge>
                     </div>
-                    <p
-                      className="mt-1 text-xs text-muted-foreground"
-                      aria-label={`목표 ${plan.goals.length}개, 주간계획 진행률 ${writtenWeeks}주 작성 / 총 ${totalWeeks}주`}
-                    >
-                      목표 {plan.goals.length}개
-                      {' · '}
-                      {writtenWeeks === 0 ? (
-                        <span>아직 시작 전</span>
-                      ) : progressPct >= 100 ? (
-                        <Badge variant="secondary" className="ml-1 text-xs">완료</Badge>
-                      ) : (
-                        <span>진행률 {writtenWeeks}/{totalWeeks}주 ({progressPct}%)</span>
-                      )}
-                    </p>
+
+                    {/* Task 9/11: 상태별 프로그레스 바 */}
+                    {total > 0 ? (
+                      <div className="mt-2 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="h-2 flex-1 overflow-hidden rounded-full bg-muted"
+                            role="progressbar"
+                            aria-valuenow={completedPct}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label={`진도 ${completedPct}% 완료`}
+                          >
+                            <div className="flex h-full">
+                              {completed > 0 && (
+                                <div
+                                  className="bg-green-500 transition-all"
+                                  style={{ width: `${(completed / total) * 100}%` }}
+                                />
+                              )}
+                              {inProg > 0 && (
+                                <div
+                                  className="bg-blue-500 transition-all"
+                                  style={{ width: `${(inProg / total) * 100}%` }}
+                                />
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-xs tabular-nums text-muted-foreground">
+                            {completedPct}%
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          목표 {plan.goals.length}개 · 완료 {completed} / 진행 {inProg} / 예정 {total - completed - inProg}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        목표 {plan.goals.length}개 · 아직 시작 전
+                      </p>
+                    )}
                   </Link>
                 )
               })}
