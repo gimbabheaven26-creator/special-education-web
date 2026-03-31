@@ -64,15 +64,19 @@ export default async function ConceptSubjectPage({ params }: Props) {
         </div>
       )}
 
-      {/* 개념 파일 목록 */}
+      {/* 개념 파일 목록 — overlay link 패턴: 카드 전체 클릭 + BookmarkButton 독립 */}
       <div className="flex flex-col gap-3">
         {files.map((file, idx) => (
-          <Link
+          <div
             key={file.slug}
-            href={`/concepts/${decodedSubject}/${file.slug}`}
-            className="group block p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-muted/30 transition-all"
+            className="relative group p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-muted/30 transition-all"
           >
-            <div className="flex items-start justify-between gap-3">
+            <Link
+              href={`/concepts/${decodedSubject}/${file.slug}`}
+              className="absolute inset-0 z-0 rounded-xl"
+              aria-label={`${file.title} 개념 학습하기`}
+            />
+            <div className="relative flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-[10px] text-muted-foreground font-mono">
@@ -107,7 +111,7 @@ export default async function ConceptSubjectPage({ params }: Props) {
                   </div>
                 )}
               </div>
-              <div className="shrink-0 flex flex-col items-end gap-1.5">
+              <div className="shrink-0 flex flex-col items-end gap-1.5 relative z-10">
                 {dbSlug && (
                   <BookmarkButton
                     path={`/concepts/${decodedSubject}/${file.slug}`}
@@ -118,7 +122,7 @@ export default async function ConceptSubjectPage({ params }: Props) {
                 <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

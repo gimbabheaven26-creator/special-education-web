@@ -1,24 +1,12 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import Link from 'next/link';
 import { TrendingUp } from 'lucide-react';
-
-interface KiceTermsData {
-  total_questions: number;
-  unique_keywords: number;
-  keywords_by_frequency: Record<string, number>;
-}
+import kiceTermsData from '@/../data/terminology/kice-terms.json';
 
 function loadTopKeywords(count: number): Array<{ keyword: string; frequency: number }> {
   try {
-    const raw = readFileSync(
-      join(process.cwd(), 'data', 'terminology', 'kice-terms.json'),
-      'utf-8'
-    );
-    const data: KiceTermsData = JSON.parse(raw);
-    return Object.entries(data.keywords_by_frequency)
+    return Object.entries(kiceTermsData.keywords_by_frequency)
       .slice(0, count)
-      .map(([keyword, frequency]) => ({ keyword, frequency }));
+      .map(([keyword, frequency]) => ({ keyword, frequency: frequency as number }));
   } catch {
     return [];
   }

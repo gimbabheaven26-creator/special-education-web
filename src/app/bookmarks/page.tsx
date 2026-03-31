@@ -80,6 +80,23 @@ export default function BookmarksPage() {
             개념학습 페이지에서 북마크한 챕터예요. 시험 전 복습에 활용하세요. 총 {bookmarks.length}개.
           </p>
 
+          {/* 북마크 퀴즈 배너 */}
+          <Link
+            href="/bookmarks/quiz"
+            className="flex items-center justify-between gap-3 p-4 rounded-2xl bg-primary/5 border border-primary/20 hover:bg-primary/10 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10">
+                <Brain className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">북마크 퀴즈</p>
+                <p className="text-xs text-muted-foreground">북마크한 {bookmarks.length}개 챕터에서 출제</p>
+              </div>
+            </div>
+            <Button size="sm" className="shrink-0 min-h-[36px]">시작</Button>
+          </Link>
+
           {/* Action buttons */}
           <div className="flex justify-between items-center gap-2 flex-wrap">
             {/* Subject filter */}
