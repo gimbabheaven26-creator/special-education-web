@@ -2,8 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ThumbsUp, Plus, CheckCircle2 } from 'lucide-react';
-import { EmptyState } from '@/components/ui/EmptyState';
+import { ThumbsUp, Plus, CheckCircle2, Sparkles, Users, Brain, Award } from 'lucide-react';
 import type { CommunityQuestion, SortOrder } from '@/types/community';
 
 interface Props {
@@ -85,11 +84,63 @@ export default function CommunityClient({ initialQuestions, subjects }: Props) {
 
       {/* 문제 목록 */}
       {filtered.length === 0 ? (
-        <EmptyState
-          title="아직 문제가 없습니다"
-          description="첫 번째 문제를 만들어보세요!"
-          action={{ label: '문제 만들기', href: '/community/create', ariaLabel: '커뮤니티 문제 만들기 페이지로 이동' }}
-        />
+        <div className="space-y-6 py-4">
+          {/* 소개 배너 */}
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-foreground">함께 만드는 문제은행</h2>
+                <p className="text-sm text-muted-foreground">AI가 초안을 만들고, 내가 다듬고, 다 함께 풀어요</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 3단계 안내 */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/30 shrink-0">
+                <Sparkles className="h-4 w-4 text-violet-600 dark:text-violet-400" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">1. AI 초안 생성</p>
+                <p className="text-xs text-muted-foreground mt-0.5">과목·유형만 선택하면 AI가 문제를 만들어요</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 shrink-0">
+                <Brain className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">2. 내 관점으로 수정</p>
+                <p className="text-xs text-muted-foreground mt-0.5">AI 초안을 내 경험으로 다듬어요</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/30 shrink-0">
+                <Award className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">3. 함께 풀고 투표</p>
+                <p className="text-xs text-muted-foreground mt-0.5">좋은 문제는 공식 채택돼요</p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
+            <Link
+              href="/community/create"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors min-h-[48px]"
+            >
+              <Sparkles className="h-5 w-5" />
+              첫 번째 문제 만들기
+            </Link>
+            <p className="text-xs text-muted-foreground mt-3">로그인 후 이용할 수 있어요</p>
+          </div>
+        </div>
       ) : (
         <div className="space-y-3">
           {filtered.map((q) => (
