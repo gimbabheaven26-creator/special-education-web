@@ -100,11 +100,9 @@ export function GenerateButton(props: GenerateButtonProps) {
             AI가 주차별 계획을 생성하고 있어요...
           </p>
         </div>
-        {streamText && (
-          <pre className="max-h-40 overflow-auto rounded bg-muted/50 p-2 text-xs">
-            {streamText.slice(-500)}
-          </pre>
-        )}
+        <p className="text-xs text-muted-foreground">
+          잠시만 기다려주세요. 보통 10~30초 정도 걸려요.
+        </p>
       </div>
     )
   }
