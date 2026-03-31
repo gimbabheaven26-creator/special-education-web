@@ -72,6 +72,7 @@ src/app/my/WeaknessInsight.tsx     # 약점 과목 3개 + 정답률 + 연습 링
 src/app/my/SmartRecommendations.tsx # 데이터 기반 추천 액션 최대 3개
 src/app/mastery/LearningDashboard.tsx  # 학습 현황 대시보드 (mastery/page.tsx에서 추출)
 src/lib/kice/                      # 기출 데이터 (kice, kice-analytics)
+src/components/dashboard/KiceRecommendCard.tsx  # 기출 빈출 키워드 카드 (data/terminology/kice-terms.json 정적 import)
 
 scripts/insert-with-service-key.mjs  # Supabase 데이터 삽입 패턴
 data/terminology/nise-dictionary.json  # NISE 용어사전 1129개
@@ -137,6 +138,9 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 - **접근성**: WCAG 2.1 AA 기준 — 모든 버튼에 `aria-label`, 이미지에 `alt`, `focus-visible` 스타일 유지
 - **global-error.tsx 예외**: 루트 레이아웃 에러 처리 특성상 Tailwind 미사용, 인라인 스타일 허용
 - **optimizePackageImports 재활성화 금지**: `next.config.mjs`의 `experimental.optimizePackageImports: ['lucide-react']`는 webpack 모듈 분할과 충돌하여 SSG prerender TypeError 발생 (6067d27). 재활성화 시 119페이지 빌드 실패
+- **force-dynamic 필수 페이지**: `src/app/page.tsx`, `src/app/login/page.tsx`, `src/app/not-found.tsx`, `src/app/record/page.tsx` — webpack 번들 분할 불일치로 SSG prerender 'call' TypeError 발생하여 force-dynamic 적용 (ce921e1). 제거 시 빌드 실패
+- **overlay link 패턴**: 카드 전체 클릭 + 독립 버튼 공존 시 `absolute inset-0 z-0` anchor + `relative z-10` 버튼 조합 사용 (854497d)
+- **JSON 정적 데이터 import**: Server Component에서 `readFileSync` 대신 `import data from '@/../data/file.json'` 사용 — SSG/빌드 안정성 확보 (aa0f663)
 
 ---
 
@@ -206,6 +210,11 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 - [x] 용어→플래시카드 브릿지 + 통합검색 용어 1,129개 (8a3b35e, 2026-03-30)
 - [x] E2E /my + /record Playwright 8건 (ccd1d43, 2026-03-30)
 - [x] B4 커뮤니티 AI 문제 만들기 — Gemini 1.5 Flash + AI-First 3단계 + 직접작성 병행
+- [x] force-dynamic 3페이지(login, not-found, record) SSG prerender 수정 (ce921e1, 2026-03-31)
+- [x] bookmark overlay link 패턴 — BookmarkButton 클릭 충돌 해결 (854497d, 2026-03-31)
+- [x] 홈 KICE JSON import + 기록 CTA (aa0f663, 2026-03-31)
+- [x] community 빈 상태 온보딩 UI + CC 플래시카드 체크 (71d3d16, 2026-03-31)
+- [x] 나다운 AI 수정 4건 — max_tokens, 모델 변경, 파싱 에러, 스트림 숨김 (aeafddb~0154c61, 2026-03-31)
 
 > M1 Day 1 전체 완료 (2026-03-25). Day 2: V리뷰 7/7 해소 + RouteErrorPage + global-error + SCORE_TIERS (2026-03-26). Day 3~4: smooth scroll + ariaLabel + 에이전트 통합 (2026-03-27~28). Day 5: 하네스 분석 + 문서 정비 + 기출 직링크 + Week 2 인프라 재구조 3건 + **vitest 38건 + 용어 순화 + 빈 상태/접근성 + 하네스 실전 검증** (2026-03-28). Day 6: **daily 리팩토링 + 테스트 271→736건 + loading.tsx 10개 + EmptyState + UX 문구 + 의사소통장애 퀴즈** (2026-03-29). Day 8: **lib/ 31파일 5도메인 분리 + 테스트 736→894건 + EmptyState 7페이지 통합 + 빌드 복구** (2026-03-29). Day 9: **컴포넌트 분해 3건 — QuizForm·QuizClient·MyPage 500줄 미만 달성** (2026-03-29). Day 10: **UX fix 3건 + loading 4곳 + 북마크 퀴즈 라우트** (2026-03-29). Day 11: **concepts SSG 수정 + Confidence 완전 제거 + 출제경향 4→2탭 + 네비 1클릭** (2026-03-29).
 

@@ -24,6 +24,27 @@
 
 ---
 
+## [2026-03-31] X — 빌드 수복 + 북마크 UX + KICE JSON import
+
+### 변경 내용
+- SSG prerender 빌드 실패 3페이지(/_not-found, /login, /record) force-dynamic 적용 (ce921e1)
+- BookmarkButton 클릭 충돌 해결 — overlay link 패턴 적용 (854497d)
+- 홈 KICE JSON import + 기록 CTA + 북마크 독립 클릭 (aa0f663)
+- community 빈 상태 온보딩 UI + CC 플래시카드 체크 (71d3d16)
+- nadaun AI 모델 haiku→sonnet 4.6 + max_tokens 16384 + 스트림 텍스트 숨김 (0154c61, ea350ed, 19cd7ab, aeafddb)
+
+### 영향 범위
+- X(빌드): login, not-found, record 페이지 SSR 전환 (SSG→force-dynamic)
+- X(빌드): KiceRecommendCard kice-terms.json 정적 import 패턴
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 통과 (193 pages, exit 0)
+- [x] 테스트 통과 (917/917)
+- [x] Vercel 배포 완료
+
+---
+
 ## [2026-03-30] X — /my 대시보드 강화 + concepts 버그 수정 + nadaun Phase 4-2
 
 ### 변경 내용
