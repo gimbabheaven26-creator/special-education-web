@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function NotFound() {
   return (
     <div role="status" className="max-w-md mx-auto px-4 py-20 text-center space-y-6">

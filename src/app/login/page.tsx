@@ -4,6 +4,8 @@ import { LoginForm } from '@/components/auth/LoginForm';
 import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons';
 import { safeRedirectPath } from '@/lib/auth-utils';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: '로그인 | 특수교육 공부방',
 };
