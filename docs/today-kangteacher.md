@@ -1,3 +1,59 @@
+# X 세션 핸드오프 — 2026-03-31 세션 3 (rules 토큰 다이어트)
+
+## 2026-03-31 세션 3 — rules 토큰 다이어트 (~18,000 tok/세션 절약)
+
+### 커밋 (1건)
+| 해시 | 내용 |
+|------|------|
+| 64f2eda | CLAUDE.md M1 체크리스트 65항목→1줄 요약 |
+
+### 비추적 변경 (~/.claude/ 내부)
+- x-identity.md: 학술 근거 섹션 제거 (21,945→13,828 bytes)
+- skills-guide.md: rules/ → memory/ 이동
+- v-identity.md: rules/ 삭제 → agents/v.md 통합
+- MEMORY.md: 아카이브 핸드오프 12건 축약
+
+### 핵심 인사이트
+- AI에게 "내면화"는 없다 — 매 세션 리셋. 문서 제거 정당화는 "행동 영향 없음"으로만 가능.
+- rules/ 42,000 tok × 병렬 세션 수 = 실제 비용. 이번 조치로 ~24,000 tok으로 절감.
+
+### 다음 세션 P0
+- 카이란 만족도 재평가 (CC 73.3% → 80%+ 목표)
+- nadaun AI 생성 프로덕션 검증
+
+### 다음 세션 P1
+- /token-audit 커맨드 생성 (scout-007)
+- nadaun teaching_materials CRUD 테스트
+- force-dynamic 3페이지 프로덕션 검증
+- x-identity.md 추가 다이어트 (225줄 산문 분리 검토)
+
+---
+
+# X 세션 핸드오프 — 2026-03-31 세션 2 (UX fix + community 온보딩 + 빌드 수정)
+
+## 2026-03-31 세션 2 (빌드 수정 + UX fix 4건 + CC 갱신)
+
+### 커밋 (4건, 모두 푸시 완료)
+| 해시 | 내용 |
+|------|------|
+| aa0f663 | 북마크 독립 클릭 + 기록 CTA + 홈 KICE JSON import (readFileSync→static import) |
+| 854497d | BookmarkButton overlay link 패턴으로 클릭 충돌 해결 |
+| ce921e1 | force-dynamic on 3 SSG prerender failing pages (login, not-found, record) |
+| 71d3d16 | community 빈 상태 온보딩 UI + CC 플래시카드 체크 |
+
+### 핵심 디버깅
+- **webpack SSG 'call' TypeError** 원인: KiceRecommendCard.tsx의 `readFileSync` (Node fs)가 webpack 모듈 번들링 오염 → 무관한 SSG 페이지 3개 실패
+- **격리 방법**: binary search — 커밋 파일을 절반씩 revert하며 원인 파일 특정
+- **해결**: static JSON import (`import data from '@/../data/...'`)로 대체
+
+### 다음 세션
+- **P0**: 카이란 만족도 재평가 (CC 73.3% → 80%+ 필요)
+- **P1**: nadaun teaching_materials CRUD 테스트 작성
+- **P1**: force-dynamic 3페이지 프로덕션 검증
+- **P2**: CommunityClient / RecordDashboard 단위 테스트
+
+---
+
 # X 세션 핸드오프 — 2026-03-31 (나다운 AI 수정 + 배포)
 
 ## 2026-03-31 세션 (나다운 AI 생성 수정 + 배포 인프라 완료)
