@@ -193,9 +193,12 @@ export default function RecordDashboard() {
           <span className="text-lg font-bold text-red-500 tabular-nums">{unmasteredCount}</span>
           <p className="text-[10px] text-muted-foreground mt-1">미해결 오답</p>
         </Link>
-        <Link href="/bookmarks" className="flex flex-col items-center p-3 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors">
+        <Link href={bookmarkCount > 0 ? '/bookmarks' : '/concepts'} className="flex flex-col items-center p-3 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors">
           <span className="text-lg font-bold text-amber-500 tabular-nums">{bookmarkCount}</span>
           <p className="text-[10px] text-muted-foreground mt-1">북마크</p>
+          <p className="text-[9px] text-amber-600 dark:text-amber-400 mt-0.5">
+            {bookmarkCount > 0 ? '퀴즈 풀기 →' : '⭐ 추가하기'}
+          </p>
         </Link>
         <Link href="/flashcards" className="flex flex-col items-center p-3 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors">
           <span className="text-lg font-bold text-purple-500 tabular-nums">{leitnerStats.dueToday}</span>
