@@ -187,10 +187,13 @@ export async function POST(request: NextRequest) {
           let result: GenerationResult;
           try {
             result = JSON.parse(jsonText) as GenerationResult;
-          } catch {
+          } catch (parseErr) {
+            const preview = jsonText.slice(0, 200);
+            const errMsg = parseErr instanceof Error ? parseErr.message : 'unknown';
+            console.error('[AI parse fail]', { errMsg, length: jsonText.length, preview });
             controller.enqueue(
               encoder.encode(
-                `data: ${JSON.stringify({ type: 'error', message: 'AI 응답을 파싱할 수 없습니다. 다시 시도해주세요.' })}\n\n`
+                `data: ${JSON.stringify({ type: 'error', message: `AI 응답 파싱 실패 (${jsonText.length}자). 다시 시도해주세요.` })}\n\n`
               )
             );
             controller.close();
