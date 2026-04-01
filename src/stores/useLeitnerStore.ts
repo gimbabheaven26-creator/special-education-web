@@ -11,7 +11,10 @@ export interface LeitnerCard {
   lastReviewed: string;
   nextReview: string;
   createdAt: string;
-  source?: 'manual' | 'term' | 'kice-recommend';
+  source?: 'manual' | 'term' | 'kice-recommend' | 'quiz-ox' | 'quiz-fill_in';
+  chapterSlug?: string;
+  quizId?: string;
+  quizType?: 'ox' | 'fill_in';
 }
 
 export interface ReviewLog {
@@ -47,6 +50,7 @@ interface LeitnerStore {
   cards: LeitnerCard[];
   reviewLogs: ReviewLog[];
   addCard: (card: Omit<LeitnerCard, 'box' | 'lastReviewed' | 'nextReview' | 'createdAt'>) => void;
+  hasQuizCard: (quizId: string) => boolean;
   answerCard: (cardId: string, grade: AnswerGrade) => void;
   getDueCards: (subjectSlug?: string) => LeitnerCard[];
   getCardsByBox: (box: number) => LeitnerCard[];
@@ -159,6 +163,10 @@ export const useLeitnerStore = create<LeitnerStore>()(
         return cardId ? logs.filter((l) => l.cardId === cardId) : logs;
       },
 
+      hasQuizCard: (quizId) => {
+        return get().cards.some((c) => c.quizId === quizId);
+      },
+
       removeCard: (cardId) => {
         set((state) => ({
           cards: state.cards.filter((card) => card.id !== cardId),
@@ -167,7 +175,7 @@ export const useLeitnerStore = create<LeitnerStore>()(
     }),
     {
       name: 'leitner-cards',
-      version: 2,
+      version: 3,
       migrate: (persistedState, version) => {
         const state = persistedState as Record<string, unknown>;
         if (version < 2) {
