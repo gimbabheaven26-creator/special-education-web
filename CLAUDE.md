@@ -139,7 +139,7 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 - **접근성**: WCAG 2.1 AA 기준 — 모든 버튼에 `aria-label`, 이미지에 `alt`, `focus-visible` 스타일 유지
 - **global-error.tsx 예외**: 루트 레이아웃 에러 처리 특성상 Tailwind 미사용, 인라인 스타일 허용
 - **optimizePackageImports 재활성화 금지**: `next.config.mjs`의 `experimental.optimizePackageImports: ['lucide-react']`는 webpack 모듈 분할과 충돌하여 SSG prerender TypeError 발생 (6067d27). 재활성화 시 119페이지 빌드 실패
-- **force-dynamic 필수 페이지**: `src/app/page.tsx`, `src/app/login/page.tsx`, `src/app/not-found.tsx`, `src/app/record/page.tsx` — webpack 번들 분할 불일치로 SSG prerender 'call' TypeError 발생하여 force-dynamic 적용 (ce921e1). 제거 시 빌드 실패
+- **force-dynamic 필수 페이지**: `page.tsx`, `login`, `not-found`, `record`, `terms`, `community`, `concepts/[subject]`, `concepts`, `daily`, `diagnosis`, `flashcards/review`, `interactive`, `kice`, `onboarding`, `practice-hub`, `scenarios`, `subjects`, `today`, `today/answers` — webpack 번들 분할 불일치로 SSG prerender 'call' TypeError. 4개 'use client' 페이지는 SC wrapper + Client 분리 (2324e03). 제거 시 빌드 실패
 - **overlay link 패턴**: 카드 전체 클릭 + 독립 버튼 공존 시 `absolute inset-0 z-0` anchor + `relative z-10` 버튼 조합 사용 (854497d)
 - **JSON 정적 데이터 import**: Server Component에서 `readFileSync` 대신 `import data from '@/../data/file.json'` 사용 — SSG/빌드 안정성 확보 (aa0f663)
 
