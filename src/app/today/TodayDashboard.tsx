@@ -5,6 +5,7 @@ import { useMounted } from '@/hooks/useMounted';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { getKSTDate } from '@/lib/date-utils';
 import { Flame, Target, Brain, Layers, ChevronRight } from 'lucide-react';
 
 function StatCard({
@@ -53,7 +54,11 @@ export default function TodayDashboard() {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const unmasteredCount = wrongNotes.filter((n) => !n.mastered).length;
 
-  const flashcardStats = useLeitnerStore((s) => s.getStats());
+  const flashcardTotal = useLeitnerStore((s) => s.cards.length);
+  const flashcardDueToday = useLeitnerStore((s) => {
+    const today = getKSTDate();
+    return s.cards.filter((c) => c.nextReview <= today).length;
+  });
 
   if (!mounted) {
     return (
@@ -122,9 +127,9 @@ export default function TodayDashboard() {
           icon={<Brain className="h-4 w-4 text-purple-600 dark:text-purple-400" />}
           color="bg-purple-100 dark:bg-purple-950/30"
           label="복습 대기 카드"
-          value={flashcardStats.dueToday}
-          sub={flashcardStats.total > 0 ? `총 ${flashcardStats.total}장` : '카드 없음'}
-          href={flashcardStats.dueToday > 0 ? '/flashcards/review' : '/flashcards'}
+          value={flashcardDueToday}
+          sub={flashcardTotal > 0 ? `총 ${flashcardTotal}장` : '카드 없음'}
+          href={flashcardDueToday > 0 ? '/flashcards/review' : '/flashcards'}
         />
 
         <StatCard
