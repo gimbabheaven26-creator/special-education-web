@@ -49,6 +49,10 @@ test-results/
 playwright-report/
 nadaun/test-results/
 nadaun/playwright-report/
+.playwright-mcp/
+
+# temp screenshots
+flashcards-*.png
 
 # scripts output
 scripts/output/
