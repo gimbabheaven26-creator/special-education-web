@@ -186,7 +186,7 @@ communication-disorder:
 
 - **UNIQUE(user_id, store_key)** — 사용자당 스토어별 1행
 - RLS: 본인 데이터만 CRUD (`auth.uid() = user_id`)
-- **CHECK**: store_key IN ('study', 'leitner', 'quiz', 'bookmark')
+- **CHECK**: store_key IN ('study', 'leitner', 'quiz', 'bookmark', 'onboarding', 'focus')
 
 #### 동기화 전략
 

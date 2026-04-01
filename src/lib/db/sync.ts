@@ -5,7 +5,7 @@
 
 import { createClient } from '@/lib/supabase/browser';
 
-export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding';
+export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding' | 'focus';
 
 /** 함수 제거, 직렬화 가능한 데이터만 추출 */
 export function serializeState(state: Record<string, unknown>): Record<string, unknown> {
@@ -127,11 +127,12 @@ export async function pullFromServer(
  */
 export async function migrateGuestData(userId: string): Promise<void> {
   const STORE_LS_KEYS: Record<StoreKey, string> = {
-    study: 'special-edu-study-store',
-    leitner: 'special-edu-leitner',
-    quiz: 'special-edu-quiz-store',
-    bookmark: 'special-edu-bookmarks',
+    study: 'special-edu-study',
+    leitner: 'leitner-cards',
+    quiz: 'quiz-data',
+    bookmark: 'bookmarks',
     onboarding: 'special-edu-onboarding',
+    focus: 'focus-store',
   };
 
   const promises: Promise<unknown>[] = [];
@@ -153,7 +154,7 @@ export async function migrateGuestData(userId: string): Promise<void> {
 }
 
 /**
- * 서버에서 5개 스토어 데이터를 pull 하여 각 Zustand 스토어에 hydrate.
+ * 서버에서 6개 스토어 데이터를 pull 하여 각 Zustand 스토어에 hydrate.
  * 이 함수는 클라이언트에서만 호출 가능.
  */
 export async function syncAllStores(userId: string): Promise<void> {
@@ -164,18 +165,20 @@ export async function syncAllStores(userId: string): Promise<void> {
     { useLeitnerStore },
     { useBookmarkStore },
     { useOnboardingStore },
+    { useFocusStore },
   ] = await Promise.all([
     import('@/stores/useStudyStore'),
     import('@/stores/useQuizStore'),
     import('@/stores/useLeitnerStore'),
     import('@/stores/useBookmarkStore'),
     import('@/stores/useOnboardingStore'),
+    import('@/stores/useFocusStore'),
   ]);
 
-  const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding'];
+  const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus'];
   const results = await Promise.all(keys.map((k) => pullFromServer(userId, k)));
 
-  const [studyData, quizData, leitnerData, bookmarkData, onboardingData] = results;
+  const [studyData, quizData, leitnerData, bookmarkData, onboardingData, focusData] = results;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (studyData) useStudyStore.setState(studyData as any);
@@ -187,4 +190,6 @@ export async function syncAllStores(userId: string): Promise<void> {
   if (bookmarkData) useBookmarkStore.setState(bookmarkData as any);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (onboardingData) useOnboardingStore.setState(onboardingData as any);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (focusData) useFocusStore.setState(focusData as any);
 }

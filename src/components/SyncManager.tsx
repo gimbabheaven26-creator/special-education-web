@@ -24,6 +24,7 @@ import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { useOnboardingStore } from '@/stores/useOnboardingStore';
+import { useFocusStore } from '@/stores/useFocusStore';
 
 const DEBOUNCE_MS = 1500;
 
@@ -39,6 +40,8 @@ const STORE_SETTERS: Record<StoreKey, { setState: (data: Record<string, unknown>
   bookmark: { setState: (d) => useBookmarkStore.setState(d as any) },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onboarding: { setState: (d) => useOnboardingStore.setState(d as any) },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  focus: { setState: (d) => useFocusStore.setState(d as any) },
 };
 
 export function SyncManager() {
@@ -86,7 +89,7 @@ export function SyncManager() {
       await syncAllStores(userId);
       // 초기 동기화 완료 시점 기록
       const now = new Date().toISOString();
-      const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding'];
+      const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus'];
       keys.forEach((k) => { lastSyncTs.current[k] = now; });
     } catch (err) {
       console.error('[SyncManager] syncOnLogin error:', err);
@@ -133,6 +136,10 @@ export function SyncManager() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       useOnboardingStore.subscribe((state: any) => {
         if (!isSyncing.current) schedulePush('onboarding', state as Record<string, unknown>);
+      }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      useFocusStore.subscribe((state: any) => {
+        if (!isSyncing.current) schedulePush('focus', state as Record<string, unknown>);
       }),
     ];
 

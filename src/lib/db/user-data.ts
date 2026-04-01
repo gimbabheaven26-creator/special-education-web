@@ -13,7 +13,7 @@ export interface Profile {
   updated_at: string;
 }
 
-export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding';
+export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding' | 'focus';
 
 export interface UserDataRow {
   id: string;
