@@ -243,12 +243,13 @@ describe('sync', () => {
       mockedCreateClient.mockReturnValue(sb as never);
 
       // Mock localStorage with valid Zustand persist format
+      // Keys must match STORE_LS_KEYS in sync.ts
       const mockStorage: Record<string, string> = {
-        'special-edu-study-store': JSON.stringify({
+        'special-edu-study': JSON.stringify({
           state: { subject: 'math', doSomething: 'not a function' },
           version: 1,
         }),
-        'special-edu-quiz-store': JSON.stringify({
+        'quiz-data': JSON.stringify({
           state: { score: 99 },
           version: 1,
         }),
@@ -271,7 +272,7 @@ describe('sync', () => {
 
       vi.spyOn(Storage.prototype, 'getItem').mockImplementation(
         (key: string) => {
-          if (key === 'special-edu-study-store') return JSON.stringify('just a string');
+          if (key === 'special-edu-study') return JSON.stringify('just a string');
           return null;
         },
       );
@@ -289,7 +290,7 @@ describe('sync', () => {
 
       vi.spyOn(Storage.prototype, 'getItem').mockImplementation(
         (key: string) => {
-          if (key === 'special-edu-study-store') return '{invalid json';
+          if (key === 'special-edu-study') return '{invalid json';
           return null;
         },
       );
@@ -307,7 +308,7 @@ describe('sync', () => {
 
       vi.spyOn(Storage.prototype, 'getItem').mockImplementation(
         (key: string) => {
-          if (key === 'special-edu-study-store') return JSON.stringify({ state: 'not-object', version: 1 });
+          if (key === 'special-edu-study') return JSON.stringify({ state: 'not-object', version: 1 });
           return null;
         },
       );
