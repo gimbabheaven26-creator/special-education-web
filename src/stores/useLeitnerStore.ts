@@ -64,6 +64,7 @@ interface LeitnerStore {
     dueToday: number;
   };
   getReviewLogs: (cardId?: string) => ReviewLog[];
+  updateCard: (cardId: string, updates: Pick<LeitnerCard, 'question' | 'answer'>) => void;
   removeCard: (cardId: string) => void;
 }
 
@@ -165,6 +166,14 @@ export const useLeitnerStore = create<LeitnerStore>()(
 
       hasQuizCard: (quizId) => {
         return get().cards.some((c) => c.quizId === quizId);
+      },
+
+      updateCard: (cardId, updates) => {
+        set((state) => ({
+          cards: state.cards.map((card) =>
+            card.id === cardId ? { ...card, ...updates } : card,
+          ),
+        }));
       },
 
       removeCard: (cardId) => {

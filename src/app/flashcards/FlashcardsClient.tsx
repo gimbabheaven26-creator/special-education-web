@@ -8,7 +8,7 @@ import type { Subject } from '@/types/content';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { Trash2, Plus, Play, ChevronDown, ChevronUp } from 'lucide-react';
+import { Trash2, Plus, Play, ChevronDown, ChevronUp, Pencil, X } from 'lucide-react';
 
 const BOX_LABELS: Record<number, { label: string; color: string; bg: string }> = {
   1: { label: '박스 1 · 매일', color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800' },
@@ -17,6 +17,8 @@ const BOX_LABELS: Record<number, { label: string; color: string; bg: string }> =
   4: { label: '박스 4 · 8일', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800' },
   5: { label: '박스 5 · 16일', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800' },
 };
+
+// ─── 박스 분포 바 ───────────────────────────────────────────────────────────────
 
 function BoxDistribution({ stats }: { stats: ReturnType<typeof useLeitnerStore.getState>['getStats'] extends () => infer R ? R : never }) {
   const total = stats.total;
@@ -34,25 +36,94 @@ function BoxDistribution({ stats }: { stats: ReturnType<typeof useLeitnerStore.g
     <div className="flex gap-1 h-3 rounded-full overflow-hidden bg-muted" role="img" aria-label={`박스 분포: ${boxes.map(b => `박스${b.box} ${b.count}장`).join(', ')}`}>
       {boxes.map((b) =>
         b.count > 0 ? (
-          <div
-            key={b.box}
-            className={`${b.color} transition-all`}
-            style={{ width: `${(b.count / total) * 100}%` }}
-          />
+          <div key={b.box} className={`${b.color} transition-all`} style={{ width: `${(b.count / total) * 100}%` }} />
         ) : null
       )}
     </div>
   );
 }
 
+// ─── 편집 모달 ──────────────────────────────────────────────────────────────────
+
+function EditCardModal({
+  card,
+  onSave,
+  onClose,
+}: {
+  card: LeitnerCard;
+  onSave: (question: string, answer: string) => void;
+  onClose: () => void;
+}) {
+  const [question, setQuestion] = useState(card.question);
+  const [answer, setAnswer] = useState(card.answer);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!question.trim() || !answer.trim()) return;
+    onSave(question.trim(), answer.trim());
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
+      <div
+        className="bg-card rounded-2xl border border-border shadow-xl w-full max-w-md p-5 space-y-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold">카드 편집</h2>
+          <button onClick={onClose} className="p-1.5 rounded-md hover:bg-muted transition-colors" aria-label="닫기">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="space-y-1">
+            <label className="text-sm font-medium" htmlFor="edit-question">질문</label>
+            <textarea
+              id="edit-question"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              rows={3}
+              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-sm font-medium" htmlFor="edit-answer">답</label>
+            <textarea
+              id="edit-answer"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              rows={4}
+              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              required
+            />
+          </div>
+          <div className="flex gap-3">
+            <Button type="button" variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>
+              취소
+            </Button>
+            <Button type="submit" className="flex-1 min-h-[44px]" disabled={!question.trim() || !answer.trim()}>
+              저장
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ─── 카드 아이템 ────────────────────────────────────────────────────────────────
+
 function CardItem({
   card,
   subjectTitle,
   onDelete,
+  onEdit,
 }: {
   card: LeitnerCard;
   subjectTitle: string;
   onDelete: (id: string) => void;
+  onEdit: (card: LeitnerCard) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -67,21 +138,36 @@ function CardItem({
         >
           {card.question}
         </button>
-        <button
-          onClick={() => onDelete(card.id)}
-          className="shrink-0 p-1.5 rounded-md text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-          aria-label={`"${card.question}" 카드 삭제`}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </button>
+        <div className="shrink-0 flex gap-0.5 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+          <button
+            onClick={() => onEdit(card)}
+            className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+            aria-label={`"${card.question}" 카드 편집`}
+          >
+            <Pencil className="h-3.5 w-3.5" />
+          </button>
+          <button
+            onClick={() => onDelete(card.id)}
+            className="p-1.5 rounded-md text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+            aria-label={`"${card.question}" 카드 삭제`}
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
       <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
         <span>{subjectTitle}</span>
+        {card.quizType && (
+          <>
+            <span>·</span>
+            <span className="px-1 py-0.5 rounded bg-muted text-[9px]">{card.quizType === 'ox' ? 'OX' : '단답형'}</span>
+          </>
+        )}
         <span>·</span>
         <span>다음 복습: {card.nextReview}</span>
       </div>
       {expanded && (
-        <div className="mt-2 pt-2 border-t border-border text-sm text-muted-foreground leading-relaxed">
+        <div className="mt-2 pt-2 border-t border-border text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
           {card.answer}
         </div>
       )}
@@ -89,12 +175,16 @@ function CardItem({
   );
 }
 
+// ─── 메인 ───────────────────────────────────────────────────────────────────────
+
 export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) {
   const mounted = useMounted();
   const cards = useLeitnerStore((s) => s.cards);
   const getStats = useLeitnerStore((s) => s.getStats);
   const removeCard = useLeitnerStore((s) => s.removeCard);
+  const updateCard = useLeitnerStore((s) => s.updateCard);
   const [expandedBoxes, setExpandedBoxes] = useState<Set<number>>(new Set([1]));
+  const [editingCard, setEditingCard] = useState<LeitnerCard | null>(null);
 
   const subjectMap = new Map(subjects.map((s) => [s.slug, s.title]));
 
@@ -121,8 +211,8 @@ export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) 
         <EmptyState
           icon="🃏"
           title="플래시카드가 아직 없어요"
-          description="나만의 플래시카드를 만들어 간격반복으로 효율적으로 암기하세요. 용어, 법령, 핵심 개념 등 시험에 자주 나오는 내용을 카드로 정리해보세요."
-          action={{ label: '첫 카드 만들기', href: '/flashcards/add', ariaLabel: '플래시카드 추가 페이지로 이동' }}
+          description="퀴즈에서 가져오거나 직접 만들어 간격반복으로 암기하세요. 법, 교육과정 등 시험 핵심 과목의 OX·단답형 문제를 카드로 정리해보세요."
+          action={{ label: '카드 추가하기', href: '/flashcards/add', ariaLabel: '플래시카드 추가 페이지로 이동' }}
         />
       </main>
     );
@@ -144,6 +234,12 @@ export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) 
     const list = cardsByBox.get(card.box) ?? [];
     list.push(card);
     cardsByBox.set(card.box, list);
+  }
+
+  function handleSaveEdit(question: string, answer: string) {
+    if (!editingCard) return;
+    updateCard(editingCard.id, { question, answer });
+    setEditingCard(null);
   }
 
   return (
@@ -233,6 +329,7 @@ export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) 
                       card={card}
                       subjectTitle={subjectMap.get(card.subjectSlug) ?? card.subjectSlug}
                       onDelete={removeCard}
+                      onEdit={setEditingCard}
                     />
                   ))}
                 </div>
@@ -242,7 +339,7 @@ export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) 
         })}
       </div>
 
-      {/* Bottom CTA when no cards are due */}
+      {/* Bottom CTA */}
       {stats.dueToday === 0 && (
         <div className="text-center py-4">
           <p className="text-sm text-muted-foreground mb-3">
@@ -257,6 +354,15 @@ export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) 
             카드 추가하기
           </Button>
         </div>
+      )}
+
+      {/* 편집 모달 */}
+      {editingCard && (
+        <EditCardModal
+          card={editingCard}
+          onSave={handleSaveEdit}
+          onClose={() => setEditingCard(null)}
+        />
       )}
     </main>
   );
