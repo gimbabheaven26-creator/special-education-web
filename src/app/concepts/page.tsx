@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { BookOpen, ChevronRight, FileText } from 'lucide-react';
 import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/content/concepts';

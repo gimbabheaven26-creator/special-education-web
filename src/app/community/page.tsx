@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { getCommunityQuestions } from '@/lib/db/community-db';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: '커뮤니티 문제',
   description: '수험생이 직접 출제한 문제를 풀고 공유하세요.',

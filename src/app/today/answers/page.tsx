@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server';
 import { makeSheetCode } from '@/lib/sheet-code';
 import { getKSTDate } from '@/lib/date-utils';
 
+export const dynamic = 'force-dynamic';
+
 function dateSeed(dateStr: string): number {
   return dateStr.split('-').reduce((acc, part) => acc * 100 + Number(part), 0);
 }

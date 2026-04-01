@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { getAvailableExams, getExam } from '@/lib/kice/kice'
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: '기출문제 분석',
   description: '특수교육 임용시험 기출문제 연도별 분석 및 모의고사 풀이.',

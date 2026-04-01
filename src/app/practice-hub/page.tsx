@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { BookOpen, ClipboardList, Gamepad2, Drama, ArrowRight } from 'lucide-react';
 import { PracticeProgress } from './PracticeProgress';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: '실력쌓기 | 특수교육 공부방',
   description: '개념부터 실전까지, 체계적으로 실력을 쌓으세요.',

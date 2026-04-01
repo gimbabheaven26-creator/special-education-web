@@ -5,6 +5,8 @@ import { getAllSubjects, getSubjectFiles, getDbSlugForFolder } from '@/lib/conte
 import { CompletionBadge } from '@/components/chapter/CompletionBadge';
 import { BookmarkButton } from '@/components/chapter/BookmarkButton';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
   params: Promise<{ subject: string }>;
 }

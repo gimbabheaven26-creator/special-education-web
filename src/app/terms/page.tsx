@@ -2,7 +2,7 @@ import TermsClient from './TermsClient';
 import { loadTerms, TERM_SUBJECTS } from '@/lib/content/term-utils';
 import type { TermEntry } from '@/lib/content/term-utils';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 export type Term = TermEntry;
 

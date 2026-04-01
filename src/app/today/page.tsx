@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { BookOpen, FileText, Printer, ArrowRight } from 'lucide-react';
 import { getKSTDate } from '@/lib/date-utils';
