@@ -37,6 +37,7 @@ npm run test:e2e     # Playwright E2E
 - **Playwright MCP**: 프로젝트 설정에 등록됨 (`~/.claude.json`). V가 접근성 트리 기반 E2E 동적 검증에 사용.
 - **v-auto-verify.sh**: `feat:` 커밋 감지 시 lint+typecheck 자동 실행 + V 심층 검증 추천 (`~/.claude/hooks/`)
 - **Completion Contract**: `/plan` 실행 시 완료 기준 체크리스트 필수 작성. V가 80%+ 통과 여부로 판정.
+- **X↔지니 채널**: `~/.openclaw/workspace/channel.md` — 세션 시작 시 읽고, 지니 메시지가 있으면 우선 확인. 세션 종료/주요 작업 완료 시 지니에게 메시지 남기기.
 
 **`docs/contract.md`가 유일한 진실의 원천**.
 스키마/API 변경 → contract.md 먼저 수정 → 카이란 승인 → 구현.
