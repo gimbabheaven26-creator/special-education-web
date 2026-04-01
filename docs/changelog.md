@@ -24,6 +24,53 @@
 
 ---
 
+## [2026-04-01] X — Supabase sync 키 수복 + focus 스토어 추가
+
+### 변경 내용
+- CRITICAL: `migrateGuestData` localStorage 키 4/5개 불일치 수정 (639a45c)
+  - `special-edu-study-store` → `special-edu-study`
+  - `special-edu-leitner` → `leitner-cards`
+  - `special-edu-quiz-store` → `quiz-data`
+  - `special-edu-bookmarks` → `bookmarks`
+- 6번째 스토어(focus) sync 파이프라인 추가: StoreKey 타입 확장, SyncManager.tsx 갱신
+- sync.test.ts mock localStorage 키 4건 수정 (c215673)
+- contract.md CHECK 제약 조건 업데이트 (focus 추가)
+- 카이란이 Supabase ALTER TABLE 실행 완료
+
+### 영향 범위
+- X(빌드): src/lib/sync.ts, src/components/SyncManager.tsx, src/lib/sync.test.ts
+- X(데이터): Supabase user_local_data.store_key CHECK 제약 조건에 'focus' 추가
+
+### 상태
+- [x] contract.md 업데이트
+- [x] 카이란 승인 (ALTER TABLE 직접 실행)
+- [x] 구현 완료
+- [x] 테스트 통과 (917/917)
+
+---
+
+## [2026-04-01] X — 플래시카드 Phase 2-5 (변환 엔진 + 카드 추가 + 복습 UX + 편집)
+
+### 변경 내용
+- 퀴즈→플래시카드 변환 엔진: `src/lib/quiz/flashcard-converter.ts` 신규 (aa3803f)
+  - OX 150자 필터, fill_in→질문/답변 변환, `convertQuizToCard`, `filterFlashcardEligible`
+- 카드 추가 2탭: 퀴즈에서 가져오기 + 수동 입력 `AddFlashcardClient.tsx` (5a023b3)
+- 복습 UX 재설계: OX 카드 O/X 버튼 자동 판정 + AdvanceTimerBar, 자가평가 삭제 (40648d5)
+- 카드 편집 기능: `updateCard` + 대시보드 퀴즈 유형 표시 (e74d1e2)
+- LeitnerCard 모델 확장: quizId, quizType, chapterSlug, source 확장 (deace78)
+
+### 영향 범위
+- X(빌드): FlashcardsClient, AddFlashcardClient, FlashcardScene, useLeitnerStore, quiz/index.ts
+- X(데이터): LeitnerCard.source에 'quiz-ox' | 'quiz-fill_in' 추가 (localStorage)
+
+### 상태
+- [x] contract.md 업데이트 (이번 세션)
+- [x] 카이란 승인 (all 선택)
+- [x] 구현 완료
+- [x] 상대 세션 전달
+
+---
+
 ## [2026-03-31] X — rules 토큰 다이어트 (세션당 ~18,000 tok 절약)
 
 ### 변경 내용
