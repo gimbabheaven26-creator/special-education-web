@@ -27,3 +27,10 @@ export {
   clearSession,
 } from './session-recovery';
 export type { SavedSession } from './session-recovery';
+
+export {
+  convertQuizToCard,
+  convertQuizBatch,
+  filterFlashcardEligible,
+} from './flashcard-converter';
+export type { ConversionResult } from './flashcard-converter';
