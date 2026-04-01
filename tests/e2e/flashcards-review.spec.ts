@@ -73,7 +73,7 @@ function makeReviewSeedData() {
 }
 
 /** localStorage에 시드 데이터를 심고 새로고침 */
-async function seedAndNavigate(page: Page, seedData: ReturnType<typeof makeReviewSeedData>) {
+async function seedAndNavigate(page: Page, seedData: { state: { cards: Record<string, unknown>[]; reviewLogs: unknown[] }; version: number }) {
   await page.goto(REVIEW_URL);
   await page.waitForLoadState('networkidle');
   await page.evaluate((data) => {
