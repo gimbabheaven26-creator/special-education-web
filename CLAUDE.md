@@ -62,7 +62,7 @@ docs/cloudy-requests.md    # 작업 요청 큐 (구 클루디, 현 X)
 docs/v-reviews/            # V(외부 검증) 리뷰 파일 — 세션 시작 시 OPEN 항목 확인 필수
 
 src/lib/content/                   # 개념/구조/URL 유틸 (concept-urls, concepts, structure-utils, worksheet-utils)
-src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-difficulty, answer-checker 등)
+src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-difficulty, answer-checker, flashcard-converter 등)
 src/lib/study/                     # 학습 진도 (mastery, badges, xp-constants, stats-utils, study-planner, focus-utils 등)
 src/stores/useFocusStore.ts        # 집중 모드 + 오늘의 미션 (Zustand persist, 6시간 로테이션)
 src/components/dashboard/          # 홈 재설계 — HomeDashboard, FocusBanner, MissionBlockList
@@ -124,7 +124,7 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 - **네비 1클릭 직행**: 모든 NavGroup에 `href` 필드 설정 — 진단평가→`/diagnosis`, 실력쌓기→`/practice-hub`, 내 기록→`/record`, 함께하기→`/community`. 하단탭 1클릭으로 허브 이동
 - **내 기록 대시보드**: `/record` = RecordDashboard (오늘 성과, 핵심 지표, 정답률 추이, 약점, 추천, 미해결 오답/북마크/복습). `/mastery` = LearningDashboard (page.tsx에서 추출, 과목별 숙련도 상세). `/my` = 대시보드 허브 (LevelBadge, WeeklyActivityChart, WeaknessInsight, SmartRecommendations + useMyPageData 훅)
 - **출제경향 탭**: `/kice` 2탭 구성 (기출문제, 출제분석). 영역별·키워드검색 탭 제거 (27c9002)
-- **플래시카드 3단계 힌트**: CardPhase `question→hint→answer` 순차 공개. 힌트 사용 여부로 등급 자동 결정 (`AnswerGrade: 'knew'|'hint'|'forgot'`). 초성 추출 힌트 + 맥락 힌트. 3D flip 제거, 패널 전환 방식
+- **플래시카드 복습 UX**: OX 카드 = O/X 버튼 자동 판정 (knew/forgot), 일반 카드 = question→hint→answer 순차 공개 (`AnswerGrade: 'knew'|'hint'|'forgot'`). AdvanceTimerBar (정답 2초/오답 4초). 자가평가 삭제 (40648d5). 카드 편집(`updateCard`), 퀴즈→카드 2탭 추가(`/flashcards/add`), 변환 엔진(`flashcard-converter.ts` — OX 150자 필터, fill_in 지원)
 
 ---
 

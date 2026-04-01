@@ -318,9 +318,17 @@ updateProfile(userId: string, data: Partial<Profile>): Promise<boolean>
 // 출력: { question_text, options: string[]|null, correct_answer, explanation, mock: boolean }
 // 인증 필수, rate limit 5/min/user, GEMINI_API_KEY 미설정 시 mock 반환
 
-// Leitner 플래시카드 (v2.10)
+// Leitner 플래시카드 (v2.12)
 type AnswerGrade = 'knew' | 'hint' | 'forgot'
 // answerCard(cardId: string, grade: AnswerGrade) — knew→box+1, hint→유지, forgot→Box 1
+// updateCard(cardId: string, updates: { question?: string; answer?: string }) — 카드 내용 편집
+// LeitnerCard.source: 'manual' | 'quiz-ox' | 'quiz-fill_in' (v2.12 확장)
+// LeitnerCard.quizId?: string, quizType?: string, chapterSlug?: string (v2.12)
+//
+// 퀴즈→플래시카드 변환 (lib/quiz/flashcard-converter.ts, v2.12)
+// convertQuizToCard(quiz: QuizQuestion): LeitnerCard | null — OX 150자 필터, fill_in 변환
+// convertQuizBatch(quizzes: QuizQuestion[]): LeitnerCard[] — 배치 변환
+// filterFlashcardEligible(quizzes: QuizQuestion[]): QuizQuestion[] — 변환 가능 문제 필터
 
 // 동기화 (v2.3)
 type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark'
