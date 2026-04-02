@@ -24,6 +24,27 @@
 
 ---
 
+## [2026-04-02] X — E2E CI/CD 파이프라인 신설 + study-planner UTC 버그 수정
+
+### 변경 내용
+- `.github/workflows/e2e.yml` 신설: Playwright chromium + artifact upload 14일 보관 (dd718f0)
+- `playwright.config.ts` webServer 설정 추가 (CI: `npm start`, local: dev reuse)
+- `e2e.yml` Run E2E 스텝에 `NEXT_PUBLIC_SUPABASE_URL/ANON_KEY` env var 추가 (dac2179)
+- `study-planner.ts` `getNextExamDate`: `getDay()` → `Date.UTC` + `getUTCDay()` (CI UTC 환경 타임존 버그)
+- `getFullYear()` → 문자열 파싱 (1월 1일 KST=12월 31일 UTC 엣지케이스 방지)
+- V 리뷰 14/14 전건 CLOSED (#10 DEFERRED)
+
+### 영향 범위
+- X(인프라): main 브랜치 push/PR 시 E2E 자동 실행
+- X(버그수정): UTC 환경에서 시험일 계산 오류 수정
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드/테스트 검증 (TZ=UTC 917/917, exit 0)
+- [x] origin/main 푸시 완료
+
+---
+
 ## [2026-04-02] X — REQ-007/008 quiz_questions 스키마 확장
 
 ### 변경 내용
