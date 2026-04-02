@@ -143,6 +143,14 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 - **force-dynamic 필수 페이지 (32개)**: `/` (page.tsx), `login`, `record`, `terms`, `community`, `concepts`, `concepts/[subject]`, `daily`, `diagnosis`, `flashcards`, `flashcards/add`, `flashcards/review`, `interactive`, `kice`, `mastery`, `onboarding`, `practice-hub`, `quiz`, `quiz/[subject]`, `quiz/ox`, `quiz/short`, `scenarios`, `search`, `subjects`, `today`, `today/answers`, `worksheets`, `wrong-notes`, `wrong-notes/quiz`, `bookmarks/quiz`, `admin/editor/[id]` — webpack 번들 분할 불일치로 SSG prerender 'call' TypeError. 4개 'use client' 페이지(interactive, onboarding, scenarios, flashcards/review)는 SC wrapper + Client 분리 (2324e03). 제거 시 빌드 실패
 - **overlay link 패턴**: 카드 전체 클릭 + 독립 버튼 공존 시 `absolute inset-0 z-0` anchor + `relative z-10` 버튼 조합 사용 (854497d)
 - **JSON 정적 데이터 import**: Server Component에서 `readFileSync` 대신 `import data from '@/../data/file.json'` 사용 — SSG/빌드 안정성 확보 (aa0f663)
+- **curl SSR 한계**: `'use client'` 컴포넌트 텍스트는 JS 번들에 포함되어 `curl | grep`으로 확인 불가. 렌더링 검증은 Playwright MCP 사용
+- **TS File vs Dir Resolution**: `foo.ts` → `foo/index.ts` 분리 시 **구 파일 먼저 삭제** 필수. TypeScript는 파일을 디렉토리보다 우선 resolve
+- **ESLint auto-organize-imports 주의**: type re-export 파일 Edit 시 VS Code ESLint 훅이 "미사용" re-export를 삭제할 수 있음. Bash atomic write + 즉시 빌드로 우회
+- **.next 캐시 부패 진단**: 로컬 라우트 500 에러 시 **코드 수정 전에 먼저** `rm -rf .next && npm run dev`. 캐시 클리어 후 재현되면 코드 문제
+- **SSG prerender 에러 3원인 순서**: (1) `[...iterable]` → `Array.from()` (2) `optimizePackageImports` 비활성화 (3) client→server 직접 import → children slot 패턴. 타입 에러가 SSG 에러를 마스킹하므로 타입부터 해결
+- **Supabase 마이그레이션 버전**: 파일명은 `YYYYMMDDHHMMSS` 타임스탬프 필수 (`20260330000001_feat.sql`). 같은 날짜 YYYYMMDD만 쓰면 버전 충돌
+- **Vercel HTTP 200 ≠ 렌더링 성공**: Error boundary 활성화 시 200 반환하면서 fallback UI만 표시. curl 이후 Playwright MCP로 실제 콘텐츠 확인 필수
+- **FK 제약 추가 전 스키마 확인**: `information_schema.table_constraints` 조회 → PK 중복이면 UNIQUE 대체, 기존 FK 확인 후 누락분만 실행
 
 ---
 
