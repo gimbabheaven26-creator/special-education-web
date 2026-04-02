@@ -111,6 +111,7 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
           <button
             key={year}
             onClick={() => handleYearChange(year)}
+            aria-pressed={year === selectedYear}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
               year === selectedYear
                 ? 'bg-primary text-primary-foreground'
@@ -330,7 +331,7 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
               </div>
 
               {/* 진행 바 */}
-              <div className="w-full bg-muted rounded-full h-1.5">
+              <div className="w-full bg-muted rounded-full h-1.5" role="progressbar" aria-valuenow={practiceIndex + 1} aria-valuemin={1} aria-valuemax={filteredQuestions.length} aria-label="연습 진행률">
                 <div
                   className="bg-primary h-1.5 rounded-full transition-all duration-300"
                   style={{ width: `${((practiceIndex + 1) / filteredQuestions.length) * 100}%` }}

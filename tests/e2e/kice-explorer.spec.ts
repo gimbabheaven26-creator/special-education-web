@@ -13,7 +13,9 @@ import { test, expect, type Page } from '@playwright/test';
 /** KICE 페이지로 이동하고 메인 콘텐츠가 로드될 때까지 대기 */
 async function gotoKice(page: Page, params = '') {
   await page.goto(`/kice${params}`);
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
+  // Wait for actual content to render
+  await expect(page.locator('h1')).toBeVisible({ timeout: 15000 });
 }
 
 // ─── Tab Navigation ───
@@ -40,7 +42,7 @@ test.describe('KICE 탭 네비게이션', () => {
     // 출제분석 탭 클릭
     const analyticsTab = page.getByRole('tab', { name: '출제분석' });
     await analyticsTab.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
     // URL에 tab=analytics 반영
     await expect(page).toHaveURL(/tab=analytics/);
@@ -61,7 +63,7 @@ test.describe('KICE 탭 네비게이션', () => {
     // 기출문제 탭 클릭
     const byYearTab = page.getByRole('tab', { name: '기출문제' });
     await byYearTab.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
     // URL에 tab=by-year 반영
     await expect(page).toHaveURL(/tab=by-year/);
@@ -90,13 +92,13 @@ test.describe('KICE 연도/세션 선택', () => {
     // 2025 연도 클릭
     const year2025 = page.getByRole('button', { name: '2025' });
     await year2025.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
     // URL에 year=2025 반영
     await expect(page).toHaveURL(/year=2025/);
 
-    // 2025 버튼이 강조(primary) 스타일
-    await expect(year2025).toHaveClass(/bg-primary/);
+    // #6 FIX: CSS bg-primary class check → aria-pressed attribute
+    await expect(year2025).toHaveAttribute('aria-pressed', 'true');
   });
 
   test('세션 그룹(원본/동형)이 연도 선택 후 표시된다', async ({ page }) => {
@@ -121,7 +123,7 @@ test.describe('KICE 연도/세션 선택', () => {
     // 동형 버튼 클릭
     const isoButton = page.getByRole('button', { name: '동형' }).first();
     await isoButton.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
     // URL에 동형 세션 반영 (한글은 percent-encoded)
     await expect(page).toHaveURL(/session=.*%EB%8F%99%ED%98%95/);
@@ -177,8 +179,8 @@ test.describe('KICE 연습 모드 (한 문제씩 풀기)', () => {
     // 진행 카운터 "1 / N" 표시
     await expect(page.getByText(/^1 \/ \d+$/)).toBeVisible();
 
-    // 진행 바가 존재 (너비가 100% 미만)
-    const progressBar = page.locator('.bg-primary.h-1\\.5.rounded-full');
+    // #6 FIX: CSS .bg-primary.h-1.5 → role="progressbar"
+    const progressBar = page.getByRole('progressbar', { name: '연습 진행률' });
     await expect(progressBar).toBeVisible();
 
     // 목록으로 돌아가기 링크 존재
@@ -372,7 +374,7 @@ test.describe('KICE 전체 시나리오', () => {
 
     // 2. 2024 연도 선택
     await page.getByRole('button', { name: '2024' }).click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await expect(page).toHaveURL(/year=2024/);
 
     // 3. 메타 정보 확인
@@ -392,12 +394,89 @@ test.describe('KICE 전체 시나리오', () => {
 
     // 7. 출제분석 탭으로 전환
     await page.getByRole('tab', { name: '출제분석' }).click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await expect(page.getByRole('table', { name: '과목별 연도별 출제 빈도' })).toBeVisible();
 
     // 8. 다시 기출문제 탭으로
     await page.getByRole('tab', { name: '기출문제' }).click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await expect(page.getByRole('button', { name: '2026' })).toBeVisible();
+  });
+});
+
+// ─── #12 FIX: 모의고사 모드 (/kice/exam) ───
+
+test.describe('KICE 모의고사 모드', () => {
+  test('모의고사 셋업 → 시작 → 문항 탐색 → 제출 → 결과 확인', async ({ page }) => {
+    // 1. 모의고사 페이지 진입
+    await page.goto('/kice/exam?year=2026&session=전공A');
+    await page.waitForLoadState('domcontentloaded');
+
+    // 2. 셋업 화면 확인
+    await expect(page.getByRole('heading', { name: '모의고사 모드' })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('실제 시험처럼 문제를 풀고 자기 채점하세요')).toBeVisible();
+
+    // 3. 시험 정보가 표시된다
+    await expect(page.getByText(/문항 \d+개/)).toBeVisible();
+    await expect(page.getByText(/총 \d+점/)).toBeVisible();
+    await expect(page.getByText(/\d+분/)).toBeVisible();
+
+    // 4. "시험 시작" 클릭
+    await page.getByRole('button', { name: '시험 시작' }).click();
+
+    // 5. 시험 화면 확인 — 타이머, 문항 네비게이터, 문제 카드
+    await expect(page.getByText(/\d+:\d+/)).toBeVisible({ timeout: 5000 }); // timer
+    await expect(page.getByText(/1 \/ \d+/)).toBeVisible(); // navigation counter
+
+    // 6. 문항 네비게이터 버튼들이 표시된다
+    const navButtons = page.locator('button').filter({ hasText: /^1$/ });
+    await expect(navButtons.first()).toBeVisible();
+
+    // 7. 깃발 버튼으로 문제 표시
+    const flagButton = page.locator('button[title="나중에 확인"]');
+    await expect(flagButton).toBeVisible();
+    await flagButton.click();
+
+    // 8. 다음 문항으로 이동
+    const nextButton = page.getByRole('button', { name: '다음' });
+    if (await nextButton.isEnabled()) {
+      await nextButton.click();
+      await expect(page.getByText(/2 \/ \d+/)).toBeVisible();
+    }
+
+    // 9. 제출
+    await page.getByRole('button', { name: '제출' }).first().click();
+
+    // 10. 결과 화면 확인
+    await expect(page.getByRole('heading', { name: '모의고사 결과' })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('자동 채점 점수')).toBeVisible();
+    await expect(page.getByText('소요 시간')).toBeVisible();
+    await expect(page.getByText('응답 문항')).toBeVisible();
+
+    // 11. 문항별 결과가 표시된다
+    await expect(page.getByText('문항별 결과')).toBeVisible();
+
+    // 12. 다시 풀기 링크가 존재한다
+    await expect(page.getByRole('link', { name: '다시 풀기' })).toBeVisible();
+    await expect(page.getByRole('link', { name: '기출 목록' })).toBeVisible();
+  });
+
+  // #14 FIX: 모의고사 모바일 뷰포트
+  test('모바일 뷰포트에서 모의고사가 작동한다', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/kice/exam?year=2026&session=전공A');
+    await page.waitForLoadState('domcontentloaded');
+
+    await expect(page.getByRole('heading', { name: '모의고사 모드' })).toBeVisible({ timeout: 15000 });
+
+    // 시험 시작
+    await page.getByRole('button', { name: '시험 시작' }).click();
+
+    // 시험 화면이 모바일에서도 정상 렌더링
+    await expect(page.getByText(/\d+:\d+/)).toBeVisible({ timeout: 5000 });
+
+    // 제출 버튼이 접근 가능
+    const submitButton = page.getByRole('button', { name: '제출' }).first();
+    await expect(submitButton).toBeVisible();
   });
 });

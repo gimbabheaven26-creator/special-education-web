@@ -21,7 +21,7 @@ export default function TodayPage() {
       <div>
         <div className="flex items-center gap-3">
           <h1 className="text-xl font-bold text-foreground">오늘의 학습</h1>
-          <span className="font-mono text-sm font-bold bg-primary/10 text-primary px-2.5 py-1 rounded border border-primary/20">
+          <span data-testid="sheet-code" className="font-mono text-sm font-bold bg-primary/10 text-primary px-2.5 py-1 rounded border border-primary/20">
             {sheetCode}
           </span>
         </div>

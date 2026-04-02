@@ -51,7 +51,7 @@ function TermCard({ term, initialOpen = false }: { term: Term; initialOpen?: boo
   };
 
   return (
-    <div className="border border-border rounded-xl overflow-hidden bg-card hover:border-primary/30 transition-colors">
+    <div data-testid="term-card" className="border border-border rounded-xl overflow-hidden bg-card hover:border-primary/30 transition-colors">
       <button
         className="w-full text-left px-4 py-3 flex items-start justify-between gap-3 min-h-[56px]"
         onClick={() => setOpen((v) => !v)}
@@ -137,7 +137,7 @@ function SubjectSection({
         </span>
       </button>
       {open && (
-        <div className="space-y-2">
+        <div data-testid="subject-terms" className="space-y-2">
           {visibleTerms.map((term, i) => (
             <TermCard key={`${term.subject}-${term.term_ko}-${i}`} term={term} />
           ))}
@@ -266,7 +266,7 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
           {tocOpen ? <ChevronUp className="h-4 w-4 ml-auto" /> : <ChevronDown className="h-4 w-4 ml-auto" />}
         </button>
         {tocOpen && (
-          <div className="mt-2 grid grid-cols-2 gap-1 p-2 border border-border rounded-xl bg-card">
+          <div data-testid="mobile-toc-grid" className="mt-2 grid grid-cols-2 gap-1 p-2 border border-border rounded-xl bg-card">
             {subjects.map((s) => (
               <button
                 key={s}
@@ -345,7 +345,7 @@ export default function TermsClient({ terms, subjects }: TermsClientProps) {
                   description="다른 키워드로 검색해보세요."
                 />
               ) : (
-                <div className="space-y-2">
+                <div data-testid="search-results" className="space-y-2">
                   {filtered.slice(0, 200).map((term, i) => (
                     <TermCard
                       key={`${term.subject}-${term.term_ko}-${i}`}

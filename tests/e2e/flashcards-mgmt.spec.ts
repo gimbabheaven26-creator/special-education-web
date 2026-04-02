@@ -44,20 +44,21 @@ async function seedAndReload(page: Page, cards: Parameters<typeof makeSeedData>[
     localStorage.setItem('leitner-cards', JSON.stringify(data));
   }, makeSeedData(cards));
   await page.reload();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
+  await expect(page.getByRole('heading', { name: '플래시카드' })).toBeVisible({ timeout: 15000 });
 }
 
 /** localStorage 초기화 후 새로고침 */
 async function clearAndReload(page: Page) {
   await page.evaluate(() => localStorage.removeItem('leitner-cards'));
   await page.reload();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
 }
 
 test.describe('플래시카드 관리 — 빈 상태', () => {
   test('카드 없을 때 — 빈 상태 메시지와 추가 CTA 표시', async ({ page }) => {
     await page.goto(FLASHCARDS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await clearAndReload(page);
 
     // 1. 빈 상태 제목
@@ -74,7 +75,7 @@ test.describe('플래시카드 관리 — 빈 상태', () => {
 
   test('빈 상태에서 CTA 클릭 → /flashcards/add로 이동', async ({ page }) => {
     await page.goto(FLASHCARDS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await clearAndReload(page);
 
     const addLink = page.getByRole('link', { name: '플래시카드 추가 페이지로 이동' });
@@ -95,7 +96,7 @@ test.describe('플래시카드 관리 — 카드 있는 상태', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto(FLASHCARDS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await seedAndReload(page, TEST_CARDS);
   });
 
@@ -131,8 +132,7 @@ test.describe('플래시카드 관리 — 카드 있는 상태', () => {
   });
 
   test('박스 아코디언 — 헤더 클릭으로 카드 목록 펼치기/접기', async ({ page }) => {
-    // 박스 1은 기본 펼쳐져 있음 (expandedBoxes 초기값 Set([1]))
-    // 카드 질문 텍스트가 보이는지 확인
+    // 박스 1은 기본 펼쳐져 있음
     await expect(page.getByText('통합교육이란?')).toBeVisible();
     await expect(page.getByText('개별화교육계획(IEP)이란?')).toBeVisible();
 
@@ -156,7 +156,6 @@ test.describe('플래시카드 관리 — 카드 있는 상태', () => {
   });
 
   test('카드 펼치기 — 질문 클릭 시 답 공개', async ({ page }) => {
-    // 박스 1은 기본 펼쳐져 있음
     // 1. 답이 처음에는 숨겨져 있음
     await expect(page.getByText('장애학생과 비장애학생이 함께 교육받는 것')).not.toBeVisible();
 
@@ -174,38 +173,28 @@ test.describe('플래시카드 관리 — 카드 있는 상태', () => {
   });
 
   test('카드 편집 — 모달 열기, 수정, 저장', async ({ page }) => {
-    // 1. 편집 버튼 클릭 (hover 시 표시되므로 force 사용)
     const editButton = page.getByRole('button', { name: /통합교육이란\?.*편집/ });
     await editButton.click({ force: true });
 
-    // 2. 편집 모달이 열림
     await expect(page.getByRole('heading', { name: '카드 편집' })).toBeVisible();
 
-    // 3. 기존 값이 pre-fill되어 있음
     const questionInput = page.locator('#edit-question');
     await expect(questionInput).toHaveValue('통합교육이란?');
 
     const answerInput = page.locator('#edit-answer');
     await expect(answerInput).toHaveValue('장애학생과 비장애학생이 함께 교육받는 것');
 
-    // 4. 질문 수정
     await questionInput.clear();
     await questionInput.fill('통합교육의 정의는?');
 
-    // 5. 답 수정
     await answerInput.clear();
     await answerInput.fill('일반학급에서 장애·비장애학생이 함께 수업');
 
-    // 6. 저장
     await page.getByRole('button', { name: '저장' }).click();
 
-    // 7. 모달 닫힘
     await expect(page.getByRole('heading', { name: '카드 편집' })).not.toBeVisible();
-
-    // 8. 수정된 질문이 화면에 반영됨
     await expect(page.getByText('통합교육의 정의는?')).toBeVisible();
 
-    // 9. localStorage에도 반영 확인
     const stored = await page.evaluate(() => {
       const raw = localStorage.getItem('leitner-cards');
       if (!raw) return null;
@@ -217,42 +206,30 @@ test.describe('플래시카드 관리 — 카드 있는 상태', () => {
   });
 
   test('카드 편집 모달 — 취소 시 변경 없음', async ({ page }) => {
-    // 편집 모달 열기
     const editButton = page.getByRole('button', { name: /통합교육이란\?.*편집/ });
     await editButton.click({ force: true });
     await expect(page.getByRole('heading', { name: '카드 편집' })).toBeVisible();
 
-    // 질문 수정
     const questionInput = page.locator('#edit-question');
     await questionInput.clear();
     await questionInput.fill('취소될 변경');
 
-    // 취소 클릭
     await page.getByRole('button', { name: '취소' }).click();
 
-    // 모달 닫힘
     await expect(page.getByRole('heading', { name: '카드 편집' })).not.toBeVisible();
-
-    // 원래 질문이 그대로
     await expect(page.getByText('통합교육이란?')).toBeVisible();
     await expect(page.getByText('취소될 변경')).not.toBeVisible();
   });
 
   test('카드 삭제 — 삭제 버튼 클릭 시 카드 제거', async ({ page }) => {
-    // 1. 초기 상태: 4장
     await expect(page.getByText(/총 4장/)).toBeVisible();
 
-    // 2. 삭제 버튼 클릭
     const deleteButton = page.getByRole('button', { name: /통합교육이란\?.*삭제/ });
     await deleteButton.click({ force: true });
 
-    // 3. 해당 카드가 사라짐
     await expect(page.getByText('통합교육이란?')).not.toBeVisible();
-
-    // 4. 통계 업데이트: 3장
     await expect(page.getByText(/총 3장/)).toBeVisible();
 
-    // 5. localStorage 반영 확인
     const stored = await page.evaluate(() => {
       const raw = localStorage.getItem('leitner-cards');
       if (!raw) return null;
@@ -282,9 +259,8 @@ test.describe('플래시카드 관리 — 카드 있는 상태', () => {
 test.describe('플래시카드 관리 — 복습 대상 없는 경우', () => {
   test('모든 카드의 nextReview가 미래일 때 — 복습 버튼 미표시, 안내 메시지', async ({ page }) => {
     await page.goto(FLASHCARDS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
-    // nextReview를 미래 날짜로 설정
     const futureDate = '2099-12-31';
     const futureCards = [
       { id: 'future-1', question: '미래 카드', answer: '답변', box: 2 as const },
@@ -310,22 +286,120 @@ test.describe('플래시카드 관리 — 복습 대상 없는 경우', () => {
       localStorage.setItem('leitner-cards', JSON.stringify(data));
     }, seedData);
     await page.reload();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
-    // 1. 총 1장 표시
     await expect(page.getByText(/총 1장/)).toBeVisible();
-
-    // 2. 오늘 복습 대상 0장
     await expect(page.getByText(/오늘 복습 대상 0장/)).toBeVisible();
-
-    // 3. 복습 버튼 미표시
     await expect(page.getByRole('link', { name: /오늘 복습 시작/ })).not.toBeVisible();
-
-    // 4. "오늘 복습할 카드가 없어요" 메시지
     await expect(page.getByText('오늘 복습할 카드가 없어요')).toBeVisible();
 
-    // 5. 하단 "카드 추가하기" CTA
     const bottomCta = page.getByRole('link', { name: '카드 추가하기' }).last();
     await expect(bottomCta).toBeVisible();
+  });
+});
+
+// ─── #9 FIX: 플래시카드 추가 페이지 (/flashcards/add) ───
+
+test.describe('플래시카드 추가 페이지 (/flashcards/add)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => localStorage.removeItem('leitner-cards'));
+  });
+
+  test('추가 페이지 로드 — 2탭 UI 표시', async ({ page }) => {
+    await page.goto('/flashcards/add');
+    await page.waitForLoadState('domcontentloaded');
+
+    // 1. 제목
+    await expect(page.getByRole('heading', { name: '카드 추가' })).toBeVisible({ timeout: 15000 });
+
+    // 2. 설명 텍스트
+    await expect(page.getByText('퀴즈에서 가져오거나 직접 만들 수 있어요')).toBeVisible();
+
+    // 3. 2개 탭 버튼
+    const quizTab = page.getByRole('tab', { name: '퀴즈에서 가져오기' });
+    const manualTab = page.getByRole('tab', { name: '직접 만들기' });
+    await expect(quizTab).toBeVisible();
+    await expect(manualTab).toBeVisible();
+
+    // 4. 기본 탭은 "퀴즈에서 가져오기"
+    await expect(quizTab).toHaveAttribute('aria-selected', 'true');
+  });
+
+  test('퀴즈에서 가져오기 탭 — 과목 필터와 퀴즈 목록 표시', async ({ page }) => {
+    await page.goto('/flashcards/add');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '카드 추가' })).toBeVisible({ timeout: 15000 });
+
+    // "전체" 필터 버튼이 보인다
+    const allFilter = page.locator('button').filter({ hasText: /^전체 \(\d+\)$/ });
+    await expect(allFilter).toBeVisible({ timeout: 10000 });
+
+    // 퀴즈 목록이 렌더링된다 (OX 또는 단답형 뱃지)
+    const quizBadges = page.locator('text=OX').or(page.locator('text=단답형'));
+    await expect(quizBadges.first()).toBeVisible({ timeout: 10000 });
+  });
+
+  test('직접 만들기 탭 — 폼 입력 및 카드 추가', async ({ page }) => {
+    await page.goto('/flashcards/add');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '카드 추가' })).toBeVisible({ timeout: 15000 });
+
+    // 1. "직접 만들기" 탭으로 전환
+    const manualTab = page.getByRole('tab', { name: '직접 만들기' });
+    await manualTab.click();
+
+    // 2. 폼 요소 확인
+    await expect(page.getByText('새 카드')).toBeVisible();
+    const questionInput = page.locator('#question');
+    const answerInput = page.locator('#answer');
+    await expect(questionInput).toBeVisible();
+    await expect(answerInput).toBeVisible();
+
+    // 3. 추가 버튼이 비활성 (빈 입력)
+    const submitButton = page.getByRole('button', { name: '추가' });
+    await expect(submitButton).toBeDisabled();
+
+    // 4. 질문과 답 입력
+    await questionInput.fill('E2E 테스트 질문');
+    await answerInput.fill('E2E 테스트 답변');
+
+    // 5. 추가 버튼 활성화 + 클릭
+    await expect(submitButton).toBeEnabled();
+    await submitButton.click();
+
+    // 6. 성공 메시지 — "+1" 뱃지와 카드명 표시
+    await expect(page.getByText('"E2E 테스트 질문"')).toBeVisible();
+    await expect(page.getByText(/카드가 추가되었어요/)).toBeVisible();
+
+    // 7. 폼이 초기화됨
+    await expect(questionInput).toHaveValue('');
+    await expect(answerInput).toHaveValue('');
+
+    // 8. localStorage에 카드 저장 확인
+    const stored = await page.evaluate(() => {
+      const raw = localStorage.getItem('leitner-cards');
+      if (!raw) return null;
+      return JSON.parse(raw);
+    });
+    expect(stored).not.toBeNull();
+    expect(stored.state.cards.length).toBeGreaterThanOrEqual(1);
+    const addedCard = stored.state.cards.find((c: { question: string }) => c.question === 'E2E 테스트 질문');
+    expect(addedCard).toBeTruthy();
+    expect(addedCard.answer).toBe('E2E 테스트 답변');
+  });
+
+  test('플래시카드 홈 링크로 돌아갈 수 있다', async ({ page }) => {
+    await page.goto('/flashcards/add');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '카드 추가' })).toBeVisible({ timeout: 15000 });
+
+    // 하단 "플래시카드 홈" 링크
+    const homeLink = page.getByRole('link', { name: /플래시카드 홈/ });
+    await expect(homeLink).toBeVisible();
+    await homeLink.click();
+
+    await page.waitForURL('**/flashcards');
+    expect(page.url()).toContain('/flashcards');
   });
 });

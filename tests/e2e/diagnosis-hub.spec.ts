@@ -36,7 +36,6 @@ async function seedDiagnosticSession(page: Page) {
     };
     localStorage.setItem('quiz-data', JSON.stringify(storeData));
 
-    // Also seed study store so totalQuizzes > 0 (DiagnosticsSummary checks this)
     const studyData = {
       state: {
         currentStreak: 1,
@@ -72,15 +71,16 @@ async function clearDiagnosticData(page: Page) {
 test.describe('진단평가 허브 (/diagnosis)', () => {
   test('페이지 제목과 설명 렌더링', async ({ page }) => {
     await page.goto('/diagnosis');
-    await expect(page.getByRole('heading', { name: '진단평가' })).toBeVisible();
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '진단평가' })).toBeVisible({ timeout: 15000 });
     await expect(page.getByText('실력을 진단하고 약점을 파악하세요')).toBeVisible();
   });
 
   test('바로 시작 — 3개 액션 카드 렌더링 + 올바른 href', async ({ page }) => {
     await page.goto('/diagnosis');
-    await expect(page.getByText('바로 시작')).toBeVisible();
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByText('바로 시작')).toBeVisible({ timeout: 15000 });
 
-    // "바로 시작" 섹션 내의 액션 카드만 타겟 (RecentDiagnostics 빈 상태 CTA와 구분)
     const oxLink = page.getByRole('link', { name: 'OX 진단 전 과목 OX 문제로 빠르게 실력 확인' });
     const shortLink = page.getByRole('link', { name: '단답형 진단 전 과목 단답형으로 실력 진단' });
     const termsLink = page.getByRole('link', { name: '용어학습 핵심 용어 플래시카드로 암기' });
@@ -96,7 +96,9 @@ test.describe('진단평가 허브 (/diagnosis)', () => {
 
   test('OX 진단 카드 클릭 → /quiz/ox 이동 → 뒤로가기 → 허브 복귀', async ({ page }) => {
     await page.goto('/diagnosis');
+    await page.waitForLoadState('domcontentloaded');
     const oxLink = page.getByRole('link', { name: 'OX 진단 전 과목 OX 문제로 빠르게 실력 확인' });
+    await expect(oxLink).toBeVisible({ timeout: 15000 });
     await oxLink.click();
     await page.waitForURL('**/quiz/ox**');
     expect(page.url()).toContain('/quiz/ox');
@@ -108,7 +110,9 @@ test.describe('진단평가 허브 (/diagnosis)', () => {
 
   test('단답형 진단 카드 클릭 → /quiz/short 이동', async ({ page }) => {
     await page.goto('/diagnosis');
+    await page.waitForLoadState('domcontentloaded');
     const shortLink = page.getByRole('link', { name: '단답형 진단 전 과목 단답형으로 실력 진단' });
+    await expect(shortLink).toBeVisible({ timeout: 15000 });
     await shortLink.click();
     await page.waitForURL('**/quiz/short**');
     expect(page.url()).toContain('/quiz/short');
@@ -116,7 +120,9 @@ test.describe('진단평가 허브 (/diagnosis)', () => {
 
   test('용어학습 카드 클릭 → /terms 이동', async ({ page }) => {
     await page.goto('/diagnosis');
+    await page.waitForLoadState('domcontentloaded');
     const termsLink = page.getByRole('link', { name: '용어학습 핵심 용어 플래시카드로 암기' });
+    await expect(termsLink).toBeVisible({ timeout: 15000 });
     await termsLink.click();
     await page.waitForURL('**/terms**');
     expect(page.url()).toContain('/terms');
@@ -127,6 +133,7 @@ test.describe('진단평가 허브 (/diagnosis)', () => {
       await page.goto('/');
       await clearDiagnosticData(page);
       await page.goto('/diagnosis');
+      await page.waitForLoadState('domcontentloaded');
     });
 
     test('진단 요약 — 빈 상태 CTA 표시', async ({ page }) => {
@@ -155,6 +162,7 @@ test.describe('진단평가 허브 (/diagnosis)', () => {
       await page.goto('/');
       await seedDiagnosticSession(page);
       await page.goto('/diagnosis');
+      await page.waitForLoadState('domcontentloaded');
     });
 
     test('진단 요약 — 통계 카드 표시', async ({ page }) => {
@@ -165,7 +173,6 @@ test.describe('진단평가 허브 (/diagnosis)', () => {
     test('최근 진단 기록 — 세션 목록 렌더링', async ({ page }) => {
       await expect(page.getByText('최근 진단 기록')).toBeVisible({ timeout: 5000 });
 
-      // 세션 카드가 렌더링되어야 한다 (% 텍스트 포함)
       const sessionButton = page.locator('button').filter({ hasText: /진단|%/ }).first();
       await expect(sessionButton).toBeVisible({ timeout: 5000 });
     });
@@ -173,16 +180,24 @@ test.describe('진단평가 허브 (/diagnosis)', () => {
     test('최근 진단 기록 — 세션 토글 (접기/펼치기)', async ({ page }) => {
       await expect(page.getByText('최근 진단 기록')).toBeVisible({ timeout: 5000 });
 
-      // 세션 카드의 버튼을 찾는다
       const sessionButtons = page.locator('button').filter({ hasText: /진단|%/ });
       await expect(sessionButtons.first()).toBeVisible({ timeout: 5000 });
 
-      // 첫 번째 세션 — defaultOpen=true이므로 결과가 보임
-      // 클릭하면 접힘
       const firstSession = sessionButtons.first();
       await firstSession.click();
-      // 접힌 후 다시 클릭하면 펼쳐짐
       await firstSession.click();
     });
+  });
+
+  // #11 FIX: Error state
+  test('네트워크 실패에서도 진단 허브 렌더링', async ({ page }) => {
+    await page.route('**/rest/v1/**', (route) => route.abort());
+
+    await page.goto('/diagnosis');
+    await page.waitForLoadState('domcontentloaded');
+
+    // Hub page is mostly client-side localStorage — should still render
+    await expect(page.getByRole('heading', { name: '진단평가' })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('바로 시작')).toBeVisible();
   });
 });

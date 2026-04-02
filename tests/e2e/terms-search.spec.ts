@@ -17,7 +17,9 @@ async function clearFlashcardStorage(page: Page) {
 test.describe('용어사전 페이지', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(TERMS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    // Wait for actual content instead of networkidle
+    await expect(page.getByRole('heading', { name: '용어사전' })).toBeVisible({ timeout: 15000 });
   });
 
   test('페이지 로드 — 제목, 용어 수, 과목 섹션 헤더 표시', async ({ page }) => {
@@ -65,8 +67,8 @@ test.describe('용어사전 페이지', () => {
     const resultCount = page.getByText(/\d+개 결과/);
     await expect(resultCount).toBeVisible();
 
-    // 영어 'sensory'가 포함된 결과가 나와야 함
-    const results = page.locator('main .space-y-2 > div');
+    // #6 FIX: CSS .space-y-2 > div → data-testid based selector
+    const results = page.locator('[data-testid="search-results"] [data-testid="term-card"]');
     const count = await results.count();
     expect(count).toBeGreaterThan(0);
   });
@@ -123,16 +125,14 @@ test.describe('용어사전 페이지', () => {
     const sectionButton = page.getByRole('heading', { name: '행동지원' }).locator('..');
     await expect(sectionButton).toBeVisible();
 
-    // 접힌 상태에서는 "더보기" 버튼이 안 보임 (카드 영역 자체가 없음)
+    // #6 FIX: CSS .space-y-2 → data-testid
     const sectionContainer = page.locator('section').filter({ hasText: '행동지원' });
-    const showMoreInSection = sectionContainer.getByRole('button', { name: /더보기/ });
 
     // 2. 클릭하여 펼치기
     await sectionButton.click();
 
-    // 3. 펼친 후 용어 카드가 보임 (카드 텍스트가 1개 이상 렌더링)
-    // SubjectSection은 open 시 visibleTerms를 렌더링 — space-y-2 div 안에 카드가 나옴
-    const cardsArea = sectionContainer.locator('.space-y-2');
+    // 3. 펼친 후 용어 카드가 보임
+    const cardsArea = sectionContainer.locator('[data-testid="subject-terms"]');
     await expect(cardsArea).toBeVisible();
 
     // 4. 다시 클릭하여 접기
@@ -160,7 +160,8 @@ test.describe('용어사전 페이지', () => {
   test('플래시카드 추가 — 용어 카드에서 플래시카드 버튼 클릭 시 추가됨', async ({ page }) => {
     await clearFlashcardStorage(page);
     await page.reload();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '용어사전' })).toBeVisible({ timeout: 15000 });
 
     // 1. 검색으로 특정 용어 찾기
     const searchInput = page.getByPlaceholder('한국어, 영어, 한자로 검색...');
@@ -170,7 +171,8 @@ test.describe('용어사전 페이지', () => {
     await expect(page.getByText(/\d+개 결과/)).toBeVisible();
 
     // 3. 첫 번째 용어 카드 열기
-    const firstCard = page.locator('.border.border-border.rounded-xl button').first();
+    // #6 FIX: CSS .border.border-border.rounded-xl button → data-testid
+    const firstCard = page.locator('[data-testid="term-card"] button').first();
     await firstCard.click();
 
     // 4. "플래시카드" 추가 버튼 클릭
@@ -194,9 +196,10 @@ test.describe('용어사전 페이지', () => {
   });
 
   test('스크롤-투-탑 버튼 — 스크롤 후 표시, 클릭 시 최상단 이동', async ({ page }) => {
-    // 독립적 테스트를 위해 페이지 새로 로드 (이전 테스트의 스크롤 상태 격리)
+    // 독립적 테스트를 위해 페이지 새로 로드
     await page.goto(TERMS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '용어사전' })).toBeVisible({ timeout: 15000 });
 
     // 스크롤 위치를 확실히 0으로 초기화
     await page.evaluate(() => window.scrollTo(0, 0));
@@ -234,7 +237,8 @@ test.describe('용어사전 페이지', () => {
   test('모바일 목차 — 375x812 뷰포트에서 토글 동작', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(TERMS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '용어사전' })).toBeVisible({ timeout: 15000 });
 
     // 1. 모바일에서 "목차" 버튼 표시
     const tocButton = page.getByRole('button', { name: /목차/ });
@@ -242,7 +246,8 @@ test.describe('용어사전 페이지', () => {
 
     // 2. 클릭하면 과목 목록 그리드 표시
     await tocButton.click();
-    const tocGrid = page.locator('.grid.grid-cols-2');
+    // #6 FIX: CSS .grid.grid-cols-2 → data-testid
+    const tocGrid = page.locator('[data-testid="mobile-toc-grid"]');
     await expect(tocGrid).toBeVisible();
 
     // 3. 과목 버튼이 11개 (TERM_SUBJECTS 수)
@@ -255,14 +260,15 @@ test.describe('용어사전 페이지', () => {
     await expect(tocGrid).not.toBeVisible();
 
     // 5. 데스크탑 사이드바 목차는 모바일에서 숨겨짐
-    const desktopAside = page.locator('aside.hidden.md\\:block');
+    const desktopAside = page.locator('aside').first();
     await expect(desktopAside).not.toBeVisible();
   });
 
   test('데스크탑 사이드바 목차 — 과목 클릭으로 섹션 이동', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(TERMS_URL);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByRole('heading', { name: '용어사전' })).toBeVisible({ timeout: 15000 });
 
     // 1. 사이드바 목차 보임
     const sidebar = page.locator('aside').first();
