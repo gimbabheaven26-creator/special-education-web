@@ -18,7 +18,7 @@
 | 7 | 오답 시나리오 검증 불완전 — 운에 의존 | MEDIUM | quiz-ox-flow | FIXED (1cff951) — 10문제 all-O 전략 + 결과 화면에서 오답 수 검증, feedbackWrong 텍스트 명시적 확인 |
 | 8 | daily-quiz 3스텝 완주 시간 비용 과다 | MEDIUM | daily-quiz | FIXED (1cff951) — test.describe.serial 도입, Step 2+3를 순차 블록으로 분리 |
 | 9 | 플래시카드 추가(/flashcards/add) 페이지 테스트 없음 | MEDIUM | flashcards-mgmt | FIXED (1cff951) — 4개 테스트 추가 (2탭 UI, 퀴즈 가져오기, 수동 입력+저장 확인, 홈 링크) |
-| 10 | 헬퍼 함수 중복 — 공통 유틸 미추출 | LOW | quiz-ox-flow, daily-quiz | OPEN |
+| 10 | 헬퍼 함수 중복 — 공통 유틸 미추출 | LOW | quiz-ox-flow, daily-quiz | WONTFIX — UI 구조 상이(순차 1문제 vs 일괄 OX), 추상화 시 오히려 복잡도 증가 |
 | 11 | 에러/빈 상태 시나리오 커버리지 불균형 | MEDIUM | 전체 | FIXED (1cff951) — 6개 파일에 route.abort 네트워크 실패 테스트 추가 |
 | 12 | KICE 모의고사 모드(/kice/exam) 미검증 | MEDIUM | kice-explorer | FIXED (1cff951) — setup→시작→문항탐색→깃발→제출→결과 전체 플로우 + 모바일 뷰포트 |
 | 13 | 크로스 페이지 여정 미검증 | HIGH | 전체 | FIXED (efe948b) — cross-page-journey.spec.ts 431줄 신규 작성 |
