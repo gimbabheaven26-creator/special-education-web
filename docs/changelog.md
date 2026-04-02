@@ -24,6 +24,26 @@
 
 ---
 
+## [2026-04-02] X — REQ-007/008 quiz_questions 스키마 확장
+
+### 변경 내용
+- contract.md v2.13: `sub_questions` JSONB, `image_url` TEXT, `subjects` TEXT[] 3컬럼 추가 (0692f3a)
+- `type` 허용값에 `scenario_composite` 추가
+- `getQuizzesBySubject`에 subjects 복합태그 OR 검색 활성화
+- 카이란 Supabase SQL 실행 완료
+
+### 영향 범위
+- X(빌드): quiz.ts 쿼리 변경 — subjects 배열 포함 검색
+- X(데이터): 시나리오형 문제 INSERT 가능, 복합영역 태그 검색 가능
+
+### 상태
+- [x] contract.md 업데이트 (v2.13)
+- [x] 카이란 승인
+- [x] 구현 완료 (0692f3a)
+- [x] DB ALTER TABLE 실행 완료
+
+---
+
 ## [2026-04-02] X — 빌드 수복 + 지니 인프라 정리 + V 리뷰 HIGH 전부 해결
 
 ### 변경 내용

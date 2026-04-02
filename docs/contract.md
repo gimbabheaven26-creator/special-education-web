@@ -373,6 +373,9 @@ isAdmin(userId: string): Promise<boolean>
 | display_name | displayName | db/user-data.ts (getProfile) |
 | store_key | storeKey | db/user-data.ts (getUserData) |
 | updated_at | updatedAt | db/user-data.ts (getUserData) |
+| sub_questions | subQuestions | db/quiz.ts (mapQuizRow) |
+| image_url | imageUrl | db/quiz.ts (mapQuizRow) |
+| subjects | subjects | db/quiz.ts (mapQuizRow) |
 
 ---
 

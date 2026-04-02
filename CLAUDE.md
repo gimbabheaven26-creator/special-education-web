@@ -135,6 +135,7 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 - `generateStaticParams`: raw 값 반환 필수 (encodeURIComponent 금지)
 - 파일 800줄, 컴포넌트 500줄, 함수 50줄 초과 시 분리
 - 새 컴포넌트: Server Component 우선, 상호작용 필요 시 `'use client'`
+- **SC wrapper + Client 분리 패턴**: `'use client'` page.tsx에서는 `export const dynamic`이 prerender에서 무시됨. force-dynamic 필요 시 page.tsx를 SC wrapper로 분리하고 `*Client.tsx`에 클라이언트 로직 이동 (2324e03). 예: `interactive/page.tsx`(SC) + `InteractiveClient.tsx`(client)
 - **API Route 입력 검증**: Zod 스키마 필수 (`z.string().min(N).max(N)` 등)
 - **접근성**: WCAG 2.1 AA 기준 — 모든 버튼에 `aria-label`, 이미지에 `alt`, `focus-visible` 스타일 유지
 - **global-error.tsx 예외**: 루트 레이아웃 에러 처리 특성상 Tailwind 미사용, 인라인 스타일 허용
