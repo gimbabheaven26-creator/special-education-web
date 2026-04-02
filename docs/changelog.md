@@ -24,6 +24,41 @@
 
 ---
 
+## [2026-04-02] X — SSG prerender TypeError 근본 해결 + V 리뷰 HIGH 전부 해결
+
+### 변경 내용
+- 15페이지 `force-dynamic` 적용 + 4개 `'use client'` 페이지 SC wrapper/Client 분리 (2324e03)
+- 빌드 exit 0, 193/193 페이지 정상 생성, prerender 에러 0
+- V 리뷰 HIGH 5/5 FIXED: waitForTimeout 전량 제거, localStorage.clear 교체, flashcards-review.spec.ts 신규, 조건부 skip 제거, cross-page-journey.spec.ts 확인 (053a4a0)
+
+### 영향 범위
+- X(빌드): 12페이지 SSG→SSR 전환. Vercel 배포 시 빌드 정상화.
+- X(코드): interactive, onboarding, scenarios, flashcards/review — page.tsx + *Client.tsx 2파일 구조로 변경
+
+### 상태
+- [x] CLAUDE.md 업데이트 (dd96281)
+- [x] 구현 완료
+- [x] 빌드/테스트 검증 (917/917, exit 0)
+
+---
+
+## [2026-04-01] X — E2E 테스트 170+ 신규 + TodayDashboard 무한렌더 수정
+
+### 변경 내용
+- 10개 E2E 파일 170+ 테스트 신규 작성 (efe948b): quiz-ox-flow, daily-quiz, terms-search, flashcards-mgmt, flashcards-review, diagnosis-hub, practice-hub, today-dashboard, kice-explorer, cross-page-journey
+- TodayDashboard `getStats()` 무한렌더 버그 수정: Zustand 객체 셀렉터 → 원시값 분리
+- V 검증 6.5/10, HIGH 4건 수정
+
+### 영향 범위
+- X(테스트): E2E 커버리지 대폭 확대, CI 통합 준비 완료
+- X(버그수정): /today 대시보드 무한 리렌더 해소
+
+### 상태
+- [x] 구현 완료
+- [x] V 검증 완료
+
+---
+
 ## [2026-04-01] X — Supabase sync 키 수복 + focus 스토어 추가
 
 ### 변경 내용
