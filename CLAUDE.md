@@ -5,7 +5,7 @@
 특수교육 임용고시 준비 앱 (SPA + SSR).
 베타 테스터 활동 중. 배포: https://special-education-web.vercel.app
 
-**스택**: Next.js 14 (App Router), TypeScript, Tailwind v4, Supabase (PostgreSQL + Auth + Storage), Zustand v4 (v5 마이그레이션 예정), Vitest
+**스택**: Next.js 14 (App Router), TypeScript, Tailwind v4, Supabase (PostgreSQL + Auth + Storage), Zustand v5, Vitest
 
 **GitHub**: `gimbabheaven26-creator/special-education-web`
 **Git Author**: `266103587+gimbabheaven26-creator@users.noreply.github.com`
