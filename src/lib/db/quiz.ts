@@ -24,12 +24,11 @@ function mapQuizRow(row: Record<string, unknown>): QuizQuestion {
 
 export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQuestion[]> {
   const supabase = await createClient();
-  // TODO: After REQ-008 (subjects column added), restore multi-tag search:
-  // .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`)
+  // REQ-008: subjects 컬럼 추가 완료 — 주영역 + 복합태그 검색
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
-    .eq('subject', subjectSlug);
+    .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`);
 
   if (error || !data) return [];
 

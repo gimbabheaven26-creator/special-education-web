@@ -1,7 +1,8 @@
 # Interface Contract
 
 > X(실행)와 V(검증)의 인터페이스 계약서 (2026-03-27 이전: 강선생+클루디)
-> 최종 수정: 2026-03-30 | 버전: 2.11
+> 최종 수정: 2026-04-02 | 버전: 2.13
+> v2.13: quiz_questions에 sub_questions, image_url, subjects 3컬럼 추가 + scenario_composite 타입 (REQ-007/008)
 > v2.11: teaching_materials 테이블 + nadaun-files Storage 버킷 추가 — 나다운 Phase 6
 > v2.8.1: 클루디 작업 목록 완료 표기 (REQ-001~006 실행 완료 반영)
 > v2.8: reviews.image_urls 컬럼 추가 (첨부 이미지 URL 목록) — 카이란 승인
@@ -100,7 +101,7 @@ communication-disorder:
 | id | text | **PK** | 퀴즈 ID |
 | subject | text | NOT NULL, **FK → subjects.slug** | 과목 slug |
 | chapter | text | NOT NULL | 챕터 slug (chapters.slug 참조) |
-| type | text | NOT NULL | `multiple` \| `ox` \| `fill_in` \| `descriptive` |
+| type | text | NOT NULL | `multiple` \| `ox` \| `fill_in` \| `descriptive` \| `scenario_composite` |
 | question | text | NOT NULL | 문제 본문 |
 | case_context | text | NULL | 사례 지문 |
 | options | text[] | NULL | 객관식 선택지 (multiple: 정확히 4개) |
@@ -110,6 +111,9 @@ communication-disorder:
 | difficulty | integer | NOT NULL | 1(기초) / 2(중급) / 3(심화) |
 | source | text | NULL | 출처 |
 | tags | jsonb | NULL | `{disability?, year?, round?}` |
+| sub_questions | jsonb | DEFAULT NULL | 하위 질문 `[{id, question, type, answer, explanation?}]` (v2.13 REQ-007) |
+| image_url | text | DEFAULT NULL | 도표/그래프 이미지 URL (v2.13 REQ-007) |
+| subjects | text[] | DEFAULT NULL | 복합영역 다중 태그 — 기존 subject는 주영역 유지 (v2.13 REQ-008) |
 
 - RLS: 읽기 공개, 쓰기 제한
 
@@ -386,7 +390,7 @@ isAdmin(userId: string): Promise<boolean>
 
 ### 값 제약
 
-- `type` (quiz): `multiple`, `ox`, `fill_in`, `descriptive`
+- `type` (quiz): `multiple`, `ox`, `fill_in`, `descriptive`, `scenario_composite`
 - `type` (worksheet): `fill_in`, `descriptive`
 - `difficulty`: 정수 1, 2, 3
 - `answer` (multiple): `"0"` ~ `"3"` 문자열

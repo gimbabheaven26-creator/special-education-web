@@ -86,7 +86,7 @@
 
 - **요청일**: 2026-03-14
 - **우선순위**: P1
-- **상태**: 대기
+- **상태**: 완료 (2026-04-02, contract.md v2.13 — 카이란 Supabase SQL 실행 필요)
 - **상세**: Issue #3 (KICE 실전형 퀴즈 포맷) UI 구현 완료. DB에 다음 컬럼 추가 필요:
   - `sub_questions JSONB DEFAULT NULL` — 하위 질문 배열 `[{id, question, type, answer, explanation?}]`
   - `image_url TEXT DEFAULT NULL` — 도표/그래프 이미지 URL
@@ -97,7 +97,7 @@
 
 - **요청일**: 2026-03-14
 - **우선순위**: P2
-- **상태**: 대기
+- **상태**: 완료 (2026-04-02, contract.md v2.13 — 카이란 Supabase SQL 실행 필요)
 - **상세**: Issue #6 (복합영역 태그 시스템) UI/쿼리 구현 완료. DB에 다음 컬럼 추가 필요:
   - `subjects TEXT[] DEFAULT NULL` — 복합영역 다중 태그 배열 (기존 subject는 주 영역으로 유지)
   - getQuizzesBySubject가 `subjects.cs.{slug}` 조건으로도 검색하므로, 컬럼이 있어야 쿼리 동작
