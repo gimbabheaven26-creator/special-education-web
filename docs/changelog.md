@@ -24,6 +24,25 @@
 
 ---
 
+## [2026-04-02] X — 빌드 수복 + 지니 인프라 정리 + V 리뷰 HIGH 전부 해결
+
+### 변경 내용
+- .gitignore 정리: playwright-mcp/, 임시 스크린샷 제외 + git rm --cached (d35572f)
+- settings.json 훅 그룹 병합: SessionStart 6→1, Stop 5→1 (지니 daily log 5-7배 중복 해소)
+- HEARTBEAT.md #4 미커밋 감지: `grep -v '^??'`로 untracked 제외 (거짓 알림 해소)
+- webpack 근본 원인 조사 완료: lucide-react tree-shaking + barrel export + Next.js 14 SSG 버그 3중 복합. force-dynamic 유지가 최선, Next.js 15 업그레이드 시 재시도
+
+### 영향 범위
+- X(인프라): 지니 heartbeat 정상화, 훅 중복 해소
+- X(빌드): .gitignore → untracked 노이즈 감소
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드/테스트 검증 (917/917, exit 0)
+- [x] channel.md 지니 알림 전달
+
+---
+
 ## [2026-04-02] X — SSG prerender TypeError 근본 해결 + V 리뷰 HIGH 전부 해결
 
 ### 변경 내용
