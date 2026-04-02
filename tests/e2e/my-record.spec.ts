@@ -37,18 +37,16 @@ test.describe('/record 대시보드', () => {
   test('404 없이 로드 + 콘텐츠 렌더링', async ({ page }) => {
     const response = await page.goto('/record');
     expect(response!.status()).toBe(200);
-    // useMounted() hydration 후 스켈레톤 또는 실제 콘텐츠 대기
-    await page.waitForTimeout(1000);
-    // 페이지에 텍스트 콘텐츠가 존재하면 렌더링 성공
+    // hydration 완료 대기: main 영역에 텍스트가 나타날 때까지
+    await expect(page.locator('main')).toBeVisible();
     const body = await page.locator('body').textContent();
     expect(body!.length).toBeGreaterThan(0);
   });
 
   test('제목 또는 빈 상태 표시', async ({ page }) => {
     await page.goto('/record');
-    // hydration 대기
-    await page.waitForTimeout(1000);
-    // "내 기록" h1 또는 빈 상태의 "학습 기록" 텍스트
+    // hydration 대기: "기록" 텍스트가 나타날 때까지
+    await expect(page.locator('main')).toBeVisible();
     const hasTitle = await page.locator('text=기록').count();
     const hasEmptyState = await page.locator('text=퀴즈').count();
     expect(hasTitle + hasEmptyState).toBeGreaterThan(0);
@@ -56,7 +54,7 @@ test.describe('/record 대시보드', () => {
 
   test('핵심 지표 카드 또는 빈 상태 CTA', async ({ page }) => {
     await page.goto('/record');
-    await page.waitForTimeout(1000);
+    await expect(page.locator('main')).toBeVisible();
     // 데이터 있으면 XP/스트릭 등, 없으면 퀴즈 시작 CTA
     const hasMetrics = await page.locator('text=XP').count();
     const hasCTA = await page.locator('text=시작').count();
