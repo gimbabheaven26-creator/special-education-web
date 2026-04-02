@@ -330,8 +330,8 @@ type AnswerGrade = 'knew' | 'hint' | 'forgot'
 // convertQuizBatch(quizzes: QuizQuestion[]): LeitnerCard[] — 배치 변환
 // filterFlashcardEligible(quizzes: QuizQuestion[]): QuizQuestion[] — 변환 가능 문제 필터
 
-// 동기화 (v2.3)
-type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark'
+// 동기화 (v2.4)
+type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding' | 'focus'
 getUserData(userId: string, storeKey: StoreKey): Promise<{ data: JsonValue; updatedAt: string } | null>
 upsertUserData(userId: string, storeKey: StoreKey, data: JsonValue): Promise<boolean>
 getAllUserData(userId: string): Promise<Record<StoreKey, { data: JsonValue; updatedAt: string }>>
