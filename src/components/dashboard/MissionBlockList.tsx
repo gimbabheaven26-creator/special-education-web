@@ -78,7 +78,9 @@ function MissionBlockCard({ block }: { block: MissionBlock }) {
 
 export function MissionBlockList() {
   const mounted = useMounted();
-  const { todayMission, focusSubject, setTodayMission } = useFocusStore();
+  const todayMission = useFocusStore((s) => s.todayMission);
+  const focusSubject = useFocusStore((s) => s.focusSubject);
+  const setTodayMission = useFocusStore((s) => s.setTodayMission);
   const wrongNotes = useStudyStore((s) => {
     const entries = s.dailyHistory;
     const total = entries.reduce(

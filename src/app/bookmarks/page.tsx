@@ -21,7 +21,8 @@ function getSubjectSlugFromPath(path: string): string | null {
 type SortMode = 'newest' | 'oldest' | 'subject';
 
 export default function BookmarksPage() {
-  const { bookmarks, removeBookmark } = useBookmarkStore();
+  const bookmarks = useBookmarkStore((s) => s.bookmarks);
+  const removeBookmark = useBookmarkStore((s) => s.removeBookmark);
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [sortMode, setSortMode] = useState<SortMode>('newest');
 

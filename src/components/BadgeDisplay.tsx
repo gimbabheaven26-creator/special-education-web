@@ -7,7 +7,9 @@ import { useQuizStore } from '@/stores/useQuizStore';
 import { computeBadges } from '@/lib/study/badges';
 
 export function BadgeDisplay() {
-  const { currentStreak, totalQuizzes, totalXP } = useStudyStore();
+  const currentStreak = useStudyStore((s) => s.currentStreak);
+  const totalQuizzes = useStudyStore((s) => s.totalQuizzes);
+  const totalXP = useStudyStore((s) => s.totalXP);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
 
   const masteredWrongNotes = useMemo(

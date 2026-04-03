@@ -27,7 +27,9 @@ import { EmptyState } from '@/components/ui/EmptyState';
 export default function RecordDashboard() {
   const mounted = useMounted();
   const { level, weakness, unmasteredCount, recommendations, currentStreak } = useMyPageData();
-  const { totalXP, totalQuizzes, dailyProgress } = useStudyStore();
+  const totalXP = useStudyStore((s) => s.totalXP);
+  const totalQuizzes = useStudyStore((s) => s.totalQuizzes);
+  const dailyProgress = useStudyStore((s) => s.dailyProgress);
   const wrongNotesCount = useQuizStore((s) => s.wrongNotes.length);
   const bookmarkCount = useBookmarkStore((s) => s.bookmarks.length);
   const leitnerStats = useLeitnerStore((s) => s.getStats());

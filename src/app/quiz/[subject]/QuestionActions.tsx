@@ -78,7 +78,8 @@ function ErrorReportSection({ questionId }: { questionId: string }) {
 // ─── QuestionActions ────────────────────────────────────────────────────────
 
 export function QuestionActions({ question }: { question: QuizQuestion }) {
-  const { getFeedback, addFeedback } = useQuizStore();
+  const getFeedback = useQuizStore((s) => s.getFeedback);
+  const addFeedback = useQuizStore((s) => s.addFeedback);
   const currentFeedback = getFeedback(question.id);
 
   return (

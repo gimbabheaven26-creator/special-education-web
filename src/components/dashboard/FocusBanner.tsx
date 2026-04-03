@@ -25,8 +25,11 @@ const ALL_SLUGS = Object.keys(SUBJECT_LABELS);
 
 export function FocusBanner() {
   const mounted = useMounted();
-  const { focusSubject, focusExpiresAt, setFocus, clearFocus, isFocusExpired } =
-    useFocusStore();
+  const focusSubject = useFocusStore((s) => s.focusSubject);
+  const focusExpiresAt = useFocusStore((s) => s.focusExpiresAt);
+  const setFocus = useFocusStore((s) => s.setFocus);
+  const clearFocus = useFocusStore((s) => s.clearFocus);
+  const isFocusExpired = useFocusStore((s) => s.isFocusExpired);
   const dailyHistory = useStudyStore((s) => s.dailyHistory);
   const [showPicker, setShowPicker] = useState(false);
   const [remainingLabel, setRemainingLabel] = useState('');
