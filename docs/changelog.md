@@ -24,6 +24,26 @@
 
 ---
 
+## [2026-04-03] X — QuizForm 리팩토링 + scenario_composite 샘플 데이터
+
+### 변경 내용
+- QuizForm.tsx 635→332줄 분리: useQuizForm.ts(훅) + QuizFormFields.tsx(공통UI) 추출 (4891327)
+- scenario_composite 샘플 SQL 3문제 작성: scripts/insert-scenario-samples.sql (f98ec9d)
+  - curriculum(IEP+교육과정수정), inclusive-education(협력교수+UDL), introduction(자폐감별+감각)
+  - 각 문제 sub_questions 2~3개 + subjects 복합태그 포함
+- REQ-003 완료 처리: 조사 결과 이미 달성 확인 (VI/HI/PD/CD 40문제, intro 20문제)
+- public/sw.js 빌드 캐시 해시 갱신 (11b4f75)
+
+### 영향 범위
+- X(빌드): admin/editor 리팩토링 (기능 변경 없음)
+- X(데이터): scenario_composite 샘플 — 카이란 Supabase SQL 실행 필요
+
+### 상태
+- [x] 빌드 exit 0, lint 0, test 917/917
+- [ ] 카이란 Supabase SQL 실행 대기
+
+---
+
 ## [2026-04-02] X — E2E CI/CD 파이프라인 신설 + study-planner UTC 버그 수정
 
 ### 변경 내용
