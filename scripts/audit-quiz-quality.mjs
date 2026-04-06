@@ -5,38 +5,12 @@
  * Does NOT modify any data — report only.
  */
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co'
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+import { getClient, fetchAll as _fetchAll } from './lib/supabase-client.mjs';
 
-if (!SUPABASE_KEY) {
-  console.error('ERROR: SUPABASE_SERVICE_ROLE_KEY environment variable is required')
-  process.exit(1)
-}
-
-const headers = {
-  apikey: SUPABASE_KEY,
-  Authorization: `Bearer ${SUPABASE_KEY}`,
-  'Content-Type': 'application/json',
-}
+const supabase = getClient();
 
 async function fetchAll(table) {
-  const allRows = []
-  let offset = 0
-  const limit = 1000
-
-  while (true) {
-    const url = `${SUPABASE_URL}/rest/v1/${table}?select=*&offset=${offset}&limit=${limit}`
-    const res = await fetch(url, { headers })
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${table}: ${res.status} ${await res.text()}`)
-    }
-    const rows = await res.json()
-    allRows.push(...rows)
-    if (rows.length < limit) break
-    offset += limit
-  }
-
-  return allRows
+  return _fetchAll(supabase, table);
 }
 
 function createIssue(category, description) {

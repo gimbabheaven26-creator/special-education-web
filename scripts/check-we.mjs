@@ -1,8 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
-import { readFileSync } from 'fs';
-const env = readFileSync(new URL('../.env.local', import.meta.url), 'utf8');
-const get = k => env.match(new RegExp(`^${k}=(.+)$`, 'm'))?.[1]?.trim();
-const sb = createClient(get('NEXT_PUBLIC_SUPABASE_URL'), get('SUPABASE_SERVICE_ROLE_KEY'), { auth: { autoRefreshToken: false, persistSession: false } });
+import { getClient } from './lib/supabase-client.mjs';
+
+const sb = getClient();
 
 const { data } = await sb.from('quiz_questions')
   .select('id,type,answer,wrong_explanations')

@@ -1,13 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
-import { readFileSync } from 'fs';
+import { getClient } from './lib/supabase-client.mjs';
 
-const env = readFileSync('/Users/gihoonkim/Projects/special-education-web/.env.local', 'utf8');
-const get = (key) => env.match(new RegExp(`^${key}=(.+)$`, 'm'))?.[1]?.trim();
-
-const url = get('NEXT_PUBLIC_SUPABASE_URL');
-const key = get('SUPABASE_SERVICE_ROLE_KEY');
-
-const supabase = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
+const supabase = getClient();
 
 const { data: p, error: pe } = await supabase.from('profiles').select('id').limit(1);
 const { data: u, error: ue } = await supabase.from('user_data').select('id').limit(1);

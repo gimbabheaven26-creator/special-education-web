@@ -4,12 +4,9 @@
  * 예: 청각장애-001, 시각장애-042
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getClient } from './lib/supabase-client.mjs';
 
-const sb = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const sb = getClient();
 
 const SUBJECT_LABELS = {
   'assessment':              '진단평가',

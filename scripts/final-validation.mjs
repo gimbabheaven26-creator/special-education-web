@@ -3,35 +3,12 @@
  * Checks totals, referential integrity, field validity, and distributions.
  */
 
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://ssluhxvbyzqmdkbjwoke.supabase.co'
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+import { getClient, fetchAll as _fetchAll } from './lib/supabase-client.mjs';
 
-if (!SUPABASE_KEY) {
-  console.error('ERROR: SUPABASE_SERVICE_ROLE_KEY not set')
-  process.exit(1)
-}
-
-const headers = {
-  apikey: SUPABASE_KEY,
-  Authorization: `Bearer ${SUPABASE_KEY}`,
-}
+const supabase = getClient();
 
 async function fetchAll(table, select = '*') {
-  const rows = []
-  const limit = 1000
-  let offset = 0
-  while (true) {
-    const url = `${SUPABASE_URL}/rest/v1/${table}?select=${encodeURIComponent(select)}&limit=${limit}&offset=${offset}`
-    const res = await fetch(url, { headers })
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${table}: ${res.status} ${await res.text()}`)
-    }
-    const data = await res.json()
-    rows.push(...data)
-    if (data.length < limit) break
-    offset += limit
-  }
-  return rows
+  return _fetchAll(supabase, table, select);
 }
 
 function printCheck(num, name, passed, detail) {

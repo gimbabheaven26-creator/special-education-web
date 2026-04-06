@@ -4,14 +4,9 @@
  * 실행: node scripts/audit-fill-in.mjs
  */
 
-import { createClient } from '@supabase/supabase-js';
-import { readFileSync } from 'fs';
+import { getClient } from './lib/supabase-client.mjs';
 
-const env = readFileSync(new URL('../.env.local', import.meta.url), 'utf8');
-const get = k => env.match(new RegExp(`^${k}=(.+)$`, 'm'))?.[1]?.trim();
-const sb = createClient(get('NEXT_PUBLIC_SUPABASE_URL'), get('SUPABASE_SERVICE_ROLE_KEY'), {
-  auth: { autoRefreshToken: false, persistSession: false }
-});
+const sb = getClient();
 
 let page = 0, all = [];
 while (true) {

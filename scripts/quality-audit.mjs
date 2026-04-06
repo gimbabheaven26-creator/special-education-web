@@ -1,10 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
+import { getClient } from './lib/supabase-client.mjs';
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co'
-const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!SERVICE_ROLE_KEY) throw new Error('SUPABASE_SERVICE_ROLE_KEY required')
-
-const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
+const supabase = getClient();
 
 async function main() {
   console.log('=== 방향B 품질 감사 시작 ===\n')

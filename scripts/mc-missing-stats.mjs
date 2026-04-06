@@ -5,40 +5,12 @@
  * Usage: SUPABASE_SERVICE_ROLE_KEY=<key> node scripts/mc-missing-stats.mjs
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getClient, fetchFiltered } from './lib/supabase-client.mjs';
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co';
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!SERVICE_KEY) {
-  throw new Error('SUPABASE_SERVICE_ROLE_KEY environment variable is required');
-}
-
-const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
+const supabase = getClient();
 
 async function fetchAllMCQuestions() {
-  const allRows = [];
-  let from = 0;
-  const PAGE_SIZE = 1000;
-
-  while (true) {
-    const { data, error } = await supabase
-      .from('quiz_questions')
-      .select('id, subject, wrong_explanations')
-      .eq('type', 'multiple')
-      .range(from, from + PAGE_SIZE - 1);
-
-    if (error) {
-      throw new Error(`Supabase query failed: ${error.message}`);
-    }
-
-    allRows.push(...data);
-
-    if (data.length < PAGE_SIZE) break;
-    from += PAGE_SIZE;
-  }
-
-  return allRows;
+  return fetchFiltered(supabase, 'quiz_questions', { type: 'multiple' }, 'id, subject, wrong_explanations');
 }
 
 function isEmptyExplanations(val) {

@@ -4,17 +4,9 @@
  * Validates all Supabase tables against docs/contract.md rules.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getClient, fetchAll as _libFetchAll } from './lib/supabase-client.mjs';
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co';
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!SERVICE_KEY) {
-  console.error('SUPABASE_SERVICE_ROLE_KEY not set');
-  process.exit(1);
-}
-
-const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
+const supabase = getClient();
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -33,21 +25,7 @@ function section(title) {
 // ── fetch all data (with pagination to bypass 1000-row default limit) ─────────
 
 async function fetchPaginated(table, columns = '*') {
-  const PAGE_SIZE = 1000;
-  let rows = [];
-  let from = 0;
-  while (true) {
-    const { data, error } = await supabase
-      .from(table)
-      .select(columns)
-      .range(from, from + PAGE_SIZE - 1);
-    if (error) throw new Error(`${table} fetch error: ${error.message}`);
-    if (!data || data.length === 0) break;
-    rows = rows.concat(data);
-    if (data.length < PAGE_SIZE) break;
-    from += PAGE_SIZE;
-  }
-  return rows;
+  return _libFetchAll(supabase, table, columns);
 }
 
 async function fetchAll() {

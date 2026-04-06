@@ -1,29 +1,8 @@
-import { createClient } from '@supabase/supabase-js'
+import { getClient, fetchAll } from './lib/supabase-client.mjs';
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co'
-const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!SERVICE_ROLE_KEY) throw new Error('SUPABASE_SERVICE_ROLE_KEY required')
-
-const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
-
-async function fetchAll(table, columns) {
-  const pageSize = 1000
-  let allData = []
-  let from = 0
-  while (true) {
-    const { data, error } = await supabase
-      .from(table)
-      .select(columns)
-      .range(from, from + pageSize - 1)
-    if (error) throw error
-    allData = allData.concat(data)
-    if (data.length < pageSize) break
-    from += pageSize
-  }
-  return allData
-}
+const supabase = getClient();
 
 function escapeMarkdown(str) {
   if (!str) return ''
@@ -35,7 +14,7 @@ async function main() {
 
   // 전체 문항 페이지네이션으로 가져오기
   console.log('데이터 로딩 중...')
-  const allQ = await fetchAll('quiz_questions', 'id, subject, type, question, explanation, wrong_explanations, tags')
+  const allQ = await fetchAll(supabase, 'quiz_questions', 'id, subject, type, question, explanation, wrong_explanations, tags')
   console.log(`전체 문항: ${allQ.length}건\n`)
 
   // --- 검사 1: explanation < 30자 ---

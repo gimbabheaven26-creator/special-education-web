@@ -1,13 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
+import { getClient } from './lib/supabase-client.mjs';
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co'
-const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-if (!SERVICE_ROLE_KEY) {
-  throw new Error('SUPABASE_SERVICE_ROLE_KEY env var required')
-}
-
-const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
+const supabase = getClient();
 
 // Keywords that indicate the question references a scenario/case
 const SCENARIO_KEYWORDS = ['사례', '상담 기록', '다음은']

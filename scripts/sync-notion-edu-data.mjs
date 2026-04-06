@@ -8,16 +8,23 @@
  *   node scripts/sync-notion-edu-data.mjs --subject introduction  # 특정 과목만
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getClient } from './lib/supabase-client.mjs';
 import { readFileSync } from 'fs';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 // ── 환경 변수 ──────────────────────────────────────────────────────────────
-const env = readFileSync(new URL('../.env.local', import.meta.url), 'utf8');
-const get = (k) => env.match(new RegExp(`^${k}=(.+)$`, 'm'))?.[1]?.trim();
-
-const SUPABASE_URL = get('NEXT_PUBLIC_SUPABASE_URL');
-const SUPABASE_KEY = get('SUPABASE_SERVICE_ROLE_KEY');
-const NOTION_TOKEN = get('NOTION_API_KEY');
+// Supabase는 lib/에서 로딩. Notion 토큰만 별도 로딩.
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const envPath = resolve(__dirname, '../.env.local');
+let NOTION_TOKEN = process.env.NOTION_API_KEY;
+if (!NOTION_TOKEN) {
+  try {
+    const envContent = readFileSync(envPath, 'utf-8');
+    const m = envContent.match(/^NOTION_API_KEY=(.+)$/m);
+    if (m) NOTION_TOKEN = m[1].trim();
+  } catch { /* .env.local 없으면 process.env에서 직접 */ }
+}
 const NOTION_DB_ID = '324d1034-8f3f-811c-bc05-c61d6fce632f'; // 교육 데이터 관리
 
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -41,9 +48,8 @@ const SUBJECTS = {
 };
 
 // ── Supabase ───────────────────────────────────────────────────────────────
-const sb = createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: { autoRefreshToken: false, persistSession: false },
-});
+const sb = getClient();
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 async function fetchStats() {
   // Supabase REST API 기본 limit=1000, 페이지네이션으로 전체 로드

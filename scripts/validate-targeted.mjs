@@ -6,27 +6,42 @@
  * 3. 전체 contract.md 규칙 위반 건수
  */
 
-const SUPABASE_URL = 'https://ssluhxvbyzqmdkbjwoke.supabase.co';
-const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { getClient, fetchAll, fetchFiltered } from './lib/supabase-client.mjs';
 
-if (!SERVICE_ROLE_KEY) {
-  throw new Error('SUPABASE_SERVICE_ROLE_KEY 환경변수가 설정되지 않았습니다.');
-}
+const supabase = getClient();
 
+/**
+ * SDK 기반 query 래퍼. PostgREST 파라미터 문법을 SDK 호출로 변환.
+ * 간단한 eq/not.is/select/limit/offset 패턴만 지원.
+ */
 async function query(table, params = '') {
-  const url = `${SUPABASE_URL}/rest/v1/${table}${params}`;
-  const res = await fetch(url, {
-    headers: {
-      apikey: SERVICE_ROLE_KEY,
-      Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-      'Content-Type': 'application/json',
-    },
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Query failed [${table}]: ${res.status} ${text}`);
+  // params 예: '?id=eq.cd-q63&select=id,type,answer,options,wrong_explanations'
+  const url = new URL(`http://dummy/${table}${params}`);
+  const select = url.searchParams.get('select') || '*';
+  const limit = url.searchParams.has('limit') ? parseInt(url.searchParams.get('limit'), 10) : 10000;
+  const offset = url.searchParams.has('offset') ? parseInt(url.searchParams.get('offset'), 10) : 0;
+
+  let q = supabase.from(table).select(select);
+
+  // eq 필터 적용
+  for (const [key, value] of url.searchParams.entries()) {
+    if (key === 'select' || key === 'limit' || key === 'offset') continue;
+    if (value.startsWith('eq.')) {
+      q = q.eq(key, value.slice(3));
+    } else if (value === 'not.is.null') {
+      q = q.not(key, 'is', null);
+    }
   }
-  return res.json();
+
+  if (offset > 0) {
+    q = q.range(offset, offset + limit - 1);
+  } else {
+    q = q.limit(limit);
+  }
+
+  const { data, error } = await q;
+  if (error) throw new Error(`Query failed [${table}]: ${error.message}`);
+  return data || [];
 }
 
 // ─────────────────────────────────────────
@@ -196,34 +211,15 @@ async function validateFullContract() {
     distribution: [],
   };
 
-  // 데이터 로드 (페이지네이션)
+  // 데이터 로드 (lib fetchAll 사용)
   console.log('데이터 로딩 중...');
-  const subjects = await query('subjects', '?select=slug');
-  const chapters = await query('chapters', '?select=id,subject_slug,slug,title');
-
-  let quizzes = [];
-  {
-    let qOffset = 0;
-    while (true) {
-      const page = await query('quiz_questions', `?select=id,subject,chapter,type,answer,options,difficulty,wrong_explanations&limit=1000&offset=${qOffset}`);
-      quizzes = quizzes.concat(page);
-      if (page.length < 1000) break;
-      qOffset += 1000;
-    }
-  }
-
-  const wTopics = await query('worksheet_topics', '?select=id,subject');
-
-  let wQuestions = [];
-  {
-    let wqOffset = 0;
-    while (true) {
-      const page = await query('worksheet_questions', `?select=id,topic_id,subject,type,difficulty,answer&limit=1000&offset=${wqOffset}`);
-      wQuestions = wQuestions.concat(page);
-      if (page.length < 1000) break;
-      wqOffset += 1000;
-    }
-  }
+  const [subjects, chapters, quizzes, wTopics, wQuestions] = await Promise.all([
+    fetchAll(supabase, 'subjects', 'slug'),
+    fetchAll(supabase, 'chapters', 'id,subject_slug,slug,title'),
+    fetchAll(supabase, 'quiz_questions', 'id,subject,chapter,type,answer,options,difficulty,wrong_explanations'),
+    fetchAll(supabase, 'worksheet_topics', 'id,subject'),
+    fetchAll(supabase, 'worksheet_questions', 'id,topic_id,subject,type,difficulty,answer'),
+  ]);
 
   const subjectSlugs = new Set(subjects.map(s => s.slug));
   const chaptersBySubject = {};
