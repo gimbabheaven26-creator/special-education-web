@@ -21,13 +21,13 @@ export async function verifyAdmin(): Promise<{ authorized: boolean; userId?: str
 
 export async function verifyAdminOrApiKey(
   request: Request,
-): Promise<{ authorized: boolean; userId?: string }> {
+): Promise<{ authorized: boolean; userId?: string; isApiKey?: boolean }> {
   // API 키 우선 확인 (Google Sheets 등 외부 연동용)
   const authHeader = request.headers.get('authorization');
   const apiKey = process.env.ADMIN_API_KEY;
 
   if (apiKey && authHeader === `Bearer ${apiKey}`) {
-    return { authorized: true, userId: 'api-key' };
+    return { authorized: true, userId: 'api-key', isApiKey: true };
   }
 
   // 세션 인증 fallback

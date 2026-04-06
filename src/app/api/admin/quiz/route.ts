@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createServiceClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 
 export async function GET(request: Request) {
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
     const offset = (page - 1) * limit;
 
-    const supabase = await createClient();
+    const supabase = auth.isApiKey ? createServiceClient() : await createClient();
     let query = supabase
       .from('quiz_questions')
       .select('*', { count: 'exact' });
@@ -96,8 +96,15 @@ export async function POST(request: Request) {
       }
     }
 
+    // ID 생성: {subject}-{chapter}-{timestamp} 패턴
+    const id =
+      typeof input.id === 'string' && input.id
+        ? input.id
+        : `${input.subject}-${input.chapter}-${Date.now().toString(36)}`;
+
     // camelCase → snake_case 변환
     const insertData: Record<string, unknown> = {
+      id,
       type: input.type,
       question: input.question,
       answer: input.answer,
@@ -113,7 +120,7 @@ export async function POST(request: Request) {
       subjects: input.subjects ?? null,
     };
 
-    const supabase = await createClient();
+    const supabase = auth.isApiKey ? createServiceClient() : await createClient();
     const { data, error } = await supabase
       .from('quiz_questions')
       .insert(insertData)
@@ -122,7 +129,7 @@ export async function POST(request: Request) {
 
     if (error) {
       return NextResponse.json(
-        { error: '문제 생성 중 오류가 발생했습니다.' },
+        { error: '문제 생성 중 오류가 발생했습니다.', detail: error.message },
         { status: 500 },
       );
     }

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createServiceClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 
 export async function PATCH(
@@ -59,7 +59,7 @@ export async function PATCH(
       return NextResponse.json({ error: '업데이트할 필드가 없습니다.' }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    const supabase = auth.isApiKey ? createServiceClient() : await createClient();
     const { data, error } = await supabase
       .from('quiz_questions')
       .update(updateData)
@@ -99,7 +99,7 @@ export async function DELETE(
 
     const { id } = await params;
 
-    const supabase = await createClient();
+    const supabase = auth.isApiKey ? createServiceClient() : await createClient();
     const { error, count } = await supabase
       .from('quiz_questions')
       .delete()
