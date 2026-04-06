@@ -24,6 +24,28 @@
 
 ---
 
+## [2026-04-06] X — 어드민 API 완전 동작 + 시나리오 샘플 DB 삽입
+
+### 변경 내용
+- **createServiceClient()** 추가 (`src/lib/supabase/server.ts`): API 키 인증 시 service role key로 RLS 우회 (3d46405)
+- **admin-auth isApiKey 플래그**: `verifyAdminOrApiKey` 반환값에 `isApiKey` 추가, 라우트에서 클라이언트 자동 선택
+- **POST 자동 ID 생성**: `{subject}-{chapter}-{timestamp36}` 패턴. quiz_questions.id가 text PK이므로 필수
+- **admin quiz PATCH/DELETE**: service client 적용 (API 키 인증 시 동작)
+- **시나리오 샘플 3건 삽입**: `scripts/insert-scenario-samples.mjs`로 sc-cur-q1, sc-inc-q1, sc-intro-q1 DB 삽입
+- **API E2E 전 구간 PASS**: POST(201)→PATCH(200)→DELETE(200)→GET(200) 검증 완료
+
+### 영향 범위
+- X(빌드): admin quiz 라우트 4개 파일 + supabase/server.ts + admin-auth.ts
+- X(데이터): quiz_questions에 scenario_composite 3건 추가 (총 3116건)
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 성공
+- [ ] Vercel ADMIN_API_KEY 미설정 (프로덕션 API 키 인증 불가)
+- [ ] 다른 admin 라우트 미적용 (chapters 등)
+
+---
+
 ## [2026-04-06] X — scripts/ 파이프라인 정리 Phase B-1/B-2
 
 ### 변경 내용
