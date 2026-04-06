@@ -46,6 +46,7 @@ export async function PATCH(
       sub_questions: 'sub_questions',
       imageUrl: 'image_url',
       image_url: 'image_url',
+      subjects: 'subjects',
     };
 
     for (const [inputKey, dbKey] of Object.entries(mappedFields)) {

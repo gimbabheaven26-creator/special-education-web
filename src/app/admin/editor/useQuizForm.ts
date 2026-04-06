@@ -46,6 +46,7 @@ export interface QuizFormState {
   tagYear: string;
   tagRound: string;
   subQuestions: SubQuestion[];
+  multiSubjects: string[];
   chapters: ChapterItem[];
   saving: boolean;
   deleting: boolean;
@@ -71,6 +72,7 @@ export interface QuizFormActions {
   removeOption: (index: number) => void;
   moveOption: (index: number, direction: 'up' | 'down') => void;
   setWrongExplanations: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  setMultiSubjects: React.Dispatch<React.SetStateAction<string[]>>;
   addSubQuestion: () => void;
   updateSubQuestion: (index: number, field: keyof SubQuestion, value: string) => void;
   removeSubQuestion: (index: number) => void;
@@ -107,6 +109,9 @@ export function useQuizForm({ mode, initialData, initialChapters }: UseQuizFormO
   const [tagDisability, setTagDisability] = useState(initialData?.tags?.disability ?? '');
   const [tagYear, setTagYear] = useState(initialData?.tags?.year?.toString() ?? '');
   const [tagRound, setTagRound] = useState(initialData?.tags?.round?.toString() ?? '');
+
+  // 복합영역 태그
+  const [multiSubjects, setMultiSubjects] = useState<string[]>(initialData?.subjects ?? []);
 
   // 시나리오 하위 문항
   const [subQuestions, setSubQuestions] = useState<SubQuestion[]>(initialData?.subQuestions ?? []);
@@ -246,6 +251,10 @@ export function useQuizForm({ mode, initialData, initialChapters }: UseQuizFormO
       payload.subQuestions = subQuestions;
     }
 
+    if (multiSubjects.length > 0) {
+      payload.subjects = multiSubjects;
+    }
+
     return payload as Partial<QuizQuestion>;
   };
 
@@ -319,12 +328,12 @@ export function useQuizForm({ mode, initialData, initialChapters }: UseQuizFormO
     // state
     subject, chapter, type, question, caseContext, answer, explanation,
     difficulty, source, imageUrl, options, wrongExplanations,
-    tagDisability, tagYear, tagRound, subQuestions, chapters,
+    tagDisability, tagYear, tagRound, subQuestions, multiSubjects, chapters,
     saving, deleting, toast,
     // actions
     setSubject, setChapter, setType, setQuestion, setCaseContext,
     setAnswer, setExplanation, setDifficulty, setSource, setImageUrl,
-    setTagDisability, setTagYear, setTagRound, setWrongExplanations,
+    setTagDisability, setTagYear, setTagRound, setWrongExplanations, setMultiSubjects,
     updateOption, addOption, removeOption, moveOption,
     addSubQuestion, updateSubQuestion, removeSubQuestion,
     handleSave, handleDelete,

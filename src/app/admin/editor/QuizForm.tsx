@@ -295,6 +295,51 @@ export function QuizForm({ mode, initialData, subjects, initialChapters }: QuizF
         </div>
       </Section>
 
+      {/* 복합영역 태그 */}
+      <Section title="복합영역 태그 (선택)">
+        <p className="text-xs text-gray-500 mb-3">
+          이 문제가 여러 과목에 걸쳐 있으면, 관련 과목 슬러그를 추가하세요. 주 과목(위에서 선택)은 자동 포함됩니다.
+        </p>
+        <div className="flex flex-wrap gap-2 mb-3">
+          {form.multiSubjects.map((s, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-medium"
+            >
+              {s}
+              <button
+                type="button"
+                onClick={() => form.setMultiSubjects(form.multiSubjects.filter((_, j) => j !== i))}
+                className="hover:text-blue-600"
+                aria-label={`${s} 태그 제거`}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <select
+            className={INPUT_CLASS}
+            defaultValue=""
+            onChange={(e) => {
+              const val = e.target.value;
+              if (val && !form.multiSubjects.includes(val)) {
+                form.setMultiSubjects([...form.multiSubjects, val]);
+              }
+              e.target.value = '';
+            }}
+          >
+            <option value="">과목 추가...</option>
+            {subjects
+              .filter((s) => s.slug !== form.subject && !form.multiSubjects.includes(s.slug))
+              .map((s) => (
+                <option key={s.slug} value={s.slug}>{s.title}</option>
+              ))}
+          </select>
+        </div>
+      </Section>
+
       {/* 버튼 영역 */}
       <div className="flex items-center justify-between mt-8 mb-12">
         <div>

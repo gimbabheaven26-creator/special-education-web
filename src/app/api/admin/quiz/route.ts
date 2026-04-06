@@ -110,6 +110,7 @@ export async function POST(request: Request) {
       wrong_explanations: input.wrongExplanations ?? input.wrong_explanations ?? null,
       sub_questions: input.subQuestions ?? input.sub_questions ?? null,
       image_url: input.imageUrl ?? input.image_url ?? null,
+      subjects: input.subjects ?? null,
     };
 
     const supabase = await createClient();
