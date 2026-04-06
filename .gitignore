@@ -64,6 +64,10 @@ scripts/output/
 .claude/launch.json
 .claude/handoff.md
 .claude/agent-memory/
+.claude/settings.json
+
+# supabase temp
+nadaun/supabase/.temp/
 
 # superpowers
 .superpowers/
