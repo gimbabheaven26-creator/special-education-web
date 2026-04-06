@@ -77,7 +77,9 @@ src/app/mastery/LearningDashboard.tsx  # 학습 현황 대시보드 (mastery/pag
 src/lib/kice/                      # 기출 데이터 (kice, kice-analytics)
 src/components/dashboard/KiceRecommendCard.tsx  # 기출 빈출 키워드 카드 (data/terminology/kice-terms.json 정적 import)
 
-scripts/insert-with-service-key.mjs  # Supabase 데이터 삽입 패턴
+scripts/lib/supabase-client.mjs     # Supabase 연결 (dotenv, service key)
+scripts/lib/cli-utils.mjs           # CLI 유틸 (진행바, 배치 실행)
+scripts/lib/validator.mjs           # 퀴즈 데이터 검증
 data/terminology/nise-dictionary.json  # NISE 용어사전 1129개
 data/terminology/kice-terms.json       # KICE 기출 키워드 1417개
 data/kice-기출/                         # KICE 기출문제 (2016~2026)
@@ -157,9 +159,18 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 
 ---
 
-## 현재 마일스톤 (M1: 2026-03-25~31)
+## 관련 프로젝트
 
-M1 전체 완료 (2026-03-25~31, 65+ 커밋). 주요 성과: UX 감성설계, loading/error/empty 전페이지, WCAG AA 접근성, lib/ 5도메인 분리, 테스트 894건, 컴포넌트 분해 500줄 미만, 집중모드+미션, /my·/record 대시보드, 나다운 Phase 6 완료, 커뮤니티 AI 문제. 상세는 `git log --oneline` 또는 `docs/changelog.md` 참조.
+- **Knowledge Hub**: `~/Projects/knowledge-hub/` — 릴리스(LilysAI) 크롤링용 Astro 정적 사이트
+  - GitHub: `gimbabheaven26-creator/knowledge-hub`
+  - URL: https://gimbabheaven26-creator.github.io/knowledge-hub/
+  - 동기화: `bash ~/Projects/knowledge-hub/scripts/sync-from-sew.sh`
+
+---
+
+## 현재 마일스톤 (M2: 만족도 끌어올리기, 2026-04-06~)
+
+M1 완료 (65+ 커밋). M2 목표: 기능은 있지만 깊이 부족한 4영역 개선 — 기출→개념 직링크(Phase 1), 진단→경로(Phase 2), 함께하기 재설계(Phase 3), 내기록 깊이(Phase 4), AI-Human 파이프라인(Phase 5). 상세는 `prompt_plan.md` 참조.
 
 ---
 
