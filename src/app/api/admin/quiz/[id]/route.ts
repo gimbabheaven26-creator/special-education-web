@@ -102,7 +102,7 @@ export async function DELETE(
     const supabase = auth.isApiKey ? createServiceClient() : await createClient();
     const { error, count } = await supabase
       .from('quiz_questions')
-      .delete()
+      .delete({ count: 'exact' })
       .eq('id', id);
 
     if (error) {
