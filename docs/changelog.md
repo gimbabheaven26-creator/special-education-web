@@ -24,6 +24,23 @@
 
 ---
 
+## [2026-04-06] X — scripts/ 파이프라인 정리 Phase B-1/B-2
+
+### 변경 내용
+- **Phase B-1**: scripts/ 83→26개 정리. 11개 삭제(날짜별 검증, 일회성 진단), 44개 archive/(fix/insert/migrate/gen + quiz-data 119 JSON + output/) (4bc586d)
+- **Phase B-2**: scripts/lib/ 공용 유틸리티 3개 모듈 신규 — supabase-client.mjs(env var 강제+페이지네이션), validator.mjs(contract.md v2.13 검증 10규칙), cli-utils.mjs(zero-dep CLI 파서) (70b51fd)
+
+### 영향 범위
+- X(빌드): 영향 없음 (scripts/는 빌드에 포함 안 됨)
+- X(데이터): 영향 없음 (스크립트 정리만, DB 변경 없음)
+
+### 상태
+- [x] contract.md — 변경 불필요 (DB/API 변경 아님)
+- [x] 빌드 exit 0 확인
+- [ ] B-3 파이프라인 통합 예정 (KEEP 26개 → lib/ 마이그레이션)
+
+---
+
 ## [2026-04-03] X — QuizForm 리팩토링 + scenario_composite 샘플 데이터
 
 ### 변경 내용
