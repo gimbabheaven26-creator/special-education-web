@@ -39,6 +39,7 @@ npm run test:e2e     # Playwright E2E
 - **Completion Contract**: `/plan` 실행 시 완료 기준 체크리스트 필수 작성. V가 80%+ 통과 여부로 판정.
 - **X↔지니 채널**: `~/.openclaw/workspace/channel.md` — 세션 시작 시 읽고, 지니 메시지가 있으면 우선 확인. 세션 종료/주요 작업 완료 시 지니에게 메시지 남기기.
 - **E2E CI**: `.github/workflows/e2e.yml` — main push/PR 시 Playwright E2E 자동 실행. 결과는 GitHub Actions > playwright-report artifact에서 확인. `NEXT_PUBLIC_SUPABASE_ANON_KEY` secret 필요.
+- **Keybindings**: `~/.claude/keybindings.json` — Enter=줄바꿈, Cmd+Enter=제출, Ctrl+K 접두사 15개 코드. 상세: `memory/feedback_keybindings.md`
 
 **`docs/contract.md`가 유일한 진실의 원천**.
 스키마/API 변경 → contract.md 먼저 수정 → 카이란 승인 → 구현.

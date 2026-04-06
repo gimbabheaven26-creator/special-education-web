@@ -86,37 +86,37 @@ source 값 확장: `'manual' | 'quiz-ox' | 'quiz-fill_in'`
 V(평가자)가 이 기준으로 PASS/FAIL을 판정한다. 80% 이상 통과해야 PASS.
 
 ### 동기화 기준 (Phase 0)
-- [ ] `migrateGuestData`가 실제 localStorage 키(`special-edu-study`, `leitner-cards`, `quiz-data`, `bookmarks`)로 데이터를 읽는다
-- [ ] `useFocusStore`가 SyncManager 구독 목록에 포함된다
-- [ ] 'onboarding'과 'focus' store_key가 DB에 push 가능하다
+- [x] `migrateGuestData`가 실제 localStorage 키(`special-edu-study`, `leitner-cards`, `quiz-data`, `bookmarks`)로 데이터를 읽는다
+- [x] `useFocusStore`가 SyncManager 구독 목록에 포함된다
+- [x] 'onboarding'과 'focus' store_key가 DB에 push 가능하다
 
 ### 모델 기준 (Phase 1)
-- [ ] LeitnerCard에 chapterSlug, quizId, quizType 필드가 있다
-- [ ] 기존 카드가 마이그레이션 후에도 정상 동작한다
-- [ ] quizId 기반 중복 추가가 방지된다
+- [x] LeitnerCard에 chapterSlug, quizId, quizType 필드가 있다
+- [x] 기존 카드가 마이그레이션 후에도 정상 동작한다
+- [x] quizId 기반 중복 추가가 방지된다
 
 ### 변환 기준 (Phase 2)
-- [ ] OX 퀴즈 150자 초과 시 변환하지 않는다
-- [ ] fill_in 퀴즈가 front(빈칸)/back(정답) 형태로 변환된다
-- [ ] 법 과목 OX+단답형 163개 중 필터 통과한 것이 전부 변환 가능하다
+- [x] OX 퀴즈 150자 초과 시 변환하지 않는다
+- [x] fill_in 퀴즈가 front(빈칸)/back(정답) 형태로 변환된다
+- [x] 법 과목 OX+단답형 163개 중 필터 통과한 것이 전부 변환 가능하다
 
 ### UI 기준 (Phase 3~4)
-- [ ] 카드 추가 화면에 "수동 입력"과 "퀴즈에서 가져오기" 2탭이 있다
-- [ ] 법/교육과정에 "전체 추가" 버튼이 있다
-- [ ] 이미 추가된 퀴즈는 회색 처리된다
-- [ ] OX 소스 카드는 O/X 버튼으로 답변한다
-- [ ] 복습 시 타이머 바가 표시되고, 탭하면 즉시 이동한다
-- [ ] 카드 편집(question/answer 수정)이 가능하다
-- [ ] "알고 있었어요/모르겠어요" 자가 평가 버튼이 없다
+- [x] 카드 추가 화면에 "수동 입력"과 "퀴즈에서 가져오기" 2탭이 있다
+- [x] 법/교육과정에 "전체 추가" 버튼이 있다
+- [x] 이미 추가된 퀴즈는 회색 처리된다
+- [x] OX 소스 카드는 O/X 버튼으로 답변한다
+- [x] 복습 시 타이머 바가 표시되고, 탭하면 즉시 이동한다
+- [x] 카드 편집(question/answer 수정)이 가능하다
+- [x] "알고 있었어요/모르겠어요" 자가 평가 버튼이 없다
 
 ### 접근성 기준
-- [ ] 새 버튼에 aria-label이 있다
-- [ ] 타이머 바에 키보드 조작이 가능하다
-- [ ] 탭 전환이 키보드로 작동한다
+- [x] 새 버튼에 aria-label이 있다
+- [x] 타이머 바에 키보드 조작이 가능하다
+- [x] 탭 전환이 키보드로 작동한다
 
 ### 빌드 기준
-- [ ] `npm run build` exit 0
-- [ ] `npm run lint` 경고 0건
+- [x] `npm run build` exit 0
+- [x] `npm run lint` 경고 0건
 
 ---
 
