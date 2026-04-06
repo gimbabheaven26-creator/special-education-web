@@ -47,8 +47,6 @@ reviews.json
 # test artifacts
 test-results/
 playwright-report/
-nadaun/test-results/
-nadaun/playwright-report/
 .playwright-mcp/
 
 # temp screenshots
@@ -66,8 +64,8 @@ scripts/output/
 .claude/agent-memory/
 .claude/settings.json
 
-# supabase temp
-nadaun/supabase/.temp/
+# nadaun (독립 프로젝트로 분리 — ~/Projects/nadaun/)
+nadaun/
 
 # superpowers
 .superpowers/
