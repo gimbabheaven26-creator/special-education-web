@@ -1,130 +1,128 @@
-# 플래시카드 전면 재설계 + Supabase 동기화 수복
+# M2: 만족도 끌어올리기 — 엔진→바퀴 연결
 
-> 작성: 2026-03-31 | 담당: X | 상태: Phase 0 진행 중
-> 배경: 6개 Zustand 스토어 localStorage 단일 의존 → 기기 변경 시 데이터 전부 소실.
-> SyncManager 인프라는 존재하나 migrateGuestData 키 4/5 불일치로 동기화 실질 미작동.
-> 플래시카드는 수동 입력만 가능, DB 퀴즈에서 자동 생성 경로 없음.
+> 작성: 2026-04-06 | 담당: X | 상태: Phase 1 대기
+> 배경: M1(기술 구조)+M3(갭 해소) 완료. 카이란 자가평가 4영역 전부 미달
+> (실력쌓기 30%, 내기록 20%, 함께하기 5%, 진단평가 30%).
+> 기능은 있지만 깊이가 부족하다. "엔진은 돌아가는데 바퀴에 동력이 전달되지 않는다."
 
-## 카이란 확정 결정 (2026-03-31)
+## 카이란 확정 결정 (2026-04-06)
 
-1. **콘텐츠 범위**: OX + 단답형만. 서답형/객관식/시나리오 제외. OX 150자(~3줄) 초과 폐기
-2. **법/교육과정 특별 취급**: 두 과목의 OX+단답형 전체를 플래시카드로 (법 163개, 교육과정 62개)
-3. **법이 테스트베드**: 법 과목으로 먼저 구현·검증, 다른 과목도 카드는 존재해야 함
-4. **OX 카드 답변**: O/X 버튼 2개로 답변 — 기존 자가 평가(알고 있었어요/모르겠어요) **삭제**
-5. **타이머 바**: OXChoice 패턴 (정답→빠른 이동, 오답→느린 이동, 탭→즉시 이동)
-6. **힌트**: 현재 구조 유지 (초성 + 맥락) — 승인됨
-7. **Supabase CHECK ALTER**: X가 SQL 생성, 필요시 카이란 실행
+1. **함께하기**: 키운다. 커뮤니티 재설계 진행
+2. **콘텐츠 생성**: AI+사람 인터랙티브 검수 시스템 먼저 구축. AI 임의 생성 금지
+3. **Quiz Editor**: 다른 세션에서 작업 중 → M2 제외
+4. **scripts 정리**: 다른 세션에서 작업 중 → M2 제외
+5. **scenario SQL**: 수정 중 → 카이란 확인 대기
 
-## 데이터 기반
+## Phase 1: 기출→개념 직링크 (실력쌓기 핵심)
 
-| 과목 | OX | 단답형 | 합계 | 비고 |
-|------|-----|--------|------|------|
-| **법** | 69 | 94 | **163** | 전체 카드화, 테스트베드 |
-| **교육과정** | 28 | 34 | **62** | 전체 카드화 |
-| 기타 9과목 | 337 | 356 | 693 | 선택 추가 |
-| **합계** | 434 | 484 | **918** | |
+**목표**: /kice 기출문제에서 관련 개념 페이지로 직링크. 3층 시스템의 바퀴 연결.
 
-OX 96%가 150자 이하 → 3줄 필터 후 ~417개 잔존.
+**변경 파일**: `src/app/kice/KiceClient.tsx`, `src/lib/kice/kice.ts`, `src/lib/content/concept-urls.ts`
 
-## Phase 0: Sync 버그 수복 (기반 공사)
+- [ ] kice-terms.json 1417개 키워드 → concepts/ 101개 MDX 매칭 추출
+- [ ] 기출문제 카드 하단에 "관련 개념" 링크 1~3개 (BookOpen 아이콘)
+- [ ] concepts/[subject] 페이지에 "이 개념의 기출" 역링크 (연도+문번)
+- [ ] 매핑 없는 기출은 링크 없이 정상 표시
 
-**변경 파일**: `src/lib/db/sync.ts`, `src/components/SyncManager.tsx`, `docs/contract.md`
+## Phase 2: 진단→학습 경로 연결 (진단평가 핵심)
 
-| 버그 | 수정 |
-|------|------|
-| `migrateGuestData` 키 4/5 불일치 | 실제 persist name으로 교정: `special-edu-study`, `leitner-cards`, `quiz-data`, `bookmarks` |
-| `user_data` CHECK에 'onboarding' 누락 | contract.md 수정 + Supabase ALTER TABLE |
-| `useFocusStore` 동기화 누락 | SyncManager 구독 추가 + StoreKey 확장 + CHECK에 'focus' 추가 |
+**목표**: 진단 결과가 구체적 다음 행동으로 이어진다.
 
-## Phase 1: LeitnerCard 모델 확장
+**변경 파일**: `src/app/diagnosis/` 관련, `src/components/dashboard/` 위젯
 
-**변경 파일**: `src/stores/useLeitnerStore.ts`
+- [ ] 진단 결과 요약에 "추천 학습 경로" 추가 (약한 영역 → 개념 3개 + 퀴즈 링크)
+- [ ] 홈 대시보드에 "진단 기반 추천" 카드 표시
+- [ ] 진단 약점 과목 → useFocusStore 자동 반영
 
-추가 필드:
-- `chapterSlug?: string` — 챕터 태깅 (약점 분석 연계)
-- `quizId?: string` — 원본 퀴즈 ID (중복 추가 방지)
-- `quizType?: 'ox' | 'fill_in'` — 원본 퀴즈 유형 (표시 분기)
+## Phase 3: 함께하기 재설계 (5% → 30%+)
 
-source 값 확장: `'manual' | 'quiz-ox' | 'quiz-fill_in'`
-마이그레이션: version 2→3, 기존 카드에 기본값 채움.
+**목표**: "SNS"가 아니라 "함께 공부하는 느낌". 커뮤니티 가치 재정의.
 
-## Phase 2: 퀴즈→플래시카드 변환 엔진
+**변경 파일**: `src/app/community/` 관련
 
-**신규 파일**: `src/lib/quiz/flashcard-converter.ts`
+- [ ] 커뮤니티 현재 기능 전수 파악 (AI 문제, 질문, 투표)
+- [ ] "오늘의 문제" 공유 (매일 1문제 전체 사용자 동시 풀기 + 정답률)
+- [ ] "나도 틀렸어요" 공감 (오답노트에서 같은 문제 틀린 사람 수)
+- [ ] 학습 랭킹 옵트인 (주간 XP 상위 표시, 참여 선택제)
 
-- `convertQuizToCard(quiz)`: type !== ox/fill_in → null, OX 150자 초과 → null
-- OX: front = question, back = "O"/"X" + explanation
-- fill_in: front = question(빈칸), back = answer
-- `generateFlashcardsForSubject(slug)`: DB fetch → convert → 중복 제외
+## Phase 4: 내기록 깊이 강화 (20% → 50%+)
 
-## Phase 3: 카드 추가 UI 재설계
+**목표**: 숫자 나열이 아니라 "성장이 보이는" 대시보드.
 
-**변경 파일**: `src/app/flashcards/add/AddFlashcardClient.tsx`
+**변경 파일**: `src/app/record/RecordDashboard.tsx`, `src/app/my/` 관련
 
-- 탭 1: 수동 입력 (기존 유지)
-- 탭 2: 퀴즈에서 가져오기 — 과목 선택, 법/교육과정 "전체 추가", 개별 체크, quizId 중복 회색 처리
+- [ ] 과목별 정답률 추이 그래프 (주간/월간 시각화)
+- [ ] "이번 주 성장 포인트" (지난주 대비 개선 영역 하이라이트)
+- [ ] 약점→강점 전환 기록 (과거 약했던 영역 개선 이력)
 
-## Phase 4: 복습 UX — 타이머 바 + OX 버튼
+## Phase 5: AI-Human 문제 생성 파이프라인
 
-**변경 파일**: `src/components/flashcard/FlashcardScene.tsx`, `src/app/flashcards/review/page.tsx`
+**목표**: AI가 임의로 만들지 않는다. AI 초안 → 사람 검토/수정 → 확정 → DB.
+기출/시나리오 같은 긴 문제에 특히 적용.
 
-- OX 소스 카드: O/X 버튼 → 정답/오답 판정 → 타이머 바 → 자동 이동
-- fill_in 소스 카드: 3단계 힌트(question→hint→answer) 유지 → 타이머 바 → 자동 이동
-- 수동 카드: 3단계 힌트 유지 → 타이머 바 → 자동 이동
-- **"알고 있었어요/모르겠어요" 자가 평가 삭제** — OX는 정답 판정, 나머지는 힌트 사용 여부로 등급 결정
-- 카드 편집 (question/answer 수정)
+**변경 파일**: 신규 `/app/admin/` 관련, API Route
 
-## Phase 5: 대시보드 통합
+- [ ] 문제 생성 입력 UI (키워드/주제/유형 입력 → AI 초안 생성)
+- [ ] 검수 UI (AI 초안 편집/승인/거절)
+- [ ] 확정 → Supabase DB 삽입 파이프라인
+- [ ] 기출/시나리오형 긴 문제 전용 템플릿
 
-**변경 파일**: `src/app/flashcards/FlashcardsClient.tsx`, 위젯 2개
+## 실행 순서
 
-- 과목별 카드 현황 (법 163장 중 추가됨 N장)
-- "아직 추가하지 않은 카드 N장" 알림
+```
+Phase 1 (기출→개념) → Phase 2 (진단→경로) → Phase 4 (내기록)
+                                              ↗
+                    Phase 3 (함께하기)
+                    Phase 5 (AI-Human 파이프라인, 병렬 가능)
+```
 
 ## Completion Contract
 
 V(평가자)가 이 기준으로 PASS/FAIL을 판정한다. 80% 이상 통과해야 PASS.
 
-### 동기화 기준 (Phase 0)
-- [x] `migrateGuestData`가 실제 localStorage 키(`special-edu-study`, `leitner-cards`, `quiz-data`, `bookmarks`)로 데이터를 읽는다
-- [x] `useFocusStore`가 SyncManager 구독 목록에 포함된다
-- [x] 'onboarding'과 'focus' store_key가 DB에 push 가능하다
+### 기출→개념 연결 (Phase 1)
+- [ ] /kice 기출문제 카드에 관련 개념 링크가 1개 이상 표시된다
+- [ ] 개념 링크 클릭 시 해당 concepts/[subject] 페이지로 이동한다
+- [ ] concepts/[subject] 페이지에서 관련 기출 연도+문번이 표시된다
+- [ ] 매핑되는 개념이 없는 기출은 링크 없이 정상 표시된다
 
-### 모델 기준 (Phase 1)
-- [x] LeitnerCard에 chapterSlug, quizId, quizType 필드가 있다
-- [x] 기존 카드가 마이그레이션 후에도 정상 동작한다
-- [x] quizId 기반 중복 추가가 방지된다
+### 진단→경로 연결 (Phase 2)
+- [ ] 진단 결과 화면에 "추천 학습 경로" 섹션이 있다
+- [ ] 추천 경로에 개념 페이지 링크와 퀴즈 링크가 포함된다
+- [ ] 홈 대시보드에 진단 기반 추천 카드가 표시된다
+- [ ] 진단 약점 과목이 집중 모드에 자동 반영된다
 
-### 변환 기준 (Phase 2)
-- [x] OX 퀴즈 150자 초과 시 변환하지 않는다
-- [x] fill_in 퀴즈가 front(빈칸)/back(정답) 형태로 변환된다
-- [x] 법 과목 OX+단답형 163개 중 필터 통과한 것이 전부 변환 가능하다
+### 함께하기 재설계 (Phase 3)
+- [ ] "오늘의 문제" 또는 공유 학습 기능이 1개 이상 존재한다
+- [ ] 빈 상태(참여자 0명)에서도 자연스러운 안내가 있다
+- [ ] 커뮤니티 페이지 첫 화면에서 가치가 즉시 보인다
 
-### UI 기준 (Phase 3~4)
-- [x] 카드 추가 화면에 "수동 입력"과 "퀴즈에서 가져오기" 2탭이 있다
-- [x] 법/교육과정에 "전체 추가" 버튼이 있다
-- [x] 이미 추가된 퀴즈는 회색 처리된다
-- [x] OX 소스 카드는 O/X 버튼으로 답변한다
-- [x] 복습 시 타이머 바가 표시되고, 탭하면 즉시 이동한다
-- [x] 카드 편집(question/answer 수정)이 가능하다
-- [x] "알고 있었어요/모르겠어요" 자가 평가 버튼이 없다
+### 내기록 깊이 (Phase 4)
+- [ ] 과목별 정답률 추이가 시각적으로 표시된다
+- [ ] "이번 주 성장" 또는 이전 대비 변화가 표시된다
+- [ ] 데이터 0건일 때 적절한 EmptyState가 있다
 
-### 접근성 기준
-- [x] 새 버튼에 aria-label이 있다
-- [x] 타이머 바에 키보드 조작이 가능하다
-- [x] 탭 전환이 키보드로 작동한다
+### AI-Human 파이프라인 (Phase 5)
+- [ ] AI 초안 생성 기능이 동작한다 (키워드 입력 → 문제 초안)
+- [ ] 검수 UI에서 편집/승인/거절이 가능하다
+- [ ] 승인된 문제가 Supabase DB에 삽입된다
 
-### 빌드 기준
-- [x] `npm run build` exit 0
-- [x] `npm run lint` 경고 0건
+### 접근성/빌드
+- [ ] 새 버튼/링크에 aria-label이 있다
+- [ ] `npm run build` exit 0
+- [ ] `npm run lint` 경고 0건
+- [ ] 기존 917+ 테스트 전부 통과 + 신규 테스트 추가
 
 ---
 
 ## 이전 계획
 
+### 플래시카드 전면 재설계 + Supabase 동기화 수복 (2026-03-31)
+> 담당: X | 상태: Phase 0~5 전체 완료 (2026-04-01)
+> 플래시카드 재설계 5 Phase, Supabase sync 키 수복, 917 테스트, 빌드 exit 0
+
 ### M3: 만족도 갭 해소 (2026-03-30)
-> 담당: X | 상태: B1~B7 전체 완료, 만족도 재평가 대기
-> B1 concepts 버그, B2 허브 통합, B3 플래시카드 UX, B4 AI 문제, B5 출제경향, B6 북마크, B7 localStorage 안내
+> 담당: X | 상태: B1~B7 전체 완료
 
 ### M2: 사용자 체감 개선 (2026-03-29)
 > 담당: X | 상태: M2 FAIL (8/12 = 66.7%) — 기능+UX 8/8 PASS, 만족도 0/4 FAIL
