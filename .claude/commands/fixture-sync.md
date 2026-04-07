@@ -1,3 +1,6 @@
+---
+description: TS 타입 변경 시 테스트 fixture 자동 동기화. 타입↔fixture 불일치 방지.
+---
 # Fixture Sync
 
 TypeScript 타입 변경 시 테스트 fixture 자동 동기화.
