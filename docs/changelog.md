@@ -24,6 +24,44 @@
 
 ---
 
+## [2026-04-08] X — 나다운 분리 + 배포 + M2 Phase 1 완성
+
+### 변경 내용
+- **nadaun/ 완전 분리 (10fd40a)**: 194파일(1GB) git rm + 물리 삭제. 독립 repo ~/Projects/nadaun/
+- **나다운 Vercel 배포**: https://nadaun.vercel.app ● Ready. 성취기준 89건 DB 삽입
+- **KiceRecommendCard 개념 직링크 (b69dd4a)**: 빈출 키워드 `/terms?q=` → `/concepts/폴더/슬러그` 변경
+- **findConceptForKeyword()**: 단일 키워드→최적 개념 매핑 함수 (keyword-concept-map.ts)
+
+### 영향 범위
+- X(빌드): KiceRecommendCard, kice/index.ts
+- X(데이터): 나다운 achievement_standards 89건 삽입
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 + 917 테스트 통과
+- [x] 푸시 완료
+
+---
+
+## [2026-04-07] X — M2 Phase 1 기출↔개념 직링크 + StreakBanner/record 버그 수정
+
+### 변경 내용
+- **keyword-concept-map.ts** 신설 (213줄): 기출 키워드↔MDX 개념 양방향 매핑 엔진 (ConceptLink, KiceRef 타입, lazy 인덱스 캐시)
+- **KiceClient** 기출→개념 직링크 통합: conceptLinksMap prop, QuestionCard에 관련 개념 링크 표시
+- **concepts/[subject]/[slug]** 개념→기출 역링크: 관련 기출 연도+문번 표시
+- **StreakBanner** 모바일 텍스트 줄바꿈 수정: whitespace-nowrap + shrink-0 + min-w-0 + truncate
+- **getStats() 무한 리렌더 수정** (4파일): useShallow 적용 — RecordDashboard, FlashcardReviewStats, FlashcardStats, useMyPageData
+
+### 영향 범위
+- X(빌드): kice 관련 파일 + dashboard 컴포넌트
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 통과 (193 pages, 917 tests)
+- [ ] V 검증
+
+---
+
 ## [2026-04-06] X — 어드민 API 완전 동작 + 시나리오 샘플 DB 삽입
 
 ### 변경 내용

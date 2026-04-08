@@ -74,7 +74,7 @@ src/app/my/WeeklyActivityChart.tsx  # 7일 학습 CSS 바 차트
 src/app/my/WeaknessInsight.tsx     # 약점 과목 3개 + 정답률 + 연습 링크
 src/app/my/SmartRecommendations.tsx # 데이터 기반 추천 액션 최대 3개
 src/app/mastery/LearningDashboard.tsx  # 학습 현황 대시보드 (mastery/page.tsx에서 추출)
-src/lib/kice/                      # 기출 데이터 (kice, kice-analytics)
+src/lib/kice/                      # 기출 데이터 (kice, kice-analytics, keyword-concept-map)
 src/components/dashboard/KiceRecommendCard.tsx  # 기출 빈출 키워드 카드 (data/terminology/kice-terms.json 정적 import)
 
 scripts/lib/supabase-client.mjs     # Supabase 연결 (dotenv, service key)

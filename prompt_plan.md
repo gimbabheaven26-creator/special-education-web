@@ -1,6 +1,6 @@
 # M2: 만족도 끌어올리기 — 엔진→바퀴 연결
 
-> 작성: 2026-04-06 | 담당: X | 상태: Phase 1 대기
+> 작성: 2026-04-06 | 담당: X | 상태: Phase 1 완료 (2026-04-07)
 > 배경: M1(기술 구조)+M3(갭 해소) 완료. 카이란 자가평가 4영역 전부 미달
 > (실력쌓기 30%, 내기록 20%, 함께하기 5%, 진단평가 30%).
 > 기능은 있지만 깊이가 부족하다. "엔진은 돌아가는데 바퀴에 동력이 전달되지 않는다."
@@ -17,12 +17,12 @@
 
 **목표**: /kice 기출문제에서 관련 개념 페이지로 직링크. 3층 시스템의 바퀴 연결.
 
-**변경 파일**: `src/app/kice/KiceClient.tsx`, `src/lib/kice/kice.ts`, `src/lib/content/concept-urls.ts`
+**변경 파일**: `src/app/kice/KiceClient.tsx`, `src/lib/kice/keyword-concept-map.ts`, `src/lib/content/concept-urls.ts`, `src/components/kice/QuestionCard.tsx`, `src/app/concepts/[subject]/[slug]/page.tsx`
 
-- [ ] kice-terms.json 1417개 키워드 → concepts/ 101개 MDX 매칭 추출
-- [ ] 기출문제 카드 하단에 "관련 개념" 링크 1~3개 (BookOpen 아이콘)
-- [ ] concepts/[subject] 페이지에 "이 개념의 기출" 역링크 (연도+문번)
-- [ ] 매핑 없는 기출은 링크 없이 정상 표시
+- [x] kice-terms.json 1417개 키워드 → concepts/ 101개 MDX 매칭 추출
+- [x] 기출문제 카드 하단에 "관련 개념" 링크 1~3개 (BookOpen 아이콘)
+- [x] concepts/[subject] 페이지에 "이 개념의 기출" 역링크 (연도+문번)
+- [x] 매핑 없는 기출은 링크 없이 정상 표시
 
 ## Phase 2: 진단→학습 경로 연결 (진단평가 핵심)
 
@@ -80,11 +80,11 @@ Phase 1 (기출→개념) → Phase 2 (진단→경로) → Phase 4 (내기록)
 
 V(평가자)가 이 기준으로 PASS/FAIL을 판정한다. 80% 이상 통과해야 PASS.
 
-### 기출→개념 연결 (Phase 1)
-- [ ] /kice 기출문제 카드에 관련 개념 링크가 1개 이상 표시된다
-- [ ] 개념 링크 클릭 시 해당 concepts/[subject] 페이지로 이동한다
-- [ ] concepts/[subject] 페이지에서 관련 기출 연도+문번이 표시된다
-- [ ] 매핑되는 개념이 없는 기출은 링크 없이 정상 표시된다
+### 기출→개념 연결 (Phase 1) ✅ 2026-04-07
+- [x] /kice 기출문제 카드에 관련 개념 링크가 1개 이상 표시된다
+- [x] 개념 링크 클릭 시 해당 concepts/[subject] 페이지로 이동한다
+- [x] concepts/[subject] 페이지에서 관련 기출 연도+문번이 표시된다
+- [x] 매핑되는 개념이 없는 기출은 링크 없이 정상 표시된다
 
 ### 진단→경로 연결 (Phase 2)
 - [ ] 진단 결과 화면에 "추천 학습 경로" 섹션이 있다
