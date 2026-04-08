@@ -74,7 +74,7 @@ src/app/my/WeeklyActivityChart.tsx  # 7일 학습 CSS 바 차트
 src/app/my/WeaknessInsight.tsx     # 약점 과목 3개 + 정답률 + 연습 링크
 src/app/my/SmartRecommendations.tsx # 데이터 기반 추천 액션 최대 3개
 src/app/mastery/LearningDashboard.tsx  # 학습 현황 대시보드 (mastery/page.tsx에서 추출)
-src/lib/kice/                      # 기출 데이터 (kice, kice-analytics, keyword-concept-map)
+src/lib/kice/                      # 기출 데이터 (kice, kice-analytics, keyword-concept-map: getConceptLinksForQuestion/getKiceRefsForConcept/findConceptForKeyword — 기출↔개념 양방향 매핑)
 src/components/dashboard/KiceRecommendCard.tsx  # 기출 빈출 키워드 카드 (data/terminology/kice-terms.json 정적 import)
 
 scripts/lib/supabase-client.mjs     # Supabase 연결 (dotenv, service key)
@@ -135,6 +135,7 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 
 ## 코딩 규칙
 
+- **Zustand 셀렉터 컨벤션**: 객체 반환 함수(`getStats()` 등)를 셀렉터에서 직접 호출하면 매 렌더마다 새 객체 → 무한 리렌더. 해결: (1) primitive만 추출 `s => s.getStats().dueToday` 또는 (2) `useShallow(s => s.getStats())`. `s => s.getStats()` 단독 사용 절대 금지
 - `console.log` 금지 (린트 에러)
 - 하드코딩 금지 — env var 사용 (`process.env.XXX`)
 - `generateStaticParams`: raw 값 반환 필수 (encodeURIComponent 금지)

@@ -7,7 +7,7 @@ import { useFocusStore } from '@/stores/useFocusStore';
 import { getWeakSubjectsFromDiagnosis } from '@/lib/study/focus-utils';
 import { getSubjectTitle } from '@/lib/study/study-planner';
 import { getConceptUrl } from '@/lib/content/concept-urls';
-import { AlertTriangle, BookOpen, Zap, ArrowRight } from 'lucide-react';
+import { AlertTriangle, BookOpen, Zap, ArrowRight, FileText } from 'lucide-react';
 
 export function DiagnosticRecommendCard() {
   const sessions = useQuizStore((s) => s.diagnosticSessions);
@@ -69,10 +69,17 @@ export function DiagnosticRecommendCard() {
           <Zap className="h-3 w-3" />
           OX 퀴즈
         </Link>
+        <Link
+          href={`/kice?q=${encodeURIComponent(title)}`}
+          className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/40 transition-colors"
+        >
+          <FileText className="h-3 w-3" />
+          기출문제
+        </Link>
         {!alreadyFocused && (
           <button
             onClick={() => setFocus(top.slug)}
-            className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/40 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-violet-100 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 hover:bg-violet-200 dark:hover:bg-violet-900/40 transition-colors"
           >
             집중 과목으로 설정
           </button>

@@ -8,7 +8,7 @@ import { useStudyStore } from '@/stores/useStudyStore';
 import { getWeakSubjectsFromDiagnosis } from '@/lib/study/focus-utils';
 import { getSubjectTitle } from '@/lib/study/study-planner';
 import { getConceptUrl } from '@/lib/content/concept-urls';
-import { TrendingUp, Target, ArrowRight, AlertTriangle, BookOpen } from 'lucide-react';
+import { TrendingUp, Target, ArrowRight, AlertTriangle, BookOpen, FileText, CheckCircle } from 'lucide-react';
 
 export function DiagnosticsSummary() {
   const mounted = useMounted();
@@ -80,12 +80,12 @@ export function DiagnosticsSummary() {
         </div>
       </div>
 
-      {/* 약점 과목 추천 */}
-      {weakSubjects.length > 0 && (
+      {/* 약점 과목 추천 또는 격려 */}
+      {weakSubjects.length > 0 ? (
         <div className="rounded-xl border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-950/30 p-4">
           <h3 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-3 flex items-center gap-1.5">
             <AlertTriangle className="h-3.5 w-3.5" />
-            보강이 필요한 과목
+            추천 학습 경로
           </h3>
           <div className="space-y-2">
             {weakSubjects.map((ws) => (
@@ -115,9 +115,25 @@ export function DiagnosticsSummary() {
                   >
                     퀴즈
                   </Link>
+                  <Link
+                    href={`/kice?q=${encodeURIComponent(getSubjectTitle(ws.slug))}`}
+                    className="inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 hover:underline"
+                  >
+                    <FileText className="h-3 w-3" />
+                    기출
+                  </Link>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      ) : sessions.length > 0 && (
+        <div className="rounded-xl border border-emerald-200 dark:border-emerald-800/50 bg-emerald-50 dark:bg-emerald-950/30 p-4">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <p className="text-sm text-emerald-700 dark:text-emerald-300">
+              모든 영역을 고르게 학습하고 있어요. 이 페이스를 유지하세요!
+            </p>
           </div>
         </div>
       )}

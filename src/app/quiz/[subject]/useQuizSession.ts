@@ -5,6 +5,7 @@ import type { QuizQuestion } from '@/types/quiz';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { useFocusStore } from '@/stores/useFocusStore';
 import { shuffle } from '@/lib/array-utils';
 import type { AnswerRecord } from './QuizResultScreen';
 import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/study/xp-constants';
@@ -30,6 +31,8 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
   const addDiagnosticSession = useQuizStore((s) => s.addDiagnosticSession);
   const leitnerCards = useLeitnerStore((s) => s.cards);
   const leitnerGetDueCards = useLeitnerStore((s) => s.getDueCards);
+  const focusMode = useFocusStore((s) => s.focusMode);
+  const setFocusSubject = useFocusStore((s) => s.setFocus);
 
   // Leitner due card IDs mapped to quiz question IDs
   const leitnerDueIds = useMemo(() => {
@@ -274,6 +277,32 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
           }),
           stats: { total, correct, rate: total > 0 ? Math.round((correct / total) * 100) : 0 },
         });
+
+        // 진단 완료 시 최약점 과목 자동 집중 모드 (사용자가 직접 설정한 경우 건드리지 않음)
+        if (focusMode !== 'user') {
+          const subjectMap = new Map<string, { total: number; correct: number }>();
+          for (const a of currentAnswers) {
+            const q = activeQuestions[a.questionIndex];
+            if (!q.subject) continue;
+            const prev = subjectMap.get(q.subject) ?? { total: 0, correct: 0 };
+            subjectMap.set(q.subject, {
+              total: prev.total + 1,
+              correct: prev.correct + (a.isCorrect ? 1 : 0),
+            });
+          }
+          let weakest: string | null = null;
+          let lowestRate = 100;
+          Array.from(subjectMap.entries()).forEach(([slug, { total: t, correct: c }]) => {
+            const r = t > 0 ? Math.round((c / t) * 100) : 0;
+            if (r < lowestRate) {
+              lowestRate = r;
+              weakest = slug;
+            }
+          });
+          if (weakest && lowestRate < 60) {
+            setFocusSubject(weakest);
+          }
+        }
       }
 
       setPhase('result');
