@@ -1,12 +1,30 @@
 import Link from 'next/link';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, BookOpen } from 'lucide-react';
 import kiceTermsData from '@/../data/terminology/kice-terms.json';
+import { findConceptForKeyword } from '@/lib/kice/keyword-concept-map';
 
-function loadTopKeywords(count: number): Array<{ keyword: string; frequency: number }> {
+interface KeywordWithLink {
+  keyword: string;
+  frequency: number;
+  href: string;
+  hasConcept: boolean;
+}
+
+function loadTopKeywords(count: number): KeywordWithLink[] {
   try {
     return Object.entries(kiceTermsData.keywords_by_frequency)
       .slice(0, count)
-      .map(([keyword, frequency]) => ({ keyword, frequency: frequency as number }));
+      .map(([keyword, frequency]) => {
+        const concept = findConceptForKeyword(keyword);
+        return {
+          keyword,
+          frequency: frequency as number,
+          href: concept
+            ? `/concepts/${concept.subject}/${concept.slug}`
+            : `/kice?tab=by-year&q=${encodeURIComponent(keyword)}`,
+          hasConcept: !!concept,
+        };
+      });
   } catch {
     return [];
   }
@@ -29,12 +47,13 @@ export function KiceRecommendCard() {
         </Link>
       </div>
       <div className="flex flex-wrap gap-1.5">
-        {top.map(({ keyword, frequency }) => (
+        {top.map(({ keyword, frequency, href, hasConcept }) => (
           <Link
             key={keyword}
-            href={`/terms?q=${encodeURIComponent(keyword)}`}
+            href={href}
             className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs bg-amber-50 text-amber-800 hover:bg-amber-100 dark:bg-amber-900/20 dark:text-amber-300 dark:hover:bg-amber-900/40 transition-colors"
           >
+            {hasConcept && <BookOpen className="h-3 w-3 opacity-60" />}
             {keyword}
             <span className="text-[10px] opacity-60">{frequency}회</span>
           </Link>
