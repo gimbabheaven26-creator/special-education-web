@@ -1,4 +1,5 @@
 import type { MissionBlock, MissionBlockType, DailyMission } from '@/types/study';
+import type { DiagnosticSession } from '@/stores/useQuizStore';
 import { getKSTDate } from '@/lib/date-utils';
 
 interface SubjectStat {
@@ -36,6 +37,43 @@ export function pickWeakestSubject(
   }
 
   return weakest ?? allSlugs[0];
+}
+
+export interface WeakSubject {
+  slug: string;
+  total: number;
+  correct: number;
+  rate: number;
+}
+
+/** 진단 세션에서 과목별 정답률 집계 → 정답률 낮은 순 반환 */
+export function getWeakSubjectsFromDiagnosis(
+  sessions: DiagnosticSession[],
+  limit = 3
+): WeakSubject[] {
+  const map = new Map<string, { total: number; correct: number }>();
+
+  for (const session of sessions) {
+    for (const r of session.results) {
+      if (!r.subject) continue;
+      const prev = map.get(r.subject) ?? { total: 0, correct: 0 };
+      map.set(r.subject, {
+        total: prev.total + 1,
+        correct: prev.correct + (r.isCorrect ? 1 : 0),
+      });
+    }
+  }
+
+  return Array.from(map.entries())
+    .map(([slug, { total, correct }]) => ({
+      slug,
+      total,
+      correct,
+      rate: total > 0 ? Math.round((correct / total) * 100) : 0,
+    }))
+    .filter((s) => s.total >= 2)
+    .sort((a, b) => a.rate - b.rate)
+    .slice(0, limit);
 }
 
 interface MissionParams {

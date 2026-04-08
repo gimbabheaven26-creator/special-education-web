@@ -141,7 +141,7 @@ export default async function ConceptSlugPage({ params }: Props) {
             {kiceRefs.slice(0, 10).map(ref => (
               <Link
                 key={`${ref.year}-${ref.session}-${ref.questionNumber}`}
-                href={`/kice?year=${ref.year}&session=${encodeURIComponent(ref.session)}`}
+                href={`/kice?year=${ref.year}&session=${encodeURIComponent(ref.session)}#q-${ref.questionNumber}`}
                 className="flex items-center gap-2 text-sm text-amber-800 dark:text-amber-200 hover:underline"
               >
                 <span className="font-medium">{ref.year}년 {ref.session}</span>

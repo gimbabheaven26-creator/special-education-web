@@ -5,6 +5,7 @@ import { ExamCountdown } from '@/components/ExamCountdown';
 import { StreakBanner } from '@/components/dashboard/StreakBanner';
 import { FocusBanner } from '@/components/dashboard/FocusBanner';
 import { MissionBlockList } from '@/components/dashboard/MissionBlockList';
+import { DiagnosticRecommendCard } from '@/components/dashboard/DiagnosticRecommendCard';
 
 export function HomeDashboard({ children }: { children?: React.ReactNode }) {
   return (
@@ -20,6 +21,9 @@ export function HomeDashboard({ children }: { children?: React.ReactNode }) {
 
       {/* 오늘의 미션 블록 리스트 */}
       <MissionBlockList />
+
+      {/* 진단 기반 추천 */}
+      <DiagnosticRecommendCard />
 
       {/* 서버 컴포넌트 슬롯 (AdminQuickAccess 등) */}
       {children}

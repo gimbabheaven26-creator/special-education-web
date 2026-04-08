@@ -1,16 +1,21 @@
 'use client';
 
 import Link from 'next/link';
+import { useMemo } from 'react';
 import { useMounted } from '@/hooks/useMounted';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
-import { TrendingUp, Target, ArrowRight } from 'lucide-react';
+import { getWeakSubjectsFromDiagnosis } from '@/lib/study/focus-utils';
+import { getSubjectTitle } from '@/lib/study/study-planner';
+import { getConceptUrl } from '@/lib/content/concept-urls';
+import { TrendingUp, Target, ArrowRight, AlertTriangle, BookOpen } from 'lucide-react';
 
 export function DiagnosticsSummary() {
   const mounted = useMounted();
   const sessions = useQuizStore((s) => s.diagnosticSessions);
   const totalQuizzes = useStudyStore((s) => s.totalQuizzes);
   const totalCorrect = useStudyStore((s) => s.totalCorrect);
+  const weakSubjects = useMemo(() => getWeakSubjectsFromDiagnosis(sessions), [sessions]);
 
   if (!mounted) {
     return (
@@ -53,25 +58,69 @@ export function DiagnosticsSummary() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <div className="rounded-xl border p-4">
-        <div className="flex items-center gap-2 mb-1">
-          <Target className="h-4 w-4 text-blue-500" />
-          <span className="text-xs text-muted-foreground">총 풀이</span>
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-xl border p-4">
+          <div className="flex items-center gap-2 mb-1">
+            <Target className="h-4 w-4 text-blue-500" />
+            <span className="text-xs text-muted-foreground">총 풀이</span>
+          </div>
+          <p className="text-xl font-bold text-foreground">{totalQuizzes.toLocaleString()}문제</p>
+          <p className="text-[11px] text-muted-foreground mt-0.5">누적 정답률 {totalRate}%</p>
         </div>
-        <p className="text-xl font-bold text-foreground">{totalQuizzes.toLocaleString()}문제</p>
-        <p className="text-[11px] text-muted-foreground mt-0.5">누적 정답률 {totalRate}%</p>
-      </div>
-      <div className="rounded-xl border p-4">
-        <div className="flex items-center gap-2 mb-1">
-          <TrendingUp className="h-4 w-4 text-emerald-500" />
-          <span className="text-xs text-muted-foreground">최근 3회</span>
+        <div className="rounded-xl border p-4">
+          <div className="flex items-center gap-2 mb-1">
+            <TrendingUp className="h-4 w-4 text-emerald-500" />
+            <span className="text-xs text-muted-foreground">최근 3회</span>
+          </div>
+          <p className="text-xl font-bold text-foreground">{recentRate}%</p>
+          <p className="text-[11px] text-muted-foreground mt-0.5">
+            {sessions.length}회 진단 완료
+          </p>
         </div>
-        <p className="text-xl font-bold text-foreground">{recentRate}%</p>
-        <p className="text-[11px] text-muted-foreground mt-0.5">
-          {sessions.length}회 진단 완료
-        </p>
       </div>
+
+      {/* 약점 과목 추천 */}
+      {weakSubjects.length > 0 && (
+        <div className="rounded-xl border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-950/30 p-4">
+          <h3 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-3 flex items-center gap-1.5">
+            <AlertTriangle className="h-3.5 w-3.5" />
+            보강이 필요한 과목
+          </h3>
+          <div className="space-y-2">
+            {weakSubjects.map((ws) => (
+              <div
+                key={ws.slug}
+                className="flex items-center justify-between gap-2"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-sm font-medium text-foreground truncate">
+                    {getSubjectTitle(ws.slug)}
+                  </span>
+                  <span className="text-xs text-muted-foreground shrink-0">
+                    {ws.correct}/{ws.total} ({ws.rate}%)
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <Link
+                    href={getConceptUrl(ws.slug)}
+                    className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+                  >
+                    <BookOpen className="h-3 w-3" />
+                    개념
+                  </Link>
+                  <Link
+                    href={`/quiz/ox?subject=${ws.slug}`}
+                    className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    퀴즈
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

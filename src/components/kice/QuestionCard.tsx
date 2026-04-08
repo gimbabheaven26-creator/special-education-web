@@ -26,7 +26,7 @@ export function QuestionCard({ question, defaultAnswerOpen = false, conceptLinks
     : null
 
   return (
-    <Card size="sm">
+    <Card size="sm" id={`q-${question.number}`}>
       <CardHeader>
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <CardTitle className="flex items-center gap-2">
