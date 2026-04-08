@@ -9,6 +9,7 @@ import { QuestionCard } from '@/components/kice/QuestionCard'
 import { Button } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/EmptyState'
 import type { KiceExam, ExamEntry } from '@/types/kice'
+import type { ConceptLink } from '@/lib/kice/keyword-concept-map'
 
 interface KiceClientProps {
   entries: ExamEntry[]
@@ -16,6 +17,7 @@ interface KiceClientProps {
   originalExam: KiceExam | null
   selectedYear: number
   selectedSession: string
+  conceptLinksMap: Record<number, ConceptLink[]>
 }
 
 type SessionGroup = {
@@ -25,7 +27,7 @@ type SessionGroup = {
   predicted: ExamEntry | null
 }
 
-function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSession }: KiceClientProps) {
+function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSession, conceptLinksMap }: KiceClientProps) {
   const router = useRouter()
   const [keywordFilter, setKeywordFilter] = useState('')
   const [compareMode, setCompareMode] = useState(false)
@@ -342,6 +344,7 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
               <QuestionCard
                 question={filteredQuestions[practiceIndex]}
                 defaultAnswerOpen={false}
+                conceptLinks={conceptLinksMap[filteredQuestions[practiceIndex].number]}
               />
 
               {/* 하단 네비게이션 */}
@@ -408,7 +411,7 @@ function KiceClientInner({ entries, exam, originalExam, selectedYear, selectedSe
                         </p>
                       </div>
                     )}
-                    <QuestionCard question={q} />
+                    <QuestionCard question={q} conceptLinks={conceptLinksMap[q.number]} />
                   </div>
                 )
               })}

@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 import { ChevronLeft, ChevronRight, BookOpen, Tag, Calendar } from 'lucide-react';
 import { getMDXContent, getAllSubjects, getSubjectFiles, getDbSlugForFolder, getConceptUrl } from '@/lib/content/concepts';
+import { getKiceRefsForConcept } from '@/lib/kice/keyword-concept-map';
 import { StepGuide, FillBlank, MatchingExercise } from '@/components/mdx';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';
 import { BookmarkButton } from '@/components/chapter/BookmarkButton';
@@ -37,6 +38,7 @@ export default async function ConceptSlugPage({ params }: Props) {
 
   // DB slug 매핑만 사용 (Supabase 미호출 — 순수 정적)
   const dbSlug = getDbSlugForFolder(decodedSubject);
+  const kiceRefs = getKiceRefsForConcept(decodedSubject, decodedSlug);
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-8">
@@ -127,6 +129,36 @@ export default async function ConceptSlugPage({ params }: Props) {
           }}
         />
       </div>
+
+      {/* 이 개념의 기출문제 */}
+      {kiceRefs.length > 0 && (
+        <div className="mt-8 rounded-lg border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-950/30 p-4">
+          <h3 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-3 flex items-center gap-1.5">
+            <Tag className="h-3.5 w-3.5" />
+            이 개념의 기출문제 ({kiceRefs.length}건)
+          </h3>
+          <div className="space-y-1.5">
+            {kiceRefs.slice(0, 10).map(ref => (
+              <Link
+                key={`${ref.year}-${ref.session}-${ref.questionNumber}`}
+                href={`/kice?year=${ref.year}&session=${encodeURIComponent(ref.session)}`}
+                className="flex items-center gap-2 text-sm text-amber-800 dark:text-amber-200 hover:underline"
+              >
+                <span className="font-medium">{ref.year}년 {ref.session}</span>
+                <span className="text-muted-foreground">Q{ref.questionNumber}</span>
+                <span className="text-[10px] text-muted-foreground">
+                  {ref.matchedKeywords.slice(0, 2).join(', ')}
+                </span>
+              </Link>
+            ))}
+            {kiceRefs.length > 10 && (
+              <p className="text-xs text-muted-foreground">
+                외 {kiceRefs.length - 10}건
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* 학습 완료 트래커 */}
       {dbSlug && (

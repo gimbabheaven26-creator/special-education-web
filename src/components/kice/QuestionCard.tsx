@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { BookOpen } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { DialogueBlock } from './DialogueBlock'
@@ -5,10 +7,12 @@ import { SubItemsBlock } from './SubItemsBlock'
 import { ModelAnswers } from './ModelAnswers'
 import { SUBJECT_LABELS } from '@/types/kice'
 import type { KiceQuestion } from '@/types/kice'
+import type { ConceptLink } from '@/lib/kice/keyword-concept-map'
 
 interface QuestionCardProps {
   question: KiceQuestion
   defaultAnswerOpen?: boolean
+  conceptLinks?: ConceptLink[]
 }
 
 const TYPE_LABEL: Record<string, string> = {
@@ -16,7 +20,7 @@ const TYPE_LABEL: Record<string, string> = {
   descriptive: '논술형',
 }
 
-export function QuestionCard({ question, defaultAnswerOpen = false }: QuestionCardProps) {
+export function QuestionCard({ question, defaultAnswerOpen = false, conceptLinks }: QuestionCardProps) {
   const scenarioDialogue = typeof question.scenario === 'object' && question.scenario?.dialogue
     ? question.scenario.dialogue
     : null
@@ -110,6 +114,30 @@ export function QuestionCard({ question, defaultAnswerOpen = false }: QuestionCa
 
         {/* 모범답안 */}
         <ModelAnswers question={question} defaultOpen={defaultAnswerOpen} />
+
+        {/* 관련 개념 */}
+        {conceptLinks && conceptLinks.length > 0 && (
+          <div className="rounded-lg border border-emerald-200 dark:border-emerald-800/50 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+            <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-2 flex items-center gap-1">
+              <BookOpen className="h-3 w-3" />
+              관련 개념 학습
+            </div>
+            <div className="space-y-1.5">
+              {conceptLinks.map(link => (
+                <Link
+                  key={`${link.subject}-${link.slug}`}
+                  href={`/concepts/${link.subject}/${link.slug}`}
+                  className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300 hover:underline"
+                >
+                  <span className="font-medium">{link.title}</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {link.matchedKeywords.slice(0, 2).join(', ')}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   )
