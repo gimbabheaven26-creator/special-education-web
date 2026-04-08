@@ -24,6 +24,25 @@
 
 ---
 
+## [2026-04-08] X — M2 Phase 1 마무리 + Phase 2 진단→학습 경로 완성
+
+### 변경 내용
+- **QuestionCard id 앵커 (a6b643c)**: `id="q-{number}"` 마커 추가 → concept slug page 역링크에 `#q-{n}` 해시로 스크롤 연동
+- **getWeakSubjectsFromDiagnosis()** 신설 (`focus-utils.ts`): 과목별 진단 정답률 집계 → 약점 TOP N 추출
+- **DiagnosticsSummary 개선**: "보강이 필요한 과목" TOP 3 + 개념/퀴즈 직링크 표시
+- **DiagnosticRecommendCard 신규**: 홈 대시보드 진단 기반 추천 카드 — 약점 1위 과목 + 집중과목 수동 설정 버튼
+- **HomeDashboard 연결**: DiagnosticRecommendCard 통합
+
+### 영향 범위
+- X(빌드): kice/QuestionCard, concepts/[subject]/[slug], diagnosis/, dashboard/
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 통과 (193 pages, 0 errors)
+- [ ] V 검증
+
+---
+
 ## [2026-04-08] X — 나다운 분리 + 배포 + M2 Phase 1 완성
 
 ### 변경 내용
@@ -31,9 +50,11 @@
 - **나다운 Vercel 배포**: https://nadaun.vercel.app ● Ready. 성취기준 89건 DB 삽입
 - **KiceRecommendCard 개념 직링크 (b69dd4a)**: 빈출 키워드 `/terms?q=` → `/concepts/폴더/슬러그` 변경
 - **findConceptForKeyword()**: 단일 키워드→최적 개념 매핑 함수 (keyword-concept-map.ts)
+- **Zustand getStats() 무한렌더 수정 (844fe5a)**: DailyReviewCard, LearningFlowGuide — primitive 셀렉터로 전환
+- **StreakBanner 줄바꿈 + /record 무한 리렌더 (0faffb0)**: whitespace-nowrap, useShallow 적용 4파일
 
 ### 영향 범위
-- X(빌드): KiceRecommendCard, kice/index.ts
+- X(빌드): KiceRecommendCard, kice/index.ts, dashboard 컴포넌트 4파일, record 4파일
 - X(데이터): 나다운 achievement_standards 89건 삽입
 
 ### 상태
