@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { useShallow } from 'zustand/react/shallow';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const BOX_COLORS = [
@@ -15,7 +16,7 @@ const BOX_COLORS = [
 const BOX_LABELS = ['Box 1', 'Box 2', 'Box 3', 'Box 4', 'Box 5'];
 
 export default function FlashcardStats() {
-  const stats = useLeitnerStore((s) => s.getStats());
+  const stats = useLeitnerStore(useShallow((s) => s.getStats()));
 
   if (stats.total === 0) return null;
 

@@ -2,6 +2,7 @@
 
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { AnswerGrade } from '@/stores/useLeitnerStore';
+import { useShallow } from 'zustand/react/shallow';
 
 const GRADE_CONFIG: Record<AnswerGrade, { label: string; color: string; bg: string }> = {
   knew: { label: '바로 맞춤', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-500' },
@@ -13,7 +14,7 @@ const BOX_LABELS = ['1단계', '2단계', '3단계', '4단계', '5단계'];
 
 export function FlashcardReviewStats() {
   const reviewLogs = useLeitnerStore((s) => s.reviewLogs);
-  const stats = useLeitnerStore((s) => s.getStats());
+  const stats = useLeitnerStore(useShallow((s) => s.getStats()));
 
   if (reviewLogs.length === 0 && stats.total === 0) return null;
 

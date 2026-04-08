@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { useShallow } from 'zustand/react/shallow';
 import { getLevel, getLevelProgress, getLevelName, LEVEL_NAMES } from '@/lib/study/xp-constants';
 import {
   computeSubjectStats,
@@ -24,7 +25,7 @@ export function useMyPageData() {
   const { totalXP, currentStreak, dailyProgress, recentActivities } = useStudyStore();
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
-  const leitnerStats = useLeitnerStore((s) => s.getStats());
+  const leitnerStats = useLeitnerStore(useShallow((s) => s.getStats()));
 
   const level = useMemo(() => {
     const lv = getLevel(totalXP);

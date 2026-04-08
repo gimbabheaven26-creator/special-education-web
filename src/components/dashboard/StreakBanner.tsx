@@ -38,13 +38,13 @@ export function StreakBanner() {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/20 flex items-center justify-center">
               <Flame className="h-6 w-6 sm:h-7 sm:w-7 text-streak" />
             </div>
-            <div>
-              <h2 className="text-base sm:text-lg font-bold">
+            <div className="min-w-0">
+              <h2 className="text-base sm:text-lg font-bold truncate">
                 {currentStreak}일 연속 학습 중!
               </h2>
               <p className="text-sm opacity-90 mt-0.5">
@@ -52,15 +52,15 @@ export function StreakBanner() {
               </p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-lg font-bold flex items-center gap-1 justify-end">
+          <div className="text-right shrink-0">
+            <div className="text-sm sm:text-lg font-bold flex items-center gap-1 justify-end whitespace-nowrap">
               <span>{getLevelName(getLevel(totalXP)).emoji}</span>
               <span>{getLevelName(getLevel(totalXP)).name}</span>
             </div>
-            <div className="text-xs opacity-80 mt-0.5">
+            <div className="text-xs opacity-80 mt-0.5 whitespace-nowrap">
               Lv.{getLevel(totalXP)} · {totalXP.toLocaleString()} XP
             </div>
-            <div className="mt-1.5 h-1.5 w-24 rounded-full bg-white/20 ml-auto">
+            <div className="mt-1.5 h-1.5 w-20 sm:w-24 rounded-full bg-white/20 ml-auto">
               <div
                 className="h-full rounded-full bg-white/80 transition-all"
                 style={{ width: `${getLevelProgress(totalXP).percent}%` }}

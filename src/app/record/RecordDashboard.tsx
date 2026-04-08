@@ -20,6 +20,7 @@ import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { useShallow } from 'zustand/react/shallow';
 import { FlashcardReviewStats } from '@/components/dashboard/FlashcardReviewStats';
 import { useMounted } from '@/hooks/useMounted';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -32,7 +33,7 @@ export default function RecordDashboard() {
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
   const wrongNotesCount = useQuizStore((s) => s.wrongNotes.length);
   const bookmarkCount = useBookmarkStore((s) => s.bookmarks.length);
-  const leitnerStats = useLeitnerStore((s) => s.getStats());
+  const leitnerStats = useLeitnerStore(useShallow((s) => s.getStats()));
 
   if (!mounted) {
     return (
