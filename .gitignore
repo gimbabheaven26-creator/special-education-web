@@ -51,6 +51,10 @@ playwright-report/
 
 # temp screenshots
 flashcards-*.png
+home-*.png
+onboarding-*.png
+streak-*.png
+vercel-*.png
 
 # scripts output
 scripts/output/

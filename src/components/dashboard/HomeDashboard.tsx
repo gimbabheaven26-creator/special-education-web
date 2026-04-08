@@ -14,15 +14,9 @@ export function HomeDashboard({ children }: { children?: React.ReactNode }) {
       {/* 집중 과목 배너 */}
       <FocusBanner />
 
-      {/* D-day 카운트다운 + 스트릭 — 컴팩트 */}
-      <div className="flex items-center gap-3">
-        <div className="flex-1">
-          <ExamCountdown />
-        </div>
-        <div className="flex-1">
-          <StreakBanner />
-        </div>
-      </div>
+      {/* D-day 카운트다운 + 스트릭 */}
+      <ExamCountdown />
+      <StreakBanner />
 
       {/* 오늘의 미션 블록 리스트 */}
       <MissionBlockList />
