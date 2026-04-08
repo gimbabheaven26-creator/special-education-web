@@ -59,7 +59,28 @@
 ### 상태
 - [x] contract.md — 변경 불필요 (DB/API 변경 아님)
 - [x] 빌드 exit 0 확인
-- [ ] B-3 파이프라인 통합 예정 (KEEP 26개 → lib/ 마이그레이션)
+- [x] B-3 파이프라인 통합 완료 (c2f3e2f)
+
+---
+
+## [2026-04-06] X — scripts/ Phase B-3 lib/ 마이그레이션
+
+### 변경 내용
+- **16개 스크립트** → `scripts/lib/` 공용 모듈 마이그레이션 완료
+- **Tier 1 (6)**: 단순 import 교체 — assign-display-id, check-subjects, check-we, quick-validate, verify-auth-tables, verify-fixes
+- **Tier 2 (6)**: import + fetchAll/env 제거 — audit-fill-in, check-descriptive-context, mc-missing-stats, quality-audit, quality-audit-full, sync-notion-edu-data
+- **Tier 3 (4)**: REST fetch→SDK 변환 — audit-quiz-quality, final-validation, validate-data, validate-targeted (PostgREST URL→Supabase SDK query() 래퍼)
+- **특이점**: sync-notion-edu-data.mjs는 Notion token을 별도 .env.local에서 로드 (lib/supabase-client.mjs 범위 밖)
+- 검증: `grep -r "createClient\|SUPABASE_URL.*=.*http" scripts/ --include="*.mjs"` → lib/와 archive/ 외 0건
+
+### 영향 범위
+- X(빌드): 영향 없음 (scripts/는 빌드에 포함 안 됨)
+- X(데이터): 영향 없음 (코드 리팩토링만)
+
+### 상태
+- [x] 16/16 스크립트 마이그레이션 완료
+- [x] 빌드 exit 0 확인
+- [x] B-1/B-2/B-3 파이프라인 정리 전체 완료
 
 ---
 
