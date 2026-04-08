@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description: '특수교육 임용시험 기출문제 연도별 분석 및 모의고사 풀이.',
 }
 import { computeAnalytics } from '@/lib/kice/kice-analytics'
+import { buildConceptLinksMap } from '@/lib/kice/keyword-concept-map'
 import KiceClient from './KiceClient'
 import AnalyticsClient from './analytics/AnalyticsClient'
 
@@ -32,6 +33,8 @@ export default async function KicePage({ searchParams }: PageProps) {
   const originalSession = isIsomorphic ? selectedSession.replace('-동형', '') : null
   const originalExam = originalSession ? getExam(selectedYear, originalSession) : null
 
+  const conceptLinksMap = exam ? buildConceptLinksMap(exam.questions) : {}
+
   return (
     <KiceClient
       entries={entries}
@@ -39,6 +42,7 @@ export default async function KicePage({ searchParams }: PageProps) {
       originalExam={originalExam}
       selectedYear={selectedYear}
       selectedSession={selectedSession}
+      conceptLinksMap={conceptLinksMap}
     />
   )
 }

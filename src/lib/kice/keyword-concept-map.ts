@@ -162,6 +162,41 @@ export function getKiceRefsForConcept(subjectFolder: string, slug: string): Kice
   return refs.sort((a, b) => b.year - a.year || a.questionNumber - b.questionNumber)
 }
 
+// ─── Keyword → Concept: 단일 키워드로 최적 개념 찾기 ───
+
+export function findConceptForKeyword(keyword: string): ConceptLink | null {
+  const index = buildConceptIndex()
+  const lower = keyword.toLowerCase()
+
+  let best: { entry: ConceptEntry; score: number } | null = null
+
+  for (const entry of index) {
+    // 폴더명 정확 일치 (자폐성장애 → 자폐성장애/)
+    if (entry.subject === keyword) {
+      return { subject: entry.subject, slug: entry.slug, title: entry.title, matchedKeywords: [keyword] }
+    }
+
+    for (const kw of entry.keywords) {
+      if (kw === lower) {
+        // 정확 일치
+        return { subject: entry.subject, slug: entry.slug, title: entry.title, matchedKeywords: [keyword] }
+      }
+      if (kw.includes(lower) || lower.includes(kw)) {
+        const score = kw === lower ? 100 : lower.includes(kw) ? kw.length : kw.length * 0.8
+        if (!best || score > best.score) {
+          best = { entry, score }
+        }
+      }
+    }
+  }
+
+  if (best) {
+    return { subject: best.entry.subject, slug: best.entry.slug, title: best.entry.title, matchedKeywords: [keyword] }
+  }
+
+  return null
+}
+
 // ─── Batch: 시험 전체 문제에 대한 매핑 ───
 
 export function buildConceptLinksMap(
