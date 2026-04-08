@@ -9,16 +9,13 @@ import { useMounted } from '@/hooks/useMounted';
 
 export function DailyReviewCard() {
   const mounted = useMounted();
-  const leitnerGetStats = useLeitnerStore((s) => s.getStats);
+  const dueCount = useLeitnerStore((s) => s.getStats().dueToday);
+  const totalCards = useLeitnerStore((s) => s.getStats().total);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
 
   if (!mounted) {
     return <div className="h-24 rounded-2xl bg-muted animate-pulse" />;
   }
-
-  const stats = leitnerGetStats();
-  const dueCount = stats.dueToday;
-  const totalCards = stats.total;
   const wrongCount = wrongNotes.filter((n) => !n.mastered).length;
   const totalTodo = dueCount + wrongCount;
   const hasAnyData = totalCards > 0 || wrongNotes.length > 0;

@@ -26,7 +26,7 @@ interface FlowStep {
 export function LearningFlowGuide() {
   const mounted = useMounted();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
-  const leitnerGetStats = useLeitnerStore((s) => s.getStats);
+  const dueCount = useLeitnerStore((s) => s.getStats().dueToday);
 
   if (!mounted) {
     return (
@@ -39,8 +39,6 @@ export function LearningFlowGuide() {
   }
 
   const wrongCount = wrongNotes.filter((n) => !n.mastered).length;
-  const srsStats = leitnerGetStats();
-  const dueCount = srsStats.dueToday;
 
   const steps: FlowStep[] = [
     {
