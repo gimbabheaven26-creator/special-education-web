@@ -37,7 +37,7 @@ export default function CommunityClient({ initialQuestions, subjects }: Props) {
   }, [initialQuestions, subjectFilter, sort]);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div>
       {/* 헤더 */}
       <div className="flex items-center justify-between mb-6">
         <div>

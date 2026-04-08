@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { getCommunityQuestions } from '@/lib/db/community-db';
+import { getQuestionOfTheDay } from '@/lib/kice/kice';
+import { getKSTDate } from '@/lib/date-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,16 +11,34 @@ export const metadata: Metadata = {
 };
 import { getSubjects } from '@/lib/db';
 import CommunityClient from './CommunityClient';
+import { TodayChallenge } from './TodayChallenge';
 
 export default async function CommunityPage() {
   const [questions, subjects] = await Promise.all([
     getCommunityQuestions({ sort: 'latest' }),
     getSubjects(),
   ]);
+
+  const dateStr = getKSTDate();
+  const todayQuestion = getQuestionOfTheDay(dateStr);
+
   return (
-    <CommunityClient
-      initialQuestions={questions}
-      subjects={subjects.map((s) => ({ slug: s.slug, title: s.title }))}
-    />
+    <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
+      {/* 오늘의 도전 */}
+      {todayQuestion && (
+        <TodayChallenge
+          question={todayQuestion.question}
+          year={todayQuestion.year}
+          session={todayQuestion.session}
+          dateStr={dateStr}
+        />
+      )}
+
+      {/* 커뮤니티 문제 피드 */}
+      <CommunityClient
+        initialQuestions={questions}
+        subjects={subjects.map((s) => ({ slug: s.slug, title: s.title }))}
+      />
+    </div>
   );
 }
