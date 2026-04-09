@@ -12,6 +12,8 @@ import {
   computeOverallAccuracy,
   computeTrend,
   computeDailyVolume,
+  computeSubjectWeeklySummary,
+  detectWeakToStrong,
 } from '@/lib/study/stats-utils';
 
 export interface Recommendation {
@@ -47,6 +49,16 @@ export function useMyPageData() {
     return { subjectStats, weakAreas: weakAreas.slice(0, 3), overall, trend };
   }, [quizHistory]);
 
+  const subjectWeekly = useMemo(
+    () => computeSubjectWeeklySummary(quizHistory),
+    [quizHistory],
+  );
+
+  const weakToStrong = useMemo(
+    () => detectWeakToStrong(quizHistory),
+    [quizHistory],
+  );
+
   const unmasteredCount = useMemo(
     () => wrongNotes.filter((n) => !n.mastered).length,
     [wrongNotes],
@@ -77,5 +89,5 @@ export function useMyPageData() {
     return items.slice(0, 3);
   }, [dailyProgress, leitnerStats, weakness, unmasteredCount, recentActivities]);
 
-  return { level, weeklyActivity, weakness, unmasteredCount, recommendations, currentStreak };
+  return { level, weeklyActivity, weakness, unmasteredCount, recommendations, currentStreak, subjectWeekly, weakToStrong };
 }

@@ -22,12 +22,14 @@ import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { useShallow } from 'zustand/react/shallow';
 import { FlashcardReviewStats } from '@/components/dashboard/FlashcardReviewStats';
+import { SubjectGrowthCard } from './SubjectGrowthCard';
+import { WeakToStrongBanner } from './WeakToStrongBanner';
 import { useMounted } from '@/hooks/useMounted';
 import { EmptyState } from '@/components/ui/EmptyState';
 
 export default function RecordDashboard() {
   const mounted = useMounted();
-  const { level, weakness, unmasteredCount, recommendations, currentStreak } = useMyPageData();
+  const { level, weakness, unmasteredCount, recommendations, currentStreak, subjectWeekly, weakToStrong } = useMyPageData();
   const totalXP = useStudyStore((s) => s.totalXP);
   const totalQuizzes = useStudyStore((s) => s.totalQuizzes);
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
@@ -113,6 +115,9 @@ export default function RecordDashboard() {
       </div>
 
       <WeeklyActivityChart />
+
+      <WeakToStrongBanner weakToStrong={weakToStrong} />
+      <SubjectGrowthCard entries={subjectWeekly} />
 
       <FlashcardReviewStats />
 

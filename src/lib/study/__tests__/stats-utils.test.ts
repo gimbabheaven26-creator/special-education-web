@@ -13,6 +13,8 @@ import {
   computeWeeklyTrend,
   computeHeatmapData,
   computeStudyDays,
+  computeSubjectWeeklySummary,
+  detectWeakToStrong,
 } from '../stats-utils';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -301,5 +303,105 @@ describe('computeStudyDays', () => {
     ];
     const result = computeStudyDays(history);
     expect(result.totalDays).toBe(2);
+  });
+});
+
+// ─── computeSubjectWeeklySummary ────────────────────────────────────────────
+
+describe('computeSubjectWeeklySummary', () => {
+  it('returns empty for empty history', () => {
+    expect(computeSubjectWeeklySummary([])).toEqual([]);
+  });
+
+  it('shows this week data with delta equal to rate when no last week data', () => {
+    const result = computeSubjectWeeklySummary([
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: Date.now() }),
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: false, timestamp: Date.now() }),
+    ]);
+    expect(result).toHaveLength(1);
+    expect(result[0].subject).toBe('math');
+    expect(result[0].thisWeek.count).toBe(2);
+    expect(result[0].thisWeek.rate).toBe(50);
+    expect(result[0].lastWeek.count).toBe(0);
+    expect(result[0].delta).toBe(50); // 50 - 0
+  });
+
+  it('compares this week and last week correctly', () => {
+    const result = computeSubjectWeeklySummary([
+      makeResult({ subject: 'sci', chapter: 'c1', isCorrect: true, timestamp: Date.now() }),
+      makeResult({ subject: 'sci', chapter: 'c1', isCorrect: true, timestamp: Date.now() }),
+      makeResult({ subject: 'sci', chapter: 'c1', isCorrect: false, timestamp: daysAgo(8) }),
+      makeResult({ subject: 'sci', chapter: 'c1', isCorrect: false, timestamp: daysAgo(8) }),
+    ]);
+    expect(result).toHaveLength(1);
+    expect(result[0].thisWeek.rate).toBe(100);
+    expect(result[0].lastWeek.rate).toBe(0);
+    expect(result[0].delta).toBe(100);
+  });
+
+  it('sorts by absolute delta descending', () => {
+    const result = computeSubjectWeeklySummary([
+      // math: small delta
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: Date.now() }),
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: daysAgo(8) }),
+      // sci: large delta
+      makeResult({ subject: 'sci', chapter: 'c1', isCorrect: true, timestamp: Date.now() }),
+      makeResult({ subject: 'sci', chapter: 'c1', isCorrect: false, timestamp: daysAgo(8) }),
+    ]);
+    expect(result.length).toBeGreaterThanOrEqual(2);
+    expect(Math.abs(result[0].delta)).toBeGreaterThanOrEqual(Math.abs(result[1].delta));
+  });
+});
+
+// ─── detectWeakToStrong ─────────────────────────────────────────────────────
+
+describe('detectWeakToStrong', () => {
+  it('returns empty for empty history', () => {
+    expect(detectWeakToStrong([])).toEqual([]);
+  });
+
+  it('detects weak-to-strong conversion', () => {
+    const history: QuizResult[] = [
+      // Previous period (31-60 days ago): 33% rate (below 60%)
+      makeResult({ subject: 'law', chapter: 'c1', isCorrect: true, timestamp: daysAgo(45) }),
+      makeResult({ subject: 'law', chapter: 'c1', isCorrect: false, timestamp: daysAgo(45) }),
+      makeResult({ subject: 'law', chapter: 'c1', isCorrect: false, timestamp: daysAgo(45) }),
+      // Recent period (0-30 days): 100% rate (above 60%)
+      makeResult({ subject: 'law', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+      makeResult({ subject: 'law', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+      makeResult({ subject: 'law', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+    ];
+    const result = detectWeakToStrong(history, 30, 60);
+    expect(result).toHaveLength(1);
+    expect(result[0].subject).toBe('law');
+    expect(result[0].previousRate).toBe(33);
+    expect(result[0].currentRate).toBe(100);
+  });
+
+  it('ignores subjects already strong in previous period', () => {
+    const history: QuizResult[] = [
+      // Previous: 100% (already strong)
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: daysAgo(45) }),
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: daysAgo(45) }),
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: daysAgo(45) }),
+      // Recent: 100%
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+      makeResult({ subject: 'math', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+    ];
+    expect(detectWeakToStrong(history, 30, 60)).toEqual([]);
+  });
+
+  it('ignores subjects with fewer than 3 results in either period', () => {
+    const history: QuizResult[] = [
+      // Previous: only 2 results
+      makeResult({ subject: 'art', chapter: 'c1', isCorrect: false, timestamp: daysAgo(45) }),
+      makeResult({ subject: 'art', chapter: 'c1', isCorrect: false, timestamp: daysAgo(45) }),
+      // Recent: 3 results
+      makeResult({ subject: 'art', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+      makeResult({ subject: 'art', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+      makeResult({ subject: 'art', chapter: 'c1', isCorrect: true, timestamp: daysAgo(5) }),
+    ];
+    expect(detectWeakToStrong(history, 30, 60)).toEqual([]);
   });
 });

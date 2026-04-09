@@ -332,6 +332,104 @@ export function computeHeatmapData(
 
 // ─── Study Days ──────────────────────────────────────────────────────────────
 
+// ─── Subject Weekly Summary (이번주 vs 지난주 과목별) ────────────────────
+
+export interface SubjectWeeklySummaryEntry {
+  subject: string;
+  thisWeek: { count: number; correct: number; rate: number };
+  lastWeek: { count: number; correct: number; rate: number };
+  delta: number; // rate difference in percentage points
+}
+
+export function computeSubjectWeeklySummary(
+  history: ReadonlyArray<QuizResult>,
+): SubjectWeeklySummaryEntry[] {
+  const now = new Date();
+  const thisMonday = getMondayOfWeek(now);
+  const lastMonday = new Date(thisMonday.getTime() - 7 * 86_400_000);
+  const thisStart = thisMonday.getTime();
+  const lastStart = lastMonday.getTime();
+
+  const map = new Map<string, { tw: { c: number; t: number }; lw: { c: number; t: number } }>();
+
+  for (const r of history.filter(validEntry)) {
+    const bucket = r.timestamp >= thisStart ? 'tw' : r.timestamp >= lastStart ? 'lw' : null;
+    if (!bucket) continue;
+    const prev = map.get(r.subject) ?? { tw: { c: 0, t: 0 }, lw: { c: 0, t: 0 } };
+    prev[bucket].t += 1;
+    prev[bucket].c += r.isCorrect ? 1 : 0;
+    map.set(r.subject, prev);
+  }
+
+  return Array.from(map.entries())
+    .map(([subject, { tw, lw }]) => {
+      const twRate = accuracy(tw.c, tw.t);
+      const lwRate = accuracy(lw.c, lw.t);
+      return {
+        subject,
+        thisWeek: { count: tw.t, correct: tw.c, rate: twRate },
+        lastWeek: { count: lw.t, correct: lw.c, rate: lwRate },
+        delta: twRate - lwRate,
+      };
+    })
+    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+}
+
+// ─── Subject Weekly Trend (특정 과목 N주간 추이) ────────────────────────
+
+export function computeSubjectWeeklyTrend(
+  history: ReadonlyArray<QuizResult>,
+  subject: string,
+  weeks: number = 8,
+): WeeklyTrendEntry[] {
+  const filtered = history.filter((r) => validEntry(r) && r.subject === subject);
+  return computeWeeklyTrend(filtered, weeks);
+}
+
+// ─── Weak → Strong Detection ────────────────────────────────────────────
+
+export interface WeakToStrongEntry {
+  subject: string;
+  previousRate: number;
+  currentRate: number;
+}
+
+export function detectWeakToStrong(
+  history: ReadonlyArray<QuizResult>,
+  periodDays: number = 30,
+  threshold: number = 60,
+): WeakToStrongEntry[] {
+  const valid = history.filter(validEntry);
+  const now = Date.now();
+  const msPerDay = 86_400_000;
+  const recentCutoff = now - periodDays * msPerDay;
+  const previousCutoff = now - periodDays * 2 * msPerDay;
+
+  const subjects = Array.from(new Set(valid.map((r) => r.subject)));
+  const results: WeakToStrongEntry[] = [];
+
+  for (const subject of subjects) {
+    const prev = valid.filter(
+      (r) => r.subject === subject && r.timestamp >= previousCutoff && r.timestamp < recentCutoff,
+    );
+    const recent = valid.filter(
+      (r) => r.subject === subject && r.timestamp >= recentCutoff,
+    );
+    if (prev.length < 3 || recent.length < 3) continue;
+
+    const prevRate = accuracy(prev.filter((r) => r.isCorrect).length, prev.length);
+    const recentRate = accuracy(recent.filter((r) => r.isCorrect).length, recent.length);
+
+    if (prevRate < threshold && recentRate >= threshold) {
+      results.push({ subject, previousRate: prevRate, currentRate: recentRate });
+    }
+  }
+
+  return results.sort((a, b) => (b.currentRate - b.previousRate) - (a.currentRate - a.previousRate));
+}
+
+// ─── Study Days ──────────────────────────────────────────────────────────────
+
 export function computeStudyDays(
   dailyHistory: DailyHistoryEntry[],
 ): { totalDays: number; recentDays: number } {
