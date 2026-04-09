@@ -27,6 +27,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <div className="flex items-center gap-6">
             <Link href="/admin" className="font-bold text-lg">관리자</Link>
             <Link href="/admin/editor" className="text-sm text-gray-600 hover:text-gray-900">문제 관리</Link>
+            <Link href="/admin/ai-generate" className="text-sm text-gray-600 hover:text-gray-900">AI 생성</Link>
             <Link href="/admin/sitemap" className="text-sm text-gray-600 hover:text-gray-900">구조도</Link>
           </div>
           <Link href="/" className="text-sm text-gray-500 hover:text-gray-700">
