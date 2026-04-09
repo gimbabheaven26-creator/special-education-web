@@ -24,6 +24,24 @@
 
 ---
 
+## [2026-04-09] X — M2 Phase 3 오늘의 도전 (함께하기 재설계)
+
+### 변경 내용
+- **TodayChallenge.tsx 신규 (84a00d7)**: KICE 기출 매일 1문제 공유 학습 — 날짜 기반 시드로 문제 선정, 답변 입력 + 정답 비교, localStorage 중복 참여 방지
+- **community/page.tsx 레이아웃 분리**: TodayChallenge 최상단 배치, 기존 커뮤니티 컴포넌트 아래 유지
+- **keyword-concept-map.test.ts**: KiceQuestion 타입 수정 (Phase 3 연동)
+
+### 영향 범위
+- X(빌드): community/, components/community/TodayChallenge, kice/keyword-concept-map 테스트
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 통과 (193 pages, 0 errors)
+- [x] 930 테스트 전부 통과
+- [x] 푸시 완료
+
+---
+
 ## [2026-04-08] X — M2 Phase 1 마무리 + Phase 2 진단→학습 경로 완성
 
 ### 변경 내용
