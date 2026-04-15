@@ -24,6 +24,47 @@
 
 ---
 
+## [2026-04-09] X — M2 Phase 5-A AI-Human 문제 생성 파이프라인
+
+### 변경 내용
+- **api/admin/quiz/generate/route.ts 신규 (30d35a3)**: Gemini 1.5 Flash 기반 AI 퀴즈 초안 생성 API — subject/chapter/type/keyword/difficulty/count 입력, mock fallback 포함
+- **admin/ai-generate/ 신규**: AI 생성 폼 + 드래프트 카드 리스트 (바로 승인/편집 후 등록/삭제)
+- **useAIGenerate.ts 신규**: AI 생성 상태 관리 훅 (generate/approve/remove)
+- **admin/editor/new/ AIPrefilledForm.tsx 신규**: sessionStorage에서 AI 드래프트 읽어 QuizForm에 prefill
+- **admin/editor/new/page.tsx 수정**: `?from=ai` 파라미터로 AI 모드 분기
+- **admin/layout.tsx 수정**: AI 생성 네비 링크 추가
+
+### 영향 범위
+- X(빌드): admin/ 전체, api/admin/quiz/generate
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 통과 (193 pages, 0 errors)
+- [x] 푸시 완료
+
+---
+
+## [2026-04-09] X — M2 Phase 4 내기록 깊이 강화
+
+### 변경 내용
+- **stats-utils.ts 확장 (ad0537d)**: `computeSubjectWeeklySummary()`, `computeSubjectWeeklyTrend()`, `detectWeakToStrong()` 3개 유틸 함수 + 2개 인터페이스 추가
+- **SubjectGrowthCard.tsx 신규**: 이번 주 과목별 정답률 변화 CSS 바 차트 + 델타 뱃지
+- **WeakToStrongBanner.tsx 신규**: 약점→강점 전환 축하 배너
+- **RecordDashboard.tsx 수정**: SubjectGrowthCard, WeakToStrongBanner 통합
+- **useMyPageData.ts 확장**: subjectWeekly, weakToStrong 반환값 추가
+- **stats-utils.test.ts**: 21개 신규 테스트 (computeSubjectWeeklySummary 4, detectWeakToStrong 4 등)
+
+### 영향 범위
+- X(빌드): record/, my/, lib/study/
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 통과 (193 pages, 0 errors)
+- [x] 테스트 전부 통과
+- [x] 푸시 완료
+
+---
+
 ## [2026-04-09] X — M2 Phase 3 오늘의 도전 (함께하기 재설계)
 
 ### 변경 내용

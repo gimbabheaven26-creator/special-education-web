@@ -77,6 +77,10 @@ src/app/mastery/LearningDashboard.tsx  # 학습 현황 대시보드 (mastery/pag
 src/lib/kice/                      # 기출 데이터 (kice, kice-analytics, keyword-concept-map: getConceptLinksForQuestion/getKiceRefsForConcept/findConceptForKeyword — 기출↔개념 양방향 매핑)
 src/components/dashboard/KiceRecommendCard.tsx  # 기출 빈출 키워드 카드 (data/terminology/kice-terms.json 정적 import)
 src/components/dashboard/DiagnosticRecommendCard.tsx  # 진단 기반 추천 카드 (약점 1위 과목 + 개념/퀴즈/기출 링크 + 집중과목 설정)
+src/app/record/SubjectGrowthCard.tsx   # 이번 주 과목별 정답률 변화 CSS 바 차트 + 델타 뱃지
+src/app/record/WeakToStrongBanner.tsx  # 약점→강점 전환 축하 배너
+src/app/api/admin/quiz/generate/route.ts  # AI 퀴즈 초안 생성 API (Gemini 1.5 Flash + mock fallback)
+src/app/admin/ai-generate/             # AI-Human 문제 생성 UI (AIGenerateClient + useAIGenerate 훅)
 
 scripts/lib/supabase-client.mjs     # Supabase 연결 (dotenv, service key)
 scripts/lib/cli-utils.mjs           # CLI 유틸 (진행바, 배치 실행)
@@ -173,7 +177,7 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 
 ## 현재 마일스톤 (M2: 만족도 끌어올리기, 2026-04-06~)
 
-M1 완료 (65+ 커밋). M2 진행 중: Phase 1(기출→개념 직링크) ✅, Phase 2(진단→경로) ✅, Phase 3(함께하기 재설계) ✅ (2026-04-08). 다음: Phase 4(내기록 깊이), Phase 5(AI-Human 파이프라인). 상세는 `prompt_plan.md` 참조.
+M1 완료 (65+ 커밋). M2 진행 중: Phase 1(기출→개념 직링크) ✅, Phase 2(진단→경로) ✅, Phase 3(함께하기 재설계) ✅, Phase 4(내기록 깊이) ✅, Phase 5-A(AI-Human 파이프라인 UI) ✅ (2026-04-09). 다음: Phase 5-B(AI 메타데이터 DB 스키마). 상세는 `prompt_plan.md` 참조.
 
 ---
 
