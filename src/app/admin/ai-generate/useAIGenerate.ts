@@ -2,11 +2,21 @@
 
 import { useState, useCallback } from 'react';
 
+export interface SubQuestionDraft {
+  id: string;
+  question: string;
+  type: 'fill_in' | 'descriptive';
+  answer: string;
+  explanation?: string;
+}
+
 export interface QuizDraft {
   question_text: string;
   options: string[] | null;
   correct_answer: string;
   explanation: string;
+  case_context?: string;
+  sub_questions?: SubQuestionDraft[];
 }
 
 export interface GenerateInput {
@@ -65,10 +75,18 @@ export function useAIGenerate() {
         subject: lastInput.subject,
         chapter: lastInput.chapter ?? lastInput.subject,
         difficulty: lastInput.difficulty ?? 2,
+        ai_status: 'draft',
+        ai_generated_at: new Date().toISOString(),
       };
 
       if (draft.options) {
         body.options = draft.options;
+      }
+      if (draft.case_context) {
+        body.case_context = draft.case_context;
+      }
+      if (draft.sub_questions) {
+        body.sub_questions = draft.sub_questions;
       }
 
       const res = await fetch('/api/admin/quiz', {
