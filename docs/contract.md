@@ -1,7 +1,9 @@
 # Interface Contract
 
 > X(실행)와 V(검증)의 인터페이스 계약서 (2026-03-27 이전: 강선생+클루디)
-> 최종 수정: 2026-04-02 | 버전: 2.13
+> 최종 수정: 2026-04-15 | 버전: 2.15
+> v2.15: quiz_questions에 ai_status, ai_generated_at 2컬럼 추가 — AI 검수 파이프라인 (Phase 5-B)
+> v2.14: wrong_note_stats 테이블 + profiles.show_in_ranking 컬럼 추가 (M2 Phase 3: 공감+랭킹)
 > v2.13: quiz_questions에 sub_questions, image_url, subjects 3컬럼 추가 + scenario_composite 타입 (REQ-007/008)
 > v2.11: teaching_materials 테이블 + nadaun-files Storage 버킷 추가 — 나다운 Phase 6
 > v2.8.1: 클루디 작업 목록 완료 표기 (REQ-001~006 실행 완료 반영)
@@ -114,8 +116,11 @@ communication-disorder:
 | sub_questions | jsonb | DEFAULT NULL | 하위 질문 `[{id, question, type, answer, explanation?}]` (v2.13 REQ-007) |
 | image_url | text | DEFAULT NULL | 도표/그래프 이미지 URL (v2.13 REQ-007) |
 | subjects | text[] | DEFAULT NULL | 복합영역 다중 태그 — 기존 subject는 주영역 유지 (v2.13 REQ-008) |
+| ai_status | text | DEFAULT `'human'` | `'human'` \| `'draft'` \| `'approved'` \| `'rejected'` — AI 검수 상태 (v2.15) |
+| ai_generated_at | timestamptz | DEFAULT NULL | AI 초안 생성 시각 (v2.15) |
 
 - RLS: 읽기 공개, 쓰기 제한
+- **ai_status CHECK**: `IN ('human', 'draft', 'approved', 'rejected')` — 기존 데이터는 `'human'`
 
 #### ID 규칙 (v2 — 현실 반영)
 
@@ -172,10 +177,11 @@ communication-disorder:
 | display_name | text | NOT NULL DEFAULT '' | 표시 이름 (OAuth meta에서 자동) |
 | nickname | text | NOT NULL DEFAULT '' | 사용자 입력 닉네임 (첫 로그인 수집) |
 | role | text | NOT NULL DEFAULT 'user' CHECK(role IN ('admin','user')) | 권한 |
+| show_in_ranking | boolean | NOT NULL DEFAULT false | 학습 랭킹 참여 여부 (옵트인) |
 | created_at | timestamptz | DEFAULT now() | 가입 시간 |
 | updated_at | timestamptz | DEFAULT now() | 수정 시간 |
 
-- RLS: 본인만 읽기/수정 (`auth.uid() = id`)
+- RLS: 본인만 읽기/수정 (`auth.uid() = id`), **show_in_ranking=true인 행은 전체 읽기 허용** (랭킹 조회용)
 - 트리거: `auth.users` INSERT 시 자동 생성 (`handle_new_user` 함수)
 
 ### user_data (v2.3 신규 — Zustand 서버 동기화)
@@ -206,6 +212,17 @@ communication-disorder:
 게스트 → 로그인 전환:
   localStorage 데이터를 서버로 merge (서버 비어있으면 로컬 업로드)
 ```
+
+### wrong_note_stats (v2.14 신규 — 오답 공감 카운터)
+
+| 컬럼 | 타입 | 제약 | 설명 |
+|------|------|------|------|
+| question_id | text | **PK** | quiz_questions.id |
+| wrong_count | integer | NOT NULL DEFAULT 0 | 틀린 사용자 수 (익명 집계) |
+| updated_at | timestamptz | DEFAULT now() | 최종 갱신 |
+
+- RLS: 읽기 공개, 쓰기는 service role만 (API route 경유)
+- 용도: 오답노트에서 "N명도 이 문제를 틀렸어요" 표시
 
 ### reviews
 
