@@ -81,6 +81,10 @@ src/app/record/SubjectGrowthCard.tsx   # 이번 주 과목별 정답률 변화 C
 src/app/record/WeakToStrongBanner.tsx  # 약점→강점 전환 축하 배너
 src/app/api/admin/quiz/generate/route.ts  # AI 퀴즈 초안 생성 API (Gemini 1.5 Flash + mock fallback)
 src/app/admin/ai-generate/             # AI-Human 문제 생성 UI (AIGenerateClient + useAIGenerate 훅)
+src/app/community/WeeklyRanking.tsx    # 주간 XP 랭킹 서버 컴포넌트 (get_weekly_ranking RPC)
+src/app/api/quiz/wrong-report/route.ts # 오답 공감 카운터 POST API (wrong_note_stats upsert)
+src/app/api/ranking/opt-in/route.ts    # 랭킹 참여 토글 POST API
+src/app/my/RankingOptIn.tsx            # /my 페이지 랭킹 참여 switch 토글
 
 scripts/lib/supabase-client.mjs     # Supabase 연결 (dotenv, service key)
 scripts/lib/cli-utils.mjs           # CLI 유틸 (진행바, 배치 실행)
@@ -177,7 +181,7 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 
 ## 현재 마일스톤 (M2: 만족도 끌어올리기, 2026-04-06~)
 
-M1 완료 (65+ 커밋). M2 진행 중: Phase 1(기출→개념 직링크) ✅, Phase 2(진단→경로) ✅, Phase 3(함께하기 재설계) ✅, Phase 4(내기록 깊이) ✅, Phase 5-A(AI-Human 파이프라인 UI) ✅ (2026-04-09). 다음: Phase 5-B(AI 메타데이터 DB 스키마). 상세는 `prompt_plan.md` 참조.
+M1 완료 (65+ 커밋). M2 CC 전 Phase PASS: Phase 1(기출→개념) ✅, Phase 2(진단→경로) ✅, Phase 3(함께하기 + 공감/랭킹 확장) ✅, Phase 4(내기록 깊이) ✅, Phase 5-A(AI-Human UI) ✅ (2026-04-20). 남은 것: Phase 5-B(기출 시나리오 템플릿, DB 검수 컬럼 대기). 상세는 `prompt_plan.md` 참조.
 
 ---
 
