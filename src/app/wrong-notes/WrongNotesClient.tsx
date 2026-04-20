@@ -35,9 +35,10 @@ interface WrongNotesClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
   readonly allQuestions: readonly QuizQuestion[];
+  readonly wrongCounts?: Readonly<Record<string, number>>;
 }
 
-export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, allQuestions }: WrongNotesClientProps) {
+export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, allQuestions, wrongCounts }: WrongNotesClientProps) {
   const searchParams = useSearchParams();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const quizHistory = useQuizStore((s) => s.quizHistory);
@@ -385,6 +386,7 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
                       key={note.questionId}
                       note={note}
                       errorPatterns={errorPatternsMap.get(note.questionId)}
+                      wrongCount={wrongCounts?.[note.questionId]}
                       onMarkMastered={markMastered}
                       onUnmarkMastered={unmarkMastered}
                       onDelete={removeWrongNote}

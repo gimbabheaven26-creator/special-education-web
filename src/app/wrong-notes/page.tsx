@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import type { Metadata } from 'next';
 import { getSubjects, getAllQuizzes } from '@/lib/db';
+import { createClient } from '@/lib/supabase/server';
 import WrongNotesClient from './WrongNotesClient';
 
 export const metadata: Metadata = {
@@ -9,8 +10,31 @@ export const metadata: Metadata = {
   description: '틀린 문제를 모아 반복 학습하고 취약 챕터를 파악하세요.',
 };
 
+async function getWrongNoteCounts(): Promise<Record<string, number>> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('wrong_note_stats')
+      .select('question_id, wrong_count')
+      .gt('wrong_count', 0)
+      .limit(10000);
+    if (error || !data) return {};
+    const map: Record<string, number> = {};
+    for (const row of data) {
+      map[row.question_id] = row.wrong_count;
+    }
+    return map;
+  } catch {
+    return {};
+  }
+}
+
 export default async function WrongNotesPage() {
-  const [subjects, quizzes] = await Promise.all([getSubjects(), getAllQuizzes()]);
+  const [subjects, quizzes, wrongCounts] = await Promise.all([
+    getSubjects(),
+    getAllQuizzes(),
+    getWrongNoteCounts(),
+  ]);
 
   const subjectTitleMap: Record<string, string> = {};
   const chapterTitleMap: Record<string, string> = {};
@@ -26,6 +50,7 @@ export default async function WrongNotesPage() {
       subjectTitleMap={subjectTitleMap}
       chapterTitleMap={chapterTitleMap}
       allQuestions={quizzes}
+      wrongCounts={wrongCounts}
     />
   );
 }

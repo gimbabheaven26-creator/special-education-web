@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BookOpen, CopyPlus } from 'lucide-react';
+import { Users } from 'lucide-react';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { ErrorPattern } from '@/lib/study/error-patterns';
 import { ErrorPatternBadge } from './ErrorPatternBadge';
@@ -38,6 +39,7 @@ function formatAnswer(answer: string | number, note: HydratedWrongNote): string 
 interface WrongNoteCardProps {
   note: HydratedWrongNote;
   errorPatterns?: ErrorPattern[];
+  wrongCount?: number;
   onMarkMastered: (questionId: string) => void;
   onUnmarkMastered: (questionId: string) => void;
   onDelete: (questionId: string) => void;
@@ -46,6 +48,7 @@ interface WrongNoteCardProps {
 export default function WrongNoteCard({
   note,
   errorPatterns,
+  wrongCount,
   onMarkMastered,
   onUnmarkMastered,
   onDelete,
@@ -82,6 +85,12 @@ export default function WrongNoteCard({
           {isStreak && (
             <Badge className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
               {note.attempts}회 연속 오답
+            </Badge>
+          )}
+          {wrongCount != null && wrongCount > 0 && (
+            <Badge variant="outline" className="text-muted-foreground gap-1">
+              <Users className="h-3 w-3" aria-hidden="true" />
+              {wrongCount}명도 틀렸어요
             </Badge>
           )}
           {note.mastered && (

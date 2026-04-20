@@ -10,6 +10,7 @@ export interface UserProfile {
   display_name: string;
   nickname: string;
   role: UserRole;
+  show_in_ranking: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -25,7 +26,7 @@ export async function getMyProfile(): Promise<UserProfile | null> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, display_name, nickname, role, created_at, updated_at')
+    .select('id, display_name, nickname, role, show_in_ranking, created_at, updated_at')
     .eq('id', user.id)
     .single();
 
@@ -58,4 +59,37 @@ export async function upsertNickname(nickname: string): Promise<{ error: string 
 export async function isAdmin(): Promise<boolean> {
   const profile = await getMyProfile();
   return profile?.role === 'admin';
+}
+
+/**
+ * 현재 사용자의 랭킹 참여 여부를 조회한다.
+ */
+export async function getRankingOptIn(): Promise<boolean> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  const { data } = await supabase
+    .from('profiles')
+    .select('show_in_ranking')
+    .eq('id', user.id)
+    .single();
+
+  return data?.show_in_ranking === true;
+}
+
+/**
+ * 현재 사용자의 랭킹 참여 여부를 변경한다.
+ */
+export async function updateRankingOptIn(show: boolean): Promise<{ error: string | null }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: '로그인이 필요합니다.' };
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ show_in_ranking: show, updated_at: new Date().toISOString() })
+    .eq('id', user.id);
+
+  return { error: error?.message ?? null };
 }

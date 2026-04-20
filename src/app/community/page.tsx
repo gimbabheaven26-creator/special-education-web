@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 import { getSubjects } from '@/lib/db';
 import CommunityClient from './CommunityClient';
 import { TodayChallenge } from './TodayChallenge';
+import { WeeklyRanking } from './WeeklyRanking';
 
 export default async function CommunityPage() {
   const [questions, subjects] = await Promise.all([
@@ -33,6 +34,9 @@ export default async function CommunityPage() {
           dateStr={dateStr}
         />
       )}
+
+      {/* 주간 학습 랭킹 */}
+      <WeeklyRanking />
 
       {/* 커뮤니티 문제 피드 */}
       <CommunityClient

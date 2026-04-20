@@ -15,6 +15,7 @@ import {
 import { NicknamePrompt } from '@/components/NicknamePrompt';
 import { createClient } from '@/lib/supabase/browser';
 import { GuestBanner } from './MySubComponents';
+import { RankingOptIn } from './RankingOptIn';
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
@@ -117,6 +118,9 @@ export default function MyPage() {
           <span className="text-sm font-medium text-foreground">{nickname}</span>
         </div>
       )}
+
+      {/* 랭킹 참여 */}
+      <RankingOptIn />
 
       {/* 바로가기 */}
       <div>

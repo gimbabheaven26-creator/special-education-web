@@ -337,6 +337,13 @@ export function useQuizSession({ subjectSlug, questions, diagnosticMode }: UseQu
     if (!isCorrect) {
       addWrongNote(currentQ, _answer, currentSessionId);
 
+      // "나도 틀렸어요" 공감 카운터 (fire-and-forget)
+      fetch('/api/quiz/wrong-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ questionId: currentQ.id }),
+      }).catch(() => { /* 네트워크 실패 무시 — 핵심 기능 아님 */ });
+
       // Auto-register to Leitner SRS (skip if already exists)
       const cardId = `wrong-${currentQ.id}`;
       if (!leitnerCards.some((c) => c.id === cardId)) {
