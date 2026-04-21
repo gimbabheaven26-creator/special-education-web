@@ -11,6 +11,7 @@ const TYPE_OPTIONS = [
   { value: 'ox', label: 'OX' },
   { value: 'fill_in', label: '빈칸 채우기' },
   { value: 'descriptive', label: '서술형' },
+  { value: 'scenario_composite', label: '시나리오/기출형' },
 ];
 
 const DIFFICULTY_OPTIONS = [
@@ -50,7 +51,8 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
 
   async function handleGenerate() {
     if (!subject) return;
-    const input: GenerateInput = { subject, type, difficulty, count };
+    const actualCount = type === 'scenario_composite' ? 1 : count;
+    const input: GenerateInput = { subject, type, difficulty, count: actualCount };
     if (chapter) input.chapter = chapter;
     if (keyword.trim()) input.keyword = keyword.trim();
     await generate(input);
@@ -250,6 +252,13 @@ function DraftCard({ draft, index, approving, onApprove, onEdit, onRemove }: Dra
         </div>
       </div>
 
+      {draft.case_context && (
+        <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
+          <p className="text-[10px] font-semibold text-amber-700 mb-1">사례 지문</p>
+          <p className="text-xs text-amber-900 whitespace-pre-wrap leading-relaxed">{draft.case_context}</p>
+        </div>
+      )}
+
       {draft.options && (
         <div className="pl-4 space-y-1">
           {draft.options.map((opt, i) => (
@@ -259,6 +268,20 @@ function DraftCard({ draft, index, approving, onApprove, onEdit, onRemove }: Dra
             >
               {i + 1}. {opt}
             </p>
+          ))}
+        </div>
+      )}
+
+      {draft.sub_questions && draft.sub_questions.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-[10px] font-semibold text-gray-500">하위 질문 ({draft.sub_questions.length}개)</p>
+          {draft.sub_questions.map((sq) => (
+            <div key={sq.id} className="pl-3 border-l-2 border-indigo-200 space-y-0.5">
+              <p className="text-xs font-medium">{sq.id}. {sq.question}</p>
+              <p className="text-[10px] text-gray-400">유형: {sq.type === 'descriptive' ? '서술형' : '빈칸'}</p>
+              <p className="text-xs text-emerald-700">정답: {sq.answer}</p>
+              {sq.explanation && <p className="text-[10px] text-gray-500">{sq.explanation}</p>}
+            </div>
           ))}
         </div>
       )}
