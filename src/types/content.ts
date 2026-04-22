@@ -29,5 +29,5 @@ export interface SearchItem {
   keywords: string[];
   path: string;
   subject: string;
-  type: 'subject' | 'chapter' | 'quiz' | 'term';
+  type: 'subject' | 'chapter' | 'quiz' | 'term' | 'kice';
 }
