@@ -63,7 +63,7 @@ export function SubjectGrowthCard({ entries }: SubjectGrowthCardProps) {
       </div>
 
       <Link
-        href="/stats"
+        href="/mastery"
         className="flex items-center justify-end gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors pt-1"
         aria-label="상세 통계 페이지로 이동"
       >

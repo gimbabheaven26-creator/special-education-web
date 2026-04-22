@@ -37,18 +37,21 @@ export const useBookmarkStore = create<BookmarkStore>()(
     (set, get) => ({
       bookmarks: [],
 
-      addBookmark: (bookmark) =>
+      addBookmark: (bookmark) => {
+        const np = normalizePath(bookmark.path);
+        if (get().bookmarks.some((b) => normalizePath(b.path) === np)) return;
         set((state) => ({
           bookmarks: [
             ...state.bookmarks,
             {
               ...bookmark,
-              path: normalizePath(bookmark.path),
+              path: np,
               id: crypto.randomUUID(),
               createdAt: Date.now(),
             },
           ],
-        })),
+        }));
+      },
 
       removeBookmark: (path) => {
         const np = normalizePath(path);

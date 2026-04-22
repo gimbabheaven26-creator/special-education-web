@@ -38,13 +38,22 @@ describe('useBookmarkStore', () => {
       expect(bookmarks[1].path).toBe('/concepts/b');
     });
 
-    it('같은 경로를 중복 추가해도 둘 다 저장된다 (스토어 레벨 중복 방지 없음)', () => {
+    it('같은 경로를 중복 추가하면 무시된다', () => {
       const { addBookmark } = useBookmarkStore.getState();
       addBookmark({ path: '/concepts/a', title: 'A', subject: 'a' });
       addBookmark({ path: '/concepts/a', title: 'A', subject: 'a' });
 
       const { bookmarks } = useBookmarkStore.getState();
-      expect(bookmarks).toHaveLength(2);
+      expect(bookmarks).toHaveLength(1);
+    });
+
+    it('인코딩된 경로와 디코딩된 경로를 동일하게 취급한다', () => {
+      const { addBookmark } = useBookmarkStore.getState();
+      addBookmark({ path: '/concepts/%ED%96%89%EB%8F%99%EC%88%98%EC%A0%95', title: 'A', subject: 'a' });
+      addBookmark({ path: '/concepts/행동수정', title: 'A', subject: 'a' });
+
+      const { bookmarks } = useBookmarkStore.getState();
+      expect(bookmarks).toHaveLength(1);
     });
   });
 

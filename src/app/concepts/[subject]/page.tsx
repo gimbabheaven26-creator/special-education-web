@@ -114,13 +114,11 @@ export default async function ConceptSubjectPage({ params }: Props) {
                 )}
               </div>
               <div className="shrink-0 flex flex-col items-end gap-1.5 relative z-10">
-                {dbSlug && (
-                  <BookmarkButton
-                    path={`/concepts/${decodedSubject}/${file.slug}`}
-                    title={file.title}
-                    subject={decodedSubject}
-                  />
-                )}
+                <BookmarkButton
+                  path={`/concepts/${decodedSubject}/${file.slug}`}
+                  title={file.title}
+                  subject={decodedSubject}
+                />
                 <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
             </div>
