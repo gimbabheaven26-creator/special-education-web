@@ -46,7 +46,7 @@ export interface DailyGoal {
 }
 
 // Phase 2: Focus Mode + Daily Missions
-export type MissionBlockType = 'wrong-review' | 'flashcard' | 'quiz' | 'term';
+export type MissionBlockType = 'wrong-review' | 'flashcard' | 'quiz' | 'term' | 'concept';
 
 export interface MissionBlock {
   id: string;

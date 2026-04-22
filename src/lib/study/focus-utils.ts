@@ -1,6 +1,7 @@
 import type { MissionBlock, MissionBlockType, DailyMission } from '@/types/study';
 import type { DiagnosticSession } from '@/stores/useQuizStore';
 import { getKSTDate } from '@/lib/date-utils';
+import { getConceptUrl } from '@/lib/content/concept-urls';
 
 interface SubjectStat {
   slug: string;
@@ -136,7 +137,14 @@ export function generateDailyMission(params: MissionParams): DailyMission {
     )
   );
 
-  if (blocks.length < 3) {
+  const conceptHref = focusSubject
+    ? getConceptUrl(focusSubject)
+    : '/concepts';
+  blocks.push(
+    makeBlock('concept', '개념 학습', focusSubject ? '집중 과목 개념 1개 읽기' : '개념 1개 읽기', 1, 5, conceptHref)
+  );
+
+  if (blocks.length < 4) {
     blocks.push(
       makeBlock('term', '용어 학습', '핵심 용어 5개 확인', 5, 3, '/terms')
     );

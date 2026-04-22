@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { RotateCcw, Layers, Brain, BookOpen, Check } from 'lucide-react';
+import { RotateCcw, Layers, Brain, BookOpen, Check, PartyPopper } from 'lucide-react';
 import { useFocusStore, isMissionStale } from '@/stores/useFocusStore';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
@@ -28,6 +28,11 @@ const BLOCK_CONFIG: Record<
     icon: Brain,
     color: 'text-blue-600 dark:text-blue-400',
     bg: 'bg-blue-50 dark:bg-blue-950/30',
+  },
+  concept: {
+    icon: BookOpen,
+    color: 'text-emerald-600 dark:text-emerald-400',
+    bg: 'bg-emerald-50 dark:bg-emerald-950/30',
   },
   term: {
     icon: BookOpen,
@@ -76,6 +81,27 @@ function MissionBlockCard({ block }: { block: MissionBlock }) {
   );
 }
 
+function MissionCompleteBanner() {
+  const currentStreak = useStudyStore((s) => s.currentStreak);
+
+  return (
+    <div className="rounded-xl border border-green-200 dark:border-green-800/50 bg-green-50 dark:bg-green-950/30 p-4 text-center space-y-2">
+      <PartyPopper className="h-8 w-8 text-green-600 dark:text-green-400 mx-auto" aria-hidden="true" />
+      <p className="text-sm font-semibold text-green-700 dark:text-green-300">
+        오늘의 미션을 모두 완료했어요!
+      </p>
+      {currentStreak > 1 && (
+        <p className="text-xs text-green-600 dark:text-green-400">
+          {currentStreak}일 연속 학습 중이에요. 내일도 함께해요.
+        </p>
+      )}
+      <p className="text-[10px] text-muted-foreground">
+        내일 새 미션이 자동으로 생성돼요
+      </p>
+    </div>
+  );
+}
+
 export function MissionBlockList() {
   const mounted = useMounted();
   const todayMission = useFocusStore((s) => s.todayMission);
@@ -117,6 +143,7 @@ export function MissionBlockList() {
 
   const completedCount = todayMission.blocks.filter((b) => b.completed).length;
   const totalCount = todayMission.blocks.length;
+  const allDone = totalCount > 0 && completedCount === totalCount;
   const progressPercent =
     totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
@@ -131,16 +158,20 @@ export function MissionBlockList() {
 
       <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
         <div
-          className="h-full rounded-full bg-primary transition-all duration-500"
+          className={`h-full rounded-full transition-all duration-500 ${allDone ? 'bg-green-500' : 'bg-primary'}`}
           style={{ width: progressPercent + '%' }}
         />
       </div>
 
-      <div className="space-y-2">
-        {todayMission.blocks.map((block) => (
-          <MissionBlockCard key={block.id} block={block} />
-        ))}
-      </div>
+      {allDone ? (
+        <MissionCompleteBanner />
+      ) : (
+        <div className="space-y-2">
+          {todayMission.blocks.map((block) => (
+            <MissionBlockCard key={block.id} block={block} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -91,7 +91,7 @@ describe('generateDailyMission', () => {
     expect(termBlock).toBeDefined();
   });
 
-  it('오답+플래시카드+퀴즈 = 3개 이상이면 용어 블록 없음', () => {
+  it('오답+플래시카드+퀴즈+개념 = 4개 이상이면 용어 블록 없음', () => {
     const mission = generateDailyMission({
       focusSubject: 'diagnosis',
       wrongNoteCount: 5,
@@ -99,7 +99,8 @@ describe('generateDailyMission', () => {
       todayQuizCount: 0,
     });
 
-    expect(mission.blocks.length).toBe(3);
+    expect(mission.blocks.length).toBe(4);
+    expect(mission.blocks.find((b) => b.type === 'concept')).toBeDefined();
     expect(mission.blocks.find((b) => b.type === 'term')).toBeUndefined();
   });
 
