@@ -58,6 +58,7 @@ export function DiagnosticRecommendCard() {
         <Link
           href={getConceptUrl(top.slug)}
           className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-900/40 transition-colors"
+          aria-label={`${title} 개념 학습`}
         >
           <BookOpen className="h-3 w-3" />
           개념 학습
@@ -65,6 +66,7 @@ export function DiagnosticRecommendCard() {
         <Link
           href={`/quiz/ox?subject=${top.slug}`}
           className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/40 transition-colors"
+          aria-label={`${title} OX 퀴즈`}
         >
           <Zap className="h-3 w-3" />
           OX 퀴즈
@@ -72,6 +74,7 @@ export function DiagnosticRecommendCard() {
         <Link
           href={`/kice?q=${encodeURIComponent(title)}`}
           className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/40 transition-colors"
+          aria-label={`${title} 기출문제`}
         >
           <FileText className="h-3 w-3" />
           기출문제
@@ -80,6 +83,7 @@ export function DiagnosticRecommendCard() {
           <button
             onClick={() => setFocus(top.slug)}
             className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-violet-100 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 hover:bg-violet-200 dark:hover:bg-violet-900/40 transition-colors"
+            aria-label={`${title} 집중 과목으로 설정`}
           >
             집중 과목으로 설정
           </button>

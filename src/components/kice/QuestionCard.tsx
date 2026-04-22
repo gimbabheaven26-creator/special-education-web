@@ -128,6 +128,7 @@ export function QuestionCard({ question, defaultAnswerOpen = false, conceptLinks
                   key={`${link.subject}-${link.slug}`}
                   href={`/concepts/${link.subject}/${link.slug}`}
                   className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300 hover:underline"
+                  aria-label={`${link.title} 개념 학습 페이지로 이동`}
                 >
                   <span className="font-medium">{link.title}</span>
                   <span className="text-[10px] text-muted-foreground">
