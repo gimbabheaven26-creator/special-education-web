@@ -2,15 +2,12 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { EmptyState } from '@/components/ui/EmptyState';
 import {
   calculateChapterMasteries,
   calculateSubjectMasteries,
   simulatePass,
-  getMasteryInfo,
   type SubjectMastery,
   type PassSimulation,
 } from '@/lib/study/mastery';
@@ -26,202 +23,182 @@ function getSubjectTitle(slug: string): string {
   return subjectWeights[slug]?.title ?? slug;
 }
 
-// ─── Pass Simulation Card ───────────────────────────────────────────────────
+interface SubjectLevel {
+  label: string;
+  barColor: string;
+  badgeColor: string;
+}
 
-function PassSimulationCard({ sim }: { sim: PassSimulation }) {
-  const scorePercent = Math.round((sim.estimatedScore / 80) * 100);
-  const passPercent = Math.round(sim.passRate * 100);
-
-  let bgColor = 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800';
-  let scoreColor = 'text-red-600 dark:text-red-400';
-  if (sim.estimatedScore >= sim.passingScore) {
-    bgColor = 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800';
-    scoreColor = 'text-green-600 dark:text-green-400';
-  } else if (sim.estimatedScore >= sim.passingScore * 0.85) {
-    bgColor = 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800';
-    scoreColor = 'text-amber-600 dark:text-amber-400';
+function getSubjectLevel(accuracyPct: number, coverage: number, attempts: number): SubjectLevel {
+  if (attempts === 0) {
+    return {
+      label: '미학습',
+      barColor: 'bg-gray-300 dark:bg-gray-600',
+      badgeColor: 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400',
+    };
   }
-
-  return (
-    <Card className={`border ${bgColor}`}>
-      <CardHeader>
-        <CardTitle className="text-center text-lg">합격 시뮬레이션</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex items-center justify-center gap-8">
-          <div className="text-center">
-            <p className={`text-4xl font-bold ${scoreColor}`}>{sim.estimatedScore}</p>
-            <p className="text-xs text-muted-foreground">예상 점수 / 80점</p>
-          </div>
-          <div className="text-center">
-            <p className="text-4xl font-bold">{passPercent}%</p>
-            <p className="text-xs text-muted-foreground">합격 가능성</p>
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs text-muted-foreground">
-            <span>0점</span>
-            <span className="text-primary font-semibold">합격선 ~{sim.passingScore}점</span>
-            <span>80점</span>
-          </div>
-          <div className="relative w-full h-3 bg-muted rounded-full overflow-hidden">
-            <div
-              className={`h-full rounded-full transition-all duration-700 ${
-                sim.estimatedScore >= sim.passingScore ? 'bg-green-500' : 'bg-amber-500'
-              }`}
-              style={{ width: `${scorePercent}%` }}
-            />
-            <div
-              className="absolute top-0 h-full w-0.5 bg-primary"
-              style={{ left: `${(sim.passingScore / 80) * 100}%` }}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {sim.strengths.length > 0 && (
-            <div className="space-y-1">
-              <p className="text-xs font-semibold text-green-600 dark:text-green-400">강점 과목</p>
-              {sim.strengths.map((s) => (
-                <p key={s} className="text-sm">{getSubjectTitle(s)}</p>
-              ))}
-            </div>
-          )}
-          {sim.weaknesses.length > 0 && (
-            <div className="space-y-1">
-              <p className="text-xs font-semibold text-red-600 dark:text-red-400">보강 필요</p>
-              {sim.weaknesses.map((s) => (
-                <p key={s} className="text-sm">{getSubjectTitle(s)}</p>
-              ))}
-            </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
+  if (accuracyPct < 40 || coverage < 0.15) {
+    return {
+      label: '시작',
+      barColor: 'bg-red-400',
+      badgeColor: 'bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300',
+    };
+  }
+  if (accuracyPct < 60) {
+    return {
+      label: '연습 중',
+      barColor: 'bg-amber-400',
+      badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
+    };
+  }
+  if (accuracyPct < 80) {
+    return {
+      label: '숙달',
+      barColor: 'bg-blue-500',
+      badgeColor: 'bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300',
+    };
+  }
+  return {
+    label: '완성',
+    barColor: 'bg-green-500',
+    badgeColor: 'bg-green-100 text-green-700 dark:bg-green-950/50 dark:text-green-300',
+  };
 }
 
-// ─── Subject Mastery Card ───────────────────────────────────────────────────
-
-function SubjectMasteryCard({ mastery, passScore }: { mastery: SubjectMastery; passScore: { score: number; maxScore: number } }) {
-  const title = getSubjectTitle(mastery.subject);
-  const accuracyPercent = Math.round(mastery.overallAccuracy * 100);
-  const coveragePercent = Math.round(mastery.coverage * 100);
-  const scorePercent = mastery.chapters.length > 0 && passScore.maxScore > 0
-    ? Math.round((passScore.score / passScore.maxScore) * 100)
-    : 0;
+function OverallScoreSection({ sim }: { sim: PassSimulation }) {
+  const gap = sim.passingScore - sim.estimatedScore;
+  const scorePercent = Math.round((sim.estimatedScore / 80) * 100);
+  const passLinePercent = Math.round((sim.passingScore / 80) * 100);
 
   return (
-    <Card>
-      <CardContent className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-sm">{title}</h3>
-          <Badge variant="outline" className="text-xs">
-            배점 {mastery.weight}%
-          </Badge>
+    <div className="rounded-xl border border-border bg-card p-5 space-y-3">
+      <div className="flex items-baseline justify-between">
+        <div>
+          <span className="text-3xl font-bold tabular-nums">{sim.estimatedScore}</span>
+          <span className="text-lg text-muted-foreground"> / 80점</span>
         </div>
-
-        <div className="flex gap-4 text-xs">
-          <div>
-            <span className="text-muted-foreground">정답률</span>
-            <span className={`ml-1 font-semibold ${accuracyPercent >= 70 ? 'text-green-600' : accuracyPercent >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
-              {accuracyPercent}%
+        {gap > 0 ? (
+          <span className="text-sm text-muted-foreground">
+            합격선까지{' '}
+            <span className="text-amber-600 dark:text-amber-400 font-semibold">
+              {Math.round(gap)}점
             </span>
-          </div>
-          <div>
-            <span className="text-muted-foreground">커버리지</span>
-            <span className="ml-1 font-semibold">{coveragePercent}%</span>
-          </div>
-          <div>
-            <span className="text-muted-foreground">예상 득점률</span>
-            <span className={`ml-1 font-semibold ${scorePercent >= 70 ? 'text-green-600' : scorePercent >= 50 ? 'text-amber-600' : 'text-muted-foreground'}`}>
-              {scorePercent}%
-            </span>
-          </div>
-        </div>
-
-        {mastery.chapters.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {mastery.chapters.map((ch) => {
-              const info = getMasteryInfo(ch.level);
-              return (
-                <Link
-                  key={ch.chapter}
-                  href={`/quiz/${ch.subject}`}
-                  className="group relative"
-                  title={`${ch.chapter}: ${info.label} (${Math.round(ch.accuracy * 100)}%)`}
-                >
-                  <span className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs ${info.color} group-hover:ring-2 ring-primary/30 transition-all`}>
-                    {info.emoji}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
+          </span>
+        ) : (
+          <span className="text-sm text-green-600 dark:text-green-400 font-semibold">
+            합격 예상
+          </span>
         )}
+      </div>
 
-        {mastery.chapters.length === 0 && (
-          <p className="text-xs text-muted-foreground">아직 학습 기록이 없어요</p>
-        )}
+      <div className="relative w-full h-2.5 bg-muted rounded-full overflow-hidden">
+        <div
+          className={
+            'h-full rounded-full transition-all duration-700 ' +
+            (sim.estimatedScore >= sim.passingScore ? 'bg-green-500' : 'bg-amber-500')
+          }
+          style={{ width: scorePercent + '%' }}
+        />
+        <div
+          className="absolute top-0 h-full w-0.5 bg-primary"
+          style={{ left: passLinePercent + '%' }}
+        />
+      </div>
 
-        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary rounded-full transition-all duration-500"
-            style={{ width: `${Math.min(100, scorePercent)}%` }}
-          />
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-// ─── Mastery Legend ──────────────────────────────────────────────────────────
-
-function MasteryLegend() {
-  const levels: Array<{ level: string; label: string; emoji: string }> = [
-    { level: 'not_started', label: '미학습', emoji: '⬜' },
-    { level: 'learning', label: '학습 중', emoji: '🟡' },
-    { level: 'practicing', label: '연습 중', emoji: '🟠' },
-    { level: 'proficient', label: '숙달', emoji: '🟢' },
-    { level: 'mastered', label: '마스터', emoji: '🏆' },
-  ];
-
-  return (
-    <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-      {levels.map((l) => (
-        <span key={l.level} className="flex items-center gap-1">
-          {l.emoji} {l.label}
-        </span>
-      ))}
+      <div className="flex justify-between text-[10px] text-muted-foreground">
+        <span>0</span>
+        <span>합격선 ~{sim.passingScore}점</span>
+        <span>80</span>
+      </div>
     </div>
   );
 }
 
-// ─── Tab Bar ─────────────────────────────────────────────────────────────────
+function SubjectRow({ mastery }: { mastery: SubjectMastery }) {
+  const title = getSubjectTitle(mastery.subject);
+  const accuracyPct = Math.round(mastery.overallAccuracy * 100);
+  const totalAttempts = mastery.chapters.reduce((sum, c) => sum + c.totalAttempts, 0);
+  const level = getSubjectLevel(accuracyPct, mastery.coverage, totalAttempts);
+
+  return (
+    <Link
+      href={'/quiz/' + mastery.subject}
+      className="block group"
+      aria-label={
+        title +
+        ' ' +
+        (totalAttempts > 0 ? '정답률 ' + accuracyPct + '%' : '미학습') +
+        ' — 퀴즈 풀기'
+      }
+    >
+      <div className="py-3 space-y-1.5">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium group-hover:text-primary transition-colors">
+            {title}
+          </span>
+          <div className="flex items-center gap-2">
+            {totalAttempts > 0 && (
+              <span className="text-sm font-bold tabular-nums">{accuracyPct}%</span>
+            )}
+            <span
+              className={
+                'text-[10px] font-medium px-1.5 py-0.5 rounded-full ' + level.badgeColor
+              }
+            >
+              {level.label}
+            </span>
+          </div>
+        </div>
+        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+          <div
+            className={'h-full rounded-full transition-all duration-500 ' + level.barColor}
+            style={{ width: (totalAttempts > 0 ? accuracyPct : 0) + '%' }}
+          />
+        </div>
+        {totalAttempts > 0 && (
+          <p className="text-[10px] text-muted-foreground">
+            {totalAttempts}문제 · 배점 {mastery.weight}%
+          </p>
+        )}
+      </div>
+    </Link>
+  );
+}
 
 type Tab = 'mastery' | 'stats';
 
-function TabBar({ active, onTabChange }: { active: Tab; onTabChange: (t: Tab) => void }) {
+function TabBar({
+  active,
+  onTabChange,
+}: {
+  active: Tab;
+  onTabChange: (t: Tab) => void;
+}) {
   return (
-    <div className="flex border-b border-border">
+    <div className="flex border-b border-border" role="tablist">
       <button
+        role="tab"
+        aria-selected={active === 'mastery'}
         onClick={() => onTabChange('mastery')}
-        className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-          active === 'mastery'
+        className={
+          'px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ' +
+          (active === 'mastery'
             ? 'border-primary text-primary font-semibold'
-            : 'border-transparent text-muted-foreground hover:text-foreground'
-        }`}
+            : 'border-transparent text-muted-foreground hover:text-foreground')
+        }
       >
         마스터리
       </button>
       <button
+        role="tab"
+        aria-selected={active === 'stats'}
         onClick={() => onTabChange('stats')}
-        className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-          active === 'stats'
+        className={
+          'px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ' +
+          (active === 'stats'
             ? 'border-primary text-primary font-semibold'
-            : 'border-transparent text-muted-foreground hover:text-foreground'
-        }`}
+            : 'border-transparent text-muted-foreground hover:text-foreground')
+        }
       >
         학습통계
       </button>
@@ -229,14 +206,15 @@ function TabBar({ active, onTabChange }: { active: Tab; onTabChange: (t: Tab) =>
   );
 }
 
-// ─── Main Component ──────────────────────────────────────────────────────────
-
 interface LearningDashboardProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
 }
 
-export default function LearningDashboard({ subjectTitleMap, chapterTitleMap }: LearningDashboardProps) {
+export default function LearningDashboard({
+  subjectTitleMap,
+  chapterTitleMap,
+}: LearningDashboardProps) {
   const [activeTab, setActiveTab] = useState<Tab>('mastery');
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
@@ -273,25 +251,25 @@ export default function LearningDashboard({ subjectTitleMap, chapterTitleMap }: 
     [subjectMasteries],
   );
 
-  const totalMastered = chapterMasteries.filter((c) => c.level === 'mastered' || c.level === 'proficient').length;
-  const totalChapters = chapterMasteries.length;
-
-  // Empty state
   if (quizHistory.length === 0) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
         <div className="space-y-1">
           <h1 className="text-2xl font-bold tracking-tight">학습현황</h1>
           <p className="text-muted-foreground text-sm">
-            퀴즈를 풀면 과목별 숙련도와 학습 통계를 볼 수 있어요.
+            퀴즈를 풀면 과목별 숙련도를 확인할 수 있어요.
           </p>
         </div>
         <TabBar active={activeTab} onTabChange={setActiveTab} />
         <EmptyState
           icon="🌳"
           title="아직 학습 기록이 없어요"
-          description="퀴즈를 풀어보면 여기에 숙련도와 통계가 표시됩니다."
-          action={{ label: '퀴즈 시작하기', href: '/quiz', ariaLabel: '퀴즈 페이지로 이동' }}
+          description="퀴즈를 풀어보면 여기에 숙련도가 표시됩니다."
+          action={{
+            label: '퀴즈 시작하기',
+            href: '/quiz',
+            ariaLabel: '퀴즈 페이지로 이동',
+          }}
         />
       </main>
     );
@@ -307,40 +285,31 @@ export default function LearningDashboard({ subjectTitleMap, chapterTitleMap }: 
     );
   }
 
+  const sorted = [...subjectMasteries].sort((a, b) => {
+    const aAttempts = a.chapters.reduce((s, c) => s + c.totalAttempts, 0);
+    const bAttempts = b.chapters.reduce((s, c) => s + c.totalAttempts, 0);
+    if (aAttempts > 0 && bAttempts === 0) return -1;
+    if (aAttempts === 0 && bAttempts > 0) return 1;
+    return b.overallAccuracy - a.overallAccuracy;
+  });
+
   return (
-    <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+    <main className="max-w-3xl mx-auto px-4 py-10 space-y-6">
       <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">학습현황</h1>
         <p className="text-muted-foreground text-sm">
-          과목별 숙련도와 합격 가능성을 확인하세요.
+          과목별 숙련도를 한눈에 확인하세요.
         </p>
       </div>
+
       <TabBar active={activeTab} onTabChange={setActiveTab} />
 
-      {/* Quick stats */}
-      <div className="flex flex-wrap gap-3 justify-center">
-        <Badge variant="secondary" className="text-sm px-3 py-1.5">
-          숙달 {totalMastered} / {totalChapters} 챕터
-        </Badge>
-        <Badge variant="secondary" className="text-sm px-3 py-1.5">
-          예상 {passSimulation.estimatedScore} / 80점
-        </Badge>
-        <Badge variant="secondary" className="text-sm px-3 py-1.5">
-          합격 가능성 {Math.round(passSimulation.passRate * 100)}%
-        </Badge>
-      </div>
+      <OverallScoreSection sim={passSimulation} />
 
-      <PassSimulationCard sim={passSimulation} />
-      <MasteryLegend />
-
-      <div className="space-y-4">
-        {subjectMasteries.map((mastery) => {
-          const passScore = passSimulation.subjectScores.find((s) => s.subject === mastery.subject)
-            ?? { score: 0, maxScore: 0, subject: mastery.subject };
-          return (
-            <SubjectMasteryCard key={mastery.subject} mastery={mastery} passScore={passScore} />
-          );
-        })}
+      <div className="divide-y divide-border">
+        {sorted.map((mastery) => (
+          <SubjectRow key={mastery.subject} mastery={mastery} />
+        ))}
       </div>
 
       <div className="grid grid-cols-2 gap-3 pb-6">
