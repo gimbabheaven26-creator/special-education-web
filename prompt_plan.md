@@ -20,7 +20,7 @@
 - [x] 1-2. `/today` 재설계 — FocusBanner + MissionBlockList 배치, 미션 중심 단일 진입점 (ca66add)
 - [x] 1-3. 과목 순차 잠금 — 집중 과목 상단 강조 + 나머지 후순위 표시 + Lock 아이콘
 - [x] 1-4. 학습 완료 피드백 — 축하 배너 + 스트릭 + 내일 예고 (143e7d8)
-- [ ] 1-5. 홈 대시보드 단순화 — 위젯 5개→핵심 2개
+- [x] 1-5. 홈 대시보드 단순화 — ExamCountdown+StreakBanner+DiagnosticRecommend 제거, FocusBanner+MissionBlockList만 유지
 
 ## Phase 2: 신뢰 회복 — 반복 보고 문제 즉시 해결
 
