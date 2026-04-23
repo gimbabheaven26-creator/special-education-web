@@ -10,10 +10,12 @@ import { getConceptUrl } from '@/lib/content/concept-urls';
 import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 
 const SCORE_TIERS = createScoreTiers([
+  '완벽! 이 영역은 완전히 정복했어요. 다른 과목도 도전해볼까요?',
   '거의 완벽해요! 다른 영역도 도전해볼까요?',
   '잘하고 있어요! 놓친 몇 문제만 정리하면 이 영역은 거의 완성이에요.',
   '감이 잡히기 시작했어요! 틀린 문제를 중심으로 다시 보면 빠르게 오를 거예요.',
   '아직 익숙하지 않은 영역이에요. 괜찮아요, 틀린 문제부터 다시 보면 금방 감이 올 거예요.',
+  '첫 걸음을 뗐어요! 모든 시작은 여기부터예요. 한 문제씩 같이 풀어봐요.',
 ]);
 
 // ─── Types ───────────────────────────────────────────────────────────────────

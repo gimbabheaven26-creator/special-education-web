@@ -81,7 +81,7 @@ export default function StatsClient({ subjectTitleMap, chapterTitleMap, tabBar }
         <EmptyState
           icon="📊"
           title="아직 학습 기록이 없어요"
-          description="퀴즈를 풀어보면 여기에 통계가 표시됩니다."
+          description="문제를 풀기 시작하면 일별·주별 학습량과 정답률 변화를 추적할 수 있어요."
           action={{ label: '퀴즈 시작하기', href: '/quiz', ariaLabel: '퀴즈 페이지로 이동' }}
         />
       </main>

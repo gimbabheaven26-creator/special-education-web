@@ -139,7 +139,7 @@ describe('SrsReviewMode', () => {
       expect(screen.getByText('복습 완료!')).toBeDefined();
       expect(screen.getByText(/1장.*정답/)).toBeDefined();
       expect(screen.getByText(/100%/)).toBeDefined();
-      expect(screen.getByText(/거의 완벽한 복습/)).toBeDefined();
+      expect(screen.getByText(/완벽하게 기억/)).toBeDefined();
     });
 
     it('shows correct tier for 0% score', () => {
@@ -149,7 +149,7 @@ describe('SrsReviewMode', () => {
       fireEvent.click(screen.getByText('정답 보기'));
       fireEvent.click(screen.getByText('틀림'));
 
-      expect(screen.getByText(/반복할수록 기억에 남아요/)).toBeDefined();
+      expect(screen.getByText(/복습을 시작한 것/)).toBeDefined();
     });
 
     it('restart button resets session', () => {
@@ -183,8 +183,8 @@ describe('SrsReviewMode', () => {
         fireEvent.click(screen.getByText('맞음'));
       }
 
-      expect(screen.getByText(/거의 완벽한 복습/)).toBeDefined();
-      expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('🏆');
+      expect(screen.getByText(/완벽하게 기억/)).toBeDefined();
+      expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('🎉');
     });
 
     it('maps 61-90% to muscle tier', () => {

@@ -8,10 +8,12 @@ import { OX_COUNT, FILL_IN_COUNT, DESCRIPTIVE_COUNT } from '@/types/daily';
 import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 
 const DAILY_TIERS = createScoreTiers([
+  '오늘 완벽한 하루! 이 기세로 내일도 달려볼까요?',
   '거의 완벽해요! 오늘 학습 내용이 확실히 정리됐네요.',
   '좋은 흐름이에요! 놓친 문제만 정리하면 더 완벽해질 거예요.',
   '감이 잡히기 시작했어요! 틀린 문제 위주로 복습하면 빠르게 성장할 거예요.',
   '오늘 학습을 완료한 것 자체가 큰 진전이에요. 꾸준히 하면 반드시 올라요!',
+  '오늘 도전한 것 자체가 대단해요. 내일 한 문제라도 맞혀봐요!',
 ]);
 
 export function CompletionScreen({

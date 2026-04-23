@@ -264,7 +264,7 @@ export default function LearningDashboard({
         <EmptyState
           icon="🌳"
           title="아직 학습 기록이 없어요"
-          description="퀴즈를 풀어보면 여기에 숙련도가 표시됩니다."
+          description="첫 퀴즈를 풀면 과목별 숙련도가 여기에 나타나요. 임용시험까지 어떤 과목이 강하고 약한지 한눈에 파악할 수 있어요."
           action={{
             label: '퀴즈 시작하기',
             href: '/quiz',

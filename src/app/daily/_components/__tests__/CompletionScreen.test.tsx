@@ -40,7 +40,7 @@ describe('CompletionScreen', () => {
       />,
     );
     expect(screen.getByText('100%')).toBeDefined();
-    expect(screen.getByText(/거의 완벽/)).toBeDefined();
+    expect(screen.getByText(/완벽한 하루/)).toBeDefined();
   });
 
   it('shows encouraging feedback for low score', () => {
@@ -53,7 +53,7 @@ describe('CompletionScreen', () => {
     );
     // 0/3 = 0%
     expect(screen.getByText('0%')).toBeDefined();
-    expect(screen.getByText(/큰 진전/)).toBeDefined();
+    expect(screen.getByText(/도전한 것 자체가 대단/)).toBeDefined();
   });
 
   it('shows wrong chapters when provided', () => {

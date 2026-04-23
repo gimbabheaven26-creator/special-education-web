@@ -58,7 +58,7 @@ export default function RecordDashboard() {
         <EmptyState
           icon="📊"
           title="아직 학습 기록이 없어요"
-          description="퀴즈를 풀면 여기에 진도, 정답률, 약점이 한눈에 표시됩니다."
+          description="퀴즈 한 세트만 풀어도 오늘의 성과와 약점 과목이 바로 보여요. 매일 조금씩 쌓이는 기록이 합격의 근거가 됩니다."
           action={{ label: '퀴즈 시작하기', href: '/quiz/ox', ariaLabel: '퀴즈 페이지로 이동' }}
         />
       </main>

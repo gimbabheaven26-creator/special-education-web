@@ -55,7 +55,7 @@ export function WeaknessInsight() {
         <EmptyState
           icon="📊"
           title="아직 분석할 데이터가 부족해요"
-          description="10문제 이상 풀면 약점 분석을 볼 수 있어요!"
+          description="10문제 이상 풀면 어떤 과목이 약한지, 어디부터 공략해야 하는지 알려드려요."
           action={{ label: '퀴즈 풀러 가기', href: '/quiz/ox', ariaLabel: '퀴즈 페이지로 이동' }}
         />
       </div>

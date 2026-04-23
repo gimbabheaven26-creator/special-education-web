@@ -34,10 +34,12 @@ interface BookmarkQuizClientProps {
 }
 
 const BOOKMARK_QUIZ_TIERS = createScoreTiers([
+  '북마크한 챕터를 완벽하게 정복했어요! 대단해요!',
   '북마크한 챕터를 거의 완벽하게 소화했어요!',
   '잘하고 있어요! 몇 개만 더 정리하면 될 거예요.',
   '조금씩 감을 잡고 있어요. 개념을 다시 보면 빠르게 올라요.',
   '북마크한 챕터를 개념학습에서 다시 읽어보면 도움이 될 거예요!',
+  '시작이 반이에요! 북마크한 개념을 하나씩 읽어보면 금방 감이 올 거예요.',
 ]);
 
 /** bookmark.path에서 { subjectSlug, chapterSlug } 추출 */

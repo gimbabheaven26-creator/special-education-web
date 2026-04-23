@@ -18,10 +18,12 @@ const BOX_LABELS: Record<number, string> = {
 };
 
 const SRS_RESULT_TIERS = createScoreTiers([
+  '모든 카드를 완벽하게 기억하고 있어요! 내일도 꾸준히!',
   '거의 완벽한 복습이었어요! 내일도 꾸준히!',
   '잘하고 있어요! 틀린 카드는 내일 다시 나와요.',
   '조금씩 자라고 있어요. 매일 하면 금방 올라요!',
   '괜찮아요! 반복할수록 기억에 남아요.',
+  '복습을 시작한 것 자체가 한 걸음이에요. 매일 조금씩!',
 ]);
 
 export default function SrsReviewMode() {
