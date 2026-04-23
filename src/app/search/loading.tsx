@@ -4,6 +4,9 @@ export default function SearchLoading() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
       <Skeleton className="h-10 w-full rounded-lg" />
+      <p className="text-xs text-muted-foreground animate-pulse">
+        용어, 퀴즈, 기출 검색을 준비하고 있어요...
+      </p>
       <div className="flex gap-2">
         {Array.from({ length: 4 }).map((_, i) => (
           <Skeleton key={i} className="h-8 w-20 rounded-full" />
