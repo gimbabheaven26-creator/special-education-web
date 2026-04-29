@@ -32,6 +32,6 @@ export async function POST(
     reason: reason || '신고',
   });
 
-  // 테이블이 없어도 성공 응답 — 테이블 생성은 클루디 작업
+  // 테이블이 없어도 성공 응답 — community_reports 테이블 미생성 상태
   return NextResponse.json({ ok: true });
 }
