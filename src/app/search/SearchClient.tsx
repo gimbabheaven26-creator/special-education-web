@@ -175,23 +175,20 @@ export default function SearchClient({
     [searchIndex],
   );
 
-  const results = useMemo(() => {
-    if (!query.trim()) return [];
+  const { results, typeCounts } = useMemo(() => {
+    if (!query.trim()) {
+      return { results: [], typeCounts: { all: 0, term: 0, quiz: 0, kice: 0 } };
+    }
     const raw = fuse.search(query.trim()).map((r) => r.item);
-    if (filter === 'all') return raw;
-    return raw.filter((item) => item.type === filter);
-  }, [query, fuse, filter]);
-
-  const typeCounts = useMemo(() => {
-    if (!query.trim()) return { all: 0, term: 0, quiz: 0, kice: 0 };
-    const raw = fuse.search(query.trim()).map((r) => r.item);
-    return {
+    const counts = {
       all: raw.length,
       term: raw.filter((i) => i.type === 'term').length,
       quiz: raw.filter((i) => i.type === 'quiz').length,
       kice: raw.filter((i) => i.type === 'kice').length,
     };
-  }, [query, fuse]);
+    const filtered = filter === 'all' ? raw : raw.filter((item) => item.type === filter);
+    return { results: filtered, typeCounts: counts };
+  }, [query, fuse, filter]);
 
   useEffect(() => {
     inputRef.current?.focus();
