@@ -1,0 +1,129 @@
+{
+  "total": 3116,
+  "bySubject": {
+    "communication-disorder": 231,
+    "introduction": 345,
+    "transition": 246,
+    "behavior-support": 355,
+    "assessment": 336,
+    "curriculum": 282,
+    "inclusive-education": 184,
+    "visual-impairment": 279,
+    "hearing-impairment": 245,
+    "physical-disability": 201,
+    "laws": 412
+  },
+  "byType": {
+    "fill_in": 449,
+    "ox": 909,
+    "descriptive": 557,
+    "multiple": 1198,
+    "scenario_composite": 3
+  },
+  "byDifficulty": {
+    "1": 896,
+    "2": 1262,
+    "3": 958
+  },
+  "gapAnalysis": [
+    {
+      "subject": "introduction",
+      "label": "특수교육학 개론",
+      "count": 345,
+      "quizRatio": 11.1,
+      "kiceRatio": 24,
+      "gap": -12.9,
+      "severity": "CRITICAL"
+    },
+    {
+      "subject": "laws",
+      "label": "법령",
+      "count": 412,
+      "quizRatio": 13.2,
+      "kiceRatio": 20,
+      "gap": -6.8,
+      "severity": "HIGH"
+    },
+    {
+      "subject": "transition",
+      "label": "전환교육",
+      "count": 246,
+      "quizRatio": 7.9,
+      "kiceRatio": 12,
+      "gap": -4.1,
+      "severity": "MEDIUM"
+    },
+    {
+      "subject": "curriculum",
+      "label": "교육과정",
+      "count": 282,
+      "quizRatio": 9.1,
+      "kiceRatio": 13,
+      "gap": -3.9,
+      "severity": "MEDIUM"
+    },
+    {
+      "subject": "inclusive-education",
+      "label": "통합교육",
+      "count": 184,
+      "quizRatio": 5.9,
+      "kiceRatio": 8,
+      "gap": -2.1,
+      "severity": "MEDIUM"
+    },
+    {
+      "subject": "assessment",
+      "label": "진단/평가",
+      "count": 336,
+      "quizRatio": 10.8,
+      "kiceRatio": 12,
+      "gap": -1.2,
+      "severity": "MEDIUM"
+    },
+    {
+      "subject": "behavior-support",
+      "label": "행동지원",
+      "count": 355,
+      "quizRatio": 11.4,
+      "kiceRatio": 11,
+      "gap": 0.4,
+      "severity": "OK"
+    },
+    {
+      "subject": "physical-disability",
+      "label": "지체장애",
+      "count": 201,
+      "quizRatio": 6.5,
+      "kiceRatio": 0,
+      "gap": 6.5,
+      "severity": "OK"
+    },
+    {
+      "subject": "communication-disorder",
+      "label": "의사소통장애",
+      "count": 231,
+      "quizRatio": 7.4,
+      "kiceRatio": 0,
+      "gap": 7.4,
+      "severity": "OK"
+    },
+    {
+      "subject": "hearing-impairment",
+      "label": "청각장애",
+      "count": 245,
+      "quizRatio": 7.9,
+      "kiceRatio": 0,
+      "gap": 7.9,
+      "severity": "OK"
+    },
+    {
+      "subject": "visual-impairment",
+      "label": "시각장애",
+      "count": 279,
+      "quizRatio": 9,
+      "kiceRatio": 0,
+      "gap": 9,
+      "severity": "OK"
+    }
+  ]
+}
