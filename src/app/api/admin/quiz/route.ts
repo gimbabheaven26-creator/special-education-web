@@ -134,6 +134,17 @@ export async function POST(request: Request) {
     };
 
     const supabase = auth.isApiKey ? createServiceClient() : await createClient();
+
+    const questionText = String(input.question);
+    const searchPrefix = questionText.slice(0, 40);
+    const { data: similar } = await supabase
+      .from('quiz_questions')
+      .select('id, question')
+      .eq('subject', input.subject as string)
+      .ilike('question', `%${searchPrefix}%`)
+      .limit(3);
+    const duplicates = (similar ?? []).map(s => s.id);
+
     const { data, error } = await supabase
       .from('quiz_questions')
       .insert(insertData)
@@ -147,7 +158,10 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json(
+      { ...data, ...(duplicates.length > 0 ? { duplicateWarning: duplicates } : {}) },
+      { status: 201 },
+    );
   } catch {
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
