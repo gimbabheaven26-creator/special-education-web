@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import Link from 'next/link';
-import { Sparkles, Check, Pencil, Trash2, Loader2, AlertCircle } from 'lucide-react';
+import { Sparkles, Check, Pencil, Trash2, Loader2, AlertCircle, ClipboardList, X as XIcon, CheckCircle } from 'lucide-react';
 import { useAIGenerate } from './useAIGenerate';
 import type { GenerateInput, QuizDraft } from './useAIGenerate';
 
@@ -31,13 +31,14 @@ interface AIGenerateClientProps {
 export default function AIGenerateClient({ subjects, chapters }: AIGenerateClientProps) {
   const { drafts, generating, approvingIndex, error, generate, approve, remove } = useAIGenerate();
 
+  const [tab, setTab] = useState<'generate' | 'review'>('generate');
   const [subject, setSubject] = useState('');
   const [chapter, setChapter] = useState('');
   const [type, setType] = useState('ox');
   const [difficulty, setDifficulty] = useState(2);
   const [keyword, setKeyword] = useState('');
   const [count, setCount] = useState(1);
-  const [approvedCount, setApprovedCount] = useState(0);
+  const [savedCount, setSavedCount] = useState(0);
 
   const filteredChapters = useMemo(
     () => chapters.filter((c) => c.subject_slug === subject),
@@ -58,9 +59,9 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
     await generate(input);
   }
 
-  async function handleApprove(index: number) {
+  async function handleSaveDraft(index: number) {
     const ok = await approve(index);
-    if (ok) setApprovedCount((prev) => prev + 1);
+    if (ok) setSavedCount((prev) => prev + 1);
   }
 
   function handleEditAndSave(draft: QuizDraft) {
@@ -72,6 +73,30 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
 
   return (
     <div className="space-y-8">
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={() => setTab('generate')}
+          className={`px-4 py-2 text-sm font-medium rounded-md ${tab === 'generate' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          aria-label="AI 생성 탭"
+        >
+          <Sparkles className="h-4 w-4 inline mr-1.5" />
+          AI 생성
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('review')}
+          className={`px-4 py-2 text-sm font-medium rounded-md ${tab === 'review' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          aria-label="검수 대기 탭"
+        >
+          <ClipboardList className="h-4 w-4 inline mr-1.5" />
+          검수 대기
+        </button>
+      </div>
+
+      {tab === 'review' && <ReviewQueue />}
+
+      {tab === 'generate' && <>
       <div>
         <h2 className="text-lg font-bold">AI 문제 생성</h2>
         <p className="text-sm text-gray-500 mt-1">
@@ -197,11 +222,10 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
         </div>
       )}
 
-      {/* Approved count */}
-      {approvedCount > 0 && (
-        <div className="flex items-center gap-2 p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-sm text-emerald-700">
-          <Check className="h-4 w-4" />
-          {approvedCount}개 문제가 DB에 저장되었습니다.
+      {savedCount > 0 && (
+        <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-700">
+          <ClipboardList className="h-4 w-4" />
+          {savedCount}개 초안이 검수 대기 목록에 저장되었습니다.
         </div>
       )}
 
@@ -220,13 +244,171 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
               draft={draft}
               index={index}
               approving={approvingIndex === index}
-              onApprove={() => handleApprove(index)}
+              onApprove={() => handleSaveDraft(index)}
               onEdit={() => handleEditAndSave(draft)}
               onRemove={() => remove(index)}
             />
           ))}
         </div>
       )}
+      </>}
+    </div>
+  );
+}
+
+// ── Review Queue Component ──────────────────────────────────────────────
+
+interface ReviewItem {
+  id: string;
+  question: string;
+  answer: string;
+  explanation: string | null;
+  type: string;
+  subject: string;
+  chapter: string;
+  case_context: string | null;
+  sub_questions: Array<{ id: string; question: string; type: string; answer: string; explanation?: string }> | null;
+  ai_generated_at: string | null;
+}
+
+function ReviewQueue() {
+  const [items, setItems] = useState<ReviewItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [actionId, setActionId] = useState<string | null>(null);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const fetchDrafts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/quiz?ai_status=draft&limit=50');
+      const json = await res.json() as { data?: ReviewItem[] };
+      setItems(json.data ?? []);
+    } catch {
+      setMessage({ type: 'error', text: '검수 대기 목록을 불러오지 못했습니다.' });
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchDrafts(); }, [fetchDrafts]);
+
+  async function handleReview(id: string, status: 'approved' | 'rejected') {
+    setActionId(id);
+    try {
+      const res = await fetch('/api/admin/quiz', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, ai_status: status }),
+      });
+      if (!res.ok) {
+        setMessage({ type: 'error', text: '상태 변경에 실패했습니다.' });
+        return;
+      }
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      setMessage({
+        type: 'success',
+        text: status === 'approved' ? '승인 완료 — 학생에게 노출됩니다.' : '거절 완료 — 학생에게 노출되지 않습니다.',
+      });
+    } catch {
+      setMessage({ type: 'error', text: '네트워크 오류가 발생했습니다.' });
+    } finally {
+      setActionId(null);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12 text-gray-400">
+        <Loader2 className="h-5 w-5 animate-spin mr-2" />
+        검수 대기 목록 로딩 중...
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-lg font-bold">검수 대기 ({items.length}개)</h2>
+
+      {message && (
+        <div className={`flex items-center gap-2 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-red-50 border border-red-200 text-red-700'}`}>
+          {message.type === 'success' ? <CheckCircle className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
+          {message.text}
+        </div>
+      )}
+
+      {items.length === 0 && (
+        <p className="text-sm text-gray-500 py-8 text-center">검수 대기 중인 문제가 없습니다.</p>
+      )}
+
+      {items.map((item) => (
+        <div key={item.id} className="bg-white border rounded-lg p-4 space-y-3">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] px-1.5 py-0.5 bg-gray-100 rounded font-medium text-gray-500">{item.type}</span>
+                <span className="text-[10px] text-gray-400">{item.subject} / {item.chapter}</span>
+                {item.ai_generated_at && (
+                  <span className="text-[10px] text-gray-400">
+                    {new Date(item.ai_generated_at).toLocaleDateString('ko-KR')}
+                  </span>
+                )}
+              </div>
+              <p className="text-sm whitespace-pre-wrap">{item.question}</p>
+            </div>
+          </div>
+
+          {item.case_context && (
+            <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
+              <p className="text-[10px] font-semibold text-amber-700 mb-1">사례 지문</p>
+              <p className="text-xs text-amber-900 whitespace-pre-wrap leading-relaxed">{item.case_context}</p>
+            </div>
+          )}
+
+          {item.sub_questions && item.sub_questions.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-[10px] font-semibold text-gray-500">하위 질문 ({item.sub_questions.length}개)</p>
+              {item.sub_questions.map((sq) => (
+                <div key={sq.id} className="pl-3 border-l-2 border-indigo-200 space-y-0.5">
+                  <p className="text-xs font-medium">{sq.id}. {sq.question}</p>
+                  <p className="text-xs text-emerald-700">정답: {sq.answer}</p>
+                  {sq.explanation && <p className="text-[10px] text-gray-500">{sq.explanation}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="bg-gray-50 rounded-md p-3 space-y-1">
+            <p className="text-xs">
+              <span className="font-medium text-gray-500">정답:</span>{' '}
+              <span className="font-bold text-emerald-700">{item.answer}</span>
+            </p>
+            {item.explanation && <p className="text-xs text-gray-600">{item.explanation}</p>}
+          </div>
+
+          <div className="flex items-center gap-2 pt-1">
+            <button
+              type="button"
+              onClick={() => handleReview(item.id, 'approved')}
+              disabled={actionId === item.id}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-medium hover:bg-emerald-700 disabled:opacity-50"
+              aria-label={`문제 ${item.id} 승인`}
+            >
+              {actionId === item.id ? <Loader2 className="h-3 w-3 animate-spin" /> : <CheckCircle className="h-3 w-3" />}
+              승인
+            </button>
+            <button
+              type="button"
+              onClick={() => handleReview(item.id, 'rejected')}
+              disabled={actionId === item.id}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500 text-white rounded text-xs font-medium hover:bg-red-600 disabled:opacity-50"
+              aria-label={`문제 ${item.id} 거절`}
+            >
+              <XIcon className="h-3 w-3" />
+              거절
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -300,10 +482,10 @@ function DraftCard({ draft, index, approving, onApprove, onEdit, onRemove }: Dra
           onClick={onApprove}
           disabled={approving}
           className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-medium hover:bg-emerald-700 disabled:opacity-50"
-          aria-label={`문제 ${index + 1} 바로 승인`}
+          aria-label={`문제 ${index + 1} 초안 저장`}
         >
           {approving ? <Loader2 className="h-3 w-3 animate-spin" /> : <Check className="h-3 w-3" />}
-          바로 승인
+          초안 저장
         </button>
 
         <Link

@@ -109,6 +109,7 @@ export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
     .from('quiz_questions')
     .select('*')
     .or(`question.ilike.%${sanitized}%,explanation.ilike.%${sanitized}%`)
+    .in('ai_status', ['human', 'approved'])
     .limit(200);
 
   if (error || !data) return [];

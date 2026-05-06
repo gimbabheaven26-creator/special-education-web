@@ -17,6 +17,7 @@ export async function GET(request: Request) {
     const type = searchParams.get('type');
     const difficulty = searchParams.get('difficulty');
     const search = searchParams.get('search');
+    const aiStatus = searchParams.get('ai_status');
 
     const offset = (page - 1) * limit;
 
@@ -39,6 +40,9 @@ export async function GET(request: Request) {
     }
     if (search) {
       query = query.ilike('question', `%${search}%`);
+    }
+    if (aiStatus) {
+      query = query.eq('ai_status', aiStatus);
     }
 
     query = query
@@ -102,6 +106,13 @@ export async function POST(request: Request) {
         ? input.id
         : `${input.subject}-${input.chapter}-${Date.now().toString(36)}`;
 
+    // ai_status 검증
+    const VALID_AI_STATUS = ['human', 'draft', 'approved', 'rejected'] as const;
+    const rawAiStatus = input.ai_status as string | undefined;
+    const aiStatus2 = rawAiStatus && VALID_AI_STATUS.includes(rawAiStatus as typeof VALID_AI_STATUS[number])
+      ? rawAiStatus
+      : 'human';
+
     // camelCase → snake_case 변환
     const insertData: Record<string, unknown> = {
       id,
@@ -118,6 +129,8 @@ export async function POST(request: Request) {
       sub_questions: input.subQuestions ?? input.sub_questions ?? null,
       image_url: input.imageUrl ?? input.image_url ?? null,
       subjects: input.subjects ?? null,
+      ai_status: aiStatus2,
+      ai_generated_at: input.ai_generated_at ?? null,
     };
 
     const supabase = auth.isApiKey ? createServiceClient() : await createClient();
@@ -135,6 +148,57 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(data, { status: 201 });
+  } catch {
+    return NextResponse.json(
+      { error: '서버 오류가 발생했습니다.' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const auth = await verifyAdminOrApiKey(request);
+    if (!auth.authorized) {
+      return NextResponse.json({ error: '관리자 권한이 필요합니다.' }, { status: 401 });
+    }
+
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: '잘못된 요청 형식입니다.' }, { status: 400 });
+    }
+
+    const input = body as Record<string, unknown>;
+    const id = input.id;
+    const patchStatus = input.ai_status;
+
+    if (typeof id !== 'string' || !id) {
+      return NextResponse.json({ error: 'id 필드는 필수입니다.' }, { status: 400 });
+    }
+
+    const VALID_PATCH_STATUS = ['approved', 'rejected'] as const;
+    if (typeof patchStatus !== 'string' || !VALID_PATCH_STATUS.includes(patchStatus as typeof VALID_PATCH_STATUS[number])) {
+      return NextResponse.json({ error: 'ai_status는 approved 또는 rejected만 가능합니다.' }, { status: 400 });
+    }
+
+    const supabase = auth.isApiKey ? createServiceClient() : await createClient();
+    const { data, error } = await supabase
+      .from('quiz_questions')
+      .update({ ai_status: patchStatus })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json(
+        { error: '상태 변경 중 오류가 발생했습니다.', detail: error.message },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json(data);
   } catch {
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
