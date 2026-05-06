@@ -60,6 +60,24 @@ export async function getAllQuizzes(): Promise<QuizQuestion[]> {
   return data.map(mapQuizRow);
 }
 
+export async function getQuizzesForSearch() {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('question, explanation, subject, tags')
+    .in('ai_status', ['human', 'approved'])
+    .limit(10000);
+
+  if (error || !data) return [];
+
+  return data.map((row) => ({
+    question: row.question as string,
+    explanation: ((row.explanation as string) ?? '').slice(0, 120),
+    subject: row.subject as string,
+    disability: (row.tags as Record<string, unknown> | null)?.disability as string | undefined,
+  }));
+}
+
 export async function getQuizzesByType(type: QuizType): Promise<QuizQuestion[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
