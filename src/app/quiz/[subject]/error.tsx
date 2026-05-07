@@ -2,7 +2,7 @@
 
 import { RouteErrorPage } from '@/components/ui/RouteErrorPage';
 
-export default function QuizError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function QuizError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <RouteErrorPage
       emoji="🧩"
@@ -12,6 +12,7 @@ export default function QuizError({ reset }: { error: Error & { digest?: string 
       backHref="/quiz"
       backLabel="돌아가기"
       reset={reset}
+      error={error}
     />
   );
 }

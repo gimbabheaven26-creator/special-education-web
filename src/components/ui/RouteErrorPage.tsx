@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
+import * as Sentry from '@sentry/nextjs';
 
 interface RouteErrorPageProps {
   emoji: string;
@@ -10,6 +12,7 @@ interface RouteErrorPageProps {
   backHref: string;
   backLabel: string;
   reset: () => void;
+  error?: Error & { digest?: string };
 }
 
 export function RouteErrorPage({
@@ -20,7 +23,11 @@ export function RouteErrorPage({
   backHref,
   backLabel,
   reset,
+  error,
 }: RouteErrorPageProps) {
+  useEffect(() => {
+    if (error) Sentry.captureException(error);
+  }, [error]);
   return (
     <div className="max-w-md mx-auto px-4 py-20 text-center space-y-6" role="alert">
       <div className="text-5xl" aria-hidden="true">{emoji}</div>

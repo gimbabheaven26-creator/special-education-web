@@ -2,7 +2,7 @@
 
 import { RouteErrorPage } from '@/components/ui/RouteErrorPage';
 
-export default function WrongNotesError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function WrongNotesError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <RouteErrorPage
       emoji="📋"
@@ -12,6 +12,7 @@ export default function WrongNotesError({ reset }: { error: Error & { digest?: s
       backHref="/wrong-notes"
       backLabel="오답노트로"
       reset={reset}
+      error={error}
     />
   );
 }

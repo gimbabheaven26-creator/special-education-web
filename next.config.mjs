@@ -1,12 +1,13 @@
+import { withSentryConfig } from '@sentry/nextjs'
 import createMDX from '@next/mdx'
 import withPWAInit from '@ducanh2912/next-pwa'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-  // experimental: {
-  //   optimizePackageImports: ['lucide-react'],
-  // },
+  experimental: {
+    instrumentationHook: true,
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
@@ -37,4 +38,12 @@ const withPWA = withPWAInit({
   ],
 })
 
-export default withPWA(withMDX(nextConfig))
+export default withSentryConfig(withPWA(withMDX(nextConfig)), {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: true,
+  widenClientFileUpload: true,
+  hideSourceMaps: true,
+  disableLogger: true,
+})

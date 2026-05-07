@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 
 const MAX_FIELD_LENGTH = 200;
@@ -51,7 +52,7 @@ ${chapterList}
     const result = await model.generateContent(prompt);
     return NextResponse.json({ analysis: result.response.text() });
   } catch (e) {
-    console.error('[ai/weakness] Gemini 호출 실패:', e);
+    Sentry.captureException(e);
     return NextResponse.json({ analysis: null, error: 'AI 분석 실패' }, { status: 500 });
   }
 }

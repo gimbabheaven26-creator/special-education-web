@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
       });
 
     if (uploadError) {
-      console.error('Upload failed:', uploadError);
+      Sentry.captureException(uploadError);
       return NextResponse.json({ error: 'upload failed' }, { status: 500 });
     }
 
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: urlData.publicUrl });
   } catch (error) {
-    console.error('Upload error:', error);
+    Sentry.captureException(error);
     return NextResponse.json({ error: 'upload failed' }, { status: 500 });
   }
 }

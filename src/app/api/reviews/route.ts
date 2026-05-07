@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { getReviews, saveReview, deleteReview, updateAdminNote } from '@/lib/db/review-db';
 import { isAdmin } from '@/lib/db/profile';
 
@@ -14,6 +15,7 @@ export async function GET() {
     const reviews = await getReviews();
     return NextResponse.json(reviews);
   } catch (error) {
+    Sentry.captureException(error);
     console.error('Failed to fetch reviews:', error);
     return NextResponse.json({ error: 'failed to fetch reviews' }, { status: 500 });
   }
@@ -61,6 +63,7 @@ export async function POST(req: NextRequest) {
     const action = contentStr.trim() || imageUrlsArr.length > 0 ? 'saved' : 'deleted';
     return NextResponse.json({ ok: true, action });
   } catch (error) {
+    Sentry.captureException(error);
     console.error('Failed to save review:', error);
     return NextResponse.json({ error: 'failed to save review' }, { status: 500 });
   }
@@ -98,6 +101,7 @@ export async function PATCH(req: NextRequest) {
     }
     return NextResponse.json({ ok: true });
   } catch (error) {
+    Sentry.captureException(error);
     console.error('Failed to update admin note:', error);
     return NextResponse.json({ error: 'failed to update admin note' }, { status: 500 });
   }
@@ -129,6 +133,7 @@ export async function DELETE(req: NextRequest) {
     }
     return NextResponse.json({ ok: true });
   } catch (error) {
+    Sentry.captureException(error);
     console.error('Failed to delete review:', error);
     return NextResponse.json({ error: 'failed to delete review' }, { status: 500 });
   }

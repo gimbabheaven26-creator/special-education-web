@@ -2,7 +2,7 @@
 
 import { RouteErrorPage } from '@/components/ui/RouteErrorPage';
 
-export default function DailyError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function DailyError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <RouteErrorPage
       emoji="☀️"
@@ -12,6 +12,7 @@ export default function DailyError({ reset }: { error: Error & { digest?: string
       backHref="/"
       backLabel="홈으로"
       reset={reset}
+      error={error}
     />
   );
 }

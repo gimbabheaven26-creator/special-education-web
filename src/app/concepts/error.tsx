@@ -2,7 +2,7 @@
 
 import { RouteErrorPage } from '@/components/ui/RouteErrorPage';
 
-export default function ConceptsError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function ConceptsError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <RouteErrorPage
       emoji="📖"
@@ -12,6 +12,7 @@ export default function ConceptsError({ reset }: { error: Error & { digest?: str
       backHref="/"
       backLabel="홈으로"
       reset={reset}
+      error={error}
     />
   );
 }
