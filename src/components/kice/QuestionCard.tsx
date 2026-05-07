@@ -12,18 +12,24 @@ import type { ConceptLink } from '@/lib/kice/keyword-concept-map'
 interface QuestionCardProps {
   question: KiceQuestion
   defaultAnswerOpen?: boolean
+  hideAnswers?: boolean
   conceptLinks?: ConceptLink[]
 }
 
-const TYPE_LABEL: Record<string, string> = {
-  fill_in: '서술형',
-  descriptive: '논술형',
+const TYPE_CONFIG: Record<string, { label: string; className: string }> = {
+  fill_in: { label: '서술형', className: 'border-blue-300 text-blue-700 dark:border-blue-700 dark:text-blue-300' },
+  descriptive: { label: '논술형', className: 'border-violet-300 text-violet-700 dark:border-violet-700 dark:text-violet-300' },
 }
 
-export function QuestionCard({ question, defaultAnswerOpen = false, conceptLinks }: QuestionCardProps) {
+export function QuestionCard({ question, defaultAnswerOpen = false, hideAnswers = false, conceptLinks }: QuestionCardProps) {
   const scenarioDialogue = typeof question.scenario === 'object' && question.scenario?.dialogue
     ? question.scenario.dialogue
     : null
+
+  const typeInfo = TYPE_CONFIG[question.type]
+  const pointsClassName = question.points >= 4
+    ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+    : undefined
 
   return (
     <Card size="sm" id={`q-${question.number}`}>
@@ -33,10 +39,10 @@ export function QuestionCard({ question, defaultAnswerOpen = false, conceptLinks
             <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-bold">
               {question.number}
             </span>
-            <Badge variant="outline" className="text-xs">
-              {TYPE_LABEL[question.type] ?? question.type}
+            <Badge variant="outline" className={`text-xs ${typeInfo?.className ?? ''}`}>
+              {typeInfo?.label ?? question.type}
             </Badge>
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className={`text-xs ${pointsClassName ?? ''}`}>
               {question.points}점
             </Badge>
           </CardTitle>
@@ -113,7 +119,9 @@ export function QuestionCard({ question, defaultAnswerOpen = false, conceptLinks
         )}
 
         {/* 모범답안 */}
-        <ModelAnswers question={question} defaultOpen={defaultAnswerOpen} />
+        {!hideAnswers && (
+          <ModelAnswers question={question} defaultOpen={defaultAnswerOpen} />
+        )}
 
         {/* 관련 개념 */}
         {conceptLinks && conceptLinks.length > 0 && (

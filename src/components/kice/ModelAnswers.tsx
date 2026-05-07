@@ -28,38 +28,43 @@ export function ModelAnswers({ question, defaultOpen = false }: ModelAnswersProp
         {open ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
       </button>
 
-      {open && (
-        <div className="mt-2 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800/50 p-3 space-y-2">
-          {hasBlanks && (
-            <div className="space-y-1.5">
-              {Object.entries(question.blanks!).map(([key, blank]) => (
-                <div key={key} className="text-sm">
-                  <span className="font-semibold text-green-700 dark:text-green-400">{key}</span>
-                  <span className="text-muted-foreground mx-1">:</span>
-                  <span className="text-foreground">{blank.answer}</span>
-                  {blank.description && (
-                    <span className="text-muted-foreground text-xs ml-2">({blank.description})</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+      <div
+        className="grid transition-[grid-template-rows] duration-300 ease-in-out"
+        style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-2 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800/50 p-3 space-y-2">
+            {hasBlanks && (
+              <div className="space-y-1.5">
+                {Object.entries(question.blanks!).map(([key, blank]) => (
+                  <div key={key} className="text-sm">
+                    <span className="font-semibold text-green-700 dark:text-green-400">{key}</span>
+                    <span className="text-muted-foreground mx-1">:</span>
+                    <span className="text-foreground">{blank.answer}</span>
+                    {blank.description && (
+                      <span className="text-muted-foreground text-xs ml-2">({blank.description})</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
 
-          {hasModelAnswers && (
-            <div className="space-y-1.5">
-              {Object.entries(question.model_answers!).map(([key, value]) => (
-                <div key={key} className="text-sm">
-                  <span className="font-semibold text-green-700 dark:text-green-400">{key}</span>
-                  <span className="text-muted-foreground mx-1">:</span>
-                  <span className="text-foreground whitespace-pre-wrap">
-                    {typeof value === 'string' ? value : JSON.stringify(value, null, 2)}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
+            {hasModelAnswers && (
+              <div className="space-y-1.5">
+                {Object.entries(question.model_answers!).map(([key, value]) => (
+                  <div key={key} className="text-sm">
+                    <span className="font-semibold text-green-700 dark:text-green-400">{key}</span>
+                    <span className="text-muted-foreground mx-1">:</span>
+                    <span className="text-foreground whitespace-pre-wrap">
+                      {typeof value === 'string' ? value : JSON.stringify(value, null, 2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

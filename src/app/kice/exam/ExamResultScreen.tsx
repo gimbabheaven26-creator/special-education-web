@@ -113,6 +113,7 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
   }, [results])
 
   const [previousHistory, setPreviousHistory] = useState<ExamHistoryEntry[]>([])
+  const [showWrongOnly, setShowWrongOnly] = useState(false)
 
   // Save result to history; load previous entries
   useEffect(() => {
@@ -264,8 +265,22 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
 
       {/* Per-question results */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold">문항별 결과</h2>
-        {results.map((r) => (
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">문항별 결과</h2>
+          <button
+            onClick={() => setShowWrongOnly(prev => !prev)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              showWrongOnly
+                ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80'
+            }`}
+            aria-pressed={showWrongOnly}
+          >
+            <XCircle className="h-3.5 w-3.5" />
+            오답만 보기
+          </button>
+        </div>
+        {results.filter(r => !showWrongOnly || (r.isAutoGradable && r.autoScore < r.maxScore) || (!r.isAutoGradable)).map((r) => (
           <Card key={r.question.number}>
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between flex-wrap gap-2">
@@ -372,6 +387,25 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
                       </div>
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* 오답 시 관련 개념 학습 링크 */}
+              {r.isAutoGradable && r.autoScore < r.maxScore && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {r.question.subjects
+                    .filter(s => SLUG_TO_CONCEPTS_FOLDER[s])
+                    .map(s => (
+                      <Link
+                        key={s}
+                        href={getConceptUrl(s)}
+                        className="inline-flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg px-2.5 py-1.5 hover:bg-emerald-100 dark:hover:bg-emerald-950/50 transition-colors"
+                        aria-label={`${SUBJECT_LABELS[s] ?? s} 개념 학습`}
+                      >
+                        <BookOpen className="h-3 w-3" />
+                        {SUBJECT_LABELS[s] ?? s} 복습
+                      </Link>
+                    ))}
                 </div>
               )}
             </CardContent>
