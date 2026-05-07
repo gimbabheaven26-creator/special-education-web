@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient, createServiceClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 
@@ -52,6 +53,7 @@ export async function GET(request: Request) {
     const { data, count, error } = await query;
 
     if (error) {
+      Sentry.captureException(error);
       return NextResponse.json(
         { error: '문제 목록을 불러오는 중 오류가 발생했습니다.' },
         { status: 500 },
@@ -65,7 +67,8 @@ export async function GET(request: Request) {
       page,
       totalPages: Math.ceil(total / limit),
     });
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },
@@ -153,6 +156,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
+      Sentry.captureException(error);
       return NextResponse.json(
         { error: '문제 생성 중 오류가 발생했습니다.', detail: error.message },
         { status: 500 },
@@ -163,7 +167,8 @@ export async function POST(request: Request) {
       { ...data, ...(duplicates.length > 0 ? { duplicateWarning: duplicates } : {}) },
       { status: 201 },
     );
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },
@@ -207,6 +212,7 @@ export async function PATCH(request: Request) {
       .single();
 
     if (error) {
+      Sentry.captureException(error);
       return NextResponse.json(
         { error: '상태 변경 중 오류가 발생했습니다.', detail: error.message },
         { status: 500 },
@@ -214,7 +220,8 @@ export async function PATCH(request: Request) {
     }
 
     return NextResponse.json(data);
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },

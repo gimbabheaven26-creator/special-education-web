@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { aiLimiter } from '@/lib/rate-limit';
 
@@ -62,6 +63,7 @@ export async function POST(request: Request) {
     const suggestion = result.response.text();
     return NextResponse.json({ suggestion, mock: false });
   } catch (err) {
+    Sentry.captureException(err);
     const suggestion = MOCK_SUGGESTIONS[Math.floor(Math.random() * MOCK_SUGGESTIONS.length)];
     return NextResponse.json({ suggestion, mock: true, error: err instanceof Error ? err.message : 'Gemini 오류' });
   }

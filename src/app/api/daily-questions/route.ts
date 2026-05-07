@@ -1,39 +1,46 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { seededSample } from '@/lib/quiz/seeded-sample';
 import { getKSTTimeslot } from '@/lib/timeslot';
 import { defaultLimiter, getIp } from '@/lib/rate-limit';
 
 export async function GET(req: NextRequest) {
-  if (!defaultLimiter(getIp(req)).allowed) {
-    return NextResponse.json({ error: 'too many requests' }, { status: 429 });
-  }
-  const supabase = await createClient();
+  try {
+    if (!defaultLimiter(getIp(req)).allowed) {
+      return NextResponse.json({ error: 'too many requests' }, { status: 429 });
+    }
+    const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from('quiz_questions')
-    .select('id, type, question, answer, chapter, subject, explanation')
-    .in('type', ['ox', 'fill_in', 'descriptive']);
+    const { data, error } = await supabase
+      .from('quiz_questions')
+      .select('id, type, question, answer, chapter, subject, explanation')
+      .in('type', ['ox', 'fill_in', 'descriptive']);
 
-  if (error || !data) {
+    if (error || !data) {
+      Sentry.captureException(error ?? new Error('daily-questions: no data'));
+      return NextResponse.json({ error: 'Failed to fetch questions' }, { status: 500 });
+    }
+
+    const { key } = getKSTTimeslot();
+    const seed = key.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const rows = data as {
+      id: string;
+      type: string;
+      question: string;
+      answer: string;
+      chapter: string;
+      subject: string;
+      explanation?: string;
+    }[];
+
+    const ox = seededSample(rows.filter((r) => r.type === 'ox'), 10, seed);
+    const fillIn = seededSample(rows.filter((r) => r.type === 'fill_in'), 5, seed + 1);
+    const descriptive = seededSample(rows.filter((r) => r.type === 'descriptive'), 3, seed + 2);
+
+    return NextResponse.json({ ox, fillIn, descriptive });
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json({ error: 'Failed to fetch questions' }, { status: 500 });
   }
-
-  const { key } = getKSTTimeslot();
-  const seed = key.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  const rows = data as {
-    id: string;
-    type: string;
-    question: string;
-    answer: string;
-    chapter: string;
-    subject: string;
-    explanation?: string;
-  }[];
-
-  const ox = seededSample(rows.filter((r) => r.type === 'ox'), 10, seed);
-  const fillIn = seededSample(rows.filter((r) => r.type === 'fill_in'), 5, seed + 1);
-  const descriptive = seededSample(rows.filter((r) => r.type === 'descriptive'), 3, seed + 2);
-
-  return NextResponse.json({ ox, fillIn, descriptive });
 }

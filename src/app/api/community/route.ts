@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { createCommunityQuestion } from '@/lib/db/community-db';
 import type { CreateQuestionInput } from '@/types/community';
@@ -67,6 +68,7 @@ export async function POST(request: Request) {
 
   const result = await createCommunityQuestion(questionInput, user.id, authorDisplayName);
   if (!result) {
+    Sentry.captureMessage('community: createCommunityQuestion returned null', 'error');
     return NextResponse.json({ error: '문제 저장 중 오류가 발생했습니다.' }, { status: 500 });
   }
   return NextResponse.json({ id: result.id }, { status: 201 });
