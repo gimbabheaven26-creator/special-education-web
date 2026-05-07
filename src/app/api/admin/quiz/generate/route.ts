@@ -1,9 +1,24 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 import { adminGenerateLimiter } from '@/lib/rate-limit';
 
 const ALLOWED_TYPES = ['multiple', 'ox', 'fill_in', 'descriptive', 'scenario_composite'] as const;
+
+const GenerateSchema = z.object({
+  mode: z.enum(['standard', 'isomorphic']).default('standard'),
+  type: z.enum(ALLOWED_TYPES, {
+    errorMap: () => ({ message: '유효하지 않은 문제 유형입니다.' }),
+  }),
+  subject: z.string().min(1, '과목을 선택해주세요.').max(100),
+  chapter: z.string().max(100).nullish(),
+  keyword: z.string().max(200).nullish(),
+  difficulty: z.number().min(1).max(3).default(2),
+  count: z.number().min(1).max(5).default(1),
+  source_kice_ref: z.string().nullish(),
+  source_question: z.unknown().nullish(),
+});
 
 const TYPE_LABELS: Record<string, string> = {
   multiple: '객관식 (4지선다)',
@@ -328,28 +343,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: '잘못된 요청 형식입니다.' }, { status: 400 });
     }
 
-    const input = body as Record<string, unknown>;
-    const mode = String(input.mode ?? 'standard');
-
-    if (mode === 'isomorphic') {
-      return handleIsomorphic(input);
+    const parsed = GenerateSchema.safeParse(body);
+    if (!parsed.success) {
+      const firstError = parsed.error.errors[0]?.message ?? '입력값이 올바르지 않습니다.';
+      return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    const type = String(input.type ?? '');
-    const subject = String(input.subject ?? '').slice(0, 100);
-    const chapter = input.chapter ? String(input.chapter).slice(0, 100) : null;
-    const keyword = input.keyword ? String(input.keyword).slice(0, 200) : null;
-    const difficulty = Math.min(3, Math.max(1, Number(input.difficulty) || 2));
-    const rawCount = Math.min(5, Math.max(1, Number(input.count) || 1));
-    const count = type === 'scenario_composite' ? 1 : rawCount;
+    const input = parsed.data;
 
-    if (!ALLOWED_TYPES.includes(type as typeof ALLOWED_TYPES[number])) {
-      return NextResponse.json({ error: '유효하지 않은 문제 유형입니다.' }, { status: 400 });
+    if (input.mode === 'isomorphic') {
+      return handleIsomorphic(body as Record<string, unknown>);
     }
 
-    if (!subject) {
-      return NextResponse.json({ error: '과목을 선택해주세요.' }, { status: 400 });
-    }
+    const { type, subject } = input;
+    const chapter = input.chapter ?? null;
+    const keyword = input.keyword ?? null;
+    const { difficulty } = input;
+    const count = type === 'scenario_composite' ? 1 : input.count;
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {

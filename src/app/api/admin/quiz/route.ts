@@ -1,7 +1,47 @@
 import { NextResponse } from 'next/server';
 import * as Sentry from '@sentry/nextjs';
+import { z } from 'zod';
 import { createClient, createServiceClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
+
+const SubQuestionSchema = z.object({
+  id: z.string(),
+  question: z.string(),
+  type: z.enum(['fill_in', 'descriptive']),
+  answer: z.string(),
+  explanation: z.string().optional(),
+});
+
+const PostSchema = z.object({
+  type: z.string().min(1, 'type은 필수입니다.'),
+  question: z.string().min(1, 'question은 필수입니다.'),
+  answer: z.string().min(1, 'answer는 필수입니다.'),
+  subject: z.string().min(1, 'subject는 필수입니다.'),
+  chapter: z.string().min(1, 'chapter는 필수입니다.'),
+  id: z.string().min(1).optional(),
+  explanation: z.string().nullish(),
+  difficulty: z.number().min(1).max(3).nullish(),
+  options: z.array(z.string()).nullish(),
+  case_context: z.string().nullish(),
+  caseContext: z.string().nullish(),
+  wrong_explanations: z.record(z.string()).nullish(),
+  wrongExplanations: z.record(z.string()).nullish(),
+  sub_questions: z.array(SubQuestionSchema).nullish(),
+  subQuestions: z.array(SubQuestionSchema).nullish(),
+  image_url: z.string().nullish(),
+  imageUrl: z.string().nullish(),
+  subjects: z.array(z.string()).nullish(),
+  ai_status: z.enum(['human', 'draft', 'approved', 'rejected']).default('human'),
+  ai_generated_at: z.string().nullish(),
+  source_kice_ref: z.string().nullish(),
+});
+
+const PatchSchema = z.object({
+  id: z.string().min(1, 'id는 필수입니다.'),
+  ai_status: z.enum(['approved', 'rejected'], {
+    errorMap: () => ({ message: 'ai_status는 approved 또는 rejected만 가능합니다.' }),
+  }),
+});
 
 export async function GET(request: Request) {
   try {
@@ -90,33 +130,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: '잘못된 요청 형식입니다.' }, { status: 400 });
     }
 
-    const input = body as Record<string, unknown>;
-
-    // 필수 필드 검증
-    const requiredFields = ['type', 'question', 'answer', 'subject', 'chapter'] as const;
-    for (const field of requiredFields) {
-      if (!input[field] || typeof input[field] !== 'string') {
-        return NextResponse.json(
-          { error: `${field} 필드는 필수입니다.` },
-          { status: 400 },
-        );
-      }
+    const parsed = PostSchema.safeParse(body);
+    if (!parsed.success) {
+      const firstError = parsed.error.errors[0]?.message ?? '입력값이 올바르지 않습니다.';
+      return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    // ID 생성: {subject}-{chapter}-{timestamp} 패턴
-    const id =
-      typeof input.id === 'string' && input.id
-        ? input.id
-        : `${input.subject}-${input.chapter}-${Date.now().toString(36)}`;
+    const input = parsed.data;
+    const id = input.id ?? `${input.subject}-${input.chapter}-${Date.now().toString(36)}`;
 
-    // ai_status 검증
-    const VALID_AI_STATUS = ['human', 'draft', 'approved', 'rejected'] as const;
-    const rawAiStatus = input.ai_status as string | undefined;
-    const aiStatus2 = rawAiStatus && VALID_AI_STATUS.includes(rawAiStatus as typeof VALID_AI_STATUS[number])
-      ? rawAiStatus
-      : 'human';
-
-    // camelCase → snake_case 변환
     const insertData: Record<string, unknown> = {
       id,
       type: input.type,
@@ -132,19 +154,18 @@ export async function POST(request: Request) {
       sub_questions: input.subQuestions ?? input.sub_questions ?? null,
       image_url: input.imageUrl ?? input.image_url ?? null,
       subjects: input.subjects ?? null,
-      ai_status: aiStatus2,
+      ai_status: input.ai_status,
       ai_generated_at: input.ai_generated_at ?? null,
       source_kice_ref: input.source_kice_ref ?? null,
     };
 
     const supabase = auth.isApiKey ? createServiceClient() : await createClient();
 
-    const questionText = String(input.question);
-    const searchPrefix = questionText.slice(0, 40);
+    const searchPrefix = input.question.slice(0, 40);
     const { data: similar } = await supabase
       .from('quiz_questions')
       .select('id, question')
-      .eq('subject', input.subject as string)
+      .eq('subject', input.subject)
       .ilike('question', `%${searchPrefix}%`)
       .limit(3);
     const duplicates = (similar ?? []).map(s => s.id);
@@ -190,18 +211,13 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: '잘못된 요청 형식입니다.' }, { status: 400 });
     }
 
-    const input = body as Record<string, unknown>;
-    const id = input.id;
-    const patchStatus = input.ai_status;
-
-    if (typeof id !== 'string' || !id) {
-      return NextResponse.json({ error: 'id 필드는 필수입니다.' }, { status: 400 });
+    const parsed = PatchSchema.safeParse(body);
+    if (!parsed.success) {
+      const firstError = parsed.error.errors[0]?.message ?? '입력값이 올바르지 않습니다.';
+      return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    const VALID_PATCH_STATUS = ['approved', 'rejected'] as const;
-    if (typeof patchStatus !== 'string' || !VALID_PATCH_STATUS.includes(patchStatus as typeof VALID_PATCH_STATUS[number])) {
-      return NextResponse.json({ error: 'ai_status는 approved 또는 rejected만 가능합니다.' }, { status: 400 });
-    }
+    const { id, ai_status: patchStatus } = parsed.data;
 
     const supabase = auth.isApiKey ? createServiceClient() : await createClient();
     const { data, error } = await supabase

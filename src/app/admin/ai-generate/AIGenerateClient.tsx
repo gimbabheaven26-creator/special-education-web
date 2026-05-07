@@ -39,6 +39,7 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
   const [keyword, setKeyword] = useState('');
   const [count, setCount] = useState(1);
   const [savedCount, setSavedCount] = useState(0);
+  const [subjectTouched, setSubjectTouched] = useState(false);
 
   const filteredChapters = useMemo(
     () => chapters.filter((c) => c.subject_slug === subject),
@@ -51,6 +52,7 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
   }
 
   async function handleGenerate() {
+    setSubjectTouched(true);
     if (!subject) return;
     const actualCount = type === 'scenario_composite' ? 1 : count;
     const input: GenerateInput = { subject, type, difficulty, count: actualCount };
@@ -61,7 +63,10 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
 
   async function handleSaveDraft(index: number) {
     const ok = await approve(index);
-    if (ok) setSavedCount((prev) => prev + 1);
+    if (ok) {
+      setSavedCount((prev) => prev + 1);
+      setTimeout(() => setSavedCount(0), 4000);
+    }
   }
 
   function handleEditAndSave(draft: QuizDraft) {
@@ -113,14 +118,19 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
               id="ai-subject"
               value={subject}
               onChange={(e) => handleSubjectChange(e.target.value)}
-              className="w-full border rounded-md px-3 py-2 text-sm"
+              className={`w-full border rounded-md px-3 py-2 text-sm ${subjectTouched && !subject ? 'border-red-400 ring-1 ring-red-400' : ''}`}
+              required
               aria-label="과목 선택"
+              aria-invalid={subjectTouched && !subject}
             >
               <option value="">선택하세요</option>
               {subjects.map((s) => (
                 <option key={s.slug} value={s.slug}>{s.title}</option>
               ))}
             </select>
+            {subjectTouched && !subject && (
+              <p className="text-xs text-red-500 mt-1">과목을 선택해주세요.</p>
+            )}
           </div>
 
           <div>
@@ -176,15 +186,19 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
             <label htmlFor="ai-count" className="block text-sm font-medium text-gray-700 mb-1">생성 수</label>
             <select
               id="ai-count"
-              value={count}
+              value={type === 'scenario_composite' ? 1 : count}
               onChange={(e) => setCount(Number(e.target.value))}
-              className="w-full border rounded-md px-3 py-2 text-sm"
+              className="w-full border rounded-md px-3 py-2 text-sm disabled:bg-gray-100 disabled:text-gray-400"
+              disabled={type === 'scenario_composite'}
               aria-label="생성 수량 선택"
             >
               {[1, 2, 3, 4, 5].map((n) => (
                 <option key={n} value={n}>{n}개</option>
               ))}
             </select>
+            {type === 'scenario_composite' && (
+              <p className="text-xs text-amber-600 mt-1">시나리오형은 1개씩 생성됩니다.</p>
+            )}
           </div>
         </div>
 
@@ -240,7 +254,7 @@ export default function AIGenerateClient({ subjects, chapters }: AIGenerateClien
 
           {drafts.map((draft, index) => (
             <DraftCard
-              key={`${draft.question_text.slice(0, 20)}-${index}`}
+              key={`draft-${index}`}
               draft={draft}
               index={index}
               approving={approvingIndex === index}
@@ -273,18 +287,27 @@ interface ReviewItem {
 
 function ReviewQueue() {
   const [items, setItems] = useState<ReviewItem[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [actionId, setActionId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  const showMessage = useCallback((msg: { type: 'success' | 'error'; text: string }) => {
+    setMessage(msg);
+    setTimeout(() => setMessage(null), 3500);
+  }, []);
+
   const fetchDrafts = useCallback(async () => {
     setLoading(true);
+    setFetchError(false);
     try {
-      const res = await fetch('/api/admin/quiz?ai_status=draft&limit=50');
-      const json = await res.json() as { data?: ReviewItem[] };
+      const res = await fetch('/api/admin/quiz?ai_status=draft&limit=100');
+      const json = await res.json() as { data?: ReviewItem[]; total?: number };
       setItems(json.data ?? []);
+      setTotal(json.total ?? json.data?.length ?? 0);
     } catch {
-      setMessage({ type: 'error', text: '검수 대기 목록을 불러오지 못했습니다.' });
+      setFetchError(true);
     } finally {
       setLoading(false);
     }
@@ -301,16 +324,17 @@ function ReviewQueue() {
         body: JSON.stringify({ id, ai_status: status }),
       });
       if (!res.ok) {
-        setMessage({ type: 'error', text: '상태 변경에 실패했습니다.' });
+        showMessage({ type: 'error', text: '상태 변경에 실패했습니다.' });
         return;
       }
       setItems((prev) => prev.filter((item) => item.id !== id));
-      setMessage({
+      setTotal((prev) => Math.max(0, prev - 1));
+      showMessage({
         type: 'success',
         text: status === 'approved' ? '승인 완료 — 학생에게 노출됩니다.' : '거절 완료 — 학생에게 노출되지 않습니다.',
       });
     } catch {
-      setMessage({ type: 'error', text: '네트워크 오류가 발생했습니다.' });
+      showMessage({ type: 'error', text: '네트워크 오류가 발생했습니다.' });
     } finally {
       setActionId(null);
     }
@@ -318,19 +342,50 @@ function ReviewQueue() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12 text-gray-400">
-        <Loader2 className="h-5 w-5 animate-spin mr-2" />
-        검수 대기 목록 로딩 중...
+      <div className="space-y-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-white border rounded-lg p-4 animate-pulse">
+            <div className="h-3 bg-gray-200 rounded w-1/4 mb-3" />
+            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+            <div className="h-3 bg-gray-100 rounded w-1/2" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (fetchError) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-12">
+        <AlertCircle className="h-8 w-8 text-red-400" />
+        <p className="text-sm text-gray-500">검수 대기 목록을 불러오지 못했습니다.</p>
+        <button
+          type="button"
+          onClick={fetchDrafts}
+          className="px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-300 rounded-md hover:bg-indigo-50"
+        >
+          다시 시도
+        </button>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-bold">검수 대기 ({items.length}개)</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-bold">검수 대기 ({total}개)</h2>
+        <button
+          type="button"
+          onClick={fetchDrafts}
+          className="text-xs text-gray-500 hover:text-indigo-600"
+          aria-label="목록 새로고침"
+        >
+          새로고침
+        </button>
+      </div>
 
       {message && (
-        <div className={`flex items-center gap-2 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-red-50 border border-red-200 text-red-700'}`}>
+        <div className={`flex items-center gap-2 p-3 rounded-lg text-sm transition-opacity ${message.type === 'success' ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-red-50 border border-red-200 text-red-700'}`}>
           {message.type === 'success' ? <CheckCircle className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
           {message.text}
         </div>
@@ -425,6 +480,8 @@ interface DraftCardProps {
 }
 
 function DraftCard({ draft, index, approving, onApprove, onEdit, onRemove }: DraftCardProps) {
+  const [showAnswer, setShowAnswer] = useState(false);
+
   return (
     <div className="bg-white border rounded-lg p-4 space-y-3">
       <div className="flex items-start justify-between gap-4">
@@ -446,7 +503,7 @@ function DraftCard({ draft, index, approving, onApprove, onEdit, onRemove }: Dra
           {draft.options.map((opt, i) => (
             <p
               key={`opt-${i}`}
-              className={`text-xs ${String(i + 1) === draft.correct_answer ? 'font-bold text-emerald-700' : 'text-gray-600'}`}
+              className={`text-xs ${showAnswer && String(i + 1) === draft.correct_answer ? 'font-bold text-emerald-700' : 'text-gray-600'}`}
             >
               {i + 1}. {opt}
             </p>
@@ -461,20 +518,30 @@ function DraftCard({ draft, index, approving, onApprove, onEdit, onRemove }: Dra
             <div key={sq.id} className="pl-3 border-l-2 border-indigo-200 space-y-0.5">
               <p className="text-xs font-medium">{sq.id}. {sq.question}</p>
               <p className="text-[10px] text-gray-400">유형: {sq.type === 'descriptive' ? '서술형' : '빈칸'}</p>
-              <p className="text-xs text-emerald-700">정답: {sq.answer}</p>
-              {sq.explanation && <p className="text-[10px] text-gray-500">{sq.explanation}</p>}
+              {showAnswer && <p className="text-xs text-emerald-700">정답: {sq.answer}</p>}
+              {showAnswer && sq.explanation && <p className="text-[10px] text-gray-500">{sq.explanation}</p>}
             </div>
           ))}
         </div>
       )}
 
-      <div className="bg-gray-50 rounded-md p-3 space-y-1">
-        <p className="text-xs">
-          <span className="font-medium text-gray-500">정답:</span>{' '}
-          <span className="font-bold text-emerald-700">{draft.correct_answer}</span>
-        </p>
-        <p className="text-xs text-gray-600">{draft.explanation}</p>
-      </div>
+      <button
+        type="button"
+        onClick={() => setShowAnswer(!showAnswer)}
+        className="text-xs font-medium text-indigo-600 hover:text-indigo-800"
+      >
+        {showAnswer ? '정답 숨기기 ▲' : '정답 보기 ▼'}
+      </button>
+
+      {showAnswer && (
+        <div className="bg-gray-50 rounded-md p-3 space-y-1">
+          <p className="text-xs">
+            <span className="font-medium text-gray-500">정답:</span>{' '}
+            <span className="font-bold text-emerald-700">{draft.correct_answer}</span>
+          </p>
+          <p className="text-xs text-gray-600">{draft.explanation}</p>
+        </div>
+      )}
 
       <div className="flex items-center gap-2 pt-1">
         <button

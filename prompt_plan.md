@@ -90,7 +90,7 @@ V(평가자)가 80% 이상 통과해야 PASS.
 - [x] `npm run build` exit 0
 - [x] `npm run lint` 경고 0건
 - [x] 947 테스트 통과
-- [ ] 새 API에 Zod 입력 검증
+- [x] 새 API에 Zod 입력 검증
 
 **총 16개 기준, 13개(80%) 이상 통과해야 PASS.**
 
