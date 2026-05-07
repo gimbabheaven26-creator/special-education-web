@@ -131,6 +131,7 @@ export async function POST(request: Request) {
       subjects: input.subjects ?? null,
       ai_status: aiStatus2,
       ai_generated_at: input.ai_generated_at ?? null,
+      source_kice_ref: input.source_kice_ref ?? null,
     };
 
     const supabase = auth.isApiKey ? createServiceClient() : await createClient();

@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import type { QuizQuestion, QuizType } from '@/types/quiz';
 
+const PUBLISHED_STATUS = ['human', 'approved'] as const;
+
 function mapQuizRow(row: Record<string, unknown>): QuizQuestion {
   return {
     id: row.id as string,
@@ -29,7 +31,7 @@ export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQues
     .from('quiz_questions')
     .select('*')
     .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`)
-    .in('ai_status', ['human', 'approved']);
+    .in('ai_status', PUBLISHED_STATUS);
 
   if (error || !data) return [];
 
@@ -43,7 +45,7 @@ export async function getQuizzesByIds(ids: string[]): Promise<QuizQuestion[]> {
     .from('quiz_questions')
     .select('*')
     .in('id', ids)
-    .in('ai_status', ['human', 'approved'])
+    .in('ai_status', PUBLISHED_STATUS)
     .limit(500);
   if (error || !data) return [];
   return data.map(mapQuizRow);
@@ -55,7 +57,7 @@ export async function getAllQuizzes(): Promise<QuizQuestion[]> {
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
-    .in('ai_status', ['human', 'approved'])
+    .in('ai_status', PUBLISHED_STATUS)
     .limit(10000);
 
   if (error || !data) return [];
@@ -68,7 +70,7 @@ export async function getQuizzesForSearch() {
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('question, explanation, subject, tags')
-    .in('ai_status', ['human', 'approved'])
+    .in('ai_status', PUBLISHED_STATUS)
     .limit(10000);
 
   if (error || !data) return [];
@@ -87,7 +89,7 @@ export async function getQuizzesByType(type: QuizType): Promise<QuizQuestion[]> 
     .from('quiz_questions')
     .select('*')
     .eq('type', type)
-    .in('ai_status', ['human', 'approved'])
+    .in('ai_status', PUBLISHED_STATUS)
     .limit(10000);
   if (error || !data) return [];
   return data.map(mapQuizRow);
@@ -100,7 +102,7 @@ export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: stri
     .select('*')
     .eq('subject', subjectSlug)
     .eq('chapter', chapterSlug)
-    .in('ai_status', ['human', 'approved']);
+    .in('ai_status', PUBLISHED_STATUS);
 
   if (error || !data) return [];
   return data.map(mapQuizRow);
@@ -113,7 +115,7 @@ export async function getQuizCount(): Promise<Record<string, number>> {
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('subject')
-    .in('ai_status', ['human', 'approved'])
+    .in('ai_status', PUBLISHED_STATUS)
     .limit(10000);
 
   if (error || !data) return {};
@@ -133,7 +135,7 @@ export async function searchQuizzes(query: string): Promise<QuizQuestion[]> {
     .from('quiz_questions')
     .select('*')
     .or(`question.ilike.%${sanitized}%,explanation.ilike.%${sanitized}%`)
-    .in('ai_status', ['human', 'approved'])
+    .in('ai_status', PUBLISHED_STATUS)
     .limit(200);
 
   if (error || !data) return [];

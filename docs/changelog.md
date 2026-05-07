@@ -24,6 +24,27 @@
 
 ---
 
+## [2026-05-07] X — M4 Phase 0+1 콘텐츠 파이프라인 실전 가동
+
+### 변경 내용
+- **PATCH /api/admin/quiz (6549126)**: AI 검수 파이프라인 draft→approved/rejected 상태 전환 + POST ai_status/ai_generated_at 필드 지원
+- **배치 생성 + 중복 검출 (283f536)**: batch-generate.mjs 신규, POST에 40자 프리픽스 중복 검출(duplicateWarning), Gemini 2.5 Flash + GEMINI_MODEL env
+- **ai_status 필터 (9fbb156, 9f012d1)**: quiz.ts 8개 쿼리 함수에 .in('ai_status', ['human','approved']) 필터 적용
+- **콘텐츠 갭 감사 (558ac0e)**: audit-content-gap.mjs 신규 + 2026-05-06 감사 결과
+- **검색 최적화 (c2c1ef0)**: getAllQuizzes→getQuizzesForSearch 전환 (필요 컬럼만 select)
+
+### 영향 범위
+- X(빌드): admin quiz API, quiz.ts 전체, 검색 페이지
+- X(데이터): quiz_questions에 ai_status/ai_generated_at 컬럼 추가 (마이그레이션 실행 완료)
+
+### 상태
+- [x] contract.md 업데이트 (v2.15)
+- [x] 카이란 승인
+- [x] 구현 완료
+- [x] 마이그레이션 실행 완료
+
+---
+
 ## [2026-04-09] X — M2 Phase 5-A AI-Human 문제 생성 파이프라인
 
 ### 변경 내용

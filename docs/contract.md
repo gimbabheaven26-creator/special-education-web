@@ -1,7 +1,8 @@
 # Interface Contract
 
 > X(실행)와 V(검증)의 인터페이스 계약서 (2026-03-27 이전: 강선생+클루디)
-> 최종 수정: 2026-04-15 | 버전: 2.15
+> 최종 수정: 2026-05-06 | 버전: 2.16
+> v2.16: quiz_questions에 source_kice_ref 컬럼 추가 — 동형 문제↔기출 원본 연결 (M4 Phase 3)
 > v2.15: quiz_questions에 ai_status, ai_generated_at 2컬럼 추가 — AI 검수 파이프라인 (Phase 5-B)
 > v2.14: wrong_note_stats 테이블 + profiles.show_in_ranking 컬럼 추가 (M2 Phase 3: 공감+랭킹)
 > v2.13: quiz_questions에 sub_questions, image_url, subjects 3컬럼 추가 + scenario_composite 타입 (REQ-007/008)
@@ -118,6 +119,7 @@ communication-disorder:
 | subjects | text[] | DEFAULT NULL | 복합영역 다중 태그 — 기존 subject는 주영역 유지 (v2.13 REQ-008) |
 | ai_status | text | DEFAULT `'human'` | `'human'` \| `'draft'` \| `'approved'` \| `'rejected'` — AI 검수 상태 (v2.15) |
 | ai_generated_at | timestamptz | DEFAULT NULL | AI 초안 생성 시각 (v2.15) |
+| source_kice_ref | text | DEFAULT NULL | 동형 문제 원본 기출 참조 `'{year}/{session}/{number}'` (v2.16 M4 Phase 3) |
 
 - RLS: 읽기 공개, 쓰기 제한
 - **ai_status CHECK**: `IN ('human', 'draft', 'approved', 'rejected')` — 기존 데이터는 `'human'`

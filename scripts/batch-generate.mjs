@@ -25,6 +25,7 @@ const args = parseArgs({
   config: { type: 'string', description: '배치 설정 JSON 파일 경로' },
   'dry-run': { type: 'boolean', default: false, description: '생성만 하고 저장 안 함' },
   'base-url': { type: 'string', default: 'http://localhost:3000', description: 'API base URL' },
+  'kice-ref': { type: 'string', description: '동형 모드: 기출 참조 (year/session/number)' },
 });
 
 function loadEnv() {
@@ -78,6 +79,7 @@ async function saveDraft(draft, params, onDuplicate) {
 
   if (draft.case_context) body.case_context = draft.case_context;
   if (draft.sub_questions) body.sub_questions = draft.sub_questions;
+  if (params.source_kice_ref) body.source_kice_ref = params.source_kice_ref;
 
   const res = await fetch(`${BASE_URL}/api/admin/quiz`, {
     method: 'POST',
@@ -146,6 +148,74 @@ async function runBatch(params) {
   return { generated, saved, mockCount };
 }
 
+async function runIsomorphic(kiceRef, count) {
+  const [year, session, numberStr] = kiceRef.split('/');
+  const number = parseInt(numberStr, 10);
+
+  const kicePath = resolve(process.cwd(), `data/kice-기출/${year}/${session}.json`);
+  let kiceData;
+  try {
+    kiceData = JSON.parse(readFileSync(kicePath, 'utf-8'));
+  } catch {
+    console.error(`  ❌ 기출 파일 없음: ${kicePath}`);
+    return { generated: 0, saved: 0, mockCount: 0 };
+  }
+
+  const sourceQ = kiceData.questions?.find(q => q.number === number);
+  if (!sourceQ) {
+    console.error(`  ❌ 문제 ${number}번 없음 (${kicePath})`);
+    return { generated: 0, saved: 0, mockCount: 0 };
+  }
+
+  console.log(`\n  동형 생성: ${kiceRef}`);
+  console.log(`  원본: ${sourceQ.context?.slice(0, 60)}...`);
+  console.log(`  과목: ${sourceQ.subjects?.join(', ')} | 유형: ${sourceQ.type} | ${sourceQ.points}점`);
+
+  let generated = 0;
+  let saved = 0;
+  let mockCount = 0;
+
+  try {
+    const result = await generateDrafts({
+      mode: 'isomorphic',
+      source_kice_ref: kiceRef,
+      source_question: sourceQ,
+      count,
+    });
+
+    if (result.mock) mockCount++;
+
+    for (const draft of result.drafts || []) {
+      generated++;
+      const tag = result.mock ? '[mock]' : '[AI]';
+      console.log(`  ${tag} ${generated}/${count}: ${draft.question_text.slice(0, 60)}...`);
+
+      if (!args.dryRun) {
+        try {
+          const saveParams = {
+            type: sourceQ.type === 'fill_in' ? 'fill_in' : 'descriptive',
+            subject: sourceQ.subjects?.[0] || 'introduction',
+            chapter: sourceQ.chapters?.[0] || sourceQ.subjects?.[0] || 'introduction',
+            difficulty: sourceQ.points <= 2 ? 2 : 3,
+            source_kice_ref: kiceRef,
+          };
+          const saved_quiz = await saveDraft(draft, saveParams, (dupes) => {
+            console.log(`    ⚠️  유사 문항 발견: ${dupes.join(', ')}`);
+          });
+          saved++;
+          console.log(`    → 저장: ${saved_quiz.id} (동형: ${kiceRef})`);
+        } catch (e) {
+          console.error(`    → 저장 실패: ${e.message}`);
+        }
+      }
+    }
+  } catch (e) {
+    console.error(`  ❌ 동형 생성 실패: ${e.message}`);
+  }
+
+  return { generated, saved, mockCount };
+}
+
 async function main() {
   console.log('='.repeat(60));
   console.log('  배치 문항 생성');
@@ -153,6 +223,14 @@ async function main() {
   console.log('='.repeat(60));
 
   let batches;
+
+  if (args.kiceRef) {
+    const result = await runIsomorphic(args.kiceRef, args.count);
+    console.log('\n' + '='.repeat(60));
+    console.log(`  결과: 생성 ${result.generated} | 저장 ${result.saved} | mock ${result.mockCount}회`);
+    console.log('='.repeat(60));
+    return;
+  }
 
   if (args.config) {
     const configPath = resolve(process.cwd(), args.config);
