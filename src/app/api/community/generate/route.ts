@@ -1,23 +1,9 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { communityGenerateLimiter } from '@/lib/rate-limit';
 
 const ALLOWED_TYPES = ['multiple', 'ox', 'fill_in', 'descriptive'] as const;
-
-// Simple in-memory rate limit (per user, 5/min)
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(userId);
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(userId, { count: 1, resetAt: now + 60_000 });
-    return true;
-  }
-  if (entry.count >= 5) return false;
-  rateLimitMap.set(userId, { ...entry, count: entry.count + 1 });
-  return true;
-}
 
 interface GenerateInput {
   subject_id: string;
@@ -112,7 +98,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
   }
 
-  if (!checkRateLimit(user.id)) {
+  if (!communityGenerateLimiter(user.id).allowed) {
     return NextResponse.json({ error: '잠시 후 다시 시도해주세요. (1분에 5회 제한)' }, { status: 429 });
   }
 

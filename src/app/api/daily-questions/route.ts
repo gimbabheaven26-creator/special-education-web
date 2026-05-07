@@ -1,9 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { seededSample } from '@/lib/quiz/seeded-sample';
 import { getKSTTimeslot } from '@/lib/timeslot';
+import { defaultLimiter, getIp } from '@/lib/rate-limit';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!defaultLimiter(getIp(req)).allowed) {
+    return NextResponse.json({ error: 'too many requests' }, { status: 429 });
+  }
   const supabase = await createClient();
 
   const { data, error } = await supabase

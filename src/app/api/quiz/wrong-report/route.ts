@@ -1,31 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
-
-// 인메모리 rate limiter (IP당 분당 30회 — 퀴즈 대량 풀이 대응)
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 30;
-const WINDOW_MS = 60_000;
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  if (rateLimitMap.size > 1000) {
-    rateLimitMap.forEach((v, k) => {
-      if (v.resetAt < now) rateLimitMap.delete(k);
-    });
-  }
-  const entry = rateLimitMap.get(ip);
-  if (!entry || entry.resetAt < now) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT) return false;
-  entry.count++;
-  return true;
-}
+import { wrongReportLimiter, getIp } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  if (!checkRateLimit(ip)) {
+  const ip = getIp(req);
+  if (!wrongReportLimiter(ip).allowed) {
     return NextResponse.json({ error: 'too many requests' }, { status: 429 });
   }
 

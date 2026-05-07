@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateRankingOptIn } from '@/lib/db/profile';
+import { mutationLimiter, getIp } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
+  if (!mutationLimiter(getIp(req)).allowed) {
+    return NextResponse.json({ error: 'too many requests' }, { status: 429 });
+  }
   try {
     const body = await req.json();
     const show = body?.show === true;

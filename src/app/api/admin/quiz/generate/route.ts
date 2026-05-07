@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
+import { adminGenerateLimiter } from '@/lib/rate-limit';
 
 const ALLOWED_TYPES = ['multiple', 'ox', 'fill_in', 'descriptive', 'scenario_composite'] as const;
 
@@ -13,21 +14,6 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 const DIFFICULTY_LABELS: Record<number, string> = { 1: '기초', 2: '중급 (임용시험 수준)', 3: '심화' };
-
-// In-memory rate limit (admin-only, 10/min)
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(userId);
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(userId, { count: 1, resetAt: now + 60_000 });
-    return true;
-  }
-  if (entry.count >= 10) return false;
-  rateLimitMap.set(userId, { ...entry, count: entry.count + 1 });
-  return true;
-}
 
 interface SubQuestionDraft {
   id: string;
@@ -44,6 +30,71 @@ interface QuizDraft {
   explanation: string;
   case_context?: string;
   sub_questions?: SubQuestionDraft[];
+}
+
+interface KiceSourceQuestion {
+  number: number;
+  points: number;
+  type: string;
+  subjects: string[];
+  chapters: string[];
+  keywords: string[];
+  context: string;
+  answer?: unknown;
+  dialogue?: unknown[];
+  blanks?: unknown;
+  sub_items?: unknown[];
+}
+
+function buildIsomorphicPrompt(source: KiceSourceQuestion, quizType: string): string {
+  const subjectList = source.subjects.join(', ');
+  const chapterList = source.chapters.join(', ');
+  const keywordList = source.keywords.join(', ');
+  const sourceContext = source.context.slice(0, 500);
+  const sourceAnswer = typeof source.answer === 'string'
+    ? source.answer
+    : JSON.stringify(source.answer);
+
+  const typeInstruction = quizType === 'multiple'
+    ? `- "options": 정확히 4개의 선택지 배열 (정답 포함)\n- "correct_answer": "1", "2", "3", "4" 중 정답 번호`
+    : quizType === 'ox'
+      ? '- "correct_answer": "O" 또는 "X"'
+      : quizType === 'fill_in'
+        ? '- "correct_answer": 빈칸에 들어갈 핵심 용어'
+        : '- "correct_answer": 완전한 서술형 정답';
+
+  return `당신은 특수교육학 임용시험 문제 출제 전문가입니다.
+아래 기출문제의 **동형 문제**를 생성하세요.
+
+## 동형 문제란?
+"같은 개념, 다른 각도, 같은 난이도"의 변형 문제입니다.
+- 같은 과목·챕터·법령/이론 영역을 다룹니다
+- 다른 시나리오·상황·구체적 용어를 사용합니다
+- 원본과 동일한 난이도를 유지합니다
+- 수험생이 같은 개념을 다양한 맥락에서 연습할 수 있게 합니다
+
+## 원본 기출문제 정보
+- 과목: ${subjectList}
+- 챕터: ${chapterList}
+- 키워드: ${keywordList}
+- 유형: ${source.type} (${source.points}점)
+- 지문: ${sourceContext}
+- 정답: ${sourceAnswer}
+
+## 변환 규칙
+1. 같은 법령·이론 체계 내에서 **다른 조문·개념**을 묻습니다
+2. 시나리오(학교/교실 상황)를 **완전히 새로** 구성합니다
+3. 정답이 되는 핵심 용어를 원본과 **다르게** 설정합니다
+4. 실제 법령, 이론, 학자명을 정확히 인용하세요
+5. 난이도를 원본과 동일하게 유지하세요
+
+## 출력 형식
+JSON 형식으로만 응답하세요 (마크다운 코드블록 없이):
+{
+  "question_text": "문제 본문",
+${typeInstruction},
+  "explanation": "2~3문장 해설 (관련 법령이나 이론 근거 포함)"
+}`;
 }
 
 function buildScenarioPrompt(
@@ -197,6 +248,68 @@ const MOCK_DRAFTS: Record<string, QuizDraft> = {
   },
 };
 
+const KICE_TO_QUIZ_TYPE: Record<string, string> = {
+  fill_in: 'fill_in',
+  descriptive: 'descriptive',
+  multiple: 'multiple',
+};
+
+function mapKiceToQuizType(kiceType: string, hasSubQuestions: boolean): string {
+  if (hasSubQuestions) return 'scenario_composite';
+  return KICE_TO_QUIZ_TYPE[kiceType] ?? 'descriptive';
+}
+
+async function handleIsomorphic(input: Record<string, unknown>) {
+  const sourceRef = String(input.source_kice_ref ?? '');
+  const sourceQuestion = input.source_question as KiceSourceQuestion | undefined;
+
+  if (!sourceRef || !sourceQuestion) {
+    return NextResponse.json(
+      { error: 'source_kice_ref와 source_question은 필수입니다.' },
+      { status: 400 },
+    );
+  }
+
+  const refPattern = /^\d{4}\/.+\/\d+$/;
+  if (!refPattern.test(sourceRef)) {
+    return NextResponse.json(
+      { error: 'source_kice_ref 형식: {year}/{session}/{number}' },
+      { status: 400 },
+    );
+  }
+
+  const hasSubQ = Array.isArray(sourceQuestion.sub_items) && sourceQuestion.sub_items.length > 0;
+  const quizType = String(input.type ?? mapKiceToQuizType(sourceQuestion.type, hasSubQ));
+  const count = Math.min(3, Math.max(1, Number(input.count) || 1));
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    const mock = MOCK_DRAFTS[quizType] ?? MOCK_DRAFTS.fill_in;
+    const drafts = Array.from({ length: count }, () => ({ ...mock }));
+    return NextResponse.json({ drafts, source_kice_ref: sourceRef, mock: true });
+  }
+
+  try {
+    const prompt = buildIsomorphicPrompt(sourceQuestion, quizType);
+    const allDrafts: QuizDraft[] = [];
+    for (let i = 0; i < count; i++) {
+      const drafts = await callGemini(apiKey, prompt);
+      allDrafts.push(...drafts.slice(0, 1));
+      if (i < count - 1) await new Promise(r => setTimeout(r, 500));
+    }
+    return NextResponse.json({ drafts: allDrafts, source_kice_ref: sourceRef, mock: false });
+  } catch (err) {
+    const mock = MOCK_DRAFTS[quizType] ?? MOCK_DRAFTS.fill_in;
+    const drafts = Array.from({ length: count }, () => ({ ...mock }));
+    return NextResponse.json({
+      drafts,
+      source_kice_ref: sourceRef,
+      mock: true,
+      error: err instanceof Error ? err.message : 'AI 생성 오류',
+    });
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const auth = await verifyAdminOrApiKey(request);
@@ -204,7 +317,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: '관리자 권한이 필요합니다.' }, { status: 401 });
     }
 
-    if (!checkRateLimit(auth.userId ?? 'unknown')) {
+    if (!adminGenerateLimiter(auth.userId ?? 'unknown').allowed) {
       return NextResponse.json({ error: '잠시 후 다시 시도해주세요. (1분에 10회 제한)' }, { status: 429 });
     }
 
@@ -216,6 +329,12 @@ export async function POST(request: Request) {
     }
 
     const input = body as Record<string, unknown>;
+    const mode = String(input.mode ?? 'standard');
+
+    if (mode === 'isomorphic') {
+      return handleIsomorphic(input);
+    }
+
     const type = String(input.type ?? '');
     const subject = String(input.subject ?? '').slice(0, 100);
     const chapter = input.chapter ? String(input.chapter).slice(0, 100) : null;

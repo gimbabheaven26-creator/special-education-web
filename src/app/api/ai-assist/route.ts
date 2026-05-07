@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { aiLimiter } from '@/lib/rate-limit';
 
 const MAX_FIELD_LENGTH = 2_000;
 
@@ -16,6 +17,10 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  if (!aiLimiter(user.id).allowed) {
+    return NextResponse.json({ error: '잠시 후 다시 시도해주세요.' }, { status: 429 });
+  }
 
   let body: unknown;
   try {

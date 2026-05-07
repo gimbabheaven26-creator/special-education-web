@@ -1,41 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { feedbackLimiter, getIp } from '@/lib/rate-limit';
 
 const MAX_MSG = 500;
 const MIN_MSG = 5;
 const VALID_TYPES = ['bug', 'suggestion', 'compliment'] as const;
 type FeedbackType = (typeof VALID_TYPES)[number];
 
-// 인메모리 rate limiter (IP당 분당 3회)
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 3;
-const WINDOW_MS = 60_000;
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-
-  // 만료 엔트리 정리 (Map 크기 1000 초과 시)
-  if (rateLimitMap.size > 1000) {
-    rateLimitMap.forEach((v, k) => {
-      if (v.resetAt < now) rateLimitMap.delete(k);
-    });
-  }
-
-  const entry = rateLimitMap.get(ip);
-  if (!entry || entry.resetAt < now) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT) return false;
-  entry.count++;
-  return true;
-}
-
-// Discord @everyone/@here 인젝션 방지
-const sanitize = (s: string) => s.replace(/@(everyone|here)/gi, '@\u200B$1');
+const sanitize = (s: string) => s.replace(/@(everyone|here)/gi, '@​$1');
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  if (!checkRateLimit(ip)) {
+  const ip = getIp(req);
+  if (!feedbackLimiter(ip).allowed) {
     return NextResponse.json({ error: 'too many requests' }, { status: 429 });
   }
 
