@@ -7,6 +7,7 @@ export {
   getQuizzesBySubject,
   getQuizzesByIds,
   getAllQuizzes,
+  getQuizzesForSearch,
   getQuizzesByType,
   getQuizzesByChapter,
   getQuizCount,

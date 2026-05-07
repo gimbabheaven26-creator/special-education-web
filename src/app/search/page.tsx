@@ -1,23 +1,16 @@
 export const dynamic = 'force-dynamic';
 
-import { getSubjects, getAllQuizzes } from '@/lib/db';
+import { getSubjects, getQuizzesForSearch } from '@/lib/db';
 import { loadTerms } from '@/lib/content/term-utils';
 import { getAvailableExams, getExam } from '@/lib/kice';
 import SearchClient from './SearchClient';
-import type { QuizSearchItem, TermSearchItem, KiceSearchItem } from './SearchClient';
+import type { TermSearchItem, KiceSearchItem } from './SearchClient';
 
 export default async function SearchPage() {
-  const [subjects, quizzes] = await Promise.all([
+  const [subjects, quizItems] = await Promise.all([
     getSubjects(),
-    getAllQuizzes(),
+    getQuizzesForSearch(),
   ]);
-
-  const quizItems: QuizSearchItem[] = quizzes.map((q) => ({
-    question: q.question,
-    explanation: q.explanation.slice(0, 120),
-    subject: q.subject,
-    disability: q.tags?.disability,
-  }));
 
   const terms = loadTerms();
   const termItems: TermSearchItem[] = terms.map((t) => ({
