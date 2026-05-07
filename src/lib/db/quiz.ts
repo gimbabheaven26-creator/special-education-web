@@ -28,7 +28,8 @@ export async function getQuizzesBySubject(subjectSlug: string): Promise<QuizQues
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
-    .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`);
+    .or(`subject.eq.${subjectSlug},subjects.cs.{"${subjectSlug}"}`)
+    .in('ai_status', ['human', 'approved']);
 
   if (error || !data) return [];
 
@@ -42,6 +43,7 @@ export async function getQuizzesByIds(ids: string[]): Promise<QuizQuestion[]> {
     .from('quiz_questions')
     .select('*')
     .in('id', ids)
+    .in('ai_status', ['human', 'approved'])
     .limit(500);
   if (error || !data) return [];
   return data.map(mapQuizRow);
@@ -53,6 +55,7 @@ export async function getAllQuizzes(): Promise<QuizQuestion[]> {
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('*')
+    .in('ai_status', ['human', 'approved'])
     .limit(10000);
 
   if (error || !data) return [];
@@ -84,6 +87,7 @@ export async function getQuizzesByType(type: QuizType): Promise<QuizQuestion[]> 
     .from('quiz_questions')
     .select('*')
     .eq('type', type)
+    .in('ai_status', ['human', 'approved'])
     .limit(10000);
   if (error || !data) return [];
   return data.map(mapQuizRow);
@@ -95,7 +99,8 @@ export async function getQuizzesByChapter(subjectSlug: string, chapterSlug: stri
     .from('quiz_questions')
     .select('*')
     .eq('subject', subjectSlug)
-    .eq('chapter', chapterSlug);
+    .eq('chapter', chapterSlug)
+    .in('ai_status', ['human', 'approved']);
 
   if (error || !data) return [];
   return data.map(mapQuizRow);
@@ -108,6 +113,7 @@ export async function getQuizCount(): Promise<Record<string, number>> {
   const { data, error } = await supabase
     .from('quiz_questions')
     .select('subject')
+    .in('ai_status', ['human', 'approved'])
     .limit(10000);
 
   if (error || !data) return {};
