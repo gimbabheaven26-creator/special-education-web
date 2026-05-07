@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { getSubjects, getQuizzesForSearch } from '@/lib/db';
+import { getCachedSubjects, getCachedQuizzesForSearch } from '@/lib/db';
 import { loadTerms } from '@/lib/content/term-utils';
 import { getAvailableExams, getExam } from '@/lib/kice';
 import SearchClient from './SearchClient';
@@ -8,8 +8,8 @@ import type { TermSearchItem, KiceSearchItem } from './SearchClient';
 
 export default async function SearchPage() {
   const [subjects, quizItems] = await Promise.all([
-    getSubjects(),
-    getQuizzesForSearch(),
+    getCachedSubjects(),
+    getCachedQuizzesForSearch(),
   ]);
 
   const terms = loadTerms();

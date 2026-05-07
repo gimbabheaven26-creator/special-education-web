@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import type { Metadata } from 'next';
-import { getSubjects } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import LearningDashboard from './LearningDashboard';
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MasteryPage() {
-  const subjects = await getSubjects();
+  const subjects = await getCachedSubjects();
 
   const subjectTitleMap: Record<string, string> = {};
   const chapterTitleMap: Record<string, string> = {};

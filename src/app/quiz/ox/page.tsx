@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 import nextDynamic from 'next/dynamic';
-import { getQuizzesByType, getSubjects } from '@/lib/db';
+import { getCachedQuizzesByType, getCachedSubjects } from '@/lib/db';
 
 export const metadata: Metadata = {
   title: 'OX 진단',
@@ -24,8 +24,8 @@ const QuizClient = nextDynamic(
 
 export default async function OxQuizPage() {
   const [questions, subjects] = await Promise.all([
-    getQuizzesByType('ox'),
-    getSubjects(),
+    getCachedQuizzesByType('ox'),
+    getCachedSubjects(),
   ]);
 
   const chapterMap: Record<string, string> = {};

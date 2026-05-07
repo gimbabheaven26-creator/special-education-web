@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic';
 
-import { getSubjects } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import FlashcardsClient from './FlashcardsClient';
 
 export default async function FlashcardsPage() {
-  const subjects = await getSubjects();
+  const subjects = await getCachedSubjects();
 
   return <FlashcardsClient subjects={subjects} />;
 }

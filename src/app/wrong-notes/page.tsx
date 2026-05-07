@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import type { Metadata } from 'next';
-import { getSubjects, getAllQuizzes } from '@/lib/db';
+import { getCachedSubjects, getCachedAllQuizzes } from '@/lib/db';
 import { createClient } from '@/lib/supabase/server';
 import WrongNotesClient from './WrongNotesClient';
 
@@ -31,8 +31,8 @@ async function getWrongNoteCounts(): Promise<Record<string, number>> {
 
 export default async function WrongNotesPage() {
   const [subjects, quizzes, wrongCounts] = await Promise.all([
-    getSubjects(),
-    getAllQuizzes(),
+    getCachedSubjects(),
+    getCachedAllQuizzes(),
     getWrongNoteCounts(),
   ]);
 

@@ -67,3 +67,15 @@ export {
 
 // Admin auth
 export { verifyAdmin, verifyAdminOrApiKey } from './admin-auth';
+
+// Cached DB queries (unstable_cache — ISR at query level)
+export {
+  getCachedSubjects,
+  getCachedSubjectBySlug,
+  getCachedQuizzesBySubject,
+  getCachedQuizzesByType,
+  getCachedAllQuizzes,
+  getCachedQuizzesForSearch,
+  getCachedAllWorksheetTopics,
+  getCachedWorksheetQuestionCounts,
+} from './cache';

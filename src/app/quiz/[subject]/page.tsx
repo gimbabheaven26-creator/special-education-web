@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import nextDynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
-import { getSubjectBySlug, getQuizzesBySubject } from '@/lib/db';
+import { getCachedSubjectBySlug, getCachedQuizzesBySubject } from '@/lib/db';
 
 const QuizClient = nextDynamic(
   () => import('./QuizClient').then((mod) => ({ default: mod.QuizClient })),
@@ -24,8 +24,8 @@ export default async function SubjectQuizPage({
 }) {
   const { subject: subjectSlug } = params;
   const [subject, questions] = await Promise.all([
-    getSubjectBySlug(subjectSlug),
-    getQuizzesBySubject(subjectSlug),
+    getCachedSubjectBySlug(subjectSlug),
+    getCachedQuizzesBySubject(subjectSlug),
   ]);
 
   if (!subject) {

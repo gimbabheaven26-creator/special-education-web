@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: '커뮤니티 문제',
   description: '수험생이 직접 출제한 문제를 풀고 공유하세요.',
 };
-import { getSubjects } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import CommunityClient from './CommunityClient';
 import { TodayChallenge } from './TodayChallenge';
 import { WeeklyRanking } from './WeeklyRanking';
@@ -17,7 +17,7 @@ import { WeeklyRanking } from './WeeklyRanking';
 export default async function CommunityPage() {
   const [questions, subjects] = await Promise.all([
     getCommunityQuestions({ sort: 'latest' }),
-    getSubjects(),
+    getCachedSubjects(),
   ]);
 
   const dateStr = getKSTDate();

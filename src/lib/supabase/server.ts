@@ -27,6 +27,18 @@ export async function createClient() {
   });
 }
 
+/** Anon 클라이언트 — cookies 미사용. unstable_cache 콜백 내부에서 안전하게 사용. */
+export function createAnonClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    throw new Error('Missing Supabase environment variables');
+  }
+  return createJsClient(url, key, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}
+
 /** Service Role 클라이언트 — RLS 우회. admin API route 전용. */
 export function createServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

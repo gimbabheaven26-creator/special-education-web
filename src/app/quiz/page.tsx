@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import type { Metadata } from 'next';
-import { getSubjects } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import QuizSubjectGrid from './QuizSubjectGrid';
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function QuizPage() {
-  const subjects = await getSubjects();
+  const subjects = await getCachedSubjects();
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">

@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 import nextDynamic from 'next/dynamic';
-import { getQuizzesByType, getSubjects } from '@/lib/db';
+import { getCachedQuizzesByType, getCachedSubjects } from '@/lib/db';
 
 export const metadata: Metadata = {
   title: '단답형 진단',
@@ -24,8 +24,8 @@ const QuizClient = nextDynamic(
 
 export default async function ShortQuizPage() {
   const [questions, subjects] = await Promise.all([
-    getQuizzesByType('fill_in'),
-    getSubjects(),
+    getCachedQuizzesByType('fill_in'),
+    getCachedSubjects(),
   ]);
 
   const chapterMap: Record<string, string> = {};

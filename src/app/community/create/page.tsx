@@ -1,8 +1,8 @@
-import { getSubjects } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import CreateClient from './CreateClient';
 
 export default async function CreatePage() {
-  const subjects = await getSubjects();
+  const subjects = await getCachedSubjects();
   return (
     <CreateClient
       subjects={subjects.map((s) => ({

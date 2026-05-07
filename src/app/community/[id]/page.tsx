@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getCommunityQuestionById, getUserVoteForQuestion } from '@/lib/db/community-db';
-import { getSubjects } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import QuestionDetailClient from './QuestionDetailClient';
 import type { CommunityQuestionDetail } from '@/types/community';
 
@@ -13,7 +13,7 @@ export default async function CommunityDetailPage({ params }: Props) {
   const { id } = await params;
   const [question, subjects] = await Promise.all([
     getCommunityQuestionById(id),
-    getSubjects(),
+    getCachedSubjects(),
   ]);
   if (!question) notFound();
 

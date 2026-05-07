@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { FileText, PenLine } from 'lucide-react';
-import { getSubjects, getAllWorksheetTopics, getWorksheetQuestionCounts } from '@/lib/db';
+import { getCachedSubjects, getCachedAllWorksheetTopics, getCachedWorksheetQuestionCounts } from '@/lib/db';
 import { EmptyState } from '@/components/ui/EmptyState';
 
 export const metadata = {
@@ -12,9 +12,9 @@ export const metadata = {
 
 export default async function WorksheetsPage() {
   const [subjects, topics, questionCounts] = await Promise.all([
-    getSubjects(),
-    getAllWorksheetTopics(),
-    getWorksheetQuestionCounts(),
+    getCachedSubjects(),
+    getCachedAllWorksheetTopics(),
+    getCachedWorksheetQuestionCounts(),
   ]);
 
   const topicsBySubject = subjects
