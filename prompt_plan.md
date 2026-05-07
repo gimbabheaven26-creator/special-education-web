@@ -40,9 +40,9 @@
 
 **목표**: "같은 개념, 다른 각도, 같은 난이도"의 동형 문제를 기출 원본에서 파생한다.
 
-- [ ] 3-1. 동형 변환 프롬프트 설계 — 기출 원본의 핵심 개념 추출 → 변형 규칙 정의
-- [ ] 3-2. 기출↔동형 연결 스키마 — quiz_questions에 source_kice_ref 컬럼 (contract.md 변경 필요)
-- [ ] 3-3. 동형 생성+검수 워크플로 — AI 파이프라인에 "기출 동형" 생성 모드 추가
+- [x] 3-1. 동형 변환 프롬프트 설계 — buildIsomorphicPrompt: 원본 과목/챕터/키워드 기반 5규칙 변환 (020513c)
+- [x] 3-2. 기출↔동형 연결 스키마 — source_kice_ref text 컬럼 + partial index (contract.md v2.16, 마이그레이션 카이란 실행 필요)
+- [x] 3-3. 동형 생성+검수 워크플로 — generate route mode='isomorphic' + batch-generate --kice-ref (020513c)
 - [ ] 3-4. UI 연결 — 기출 문제 상세에서 "이 문제의 동형 문제 N개" 링크
 
 ## 실행 순서
