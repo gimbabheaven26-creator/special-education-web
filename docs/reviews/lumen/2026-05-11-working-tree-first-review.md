@@ -10,7 +10,7 @@ Codex adversarial review 첫 실행. working tree diff + untracked files 대상.
 
 | # | 심각도 | 문제 | 위치 | X 대응 |
 |---|--------|------|------|--------|
-| 1 | HIGH | quick-commit 스킬이 빌드 검증 없이 `git add -A` + commit + push | `.agents/skills/source-command-quick-commit/` | OPEN |
+| 1 | HIGH | quick-commit 스킬이 빌드 검증 없이 `git add -A` + commit + push | `.agents/skills/source-command-quick-commit/` | FIXED — 루멘 rescue 패치 적용 (f76d969 이후) |
 | 2 | HIGH | checkpoint 스킬이 `.Codex/checkpoints/`에 저장하는데 `.gitignore` 누락 → 시크릿 포함 가능 | `.agents/skills/source-command-checkpoint/` | FIXED — `.gitignore`에 추가 |
 | 3 | MEDIUM | `.codex/config.toml`의 Playwright MCP가 `@latest` 미핀 → 공급망 리스크 | `.codex/config.toml` | OPEN |
 
