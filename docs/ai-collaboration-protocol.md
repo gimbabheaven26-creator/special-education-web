@@ -278,7 +278,7 @@ X → /codex:adversarial-review --wait → 루멘이 git diff 읽고 리뷰 → 
 
 ## Handoff 템플릿
 
-### 구현 완료 후
+### 루멘 리뷰 요청 파일
 
 ```md
 ## YYYY-MM-DD X -> 루멘
@@ -289,7 +289,7 @@ X → /codex:adversarial-review --wait → 루멘이 git diff 읽고 리뷰 → 
 - 요청:
 ```
 
-### 리뷰 완료 후
+### 루멘 리뷰 결과 파일
 
 ```md
 ## YYYY-MM-DD 루멘 -> X
@@ -300,10 +300,10 @@ X → /codex:adversarial-review --wait → 루멘이 git diff 읽고 리뷰 → 
 - 다음 액션:
 ```
 
-### 세션 종료 전
+### 지니 운영 채널 메시지
 
 ```md
-## YYYY-MM-DD 주체 -> 다음 주체
+## YYYY-MM-DD X/루멘 -> 지니
 - 현재 상태:
 - 남은 작업:
 - 건드리면 안 되는 파일:

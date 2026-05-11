@@ -1,4 +1,4 @@
-# 특수교육 웹 — Claude 작업 가이드
+# 특수교육 웹 — Codex 작업 가이드
 
 ## 프로젝트
 
@@ -37,7 +37,7 @@ X, 루멘(Codex), 지니(OpenClaw), V의 역할과 대화 규칙은 `docs/ai-col
 | **지니** | OpenClaw | 실시간 운영 채널: Discord, 원격 상태 확인, `channel.md` 관리 |
 | **V** | Claude 기반 검증 | contract.md 준수, 보안 감사, 데이터 정합성, 구현 규칙 검증 |
 
-`CLAUDE.md`는 Claude Code 지시서 파일명으로 고정한다. X↔루멘 리뷰 기록은 `docs/reviews/lumen/`, V 리뷰 기록은 `docs/v-reviews/`, 지니 운영 메시지는 `~/.openclaw/workspace/channel.md`를 사용한다.
+`AGENTS.md`는 Codex 지시서 파일명으로 고정한다. X↔루멘 리뷰 기록은 `docs/reviews/lumen/`, V 리뷰 기록은 `docs/v-reviews/`, 지니 운영 메시지는 `~/.openclaw/workspace/channel.md`를 사용한다.
 
 ---
 
@@ -49,12 +49,12 @@ X, 루멘(Codex), 지니(OpenClaw), V의 역할과 대화 규칙은 `docs/ai-col
 | **V** | 검증: 코드 리뷰, 보안 감사, 데이터 정합성 | 독립 검증 전담 |
 
 **자동화 도구**:
-- **Playwright MCP**: 프로젝트 설정에 등록됨 (`~/.claude.json`). V가 접근성 트리 기반 E2E 동적 검증에 사용.
-- **v-auto-verify.sh**: `feat:` 커밋 감지 시 lint+typecheck 자동 실행 + V 심층 검증 추천 (`~/.claude/hooks/`)
+- **Playwright MCP**: Codex 설정에 등록됨 (`.codex/config.toml`, `~/.codex/config.toml`). 루멘이 접근성 트리 기반 E2E 동적 검증에 사용.
+- **v-auto-verify.sh**: `feat:` 커밋 감지 시 lint+typecheck 자동 실행 + V 심층 검증 추천 (`~/.codex/hooks/`)
 - **Completion Contract**: `/plan` 실행 시 완료 기준 체크리스트 필수 작성. V가 80%+ 통과 여부로 판정.
 - **X↔지니 채널**: `~/.openclaw/workspace/channel.md` — 세션 시작 시 읽고, 지니 메시지가 있으면 우선 확인. 세션 종료/주요 작업 완료 시 지니에게 메시지 남기기.
 - **E2E CI**: `.github/workflows/e2e.yml` — main push/PR 시 Playwright E2E 자동 실행. 결과는 GitHub Actions > playwright-report artifact에서 확인. `NEXT_PUBLIC_SUPABASE_ANON_KEY` secret 필요.
-- **Keybindings**: `~/.claude/keybindings.json` — Enter=줄바꿈, Cmd+Enter=제출, Ctrl+K 접두사 15개 코드. 상세: `memory/feedback_keybindings.md`
+- **Keybindings**: Claude Code 전용 설정은 `~/.claude/keybindings.json`. Codex에는 현재 별도 keybindings 파일 없음.
 
 **`docs/contract.md`가 유일한 진실의 원천**.
 스키마/API 변경 → contract.md 먼저 수정 → 카이란 승인 → 구현.
@@ -204,7 +204,7 @@ M1~M3 완료. M2 Phase 5-B(AI 검수 파이프라인) 백로그 청산 완료. M
 
 ## 노션 기록 (커밋 시 자동)
 
-커밋 전 `~/.claude/notion-pending.json` 작성:
+커밋 전 현재 훅 기준 `~/.claude/notion-pending.json` 작성:
 ```json
 {
   "destination": "sprint",
