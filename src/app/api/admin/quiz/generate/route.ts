@@ -6,8 +6,8 @@ import { adminGenerateLimiter } from '@/lib/rate-limit';
 
 const ALLOWED_TYPES = ['multiple', 'ox', 'fill_in', 'descriptive', 'scenario_composite'] as const;
 
-const GenerateSchema = z.object({
-  mode: z.enum(['standard', 'isomorphic']).default('standard'),
+const StandardGenerateSchema = z.object({
+  mode: z.literal('standard').default('standard'),
   type: z.enum(ALLOWED_TYPES, {
     errorMap: () => ({ message: '유효하지 않은 문제 유형입니다.' }),
   }),
@@ -16,9 +16,17 @@ const GenerateSchema = z.object({
   keyword: z.string().max(200).nullish(),
   difficulty: z.number().min(1).max(3).default(2),
   count: z.number().min(1).max(5).default(1),
+});
+
+const IsomorphicGenerateSchema = z.object({
+  mode: z.literal('isomorphic'),
+  type: z.enum(ALLOWED_TYPES).nullish(),
+  count: z.number().min(1).max(5).default(1),
   source_kice_ref: z.string().nullish(),
   source_question: z.unknown().nullish(),
 });
+
+const GenerateSchema = z.union([IsomorphicGenerateSchema, StandardGenerateSchema]);
 
 const TYPE_LABELS: Record<string, string> = {
   multiple: '객관식 (4지선다)',
@@ -352,7 +360,7 @@ export async function POST(request: Request) {
     const input = parsed.data;
 
     if (input.mode === 'isomorphic') {
-      return handleIsomorphic(body as Record<string, unknown>);
+      return handleIsomorphic(input as Record<string, unknown>);
     }
 
     const { type, subject } = input;

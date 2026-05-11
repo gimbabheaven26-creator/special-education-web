@@ -15,14 +15,30 @@ export interface UserProfile {
   updated_at: string;
 }
 
+export type ProfileLookupStatus = 'ok' | 'unauthenticated' | 'not_found' | 'db_error';
+
+export interface ProfileLookupResult {
+  profile: UserProfile | null;
+  status: ProfileLookupStatus;
+  error?: unknown;
+}
+
+export type ProfileMutationErrorSource = 'validation' | 'auth' | 'db';
+
+export interface ProfileMutationResult {
+  error: string | null;
+  errorSource?: ProfileMutationErrorSource;
+  cause?: unknown;
+}
+
 /**
  * 현재 로그인 사용자의 profile을 가져온다.
  * 미로그인이면 null 반환.
  */
-export async function getMyProfile(): Promise<UserProfile | null> {
+export async function getMyProfileResult(): Promise<ProfileLookupResult> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  if (!user) return { profile: null, status: 'unauthenticated' };
 
   const { data, error } = await supabase
     .from('profiles')
@@ -30,27 +46,36 @@ export async function getMyProfile(): Promise<UserProfile | null> {
     .eq('id', user.id)
     .single();
 
-  if (error || !data) return null;
-  return data as UserProfile;
+  if (error) return { profile: null, status: 'db_error', error };
+  if (!data) return { profile: null, status: 'not_found' };
+  return { profile: data as UserProfile, status: 'ok' };
+}
+
+export async function getMyProfile(): Promise<UserProfile | null> {
+  const { profile } = await getMyProfileResult();
+  return profile;
 }
 
 /**
  * 닉네임을 업데이트한다. 현재 로그인 사용자에게만 적용.
  */
-export async function upsertNickname(nickname: string): Promise<{ error: string | null }> {
-  if (!nickname.trim()) return { error: '닉네임을 입력해주세요.' };
-  if (nickname.length > 20) return { error: '닉네임은 20자 이하여야 합니다.' };
+export async function upsertNickname(nickname: string): Promise<ProfileMutationResult> {
+  if (!nickname.trim()) return { error: '닉네임을 입력해주세요.', errorSource: 'validation' };
+  if (nickname.length > 20) return { error: '닉네임은 20자 이하여야 합니다.', errorSource: 'validation' };
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: '로그인이 필요합니다.' };
+  if (!user) return { error: '로그인이 필요합니다.', errorSource: 'auth' };
 
   const { error } = await supabase
     .from('profiles')
     .update({ nickname: nickname.trim(), updated_at: new Date().toISOString() })
     .eq('id', user.id);
 
-  return { error: error?.message ?? null };
+  return {
+    error: error?.message ?? null,
+    ...(error ? { errorSource: 'db' as const, cause: error } : {}),
+  };
 }
 
 /**
