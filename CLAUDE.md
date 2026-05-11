@@ -26,6 +26,21 @@ npm run test:e2e     # Playwright E2E
 
 ---
 
+## AI 협업 체제
+
+X, 루멘(Codex), 지니(OpenClaw), V의 역할과 대화 규칙은 `docs/ai-collaboration-protocol.md`를 따른다.
+
+| 주체 | 기반 | 역할 |
+|------|------|------|
+| **X** | Claude Code | 주 실행자: 코드 작성, 데이터 파이프라인, 전략, 상담 |
+| **루멘** | Codex | 구조화 파트너: 리뷰, 반박, rescue, 문서-현실 대조 |
+| **지니** | OpenClaw | 기억/채널 협업자: `~/.openclaw/workspace/channel.md` 관리 |
+| **V** | 독립 검증 | 코드 리뷰, 보안 감사, 데이터 정합성 |
+
+`CLAUDE.md`는 Claude Code 지시서 파일명으로 고정한다. X/V/지니/루멘 같은 협업 주체는 `persona`, 반복 절차는 `skill`, 프로젝트 강제 기준은 `rule`, 검증 결과는 `review`로 부른다.
+
+---
+
 ## 에이전트 체제 (X+V 2체제, 2026-03-27~)
 
 | 에이전트 | 역할 | 모드 |

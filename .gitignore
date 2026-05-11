@@ -68,6 +68,10 @@ scripts/output/
 .claude/agent-memory/
 .claude/settings.json
 
+# codex internal
+.codex/checkpoints/
+.Codex/checkpoints/
+
 # nadaun (독립 프로젝트로 분리 — ~/Projects/nadaun/)
 nadaun/
 
