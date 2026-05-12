@@ -32,29 +32,30 @@ X, 루멘(Codex), 지니(OpenClaw), V의 역할과 대화 규칙은 `docs/ai-col
 
 | 주체 | 기반 | 역할 |
 |------|------|------|
-| **X** | Claude Code | 주 실행자: 코드 작성, 데이터 파이프라인, 전략, 상담 |
-| **루멘** | Codex | 크로스체크/레스큐: 구조적 맹점, 설계 반박, 다른 모델 시각 |
+| **X** | Claude Code | 공동 실행자: 코드 작성, 데이터 파이프라인, 전략, 상담 |
+| **루멘** | Codex | 공동 실행자: 코드 작성, 검증, 크로스체크, 구조적 맹점 탐지, rescue |
 | **지니** | OpenClaw | 실시간 운영 채널: Discord, 원격 상태 확인, `channel.md` 관리 |
 | **V** | Claude 기반 검증 | contract.md 준수, 보안 감사, 데이터 정합성, 구현 규칙 검증 |
 
 `CLAUDE.md`는 Claude Code 지시서 파일명으로 고정한다. X↔루멘 리뷰 기록은 `docs/reviews/lumen/`, V 리뷰 기록은 `docs/v-reviews/`, 지니 운영 메시지는 `~/.openclaw/workspace/channel.md`를 사용한다.
 
-카이란이 루멘 주도 개발을 선언했거나 X가 토큰 제한으로 멈춘 기간에는 루멘이 구현, 검증, 기록, 커밋 정리까지 주도할 수 있다. X가 복귀하면 daily log와 git diff를 기준으로 이어받는다.
+루멘은 보조 리뷰어가 아니라 X와 같은 공동 작업자다. 카이란이 별도 제한하지 않는 한 X와 루멘은 구현, 검증, 문서화, 커밋/푸시 정리 권한을 함께 가지며, X/루멘 전환은 daily log와 git diff를 기준으로 이어받는다.
 
 ---
 
-## 에이전트 체제 (X+V 2체제, 2026-03-27~)
+## 에이전트 체제 (X+루멘+V, 2026-05-12~)
 
 | 에이전트 | 역할 | 모드 |
 |---------|------|------|
 | **X** | 실행: 코드 작성, 데이터 파이프라인, 전략, 상담 | 빌드/데이터/전략/상담 4모드 자동 전환 |
+| **루멘** | 실행+검증: 코드 작성, 구조 리뷰, rescue, 문서/커밋 정리 | Codex 세션 또는 Claude Code Codex plugin |
 | **V** | 검증: contract/보안/데이터 정합성 리뷰 | 독립 검증 전담 |
 
 **자동화 도구**:
 - **Playwright MCP**: 프로젝트 설정에 등록됨 (`~/.claude.json`). V가 접근성 트리 기반 E2E 동적 검증에 사용.
 - **v-auto-verify.sh**: `feat:` 커밋 감지 시 lint+typecheck 자동 실행 + V 심층 검증 추천 (`~/.claude/hooks/`)
 - **Completion Contract**: `/plan` 실행 시 완료 기준 체크리스트 필수 작성. V가 80%+ 통과 여부로 판정.
-- **X↔지니 채널**: `~/.openclaw/workspace/channel.md` — 세션 시작 시 읽고, 지니 메시지가 있으면 우선 확인. 세션 종료/주요 작업 완료 시 지니에게 메시지 남기기.
+- **X/루멘↔지니 채널**: `~/.openclaw/workspace/channel.md` — 세션 시작 시 읽고, 지니 메시지가 있으면 우선 확인. 세션 종료/주요 작업 완료 시 지니에게 메시지 남기기.
 - **E2E CI**: `.github/workflows/e2e.yml` — main push/PR 시 Playwright E2E 자동 실행. 결과는 GitHub Actions > playwright-report artifact에서 확인. `NEXT_PUBLIC_SUPABASE_ANON_KEY` secret 필요.
 - **Keybindings**: `~/.claude/keybindings.json` — Enter=줄바꿈, Cmd+Enter=제출, Ctrl+K 접두사 15개 코드. 상세: `memory/feedback_keybindings.md`
 
@@ -210,11 +211,11 @@ M1~M3 완료. M2 Phase 5-B(AI 검수 파이프라인) 백로그 청산 완료. M
 ```json
 {
   "destination": "sprint",
-  "title": "X 기능명 (2026-MM-DD)",
-  "agent": "X",
+  "title": "X/루멘 기능명 (2026-MM-DD)",
+  "agent": "X 또는 루멘",
   "status": "완료",
   "commit": "해시",
-  "tags": ["X", "특수교육웹"],
+  "tags": ["X", "루멘", "특수교육웹"],
   "content": "## 완료\n- ..."
 }
 ```
