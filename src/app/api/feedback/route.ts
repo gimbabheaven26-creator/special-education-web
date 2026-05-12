@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import * as Sentry from '@sentry/nextjs';
 import { feedbackLimiter, getIp } from '@/lib/rate-limit';
 
 const MAX_MSG = 500;
@@ -37,7 +36,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         content: `${emoji} **베타 피드백**\n유형: ${type}\n페이지: ${sanitize(page ?? '알 수 없음')}\n메시지: ${sanitize(message)}\n시각: ${kst}`,
       }),
-    }).catch((err) => Sentry.captureException(err));
+    }).catch(() => {});
   }
 
   return NextResponse.json({ success: true });

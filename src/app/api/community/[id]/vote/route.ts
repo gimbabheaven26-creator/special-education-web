@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { setVote } from '@/lib/db/community-db';
 import type { VoteType } from '@/types/community';
@@ -44,7 +43,6 @@ export async function POST(request: Request, { params }: Params) {
   const voteType = (body as Record<string, unknown>).vote_type as VoteType | null;
   const { error } = await setVote(questionId, user.id, voteType ?? null);
   if (error) {
-    Sentry.captureMessage(`community vote failed: ${error}`, 'error');
     return NextResponse.json({ error }, { status: 500 });
   }
   return NextResponse.json({ success: true });

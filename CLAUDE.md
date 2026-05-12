@@ -157,7 +157,6 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 - **내 기록 대시보드**: `/record` = RecordDashboard (오늘 성과, 핵심 지표, 정답률 추이, 약점, 추천, 미해결 오답/북마크/복습). `/mastery` = LearningDashboard (page.tsx에서 추출, 과목별 숙련도 상세). `/my` = 대시보드 허브 (LevelBadge, WeeklyActivityChart, WeaknessInsight, SmartRecommendations + useMyPageData 훅)
 - **출제경향 탭**: `/kice` 2탭 구성 (기출문제, 출제분석). 영역별·키워드검색 탭 제거 (27c9002)
 - **플래시카드 복습 UX**: OX 카드 = O/X 버튼 자동 판정 (knew/forgot), 일반 카드 = question→hint→answer 순차 공개 (`AnswerGrade: 'knew'|'hint'|'forgot'`). AdvanceTimerBar (정답 2초/오답 4초). 자가평가 삭제 (40648d5). 카드 편집(`updateCard`), 퀴즈→카드 2탭 추가(`/flashcards/add`), 변환 엔진(`flashcard-converter.ts` — OX 150자 필터, fill_in 지원)
-- **Sentry 에러 모니터링**: `@sentry/nextjs` v10 — `NEXT_PUBLIC_SENTRY_DSN` 미설정 시 자동 비활성화. 3-layer 구조: 클라이언트(`sentry.client.config.ts`), 서버+엣지(`src/instrumentation.ts` onRequestError), 글로벌 에러(`global-error.tsx`). API 라우트는 catch 블록에서 `Sentry.captureException` 명시 호출. `tracesSampleRate: 0.1`
 
 ---
 

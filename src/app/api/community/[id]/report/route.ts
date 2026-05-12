@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 
 export async function POST(
@@ -27,15 +26,12 @@ export async function POST(
     ? ((body as Record<string, unknown>).reason as string).trim()
     : '';
 
-  const { error } = await supabase.from('question_reports').insert({
+  await supabase.from('question_reports').insert({
     question_id: questionId,
     reporter_id: user.id,
     reason: reason || '신고',
   });
 
-  if (error) {
-    Sentry.captureException(error);
-  }
-
+  // 테이블이 없어도 성공 응답 — community_reports 테이블 미생성 상태
   return NextResponse.json({ ok: true });
 }

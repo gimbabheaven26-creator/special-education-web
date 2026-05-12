@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 
@@ -148,7 +147,6 @@ export async function GET(request: Request) {
       questions: toJSON(rows),
     });
   } catch (err) {
-    Sentry.captureException(err);
     const message = err instanceof Error ? err.message : '내보내기 처리 실패';
     return NextResponse.json({ error: message }, { status: 500 });
   }
