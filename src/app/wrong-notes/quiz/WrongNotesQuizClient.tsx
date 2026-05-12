@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
@@ -41,7 +41,6 @@ interface QuizReadyNote {
 interface WrongNotesQuizClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
-  readonly allQuestions: readonly QuizQuestion[];
 }
 
 const WRONG_QUIZ_TIERS = createScoreTiers([
@@ -62,26 +61,27 @@ function formatSourceBadge(source: string): { label: string; variant: 'kice' | '
   return { label: `${year}년도 기출 ${type}형 ${num}번`, variant: 'kice' };
 }
 
-export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap, allQuestions }: WrongNotesQuizClientProps) {
+export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap }: WrongNotesQuizClientProps) {
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const addWrongNote = useQuizStore((s) => s.addWrongNote);
   const markMastered = useQuizStore((s) => s.markMastered);
   const addQuizResult = useQuizStore((s) => s.addQuizResult);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
 
-  // Synchronous hydration via allQuestions prop (server-loaded) — no async needed
-  // Snapshot at mount to prevent list changing mid-quiz
-  const [questions] = useState<QuizReadyNote[]>(() => {
-    const qMap = new Map(allQuestions.map((q) => [q.id, q]));
-    return wrongNotes.flatMap((n) => {
-      if (n.mastered) return [];
-      const q = qMap.get(n.questionId);
-      if (!q) return [];
-      // fill_in 중 지문 포함(caseContext 있음) 또는 100자 초과 긴 문제 제외
-      if (q.type === 'fill_in' && (q.caseContext || q.question.length > 100)) return [];
-      return [{ ...n, question: q }];
-    });
-  });
+  const unmasteredWrongNotes = useMemo(
+    () => wrongNotes.filter((n) => !n.mastered),
+    [wrongNotes],
+  );
+  const wrongNoteIdsKey = useMemo(
+    () => Array.from(new Set(unmasteredWrongNotes.map((n) => n.questionId))).sort().join(','),
+    [unmasteredWrongNotes],
+  );
+
+  const [questions, setQuestions] = useState<QuizReadyNote[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [hasLoadedInitialQuestions, setHasLoadedInitialQuestions] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
@@ -93,6 +93,58 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
     visible: false,
   });
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (hasLoadedInitialQuestions) return;
+
+    if (!wrongNoteIdsKey) {
+      setQuestions([]);
+      setLoading(false);
+      setLoadError(false);
+      return;
+    }
+
+    const notesSnapshot = unmasteredWrongNotes;
+    const ids = wrongNoteIdsKey.split(',');
+    let cancelled = false;
+
+    setLoading(true);
+    setLoadError(false);
+
+    fetch('/api/quiz/by-ids', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch wrong-note quizzes: ${res.status}`);
+        return res.json() as Promise<{ quizzes?: QuizQuestion[] }>;
+      })
+      .then((data) => {
+        if (cancelled) return;
+
+        const qMap = new Map((data.quizzes ?? []).map((q) => [q.id, q]));
+        const nextQuestions = notesSnapshot.flatMap((n) => {
+          const q = qMap.get(n.questionId);
+          if (!q) return [];
+          if (q.type === 'fill_in' && (q.caseContext || q.question.length > 100)) return [];
+          return [{ ...n, question: q }];
+        });
+
+        setQuestions(nextQuestions);
+        setHasLoadedInitialQuestions(true);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLoadError(true);
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [hasLoadedInitialQuestions, retryKey, unmasteredWrongNotes, wrongNoteIdsKey]);
 
   const currentNote: QuizReadyNote | undefined = questions[currentIndex];
 
@@ -156,6 +208,57 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap,
     },
     [currentNote, answers, currentIndex, questions.length, comboStreak, markMastered, addWrongNote, recordQuizResult, addQuizResult, showXPToast],
   );
+
+  if (loading) {
+    return (
+      <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">오답 재시험</h1>
+        </div>
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-28 rounded-xl border border-border bg-muted/50 animate-pulse" />
+          ))}
+        </div>
+      </main>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">오답 재시험</h1>
+        </div>
+        <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+          <p className="text-lg font-medium text-muted-foreground">
+            오답 문제를 불러오지 못했어요
+          </p>
+          <p className="text-sm text-muted-foreground">
+            잠시 후 다시 시도해 주세요.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              type="button"
+              size="lg"
+              className="min-h-[44px]"
+              onClick={() => setRetryKey((prev) => prev + 1)}
+            >
+              다시 불러오기
+            </Button>
+            <Button
+              render={<Link href="/wrong-notes" />}
+              variant="outline"
+              size="lg"
+              className="min-h-[44px]"
+            >
+              오답 노트로 돌아가기
+            </Button>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   // Empty state
   if (questions.length === 0) {

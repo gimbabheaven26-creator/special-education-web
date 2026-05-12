@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -34,11 +34,10 @@ function groupBySubject<T extends WrongNote>(notes: T[]): Record<string, T[]> {
 interface WrongNotesClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
-  readonly allQuestions: readonly QuizQuestion[];
   readonly wrongCounts?: Readonly<Record<string, number>>;
 }
 
-export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, allQuestions, wrongCounts }: WrongNotesClientProps) {
+export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, wrongCounts }: WrongNotesClientProps) {
   const searchParams = useSearchParams();
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const quizHistory = useQuizStore((s) => s.quizHistory);
@@ -48,10 +47,54 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
   const diagnosticSessions = useQuizStore((s) => s.diagnosticSessions);
   const leitnerGetStats = useLeitnerStore((s) => s.getStats);
 
+  const [fetchedQuestions, setFetchedQuestions] = useState<QuizQuestion[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
+
+  const wrongNoteIdsKey = useMemo(
+    () => Array.from(new Set(wrongNotes.map((n) => n.questionId))).sort().join(','),
+    [wrongNotes],
+  );
+
+  useEffect(() => {
+    if (!wrongNoteIdsKey) {
+      setLoading(false);
+      setLoadError(false);
+      return;
+    }
+    const ids = wrongNoteIdsKey.split(',');
+    setLoading(true);
+    setLoadError(false);
+    let cancelled = false;
+    fetch('/api/quiz/by-ids', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch wrong-note quizzes: ${res.status}`);
+        return res.json() as Promise<{ quizzes?: QuizQuestion[] }>;
+      })
+      .then((data) => {
+        if (!cancelled) {
+          setFetchedQuestions(data.quizzes ?? []);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setLoadError(true);
+          setLoading(false);
+        }
+      });
+    return () => { cancelled = true; };
+  }, [retryKey, wrongNoteIdsKey]);
+
   const hydrated = useMemo<HydratedWrongNote[]>(() => {
-    const qMap = new Map(allQuestions.map((q) => [q.id, q]));
+    const qMap = new Map(fetchedQuestions.map((q) => [q.id, q]));
     return wrongNotes.map((n) => ({ ...n, question: qMap.get(n.questionId) ?? null }));
-  }, [wrongNotes, allQuestions]);
+  }, [wrongNotes, fetchedQuestions]);
 
   const initialTab = searchParams.get('tab') === 'srs' ? 'srs' : 'all';
   const [activeTab, setActiveTab] = useState<'all' | 'srs'>(initialTab);
@@ -177,6 +220,49 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, all
           </p>
           <Button render={<Link href="/quiz" />} size="lg" className="min-h-[44px]">
             첫 퀴즈 시작하기
+          </Button>
+        </div>
+      </main>
+    );
+  }
+
+  if (loading) {
+    return (
+      <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">오답 노트</h1>
+          <p className="text-muted-foreground text-sm">틀린 문제를 모아 복습하세요.</p>
+        </div>
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-24 rounded-xl border border-border bg-muted/50 animate-pulse" />
+          ))}
+        </div>
+      </main>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">오답 노트</h1>
+          <p className="text-muted-foreground text-sm">틀린 문제를 모아 복습하세요.</p>
+        </div>
+        <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+          <p className="text-lg font-medium text-muted-foreground">
+            오답 문제를 불러오지 못했어요
+          </p>
+          <p className="text-sm text-muted-foreground">
+            잠시 후 다시 시도해 주세요.
+          </p>
+          <Button
+            type="button"
+            size="lg"
+            className="min-h-[44px]"
+            onClick={() => setRetryKey((prev) => prev + 1)}
+          >
+            다시 불러오기
           </Button>
         </div>
       </main>

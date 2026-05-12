@@ -315,6 +315,7 @@ getSubjectBySlug(slug: string): Promise<Subject | null>
 
 // 퀴즈
 getQuizzesBySubject(subjectSlug: string): Promise<QuizQuestion[]>
+getQuizzesByIds(ids: string[]): Promise<QuizQuestion[]>
 getQuizzesByChapter(subjectSlug: string, chapterSlug: string): Promise<QuizQuestion[]>
 getAllQuizzes(): Promise<QuizQuestion[]>
 getQuizCount(): Promise<Record<string, number>>
@@ -340,6 +341,12 @@ updateProfile(userId: string, data: Partial<Profile>): Promise<boolean>
 // 입력: { subject_id, subject_title?, chapter_title?, question_type }
 // 출력: { question_text, options: string[]|null, correct_answer, explanation, mock: boolean }
 // 인증 필수, rate limit 5/min/user, GEMINI_API_KEY 미설정 시 mock 반환
+
+// 오답노트 문제 hydration (v2.13)
+// POST /api/quiz/by-ids — localStorage 오답 questionId 배열로 공개 퀴즈 조회
+// 입력: { ids: string[] } — 1~500개, 각 id 1~120자
+// 출력: { quizzes: QuizQuestion[] }
+// rate limit 30/min/IP, ai_status in ('human', 'approved')만 반환
 
 // Leitner 플래시카드 (v2.12)
 type AnswerGrade = 'knew' | 'hint' | 'forgot'

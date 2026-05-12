@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import type { Metadata } from 'next';
-import { getCachedSubjects, getCachedAllQuizzes } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import { createClient } from '@/lib/supabase/server';
 import WrongNotesClient from './WrongNotesClient';
 
@@ -30,9 +30,8 @@ async function getWrongNoteCounts(): Promise<Record<string, number>> {
 }
 
 export default async function WrongNotesPage() {
-  const [subjects, quizzes, wrongCounts] = await Promise.all([
+  const [subjects, wrongCounts] = await Promise.all([
     getCachedSubjects(),
-    getCachedAllQuizzes(),
     getWrongNoteCounts(),
   ]);
 
@@ -49,7 +48,6 @@ export default async function WrongNotesPage() {
     <WrongNotesClient
       subjectTitleMap={subjectTitleMap}
       chapterTitleMap={chapterTitleMap}
-      allQuestions={quizzes}
       wrongCounts={wrongCounts}
     />
   );

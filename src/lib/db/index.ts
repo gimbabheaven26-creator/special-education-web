@@ -47,8 +47,8 @@ export { getReviews, saveReview, deleteReview, updateAdminNote } from './review-
 export type { ReviewRow } from './review-db';
 
 // Profile (server-side auth)
-export { getMyProfile, upsertNickname, isAdmin, getRankingOptIn, updateRankingOptIn } from './profile';
-export type { UserRole, UserProfile } from './profile';
+export { getMyProfile, getMyProfileResult, upsertNickname, isAdmin, getRankingOptIn, updateRankingOptIn } from './profile';
+export type { UserRole, UserProfile, ProfileLookupResult, ProfileMutationResult } from './profile';
 
 // Analytics (client-side event logging)
 export { logEvent, logQuizCompleted, logWrongNoteMastered, logDailyStreak } from './analytics';
