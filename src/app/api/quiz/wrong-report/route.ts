@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createServiceClient } from '@/lib/supabase/server';
 import { wrongReportLimiter, getIp } from '@/lib/rate-limit';
 
@@ -30,6 +31,7 @@ export async function POST(req: NextRequest) {
         );
 
       if (upsertError) {
+        Sentry.captureException(upsertError);
         return NextResponse.json({ error: 'failed to record' }, { status: 500 });
       }
     }

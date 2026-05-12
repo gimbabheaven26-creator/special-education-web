@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { communityGenerateLimiter } from '@/lib/rate-limit';
 
@@ -129,6 +130,7 @@ export async function POST(request: Request) {
     const draft = await callGemini(apiKey, prompt);
     return NextResponse.json({ ...draft, mock: false });
   } catch (err) {
+    Sentry.captureException(err);
     const mock = MOCK_QUESTIONS[questionType] ?? MOCK_QUESTIONS.multiple;
     return NextResponse.json({
       ...mock,

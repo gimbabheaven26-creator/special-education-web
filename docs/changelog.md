@@ -24,6 +24,26 @@
 
 ---
 
+## [2026-05-12] X — Sentry 에러 모니터링 활성화
+
+### 변경 내용
+- `.env.local`에 `NEXT_PUBLIC_SENTRY_DSN` 추가 → Sentry 활성화
+- 5개 API 라우트에 `Sentry.captureException` 추가 (daily-questions, profile, ai-assist, admin/quiz, community)
+- daily-questions, profile: try/catch 누락 보완
+- Vercel 환경변수 4개 추가: DSN + Source Map 관련 (AUTH_TOKEN, ORG, PROJECT)
+- CLAUDE.md 환경변수 목록 + 아키텍처 요점에 Sentry 노트 추가
+
+### 영향 범위
+- X(빌드): 5개 API route 파일 + CLAUDE.md
+- X(데이터): 없음
+
+### 상태
+- [x] 구현 완료
+- [x] 빌드 통과
+- [ ] Vercel 배포 후 Source Maps 업로드 확인
+
+---
+
 ## [2026-05-07] X — M4 Phase 0+1 콘텐츠 파이프라인 실전 가동
 
 ### 변경 내용
