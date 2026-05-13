@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic';
 
-import { getCachedSubjects, getCachedAllQuizzes } from '@/lib/db';
+import { getCachedSubjects } from '@/lib/db';
 import BookmarkQuizClient from './BookmarkQuizClient';
 
 export default async function BookmarkQuizPage() {
-  const [subjects, quizzes] = await Promise.all([getCachedSubjects(), getCachedAllQuizzes()]);
+  const subjects = await getCachedSubjects();
 
   const subjectTitleMap: Record<string, string> = {};
   const chapterTitleMap: Record<string, string> = {};
@@ -19,7 +19,6 @@ export default async function BookmarkQuizPage() {
     <BookmarkQuizClient
       subjectTitleMap={subjectTitleMap}
       chapterTitleMap={chapterTitleMap}
-      allQuestions={quizzes}
     />
   );
 }

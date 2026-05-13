@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -25,12 +25,10 @@ import {
 import { XPToast } from '@/app/quiz/[subject]/ProgressDots';
 import { ComboIndicator } from '@/components/quiz/ComboIndicator';
 import { XP_TOAST_CORRECT, XP_TOAST_WRONG, getComboBonus } from '@/lib/study/xp-constants';
-import { useMounted } from '@/hooks/useMounted';
 
 interface BookmarkQuizClientProps {
   readonly subjectTitleMap: Readonly<Record<string, string>>;
   readonly chapterTitleMap: Readonly<Record<string, string>>;
-  readonly allQuestions: readonly QuizQuestion[];
 }
 
 const BOOKMARK_QUIZ_TIERS = createScoreTiers([
@@ -44,7 +42,6 @@ const BOOKMARK_QUIZ_TIERS = createScoreTiers([
 
 /** bookmark.path에서 { subjectSlug, chapterSlug } 추출 */
 function parseBookmarkPath(path: string): { subjectSlug: string; chapterSlug: string } | null {
-  // path format: /concepts/한글폴더명/chapter-slug
   const match = path.match(/^\/concepts\/([^/]+)\/([^/]+)/);
   if (!match) return null;
   const folder = decodeURIComponent(match[1]);
@@ -54,34 +51,79 @@ function parseBookmarkPath(path: string): { subjectSlug: string; chapterSlug: st
   return { subjectSlug, chapterSlug };
 }
 
-export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, allQuestions }: BookmarkQuizClientProps) {
-  const mounted = useMounted();
+export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap }: BookmarkQuizClientProps) {
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const addWrongNote = useQuizStore((s) => s.addWrongNote);
   const addQuizResult = useQuizStore((s) => s.addQuizResult);
   const recordQuizResult = useStudyStore((s) => s.recordQuizResult);
 
-  // Extract unique subject::chapter pairs from bookmarks
-  const bookmarkedChapters = useMemo(() => {
-    const set = new Set<string>();
+  const chapterPairsKey = useMemo(() => {
+    const seen = new Set<string>();
+    const keys: string[] = [];
     for (const bm of bookmarks) {
       const parsed = parseBookmarkPath(bm.path);
-      if (parsed) set.add(`${parsed.subjectSlug}::${parsed.chapterSlug}`);
+      if (!parsed) continue;
+      const key = `${parsed.subjectSlug}::${parsed.chapterSlug}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      keys.push(key);
     }
-    return set;
+    return keys.sort().join(',');
   }, [bookmarks]);
 
-  // Filter questions matching bookmarked chapters, snapshot at mount
-  const [questions] = useState<QuizQuestion[]>(() => {
-    if (bookmarkedChapters.size === 0) return [];
-    return allQuestions.filter((q) => {
-      const key = `${q.subject}::${q.chapter}`;
-      if (!bookmarkedChapters.has(key)) return false;
-      // Exclude fill_in with long text or caseContext (same as wrong-notes pattern)
-      if (q.type === 'fill_in' && (q.caseContext || q.question.length > 100)) return false;
-      return true;
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
+
+  useEffect(() => {
+    if (hasLoaded) return;
+
+    if (!chapterPairsKey) {
+      setQuestions([]);
+      setLoading(false);
+      setLoadError(false);
+      return;
+    }
+
+    const chapters = chapterPairsKey.split(',').map((k) => {
+      const [subject, chapter] = k.split('::');
+      return { subject, chapter };
     });
-  });
+    let cancelled = false;
+
+    setLoading(true);
+    setLoadError(false);
+
+    fetch('/api/quiz/by-chapters', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chapters }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch bookmark quizzes: ${res.status}`);
+        return res.json() as Promise<{ quizzes?: QuizQuestion[] }>;
+      })
+      .then((data) => {
+        if (cancelled) return;
+        const quizzes: QuizQuestion[] = data.quizzes ?? [];
+        const filtered = quizzes.filter((q) => {
+          if (q.type === 'fill_in' && (q.caseContext || q.question.length > 100)) return false;
+          return true;
+        });
+        setQuestions(filtered);
+        setHasLoaded(true);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLoadError(true);
+        setLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [hasLoaded, retryKey, chapterPairsKey]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<{ questionId: string; isCorrect: boolean }[]>([]);
@@ -121,14 +163,11 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
         addWrongNote(currentQuestion, userAnswer);
       }
 
-      // Leitner tracking
       useLeitnerStore.getState().answerCard(currentQuestion.id, isCorrect ? 'knew' : 'forgot');
 
-      // Combo
       const newCombo = isCorrect ? comboStreak + 1 : 0;
       setComboStreak(newCombo);
 
-      // XP
       let earned = isCorrect ? XP_TOAST_CORRECT : XP_TOAST_WRONG;
       const combo = isCorrect ? getComboBonus(newCombo) : null;
       if (combo) earned += combo.bonus;
@@ -144,8 +183,7 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
     [currentQuestion, currentIndex, questions.length, comboStreak, addWrongNote, recordQuizResult, addQuizResult, showXPToast],
   );
 
-  // Hydration guard
-  if (!mounted) {
+  if (loading) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-10">
         <div className="h-8 w-48 bg-muted rounded animate-pulse mb-6" />
@@ -154,7 +192,26 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
     );
   }
 
-  // Empty state
+  if (loadError) {
+    return (
+      <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+        <h1 className="text-2xl font-bold tracking-tight">북마크 퀴즈</h1>
+        <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+          <p className="text-lg font-medium text-muted-foreground">퀴즈를 불러오지 못했어요</p>
+          <p className="text-sm text-muted-foreground">잠시 후 다시 시도해 주세요.</p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button type="button" size="lg" className="min-h-[44px]" onClick={() => setRetryKey((p) => p + 1)}>
+              다시 불러오기
+            </Button>
+            <Button render={<Link href="/bookmarks" />} variant="outline" size="lg" className="min-h-[44px]">
+              북마크로 돌아가기
+            </Button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   if (questions.length === 0) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
@@ -169,7 +226,6 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
     );
   }
 
-  // Results screen
   if (finished) {
     const correctCount = answers.filter((a) => a.isCorrect).length;
     const totalCount = answers.length;
@@ -226,7 +282,6 @@ export default function BookmarkQuizClient({ subjectTitleMap, chapterTitleMap, a
     );
   }
 
-  // Quiz in progress
   const question = currentQuestion;
 
   return (
