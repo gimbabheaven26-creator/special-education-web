@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient, createServiceClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 
@@ -79,7 +80,8 @@ export async function PATCH(
     }
 
     return NextResponse.json(data);
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },
@@ -117,7 +119,8 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },

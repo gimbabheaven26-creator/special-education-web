@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { z } from 'zod';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 import { adminGenerateLimiter } from '@/lib/rate-limit';
@@ -389,7 +390,8 @@ export async function POST(request: Request) {
         error: err instanceof Error ? err.message : 'AI 생성 오류',
       });
     }
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json({ error: '서버 오류가 발생했습니다.' }, { status: 500 });
   }
 }

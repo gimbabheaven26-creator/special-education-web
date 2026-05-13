@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
 
@@ -31,7 +32,8 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json({ chapters: data ?? [] });
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },
