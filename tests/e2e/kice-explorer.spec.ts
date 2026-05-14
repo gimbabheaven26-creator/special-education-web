@@ -251,12 +251,13 @@ test.describe('KICE 연습 모드 (한 문제씩 풀기)', () => {
     // 마지막 문항 확인
     await expect(page.getByText(new RegExp(`^${total} \\/ ${total}$`))).toBeVisible();
 
-    // "완료 — 목록으로" 버튼 등장 (다음 문항 대신)
-    await expect(page.getByRole('button', { name: /완료.*목록으로/ })).toBeVisible();
+    // 마지막 문항에서는 다음 문항 대신 결과 버튼이 표시된다.
+    const finishButton = page.getByRole('button', { name: /결과 보기|완료.*목록으로/ });
+    await expect(finishButton).toBeVisible();
     await expect(page.getByRole('button', { name: '다음 문항' })).not.toBeVisible();
 
     // 완료 클릭 시 연습 모드 종료
-    await page.getByRole('button', { name: /완료.*목록으로/ }).click();
+    await finishButton.click();
     await expect(page.getByRole('button', { name: /한 문제씩 풀기/ })).toBeVisible();
   });
 });

@@ -13,6 +13,8 @@ export { checkFillInAnswer } from './answer-checker';
 
 export { checkBlank } from './check-blank';
 
+export { normalizeOXAnswer } from './ox-answer';
+
 export {
   scoreDescriptiveAnswer,
   extractKeywords,

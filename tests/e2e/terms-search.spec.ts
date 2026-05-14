@@ -105,11 +105,12 @@ test.describe('용어사전 페이지', () => {
     await expect(page.getByText(/\d+개 결과/)).toBeVisible();
 
     // 1. 첫 번째 용어 카드의 버튼 클릭 (용어명을 포함하는 버튼)
-    const termButton = page.getByText('감각 교육', { exact: false }).first();
+    const termCard = page.locator('[data-testid="term-card"]').filter({ hasText: '감각 교육' }).first();
+    const termButton = termCard.getByRole('button').first();
     await termButton.click();
 
     // 2. 정의 텍스트가 펼쳐짐 — 플래시카드 추가 버튼이 보이면 확장된 것
-    const flashcardButton = page.getByRole('button', { name: /플래시카드/ }).first();
+    const flashcardButton = termCard.getByRole('button', { name: /플래시카드/ });
     await expect(flashcardButton).toBeVisible();
 
     // 3. 과목 뱃지도 보임

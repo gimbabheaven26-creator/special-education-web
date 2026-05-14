@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('/my 대시보드', () => {
   test('페이지 렌더링 + 주요 섹션 존재', async ({ page }) => {
     await page.goto('/my');
-    await expect(page.locator('main')).toBeVisible();
+    await expect(page.getByRole('main').first()).toBeVisible();
     // 게스트 배너 또는 대시보드 콘텐츠가 있어야 함
     const hasContent = await page.locator('main').textContent();
     expect(hasContent!.length).toBeGreaterThan(0);
@@ -38,7 +38,7 @@ test.describe('/record 대시보드', () => {
     const response = await page.goto('/record');
     expect(response!.status()).toBe(200);
     // hydration 완료 대기: main 영역에 텍스트가 나타날 때까지
-    await expect(page.locator('main')).toBeVisible();
+    await expect(page.getByRole('main').first()).toBeVisible();
     const body = await page.locator('body').textContent();
     expect(body!.length).toBeGreaterThan(0);
   });
@@ -46,7 +46,7 @@ test.describe('/record 대시보드', () => {
   test('제목 또는 빈 상태 표시', async ({ page }) => {
     await page.goto('/record');
     // hydration 대기: "기록" 텍스트가 나타날 때까지
-    await expect(page.locator('main')).toBeVisible();
+    await expect(page.getByRole('main').first()).toBeVisible();
     const hasTitle = await page.locator('text=기록').count();
     const hasEmptyState = await page.locator('text=퀴즈').count();
     expect(hasTitle + hasEmptyState).toBeGreaterThan(0);
@@ -54,7 +54,7 @@ test.describe('/record 대시보드', () => {
 
   test('핵심 지표 카드 또는 빈 상태 CTA', async ({ page }) => {
     await page.goto('/record');
-    await expect(page.locator('main')).toBeVisible();
+    await expect(page.getByRole('main').first()).toBeVisible();
     // 데이터 있으면 XP/스트릭 등, 없으면 퀴즈 시작 CTA
     const hasMetrics = await page.locator('text=XP').count();
     const hasCTA = await page.locator('text=시작').count();

@@ -74,13 +74,12 @@ function makeReviewSeedData() {
 
 /** localStorage에 시드 데이터를 심고 새로고침 */
 async function seedAndNavigate(page: Page, seedData: { state: { cards: Record<string, unknown>[]; reviewLogs: unknown[] }; version: number }) {
-  await page.goto(REVIEW_URL);
-  await page.waitForLoadState('networkidle');
+  await page.goto(REVIEW_URL, { waitUntil: 'domcontentloaded' });
   await page.evaluate((data) => {
     localStorage.setItem('leitner-cards', JSON.stringify(data));
   }, seedData);
-  await page.reload();
-  await page.waitForLoadState('networkidle');
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expect(page.getByText(/^1 \/ \d+$/)).toBeVisible({ timeout: 15000 });
 }
 
 /** localStorage에서 Leitner 카드 데이터 읽기 */

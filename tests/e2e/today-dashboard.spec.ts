@@ -74,9 +74,9 @@ test.describe('오늘의 학습 (/today)', () => {
   test('3개 액션 카드 렌더링 + 올바른 href', async ({ page }) => {
     await page.goto('/today');
     await page.waitForLoadState('domcontentloaded');
-    const quizLink = page.getByRole('link', { name: /오늘의 퀴즈 풀기/ });
-    const answerLink = page.getByRole('link', { name: /답안 확인하기/ });
-    const printLink = page.getByRole('link', { name: /출력용 시험지/ });
+    const quizLink = page.getByRole('link', { name: /오늘의 시험지 풀기/ });
+    const answerLink = page.getByRole('link', { name: /답안 확인/ });
+    const printLink = page.getByRole('link', { name: /출력용/ });
 
     await expect(quizLink).toBeVisible({ timeout: 15000 });
     await expect(answerLink).toBeVisible();
@@ -96,7 +96,7 @@ test.describe('오늘의 학습 (/today)', () => {
   test('오늘의 퀴즈 풀기 클릭 → /daily 이동 → 뒤로가기 → 허브 복귀', async ({ page }) => {
     await page.goto('/today');
     await page.waitForLoadState('domcontentloaded');
-    const quizLink = page.getByRole('link', { name: /오늘의 퀴즈 풀기/ });
+    const quizLink = page.getByRole('link', { name: /오늘의 시험지 풀기/ });
     await expect(quizLink).toBeVisible({ timeout: 15000 });
     await quizLink.click();
     await page.waitForURL('**/daily**');
@@ -110,19 +110,18 @@ test.describe('오늘의 학습 (/today)', () => {
   test('답안 확인하기 클릭 → /today/answers 이동', async ({ page }) => {
     await page.goto('/today');
     await page.waitForLoadState('domcontentloaded');
-    const answerLink = page.getByRole('link', { name: /답안 확인하기/ });
+    const answerLink = page.getByRole('link', { name: /답안 확인/ });
     await expect(answerLink).toBeVisible({ timeout: 15000 });
     await answerLink.click();
     await page.waitForURL('**/today/answers**');
     expect(page.url()).toContain('/today/answers');
   });
 
-  test('안내 박스 — 매일 새로운 문제 설명 텍스트 표시', async ({ page }) => {
+  test('일일 시험지 — 시험지 코드와 구성 설명 표시', async ({ page }) => {
     await page.goto('/today');
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByText('매일 새로운 문제가 나와요')).toBeVisible({ timeout: 15000 });
-    await expect(page.getByText(/날짜별로 고유한 문제 세트/)).toBeVisible();
-    await expect(page.getByText(/시험지 번호/)).toBeVisible();
+    await expect(page.getByText(/DAY-\d{4}/)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText(/OX 10 \+ 단답 5 \+ 서술 3문제/)).toBeVisible();
   });
 
   test.describe('플래시카드 없는 상태', () => {
@@ -192,6 +191,6 @@ test.describe('오늘의 학습 (/today)', () => {
 
     // 통계 카드와 액션 카드가 모바일에서도 보임
     await expect(page.getByText('오늘 푼 문제')).toBeVisible();
-    await expect(page.getByRole('link', { name: /오늘의 퀴즈 풀기/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /오늘의 시험지 풀기/ })).toBeVisible();
   });
 });

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { getConceptUrl } from '@/lib/content/concept-urls';
+import { normalizeOXAnswer } from '@/lib/quiz';
 import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 
 const SCORE_TIERS = createScoreTiers([
@@ -195,8 +196,7 @@ function formatAnswer(answer: string | number, question: QuizQuestion): string {
     return optionText ? `${answer}. ${optionText}` : String(answer);
   }
   if (question.type === 'ox') {
-    if (answer === 'O' || answer === 'o') return 'O';
-    if (answer === 'X' || answer === 'x') return 'X';
+    return normalizeOXAnswer(answer);
   }
   return String(answer);
 }

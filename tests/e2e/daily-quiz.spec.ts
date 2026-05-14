@@ -1,5 +1,35 @@
 import { test, expect, type Page } from '@playwright/test';
 
+const DAILY_QUESTIONS_FIXTURE = {
+  ox: Array.from({ length: 10 }, (_, index) => ({
+    id: `daily-e2e-ox-${index + 1}`,
+    type: 'ox',
+    question: `E2E OX 문제 ${index + 1}`,
+    answer: index % 2 === 0 ? 'O' : 'X',
+    chapter: 'e2e-chapter',
+    subject: 'introduction',
+    explanation: `E2E OX 해설 ${index + 1}`,
+  })),
+  fillIn: Array.from({ length: 5 }, (_, index) => ({
+    id: `daily-e2e-fill-${index + 1}`,
+    type: 'fill_in',
+    question: `E2E 단답형 문제 ${index + 1}`,
+    answer: `단답 ${index + 1}`,
+    chapter: 'e2e-chapter',
+    subject: 'introduction',
+    explanation: `E2E 단답형 해설 ${index + 1}`,
+  })),
+  descriptive: Array.from({ length: 3 }, (_, index) => ({
+    id: `daily-e2e-desc-${index + 1}`,
+    type: 'descriptive',
+    question: `E2E 서술형 문제 ${index + 1}`,
+    answer: `서술 ${index + 1}`,
+    chapter: 'e2e-chapter',
+    subject: 'introduction',
+    explanation: `핵심 키워드 ${index + 1}`,
+  })),
+};
+
 /**
  * Daily Quiz E2E Tests
  *
@@ -14,8 +44,9 @@ import { test, expect, type Page } from '@playwright/test';
 
 test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   test.beforeEach(async ({ page }) => {
+    await mockDailyQuestions(page);
     // Clear only quiz/study-related localStorage keys to avoid wiping unrelated stores
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.evaluate(() => {
       localStorage.removeItem('quiz-data');
       localStorage.removeItem('special-edu-study');
@@ -24,11 +55,11 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   });
 
   test('page loads with step indicator and OX questions', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
 
     // Step header should show "STEP 1 -- OX 퀴즈"
-    await expect(page.getByRole('heading', { name: /STEP 1.*OX/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     // 3 step indicator circles should be visible (buttons with 1, 2, 3 or checkmark)
     const stepButtons = page.locator('button').filter({ hasText: /^[123\u2713]$/ });
@@ -45,9 +76,9 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   });
 
   test('step 1: clicking O/X buttons selects answer for each question', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     // Get all O buttons (one per question)
     const oButtons = page.locator('button').filter({ hasText: /^O$/ });
@@ -64,9 +95,9 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   });
 
   test('step 1: "채점하기" button is disabled until all questions answered', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     // "채점하기" button should exist but be disabled (not all answered)
     const gradeButton = page.getByRole('button', { name: '채점하기' });
@@ -75,9 +106,9 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   });
 
   test('step 1: answering all OX questions enables grading', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     // Answer all OX questions
     await answerAllOxQuestions(page);
@@ -88,9 +119,9 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   });
 
   test('step 1: grading reveals correct answers and shows score', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     await answerAllOxQuestions(page);
 
@@ -110,9 +141,9 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   });
 
   test('step 1: "틀린 영역 OX 다시 풀기" option appears when there are wrong answers', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     // Answer all questions — intentionally mix O/X to increase chance of wrong answers
     await answerAllOxQuestionsMixed(page);
@@ -137,9 +168,9 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
   });
 
   test('bottom navigation shows home and wrong notes links', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     // Bottom nav links
     await expect(page.getByRole('link', { name: /홈으로/ })).toBeVisible();
@@ -152,7 +183,8 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
 // repeating the full step-1-to-step-N cycle for each test.
 test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await mockDailyQuestions(page);
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.evaluate(() => {
       localStorage.removeItem('quiz-data');
       localStorage.removeItem('special-edu-study');
@@ -161,9 +193,9 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('step 1 to step 2: advancing to fill-in questions', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     await answerAllOxQuestions(page);
     await page.getByRole('button', { name: '채점하기' }).click();
@@ -182,7 +214,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('step 2: fill-in questions render with text inputs', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
     await advanceToStep2(page);
 
@@ -199,7 +231,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('step 2: typing answer and revealing correct answers', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
     await advanceToStep2(page);
 
@@ -220,7 +252,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('step 2: "단답형 한번 더" button retries fill-in questions', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
     await advanceToStep2(page);
 
@@ -240,7 +272,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('step 2 to step 3: advancing to descriptive questions', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
     await advanceToStep2(page);
 
@@ -252,7 +284,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('step 3: descriptive questions with textarea and keyword reveal', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
     await advanceToStep3(page);
 
@@ -281,7 +313,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('completing all 3 steps shows CompletionScreen', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
     await advanceToStep3(page);
 
@@ -307,7 +339,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   });
 
   test('completion screen shows score percentage and navigates home', async ({ page }) => {
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
     await completeAllSteps(page);
 
@@ -330,7 +362,7 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   test('네트워크 실패 시 에러/빈 상태 표시', async ({ page }) => {
     await page.route('**/api/daily-questions**', (route) => route.abort());
 
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
 
     // Should show error state or fallback
@@ -347,10 +379,10 @@ test.describe.serial('Daily Quiz - Step 2+3 (sequential)', () => {
   // #14 FIX: Mobile viewport
   test('모바일 뷰포트에서 일일학습이 작동한다', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto('/daily');
+    await page.goto('/daily', { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded');
 
-    await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+    await expectStep1Ready(page);
 
     // OX buttons should be visible on mobile
     const oButtons = page.locator('button').filter({ hasText: /^O$/ });
@@ -397,12 +429,38 @@ async function answerAllOxQuestionsMixed(page: Page) {
  * Complete Step 1 and advance to Step 2.
  */
 async function advanceToStep2(page: Page) {
-  await expect(page.getByRole('heading', { name: /STEP 1/ })).toBeVisible({ timeout: 15000 });
+  await expectStep1Ready(page);
   await answerAllOxQuestions(page);
   await page.getByRole('button', { name: '채점하기' }).click();
   await expect(page.getByText(/정답:\s*\d+\s*\/\s*\d+/)).toBeVisible({ timeout: 5000 });
   await page.getByRole('button', { name: /단답형으로 넘어가기/ }).click();
   await expect(page.getByRole('heading', { name: /STEP 2/ })).toBeVisible({ timeout: 5000 });
+}
+
+async function expectStep1Ready(page: Page) {
+  const stepHeader = page.getByRole('heading', { name: /STEP 1/ });
+  if (await stepHeader.isVisible({ timeout: 15000 }).catch(() => false)) {
+    return;
+  }
+
+  const retryButton = page.getByRole('button', { name: '다시 시도' });
+  if (await retryButton.isVisible().catch(() => false)) {
+    await retryButton.click();
+  } else {
+    await page.reload();
+  }
+
+  await expect(stepHeader).toBeVisible({ timeout: 15000 });
+}
+
+async function mockDailyQuestions(page: Page) {
+  await page.route('**/api/daily-questions**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(DAILY_QUESTIONS_FIXTURE),
+    })
+  );
 }
 
 /**

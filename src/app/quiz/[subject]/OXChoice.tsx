@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import type { QuizQuestion } from '@/types/quiz';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle, Timer } from 'lucide-react';
+import { normalizeOXAnswer } from '@/lib/quiz';
 import { FeedbackSection } from './QuestionActions';
 
 export function OXChoice({
@@ -23,7 +24,7 @@ export function OXChoice({
   const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const normalizedAnswer = String(question.answer).toUpperCase();
+  const normalizedAnswer = normalizeOXAnswer(question.answer);
   const isCorrect = submitted && selected === normalizedAnswer;
 
   const handleSelect = (choice: string) => {

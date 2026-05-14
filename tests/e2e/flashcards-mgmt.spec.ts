@@ -369,7 +369,7 @@ test.describe('플래시카드 추가 페이지 (/flashcards/add)', () => {
     await submitButton.click();
 
     // 6. 성공 메시지 — "+1" 뱃지와 카드명 표시
-    await expect(page.getByText('"E2E 테스트 질문"')).toBeVisible();
+    await expect(page.getByText(/E2E 테스트 질문/)).toBeVisible();
     await expect(page.getByText(/카드가 추가되었어요/)).toBeVisible();
 
     // 7. 폼이 초기화됨

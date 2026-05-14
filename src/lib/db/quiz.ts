@@ -3,6 +3,11 @@ import type { QuizQuestion, QuizType } from '@/types/quiz';
 
 const PUBLISHED_STATUS = ['human', 'approved'] as const;
 
+export interface QuizChapterPair {
+  readonly subject: string;
+  readonly chapter: string;
+}
+
 function mapQuizRow(row: Record<string, unknown>): QuizQuestion {
   return {
     id: row.id as string,
@@ -47,6 +52,22 @@ export async function getQuizzesByIds(ids: string[]): Promise<QuizQuestion[]> {
     .in('id', ids)
     .in('ai_status', PUBLISHED_STATUS)
     .limit(500);
+  if (error || !data) return [];
+  return data.map(mapQuizRow);
+}
+
+export async function getQuizzesByChapters(chapters: readonly QuizChapterPair[]): Promise<QuizQuestion[]> {
+  if (chapters.length === 0) return [];
+  const supabase = await createClient();
+  const filter = chapters
+    .map(({ subject, chapter }) => `and(subject.eq.${subject},chapter.eq.${chapter})`)
+    .join(',');
+  const { data, error } = await supabase
+    .from('quiz_questions')
+    .select('*')
+    .or(filter)
+    .in('ai_status', PUBLISHED_STATUS)
+    .limit(10000);
   if (error || !data) return [];
   return data.map(mapQuizRow);
 }

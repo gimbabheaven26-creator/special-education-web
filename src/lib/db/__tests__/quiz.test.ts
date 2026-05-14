@@ -5,6 +5,7 @@ vi.mock('@/lib/supabase/server', () => ({ createClient: vi.fn() }));
 import {
   getQuizzesBySubject,
   getQuizzesByIds,
+  getQuizzesByChapters,
   getAllQuizzes,
   getQuizzesByType,
   getQuizzesByChapter,
@@ -32,6 +33,20 @@ const quizRow = {
   image_url: null,
   subjects: ['laws', 'introduction'],
 };
+
+class RecordingQueryBuilder {
+  select = vi.fn(() => this);
+  or = vi.fn(() => this);
+  in = vi.fn(() => this);
+  limit = vi.fn(() => this);
+
+  then<T>(
+    resolve: (v: { data: unknown; error: unknown }) => T,
+    reject?: (e: unknown) => T,
+  ) {
+    return Promise.resolve({ data: [quizRow], error: null }).then(resolve, reject);
+  }
+}
 
 beforeEach(() => { vi.clearAllMocks(); });
 
@@ -69,6 +84,28 @@ describe('getQuizzesByIds', () => {
     });
     const result = await getQuizzesByIds(['q1']);
     expect(result[0].id).toBe('q1');
+  });
+});
+
+describe('getQuizzesByChapters', () => {
+  it('여러 챕터 쌍을 단일 Supabase 쿼리로 조회', async () => {
+    const builder = new RecordingQueryBuilder();
+    const supabase = { from: vi.fn(() => builder) };
+    vi.mocked(createClient).mockResolvedValue(supabase as never);
+
+    const result = await getQuizzesByChapters([
+      { subject: 'assessment', chapter: '지능검사' },
+      { subject: 'laws', chapter: '특수교육법총칙과국가의무' },
+    ]);
+
+    expect(result).toHaveLength(1);
+    expect(supabase.from).toHaveBeenCalledTimes(1);
+    expect(builder.or).toHaveBeenCalledTimes(1);
+    expect(builder.or).toHaveBeenCalledWith(
+      'and(subject.eq.assessment,chapter.eq.지능검사),and(subject.eq.laws,chapter.eq.특수교육법총칙과국가의무)',
+    );
+    expect(builder.in).toHaveBeenCalledWith('ai_status', ['human', 'approved']);
+    expect(builder.limit).toHaveBeenCalledWith(10000);
   });
 });
 
