@@ -100,6 +100,7 @@ src/app/record/WeakToStrongBanner.tsx  # 약점→강점 전환 축하 배너
 src/app/api/admin/quiz/generate/route.ts  # AI 퀴즈 초안 생성 API (Gemini 2.5 Flash, GEMINI_MODEL env 오버라이드 가능, mock fallback)
 src/app/admin/ai-generate/             # AI-Human 문제 생성 UI (AIGenerateClient + useAIGenerate 훅)
 src/app/community/WeeklyRanking.tsx    # 주간 XP 랭킹 서버 컴포넌트 (get_weekly_ranking RPC)
+src/app/api/quiz/by-ids/route.ts       # 오답노트 문제 hydration POST API (ids 배열 → QuizQuestion[])
 src/app/api/quiz/wrong-report/route.ts # 오답 공감 카운터 POST API (wrong_note_stats upsert)
 src/app/api/ranking/opt-in/route.ts    # 랭킹 참여 토글 POST API
 src/app/my/RankingOptIn.tsx            # /my 페이지 랭킹 참여 switch 토글
