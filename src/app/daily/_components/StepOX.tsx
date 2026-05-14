@@ -1,9 +1,11 @@
 'use client';
 
-import { RotateCcw, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { RotateCcw, ArrowRight, Target } from 'lucide-react';
 import type { DailyQuestion } from '@/types/daily';
 import { OXQuestion } from './OXQuestion';
 import { getChapterDisplayName } from '@/lib/study/display-labels';
+import { buildDailyNextStep } from '@/lib/study/daily-next-step';
 
 export function StepOX({
   oxQuestions,
@@ -26,6 +28,8 @@ export function StepOX({
   onFinishStep1: () => void;
   onProceedToStep2: (useWrongOnly: boolean) => void;
 }) {
+  const nextStep = step1Done ? buildDailyNextStep(oxQuestions, oxAnswers) : null;
+
   return (
     <>
       <div className="space-y-3">
@@ -54,6 +58,33 @@ export function StepOX({
 
       {step1Done && (
         <div className="space-y-3">
+          {nextStep && (
+            <div className="sticky top-2 z-10 rounded-xl border border-primary/20 bg-background/95 p-4 shadow-sm backdrop-blur">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <Target className="h-4 w-4" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-semibold text-primary">다음 한 걸음</p>
+                  <p className="mt-1 text-sm font-medium text-foreground">{nextStep.message}</p>
+                  {nextStep.primarySubjectLabel && nextStep.primaryChapterLabel && (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {nextStep.primarySubjectLabel} · {nextStep.primaryChapterLabel}
+                    </p>
+                  )}
+                </div>
+              </div>
+              {nextStep.conceptHref && (
+                <Link
+                  href={nextStep.conceptHref}
+                  className="mt-3 inline-flex w-full items-center justify-center rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+                >
+                  관련 개념 보기
+                </Link>
+              )}
+            </div>
+          )}
+
           <div className="p-4 rounded-xl border border-border bg-card">
             <p className="text-sm font-medium text-foreground">
               정답: {oxQuestions.filter((q) => oxAnswers[q.id]?.toUpperCase() === String(q.answer).toUpperCase()).length} / {oxQuestions.length}

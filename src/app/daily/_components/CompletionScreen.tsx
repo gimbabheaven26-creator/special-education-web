@@ -6,6 +6,7 @@ import { RecommendedChapters } from '@/components/RecommendedChapters';
 import type { DailyQuestion } from '@/types/daily';
 import { OX_COUNT, FILL_IN_COUNT, DESCRIPTIVE_COUNT } from '@/types/daily';
 import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
+import { getChapterDisplayName } from '@/lib/study/display-labels';
 
 const DAILY_TIERS = createScoreTiers([
   '오늘 완벽한 하루! 이 기세로 내일도 달려볼까요?',
@@ -72,7 +73,7 @@ export function CompletionScreen({
           </div>
           <ul className="text-xs text-amber-600 dark:text-amber-400 space-y-1 pl-6 list-disc">
             {uniqueWrongChapters.map((ch) => (
-              <li key={ch}>{ch}</li>
+              <li key={ch}>{getChapterDisplayName(ch)}</li>
             ))}
           </ul>
         </div>

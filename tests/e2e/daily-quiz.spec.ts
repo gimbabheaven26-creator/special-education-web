@@ -131,6 +131,9 @@ test.describe('Daily Quiz (/daily) - Step 1 기본', () => {
     // Score summary should appear: "정답: N / M"
     await expect(page.getByText(/정답:\s*\d+\s*\/\s*\d+/)).toBeVisible({ timeout: 5000 });
 
+    // P2 UX: grading should immediately explain the next action
+    await expect(page.getByText('다음 한 걸음')).toBeVisible();
+
     // Each question should show the correct answer text "정답: O" or "정답: X"
     const answerReveals = page.locator('p').filter({ hasText: /^정답:/ });
     const revealCount = await answerReveals.count();

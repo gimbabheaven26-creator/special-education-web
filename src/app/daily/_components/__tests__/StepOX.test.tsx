@@ -10,7 +10,14 @@ vi.mock('next/link', () => ({
 }));
 
 vi.mock('@/lib/content/concept-urls', () => ({
-  getConceptUrl: (s: string) => '/concepts/' + s,
+  SLUG_TO_CONCEPTS_FOLDER: {
+    laws: '관련 법령',
+    'behavior-support': '행동수정',
+  },
+  getConceptUrl: (s: string, c?: string) => {
+    const folder = s === 'laws' ? '관련 법령' : s === 'behavior-support' ? '행동수정' : s;
+    return c ? `/concepts/${folder}/${c}` : '/concepts/' + folder;
+  },
 }));
 
 function makeOXQuestion(id: string, answer: string, chapter = '행동지원'): DailyQuestion {
@@ -134,6 +141,26 @@ describe('StepOX', () => {
     expect(screen.getByText(/취약 챕터/)).toBeDefined();
     expect(screen.getByText(/취약 챕터/).textContent).toContain('챕터A');
     expect(screen.getByText(/취약 챕터/).textContent).toContain('챕터B');
+  });
+
+  it('shows a next-step summary after grading wrong answers', () => {
+    render(
+      <StepOX
+        {...defaultProps}
+        oxQuestions={[
+          { ...makeOXQuestion('ox-1', 'O', 'special-education-act'), subject: 'laws' },
+          { ...makeOXQuestion('ox-2', 'X', 'pbs'), subject: 'behavior-support' },
+        ]}
+        oxAnswers={{ 'ox-1': 'X', 'ox-2': 'X' }}
+        step1Done={true}
+        revealed={true}
+        wrongChaptersStep1={['special-education-act']}
+      />,
+    );
+
+    expect(screen.getByText('다음 한 걸음')).toBeDefined();
+    expect(screen.getAllByText(/특수교육법/).length).toBeGreaterThan(0);
+    expect(screen.getByRole('link', { name: '관련 개념 보기' }).getAttribute('href')).toBe('/concepts/관련 법령/special-education-act');
   });
 
   it('does not show wrong chapters when all answers are correct', () => {
