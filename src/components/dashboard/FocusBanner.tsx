@@ -6,22 +6,10 @@ import { useFocusStore } from '@/stores/useFocusStore';
 import { useMounted } from '@/hooks/useMounted';
 import { pickWeakestSubject } from '@/lib/study/focus-utils';
 import { useStudyStore } from '@/stores/useStudyStore';
+import { getAllSubjectSlugs } from '@/lib/study/study-planner';
+import { getSubjectDisplayName } from '@/lib/study/display-labels';
 
-const SUBJECT_LABELS: Record<string, string> = {
-  'special-education': '특수교육학',
-  'intellectual-disability': '지적장애',
-  'autism-spectrum': '자폐성장애',
-  'learning-disability': '학습장애',
-  'emotional-behavioral': '정서행동장애',
-  'communication-disorders': '의사소통장애',
-  'visual-impairment': '시각장애',
-  'hearing-impairment': '청각장애',
-  'physical-disability': '지체장애',
-  'health-impairment': '건강장애',
-  'behavior-support': '행동지원',
-};
-
-const ALL_SLUGS = Object.keys(SUBJECT_LABELS);
+const ALL_SLUGS = getAllSubjectSlugs();
 
 export function FocusBanner() {
   const mounted = useMounted();
@@ -77,7 +65,7 @@ export function FocusBanner() {
     return <div className="h-14 rounded-xl bg-card animate-pulse" />;
   }
 
-  const label = SUBJECT_LABELS[focusSubject] ?? focusSubject;
+  const label = getSubjectDisplayName(focusSubject);
 
   return (
     <div className="relative rounded-xl border border-primary/20 bg-primary/5 p-3">
@@ -123,7 +111,7 @@ export function FocusBanner() {
                   : 'bg-muted/50 hover:bg-muted text-foreground')
               }
             >
-              {SUBJECT_LABELS[slug]}
+              {getSubjectDisplayName(slug)}
             </button>
           ))}
           <button

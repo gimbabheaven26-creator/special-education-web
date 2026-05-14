@@ -211,6 +211,10 @@ test.describe('OX Quiz (/quiz/ox) - Full User Journey', () => {
 
     // Score percentage ring should be visible
     await expect(page.locator('svg text').filter({ hasText: /\d+%/ })).toBeVisible();
+
+    // P1 UX: the report should tell the learner what to do next
+    await expect(page.getByText('다음 한 걸음')).toBeVisible();
+    await expect(page.getByRole('link', { name: '약점 개념 보기' })).toBeVisible();
   });
 
   // #7 FIX: Deterministic wrong answer scenario

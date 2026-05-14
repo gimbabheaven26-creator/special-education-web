@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CalendarDays, GraduationCap, AlertTriangle, Rocket } from 'lucide-react';
 import { useOnboardingStore, type StudyLevel } from '@/stores/useOnboardingStore';
 import { useStudyStore } from '@/stores/useStudyStore';
+import { useFocusStore } from '@/stores/useFocusStore';
 import { generateStudyPlan, getSubjectTitle, getAllSubjectSlugs, getNextExamDate } from '@/lib/study/study-planner';
 
 type Step = 'exam-date' | 'level' | 'weak-subjects' | 'daily-questions' | 'confirm';
@@ -423,6 +424,7 @@ export default function OnboardingClient() {
   const router = useRouter();
   const completeOnboarding = useOnboardingStore((s) => s.completeOnboarding);
   const setDailyGoal = useStudyStore((s) => s.setDailyGoal);
+  const setFocus = useFocusStore((s) => s.setFocus);
 
   const [examDate, setExamDate] = useState(getNextExamDate());
   const dday = calcDday(examDate);
@@ -452,8 +454,11 @@ export default function OnboardingClient() {
     const fullPlan = { ...plan, targetSubjects: weakSubjects, dailyQuestionsTarget };
     completeOnboarding(fullPlan);
     setDailyGoal(plan.dailyChapterTarget, plan.dailyQuizTarget);
+    if (weakSubjects[0]) {
+      setFocus(weakSubjects[0]);
+    }
     router.push('/');
-  }, [examDate, level, weakSubjects, dailyQuestionsTarget, completeOnboarding, setDailyGoal, router]);
+  }, [examDate, level, weakSubjects, dailyQuestionsTarget, completeOnboarding, setDailyGoal, setFocus, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-8">

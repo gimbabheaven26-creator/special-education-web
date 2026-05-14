@@ -9,6 +9,7 @@ import { getKiceRefsForConcept } from '@/lib/kice/keyword-concept-map';
 import { StepGuide, FillBlank, MatchingExercise } from '@/components/mdx';
 import { ChapterTracker } from '@/components/chapter/ChapterTracker';
 import { BookmarkButton } from '@/components/chapter/BookmarkButton';
+import { ConceptActionPanel } from '@/components/chapter/ConceptActionPanel';
 
 const mdxComponents = { StepGuide, FillBlank, MatchingExercise };
 
@@ -39,6 +40,10 @@ export default async function ConceptSlugPage({ params }: Props) {
   // DB slug 매핑만 사용 (Supabase 미호출 — 순수 정적)
   const dbSlug = getDbSlugForFolder(decodedSubject);
   const kiceRefs = getKiceRefsForConcept(decodedSubject, decodedSlug);
+  const firstKiceRef = kiceRefs[0];
+  const firstKiceHref = firstKiceRef
+    ? `/kice?year=${firstKiceRef.year}&session=${encodeURIComponent(firstKiceRef.session)}#q-${firstKiceRef.questionNumber}`
+    : null;
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-8">
@@ -85,6 +90,14 @@ export default async function ConceptSlugPage({ params }: Props) {
         {description && (
           <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
         )}
+
+        <ConceptActionPanel
+          title={title}
+          subjectTitle={decodedSubject}
+          quizHref={dbSlug ? `/quiz/${dbSlug}` : null}
+          kiceRefCount={kiceRefs.length}
+          firstKiceHref={firstKiceHref}
+        />
 
         {/* 기출 키워드 뱃지 */}
         {kiceKeywords.length > 0 && (

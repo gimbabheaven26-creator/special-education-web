@@ -6,8 +6,10 @@ import {
   buildRadarData,
   buildWeakChapters,
   buildRecommendations,
+  buildNextActionSummary,
 } from './diagnostic-utils';
 import { getConceptUrl } from '@/lib/content/concept-urls';
+import { getChapterDisplayName, getSubjectDisplayName } from '@/lib/study/display-labels';
 import type { QuizResult } from '@/types/quiz';
 
 interface DiagnosticReportProps {
@@ -30,6 +32,7 @@ export function DiagnosticReport({
   const radarData = buildRadarData(results, subjectMap);
   const weakChapters = buildWeakChapters(results, WEAK_TOP_N);
   const recommendations = buildRecommendations(results, subjectMap);
+  const nextAction = buildNextActionSummary(results, subjectMap, chapterMap);
 
   if (results.length === 0) {
     return (
@@ -57,6 +60,22 @@ export function DiagnosticReport({
         </div>
       </section>
 
+      {nextAction && (
+        <section className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+          <p className="text-xs font-semibold text-primary">다음 한 걸음</p>
+          <h2 className="mt-1 text-base font-bold text-foreground">{nextAction.title}</h2>
+          <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+            {nextAction.body}
+          </p>
+          <Link
+            href={nextAction.href}
+            className="mt-3 inline-flex items-center rounded-lg bg-primary px-3 py-2 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            {nextAction.ctaLabel}
+          </Link>
+        </section>
+      )}
+
       {/* ─── 취약 영역 TOP 5 ──────────────────────────────────────────────── */}
       {weakChapters.length > 0 && (
         <section>
@@ -65,8 +84,8 @@ export function DiagnosticReport({
           </h2>
           <div className="space-y-2">
             {weakChapters.map((wc, i) => {
-              const chapterLabel = chapterMap?.[wc.chapter] ?? wc.chapter;
-              const subjectLabel = subjectMap[wc.subject] ?? wc.subject;
+              const chapterLabel = getChapterDisplayName(wc.chapter, chapterMap);
+              const subjectLabel = subjectMap[wc.subject] ?? getSubjectDisplayName(wc.subject);
               const chapterUrl = getConceptUrl(wc.subject, wc.chapter);
               return (
                 <Link

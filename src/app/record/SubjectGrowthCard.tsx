@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { TrendingUp, TrendingDown, Minus, ChevronRight } from 'lucide-react';
 import type { SubjectWeeklySummaryEntry } from '@/lib/study/stats-utils';
+import { getSubjectDisplayName } from '@/lib/study/display-labels';
 
 function barColor(rate: number): string {
   if (rate >= 80) return 'bg-emerald-500';
@@ -42,7 +43,7 @@ export function SubjectGrowthCard({ entries }: SubjectGrowthCardProps) {
           return (
             <div key={entry.subject} className="space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium truncate max-w-[120px]">{entry.subject}</span>
+                <span className="text-xs font-medium truncate max-w-[120px]">{getSubjectDisplayName(entry.subject)}</span>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold tabular-nums">{entry.thisWeek.rate}%</span>
                   <div className={`flex items-center gap-0.5 ${deltaColor}`}>

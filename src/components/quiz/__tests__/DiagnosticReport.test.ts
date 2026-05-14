@@ -12,6 +12,7 @@ import {
   buildRadarData,
   buildWeakChapters,
   buildRecommendations,
+  buildNextActionSummary,
 } from '../diagnostic-utils';
 import type { QuizResult } from '@/types/quiz';
 
@@ -176,6 +177,31 @@ describe('DiagnosticReport 로직', () => {
     it('빈 결과이면 빈 배열을 반환한다', () => {
       const recs = buildRecommendations([], subjectMap);
       expect(recs).toHaveLength(0);
+    });
+  });
+
+  describe('buildNextActionSummary', () => {
+    it('가장 약한 챕터를 다음 행동으로 요약한다', () => {
+      const results: QuizResult[] = [
+        makeResult('q1', 'laws', 'special-education-act', false),
+        makeResult('q2', 'laws', 'special-education-act', true),
+        makeResult('q3', 'visual-impairment', 'visual-training', true),
+      ];
+
+      const summary = buildNextActionSummary(
+        results,
+        { laws: '관련 법령', 'visual-impairment': '시각장애' },
+        { 'special-education-act': '특수교육법' },
+      );
+
+      expect(summary?.title).toBe('관련 법령 · 특수교육법');
+      expect(summary?.body).toContain('1/2 정답');
+      expect(summary?.href).toBe('/concepts/관련 법령/special-education-act');
+      expect(summary?.ctaLabel).toBe('약점 개념 보기');
+    });
+
+    it('결과가 없으면 null을 반환한다', () => {
+      expect(buildNextActionSummary([], subjectMap)).toBeNull();
     });
   });
 });

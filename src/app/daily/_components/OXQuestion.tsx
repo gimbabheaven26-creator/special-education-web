@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { DailyQuestion } from '@/types/daily';
 import { getConceptUrl } from '@/lib/content/concept-urls';
+import { getChapterDisplayName } from '@/lib/study/display-labels';
 
 export function OXQuestion({
   question,
@@ -31,7 +32,7 @@ export function OXQuestion({
         href={getConceptUrl(question.subject)}
         className="inline-block text-xs text-muted-foreground hover:text-primary hover:underline mb-1.5 transition-colors"
       >
-        {question.chapter}
+        {getChapterDisplayName(question.chapter)}
       </Link>
       <p className="text-sm text-foreground leading-relaxed mb-3">
         <span className="font-medium text-muted-foreground mr-1">{index}.</span>

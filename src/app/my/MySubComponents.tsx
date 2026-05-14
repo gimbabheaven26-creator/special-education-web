@@ -5,6 +5,7 @@ import { LogIn, ChevronRight } from 'lucide-react';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useQuizStore } from '@/stores/useQuizStore';
 import type { WrongNote } from '@/types/study';
+import { getChapterDisplayName, getSubjectDisplayName } from '@/lib/study/display-labels';
 
 // ─── Guest view ───────────────────────────────────────────────────────────────
 
@@ -61,7 +62,7 @@ export function RecentWrongTab() {
         >
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
-              {note.subject}
+              {getSubjectDisplayName(note.subject)}
             </span>
             {note.attempts >= 3 && (
               <span className="text-xs px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950/30 dark:text-red-400">
@@ -70,7 +71,7 @@ export function RecentWrongTab() {
             )}
           </div>
           <p className="text-sm line-clamp-2 text-muted-foreground">
-            {note.chapter ?? note.subject}
+            {note.chapter ? getChapterDisplayName(note.chapter) : getSubjectDisplayName(note.subject)}
           </p>
         </Link>
       ))}

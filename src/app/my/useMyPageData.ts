@@ -15,6 +15,7 @@ import {
   computeSubjectWeeklySummary,
   detectWeakToStrong,
 } from '@/lib/study/stats-utils';
+import { getSubjectDisplayName } from '@/lib/study/display-labels';
 
 export interface Recommendation {
   type: 'flashcard' | 'weak' | 'wrong' | 'daily' | 'continue';
@@ -76,7 +77,7 @@ export function useMyPageData() {
     }
     if (weakness.weakAreas.length > 0) {
       const w = weakness.weakAreas[0];
-      items.push({ type: 'weak', label: `${w.subject} 정답률 ${w.rate}% — 복습 추천`, href: `/quiz/${w.subject}`, emoji: '💡' });
+      items.push({ type: 'weak', label: `${getSubjectDisplayName(w.subject)} 정답률 ${w.rate}% — 복습 추천`, href: `/quiz/${w.subject}`, emoji: '💡' });
     }
     if (unmasteredCount > 0) {
       items.push({ type: 'wrong', label: `오답 ${unmasteredCount}개 아직 미해결`, href: '/wrong-notes', emoji: '📋' });

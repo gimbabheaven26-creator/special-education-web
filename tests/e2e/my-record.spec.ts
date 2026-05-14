@@ -1,4 +1,53 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+async function seedRecordData(page: Page) {
+  await page.goto('/');
+  await page.evaluate(() => {
+    const now = Date.now();
+    const today = new Date().toISOString().slice(0, 10);
+    localStorage.setItem('quiz-data', JSON.stringify({
+      state: {
+        wrongNotes: [
+          {
+            questionId: 'record-seed-wrong-1',
+            subject: 'laws',
+            chapter: 'special-education-act',
+            userAnswer: 'X',
+            attempts: 1,
+            lastAttempt: now,
+            mastered: false,
+          },
+        ],
+        quizHistory: [
+          { questionId: 'record-seed-q1', isCorrect: true, subject: 'laws', chapter: 'special-education-act', timestamp: now },
+          { questionId: 'record-seed-q2', isCorrect: false, subject: 'laws', chapter: 'special-education-act', timestamp: now },
+        ],
+        diagnosticSessions: [],
+        feedbacks: [],
+        errorReports: [],
+      },
+      version: 5,
+    }));
+    localStorage.setItem('special-edu-study', JSON.stringify({
+      state: {
+        currentStreak: 1,
+        longestStreak: 1,
+        lastActiveDate: today,
+        dailyProgress: { date: today, chaptersCompleted: 0, quizzesCompleted: 2, quizzesCorrect: 1, flashcardsReviewed: 0 },
+        dailyGoal: { chapters: 2, quizzes: 10 },
+        recentActivities: [],
+        totalXP: 20,
+        totalQuizzes: 2,
+        totalCorrect: 1,
+        dailyHistory: [],
+        scenarioProgress: {},
+        spacedScenarioSchedules: {},
+        completedChapters: {},
+      },
+      version: 7,
+    }));
+  });
+}
 
 test.describe('/my 대시보드', () => {
   test('페이지 렌더링 + 주요 섹션 존재', async ({ page }) => {
@@ -60,6 +109,19 @@ test.describe('/record 대시보드', () => {
     const hasCTA = await page.locator('text=시작').count();
     const hasContent = await page.locator('text=기록').count();
     expect(hasMetrics + hasCTA + hasContent).toBeGreaterThan(0);
+  });
+
+  test('정답률과 과목/챕터 이름을 사용자용 문구로 표시', async ({ page }) => {
+    await seedRecordData(page);
+    await page.goto('/record');
+    await expect(page.getByRole('main').first()).toBeVisible();
+
+    await expect(page.getByText('전체 정답률')).toBeVisible();
+    await expect(page.getByText('5000%')).toHaveCount(0);
+    await expect(page.getByText('관련 법령').first()).toBeVisible();
+    await expect(page.getByText('특수교육법').first()).toBeVisible();
+    await expect(page.getByText(/^laws$/)).toHaveCount(0);
+    await expect(page.getByText(/^special-education-act$/)).toHaveCount(0);
   });
 });
 

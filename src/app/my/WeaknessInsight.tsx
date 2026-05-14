@@ -11,6 +11,7 @@ import {
   computeOverallAccuracy,
   computeTrend,
 } from '@/lib/study/stats-utils';
+import { getSubjectDisplayName } from '@/lib/study/display-labels';
 
 const TREND_LABELS: Record<string, string> = {
   improving: '향상 중',
@@ -88,7 +89,7 @@ export function WeaknessInsight() {
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-foreground truncate">{s.subject}</span>
+                    <span className="text-sm font-medium text-foreground truncate">{getSubjectDisplayName(s.subject)}</span>
                     <span className={`text-xs font-semibold ${rateColor(s.rate)}`}>{s.rate}%</span>
                   </div>
                   <p className="text-[11px] text-muted-foreground">

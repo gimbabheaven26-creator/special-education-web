@@ -5,6 +5,7 @@
 
 import { computeSubjectStats, computeChapterStats } from '@/lib/study/stats-utils';
 import { getConceptUrl } from '@/lib/content/concept-urls';
+import { getChapterDisplayName, getSubjectDisplayName } from '@/lib/study/display-labels';
 import type { QuizResult } from '@/types/quiz';
 
 // ─── 마스터리 레벨 판정 (mastery.ts 의존 제거: json import 회피) ────────────
@@ -98,6 +99,13 @@ export interface Recommendation {
   readonly rate: number;
 }
 
+export interface NextActionSummary {
+  readonly title: string;
+  readonly body: string;
+  readonly href: string;
+  readonly ctaLabel: string;
+}
+
 /** 취약 과목 → 개념학습 바로가기 링크 생성 (정답률 오름차순) */
 export function buildRecommendations(
   results: ReadonlyArray<QuizResult>,
@@ -112,4 +120,28 @@ export function buildRecommendations(
     url: getConceptUrl(s.subject),
     rate: s.rate,
   }));
+}
+
+export function buildNextActionSummary(
+  results: ReadonlyArray<QuizResult>,
+  subjectMap: Readonly<Record<string, string>>,
+  chapterMap: Readonly<Record<string, string>> = {},
+): NextActionSummary | null {
+  const [weakest] = buildWeakChapters(results, 1);
+  if (!weakest) return null;
+
+  const subjectLabel = subjectMap[weakest.subject] ?? getSubjectDisplayName(weakest.subject);
+  const chapterLabel = getChapterDisplayName(weakest.chapter, chapterMap);
+  const emphasis = weakest.rate < 40
+    ? '가장 먼저 다시 볼 영역입니다.'
+    : weakest.rate < 70
+      ? '한 번 더 확인하면 점수가 바로 오를 영역입니다.'
+      : '마무리 복습으로 안정화하면 좋은 영역입니다.';
+
+  return {
+    title: `${subjectLabel} · ${chapterLabel}`,
+    body: `${weakest.correct}/${weakest.total} 정답, 정답률 ${weakest.rate}%. ${emphasis}`,
+    href: getConceptUrl(weakest.subject, weakest.chapter),
+    ctaLabel: '약점 개념 보기',
+  };
 }

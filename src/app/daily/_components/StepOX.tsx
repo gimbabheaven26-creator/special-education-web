@@ -3,6 +3,7 @@
 import { RotateCcw, ArrowRight } from 'lucide-react';
 import type { DailyQuestion } from '@/types/daily';
 import { OXQuestion } from './OXQuestion';
+import { getChapterDisplayName } from '@/lib/study/display-labels';
 
 export function StepOX({
   oxQuestions,
@@ -59,7 +60,7 @@ export function StepOX({
             </p>
             {wrongChaptersStep1.length > 0 && (
               <p className="text-xs text-muted-foreground mt-1">
-                취약 챕터: {Array.from(new Set(wrongChaptersStep1)).join(', ')}
+                취약 챕터: {Array.from(new Set(wrongChaptersStep1)).map((chapter) => getChapterDisplayName(chapter)).join(', ')}
               </p>
             )}
           </div>

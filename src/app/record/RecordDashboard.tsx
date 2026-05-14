@@ -26,6 +26,7 @@ import { SubjectGrowthCard } from './SubjectGrowthCard';
 import { WeakToStrongBanner } from './WeakToStrongBanner';
 import { useMounted } from '@/hooks/useMounted';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { getSubjectDisplayName } from '@/lib/study/display-labels';
 
 export default function RecordDashboard() {
   const mounted = useMounted();
@@ -125,7 +126,7 @@ export default function RecordDashboard() {
         <div className="flex items-center justify-between p-4 rounded-2xl border border-border bg-card">
           <div>
             <p className="text-xs text-muted-foreground">전체 정답률</p>
-            <p className="text-2xl font-bold tabular-nums">{Math.round(weakness.overall.rate * 100)}%</p>
+            <p className="text-2xl font-bold tabular-nums">{Math.round(weakness.overall.rate)}%</p>
           </div>
           <div className={`flex items-center gap-1 ${trendColor}`}>
             <TrendIcon className="h-4 w-4" />
@@ -165,7 +166,7 @@ export default function RecordDashboard() {
               >
                 <div className="flex items-center gap-2">
                   <AlertCircle className="h-4 w-4 text-red-500" />
-                  <span className="text-sm font-medium">{area.subject}</span>
+                  <span className="text-sm font-medium">{getSubjectDisplayName(area.subject)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold text-red-600 dark:text-red-400 tabular-nums">{area.rate}%</span>
