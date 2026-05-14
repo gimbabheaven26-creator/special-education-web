@@ -76,5 +76,11 @@ scripts/output/
 # nadaun (독립 프로젝트로 분리 — ~/Projects/nadaun/)
 nadaun/
 
+# next-pwa build artifacts (withPWA dest:'public' 자동 생성)
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+
 # superpowers
 .superpowers/
