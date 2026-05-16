@@ -7,6 +7,7 @@ import {
   BookOpen,
   AlertCircle,
   ChevronRight,
+  CheckCircle2,
   TrendingUp,
   TrendingDown,
   Minus,
@@ -27,6 +28,7 @@ import { WeakToStrongBanner } from './WeakToStrongBanner';
 import { useMounted } from '@/hooks/useMounted';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { getSubjectDisplayName } from '@/lib/study/display-labels';
+import { buildTodayGrowthSummary } from '@/lib/study/today-growth-summary';
 
 export default function RecordDashboard() {
   const mounted = useMounted();
@@ -34,6 +36,7 @@ export default function RecordDashboard() {
   const totalXP = useStudyStore((s) => s.totalXP);
   const totalQuizzes = useStudyStore((s) => s.totalQuizzes);
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
+  const dailyGoal = useStudyStore((s) => s.dailyGoal);
   const wrongNotesCount = useQuizStore((s) => s.wrongNotes.length);
   const bookmarkCount = useBookmarkStore((s) => s.bookmarks.length);
   const leitnerStats = useLeitnerStore(useShallow((s) => s.getStats()));
@@ -48,9 +51,7 @@ export default function RecordDashboard() {
     );
   }
 
-  const todayQuizzes = dailyProgress.quizzesCompleted ?? 0;
-  const todayCorrect = dailyProgress.quizzesCorrect ?? 0;
-  const todayAccuracy = todayQuizzes > 0 ? Math.round((todayCorrect / todayQuizzes) * 100) : null;
+  const todayGrowth = buildTodayGrowthSummary(dailyProgress, dailyGoal, currentStreak);
 
   if (totalQuizzes === 0 && wrongNotesCount === 0) {
     return (
@@ -79,14 +80,31 @@ export default function RecordDashboard() {
 
       <ExamCountdown />
 
-      {todayQuizzes > 0 && (
-        <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20">
-          <p className="text-xs text-muted-foreground mb-1">오늘</p>
-          <div className="flex items-baseline gap-3">
-            <span className="text-2xl font-bold text-primary tabular-nums">{todayQuizzes}문제</span>
-            {todayAccuracy !== null && (
-              <span className="text-sm text-muted-foreground">정답률 {todayAccuracy}%</span>
-            )}
+      {todayGrowth && (
+        <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 space-y-3">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-1.5 text-primary">
+                <CheckCircle2 className="h-4 w-4" />
+                <p className="text-xs font-semibold">{todayGrowth.title}</p>
+              </div>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-2xl font-bold text-primary tabular-nums">{todayGrowth.metric}</span>
+                {todayGrowth.streakLabel && (
+                  <span className="text-xs text-muted-foreground">{todayGrowth.streakLabel}</span>
+                )}
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="h-2 rounded-full bg-background overflow-hidden">
+              <div
+                className="h-full rounded-full bg-primary transition-all duration-500"
+                style={{ width: `${todayGrowth.progressPercent}%` }}
+              />
+            </div>
+            <p className="text-sm text-foreground mt-2">{todayGrowth.message}</p>
+            <p className="text-xs text-muted-foreground mt-1">{todayGrowth.detail}</p>
           </div>
         </div>
       )}

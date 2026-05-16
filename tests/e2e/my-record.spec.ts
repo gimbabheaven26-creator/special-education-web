@@ -116,6 +116,8 @@ test.describe('/record 대시보드', () => {
     await page.goto('/record');
     await expect(page.getByRole('main').first()).toBeVisible();
 
+    await expect(page.getByText('오늘의 성장')).toBeVisible();
+    await expect(page.getByText('2문제 · 50%')).toBeVisible();
     await expect(page.getByText('전체 정답률')).toBeVisible();
     await expect(page.getByText('5000%')).toHaveCount(0);
     await expect(page.getByText('관련 법령').first()).toBeVisible();

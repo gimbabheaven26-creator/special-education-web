@@ -43,6 +43,7 @@ vi.mock('@/stores/useStudyStore', () => ({
       totalXP: 120,
       totalQuizzes: 2,
       dailyProgress: { quizzesCompleted: 2, quizzesCorrect: 1 },
+      dailyGoal: { quizzes: 10, chapters: 2 },
     }),
 }));
 
@@ -98,5 +99,12 @@ describe('RecordDashboard', () => {
 
     expect(screen.getByText('관련 법령')).toBeDefined();
     expect(screen.queryByText('laws')).toBeNull();
+  });
+
+  it('shows a today growth feedback card when there is activity', () => {
+    render(<RecordDashboard />);
+
+    expect(screen.getByText('오늘의 성장')).toBeDefined();
+    expect(screen.getByText('2문제 · 50%')).toBeDefined();
   });
 });
