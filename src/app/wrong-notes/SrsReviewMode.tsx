@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { useLeitnerStore, type LeitnerCard } from '@/stores/useLeitnerStore';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, XCircle, RotateCcw } from 'lucide-react';
 import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
@@ -113,13 +113,12 @@ export default function SrsReviewMode() {
 
         {stats.total === 0 && (
           <div className="flex justify-center">
-            <Button
-              render={<Link href="/wrong-notes" />}
-              variant="outline"
-              className="min-h-[44px]"
+            <Link
+              href="/wrong-notes"
+              className={buttonVariants({ variant: 'outline', className: 'min-h-[44px]' })}
             >
               오답 노트에서 카드 추가하기
-            </Button>
+            </Link>
           </div>
         )}
       </div>
@@ -149,12 +148,9 @@ export default function SrsReviewMode() {
             <RotateCcw className="h-4 w-4 mr-2" />
             다시 복습
           </Button>
-          <Button
-            render={<Link href="/wrong-notes" />}
-            className="min-h-[44px]"
-          >
+          <Link href="/wrong-notes" className={buttonVariants({ className: 'min-h-[44px]' })}>
             오답 노트로
-          </Button>
+          </Link>
         </div>
       </div>
     );

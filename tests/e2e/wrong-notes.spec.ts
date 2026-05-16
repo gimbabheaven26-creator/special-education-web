@@ -2,8 +2,8 @@ import { test, expect, type Page } from '@playwright/test';
 
 const HYDRATED_WRONG_QUESTION = {
   id: 'e2e-wrong-ox-1',
-  subject: 'introduction',
-  chapter: 'special-education-basics',
+  subject: 'laws',
+  chapter: 'special-education-act',
   type: 'ox',
   question: 'E2E 오답 hydration 문제입니다.',
   answer: 'X',
@@ -94,6 +94,9 @@ test.describe('오답노트 (/wrong-notes)', () => {
     await expect(page.getByRole('heading', { name: '오답 노트' })).toBeVisible();
     await expect(page.getByText(HYDRATED_WRONG_QUESTION.question)).toBeVisible();
     await expect(page.getByText('2회 시도')).toBeVisible();
+    await expect(page.getByText('이 오답 다음 복습')).toBeVisible();
+    await expect(page.getByText('특수교육법 개념 찾기')).toBeVisible();
+    await expect(page.getByText('특수교육법 다시 풀기')).toBeVisible();
     await expect(page.getByRole('link', { name: /오답 재시험.*1문제/ })).toBeVisible();
     expect(requestedIds).toContainEqual([HYDRATED_WRONG_QUESTION.id]);
   });

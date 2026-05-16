@@ -6,12 +6,12 @@ import type { HydratedWrongNote } from './WrongNotesClient';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { BookOpen, CopyPlus } from 'lucide-react';
+import { BookOpen, CopyPlus, RotateCcw } from 'lucide-react';
 import { Users } from 'lucide-react';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { ErrorPattern } from '@/lib/study/error-patterns';
 import { ErrorPatternBadge } from './ErrorPatternBadge';
-import { getConceptUrl } from '@/lib/content/concept-urls';
+import { buildWrongNoteReviewActions } from './review-actions';
 
 const TYPE_LABELS: Record<string, string> = {
   ox: 'OX',
@@ -38,6 +38,7 @@ function formatAnswer(answer: string | number, note: HydratedWrongNote): string 
 
 interface WrongNoteCardProps {
   note: HydratedWrongNote;
+  chapterTitle?: string;
   errorPatterns?: ErrorPattern[];
   wrongCount?: number;
   onMarkMastered: (questionId: string) => void;
@@ -47,6 +48,7 @@ interface WrongNoteCardProps {
 
 export default function WrongNoteCard({
   note,
+  chapterTitle,
   errorPatterns,
   wrongCount,
   onMarkMastered,
@@ -60,6 +62,7 @@ export default function WrongNoteCard({
   const { question } = note;
   const questionText = question?.question ?? '';
   const shouldTruncate = questionText.length > 80;
+  const reviewActions = buildWrongNoteReviewActions(question, chapterTitle);
 
   const alreadyInFlashcard = leitnerCards.some((c) => c.id === `wrong-${note.questionId}`);
 
@@ -154,16 +157,42 @@ export default function WrongNoteCard({
           </div>
         )}
 
-        <div className="flex items-center gap-3">
-          {question?.subject && question?.chapter && (
-            <Link
-              href={getConceptUrl(question.subject)}
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+        <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
+          <p className="text-xs font-semibold text-foreground">이 오답 다음 복습</p>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {reviewActions.map((action) => {
+              const Icon = action.kind === 'concept' ? BookOpen : RotateCcw;
+              return (
+                <Link
+                  key={action.kind}
+                  href={action.href}
+                  aria-label={action.ariaLabel}
+                  className="inline-flex min-h-[36px] items-center justify-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                  {action.label}
+                </Link>
+              );
+            })}
+            <button
+              type="button"
+              onClick={handleSaveToFlashcard}
+              disabled={alreadyInFlashcard || savedToFlashcard}
+              className="inline-flex min-h-[36px] items-center justify-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <BookOpen className="h-3.5 w-3.5" />
-              챕터 보기
-            </Link>
+              <CopyPlus className="h-3.5 w-3.5" />
+              {alreadyInFlashcard || savedToFlashcard ? '플래시카드 저장됨' : '플래시카드로 저장'}
+            </button>
+          </div>
+          {reviewActions.length === 0 && (
+            <p className="text-xs text-muted-foreground">
+              문제 정보를 불러오면 개념 복습과 다시 풀기 링크가 표시됩니다.
+            </p>
           )}
+        </div>
+
+        {reviewActions.length === 0 && (
+          <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={handleSaveToFlashcard}
@@ -173,7 +202,8 @@ export default function WrongNoteCard({
             <CopyPlus className="h-3.5 w-3.5" />
             {alreadyInFlashcard || savedToFlashcard ? '플래시카드 저장됨' : '플래시카드로 저장'}
           </button>
-        </div>
+          </div>
+        )}
 
         <div className="flex gap-2">
           {note.mastered ? (

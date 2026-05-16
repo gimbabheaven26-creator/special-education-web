@@ -8,7 +8,7 @@ import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { QuizQuestion } from '@/types/quiz';
 import { Badge } from '@/components/ui/badge';
 import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   MultipleChoice,
@@ -246,14 +246,12 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
             >
               다시 불러오기
             </Button>
-            <Button
-              render={<Link href="/wrong-notes" />}
-              variant="outline"
-              size="lg"
-              className="min-h-[44px]"
+            <Link
+              href="/wrong-notes"
+              className={buttonVariants({ variant: 'outline', size: 'lg', className: 'min-h-[44px]' })}
             >
               오답 노트로 돌아가기
-            </Button>
+            </Link>
           </div>
         </div>
       </main>
@@ -274,13 +272,9 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
           <p className="text-sm text-muted-foreground">
             모든 오답을 완료 처리했거나 아직 오답이 없습니다.
           </p>
-          <Button
-            render={<Link href="/wrong-notes" />}
-            size="lg"
-            className="min-h-[44px]"
-          >
+          <Link href="/wrong-notes" className={buttonVariants({ size: 'lg', className: 'min-h-[44px]' })}>
             오답 노트로 돌아가기
-          </Button>
+          </Link>
         </div>
       </main>
     );
@@ -352,21 +346,18 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
         </Card>
 
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button
-            render={<Link href="/wrong-notes" />}
-            variant="outline"
-            size="lg"
-            className="flex-1 min-h-[44px]"
+          <Link
+            href="/wrong-notes"
+            className={buttonVariants({ variant: 'outline', size: 'lg', className: 'flex-1 min-h-[44px]' })}
           >
             오답 노트로 돌아가기
-          </Button>
-          <Button
-            render={<Link href="/wrong-notes/quiz" />}
-            size="lg"
-            className="flex-1 min-h-[44px]"
+          </Link>
+          <Link
+            href="/wrong-notes/quiz"
+            className={buttonVariants({ size: 'lg', className: 'flex-1 min-h-[44px]' })}
           >
             다시 재시험
-          </Button>
+          </Link>
         </div>
       </main>
     );
@@ -469,14 +460,12 @@ export default function WrongNotesQuizClient({ subjectTitleMap, chapterTitleMap 
           >
             개념 보기
           </Link>
-          <Button
-            render={<Link href="/wrong-notes" />}
-            variant="ghost"
-            size="sm"
-            className="min-h-[44px]"
+          <Link
+            href="/wrong-notes"
+            className={buttonVariants({ variant: 'ghost', size: 'sm', className: 'min-h-[44px]' })}
           >
             오답 노트로 돌아가기
-          </Button>
+          </Link>
         </div>
       </div>
     </main>

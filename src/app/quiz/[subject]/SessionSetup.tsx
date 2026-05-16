@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import type { QuizQuestion } from '@/types/quiz';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -85,10 +86,13 @@ export function SessionSetup({
   onStart,
   onResume,
 }: SessionSetupProps) {
+  const searchParams = useSearchParams();
+  const initialChapter = searchParams.get('chapter');
+  const hasInitialChapter = initialChapter != null && questions.some((q) => q.chapter === initialChapter);
   const [preset, setPreset] = useState<SessionPreset>('review');
   const [questionCount, setQuestionCount] = useState<number>(10);
-  const [showOptions, setShowOptions] = useState(false);
-  const [selectedChapters, setSelectedChapters] = useState<string[]>([]);
+  const [showOptions, setShowOptions] = useState(hasInitialChapter);
+  const [selectedChapters, setSelectedChapters] = useState<string[]>(hasInitialChapter ? [initialChapter] : []);
   const [difficulty, setDifficulty] = useState<SessionConfig['difficulty']>('all');
 
   const quizHistory = useQuizStore((s) => s.quizHistory);

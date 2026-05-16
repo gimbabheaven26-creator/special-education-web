@@ -8,7 +8,7 @@ import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { WrongNote } from '@/types/study';
 import type { QuizQuestion } from '@/types/quiz';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import WrongNoteCard from './WrongNoteCard';
 import SrsReviewMode from './SrsReviewMode';
 import { detectErrorPatterns } from '@/lib/study/error-patterns';
@@ -218,9 +218,9 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, wro
             퀴즈를 풀면 틀린 문제가 자동으로 여기에 쌓여요.
             틀리는 게 실력의 시작이에요!
           </p>
-          <Button render={<Link href="/quiz" />} size="lg" className="min-h-[44px]">
+          <Link href="/quiz" className={buttonVariants({ size: 'lg', className: 'min-h-[44px]' })}>
             첫 퀴즈 시작하기
-          </Button>
+          </Link>
         </div>
       </main>
     );
@@ -370,13 +370,12 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, wro
 
       {/* Re-quiz button */}
       {stats.unmastered > 0 && (
-        <Button
-          render={<Link href="/wrong-notes/quiz" />}
-          size="lg"
-          className="w-full min-h-[44px]"
+        <Link
+          href="/wrong-notes/quiz"
+          className={buttonVariants({ size: 'lg', className: 'w-full min-h-[44px]' })}
         >
           오답 재시험 ({stats.unmastered}문제)
-        </Button>
+        </Link>
       )}
 
       {/* Filters */}
@@ -471,6 +470,11 @@ export default function WrongNotesClient({ subjectTitleMap, chapterTitleMap, wro
                     <WrongNoteCard
                       key={note.questionId}
                       note={note}
+                      chapterTitle={
+                        note.question?.chapter
+                          ? chapterTitleMap[`${note.subject}::${note.question.chapter}`]
+                          : undefined
+                      }
                       errorPatterns={errorPatternsMap.get(note.questionId)}
                       wrongCount={wrongCounts?.[note.questionId]}
                       onMarkMastered={markMastered}
