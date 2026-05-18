@@ -97,6 +97,20 @@ test.describe('오답노트 (/wrong-notes)', () => {
     await expect(page.getByText('이 오답 다음 복습')).toBeVisible();
     await expect(page.getByText('특수교육법 개념 찾기')).toBeVisible();
     await expect(page.getByText('특수교육법 다시 풀기')).toBeVisible();
+    await page.getByRole('button', { name: '플래시카드로 저장' }).click();
+    const leitnerData = await page.evaluate(() => {
+      const raw = localStorage.getItem('leitner-cards');
+      return raw ? JSON.parse(raw) : null;
+    });
+    const savedCard = leitnerData?.state?.cards?.find(
+      (card: { id: string }) => card.id === `wrong-${HYDRATED_WRONG_QUESTION.id}`,
+    );
+    expect(savedCard).toMatchObject({
+      source: 'quiz-ox',
+      quizId: HYDRATED_WRONG_QUESTION.id,
+      chapterSlug: HYDRATED_WRONG_QUESTION.chapter,
+      quizType: 'ox',
+    });
     await expect(page.getByRole('link', { name: /오답 재시험.*1문제/ })).toBeVisible();
     expect(requestedIds).toContainEqual([HYDRATED_WRONG_QUESTION.id]);
   });

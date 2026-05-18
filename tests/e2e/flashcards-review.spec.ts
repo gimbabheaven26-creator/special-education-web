@@ -306,6 +306,7 @@ test.describe('플래시카드 복습 — OX 카드', () => {
             source: 'quiz-ox' as const,
             quizType: 'ox' as const,
             quizId: 'ox-q-1',
+            chapterSlug: 'special-education-act',
           },
           {
             id: 'ox-review-2',
@@ -333,6 +334,9 @@ test.describe('플래시카드 복습 — OX 카드', () => {
 
     // 1. OX 퀴즈 배지 표시
     await expect(page.getByText('OX 퀴즈')).toBeVisible();
+    await expect(page.getByText('출처 복습')).toBeVisible();
+    await expect(page.getByRole('link', { name: '특수교육법 개념 보기' })).toBeVisible();
+    await expect(page.getByRole('link', { name: '같은 영역 다시 풀기' })).toBeVisible();
 
     // 2. 질문 텍스트
     await expect(

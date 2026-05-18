@@ -17,6 +17,10 @@ function makeSeedData(cards: Array<{
   answer: string;
   box?: 1 | 2 | 3 | 4 | 5;
   subjectSlug?: string;
+  source?: 'manual' | 'quiz-ox' | 'quiz-fill_in';
+  chapterSlug?: string;
+  quizId?: string;
+  quizType?: 'ox' | 'fill_in';
 }>) {
   const today = new Date().toISOString().split('T')[0];
   return {
@@ -30,7 +34,10 @@ function makeSeedData(cards: Array<{
         lastReviewed: today,
         nextReview: today,
         createdAt: today,
-        source: 'manual' as const,
+        source: c.source ?? 'manual' as const,
+        chapterSlug: c.chapterSlug,
+        quizId: c.quizId,
+        quizType: c.quizType,
       })),
       reviewLogs: [],
     },
@@ -253,6 +260,25 @@ test.describe('플래시카드 관리 — 카드 있는 상태', () => {
 
     await page.waitForURL('**/flashcards/review');
     await expect(page).toHaveURL(/\/flashcards\/review/);
+  });
+
+  test('퀴즈 출처 카드에 개념·같은 영역 복습 링크를 표시한다', async ({ page }) => {
+    await seedAndReload(page, [{
+      id: 'wrong-e2e-context',
+      question: '특수교육법 출처 카드',
+      answer: 'O',
+      box: 1,
+      subjectSlug: 'laws',
+      source: 'quiz-ox',
+      chapterSlug: 'special-education-act',
+      quizId: 'wrong-e2e-context',
+      quizType: 'ox',
+    }]);
+
+    await expect(page.getByText('출처 복습')).toBeVisible();
+    await expect(page.getByRole('link', { name: '특수교육법 개념 보기' })).toHaveAttribute('href', '/concepts/관련 법령');
+    await expect(page.getByRole('link', { name: '같은 영역 다시 풀기' })).toHaveAttribute('href', '/quiz/laws?chapter=special-education-act');
+    await expect(page.getByRole('link', { name: '오답노트 보기' })).toHaveAttribute('href', '/wrong-notes');
   });
 });
 

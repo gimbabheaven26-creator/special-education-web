@@ -68,11 +68,16 @@ export default function WrongNoteCard({
 
   const handleSaveToFlashcard = useCallback(() => {
     if (alreadyInFlashcard || savedToFlashcard || !question) return;
+    const quizType = question.type === 'ox' || question.type === 'fill_in' ? question.type : undefined;
     addCard({
       id: `wrong-${note.questionId}`,
       subjectSlug: question.subject,
       question: questionText,
       answer: String(question.answer),
+      source: quizType === 'ox' ? 'quiz-ox' : quizType === 'fill_in' ? 'quiz-fill_in' : undefined,
+      chapterSlug: question.chapter,
+      quizId: question.id,
+      quizType,
     });
     setSavedToFlashcard(true);
   }, [addCard, alreadyInFlashcard, savedToFlashcard, question, note.questionId, questionText]);

@@ -7,7 +7,7 @@ import { filterFlashcardEligible, convertQuizBatch } from '@/lib/quiz/flashcard-
 import type { QuizQuestion } from '@/types/quiz';
 import type { Subject } from '@/types/content';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, BookOpen, Check } from 'lucide-react';
 
@@ -342,14 +342,12 @@ export default function AddFlashcardClient({
 
       {/* 하단 네비 */}
       <div className="flex gap-3 justify-center">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="min-h-[44px]"
-          render={<Link href="/flashcards" />}
+        <Link
+          href="/flashcards"
+          className={buttonVariants({ variant: 'ghost', size: 'sm', className: 'min-h-[44px]' })}
         >
           ← 플래시카드 홈
-        </Button>
+        </Link>
       </div>
     </main>
   );

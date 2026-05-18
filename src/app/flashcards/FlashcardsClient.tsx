@@ -5,10 +5,11 @@ import Link from 'next/link';
 import { useLeitnerStore, type LeitnerCard } from '@/stores/useLeitnerStore';
 import { useMounted } from '@/hooks/useMounted';
 import type { Subject } from '@/types/content';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { Trash2, Plus, Play, ChevronDown, ChevronUp, Pencil, X } from 'lucide-react';
+import { Trash2, Plus, Play, ChevronDown, ChevronUp, Pencil, X, BookOpen, RotateCcw, NotebookTabs } from 'lucide-react';
+import { buildFlashcardContextActions, type FlashcardContextActionKind } from './context-actions';
 
 const BOX_LABELS: Record<number, { label: string; color: string; bg: string }> = {
   1: { label: '박스 1 · 매일', color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800' },
@@ -126,6 +127,7 @@ function CardItem({
   onEdit: (card: LeitnerCard) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const contextActions = buildFlashcardContextActions(card);
 
   return (
     <div className="rounded-lg border border-border p-3 space-y-1.5 group">
@@ -166,6 +168,26 @@ function CardItem({
         <span>·</span>
         <span>다음 복습: {card.nextReview}</span>
       </div>
+      {contextActions.length > 0 && (
+        <div className="rounded-md bg-muted/40 p-2 space-y-1.5">
+          <p className="text-[10px] font-semibold text-muted-foreground">출처 복습</p>
+          <div className="flex flex-wrap gap-1.5">
+            {contextActions.map((action) => {
+              const Icon = getContextIcon(action.kind);
+              return (
+                <Link
+                  key={action.kind}
+                  href={action.href}
+                  className="inline-flex min-h-[30px] items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-[10px] font-medium text-foreground hover:border-primary/40 hover:text-primary"
+                >
+                  <Icon className="h-3 w-3" />
+                  {action.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
       {expanded && (
         <div className="mt-2 pt-2 border-t border-border text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
           {card.answer}
@@ -173,6 +195,12 @@ function CardItem({
       )}
     </div>
   );
+}
+
+function getContextIcon(kind: FlashcardContextActionKind) {
+  if (kind === 'concept') return BookOpen;
+  if (kind === 'quiz') return RotateCcw;
+  return NotebookTabs;
 }
 
 // ─── 메인 ───────────────────────────────────────────────────────────────────────
@@ -253,26 +281,23 @@ export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) 
           </p>
         </div>
         <div className="flex gap-2 shrink-0">
-          <Button
-            variant="outline"
-            size="sm"
-            className="min-h-[44px] gap-1.5"
-            render={<Link href="/flashcards/add" />}
+          <Link
+            href="/flashcards/add"
             aria-label="카드 추가"
+            className={buttonVariants({ variant: 'outline', size: 'sm', className: 'min-h-[44px] gap-1.5' })}
           >
             <Plus className="h-4 w-4" />
             추가
-          </Button>
+          </Link>
           {stats.dueToday > 0 && (
-            <Button
-              size="sm"
-              className="min-h-[44px] gap-1.5"
-              render={<Link href="/flashcards/review" />}
+            <Link
+              href="/flashcards/review"
               aria-label={`오늘 복습 시작 (${stats.dueToday}장)`}
+              className={buttonVariants({ size: 'sm', className: 'min-h-[44px] gap-1.5' })}
             >
               <Play className="h-4 w-4" />
               복습 ({stats.dueToday})
-            </Button>
+            </Link>
           )}
         </div>
       </div>
@@ -345,14 +370,13 @@ export default function FlashcardsClient({ subjects }: { subjects: Subject[] }) 
           <p className="text-sm text-muted-foreground mb-3">
             오늘 복습할 카드가 없어요. 새 카드를 추가하면 바로 학습할 수 있어요.
           </p>
-          <Button
-            variant="outline"
-            className="min-h-[44px] gap-1.5"
-            render={<Link href="/flashcards/add" />}
+          <Link
+            href="/flashcards/add"
+            className={buttonVariants({ variant: 'outline', className: 'min-h-[44px] gap-1.5' })}
           >
             <Plus className="h-4 w-4" />
             카드 추가하기
-          </Button>
+          </Link>
         </div>
       )}
 

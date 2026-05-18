@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import type { AnswerGrade } from '@/stores/useLeitnerStore';
 import { useMounted } from '@/hooks/useMounted';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { FlashcardScene } from '@/components/flashcard/FlashcardScene';
+import { buildFlashcardContextActions } from '../context-actions';
 
 interface SessionResult {
   cardId: string;
@@ -90,16 +91,15 @@ export default function ReviewClient() {
           새 카드를 추가하면 바로 복습할 수 있어요.
         </p>
         <div className="flex gap-3">
-          <Button
-            variant="outline"
-            className="min-h-[44px]"
-            render={<Link href="/flashcards/add" />}
+          <Link
+            href="/flashcards/add"
+            className={buttonVariants({ variant: 'outline', className: 'min-h-[44px]' })}
           >
             카드 추가하기
-          </Button>
-          <Button className="min-h-[44px]" render={<Link href="/" />}>
+          </Link>
+          <Link href="/" className={buttonVariants({ className: 'min-h-[44px]' })}>
             홈으로
-          </Button>
+          </Link>
         </div>
       </main>
     );
@@ -162,16 +162,15 @@ export default function ReviewClient() {
         )}
 
         <div className="flex gap-3 flex-wrap justify-center">
-          <Button
-            variant="outline"
-            className="min-h-[44px]"
-            render={<Link href="/flashcards/add" />}
+          <Link
+            href="/flashcards/add"
+            className={buttonVariants({ variant: 'outline', className: 'min-h-[44px]' })}
           >
             카드 추가하기
-          </Button>
-          <Button className="min-h-[44px]" render={<Link href="/flashcards" />}>
+          </Link>
+          <Link href="/flashcards" className={buttonVariants({ className: 'min-h-[44px]' })}>
             메인으로
-          </Button>
+          </Link>
         </div>
       </main>
     );
@@ -188,16 +187,31 @@ export default function ReviewClient() {
         results={results}
       />
 
+      {buildFlashcardContextActions(currentCard).length > 0 && (
+        <div className="rounded-xl border border-border bg-card p-3 space-y-2">
+          <p className="text-xs font-semibold text-muted-foreground">출처 복습</p>
+          <div className="flex flex-wrap gap-2">
+            {buildFlashcardContextActions(currentCard).map((action) => (
+              <Link
+                key={action.kind}
+                href={action.href}
+                className="inline-flex min-h-[36px] items-center rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 hover:text-primary"
+              >
+                {action.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Session exit link */}
       <div className="text-center mt-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="min-h-[44px]"
-          render={<Link href="/flashcards" />}
+        <Link
+          href="/flashcards"
+          className={buttonVariants({ variant: 'ghost', size: 'sm', className: 'min-h-[44px]' })}
         >
           세션 종료
-        </Button>
+        </Link>
       </div>
     </main>
   );
