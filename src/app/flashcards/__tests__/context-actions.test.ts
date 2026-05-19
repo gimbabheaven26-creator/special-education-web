@@ -52,4 +52,25 @@ describe('buildFlashcardContextActions', () => {
       quizType: undefined,
     }))).toEqual([]);
   });
+
+  it('links term-origin cards back to the matching terms search', () => {
+    const actions = buildFlashcardContextActions(makeCard({
+      id: 'term-감각 교육',
+      subjectSlug: 'introduction',
+      question: '감각 교육 (sensory education)',
+      answer: '감각을 활용한 교육 활동',
+      source: 'term',
+      chapterSlug: undefined,
+      quizId: undefined,
+      quizType: undefined,
+    }));
+
+    expect(actions).toEqual([
+      {
+        kind: 'term',
+        label: '용어사전에서 다시 보기',
+        href: '/terms?q=%EA%B0%90%EA%B0%81%20%EA%B5%90%EC%9C%A1',
+      },
+    ]);
+  });
 });

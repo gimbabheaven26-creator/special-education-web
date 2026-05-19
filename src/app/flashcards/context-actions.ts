@@ -2,7 +2,7 @@ import type { LeitnerCard } from '@/stores/useLeitnerStore';
 import { getConceptUrl } from '@/lib/content/concept-urls';
 import { getChapterDisplayName } from '@/lib/study/display-labels';
 
-export type FlashcardContextActionKind = 'concept' | 'quiz' | 'wrong-note';
+export type FlashcardContextActionKind = 'concept' | 'quiz' | 'wrong-note' | 'term';
 
 export interface FlashcardContextAction {
   kind: FlashcardContextActionKind;
@@ -12,6 +12,18 @@ export interface FlashcardContextAction {
 
 export function buildFlashcardContextActions(card: LeitnerCard): FlashcardContextAction[] {
   const actions: FlashcardContextAction[] = [];
+
+  if (card.source === 'term') {
+    const termQuery = card.id.startsWith('term-')
+      ? card.id.slice('term-'.length)
+      : card.question.replace(/\s+\(.+\)$/, '');
+
+    actions.push({
+      kind: 'term',
+      label: '용어사전에서 다시 보기',
+      href: `/terms?q=${encodeURIComponent(termQuery)}`,
+    });
+  }
 
   if (card.chapterSlug) {
     const chapterLabel = getChapterDisplayName(card.chapterSlug);

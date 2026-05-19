@@ -186,7 +186,12 @@ test.describe('용어사전 페이지', () => {
     await expect(addedButton).toBeVisible();
     await expect(addedButton).toBeDisabled();
 
-    // 6. localStorage에 카드가 저장되었는지 확인
+    // 6. 저장 직후 복습으로 이어지는 CTA가 보임
+    const reviewLink = page.getByRole('link', { name: '복습하러 가기' }).first();
+    await expect(reviewLink).toBeVisible();
+    await expect(reviewLink).toHaveAttribute('href', '/flashcards/review');
+
+    // 7. localStorage에 카드가 저장되었는지 확인
     const stored = await page.evaluate(() => {
       const raw = localStorage.getItem('leitner-cards');
       if (!raw) return null;
@@ -194,6 +199,16 @@ test.describe('용어사전 페이지', () => {
     });
     expect(stored).not.toBeNull();
     expect(stored.state.cards.length).toBeGreaterThanOrEqual(1);
+
+    // 8. 바로 복습 화면으로 이동하면 원문 용어 맥락으로 돌아가는 링크가 보임
+    await reviewLink.click();
+    await page.waitForURL('**/flashcards/review');
+    await expect(page.getByText('감각 교육').first()).toBeVisible();
+    await expect(page.getByText('출처 복습')).toBeVisible();
+    await expect(page.getByRole('link', { name: '용어사전에서 다시 보기' })).toHaveAttribute(
+      'href',
+      '/terms?q=%EA%B0%90%EA%B0%81%20%EA%B5%90%EC%9C%A1',
+    );
   });
 
   test('스크롤-투-탑 버튼 — 스크롤 후 표시, 클릭 시 최상단 이동', async ({ page }) => {

@@ -140,6 +140,14 @@ function TermCard({
                 </>
               )}
             </button>
+            {(exists || justAdded) && (
+              <Link
+                href="/flashcards/review"
+                className="inline-flex min-h-[28px] items-center rounded-lg border border-border bg-background px-2.5 py-1 text-xs font-medium text-foreground hover:border-primary/40 hover:text-primary"
+              >
+                복습하러 가기
+              </Link>
+            )}
           </div>
         </div>
       )}
@@ -284,6 +292,14 @@ function FlashcardStudyMode({ terms }: { terms: Term[] }) {
             </>
           )}
         </button>
+        {(exists || justAdded) && (
+          <Link
+            href="/flashcards/review"
+            className="flex min-h-[36px] items-center rounded-lg border border-border px-3 py-2 text-xs font-medium text-foreground hover:border-primary/40 hover:text-primary"
+          >
+            복습하러 가기
+          </Link>
+        )}
         <button
           onClick={goNext}
           disabled={idx === terms.length - 1}

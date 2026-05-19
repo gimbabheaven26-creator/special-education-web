@@ -200,6 +200,7 @@ function CardItem({
 function getContextIcon(kind: FlashcardContextActionKind) {
   if (kind === 'concept') return BookOpen;
   if (kind === 'quiz') return RotateCcw;
+  if (kind === 'term') return BookOpen;
   return NotebookTabs;
 }
 
