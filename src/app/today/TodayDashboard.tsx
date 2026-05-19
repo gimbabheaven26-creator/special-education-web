@@ -6,7 +6,7 @@ import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
 import { getKSTDate } from '@/lib/date-utils';
-import { Flame, Target, Brain, Layers, ChevronRight } from 'lucide-react';
+import { Flame, Target, Brain, Layers, ChevronRight, ClipboardCheck } from 'lucide-react';
 
 function StatCard({
   icon,
@@ -41,6 +41,54 @@ function StatCard({
     return <Link href={href} className="block">{content}</Link>;
   }
   return content;
+}
+
+function ExamSessionPanel({
+  dueCards,
+  unmasteredWrongNotes,
+}: {
+  dueCards: number;
+  unmasteredWrongNotes: number;
+}) {
+  const reasons = [
+    dueCards > 0 ? `복습 카드 ${dueCards}장` : '복습 카드 정리됨',
+    unmasteredWrongNotes > 0 ? `미해결 오답 ${unmasteredWrongNotes}개` : '미해결 오답 없음',
+    '일일 시험지 18문제',
+  ];
+
+  return (
+    <section className="rounded-xl border border-border bg-card p-4 space-y-3">
+      <div className="flex items-start gap-3">
+        <div className="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-950/30 flex items-center justify-center shrink-0">
+          <ClipboardCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-foreground">오늘의 시험 대비 세션</p>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            복습과 오답을 먼저 확인한 뒤 일일 시험지로 마무리해요.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-1.5">
+        {reasons.map((reason) => (
+          <span
+            key={reason}
+            className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+          >
+            {reason}
+          </span>
+        ))}
+      </div>
+
+      <Link
+        href="/daily"
+        className="inline-flex min-h-[40px] w-full items-center justify-center rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+      >
+        오늘 세션 시작
+      </Link>
+    </section>
+  );
 }
 
 export default function TodayDashboard() {
@@ -112,6 +160,11 @@ export default function TodayDashboard() {
           )}
         </div>
       )}
+
+      <ExamSessionPanel
+        dueCards={flashcardDueToday}
+        unmasteredWrongNotes={unmasteredCount}
+      />
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 gap-3">

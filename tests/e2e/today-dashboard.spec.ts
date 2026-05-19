@@ -36,6 +36,40 @@ async function clearFlashcardData(page: Page) {
   });
 }
 
+async function seedWrongNoteData(page: Page) {
+  await page.evaluate(() => {
+    localStorage.setItem('quiz-data', JSON.stringify({
+      state: {
+        wrongNotes: [
+          {
+            questionId: 'today-wrong-1',
+            subject: 'laws',
+            chapter: 'special-education-act',
+            userAnswer: 'X',
+            attempts: 1,
+            lastAttempt: Date.now(),
+            mastered: false,
+          },
+          {
+            questionId: 'today-wrong-2',
+            subject: 'curriculum',
+            chapter: 'basic-curriculum',
+            userAnswer: 'O',
+            attempts: 2,
+            lastAttempt: Date.now(),
+            mastered: false,
+          },
+        ],
+        quizHistory: [],
+        diagnosticSessions: [],
+        feedbacks: [],
+        errorReports: [],
+      },
+      version: 5,
+    }));
+  });
+}
+
 // ─── Tests ─────────────────────────────────────────────────────────────────
 
 test.describe('오늘의 학습 (/today)', () => {
@@ -69,6 +103,24 @@ test.describe('오늘의 학습 (/today)', () => {
     await expect(page.getByText('복습 대기 카드')).toBeVisible();
     await expect(page.getByText('오답 미해결')).toBeVisible();
     await expect(page.getByText('연속 학습')).toBeVisible();
+  });
+
+  test('오늘의 시험 대비 세션 — 추천 근거와 다음 행동을 보여준다', async ({ page }) => {
+    await page.goto('/');
+    await seedFlashcardData(page);
+    await seedWrongNoteData(page);
+
+    await page.goto('/today');
+    await page.waitForLoadState('domcontentloaded');
+
+    await expect(page.getByText('오늘의 시험 대비 세션')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('복습 카드 1장')).toBeVisible();
+    await expect(page.getByText('미해결 오답 2개')).toBeVisible();
+    await expect(page.getByText('일일 시험지 18문제')).toBeVisible();
+
+    const sessionLink = page.getByRole('link', { name: /오늘 세션 시작/ });
+    await expect(sessionLink).toBeVisible();
+    await expect(sessionLink).toHaveAttribute('href', '/daily');
   });
 
   test('3개 액션 카드 렌더링 + 올바른 href', async ({ page }) => {
