@@ -76,14 +76,59 @@ export interface RoadmapPhase {
   outcome: string;
 }
 
+export interface PracticeChoice {
+  id: string;
+  label: string;
+  correct: boolean;
+  rationale: string;
+}
+
+export interface PracticeQuestion {
+  id: string;
+  stem: string;
+  domain: string;
+  blueprint: string;
+  difficulty: string;
+  examSignal: string;
+  choices: PracticeChoice[];
+  explanation: {
+    verdict: string;
+    coreRule: string;
+    trap: string;
+    connect: string;
+    nextReview: string;
+  };
+  aiCoach: {
+    title: string;
+    prompt: string;
+    rewrite: string;
+  };
+}
+
+export interface PracticeSession {
+  mode: PracticeModeId;
+  title: string;
+  subtitle: string;
+  targetGain: string;
+  focus: string;
+  queue: string[];
+  question: PracticeQuestion;
+}
+
+export interface TopNavigationItem {
+  label: string;
+  href: string;
+  active?: boolean;
+}
+
 export const topNavigation = [
-  'Readiness',
-  'Practice',
-  'Mock Exam',
-  'Library',
-  'Analytics',
-  'AI Lab',
-] as const;
+  { label: 'Readiness', href: '#readiness', active: true },
+  { label: 'Practice', href: '#practice' },
+  { label: 'Mock Exam', href: '/kice/exam' },
+  { label: 'Library', href: '/concepts' },
+  { label: 'Analytics', href: '/record' },
+  { label: 'AI Lab', href: '/admin/ai-generate' },
+] satisfies TopNavigationItem[];
 
 export const readinessMetrics: ReadinessMetric[] = [
   {
@@ -179,7 +224,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '18문항',
     model: 'AMBOSS readiness + UWorld explanation loop',
     primaryAction: '처방 세션 시작',
-    actionHref: '/today',
+    actionHref: '/next/practice?mode=adaptive',
     steps: [
       '고위험 단원 12문항',
       '기출 연결 문항 4문항',
@@ -197,7 +242,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '10문항',
     model: 'UWorld-style filterable qbank',
     primaryAction: '문제은행 구성',
-    actionHref: '/quiz',
+    actionHref: '/next/practice?mode=custom',
     steps: [
       '각론 영역 1개 선택',
       '사례형과 용어형 비율 조정',
@@ -215,7 +260,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '전범위',
     model: 'Exam simulator + post-exam analytics',
     primaryAction: '모의고사 예약',
-    actionHref: '/kice/exam',
+    actionHref: '/next/practice?mode=mock',
     steps: [
       '시험 전 체크인',
       '영역별 제한 시간',
@@ -233,7 +278,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '9개',
     model: 'Spaced retrieval + Leitner queue',
     primaryAction: '복습 큐 열기',
-    actionHref: '/flashcards/review',
+    actionHref: '/next/practice?mode=review',
     steps: [
       '오늘 만료 카드 5개',
       '취약 용어 3개',
@@ -347,3 +392,186 @@ export const roadmapPhases: RoadmapPhase[] = [
     outcome: 'AI 초안, 전문가 검수, 품질 회귀 테스트',
   },
 ];
+
+export const practiceSessions: Record<PracticeModeId, PracticeSession> = {
+  adaptive: {
+    mode: 'adaptive',
+    title: 'Adaptive Readiness Session',
+    subtitle: '오늘 준비도에 가장 큰 영향을 주는 정서행동장애 사례형 문항부터 풉니다.',
+    targetGain: '+3.2p',
+    focus: '긍정적 행동지원과 기능평가',
+    queue: ['고위험 단원 12문항', '기출 연결 문항 4문항', '오답 재인출 2문항'],
+    question: {
+      id: 'next-adaptive-fba-01',
+      stem: '기능평가의 핵심 목적은 무엇인가?',
+      domain: '정서행동장애',
+      blueprint: '긍정적 행동지원, 기능평가, 중재 충실도',
+      difficulty: '중',
+      examSignal: '최근 사례형 기출에서 행동 형태와 행동 기능을 구분하는 판단이 반복 출제됩니다.',
+      choices: [
+        {
+          id: 'form',
+          label: '문제행동의 형태를 가장 자세히 기록하는 것',
+          correct: false,
+          rationale: '형태 기록은 필요하지만 기능평가의 최종 목적은 아닙니다.',
+        },
+        {
+          id: 'function',
+          label: '행동의 기능을 파악해 중재 가설을 세우는 것',
+          correct: true,
+          rationale: '기능평가는 행동이 유지되는 이유를 찾아 중재 설계로 연결합니다.',
+        },
+        {
+          id: 'reward',
+          label: '학생에게 효과적인 보상 목록을 먼저 정하는 것',
+          correct: false,
+          rationale: '선호도 평가는 보상 후보를 찾는 절차이고 기능평가와 구분됩니다.',
+        },
+        {
+          id: 'diagnosis',
+          label: '장애 진단명을 기준으로 행동 원인을 확정하는 것',
+          correct: false,
+          rationale: '기능은 맥락 속 선행사건과 후속결과로 판단해야 합니다.',
+        },
+      ],
+      explanation: {
+        verdict: '정답입니다',
+        coreRule: '기능평가는 문제행동의 형태가 아니라 행동을 유지시키는 기능을 찾는 절차입니다.',
+        trap: '형태 기록, 선호도 평가, 진단명 판단은 모두 일부 정보일 수 있지만 중재 가설을 대체하지 못합니다.',
+        connect: 'ABC 기록, 기능평가, 긍정적 행동지원, 중재 충실도를 하나의 해설 스택으로 묶어 복습하세요.',
+        nextReview: '24시간 후 재인출',
+      },
+      aiCoach: {
+        title: 'AI Answer Coach',
+        prompt: '이 문항에서 “행동 형태”와 “행동 기능”을 어떻게 구분했는지 한 문장으로 설명해 보세요.',
+        rewrite: '행동의 겉모습이 아니라 선행사건과 후속결과가 만드는 유지 이유를 찾는 것이 기능평가다.',
+      },
+    },
+  },
+  custom: {
+    mode: 'custom',
+    title: 'Custom Qbank Session',
+    subtitle: '사용자가 선택한 필터를 기반으로 기출 커버리지 빈틈을 확인합니다.',
+    targetGain: '+1.4p',
+    focus: '보조공학 서비스 절차',
+    queue: ['절차 배열 4문항', '용어 구분 3문항', '사례 적용 3문항'],
+    question: {
+      id: 'next-custom-at-01',
+      stem: '보조공학 서비스 결정에서 가장 먼저 확인해야 할 것은 무엇인가?',
+      domain: '특수교육공학',
+      blueprint: '보조공학 서비스 절차, 접근성, UDL',
+      difficulty: '중',
+      examSignal: '절차형 문항은 순서 판단 오류가 점수 손실로 이어집니다.',
+      choices: [
+        {
+          id: 'catalog',
+          label: '최신 기기 목록을 먼저 비교한다',
+          correct: false,
+          rationale: '기기 비교는 요구와 환경 분석 뒤에 이루어져야 합니다.',
+        },
+        {
+          id: 'need',
+          label: '학생의 교육적 요구와 환경 장벽을 확인한다',
+          correct: true,
+          rationale: '지원 필요와 맥락을 먼저 파악해야 적절한 도구를 결정할 수 있습니다.',
+        },
+      ],
+      explanation: {
+        verdict: '정답입니다',
+        coreRule: '보조공학은 기기 선택보다 요구 평가와 접근성 장벽 파악이 먼저입니다.',
+        trap: '기기 중심 접근은 시험에서 자주 나오는 매력적인 오답입니다.',
+        connect: 'UDL, 접근성, 보조공학 서비스 절차를 함께 연결하세요.',
+        nextReview: '48시간 후 재인출',
+      },
+      aiCoach: {
+        title: 'AI Answer Coach',
+        prompt: '왜 “기기 목록”이 먼저가 아닌지 절차 기준으로 말해 보세요.',
+        rewrite: '도구는 요구와 환경 장벽이 확인된 뒤 선택된다.',
+      },
+    },
+  },
+  mock: {
+    mode: 'mock',
+    title: 'Mock Exam Drill',
+    subtitle: '실전 모의고사 전에 흔들리는 판단 기준을 빠르게 점검합니다.',
+    targetGain: '+2.0p',
+    focus: '사례형 시간 관리',
+    queue: ['제한시간 3분', '근거 표시', '함정 선지 리뷰'],
+    question: {
+      id: 'next-mock-iep-01',
+      stem: 'IEP 회의에서 우선 검토해야 할 자료는 무엇인가?',
+      domain: '관련 법령',
+      blueprint: '개별화교육계획, 평가자료, 지원 결정',
+      difficulty: '상',
+      examSignal: '법령형 사례는 순서와 근거 자료를 함께 묻습니다.',
+      choices: [
+        {
+          id: 'current-level',
+          label: '현재 수행 수준과 평가 결과',
+          correct: true,
+          rationale: '교육목표와 지원은 현재 수준 자료에서 출발합니다.',
+        },
+        {
+          id: 'facility',
+          label: '학교 시설 현황',
+          correct: false,
+          rationale: '필요 자료일 수 있지만 IEP 목표 설정의 출발점은 아닙니다.',
+        },
+      ],
+      explanation: {
+        verdict: '정답입니다',
+        coreRule: 'IEP는 현재 수행 수준과 평가 결과를 근거로 목표와 지원을 설계합니다.',
+        trap: '환경 정보는 보조 자료이며 우선 근거와 구분해야 합니다.',
+        connect: '평가 결과, 현재 수행 수준, 연간 목표, 지원 서비스를 순서로 묶으세요.',
+        nextReview: '모의고사 종료 후 재검토',
+      },
+      aiCoach: {
+        title: 'AI Answer Coach',
+        prompt: 'IEP 목표가 왜 현재 수행 수준에서 출발하는지 근거를 말해 보세요.',
+        rewrite: '현재 수행 수준이 목표와 지원의 기준점이 된다.',
+      },
+    },
+  },
+  review: {
+    mode: 'review',
+    title: 'Spaced Review Session',
+    subtitle: '오늘 만료된 오답을 짧게 재인출합니다.',
+    targetGain: '+9p 유지율',
+    focus: '기능평가와 선호도 평가 구분',
+    queue: ['만료 카드 5개', '취약 용어 3개', '최근 오답 1문항'],
+    question: {
+      id: 'next-review-fba-01',
+      stem: '기능평가와 선호도 평가를 구분하는 기준은 무엇인가?',
+      domain: '정서행동장애',
+      blueprint: '기능평가, 선호도 평가, 중재 설계',
+      difficulty: '하',
+      examSignal: '용어 구분은 사례형 선지 제거의 기반입니다.',
+      choices: [
+        {
+          id: 'purpose',
+          label: '평가의 목적과 산출물이 다르다',
+          correct: true,
+          rationale: '기능평가는 행동 기능, 선호도 평가는 강화 후보를 찾습니다.',
+        },
+        {
+          id: 'same',
+          label: '둘은 같은 절차이며 명칭만 다르다',
+          correct: false,
+          rationale: '목적과 사용 장면이 다릅니다.',
+        },
+      ],
+      explanation: {
+        verdict: '정답입니다',
+        coreRule: '기능평가는 행동의 이유, 선호도 평가는 강화 후보를 찾습니다.',
+        trap: '둘 다 중재와 관련되지만 산출물이 다릅니다.',
+        connect: '기능평가 뒤 중재 전략, 선호도 평가 뒤 강화제 선택으로 연결하세요.',
+        nextReview: '4일 후 재인출',
+      },
+      aiCoach: {
+        title: 'AI Answer Coach',
+        prompt: '두 평가의 산출물을 각각 한 단어로 정리해 보세요.',
+        rewrite: '기능평가의 산출물은 기능, 선호도 평가의 산출물은 강화 후보이다.',
+      },
+    },
+  },
+};

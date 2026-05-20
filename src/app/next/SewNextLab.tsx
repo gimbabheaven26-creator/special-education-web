@@ -159,22 +159,23 @@ export function SewNextLab() {
           </div>
           <nav className="flex max-w-full gap-1 overflow-x-auto rounded-lg border border-border bg-card p-1">
             {topNavigation.map((item) => (
-              <span
-                key={item}
+              <Link
+                key={item.href}
+                href={item.href}
                 className={cn(
                   'shrink-0 rounded-md px-3 py-1.5 text-xs font-medium',
-                  item === 'Readiness'
+                  item.active
                     ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground',
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                 )}
               >
-                {item}
-              </span>
+                {item.label}
+              </Link>
             ))}
           </nav>
         </header>
 
-        <section className="grid gap-4 py-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <section id="readiness" className="scroll-mt-4 grid gap-4 py-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-xl border border-border bg-card p-5">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
@@ -230,7 +231,7 @@ export function SewNextLab() {
           </div>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-[280px_1fr]">
+        <section id="practice" className="scroll-mt-4 grid gap-4 lg:grid-cols-[280px_1fr]">
           <div className="rounded-xl border border-border bg-card p-3">
             <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Practice modes</p>
             <div className="space-y-1">
