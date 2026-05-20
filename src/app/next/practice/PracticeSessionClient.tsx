@@ -13,23 +13,100 @@ import {
   Target,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { PracticeSession } from '@/lib/sew-next/prototype-data';
+import { useQuizStore } from '@/stores/useQuizStore';
+import { useStudyStore } from '@/stores/useStudyStore';
+import type { PracticeQuestion, PracticeSession } from '@/lib/sew-next/prototype-data';
+import type { QuizQuestion } from '@/types/quiz';
 
 interface PracticeSessionClientProps {
   session: PracticeSession;
 }
 
+interface AnswerRecord {
+  correct: boolean;
+  questionId: string;
+}
+
+function persistSnapshot(key: string, state: Record<string, unknown>, version: number) {
+  if (typeof window === 'undefined') return;
+
+  const serializable = Object.fromEntries(
+    Object.entries(state).filter(([, value]) => typeof value !== 'function')
+  );
+  localStorage.setItem(key, JSON.stringify({ state: serializable, version }));
+}
+
+function toQuizQuestion(question: PracticeQuestion): QuizQuestion {
+  const correctIndex = question.choices.findIndex((choice) => choice.correct);
+  return {
+    id: question.id,
+    subject: question.domain,
+    chapter: question.blueprint,
+    type: 'multiple',
+    question: question.stem,
+    options: question.choices.map((choice) => choice.label),
+    answer: Math.max(correctIndex, 0),
+    explanation: question.explanation.coreRule,
+    difficulty: question.difficulty === '상' ? 3 : question.difficulty === '하' ? 1 : 2,
+    source: 'sew-next',
+  };
+}
+
 export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
+  const questions = useMemo(
+    () => [session.question, ...(session.followUpQuestions ?? [])],
+    [session.followUpQuestions, session.question],
+  );
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [answers, setAnswers] = useState<AnswerRecord[]>([]);
 
-  const question = session.question;
+  const question = questions[questionIndex] ?? questions[0];
   const selectedChoice = useMemo(
     () => question.choices.find((choice) => choice.id === selectedChoiceId),
     [question.choices, selectedChoiceId],
   );
+  const correctCount = answers.filter((answer) => answer.correct).length;
+  const isLastQuestion = questionIndex === questions.length - 1;
+  const showSummary = submitted && selectedChoice && isLastQuestion;
 
   const submitDisabled = selectedChoiceId === null;
+
+  function handleSubmit() {
+    if (!selectedChoice || submitted) return;
+
+    const isCorrect = selectedChoice.correct;
+    const userAnswer = selectedChoice.label;
+    const sessionId = `sew-next-${session.mode}`;
+
+    setAnswers((current) => [
+      ...current.filter((answer) => answer.questionId !== question.id),
+      { correct: isCorrect, questionId: question.id },
+    ]);
+    useStudyStore.getState().recordQuizResult(isCorrect);
+    useQuizStore.getState().addQuizResult({
+      questionId: question.id,
+      userAnswer,
+      isCorrect,
+      timestamp: Date.now(),
+      subject: question.domain,
+      chapter: question.blueprint,
+      sessionId,
+    });
+    if (!isCorrect) {
+      useQuizStore.getState().addWrongNote(toQuizQuestion(question), userAnswer, sessionId);
+    }
+    persistSnapshot('special-edu-study', useStudyStore.getState() as unknown as Record<string, unknown>, 7);
+    persistSnapshot('quiz-data', useQuizStore.getState() as unknown as Record<string, unknown>, 5);
+    setSubmitted(true);
+  }
+
+  function handleNextQuestion() {
+    setQuestionIndex((current) => Math.min(current + 1, questions.length - 1));
+    setSelectedChoiceId(null);
+    setSubmitted(false);
+  }
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -58,6 +135,9 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
         <section className="grid gap-4 py-5 lg:grid-cols-[1fr_280px]">
           <div className="rounded-xl border border-border bg-card p-5">
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted-foreground">
+              <span className="rounded-full bg-primary/10 px-2.5 py-1 text-primary">
+                문항 {questionIndex + 1} / {questions.length}
+              </span>
               <span className="rounded-full bg-muted px-2.5 py-1">{question.domain}</span>
               <span className="rounded-full bg-muted px-2.5 py-1">{question.difficulty}</span>
               <span className="rounded-full bg-muted px-2.5 py-1">{question.blueprint}</span>
@@ -123,7 +203,7 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
               <button
                 type="button"
                 disabled={submitDisabled}
-                onClick={() => setSubmitted(true)}
+                onClick={handleSubmit}
                 className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 제출하고 해설 보기
@@ -169,6 +249,15 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
               </div>
               <p className="mt-3 text-sm leading-relaxed">{question.explanation.coreRule}</p>
               <p className="mt-3 text-xs leading-relaxed opacity-85">{question.explanation.trap}</p>
+              {!isLastQuestion && (
+                <button
+                  type="button"
+                  onClick={handleNextQuestion}
+                  className="mt-4 inline-flex min-h-[40px] items-center justify-center rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800"
+                >
+                  다음 문항
+                </button>
+              )}
             </div>
 
             <div className="rounded-xl border border-border bg-card p-4">
@@ -198,6 +287,24 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
               >
                 콕핏으로 돌아가기
               </Link>
+            </div>
+          </section>
+        )}
+
+        {showSummary && (
+          <section className="rounded-xl border border-primary/30 bg-primary/5 p-5" aria-live="polite">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-xl font-bold">세션 요약</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {questions.length}문항 중 {correctCount}문항 정답
+                </p>
+              </div>
+              <div className="rounded-lg border border-border bg-card px-4 py-3">
+                <p className="text-xs font-semibold text-muted-foreground">
+                  예상 준비도 상승 {session.targetGain}
+                </p>
+              </div>
             </div>
           </section>
         )}

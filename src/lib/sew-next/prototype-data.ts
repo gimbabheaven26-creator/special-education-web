@@ -113,6 +113,7 @@ export interface PracticeSession {
   focus: string;
   queue: string[];
   question: PracticeQuestion;
+  followUpQuestions?: PracticeQuestion[];
 }
 
 export interface TopNavigationItem {
@@ -447,6 +448,54 @@ export const practiceSessions: Record<PracticeModeId, PracticeSession> = {
         rewrite: '행동의 겉모습이 아니라 선행사건과 후속결과가 만드는 유지 이유를 찾는 것이 기능평가다.',
       },
     },
+    followUpQuestions: [
+      {
+        id: 'next-adaptive-abc-02',
+        stem: 'ABC 기록에서 후속결과를 판단하는 기준은 무엇인가?',
+        domain: '정서행동장애',
+        blueprint: 'ABC 기록, 기능평가, 긍정적 행동지원',
+        difficulty: '중',
+        examSignal: '기능평가 문항은 행동 직후 환경 반응을 찾아 기능 가설로 연결하게 합니다.',
+        choices: [
+          {
+            id: 'after-response',
+            label: '행동 직후 따라오는 반응이나 환경 변화',
+            correct: true,
+            rationale: '후속결과는 행동 뒤에 나타나 행동을 유지하거나 약화시키는 반응입니다.',
+          },
+          {
+            id: 'before-event',
+            label: '행동이 일어나기 전에 있었던 선행사건',
+            correct: false,
+            rationale: '행동 전 사건은 선행사건이며 후속결과와 구분해야 합니다.',
+          },
+          {
+            id: 'behavior-form',
+            label: '문제행동의 구체적인 형태와 빈도',
+            correct: false,
+            rationale: '행동 형태는 B에 해당하며 후속결과가 아닙니다.',
+          },
+          {
+            id: 'diagnosis-label',
+            label: '학생의 장애 진단명과 의학적 특성',
+            correct: false,
+            rationale: '진단 정보만으로 후속결과를 판단할 수 없습니다.',
+          },
+        ],
+        explanation: {
+          verdict: '정답입니다',
+          coreRule: '후속결과는 행동 직후 발생해 그 행동의 반복 가능성에 영향을 주는 반응입니다.',
+          trap: '선행사건, 행동 형태, 진단 정보는 각각 다른 분석 단서입니다.',
+          connect: 'ABC 기록에서 A-B-C를 분리한 뒤 기능평가 가설로 이어가세요.',
+          nextReview: '48시간 후 재인출',
+        },
+        aiCoach: {
+          title: 'AI Answer Coach',
+          prompt: '후속결과가 기능 가설로 이어지는 이유를 한 문장으로 압축해 보세요.',
+          rewrite: '행동 직후 반응이 행동을 유지시키는지 확인해야 기능 가설을 세울 수 있다.',
+        },
+      },
+    ],
   },
   custom: {
     mode: 'custom',
