@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import {
   Activity,
   AlertTriangle,
@@ -126,10 +127,13 @@ function ModePanel({ mode }: { mode: PracticeMode }) {
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs font-medium text-emerald-700 dark:text-emerald-300">{mode.evidence}</p>
-        <button className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
+        <Link
+          href={mode.actionHref}
+          className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+        >
           {mode.primaryAction}
           <ArrowRight className="h-4 w-4" />
-        </button>
+        </Link>
       </div>
     </section>
   );

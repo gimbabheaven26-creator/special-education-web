@@ -43,6 +43,7 @@ export interface PracticeMode {
   questionCount: string;
   model: string;
   primaryAction: string;
+  actionHref: string;
   steps: string[];
   aiTouch: string;
   evidence: string;
@@ -178,6 +179,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '18문항',
     model: 'AMBOSS readiness + UWorld explanation loop',
     primaryAction: '처방 세션 시작',
+    actionHref: '/today',
     steps: [
       '고위험 단원 12문항',
       '기출 연결 문항 4문항',
@@ -195,6 +197,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '10문항',
     model: 'UWorld-style filterable qbank',
     primaryAction: '문제은행 구성',
+    actionHref: '/quiz',
     steps: [
       '각론 영역 1개 선택',
       '사례형과 용어형 비율 조정',
@@ -212,6 +215,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '전범위',
     model: 'Exam simulator + post-exam analytics',
     primaryAction: '모의고사 예약',
+    actionHref: '/kice/exam',
     steps: [
       '시험 전 체크인',
       '영역별 제한 시간',
@@ -229,6 +233,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '9개',
     model: 'Spaced retrieval + Leitner queue',
     primaryAction: '복습 큐 열기',
+    actionHref: '/flashcards/review',
     steps: [
       '오늘 만료 카드 5개',
       '취약 용어 3개',
