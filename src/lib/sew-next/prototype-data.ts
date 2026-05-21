@@ -243,7 +243,7 @@ export const practiceModes: PracticeMode[] = [
     questionCount: '10문항',
     model: 'UWorld-style filterable qbank',
     primaryAction: '문제은행 구성',
-    actionHref: '/next/practice?mode=custom',
+    actionHref: '/next/qbank',
     steps: [
       '각론 영역 1개 선택',
       '사례형과 용어형 비율 조정',

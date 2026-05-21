@@ -121,6 +121,7 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
               SEW Next
             </Link>
             <h1 className="mt-3 text-3xl font-bold tracking-tight">SEW Next Practice</h1>
+            <p className="mt-2 text-lg font-semibold text-foreground">{session.title}</p>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               {session.subtitle}
             </p>

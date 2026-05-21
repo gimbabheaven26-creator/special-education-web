@@ -23,6 +23,55 @@ test.describe('SEW Next prototype (/next)', () => {
     await expect(page.getByText('모의고사 예약')).toBeVisible();
   });
 
+  test('custom qbank opens a native filter builder and starts a custom session', async ({ page }) => {
+    await page.goto('/next');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.getByRole('button', { name: /Custom Qbank/ }).click();
+    await expect(page.getByRole('link', { name: /문제은행 구성/ })).toHaveAttribute('href', '/next/qbank');
+    await page.getByRole('link', { name: /문제은행 구성/ }).click();
+
+    await expect(page).toHaveURL(/\/next\/qbank/);
+    await expect(page.getByRole('heading', { name: 'SEW Next Qbank' })).toBeVisible();
+    await expect(page.getByRole('button', { name: '특수교육공학' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText('선택된 세션')).toBeVisible();
+    await expect(page.getByRole('link', { name: /커스텀 세션 시작/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=custom',
+    );
+
+    await page.getByRole('link', { name: /커스텀 세션 시작/ }).click();
+    await expect(page).toHaveURL(/\/next\/practice\?mode=custom/);
+    await expect(page.getByText('Custom Qbank Session')).toBeVisible();
+    await expect(page.getByText('보조공학 서비스 결정')).toBeVisible();
+  });
+
+  test('mock and review practice modes open native sessions', async ({ page }) => {
+    await page.goto('/next');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.getByRole('button', { name: /Mock/ }).click();
+    await expect(page.getByRole('link', { name: /모의고사 예약/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock',
+    );
+    await page.getByRole('link', { name: /모의고사 예약/ }).click();
+    await expect(page).toHaveURL(/\/next\/practice\?mode=mock/);
+    await expect(page.getByText('Mock Exam Drill')).toBeVisible();
+    await expect(page.getByText('IEP 회의에서 우선 검토')).toBeVisible();
+
+    await page.goto('/next');
+    await page.getByRole('button', { name: /Review/ }).click();
+    await expect(page.getByRole('link', { name: /복습 큐 열기/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=review',
+    );
+    await page.getByRole('link', { name: /복습 큐 열기/ }).click();
+    await expect(page).toHaveURL(/\/next\/practice\?mode=review/);
+    await expect(page.getByText('Spaced Review Session')).toBeVisible();
+    await expect(page.getByText('기능평가와 선호도 평가를 구분')).toBeVisible();
+  });
+
   test('adaptive primary action opens a native SEW Next practice session', async ({ page }) => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');
@@ -78,6 +127,19 @@ test.describe('SEW Next prototype (/next)', () => {
     );
   });
 
+  test('practice result is reflected on the readiness cockpit', async ({ page }) => {
+    await page.goto('/next/practice?mode=adaptive');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.getByRole('radio', { name: /행동의 기능을 파악/ }).check();
+    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+    await expect(page.getByText('정답입니다')).toBeVisible();
+
+    await page.goto('/next');
+    await expect(page.getByText('오늘 세션 반영 +1p')).toBeVisible();
+    await expect(page.getByText('69%')).toBeVisible();
+  });
+
   test('native practice session advances through the queue and ends with a summary', async ({ page }) => {
     await page.goto('/next/practice?mode=adaptive');
     await page.waitForLoadState('domcontentloaded');
@@ -95,6 +157,24 @@ test.describe('SEW Next prototype (/next)', () => {
     await expect(page.getByRole('heading', { name: '세션 요약' })).toBeVisible();
     await expect(page.getByText('2문항 중 2문항 정답')).toBeVisible();
     await expect(page.getByText('예상 준비도 상승 +3.2p')).toBeVisible();
+  });
+
+  test('record dashboard highlights completed SEW Next session', async ({ page }) => {
+    await page.goto('/next/practice?mode=adaptive');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.getByRole('radio', { name: /행동의 기능을 파악/ }).check();
+    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+    await page.getByRole('button', { name: '다음 문항' }).click();
+    await page.getByRole('radio', { name: /행동 직후 따라오는 반응/ }).check();
+    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+
+    await page.goto('/record');
+
+    await expect(page.getByText('최근 SEW Next 세션')).toBeVisible();
+    await expect(page.getByText('Adaptive Readiness')).toBeVisible();
+    await expect(page.getByText('2문항 · 100%')).toBeVisible();
+    await expect(page.getByText('정서행동장애', { exact: true })).toBeVisible();
   });
 
   test('top navigation links to cockpit sections and live Classic routes', async ({ page }) => {

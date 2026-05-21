@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import {
   Flame,
@@ -11,6 +12,7 @@ import {
   TrendingUp,
   TrendingDown,
   Minus,
+  Target,
 } from 'lucide-react';
 import { useMyPageData } from '@/app/my/useMyPageData';
 import { RecentWrongTab } from '@/app/my/MySubComponents';
@@ -29,6 +31,57 @@ import { useMounted } from '@/hooks/useMounted';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { getSubjectDisplayName } from '@/lib/study/display-labels';
 import { buildTodayGrowthSummary } from '@/lib/study/today-growth-summary';
+import type { QuizResult } from '@/types/quiz';
+
+interface SewNextSessionSummary {
+  title: string;
+  mode: string;
+  href: string;
+  total: number;
+  correct: number;
+  rate: number;
+  subject: string;
+  chapter: string;
+}
+
+const SEW_NEXT_SESSION_WINDOW_MS = 30 * 60 * 1000;
+
+function getSewNextModeLabel(sessionId: string): string {
+  const mode = sessionId.replace(/^sew-next-/, '');
+  if (mode === 'adaptive') return 'Adaptive Readiness';
+  if (mode === 'custom') return 'Custom Qbank';
+  if (mode === 'mock') return 'Mock Exam';
+  if (mode === 'review') return 'Spaced Review';
+  return 'SEW Next';
+}
+
+function getLatestSewNextSession(quizHistory: readonly QuizResult[]): SewNextSessionSummary | null {
+  const latest = [...quizHistory]
+    .reverse()
+    .find((result) => result.sessionId?.startsWith('sew-next-'));
+
+  if (!latest?.sessionId) return null;
+
+  const sessionResults = quizHistory.filter((result) =>
+    result.sessionId === latest.sessionId
+    && Math.abs(latest.timestamp - result.timestamp) <= SEW_NEXT_SESSION_WINDOW_MS
+  );
+  if (sessionResults.length === 0) return null;
+
+  const correct = sessionResults.filter((result) => result.isCorrect).length;
+  const mode = latest.sessionId.replace(/^sew-next-/, '');
+
+  return {
+    title: getSewNextModeLabel(latest.sessionId),
+    mode,
+    href: `/next/practice?mode=${mode || 'adaptive'}`,
+    total: sessionResults.length,
+    correct,
+    rate: Math.round((correct / sessionResults.length) * 100),
+    subject: latest.subject,
+    chapter: latest.chapter,
+  };
+}
 
 export default function RecordDashboard() {
   const mounted = useMounted();
@@ -38,8 +91,10 @@ export default function RecordDashboard() {
   const dailyProgress = useStudyStore((s) => s.dailyProgress);
   const dailyGoal = useStudyStore((s) => s.dailyGoal);
   const wrongNotesCount = useQuizStore((s) => s.wrongNotes.length);
+  const quizHistory = useQuizStore((s) => s.quizHistory);
   const bookmarkCount = useBookmarkStore((s) => s.bookmarks.length);
   const leitnerStats = useLeitnerStore(useShallow((s) => s.getStats()));
+  const latestSewNextSession = useMemo(() => getLatestSewNextSession(quizHistory), [quizHistory]);
 
   if (!mounted) {
     return (
@@ -53,7 +108,7 @@ export default function RecordDashboard() {
 
   const todayGrowth = buildTodayGrowthSummary(dailyProgress, dailyGoal, currentStreak);
 
-  if (totalQuizzes === 0 && wrongNotesCount === 0) {
+  if (totalQuizzes === 0 && wrongNotesCount === 0 && quizHistory.length === 0) {
     return (
       <main className="max-w-2xl mx-auto px-4 py-8">
         <h1 className="text-xl font-bold text-foreground mb-6">내 기록</h1>
@@ -107,6 +162,34 @@ export default function RecordDashboard() {
             <p className="text-xs text-muted-foreground mt-1">{todayGrowth.detail}</p>
           </div>
         </div>
+      )}
+
+      {latestSewNextSession && (
+        <Link
+          href={latestSewNextSession.href}
+          className="block rounded-2xl border border-sky-200 bg-sky-50 p-4 transition-colors hover:bg-sky-100 dark:border-sky-900/60 dark:bg-sky-950/30 dark:hover:bg-sky-950/40"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-1.5 text-sky-700 dark:text-sky-300">
+                <Target className="h-4 w-4" />
+                <p className="text-xs font-semibold">최근 SEW Next 세션</p>
+              </div>
+              <p className="mt-1 text-base font-bold text-foreground">{latestSewNextSession.title}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {latestSewNextSession.subject} · {latestSewNextSession.chapter}
+              </p>
+            </div>
+            <div className="rounded-lg bg-background/80 px-3 py-2 text-right">
+              <p className="text-sm font-bold tabular-nums text-sky-700 dark:text-sky-300">
+                {latestSewNextSession.total}문항 · {latestSewNextSession.rate}%
+              </p>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">
+                {latestSewNextSession.correct}/{latestSewNextSession.total} 정답
+              </p>
+            </div>
+          </div>
+        </Link>
       )}
 
       <div className="grid grid-cols-3 gap-3">

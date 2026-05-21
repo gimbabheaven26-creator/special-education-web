@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   Activity,
@@ -92,6 +92,25 @@ function MetricCard({ metric }: { metric: (typeof readinessMetrics)[number] }) {
   );
 }
 
+function readSewNextBoost() {
+  if (typeof window === 'undefined') return 0;
+
+  try {
+    const raw = localStorage.getItem('quiz-data');
+    if (!raw) return 0;
+    const parsed = JSON.parse(raw);
+    const history = Array.isArray(parsed?.state?.quizHistory) ? parsed.state.quizHistory : [];
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const count = history.filter((entry: { sessionId?: string; timestamp?: number }) =>
+      entry.sessionId?.startsWith('sew-next-') && Number(entry.timestamp) >= todayStart.getTime()
+    ).length;
+    return Math.min(5, count);
+  } catch {
+    return 0;
+  }
+}
+
 function ModePanel({ mode }: { mode: PracticeMode }) {
   return (
     <section className="rounded-xl border border-border bg-card p-4 space-y-4">
@@ -141,10 +160,29 @@ function ModePanel({ mode }: { mode: PracticeMode }) {
 
 export function SewNextLab() {
   const [activeMode, setActiveMode] = useState<PracticeModeId>('adaptive');
+  const [sessionBoost, setSessionBoost] = useState(0);
   const activePracticeMode = useMemo(
     () => practiceModes.find((mode) => mode.id === activeMode) ?? practiceModes[0],
     [activeMode],
   );
+  const displayedMetrics = useMemo(
+    () =>
+      readinessMetrics.map((metric) =>
+        metric.label === '합격 준비도' && sessionBoost > 0
+          ? {
+              ...metric,
+              value: Math.min(100, metric.value + sessionBoost),
+              delta: `+${7 + sessionBoost}`,
+              note: `오늘 세션 반영 +${sessionBoost}p`,
+            }
+          : metric
+      ),
+    [sessionBoost],
+  );
+
+  useEffect(() => {
+    setSessionBoost(readSewNextBoost());
+  }, []);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -203,7 +241,7 @@ export function SewNextLab() {
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {readinessMetrics.map((metric) => (
+              {displayedMetrics.map((metric) => (
                 <MetricCard key={metric.label} metric={metric} />
               ))}
             </div>

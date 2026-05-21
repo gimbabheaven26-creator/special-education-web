@@ -24,6 +24,19 @@ const mockMyPageData = vi.hoisted(() => ({
   weakToStrong: [],
 }));
 
+const mockQuizState = vi.hoisted(() => ({
+  wrongNotes: [] as unknown[],
+  quizHistory: [] as Array<{
+    questionId: string;
+    userAnswer?: string | number;
+    isCorrect: boolean;
+    timestamp: number;
+    subject: string;
+    chapter: string;
+    sessionId?: string;
+  }>,
+}));
+
 vi.mock('next/link', () => ({
   default: ({ href, children, ...props }: { href: string; children: React.ReactNode }) =>
     createElement('a', { href, ...props }, children),
@@ -49,7 +62,7 @@ vi.mock('@/stores/useStudyStore', () => ({
 
 vi.mock('@/stores/useQuizStore', () => ({
   useQuizStore: (selector: (state: unknown) => unknown) =>
-    selector({ wrongNotes: [], quizHistory: [] }),
+    selector(mockQuizState),
 }));
 
 vi.mock('@/stores/useBookmarkStore', () => ({
@@ -87,6 +100,11 @@ vi.mock('@/components/dashboard/FlashcardReviewStats', () => ({
 }));
 
 describe('RecordDashboard', () => {
+  beforeEach(() => {
+    mockQuizState.wrongNotes = [];
+    mockQuizState.quizHistory = [];
+  });
+
   it('shows percent values without multiplying them again', () => {
     render(<RecordDashboard />);
 
@@ -106,5 +124,35 @@ describe('RecordDashboard', () => {
 
     expect(screen.getByText('오늘의 성장')).toBeDefined();
     expect(screen.getByText('2문제 · 50%')).toBeDefined();
+  });
+
+  it('highlights the latest SEW Next practice session', () => {
+    mockQuizState.quizHistory = [
+      {
+        questionId: 'next-adaptive-fba-01',
+        userAnswer: '행동의 기능을 파악해 중재 가설을 세우는 것',
+        isCorrect: true,
+        timestamp: 1779258091373,
+        subject: '정서행동장애',
+        chapter: '긍정적 행동지원, 기능평가, 중재 충실도',
+        sessionId: 'sew-next-adaptive',
+      },
+      {
+        questionId: 'next-adaptive-abc-02',
+        userAnswer: '행동 직후 따라오는 반응이나 환경 변화',
+        isCorrect: true,
+        timestamp: 1779258191373,
+        subject: '정서행동장애',
+        chapter: 'ABC 기록, 기능평가, 긍정적 행동지원',
+        sessionId: 'sew-next-adaptive',
+      },
+    ];
+
+    render(<RecordDashboard />);
+
+    expect(screen.getByText('최근 SEW Next 세션')).toBeDefined();
+    expect(screen.getByText('Adaptive Readiness')).toBeDefined();
+    expect(screen.getByText('2문항 · 100%')).toBeDefined();
+    expect(screen.getByText(/정서행동장애/)).toBeDefined();
   });
 });
