@@ -49,6 +49,75 @@ async function seedRecordData(page: Page) {
   });
 }
 
+async function seedSewNextTrendData(page: Page) {
+  await page.goto('/');
+  await page.evaluate(() => {
+    const now = Date.now();
+    const today = new Date().toISOString().slice(0, 10);
+    localStorage.setItem('quiz-data', JSON.stringify({
+      state: {
+        wrongNotes: [],
+        quizHistory: [
+          {
+            questionId: 'sew-old-1',
+            isCorrect: true,
+            subject: '정서행동장애',
+            chapter: '기능평가',
+            timestamp: now - 2 * 60 * 60 * 1000,
+            sessionId: 'sew-next-adaptive',
+          },
+          {
+            questionId: 'sew-middle-1',
+            isCorrect: false,
+            subject: '특수교육공학',
+            chapter: '보조공학',
+            timestamp: now - 60 * 60 * 1000,
+            sessionId: 'sew-next-custom',
+          },
+          {
+            questionId: 'sew-middle-2',
+            isCorrect: true,
+            subject: '특수교육공학',
+            chapter: '보조공학',
+            timestamp: now - 60 * 60 * 1000 + 1000,
+            sessionId: 'sew-next-custom',
+          },
+          {
+            questionId: 'sew-latest-1',
+            isCorrect: true,
+            subject: '관련 법령',
+            chapter: 'IEP',
+            timestamp: now,
+            sessionId: 'sew-next-mock',
+          },
+        ],
+        diagnosticSessions: [],
+        feedbacks: [],
+        errorReports: [],
+      },
+      version: 5,
+    }));
+    localStorage.setItem('special-edu-study', JSON.stringify({
+      state: {
+        currentStreak: 1,
+        longestStreak: 1,
+        lastActiveDate: today,
+        dailyProgress: { date: today, chaptersCompleted: 0, quizzesCompleted: 4, quizzesCorrect: 3, flashcardsReviewed: 0 },
+        dailyGoal: { chapters: 2, quizzes: 10 },
+        recentActivities: [],
+        totalXP: 40,
+        totalQuizzes: 4,
+        totalCorrect: 3,
+        dailyHistory: [],
+        scenarioProgress: {},
+        spacedScenarioSchedules: {},
+        completedChapters: {},
+      },
+      version: 7,
+    }));
+  });
+}
+
 test.describe('/my 대시보드', () => {
   test('페이지 렌더링 + 주요 섹션 존재', async ({ page }) => {
     await page.goto('/my');
@@ -124,6 +193,17 @@ test.describe('/record 대시보드', () => {
     await expect(page.getByText('특수교육법').first()).toBeVisible();
     await expect(page.getByText(/^laws$/)).toHaveCount(0);
     await expect(page.getByText(/^special-education-act$/)).toHaveCount(0);
+  });
+
+  test('SEW Next 최근 3회 세션 흐름을 표시', async ({ page }) => {
+    await seedSewNextTrendData(page);
+    await page.goto('/record');
+
+    await expect(page.getByText('최근 SEW Next 세션')).toBeVisible();
+    await expect(page.getByText('최근 3회 SEW Next 흐름')).toBeVisible();
+    await expect(page.getByText('Mock Exam').first()).toBeVisible();
+    await expect(page.getByText('Custom Qbank')).toBeVisible();
+    await expect(page.getByText('50%').first()).toBeVisible();
   });
 });
 

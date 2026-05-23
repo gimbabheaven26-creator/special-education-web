@@ -34,16 +34,23 @@ test.describe('SEW Next prototype (/next)', () => {
     await expect(page).toHaveURL(/\/next\/qbank/);
     await expect(page.getByRole('heading', { name: 'SEW Next Qbank' })).toBeVisible();
     await expect(page.getByRole('button', { name: '특수교육공학' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText('실제 DB 문제은행')).toBeVisible();
+    await expect(page.getByText(/매칭 문항 \d+개/)).toBeVisible();
+    await expect(page.getByText('대표 문항')).toBeVisible();
+    await page.getByRole('button', { name: '정서행동장애' }).click();
+    await page.getByRole('button', { name: '상' }).click();
+    await page.getByRole('button', { name: '용어 구분' }).click();
     await expect(page.getByText('선택된 세션')).toBeVisible();
     await expect(page.getByRole('link', { name: /커스텀 세션 시작/ })).toHaveAttribute(
       'href',
-      '/next/practice?mode=custom',
+      /\/next\/practice\?mode=custom&domain=.*&difficulty=.*&format=.*/,
     );
 
     await page.getByRole('link', { name: /커스텀 세션 시작/ }).click();
     await expect(page).toHaveURL(/\/next\/practice\?mode=custom/);
     await expect(page.getByText('Custom Qbank Session')).toBeVisible();
-    await expect(page.getByText('보조공학 서비스 결정')).toBeVisible();
+    await expect(page.getByText(/정서행동장애 · 상 · 용어 구분/)).toBeVisible();
+    await expect(page.getByText('상 난도 우선')).toBeVisible();
   });
 
   test('mock and review practice modes open native sessions', async ({ page }) => {
@@ -58,6 +65,8 @@ test.describe('SEW Next prototype (/next)', () => {
     await page.getByRole('link', { name: /모의고사 예약/ }).click();
     await expect(page).toHaveURL(/\/next\/practice\?mode=mock/);
     await expect(page.getByText('Mock Exam Drill')).toBeVisible();
+    await expect(page.getByText('Mock timer')).toBeVisible();
+    await expect(page.getByText('영역 배분')).toBeVisible();
     await expect(page.getByText('IEP 회의에서 우선 검토')).toBeVisible();
 
     await page.goto('/next');
@@ -136,8 +145,8 @@ test.describe('SEW Next prototype (/next)', () => {
     await expect(page.getByText('정답입니다')).toBeVisible();
 
     await page.goto('/next');
-    await expect(page.getByText('오늘 세션 반영 +1p')).toBeVisible();
-    await expect(page.getByText('69%')).toBeVisible();
+    await expect(page.getByText('최근 1문항 · 정답률 100%')).toBeVisible();
+    await expect(page.locator('#readiness').getByText('69%').first()).toBeVisible();
   });
 
   test('native practice session advances through the queue and ends with a summary', async ({ page }) => {
@@ -157,6 +166,22 @@ test.describe('SEW Next prototype (/next)', () => {
     await expect(page.getByRole('heading', { name: '세션 요약' })).toBeVisible();
     await expect(page.getByText('2문항 중 2문항 정답')).toBeVisible();
     await expect(page.getByText('예상 준비도 상승 +3.2p')).toBeVisible();
+  });
+
+  test('mock exam ends with a timed domain report', async ({ page }) => {
+    await page.goto('/next/practice?mode=mock');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.getByRole('radio', { name: /현재 수행 수준과 평가 결과/ }).check();
+    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+    await page.getByRole('button', { name: '다음 문항' }).click();
+    await page.getByRole('radio', { name: /행동 직후 따라오는 반응/ }).check();
+    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+
+    await expect(page.getByRole('heading', { name: 'Mock Exam 리포트' })).toBeVisible();
+    await expect(page.getByText('영역별 결과')).toBeVisible();
+    await expect(page.getByText('시간 관리 안정')).toBeVisible();
+    await expect(page.getByText('함정 선지 0개')).toBeVisible();
   });
 
   test('record dashboard highlights completed SEW Next session', async ({ page }) => {
@@ -183,7 +208,7 @@ test.describe('SEW Next prototype (/next)', () => {
 
     await expect(page.getByRole('link', { name: 'Readiness' })).toHaveAttribute('href', '#readiness');
     await expect(page.getByRole('link', { name: 'Practice' })).toHaveAttribute('href', '#practice');
-    await expect(page.getByRole('link', { name: 'Mock Exam' })).toHaveAttribute('href', '/kice/exam');
+    await expect(page.getByRole('link', { name: 'Mock Exam' })).toHaveAttribute('href', '/next/practice?mode=mock');
     await expect(page.getByRole('link', { name: 'Library' })).toHaveAttribute('href', '/concepts');
     await expect(page.getByRole('link', { name: 'Analytics' })).toHaveAttribute('href', '/record');
     await expect(page.getByRole('link', { name: 'AI Lab' })).toHaveAttribute('href', '/admin/ai-generate');

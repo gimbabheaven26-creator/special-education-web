@@ -5,24 +5,39 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
+  Database,
   Filter,
   ListChecks,
   SlidersHorizontal,
   type LucideIcon,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
+import {
+  buildQbankPracticeHref,
+  buildQbankSnapshot,
+  qbankDifficulties,
+  qbankDomains,
+  qbankFormats,
+  type QbankDifficulty,
+  type QbankDomain,
+  type QbankFormat,
+} from '@/lib/sew-next/qbank';
 import { cn } from '@/lib/utils';
+import type { QuizQuestion } from '@/types/quiz';
 
-const domains = ['특수교육공학', '정서행동장애', '지적장애'] as const;
-const difficulties = ['중', '상', '하'] as const;
-const formats = ['사례형', '절차 배열', '용어 구분'] as const;
+interface QbankBuilderProps {
+  questions: QuizQuestion[];
+}
 
-export function QbankBuilder() {
-  const [domain, setDomain] = useState<(typeof domains)[number]>('특수교육공학');
-  const [difficulty, setDifficulty] = useState<(typeof difficulties)[number]>('중');
-  const [format, setFormat] = useState<(typeof formats)[number]>('사례형');
+export function QbankBuilder({ questions }: QbankBuilderProps) {
+  const [domain, setDomain] = useState<QbankDomain>('특수교육공학');
+  const [difficulty, setDifficulty] = useState<QbankDifficulty>('중');
+  const [format, setFormat] = useState<QbankFormat>('사례형');
+  const filters = useMemo(() => ({ domain, difficulty, format }), [domain, difficulty, format]);
+  const snapshot = useMemo(() => buildQbankSnapshot(questions, filters), [filters, questions]);
+  const startHref = useMemo(() => buildQbankPracticeHref(filters), [filters]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -44,16 +59,18 @@ export function QbankBuilder() {
             </p>
           </div>
           <div className="rounded-lg border border-border bg-card px-4 py-3">
-            <p className="text-xs font-semibold text-muted-foreground">예상 분량</p>
-            <p className="mt-1 text-2xl font-bold text-primary">10문항</p>
-            <p className="mt-1 text-xs text-muted-foreground">25분 · 해설 즉시 공개</p>
+            <p className="text-xs font-semibold text-muted-foreground">실제 DB 문제은행</p>
+            <p className="mt-1 text-2xl font-bold text-primary">매칭 문항 {snapshot.matchingCount}개</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {snapshot.dataSourceLabel === 'actual DB' ? `${snapshot.sourceCount}개 문항에서 계산` : '프로토타입 안전망 사용'}
+            </p>
           </div>
         </header>
 
         <section className="grid gap-4 py-5 lg:grid-cols-[1fr_340px]">
           <div className="space-y-4">
             <FilterGroup title="영역" icon={Filter}>
-              {domains.map((item) => (
+              {qbankDomains.map((item) => (
                 <FilterButton key={item} active={domain === item} onClick={() => setDomain(item)}>
                   {item}
                 </FilterButton>
@@ -61,7 +78,7 @@ export function QbankBuilder() {
             </FilterGroup>
 
             <FilterGroup title="난도" icon={SlidersHorizontal}>
-              {difficulties.map((item) => (
+              {qbankDifficulties.map((item) => (
                 <FilterButton key={item} active={difficulty === item} onClick={() => setDifficulty(item)}>
                   {item}
                 </FilterButton>
@@ -69,12 +86,30 @@ export function QbankBuilder() {
             </FilterGroup>
 
             <FilterGroup title="문항 형식" icon={ListChecks}>
-              {formats.map((item) => (
+              {qbankFormats.map((item) => (
                 <FilterButton key={item} active={format === item} onClick={() => setFormat(item)}>
                   {item}
                 </FilterButton>
               ))}
             </FilterGroup>
+
+            <section className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-center gap-2">
+                <Database className="h-4 w-4 text-primary" />
+                <h2 className="text-base font-bold">대표 문항</h2>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">{snapshot.coverageWarning}</p>
+              <div className="mt-3 space-y-2">
+                {snapshot.recommendedQuestions.slice(0, 3).map((question) => (
+                  <div key={question.id} className="rounded-lg bg-muted/40 px-3 py-2">
+                    <p className="line-clamp-2 text-sm font-semibold">{question.question}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {question.subject} · {question.chapter} · 난도 {question.difficulty}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
 
           <aside className="rounded-xl border border-border bg-card p-5">
@@ -86,10 +121,11 @@ export function QbankBuilder() {
               <SummaryRow label="영역" value={domain} />
               <SummaryRow label="난도" value={difficulty} />
               <SummaryRow label="형식" value={format} />
-              <SummaryRow label="AI 점검" value="커버리지 빈틈 경고" />
+              <SummaryRow label="데이터" value={snapshot.dataSourceLabel === 'actual DB' ? '실제 DB' : 'fallback'} />
+              <SummaryRow label="AI 점검" value={snapshot.matchingCount < 10 ? '커버리지 빈틈 경고' : '세션 구성 가능'} />
             </dl>
             <Link
-              href="/next/practice?mode=custom"
+              href={startHref}
               className="mt-5 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
             >
               커스텀 세션 시작

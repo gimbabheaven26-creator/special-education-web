@@ -155,4 +155,50 @@ describe('RecordDashboard', () => {
     expect(screen.getByText('2문항 · 100%')).toBeDefined();
     expect(screen.getByText(/정서행동장애/)).toBeDefined();
   });
+
+  it('shows the latest three SEW Next session rates as a trend', () => {
+    const base = 1779258091373;
+    mockQuizState.quizHistory = [
+      {
+        questionId: 'old-1',
+        isCorrect: true,
+        timestamp: base,
+        subject: '정서행동장애',
+        chapter: '기능평가',
+        sessionId: 'sew-next-adaptive',
+      },
+      {
+        questionId: 'middle-1',
+        isCorrect: false,
+        timestamp: base + 60 * 60 * 1000,
+        subject: '특수교육공학',
+        chapter: '보조공학',
+        sessionId: 'sew-next-custom',
+      },
+      {
+        questionId: 'middle-2',
+        isCorrect: true,
+        timestamp: base + 60 * 60 * 1000 + 1000,
+        subject: '특수교육공학',
+        chapter: '보조공학',
+        sessionId: 'sew-next-custom',
+      },
+      {
+        questionId: 'latest-1',
+        isCorrect: true,
+        timestamp: base + 2 * 60 * 60 * 1000,
+        subject: '관련 법령',
+        chapter: 'IEP',
+        sessionId: 'sew-next-mock',
+      },
+    ];
+
+    render(<RecordDashboard />);
+
+    expect(screen.getByText('최근 3회 SEW Next 흐름')).toBeDefined();
+    expect(screen.getAllByText('Mock Exam').length).toBeGreaterThan(0);
+    expect(screen.getByText('Custom Qbank')).toBeDefined();
+    expect(screen.getAllByText('100%').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('50%').length).toBeGreaterThan(0);
+  });
 });

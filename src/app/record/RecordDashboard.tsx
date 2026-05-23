@@ -42,6 +42,7 @@ interface SewNextSessionSummary {
   rate: number;
   subject: string;
   chapter: string;
+  timestamp: number;
 }
 
 const SEW_NEXT_SESSION_WINDOW_MS = 30 * 60 * 1000;
@@ -55,32 +56,45 @@ function getSewNextModeLabel(sessionId: string): string {
   return 'SEW Next';
 }
 
-function getLatestSewNextSession(quizHistory: readonly QuizResult[]): SewNextSessionSummary | null {
-  const latest = [...quizHistory]
-    .reverse()
-    .find((result) => result.sessionId?.startsWith('sew-next-'));
+function getRecentSewNextSessions(quizHistory: readonly QuizResult[]): SewNextSessionSummary[] {
+  const ordered = [...quizHistory]
+    .filter((result) => result.sessionId?.startsWith('sew-next-'))
+    .sort((a, b) => a.timestamp - b.timestamp);
+  const grouped: QuizResult[][] = [];
 
-  if (!latest?.sessionId) return null;
+  for (const result of ordered) {
+    const currentGroup = grouped[grouped.length - 1];
+    const previous = currentGroup?.[currentGroup.length - 1];
+    const belongsToCurrentGroup = previous?.sessionId === result.sessionId
+      && result.timestamp - previous.timestamp <= SEW_NEXT_SESSION_WINDOW_MS;
 
-  const sessionResults = quizHistory.filter((result) =>
-    result.sessionId === latest.sessionId
-    && Math.abs(latest.timestamp - result.timestamp) <= SEW_NEXT_SESSION_WINDOW_MS
-  );
-  if (sessionResults.length === 0) return null;
+    if (belongsToCurrentGroup) {
+      currentGroup.push(result);
+    } else {
+      grouped.push([result]);
+    }
+  }
 
-  const correct = sessionResults.filter((result) => result.isCorrect).length;
-  const mode = latest.sessionId.replace(/^sew-next-/, '');
+  return grouped
+    .map((sessionResults) => {
+      const latest = sessionResults[sessionResults.length - 1];
+      const correct = sessionResults.filter((result) => result.isCorrect).length;
+      const mode = latest.sessionId?.replace(/^sew-next-/, '') ?? 'adaptive';
 
-  return {
-    title: getSewNextModeLabel(latest.sessionId),
-    mode,
-    href: `/next/practice?mode=${mode || 'adaptive'}`,
-    total: sessionResults.length,
-    correct,
-    rate: Math.round((correct / sessionResults.length) * 100),
-    subject: latest.subject,
-    chapter: latest.chapter,
-  };
+      return {
+        title: getSewNextModeLabel(latest.sessionId ?? ''),
+        mode,
+        href: `/next/practice?mode=${mode || 'adaptive'}`,
+        total: sessionResults.length,
+        correct,
+        rate: Math.round((correct / sessionResults.length) * 100),
+        subject: latest.subject,
+        chapter: latest.chapter,
+        timestamp: latest.timestamp,
+      };
+    })
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, 3);
 }
 
 export default function RecordDashboard() {
@@ -94,7 +108,8 @@ export default function RecordDashboard() {
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const bookmarkCount = useBookmarkStore((s) => s.bookmarks.length);
   const leitnerStats = useLeitnerStore(useShallow((s) => s.getStats()));
-  const latestSewNextSession = useMemo(() => getLatestSewNextSession(quizHistory), [quizHistory]);
+  const recentSewNextSessions = useMemo(() => getRecentSewNextSessions(quizHistory), [quizHistory]);
+  const latestSewNextSession = recentSewNextSessions[0] ?? null;
 
   if (!mounted) {
     return (
@@ -165,31 +180,52 @@ export default function RecordDashboard() {
       )}
 
       {latestSewNextSession && (
-        <Link
-          href={latestSewNextSession.href}
-          className="block rounded-2xl border border-sky-200 bg-sky-50 p-4 transition-colors hover:bg-sky-100 dark:border-sky-900/60 dark:bg-sky-950/30 dark:hover:bg-sky-950/40"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-1.5 text-sky-700 dark:text-sky-300">
-                <Target className="h-4 w-4" />
-                <p className="text-xs font-semibold">최근 SEW Next 세션</p>
+        <section className="rounded-2xl border border-sky-200 bg-sky-50 p-4 dark:border-sky-900/60 dark:bg-sky-950/30">
+          <Link
+            href={latestSewNextSession.href}
+            className="block transition-opacity hover:opacity-80"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-1.5 text-sky-700 dark:text-sky-300">
+                  <Target className="h-4 w-4" />
+                  <p className="text-xs font-semibold">최근 SEW Next 세션</p>
+                </div>
+                <p className="mt-1 text-base font-bold text-foreground">{latestSewNextSession.title}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {latestSewNextSession.subject} · {latestSewNextSession.chapter}
+                </p>
               </div>
-              <p className="mt-1 text-base font-bold text-foreground">{latestSewNextSession.title}</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {latestSewNextSession.subject} · {latestSewNextSession.chapter}
-              </p>
+              <div className="rounded-lg bg-background/80 px-3 py-2 text-right">
+                <p className="text-sm font-bold tabular-nums text-sky-700 dark:text-sky-300">
+                  {latestSewNextSession.total}문항 · {latestSewNextSession.rate}%
+                </p>
+                <p className="mt-0.5 text-[10px] text-muted-foreground">
+                  {latestSewNextSession.correct}/{latestSewNextSession.total} 정답
+                </p>
+              </div>
             </div>
-            <div className="rounded-lg bg-background/80 px-3 py-2 text-right">
-              <p className="text-sm font-bold tabular-nums text-sky-700 dark:text-sky-300">
-                {latestSewNextSession.total}문항 · {latestSewNextSession.rate}%
-              </p>
-              <p className="mt-0.5 text-[10px] text-muted-foreground">
-                {latestSewNextSession.correct}/{latestSewNextSession.total} 정답
-              </p>
+          </Link>
+
+          {recentSewNextSessions.length > 1 && (
+            <div className="mt-4 border-t border-sky-200 pt-3 dark:border-sky-900/60">
+              <p className="text-xs font-semibold text-sky-700 dark:text-sky-300">최근 3회 SEW Next 흐름</p>
+              <div className="mt-2 grid grid-cols-3 gap-2">
+                {recentSewNextSessions.map((session, index) => (
+                  <Link
+                    key={`${session.mode}-${session.timestamp}`}
+                    href={session.href}
+                    className="rounded-lg bg-background/80 px-2 py-2 text-center transition-colors hover:bg-background"
+                  >
+                    <p className="text-[10px] text-muted-foreground">{index === 0 ? '최신' : `${index + 1}회 전`}</p>
+                    <p className="mt-1 truncate text-[11px] font-semibold text-foreground">{session.title}</p>
+                    <p className="mt-1 text-sm font-bold tabular-nums text-sky-700 dark:text-sky-300">{session.rate}%</p>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        </Link>
+          )}
+        </section>
       )}
 
       <div className="grid grid-cols-3 gap-3">

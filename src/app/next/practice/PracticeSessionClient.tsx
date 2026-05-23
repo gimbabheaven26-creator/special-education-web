@@ -15,6 +15,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
+import { buildMockExamReport, mockExamFollowUpQuestion } from '@/lib/sew-next/mock-exam';
 import type { PracticeQuestion, PracticeSession } from '@/lib/sew-next/prototype-data';
 import type { QuizQuestion } from '@/types/quiz';
 
@@ -25,6 +26,7 @@ interface PracticeSessionClientProps {
 interface AnswerRecord {
   correct: boolean;
   questionId: string;
+  selectedChoiceId: string;
 }
 
 function persistSnapshot(key: string, state: Record<string, unknown>, version: number) {
@@ -54,13 +56,20 @@ function toQuizQuestion(question: PracticeQuestion): QuizQuestion {
 
 export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const questions = useMemo(
-    () => [session.question, ...(session.followUpQuestions ?? [])],
-    [session.followUpQuestions, session.question],
+    () => {
+      const baseQuestions = [session.question, ...(session.followUpQuestions ?? [])];
+      if (session.mode === 'mock' && baseQuestions.length === 1) {
+        return [...baseQuestions, mockExamFollowUpQuestion];
+      }
+      return baseQuestions;
+    },
+    [session.followUpQuestions, session.mode, session.question],
   );
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
+  const [startedAt] = useState(() => Date.now());
 
   const question = questions[questionIndex] ?? questions[0];
   const selectedChoice = useMemo(
@@ -70,6 +79,17 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const correctCount = answers.filter((answer) => answer.correct).length;
   const isLastQuestion = questionIndex === questions.length - 1;
   const showSummary = submitted && selectedChoice && isLastQuestion;
+  const isMockSession = session.mode === 'mock';
+  const mockReport = useMemo(
+    () =>
+      buildMockExamReport({
+        answers,
+        elapsedSeconds: Math.round((Date.now() - startedAt) / 1000),
+        questions,
+        timeLimitSeconds: 180,
+      }),
+    [answers, questions, startedAt],
+  );
 
   const submitDisabled = selectedChoiceId === null;
 
@@ -82,7 +102,7 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
 
     setAnswers((current) => [
       ...current.filter((answer) => answer.questionId !== question.id),
-      { correct: isCorrect, questionId: question.id },
+      { correct: isCorrect, questionId: question.id, selectedChoiceId: selectedChoice.id },
     ]);
     useStudyStore.getState().recordQuizResult(isCorrect);
     useQuizStore.getState().addQuizResult({
@@ -213,6 +233,25 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
           </div>
 
           <aside className="space-y-4">
+            {isMockSession && (
+              <section className="rounded-xl border border-border bg-card p-4">
+                <h2 className="text-sm font-bold">Mock timer</h2>
+                <p className="mt-2 text-3xl font-bold tabular-nums text-primary">03:00</p>
+                <p className="mt-1 text-xs text-muted-foreground">미니 모의고사 제한시간</p>
+                <div className="mt-4 rounded-lg bg-muted/40 p-3">
+                  <p className="text-xs font-semibold text-foreground">영역 배분</p>
+                  <div className="mt-2 space-y-1">
+                    {Array.from(new Set(questions.map((item) => item.domain))).map((domain) => (
+                      <p key={domain} className="flex justify-between gap-2 text-xs text-muted-foreground">
+                        <span>{domain}</span>
+                        <span>{questions.filter((item) => item.domain === domain).length}문항</span>
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
             <section className="rounded-xl border border-border bg-card p-4">
               <h2 className="text-sm font-bold">Session queue</h2>
               <div className="mt-3 space-y-2">
@@ -305,6 +344,40 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 <p className="text-xs font-semibold text-muted-foreground">
                   예상 준비도 상승 {session.targetGain}
                 </p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {showSummary && isMockSession && (
+          <section className="mt-4 rounded-xl border border-border bg-card p-5" aria-live="polite">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h2 className="text-xl font-bold">Mock Exam 리포트</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {mockReport.total}문항 중 {mockReport.correct}문항 정답 · {mockReport.rate}%
+                </p>
+              </div>
+              <div className="grid gap-2 text-sm sm:grid-cols-2">
+                <div className="rounded-lg bg-muted/40 px-3 py-2 font-semibold">{mockReport.timeLabel}</div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2 font-semibold">함정 선지 {mockReport.trapCount}개</div>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <h3 className="text-sm font-bold">영역별 결과</h3>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                {mockReport.domainRows.map((row) => (
+                  <div key={row.domain} className="rounded-lg border border-border p-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-sm font-semibold">{row.domain}</p>
+                      <p className="text-sm font-bold text-primary">{row.rate}%</p>
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {row.total}문항 중 {row.correct}문항 정답
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </section>

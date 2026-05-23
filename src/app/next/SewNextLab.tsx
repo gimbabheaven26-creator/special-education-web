@@ -27,13 +27,17 @@ import {
   reviewQueue,
   roadmapPhases,
   topNavigation,
-  weakDomains,
   type MetricTone,
   type PracticeMode,
   type PracticeModeId,
   type ReadinessStatus,
   type RoadmapStatus,
 } from '@/lib/sew-next/prototype-data';
+import {
+  buildReadinessSnapshot,
+  readReadinessSnapshotFromLocalStorage,
+  type ReadinessSnapshot,
+} from '@/lib/sew-next/readiness';
 
 const toneStyles: Record<MetricTone, string> = {
   indigo: 'border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/30 dark:text-indigo-300',
@@ -61,6 +65,10 @@ const modeIcons: Record<PracticeModeId, React.ComponentType<{ className?: string
   mock: FileText,
   review: Brain,
 };
+
+const sewNextTopNavigation = topNavigation.map((item) =>
+  item.label === 'Mock Exam' ? { ...item, href: '/next/practice?mode=mock' } : item
+);
 
 function statusLabel(status: ReadinessStatus) {
   if (status === 'strong') return '안정';
@@ -90,25 +98,6 @@ function MetricCard({ metric }: { metric: (typeof readinessMetrics)[number] }) {
       <p className="mt-1 text-[11px] leading-relaxed opacity-85">{metric.note}</p>
     </div>
   );
-}
-
-function readSewNextBoost() {
-  if (typeof window === 'undefined') return 0;
-
-  try {
-    const raw = localStorage.getItem('quiz-data');
-    if (!raw) return 0;
-    const parsed = JSON.parse(raw);
-    const history = Array.isArray(parsed?.state?.quizHistory) ? parsed.state.quizHistory : [];
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const count = history.filter((entry: { sessionId?: string; timestamp?: number }) =>
-      entry.sessionId?.startsWith('sew-next-') && Number(entry.timestamp) >= todayStart.getTime()
-    ).length;
-    return Math.min(5, count);
-  } catch {
-    return 0;
-  }
 }
 
 function ModePanel({ mode }: { mode: PracticeMode }) {
@@ -160,28 +149,16 @@ function ModePanel({ mode }: { mode: PracticeMode }) {
 
 export function SewNextLab() {
   const [activeMode, setActiveMode] = useState<PracticeModeId>('adaptive');
-  const [sessionBoost, setSessionBoost] = useState(0);
+  const [readinessSnapshot, setReadinessSnapshot] = useState<ReadinessSnapshot>(() =>
+    buildReadinessSnapshot({ quizHistory: [], wrongNotes: [] })
+  );
   const activePracticeMode = useMemo(
     () => practiceModes.find((mode) => mode.id === activeMode) ?? practiceModes[0],
     [activeMode],
   );
-  const displayedMetrics = useMemo(
-    () =>
-      readinessMetrics.map((metric) =>
-        metric.label === '합격 준비도' && sessionBoost > 0
-          ? {
-              ...metric,
-              value: Math.min(100, metric.value + sessionBoost),
-              delta: `+${7 + sessionBoost}`,
-              note: `오늘 세션 반영 +${sessionBoost}p`,
-            }
-          : metric
-      ),
-    [sessionBoost],
-  );
 
   useEffect(() => {
-    setSessionBoost(readSewNextBoost());
+    setReadinessSnapshot(readReadinessSnapshotFromLocalStorage());
   }, []);
 
   return (
@@ -196,7 +173,7 @@ export function SewNextLab() {
             </p>
           </div>
           <nav className="flex max-w-full gap-1 overflow-x-auto rounded-lg border border-border bg-card p-1">
-            {topNavigation.map((item) => (
+            {sewNextTopNavigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -219,9 +196,9 @@ export function SewNextLab() {
               <div>
                 <p className="text-sm font-semibold text-muted-foreground">2027 특수교육 임용 Readiness</p>
                 <div className="mt-3 flex items-end gap-3">
-                  <span className="text-6xl font-bold tracking-tight">68%</span>
+                  <span className="text-6xl font-bold tracking-tight">{readinessSnapshot.heroValue}%</span>
                   <span className="mb-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
-                    watch
+                    {statusLabel(readinessSnapshot.heroStatus)}
                   </span>
                 </div>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
@@ -241,7 +218,7 @@ export function SewNextLab() {
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {displayedMetrics.map((metric) => (
+              {readinessSnapshot.metrics.map((metric) => (
                 <MetricCard key={metric.label} metric={metric} />
               ))}
             </div>
@@ -253,7 +230,7 @@ export function SewNextLab() {
               <h2 className="text-base font-bold">High-risk blueprint domains</h2>
             </div>
             <div className="mt-4 space-y-3">
-              {weakDomains.slice(0, 3).map((domain) => (
+              {readinessSnapshot.highRiskDomains.slice(0, 3).map((domain) => (
                 <div key={domain.domain} className="rounded-lg border border-border p-3">
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-sm font-semibold">{domain.domain}</p>

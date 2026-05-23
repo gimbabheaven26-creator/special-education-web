@@ -1,6 +1,14 @@
 import type { Metadata } from 'next';
 
-import { practiceSessions, type PracticeModeId } from '@/lib/sew-next/prototype-data';
+import { getAllQuizzes } from '@/lib/db/quiz';
+import {
+  practiceSessions,
+  type PracticeModeId,
+} from '@/lib/sew-next/prototype-data';
+import {
+  buildSewNextPracticeSession,
+  getQbankFiltersFromSearchParams,
+} from '@/lib/sew-next/qbank';
 import { PracticeSessionClient } from './PracticeSessionClient';
 
 export const dynamic = 'force-dynamic';
@@ -13,6 +21,9 @@ export const metadata: Metadata = {
 interface NextPracticePageProps {
   searchParams?: {
     mode?: string;
+    domain?: string;
+    difficulty?: string;
+    format?: string;
   };
 }
 
@@ -22,8 +33,19 @@ function getMode(value: string | undefined): PracticeModeId {
   return value && modes.has(value as PracticeModeId) ? (value as PracticeModeId) : 'adaptive';
 }
 
-export default function NextPracticePage({ searchParams }: NextPracticePageProps) {
+export default async function NextPracticePage({ searchParams }: NextPracticePageProps) {
   const mode = getMode(searchParams?.mode);
+  let session = practiceSessions[mode];
 
-  return <PracticeSessionClient session={practiceSessions[mode]} />;
+  if (mode === 'custom') {
+    const quizzes = await getAllQuizzes();
+    session = buildSewNextPracticeSession({
+      mode,
+      quizzes,
+      filters: getQbankFiltersFromSearchParams(searchParams ?? {}),
+      fallback: practiceSessions.custom,
+    });
+  }
+
+  return <PracticeSessionClient session={session} />;
 }

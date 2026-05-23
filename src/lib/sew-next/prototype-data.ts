@@ -89,6 +89,7 @@ export interface PracticeQuestion {
   domain: string;
   blueprint: string;
   difficulty: string;
+  format?: string;
   examSignal: string;
   choices: PracticeChoice[];
   explanation: {
@@ -125,7 +126,7 @@ export interface TopNavigationItem {
 export const topNavigation = [
   { label: 'Readiness', href: '#readiness', active: true },
   { label: 'Practice', href: '#practice' },
-  { label: 'Mock Exam', href: '/kice/exam' },
+  { label: 'Mock Exam', href: '/next/practice?mode=mock' },
   { label: 'Library', href: '/concepts' },
   { label: 'Analytics', href: '/record' },
   { label: 'AI Lab', href: '/admin/ai-generate' },
@@ -580,6 +581,48 @@ export const practiceSessions: Record<PracticeModeId, PracticeSession> = {
         rewrite: '현재 수행 수준이 목표와 지원의 기준점이 된다.',
       },
     },
+    followUpQuestions: [
+      {
+        id: 'next-mock-abc-02',
+        stem: '모의고사에서 ABC 기록의 후속결과를 빠르게 찾는 기준은 무엇인가?',
+        domain: '정서행동장애',
+        blueprint: 'ABC 기록, 기능평가, 시간 압박 상황 판단',
+        difficulty: '중',
+        examSignal: '시간 제한 상황에서는 A-B-C를 먼저 분리해야 함정 선지를 줄일 수 있습니다.',
+        choices: [
+          {
+            id: 'after-response',
+            label: '행동 직후 따라오는 반응이나 환경 변화',
+            correct: true,
+            rationale: '후속결과는 행동 뒤에 발생해 행동 유지 가능성에 영향을 줍니다.',
+          },
+          {
+            id: 'before-event',
+            label: '행동 전에 이미 존재한 선행사건',
+            correct: false,
+            rationale: '행동 전 단서는 선행사건이며 후속결과가 아닙니다.',
+          },
+          {
+            id: 'behavior-form',
+            label: '문제행동의 형태와 강도',
+            correct: false,
+            rationale: '행동 형태는 B에 해당하므로 후속결과와 분리해야 합니다.',
+          },
+        ],
+        explanation: {
+          verdict: '정답입니다',
+          coreRule: '후속결과는 행동 직후 나타나 그 행동의 반복 가능성에 영향을 주는 반응입니다.',
+          trap: '시간 압박에서는 선행사건과 행동 형태를 후속결과로 착각하기 쉽습니다.',
+          connect: 'IEP 근거 판단과 ABC 기록을 모두 “근거 먼저 확인” 루틴으로 묶으세요.',
+          nextReview: '모의고사 종료 후 재검토',
+        },
+        aiCoach: {
+          title: 'AI Answer Coach',
+          prompt: '후속결과를 찾는 순서를 10초 안에 말하듯 정리해 보세요.',
+          rewrite: '행동 직후 반응을 찾고, 그 반응이 행동을 유지시키는지 확인한다.',
+        },
+      },
+    ],
   },
   review: {
     mode: 'review',
