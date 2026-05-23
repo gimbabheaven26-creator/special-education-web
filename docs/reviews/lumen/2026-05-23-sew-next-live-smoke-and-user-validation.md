@@ -64,3 +64,10 @@
 1. SEW Next 세션 결과를 Supabase에 저장해 기기 간 continuity를 확보한다.
 2. Mock Exam을 실제 시험형 묶음으로 확장하고 제한 시간/영역별 배점을 도입한다.
 3. Readiness 산식에 기출 연도, 각론 영역, 최근 망각 간격을 반영한다.
+
+## 123 후속 반영
+
+- Supabase continuity: 새 테이블 없이 기존 `user_data` 계약의 `study`/`quiz` 스토어를 즉시 push하는 SEW Next 전용 동기화 헬퍼를 추가했다. 게스트는 로컬 저장 상태를 명시한다.
+- Mock Exam depth: `/next/practice?mode=mock`이 실제 DB 문제은행에서 전범위 미니 모의고사 묶음을 구성하고, 실제 카운트다운, 영역 배분, 영역별 추천, 다음 처방을 표시한다.
+- Validation priority: 사용자 검증 신호를 `qbank`, `mock`, `readiness`, `record` 영역별로 우선순위화하는 로직을 추가했다. 신호가 없을 때는 `Readiness 근거 설명`을 기본 다음 개선으로 둔다.
+- Record loop: 최근 3회 SEW Next 흐름에서 가장 약한 세션을 찾아 `다음 추천 학습`으로 이어준다.

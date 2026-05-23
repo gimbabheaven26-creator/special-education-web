@@ -201,4 +201,47 @@ describe('RecordDashboard', () => {
     expect(screen.getAllByText('100%').length).toBeGreaterThan(0);
     expect(screen.getAllByText('50%').length).toBeGreaterThan(0);
   });
+
+  it('recommends the next SEW Next study action from the weakest recent session', () => {
+    const base = 1779258091373;
+    mockQuizState.quizHistory = [
+      {
+        questionId: 'old-1',
+        isCorrect: true,
+        timestamp: base,
+        subject: '정서행동장애',
+        chapter: '기능평가',
+        sessionId: 'sew-next-adaptive',
+      },
+      {
+        questionId: 'middle-1',
+        isCorrect: false,
+        timestamp: base + 60 * 60 * 1000,
+        subject: '특수교육공학',
+        chapter: '보조공학',
+        sessionId: 'sew-next-custom',
+      },
+      {
+        questionId: 'middle-2',
+        isCorrect: true,
+        timestamp: base + 60 * 60 * 1000 + 1000,
+        subject: '특수교육공학',
+        chapter: '보조공학',
+        sessionId: 'sew-next-custom',
+      },
+      {
+        questionId: 'latest-1',
+        isCorrect: true,
+        timestamp: base + 2 * 60 * 60 * 1000,
+        subject: '관련 법령',
+        chapter: 'IEP',
+        sessionId: 'sew-next-mock',
+      },
+    ];
+
+    render(<RecordDashboard />);
+
+    expect(screen.getByText('다음 추천 학습')).toBeDefined();
+    expect(screen.getByText('특수교육공학 보조공학을 2문항만 더 풀어 보세요.')).toBeDefined();
+  });
 });

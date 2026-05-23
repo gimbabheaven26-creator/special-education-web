@@ -53,6 +53,7 @@ describe('buildQbankSnapshot', () => {
     expect(snapshot.matchingCount).toBe(1);
     expect(snapshot.recommendedQuestions.map((question) => question.id)).toEqual(['q-assistive-1']);
     expect(snapshot.coverageWarning).toContain('실제 DB 문항 1개');
+    expect(snapshot.coverageGuidance).toBe('문항이 적으면 난도를 중으로 낮추거나 형식을 사례형으로 바꿔 보세요.');
   });
 
   it('falls back to prototype questions when the DB has no usable rows', () => {

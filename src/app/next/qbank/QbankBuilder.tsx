@@ -53,7 +53,7 @@ export function QbankBuilder({ questions }: QbankBuilderProps) {
 
         <header className="mt-4 flex flex-col gap-4 border-b border-border pb-5 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-primary">Custom Qbank builder</p>
+            <p className="text-xs font-semibold text-primary">커스텀 문제은행 구성</p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight">SEW Next Qbank</h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               영역, 난도, 형식을 조합해 기출 커버리지 빈틈을 줄이는 커스텀 세션을 만듭니다.
@@ -100,6 +100,7 @@ export function QbankBuilder({ questions }: QbankBuilderProps) {
                 <h2 className="text-base font-bold">대표 문항</h2>
               </div>
               <p className="mt-2 text-xs text-muted-foreground">{snapshot.coverageWarning}</p>
+              <p className="mt-1 text-xs font-medium text-primary">{snapshot.coverageGuidance}</p>
               <div className="mt-3 space-y-2">
                 {snapshot.recommendedQuestions.slice(0, 3).map((question) => (
                   <QuestionPreview key={question.id} question={question} />
@@ -118,7 +119,7 @@ export function QbankBuilder({ questions }: QbankBuilderProps) {
               <SummaryRow label="난도" value={difficulty} />
               <SummaryRow label="형식" value={format} />
               <SummaryRow label="데이터" value={snapshot.dataSourceLabel === 'actual DB' ? '실제 DB' : 'fallback'} />
-              <SummaryRow label="AI 점검" value={snapshot.matchingCount < 10 ? '커버리지 빈틈 경고' : '세션 구성 가능'} />
+              <SummaryRow label="AI 점검" value={snapshot.matchingCount < 10 ? '필터 조정 추천' : '세션 구성 가능'} />
             </dl>
             <Link
               href={startHref}

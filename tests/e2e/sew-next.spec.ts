@@ -1,24 +1,26 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('SEW Next prototype (/next)', () => {
+test.describe('SEW Next (/next)', () => {
   test('readiness cockpit and prescribed session render above the fold', async ({ page }) => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');
 
     await expect(page.getByRole('heading', { name: 'SEW Next' })).toBeVisible({ timeout: 15000 });
-    await expect(page.getByText('2027 특수교육 임용 Readiness')).toBeVisible();
+    await expect(page.getByText('시험 준비도 조종실')).toBeVisible();
+    await expect(page.getByText('2027 특수교육 임용 준비도')).toBeVisible();
+    await expect(page.getByText('고위험 출제 영역')).toBeVisible();
     await expect(page.getByText('오늘의 처방')).toBeVisible();
     await expect(page.getByText('긍정적 행동지원과 기능평가')).toBeVisible();
-    await expect(page.getByRole('button', { name: /Adaptive/ })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: /처방 세션/ })).toHaveAttribute('aria-pressed', 'true');
   });
 
   test('practice mode switch updates the session panel', async ({ page }) => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');
 
-    await page.getByRole('button', { name: /Mock/ }).click();
+    await page.getByRole('button', { name: /모의고사/ }).click();
 
-    await expect(page.getByRole('button', { name: /Mock/ })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: /모의고사/ })).toHaveAttribute('aria-pressed', 'true');
     await expect(page.getByRole('heading', { name: '실전 모의고사' })).toBeVisible();
     await expect(page.getByText('모의고사 예약')).toBeVisible();
   });
@@ -27,7 +29,7 @@ test.describe('SEW Next prototype (/next)', () => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');
 
-    await page.getByRole('button', { name: /Custom Qbank/ }).click();
+    await page.getByRole('button', { name: /문제은행/ }).click();
     await expect(page.getByRole('link', { name: /문제은행 구성/ })).toHaveAttribute('href', '/next/qbank');
     await page.getByRole('link', { name: /문제은행 구성/ }).click();
 
@@ -37,6 +39,7 @@ test.describe('SEW Next prototype (/next)', () => {
     await expect(page.getByText('실제 DB 문제은행')).toBeVisible();
     await expect(page.getByText(/매칭 문항 \d+개/)).toBeVisible();
     await expect(page.getByText('대표 문항')).toBeVisible();
+    await expect(page.getByText(/문항이 적으면/)).toBeVisible();
     await page.getByRole('button', { name: '정서행동장애' }).click();
     await page.getByRole('button', { name: '상' }).click();
     await page.getByRole('button', { name: '용어 구분' }).click();
@@ -57,7 +60,7 @@ test.describe('SEW Next prototype (/next)', () => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');
 
-    await page.getByRole('button', { name: /Mock/ }).click();
+    await page.getByRole('button', { name: /모의고사/ }).click();
     await expect(page.getByRole('link', { name: /모의고사 예약/ })).toHaveAttribute(
       'href',
       '/next/practice?mode=mock',
@@ -67,10 +70,11 @@ test.describe('SEW Next prototype (/next)', () => {
     await expect(page.getByText('Mock Exam Drill')).toBeVisible();
     await expect(page.getByText('Mock timer')).toBeVisible();
     await expect(page.getByText('영역 배분')).toBeVisible();
-    await expect(page.getByText('IEP 회의에서 우선 검토')).toBeVisible();
+    await expect(page.getByText(/^전범위 \d+문항$/).first()).toBeVisible();
+    await expect(page.getByText(/문항 1 \//)).toBeVisible();
 
     await page.goto('/next');
-    await page.getByRole('button', { name: /Review/ }).click();
+    await page.getByRole('button', { name: /오답 복습/ }).click();
     await expect(page.getByRole('link', { name: /복습 큐 열기/ })).toHaveAttribute(
       'href',
       '/next/practice?mode=review',
@@ -98,6 +102,7 @@ test.describe('SEW Next prototype (/next)', () => {
     await page.getByRole('radio', { name: /행동의 기능을 파악/ }).check();
     await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
     await expect(page.getByText('정답입니다')).toBeVisible();
+    await expect(page.getByText('게스트 로컬 저장').first()).toBeVisible();
     await expect(page.getByText('AI Answer Coach')).toBeVisible();
     await expect(page.getByText('24시간 후 재인출')).toBeVisible();
   });
@@ -172,17 +177,21 @@ test.describe('SEW Next prototype (/next)', () => {
     await page.goto('/next/practice?mode=mock');
     await page.waitForLoadState('domcontentloaded');
 
-    await page.getByRole('radio', { name: /현재 수행 수준과 평가 결과/ }).check();
-    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
-    await page.getByRole('button', { name: '다음 문항' }).click();
-    await page.getByRole('radio', { name: /행동 직후 따라오는 반응/ }).check();
-    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+    for (let index = 0; index < 8; index += 1) {
+      await page.getByRole('radio').first().check();
+      await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+      if (await page.getByRole('heading', { name: 'Mock Exam 리포트' }).isVisible().catch(() => false)) {
+        break;
+      }
+      await page.getByRole('button', { name: '다음 문항' }).click();
+    }
 
     await expect(page.getByRole('heading', { name: 'Mock Exam 리포트' })).toBeVisible();
     await expect(page.getByRole('button', { name: '세션 완료' })).toBeVisible();
     await expect(page.getByText('영역별 결과')).toBeVisible();
     await expect(page.getByText('시간 관리 안정')).toBeVisible();
-    await expect(page.getByText('함정 선지 0개')).toBeVisible();
+    await expect(page.getByText(/함정 선지 \d+개/)).toBeVisible();
+    await expect(page.getByText('다음 처방')).toBeVisible();
   });
 
   test('record dashboard highlights completed SEW Next session', async ({ page }) => {
@@ -207,14 +216,16 @@ test.describe('SEW Next prototype (/next)', () => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');
 
-    await expect(page.getByRole('link', { name: 'Readiness' })).toHaveAttribute('href', '#readiness');
-    await expect(page.getByRole('link', { name: 'Practice' })).toHaveAttribute('href', '#practice');
-    await expect(page.getByRole('link', { name: 'Mock Exam' })).toHaveAttribute('href', '/next/practice?mode=mock');
-    await expect(page.getByRole('link', { name: 'Library' })).toHaveAttribute('href', '/concepts');
-    await expect(page.getByRole('link', { name: 'Analytics' })).toHaveAttribute('href', '/record');
-    await expect(page.getByRole('link', { name: 'AI Lab' })).toHaveAttribute('href', '/admin/ai-generate');
+    await expect(page.getByRole('link', { name: '준비도' })).toHaveAttribute('href', '#readiness');
+    await expect(page.getByRole('link', { name: '문제풀이' })).toHaveAttribute('href', '#practice');
+    await expect(page.getByRole('link', { name: '모의고사' })).toHaveAttribute('href', '/next/practice?mode=mock');
+    await expect(page.getByRole('link', { name: '개념창고' })).toHaveAttribute('href', '/concepts');
+    await expect(page.getByRole('link', { name: '기록', exact: true })).toHaveAttribute('href', '/record');
+    await expect(page.getByRole('link', { name: 'AI 실험실' })).toHaveAttribute('href', '/admin/ai-generate');
+    await expect(page.getByText('검증 기반 다음 개선')).toBeVisible();
+    await expect(page.getByText('Readiness 근거 설명')).toBeVisible();
 
-    await page.getByRole('link', { name: 'Practice' }).click();
+    await page.getByRole('link', { name: '문제풀이' }).click();
     await expect(page.locator('#practice')).toBeInViewport();
   });
 });

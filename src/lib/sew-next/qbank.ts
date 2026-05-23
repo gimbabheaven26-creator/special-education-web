@@ -22,6 +22,7 @@ export interface QbankSnapshot {
   matchingCount: number;
   dataSourceLabel: 'actual DB' | 'prototype fallback';
   coverageWarning: string;
+  coverageGuidance: string;
   recommendedQuestions: QuizQuestion[];
 }
 
@@ -176,12 +177,16 @@ export function buildQbankSnapshot(questions: QuizQuestion[], filters: QbankFilt
   const recommendedQuestions = rankQuestions(matches).slice(0, 10);
   const dataSourceLabel = fallback ? 'prototype fallback' : 'actual DB';
   const sourceLabel = fallback ? '프로토타입 안전망' : '실제 DB 문항';
+  const coverageGuidance = matches.length < 10
+    ? '문항이 적으면 난도를 중으로 낮추거나 형식을 사례형으로 바꿔 보세요.'
+    : '충분한 문항이 잡혔습니다. 그대로 세션을 시작해도 좋아요.';
 
   return {
     sourceCount,
     matchingCount: matches.length,
     dataSourceLabel,
     coverageWarning: `${sourceLabel} ${matches.length}개 · ${filters.domain}/${filters.difficulty}/${filters.format}`,
+    coverageGuidance,
     recommendedQuestions,
   };
 }
@@ -216,7 +221,7 @@ function getCorrectChoiceIndex(question: QuizQuestion): number {
   return index >= 0 ? index : 0;
 }
 
-function quizQuestionToPracticeQuestion(question: QuizQuestion): PracticeQuestion {
+export function quizQuestionToPracticeQuestion(question: QuizQuestion): PracticeQuestion {
   const options = question.options ?? [];
   const correctIndex = Math.min(Math.max(getCorrectChoiceIndex(question), 0), Math.max(options.length - 1, 0));
   const meta = getQbankQuestionMeta(question);

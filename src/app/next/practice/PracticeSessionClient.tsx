@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { buildMockExamReport, mockExamFollowUpQuestion } from '@/lib/sew-next/mock-exam';
+import type { SewNextSyncStatus } from '@/lib/sew-next/session-sync';
 import type { PracticeQuestion, PracticeSession } from '@/lib/sew-next/prototype-data';
 import type { QuizQuestion } from '@/types/quiz';
 
@@ -54,6 +55,22 @@ function toQuizQuestion(question: PracticeQuestion): QuizQuestion {
   };
 }
 
+function formatTimer(totalSeconds: number): string {
+  const safeSeconds = Math.max(0, totalSeconds);
+  const minutes = Math.floor(safeSeconds / 60);
+  const seconds = safeSeconds % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function getSyncStatusLabel(status: SewNextSyncStatus): string {
+  if (status === 'syncing') return 'Supabase 저장 중';
+  if (status === 'synced') return 'Supabase 저장 완료';
+  if (status === 'partial') return '일부 서버 저장';
+  if (status === 'error') return '로컬 저장됨';
+  if (status === 'guest') return '게스트 로컬 저장';
+  return '로컬 저장 준비';
+}
+
 export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const questions = useMemo(
     () => {
@@ -70,6 +87,8 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const [submitted, setSubmitted] = useState(false);
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
   const [startedAt] = useState(() => Date.now());
+  const [now, setNow] = useState(() => Date.now());
+  const [syncStatus, setSyncStatus] = useState<SewNextSyncStatus>('idle');
 
   const question = questions[questionIndex] ?? questions[0];
   const selectedChoice = useMemo(
@@ -80,15 +99,18 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const isLastQuestion = questionIndex === questions.length - 1;
   const showSummary = submitted && selectedChoice && isLastQuestion;
   const isMockSession = session.mode === 'mock';
+  const timeLimitSeconds = session.timeLimitSeconds ?? 180;
+  const elapsedSeconds = Math.round((now - startedAt) / 1000);
+  const remainingSeconds = Math.max(0, timeLimitSeconds - elapsedSeconds);
   const mockReport = useMemo(
     () =>
       buildMockExamReport({
         answers,
-        elapsedSeconds: Math.round((Date.now() - startedAt) / 1000),
+        elapsedSeconds,
         questions,
-        timeLimitSeconds: 180,
+        timeLimitSeconds,
       }),
-    [answers, questions, startedAt],
+    [answers, elapsedSeconds, questions, timeLimitSeconds],
   );
 
   const submitDisabled = selectedChoiceId === null;
@@ -96,6 +118,14 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const submitHelperText = submitted && isLastQuestion
     ? '세션이 완료되었습니다. 아래 요약과 리포트를 확인하세요.'
     : '선택 후 해설을 열면 AI 코치와 다음 복습 예약까지 함께 표시됩니다.';
+
+  useEffect(() => {
+    if (!isMockSession || showSummary) return undefined;
+    const timer = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [isMockSession, showSummary]);
 
   function handleSubmit() {
     if (!selectedChoice || submitted) return;
@@ -123,6 +153,16 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
     }
     persistSnapshot('special-edu-study', useStudyStore.getState() as unknown as Record<string, unknown>, 7);
     persistSnapshot('quiz-data', useQuizStore.getState() as unknown as Record<string, unknown>, 5);
+    setSyncStatus('syncing');
+    void import('@/lib/sew-next/session-sync')
+      .then(({ pushSewNextSessionSnapshot }) =>
+        pushSewNextSessionSnapshot({
+          studyState: useStudyStore.getState() as unknown as Record<string, unknown>,
+          quizState: useQuizStore.getState() as unknown as Record<string, unknown>,
+        })
+      )
+      .then((result) => setSyncStatus(result.status))
+      .catch(() => setSyncStatus('error'));
     setSubmitted(true);
   }
 
@@ -154,6 +194,9 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
             <p className="text-xs font-semibold text-muted-foreground">Target gain</p>
             <p className="mt-1 text-2xl font-bold text-primary">{session.targetGain}</p>
             <p className="mt-1 text-xs text-muted-foreground">{session.focus}</p>
+            <p className="mt-2 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300">
+              {getSyncStatusLabel(syncStatus)}
+            </p>
           </div>
         </header>
 
@@ -188,6 +231,10 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 return (
                   <label
                     key={choice.id}
+                    onClick={() => {
+                      setSelectedChoiceId(choice.id);
+                      setSubmitted(false);
+                    }}
                     className={cn(
                       'flex cursor-pointer items-start gap-3 rounded-lg border border-border p-4 transition-colors',
                       checked ? 'border-primary bg-primary/5' : 'hover:bg-muted/40',
@@ -240,15 +287,21 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
             {isMockSession && (
               <section className="rounded-xl border border-border bg-card p-4">
                 <h2 className="text-sm font-bold">Mock timer</h2>
-                <p className="mt-2 text-3xl font-bold tabular-nums text-primary">03:00</p>
-                <p className="mt-1 text-xs text-muted-foreground">미니 모의고사 제한시간</p>
+                <p className="mt-2 text-3xl font-bold tabular-nums text-primary">{formatTimer(remainingSeconds)}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {remainingSeconds === 0 ? '제한시간 종료' : '미니 모의고사 제한시간'}
+                </p>
+                <p className="mt-1 text-xs font-semibold text-foreground">전범위 {questions.length}문항</p>
                 <div className="mt-4 rounded-lg bg-muted/40 p-3">
                   <p className="text-xs font-semibold text-foreground">영역 배분</p>
                   <div className="mt-2 space-y-1">
-                    {Array.from(new Set(questions.map((item) => item.domain))).map((domain) => (
-                      <p key={domain} className="flex justify-between gap-2 text-xs text-muted-foreground">
-                        <span>{domain}</span>
-                        <span>{questions.filter((item) => item.domain === domain).length}문항</span>
+                    {(session.examBlueprint ?? Array.from(new Set(questions.map((item) => item.domain))).map((domain) => ({
+                      domain,
+                      count: questions.filter((item) => item.domain === domain).length,
+                    }))).map((item) => (
+                      <p key={item.domain} className="flex justify-between gap-2 text-xs text-muted-foreground">
+                        <span>{item.domain}</span>
+                        <span>{item.count}문항</span>
                       </p>
                     ))}
                   </div>
@@ -278,6 +331,10 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 정답 여부보다 판단 근거를 남겨 다음 세션의 문항 순서를 조정하는 구조입니다.
               </p>
+              <div className="mt-3 rounded-lg bg-muted/40 px-3 py-2">
+                <p className="text-[11px] font-semibold text-muted-foreground">서버 연속 저장</p>
+                <p className="mt-1 text-xs font-bold text-foreground">{getSyncStatusLabel(syncStatus)}</p>
+              </div>
             </section>
           </aside>
         </section>
@@ -380,9 +437,16 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                     <p className="mt-1 text-xs text-muted-foreground">
                       {row.total}문항 중 {row.correct}문항 정답
                     </p>
+                    <p className="mt-2 text-[11px] font-semibold text-foreground/70">{row.recommendation}</p>
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="mt-4 rounded-lg border border-sky-200 bg-sky-50 p-3 dark:border-sky-900/60 dark:bg-sky-950/30">
+              <h3 className="text-sm font-bold text-sky-700 dark:text-sky-300">다음 처방</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                {mockReport.nextAction}
+              </p>
             </div>
           </section>
         )}

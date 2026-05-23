@@ -1,4 +1,6 @@
-import type { PracticeQuestion } from '@/lib/sew-next/prototype-data';
+import type { QuizQuestion } from '@/types/quiz';
+import type { PracticeQuestion, PracticeSession } from '@/lib/sew-next/prototype-data';
+import { quizQuestionToPracticeQuestion } from '@/lib/sew-next/qbank';
 
 export interface MockExamAnswer {
   questionId: string;
@@ -11,6 +13,7 @@ export interface MockExamDomainRow {
   total: number;
   correct: number;
   rate: number;
+  recommendation: string;
 }
 
 export interface MockExamReport {
@@ -19,6 +22,8 @@ export interface MockExamReport {
   rate: number;
   trapCount: number;
   timeLabel: string;
+  weakestDomain: string;
+  nextAction: string;
   domainRows: MockExamDomainRow[];
 }
 
@@ -63,6 +68,99 @@ export const mockExamFollowUpQuestion: PracticeQuestion = {
   },
 };
 
+function hasMockChoices(question: QuizQuestion): boolean {
+  return Array.isArray(question.options) && question.options.length >= 2;
+}
+
+function formatLimit(seconds: number): string {
+  const minutes = Math.max(1, Math.round(seconds / 60));
+  return `${minutes}분`;
+}
+
+function getQuestions(session: PracticeSession): PracticeQuestion[] {
+  return [session.question, ...(session.followUpQuestions ?? [])];
+}
+
+function getDomainRecommendation(rate: number): string {
+  if (rate < 60) return '즉시 보강';
+  if (rate < 80) return '추가 점검';
+  return '유지 복습';
+}
+
+function buildNextAction(domain: string): string {
+  return `${domain} 2문항을 바로 이어서 풀고, 오답 선지 근거를 한 문장으로 압축하세요.`;
+}
+
+function getBalancedMockQuestions(quizzes: QuizQuestion[], questionCount: number): PracticeQuestion[] {
+  const grouped = new Map<string, PracticeQuestion[]>();
+
+  for (const quiz of [...quizzes].filter(hasMockChoices).sort((a, b) => String(a.id).localeCompare(String(b.id), 'ko'))) {
+    const question = quizQuestionToPracticeQuestion(quiz);
+    const group = grouped.get(question.domain) ?? [];
+    group.push(question);
+    grouped.set(question.domain, group);
+  }
+
+  const selected: PracticeQuestion[] = [];
+  const domains = Array.from(grouped.keys()).sort((a, b) => a.localeCompare(b, 'ko'));
+
+  while (selected.length < questionCount && domains.some((domain) => (grouped.get(domain)?.length ?? 0) > 0)) {
+    for (const domain of domains) {
+      if (selected.length >= questionCount) break;
+      const next = grouped.get(domain)?.shift();
+      if (next) selected.push(next);
+    }
+  }
+
+  return selected;
+}
+
+export function buildMockExamSession({
+  fallback,
+  questionCount = 6,
+  quizzes,
+  timeLimitSeconds = 720,
+}: {
+  fallback: PracticeSession;
+  questionCount?: number;
+  quizzes: QuizQuestion[];
+  timeLimitSeconds?: number;
+}): PracticeSession {
+  const fallbackQuestions = getQuestions(fallback);
+  const selected = getBalancedMockQuestions(quizzes, questionCount);
+  const seen = new Set(selected.map((question) => question.id));
+  const mixedQuestions = [
+    ...selected,
+    ...fallbackQuestions.filter((question) => !seen.has(question.id)),
+  ].slice(0, questionCount);
+  const questions = mixedQuestions.length > 0 ? mixedQuestions : fallbackQuestions;
+  const actualCount = selected.length;
+  const examBlueprint = Array.from(
+    questions.reduce((map, question) => {
+      map.set(question.domain, (map.get(question.domain) ?? 0) + 1);
+      return map;
+    }, new Map<string, number>()),
+    ([domain, count]) => ({ domain, count }),
+  );
+
+  return {
+    ...fallback,
+    subtitle: actualCount > 0
+      ? `실제 DB 문제은행에서 전범위 ${questions.length}문항을 균형 편성했습니다.`
+      : fallback.subtitle,
+    focus: '전범위 미니 모의고사',
+    queue: [
+      `제한시간 ${formatLimit(timeLimitSeconds)}`,
+      `전범위 ${questions.length}문항`,
+      '영역별 리포트',
+    ],
+    question: questions[0],
+    followUpQuestions: questions.slice(1),
+    timeLimitSeconds,
+    examBlueprint,
+  };
+}
+
 export function buildMockExamReport({
   answers,
   elapsedSeconds,
@@ -103,17 +201,29 @@ export function buildMockExamReport({
       ? '시간 압박 주의'
       : '제한시간 초과';
 
+  const domainRows = Array.from(domainMap.entries()).map(([domain, row]) => {
+    const rateForDomain = row.total > 0 ? Math.round((row.correct / row.total) * 100) : 0;
+    return {
+      domain,
+      total: row.total,
+      correct: row.correct,
+      rate: rateForDomain,
+      recommendation: getDomainRecommendation(rateForDomain),
+    };
+  });
+  const weakestDomain = [...domainRows].sort((a, b) => {
+    if (a.rate !== b.rate) return a.rate - b.rate;
+    return b.total - a.total;
+  })[0]?.domain ?? '전범위';
+
   return {
     total,
     correct,
     rate,
     trapCount,
     timeLabel,
-    domainRows: Array.from(domainMap.entries()).map(([domain, row]) => ({
-      domain,
-      total: row.total,
-      correct: row.correct,
-      rate: row.total > 0 ? Math.round((row.correct / row.total) * 100) : 0,
-    })),
+    weakestDomain,
+    nextAction: buildNextAction(weakestDomain),
+    domainRows,
   };
 }

@@ -9,6 +9,7 @@ import {
   buildSewNextPracticeSession,
   getQbankFiltersFromSearchParams,
 } from '@/lib/sew-next/qbank';
+import { buildMockExamSession } from '@/lib/sew-next/mock-exam';
 import { PracticeSessionClient } from './PracticeSessionClient';
 
 export const dynamic = 'force-dynamic';
@@ -44,6 +45,14 @@ export default async function NextPracticePage({ searchParams }: NextPracticePag
       quizzes,
       filters: getQbankFiltersFromSearchParams(searchParams ?? {}),
       fallback: practiceSessions.custom,
+    });
+  }
+
+  if (mode === 'mock') {
+    const quizzes = await getAllQuizzes();
+    session = buildMockExamSession({
+      quizzes,
+      fallback: practiceSessions.mock,
     });
   }
 

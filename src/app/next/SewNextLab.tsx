@@ -38,6 +38,7 @@ import {
   readReadinessSnapshotFromLocalStorage,
   type ReadinessSnapshot,
 } from '@/lib/sew-next/readiness';
+import { buildValidationPrioritySnapshot } from '@/lib/sew-next/validation-priority';
 
 const toneStyles: Record<MetricTone, string> = {
   indigo: 'border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/30 dark:text-indigo-300',
@@ -67,7 +68,7 @@ const modeIcons: Record<PracticeModeId, React.ComponentType<{ className?: string
 };
 
 const sewNextTopNavigation = topNavigation.map((item) =>
-  item.label === 'Mock Exam' ? { ...item, href: '/next/practice?mode=mock' } : item
+  item.label === '모의고사' ? { ...item, href: '/next/practice?mode=mock' } : item
 );
 
 function statusLabel(status: ReadinessStatus) {
@@ -77,9 +78,9 @@ function statusLabel(status: ReadinessStatus) {
 }
 
 function roadmapLabel(status: RoadmapStatus) {
-  if (status === 'live') return 'live';
-  if (status === 'building') return 'building';
-  return 'planned';
+  if (status === 'live') return '사용 가능';
+  if (status === 'building') return '구축 중';
+  return '예정';
 }
 
 function MetricCard({ metric }: { metric: (typeof readinessMetrics)[number] }) {
@@ -127,7 +128,7 @@ function ModePanel({ mode }: { mode: PracticeMode }) {
         <div className="flex items-start gap-2">
           <Bot className="mt-0.5 h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400" />
           <div>
-            <p className="text-xs font-semibold text-foreground">AI-Human layer</p>
+            <p className="text-xs font-semibold text-foreground">AI 코칭</p>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{mode.aiTouch}</p>
           </div>
         </div>
@@ -156,6 +157,7 @@ export function SewNextLab() {
     () => practiceModes.find((mode) => mode.id === activeMode) ?? practiceModes[0],
     [activeMode],
   );
+  const validationPriority = useMemo(() => buildValidationPrioritySnapshot([]), []);
 
   useEffect(() => {
     setReadinessSnapshot(readReadinessSnapshotFromLocalStorage());
@@ -166,7 +168,7 @@ export function SewNextLab() {
       <div className="mx-auto max-w-7xl px-4 py-6 lg:px-6">
         <header className="flex flex-col gap-4 border-b border-border pb-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-primary">Readiness cockpit prototype</p>
+            <p className="text-xs font-semibold text-primary">시험 준비도 조종실</p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight">SEW Next</h1>
             <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               특수교육 임용 준비도를 중심으로 Qbank, 해설, 복습, 모의고사를 한 화면에서 조종합니다.
@@ -194,7 +196,7 @@ export function SewNextLab() {
           <div className="rounded-xl border border-border bg-card p-5">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-sm font-semibold text-muted-foreground">2027 특수교육 임용 Readiness</p>
+                <p className="text-sm font-semibold text-muted-foreground">2027 특수교육 임용 준비도</p>
                 <div className="mt-3 flex items-end gap-3">
                   <span className="text-6xl font-bold tracking-tight">{readinessSnapshot.heroValue}%</span>
                   <span className="mb-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
@@ -227,7 +229,7 @@ export function SewNextLab() {
           <div className="rounded-xl border border-border bg-card p-5">
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
-              <h2 className="text-base font-bold">High-risk blueprint domains</h2>
+              <h2 className="text-base font-bold">고위험 출제 영역</h2>
             </div>
             <div className="mt-4 space-y-3">
               {readinessSnapshot.highRiskDomains.slice(0, 3).map((domain) => (
@@ -248,7 +250,7 @@ export function SewNextLab() {
 
         <section id="practice" className="scroll-mt-4 grid gap-4 lg:grid-cols-[280px_1fr]">
           <div className="rounded-xl border border-border bg-card p-3">
-            <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Practice modes</p>
+            <p className="px-1 pb-2 text-xs font-semibold text-muted-foreground">학습 모드</p>
             <div className="space-y-1">
               {practiceModes.map((mode) => {
                 const Icon = modeIcons[mode.id];
@@ -319,7 +321,7 @@ export function SewNextLab() {
           <div className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2">
               <LineChart className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-              <h2 className="text-base font-bold">AI inside the workflow</h2>
+              <h2 className="text-base font-bold">학습 흐름 속 AI 코칭</h2>
             </div>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {aiInterventions.map((item) => (
@@ -336,7 +338,7 @@ export function SewNextLab() {
           <div className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2">
               <Activity className="h-4 w-4 text-primary" />
-              <h2 className="text-base font-bold">Roadmap rail</h2>
+              <h2 className="text-base font-bold">개발 로드맵</h2>
             </div>
             <div className="mt-4 space-y-2">
               {roadmapPhases.map((phase) => (
@@ -350,6 +352,19 @@ export function SewNextLab() {
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{phase.outcome}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-4 rounded-lg border border-dashed border-border p-3">
+              <p className="text-xs font-semibold text-primary">검증 기반 다음 개선</p>
+              <p className="mt-1 text-sm font-semibold text-foreground">{validationPriority.topPriority.label}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                {validationPriority.topPriority.reason}
+              </p>
+              <Link
+                href={validationPriority.topPriority.actionHref}
+                className="mt-3 inline-flex min-h-[36px] items-center rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
+              >
+                우선순위 확인
+              </Link>
             </div>
           </div>
         </section>

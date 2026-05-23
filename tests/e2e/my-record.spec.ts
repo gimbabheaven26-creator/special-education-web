@@ -204,6 +204,8 @@ test.describe('/record 대시보드', () => {
     await expect(page.getByText('Mock Exam').first()).toBeVisible();
     await expect(page.getByText('Custom Qbank')).toBeVisible();
     await expect(page.getByText('50%').first()).toBeVisible();
+    await expect(page.getByText('다음 추천 학습')).toBeVisible();
+    await expect(page.getByText('특수교육공학 보조공학을 2문항만 더 풀어 보세요.')).toBeVisible();
   });
 });
 

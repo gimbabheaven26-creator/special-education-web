@@ -115,6 +115,11 @@ export interface PracticeSession {
   queue: string[];
   question: PracticeQuestion;
   followUpQuestions?: PracticeQuestion[];
+  timeLimitSeconds?: number;
+  examBlueprint?: Array<{
+    domain: string;
+    count: number;
+  }>;
 }
 
 export interface TopNavigationItem {
@@ -124,12 +129,12 @@ export interface TopNavigationItem {
 }
 
 export const topNavigation = [
-  { label: 'Readiness', href: '#readiness', active: true },
-  { label: 'Practice', href: '#practice' },
-  { label: 'Mock Exam', href: '/next/practice?mode=mock' },
-  { label: 'Library', href: '/concepts' },
-  { label: 'Analytics', href: '/record' },
-  { label: 'AI Lab', href: '/admin/ai-generate' },
+  { label: '준비도', href: '#readiness', active: true },
+  { label: '문제풀이', href: '#practice' },
+  { label: '모의고사', href: '/next/practice?mode=mock' },
+  { label: '개념창고', href: '/concepts' },
+  { label: '기록', href: '/record' },
+  { label: 'AI 실험실', href: '/admin/ai-generate' },
 ] satisfies TopNavigationItem[];
 
 export const readinessMetrics: ReadinessMetric[] = [
@@ -219,7 +224,7 @@ export const weakDomains: WeakDomain[] = [
 export const practiceModes: PracticeMode[] = [
   {
     id: 'adaptive',
-    label: 'Adaptive',
+    label: '처방 세션',
     title: '적응형 세션',
     subtitle: '오늘 가장 점수를 올릴 가능성이 큰 문항만 자동 편성합니다.',
     duration: '42분',
@@ -237,7 +242,7 @@ export const practiceModes: PracticeMode[] = [
   },
   {
     id: 'custom',
-    label: 'Custom Qbank',
+    label: '문제은행',
     title: '커스텀 문제은행',
     subtitle: '영역, 난도, 기출 빈도, 문항 형식을 조합해 직접 세션을 만듭니다.',
     duration: '25분',
@@ -255,7 +260,7 @@ export const practiceModes: PracticeMode[] = [
   },
   {
     id: 'mock',
-    label: 'Mock',
+    label: '모의고사',
     title: '실전 모의고사',
     subtitle: '시간 압박, 영역 배분, 검토 루틴까지 실제 시험처럼 훈련합니다.',
     duration: '80분',
@@ -273,7 +278,7 @@ export const practiceModes: PracticeMode[] = [
   },
   {
     id: 'review',
-    label: 'Review',
+    label: '오답 복습',
     title: '망각 곡선 복습',
     subtitle: '틀린 문제와 흔들리는 개념을 최적 간격으로 다시 꺼냅니다.',
     duration: '14분',
@@ -337,19 +342,19 @@ export const reviewQueue: ReviewItem[] = [
 
 export const aiInterventions: AiIntervention[] = [
   {
-    label: 'Answer Coach',
+    label: '답안 코치',
     title: '답안 근거를 한 문장으로 재작성',
     body: '사용자가 고른 선지가 왜 매력적인 오답인지 설명하고, 정답 근거 문장을 다시 쓰게 합니다.',
     trigger: '문항 제출 직후',
   },
   {
-    label: 'Socratic Hint',
+    label: '판단 힌트',
     title: '정답 대신 판단 기준 질문',
     body: '힌트는 바로 답을 주지 않고 “이 사례에서 후속결과는 무엇인가?”처럼 기준을 좁힙니다.',
     trigger: '힌트 요청 시',
   },
   {
-    label: 'Coverage Planner',
+    label: '커버리지 설계',
     title: '공부량을 커버리지로 번역',
     body: '남은 기간, 취약 단원, 기출 빈도를 계산해 오늘 해야 할 최소 문항 수를 제안합니다.',
     trigger: '매일 첫 접속',
@@ -359,19 +364,19 @@ export const aiInterventions: AiIntervention[] = [
 export const roadmapPhases: RoadmapPhase[] = [
   {
     id: 'N0',
-    title: 'Prototype Shell',
+    title: '제품 골격',
     status: 'live',
     outcome: '새 제품의 첫 화면, 정보구조, 학습 루프 검증',
   },
   {
     id: 'N1',
-    title: 'Qbank Core',
+    title: '문제은행 핵심',
     status: 'building',
     outcome: '블루프린트 기반 문제은행과 해설 스택',
   },
   {
     id: 'N2',
-    title: 'Readiness Analytics',
+    title: '준비도 분석',
     status: 'planned',
     outcome: '합격 준비도, 약점 위험도, 성장 추세',
   },
@@ -383,13 +388,13 @@ export const roadmapPhases: RoadmapPhase[] = [
   },
   {
     id: 'N4',
-    title: 'Mock Exam',
+    title: '실전 모의고사',
     status: 'planned',
     outcome: '실전 모의고사와 사후 리포트',
   },
   {
     id: 'N5',
-    title: 'AI-Human Layer',
+    title: 'AI 코칭 검수',
     status: 'planned',
     outcome: 'AI 초안, 전문가 검수, 품질 회귀 테스트',
   },
@@ -547,6 +552,11 @@ export const practiceSessions: Record<PracticeModeId, PracticeSession> = {
     targetGain: '+2.0p',
     focus: '사례형 시간 관리',
     queue: ['제한시간 3분', '근거 표시', '함정 선지 리뷰'],
+    timeLimitSeconds: 180,
+    examBlueprint: [
+      { domain: '관련 법령', count: 1 },
+      { domain: '정서행동장애', count: 1 },
+    ],
     question: {
       id: 'next-mock-iep-01',
       stem: 'IEP 회의에서 우선 검토해야 할 자료는 무엇인가?',

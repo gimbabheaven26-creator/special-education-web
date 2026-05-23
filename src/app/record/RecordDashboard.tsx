@@ -29,7 +29,7 @@ import { SubjectGrowthCard } from './SubjectGrowthCard';
 import { WeakToStrongBanner } from './WeakToStrongBanner';
 import { useMounted } from '@/hooks/useMounted';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { getSubjectDisplayName } from '@/lib/study/display-labels';
+import { getChapterDisplayName, getSubjectDisplayName } from '@/lib/study/display-labels';
 import { buildTodayGrowthSummary } from '@/lib/study/today-growth-summary';
 import type { QuizResult } from '@/types/quiz';
 
@@ -43,6 +43,11 @@ interface SewNextSessionSummary {
   subject: string;
   chapter: string;
   timestamp: number;
+}
+
+interface SewNextNextAction {
+  href: string;
+  message: string;
 }
 
 const SEW_NEXT_SESSION_WINDOW_MS = 30 * 60 * 1000;
@@ -97,6 +102,20 @@ function getRecentSewNextSessions(quizHistory: readonly QuizResult[]): SewNextSe
     .slice(0, 3);
 }
 
+function buildSewNextNextAction(sessions: readonly SewNextSessionSummary[]): SewNextNextAction | null {
+  if (sessions.length < 2) return null;
+
+  const weakest = [...sessions].sort((a, b) => a.rate - b.rate || b.timestamp - a.timestamp)[0];
+  if (!weakest) return null;
+
+  const subject = getSubjectDisplayName(weakest.subject);
+  const chapter = getChapterDisplayName(weakest.chapter);
+  return {
+    href: weakest.href,
+    message: `${subject} ${chapter}을 2문항만 더 풀어 보세요.`,
+  };
+}
+
 export default function RecordDashboard() {
   const mounted = useMounted();
   const { level, weakness, unmasteredCount, recommendations, currentStreak, subjectWeekly, weakToStrong } = useMyPageData();
@@ -110,6 +129,7 @@ export default function RecordDashboard() {
   const leitnerStats = useLeitnerStore(useShallow((s) => s.getStats()));
   const recentSewNextSessions = useMemo(() => getRecentSewNextSessions(quizHistory), [quizHistory]);
   const latestSewNextSession = recentSewNextSessions[0] ?? null;
+  const sewNextNextAction = useMemo(() => buildSewNextNextAction(recentSewNextSessions), [recentSewNextSessions]);
 
   if (!mounted) {
     return (
@@ -223,6 +243,15 @@ export default function RecordDashboard() {
                   </Link>
                 ))}
               </div>
+              {sewNextNextAction && (
+                <Link
+                  href={sewNextNextAction.href}
+                  className="mt-3 block rounded-lg bg-background/80 px-3 py-2 transition-colors hover:bg-background"
+                >
+                  <p className="text-[10px] font-semibold text-sky-700 dark:text-sky-300">다음 추천 학습</p>
+                  <p className="mt-1 text-xs text-foreground">{sewNextNextAction.message}</p>
+                </Link>
+              )}
             </div>
           )}
         </section>
