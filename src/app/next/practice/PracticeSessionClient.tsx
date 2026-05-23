@@ -92,6 +92,10 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   );
 
   const submitDisabled = selectedChoiceId === null;
+  const submitButtonLabel = submitted && isLastQuestion ? '세션 완료' : '제출하고 해설 보기';
+  const submitHelperText = submitted && isLastQuestion
+    ? '세션이 완료되었습니다. 아래 요약과 리포트를 확인하세요.'
+    : '선택 후 해설을 열면 AI 코치와 다음 복습 예약까지 함께 표시됩니다.';
 
   function handleSubmit() {
     if (!selectedChoice || submitted) return;
@@ -219,7 +223,7 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
 
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-muted-foreground">
-                선택 후 해설을 열면 AI 코치와 다음 복습 예약까지 함께 표시됩니다.
+                {submitHelperText}
               </p>
               <button
                 type="button"
@@ -227,7 +231,7 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 onClick={handleSubmit}
                 className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                제출하고 해설 보기
+                {submitButtonLabel}
               </button>
             </div>
           </div>

@@ -5,7 +5,7 @@ import type {
   PracticeSession,
 } from '@/lib/sew-next/prototype-data';
 import { practiceSessions } from '@/lib/sew-next/prototype-data';
-import { getSubjectDisplayName } from '@/lib/study/display-labels';
+import { getChapterDisplayName, getSubjectDisplayName } from '@/lib/study/display-labels';
 
 export type QbankDomain = '특수교육공학' | '정서행동장애' | '지적장애' | '관련 법령' | '의사소통장애';
 export type QbankDifficulty = '하' | '중' | '상';
@@ -23,6 +23,12 @@ export interface QbankSnapshot {
   dataSourceLabel: 'actual DB' | 'prototype fallback';
   coverageWarning: string;
   recommendedQuestions: QuizQuestion[];
+}
+
+export interface QbankQuestionMeta {
+  subjectLabel: string;
+  chapterLabel: string;
+  difficultyLabel: QbankDifficulty;
 }
 
 export const qbankDomains: QbankDomain[] = ['특수교육공학', '정서행동장애', '지적장애', '관련 법령', '의사소통장애'];
@@ -127,6 +133,30 @@ function rankQuestions(questions: QuizQuestion[]): QuizQuestion[] {
   );
 }
 
+function getDifficultyLabel(question: QuizQuestion): QbankDifficulty {
+  if (question.difficulty === 3) return '상';
+  if (question.difficulty === 1) return '하';
+  return '중';
+}
+
+export function getQbankQuestionMeta(question: QuizQuestion): QbankQuestionMeta {
+  return {
+    subjectLabel: getSubjectDisplayName(question.subject),
+    chapterLabel: getChapterDisplayName(question.chapter),
+    difficultyLabel: getDifficultyLabel(question),
+  };
+}
+
+function compactExplanation(value: string): string {
+  const trimmed = value.trim();
+  const koreanSentence = trimmed.match(/^.+?다\./)?.[0]?.trim();
+  if (koreanSentence && koreanSentence.length < trimmed.length) return koreanSentence;
+  const firstSentence = trimmed.match(/^.+?[.!?。]/)?.[0]?.trim();
+  if (firstSentence && firstSentence.length < trimmed.length) return firstSentence;
+  if (trimmed.length <= 120) return trimmed;
+  return `${trimmed.slice(0, 117).trim()}...`;
+}
+
 function chooseSource(questions: QuizQuestion[]): { source: QuizQuestion[]; sourceCount: number; fallback: boolean } {
   const usable = questions.filter(hasChoices);
   if (usable.length > 0) return { source: usable, sourceCount: questions.length, fallback: false };
@@ -189,12 +219,14 @@ function getCorrectChoiceIndex(question: QuizQuestion): number {
 function quizQuestionToPracticeQuestion(question: QuizQuestion): PracticeQuestion {
   const options = question.options ?? [];
   const correctIndex = Math.min(Math.max(getCorrectChoiceIndex(question), 0), Math.max(options.length - 1, 0));
+  const meta = getQbankQuestionMeta(question);
+  const compactCore = compactExplanation(question.explanation);
   return {
     id: question.id,
     stem: question.question,
-    domain: getSubjectDisplayName(question.subject),
-    blueprint: question.chapter,
-    difficulty: question.difficulty === 3 ? '상' : question.difficulty === 1 ? '하' : '중',
+    domain: meta.subjectLabel,
+    blueprint: meta.chapterLabel,
+    difficulty: meta.difficultyLabel,
     examSignal: question.source
       ? `${question.source} 기반 문항입니다. 선택한 필터와 기출 커버리지를 함께 점검하세요.`
       : '선택한 문제은행 필터에서 실제 문항을 불러왔습니다.',
@@ -203,20 +235,20 @@ function quizQuestionToPracticeQuestion(question: QuizQuestion): PracticeQuestio
       label: option,
       correct: index === correctIndex,
       rationale: index === correctIndex
-        ? question.explanation
-        : question.wrongExplanations?.[option] ?? '이 선지는 핵심 판단 기준과 어긋납니다.',
+        ? compactCore
+        : compactExplanation(question.wrongExplanations?.[option] ?? '이 선지는 핵심 판단 기준과 어긋납니다.'),
     })),
     explanation: {
       verdict: '정답입니다',
       coreRule: question.explanation,
       trap: '오답 선지는 용어, 절차, 사례 조건 중 하나를 바꾸어 판단을 흔듭니다.',
-      connect: `${getSubjectDisplayName(question.subject)} · ${question.chapter}로 다시 묶어 복습하세요.`,
+      connect: `${meta.subjectLabel} · ${meta.chapterLabel}로 다시 묶어 복습하세요.`,
       nextReview: '24시간 후 재인출',
     },
     aiCoach: {
       title: 'AI Answer Coach',
       prompt: '이 문항의 정답 근거를 한 문장으로 압축해 보세요.',
-      rewrite: question.explanation,
+      rewrite: compactCore,
     },
   };
 }

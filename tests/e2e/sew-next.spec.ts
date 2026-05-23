@@ -179,6 +179,7 @@ test.describe('SEW Next prototype (/next)', () => {
     await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
 
     await expect(page.getByRole('heading', { name: 'Mock Exam 리포트' })).toBeVisible();
+    await expect(page.getByRole('button', { name: '세션 완료' })).toBeVisible();
     await expect(page.getByText('영역별 결과')).toBeVisible();
     await expect(page.getByText('시간 관리 안정')).toBeVisible();
     await expect(page.getByText('함정 선지 0개')).toBeVisible();

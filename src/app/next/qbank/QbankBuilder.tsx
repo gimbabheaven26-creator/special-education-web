@@ -17,6 +17,7 @@ import type { ReactNode } from 'react';
 import {
   buildQbankPracticeHref,
   buildQbankSnapshot,
+  getQbankQuestionMeta,
   qbankDifficulties,
   qbankDomains,
   qbankFormats,
@@ -101,12 +102,7 @@ export function QbankBuilder({ questions }: QbankBuilderProps) {
               <p className="mt-2 text-xs text-muted-foreground">{snapshot.coverageWarning}</p>
               <div className="mt-3 space-y-2">
                 {snapshot.recommendedQuestions.slice(0, 3).map((question) => (
-                  <div key={question.id} className="rounded-lg bg-muted/40 px-3 py-2">
-                    <p className="line-clamp-2 text-sm font-semibold">{question.question}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {question.subject} · {question.chapter} · 난도 {question.difficulty}
-                    </p>
-                  </div>
+                  <QuestionPreview key={question.id} question={question} />
                 ))}
               </div>
             </section>
@@ -135,6 +131,19 @@ export function QbankBuilder({ questions }: QbankBuilderProps) {
         </section>
       </div>
     </main>
+  );
+}
+
+function QuestionPreview({ question }: { question: QuizQuestion }) {
+  const meta = getQbankQuestionMeta(question);
+
+  return (
+    <div className="rounded-lg bg-muted/40 px-3 py-2">
+      <p className="line-clamp-2 text-sm font-semibold">{question.question}</p>
+      <p className="mt-1 text-xs text-muted-foreground">
+        {meta.subjectLabel} · {meta.chapterLabel} · 난도 {meta.difficultyLabel}
+      </p>
+    </div>
   );
 }
 
