@@ -1,23 +1,26 @@
 {
-  "examName": "특수학교(유치원·초등) 교사 임용시험",
+  "examName": "특수학교(중등) 교사 임용시험",
+  "examFormatSource": {
+    "title": "2026학년도 경기도 중등학교교사, 보건·사서·전문상담·영양·특수(중등)교사 임용후보자 선정경쟁시험 시행 계획 공고",
+    "publishedDate": "2025-10-01",
+    "url": "https://www.goe.go.kr/resource/goe/na/bbs_2583/2025/10/928b3761-b855-4141-9b83-cad2945736bb.pdf"
+  },
   "examFormat": {
     "전공A": {
-      "description": "기입형 + 서술형",
+      "description": "단답형 + 서술형",
       "totalPoints": 40,
       "questions": [
-        { "type": "기입형", "count": 4, "pointsEach": 2 },
-        { "type": "서술형", "count": 4, "pointsEach": 4 },
-        { "type": "논술형", "count": 2, "pointsEach": 4 }
+        { "type": "단답형", "count": 4, "pointsEach": 2 },
+        { "type": "서술형", "count": 8, "pointsEach": 4 }
       ],
       "duration": 90
     },
     "전공B": {
-      "description": "기입형 + 서술형",
+      "description": "단답형 + 서술형",
       "totalPoints": 40,
       "questions": [
-        { "type": "기입형", "count": 4, "pointsEach": 2 },
-        { "type": "서술형", "count": 4, "pointsEach": 4 },
-        { "type": "논술형", "count": 2, "pointsEach": 4 }
+        { "type": "단답형", "count": 2, "pointsEach": 2 },
+        { "type": "서술형", "count": 9, "pointsEach": 4 }
       ],
       "duration": 90
     }

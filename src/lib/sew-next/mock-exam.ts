@@ -1,5 +1,10 @@
 import type { QuizQuestion } from '@/types/quiz';
 import type { PracticeQuestion, PracticeSession } from '@/lib/sew-next/prototype-data';
+import {
+  buildCompressedExamPapers,
+  buildMockExamQuestionMeta,
+  getOfficialExamTotals,
+} from '@/lib/sew-next/exam-blueprint';
 import { quizQuestionToPracticeQuestion } from '@/lib/sew-next/qbank';
 
 export interface MockExamAnswer {
@@ -16,6 +21,16 @@ export interface MockExamDomainRow {
   recommendation: string;
 }
 
+export interface MockExamPaperRow {
+  label: string;
+  period: string;
+  total: number;
+  correct: number;
+  rate: number;
+  possiblePoints: number;
+  earnedPoints: number;
+}
+
 export interface MockExamReport {
   total: number;
   correct: number;
@@ -25,6 +40,7 @@ export interface MockExamReport {
   weakestDomain: string;
   nextAction: string;
   domainRows: MockExamDomainRow[];
+  paperRows: MockExamPaperRow[];
 }
 
 export const mockExamFollowUpQuestion: PracticeQuestion = {
@@ -91,6 +107,14 @@ function buildNextAction(domain: string): string {
   return `${domain} 2문항을 바로 이어서 풀고, 오답 선지 근거를 한 문장으로 압축하세요.`;
 }
 
+function attachMockExamMeta(questions: PracticeQuestion[]): PracticeQuestion[] {
+  const slots = buildMockExamQuestionMeta(questions.length);
+  return questions.map((question, index) => ({
+    ...question,
+    examMeta: slots[index],
+  }));
+}
+
 function getBalancedMockQuestions(quizzes: QuizQuestion[], questionCount: number): PracticeQuestion[] {
   const grouped = new Map<string, PracticeQuestion[]>();
 
@@ -117,9 +141,9 @@ function getBalancedMockQuestions(quizzes: QuizQuestion[], questionCount: number
 
 export function buildMockExamSession({
   fallback,
-  questionCount = 6,
+  questionCount = 8,
   quizzes,
-  timeLimitSeconds = 720,
+  timeLimitSeconds = 1200,
 }: {
   fallback: PracticeSession;
   questionCount?: number;
@@ -133,8 +157,10 @@ export function buildMockExamSession({
     ...selected,
     ...fallbackQuestions.filter((question) => !seen.has(question.id)),
   ].slice(0, questionCount);
-  const questions = mixedQuestions.length > 0 ? mixedQuestions : fallbackQuestions;
+  const questions = attachMockExamMeta(mixedQuestions.length > 0 ? mixedQuestions : fallbackQuestions);
   const actualCount = selected.length;
+  const examPapers = buildCompressedExamPapers(questions.length);
+  const officialTotals = getOfficialExamTotals();
   const examBlueprint = Array.from(
     questions.reduce((map, question) => {
       map.set(question.domain, (map.get(question.domain) ?? 0) + 1);
@@ -146,17 +172,24 @@ export function buildMockExamSession({
   return {
     ...fallback,
     subtitle: actualCount > 0
-      ? `실제 DB 문제은행에서 전범위 ${questions.length}문항을 균형 편성했습니다.`
+      ? `실제 DB 문제은행에서 전공A/B 구조를 압축한 ${questions.length}문항을 균형 편성했습니다.`
       : fallback.subtitle,
-    focus: '전범위 미니 모의고사',
+    focus: '전공A/B 압축 실전 모의고사',
     queue: [
       `제한시간 ${formatLimit(timeLimitSeconds)}`,
-      `전범위 ${questions.length}문항`,
+      ...examPapers.map((paper) =>
+        `${paper.label} ${paper.officialQuestionCount}문항·${paper.durationMinutes}분·${paper.totalPoints}점`
+      ),
+      `압축 훈련 ${questions.length}문항`,
       '영역별 리포트',
     ],
     question: questions[0],
     followUpQuestions: questions.slice(1),
     timeLimitSeconds,
+    officialTotalMinutes: officialTotals.minutes,
+    officialTotalPoints: officialTotals.points,
+    officialQuestionCount: officialTotals.questions,
+    examPapers,
     examBlueprint,
   };
 }
@@ -177,6 +210,14 @@ export function buildMockExamReport({
   const rate = total > 0 ? Math.round((correct / total) * 100) : 0;
   const answerByQuestionId = new Map(answers.map((answer) => [answer.questionId, answer]));
   const domainMap = new Map<string, { total: number; correct: number }>();
+  const paperMap = new Map<string, {
+    label: string;
+    period: string;
+    total: number;
+    correct: number;
+    possiblePoints: number;
+    earnedPoints: number;
+  }>();
 
   for (const question of questions) {
     const answer = answerByQuestionId.get(question.id);
@@ -185,6 +226,24 @@ export function buildMockExamReport({
       total: current.total + 1,
       correct: current.correct + (answer?.correct ? 1 : 0),
     });
+
+    if (question.examMeta) {
+      const paper = paperMap.get(question.examMeta.paperLabel) ?? {
+        label: question.examMeta.paperLabel,
+        period: question.examMeta.period,
+        total: 0,
+        correct: 0,
+        possiblePoints: 0,
+        earnedPoints: 0,
+      };
+      paperMap.set(question.examMeta.paperLabel, {
+        ...paper,
+        total: paper.total + 1,
+        correct: paper.correct + (answer?.correct ? 1 : 0),
+        possiblePoints: paper.possiblePoints + question.examMeta.points,
+        earnedPoints: paper.earnedPoints + (answer?.correct ? question.examMeta.points : 0),
+      });
+    }
   }
 
   const trapCount = answers.filter((answer) => {
@@ -211,6 +270,10 @@ export function buildMockExamReport({
       recommendation: getDomainRecommendation(rateForDomain),
     };
   });
+  const paperRows = Array.from(paperMap.values()).map((row) => ({
+    ...row,
+    rate: row.total > 0 ? Math.round((row.correct / row.total) * 100) : 0,
+  }));
   const weakestDomain = [...domainRows].sort((a, b) => {
     if (a.rate !== b.rate) return a.rate - b.rate;
     return b.total - a.total;
@@ -225,5 +288,6 @@ export function buildMockExamReport({
     weakestDomain,
     nextAction: buildNextAction(weakestDomain),
     domainRows,
+    paperRows,
   };
 }

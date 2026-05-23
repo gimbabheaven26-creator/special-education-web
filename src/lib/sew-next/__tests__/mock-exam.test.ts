@@ -63,10 +63,83 @@ describe('buildMockExamSession', () => {
 
     const questions = [session.question, ...(session.followUpQuestions ?? [])];
     expect(session.timeLimitSeconds).toBe(600);
-    expect(session.queue).toEqual(expect.arrayContaining(['제한시간 10분', '전범위 4문항']));
+    expect(session.queue).toEqual(expect.arrayContaining(['제한시간 10분', '압축 훈련 4문항']));
     expect(questions).toHaveLength(4);
     expect(new Set(questions.map((question) => question.domain)).size).toBeGreaterThanOrEqual(3);
     expect(session.subtitle).toContain('실제 DB 문제은행');
+  });
+
+  it('attaches the official 전공A/B structure to a compressed mock bundle', () => {
+    const session = buildMockExamSession({
+      fallback: practiceSessions.mock,
+      questionCount: 8,
+      quizzes: [
+        makeQuizQuestion({ id: 'laws-1', subject: 'laws', chapter: 'iep' }),
+        makeQuizQuestion({ id: 'behavior-1', subject: 'behavior-support', chapter: 'fba' }),
+        makeQuizQuestion({ id: 'assistive-1', subject: 'assistive-technology', chapter: 'assistive-tech-service' }),
+        makeQuizQuestion({ id: 'communication-1', subject: 'communication-disorder', chapter: 'aac' }),
+        makeQuizQuestion({ id: 'curriculum-1', subject: 'curriculum', chapter: 'basic-curriculum' }),
+        makeQuizQuestion({ id: 'assessment-1', subject: 'assessment', chapter: 'cbm' }),
+        makeQuizQuestion({ id: 'transition-1', subject: 'transition', chapter: 'transition-plan' }),
+        makeQuizQuestion({ id: 'intro-1', subject: 'introduction', chapter: 'autism' }),
+      ],
+    });
+
+    const questions = [session.question, ...(session.followUpQuestions ?? [])];
+    const examPapers = (session as {
+      examPapers?: Array<{
+        label: string;
+        period: string;
+        durationMinutes: number;
+        totalPoints: number;
+        officialQuestionCount: number;
+        selectedQuestionCount: number;
+        formats: Array<{ type: string; count: number; pointsEach: number; totalPoints: number }>;
+      }>;
+    }).examPapers;
+    const questionMeta = questions.map((question) => (
+      question as { examMeta?: { paperLabel: string; format: string; points: number } }
+    ).examMeta);
+
+    expect(session.timeLimitSeconds).toBe(1200);
+    expect(session.queue).toEqual(expect.arrayContaining([
+      '전공A 12문항·90분·40점',
+      '전공B 11문항·90분·40점',
+      '압축 훈련 8문항',
+    ]));
+    expect(examPapers).toEqual([
+      {
+        label: '전공A',
+        period: '2교시',
+        durationMinutes: 90,
+        totalPoints: 40,
+        officialQuestionCount: 12,
+        selectedQuestionCount: 4,
+        formats: [
+          { type: '단답형', count: 4, pointsEach: 2, totalPoints: 8 },
+          { type: '서술형', count: 8, pointsEach: 4, totalPoints: 32 },
+        ],
+      },
+      {
+        label: '전공B',
+        period: '3교시',
+        durationMinutes: 90,
+        totalPoints: 40,
+        officialQuestionCount: 11,
+        selectedQuestionCount: 4,
+        formats: [
+          { type: '단답형', count: 2, pointsEach: 2, totalPoints: 4 },
+          { type: '서술형', count: 9, pointsEach: 4, totalPoints: 36 },
+        ],
+      },
+    ]);
+    expect(questionMeta.filter((meta) => meta?.paperLabel === '전공A')).toHaveLength(4);
+    expect(questionMeta.filter((meta) => meta?.paperLabel === '전공B')).toHaveLength(4);
+    expect(questionMeta[0]).toEqual(expect.objectContaining({
+      paperLabel: '전공A',
+      format: '단답형',
+      points: 2,
+    }));
   });
 });
 
@@ -91,6 +164,48 @@ describe('buildMockExamReport', () => {
     expect(report.domainRows).toEqual([
       { domain: '관련 법령', total: 1, correct: 1, rate: 100, recommendation: '유지 복습' },
       { domain: '정서행동장애', total: 1, correct: 0, rate: 0, recommendation: '즉시 보강' },
+    ]);
+  });
+
+  it('summarizes mock results by official exam paper when question metadata exists', () => {
+    const report = buildMockExamReport({
+      timeLimitSeconds: 1200,
+      elapsedSeconds: 700,
+      questions: [
+        {
+          ...makeQuestion('q1', '관련 법령'),
+          examMeta: { paperLabel: '전공A', period: '2교시', questionNumber: 1, format: '단답형', points: 2 },
+        },
+        {
+          ...makeQuestion('q2', '정서행동장애'),
+          examMeta: { paperLabel: '전공B', period: '3교시', questionNumber: 1, format: '서술형', points: 4 },
+        },
+      ] as PracticeQuestion[],
+      answers: [
+        { questionId: 'q1', correct: true, selectedChoiceId: 'a' },
+        { questionId: 'q2', correct: false, selectedChoiceId: 'b' },
+      ],
+    });
+
+    expect(report.paperRows).toEqual([
+      {
+        label: '전공A',
+        period: '2교시',
+        total: 1,
+        correct: 1,
+        rate: 100,
+        possiblePoints: 2,
+        earnedPoints: 2,
+      },
+      {
+        label: '전공B',
+        period: '3교시',
+        total: 1,
+        correct: 0,
+        rate: 0,
+        possiblePoints: 4,
+        earnedPoints: 0,
+      },
     ]);
   });
 });

@@ -90,6 +90,13 @@ export interface PracticeQuestion {
   blueprint: string;
   difficulty: string;
   format?: string;
+  examMeta?: {
+    paperLabel: string;
+    period: string;
+    questionNumber: number;
+    format: string;
+    points: number;
+  };
   examSignal: string;
   choices: PracticeChoice[];
   explanation: {
@@ -116,6 +123,23 @@ export interface PracticeSession {
   question: PracticeQuestion;
   followUpQuestions?: PracticeQuestion[];
   timeLimitSeconds?: number;
+  officialTotalMinutes?: number;
+  officialTotalPoints?: number;
+  officialQuestionCount?: number;
+  examPapers?: Array<{
+    label: string;
+    period: string;
+    durationMinutes: number;
+    totalPoints: number;
+    officialQuestionCount: number;
+    selectedQuestionCount: number;
+    formats: Array<{
+      type: string;
+      count: number;
+      pointsEach: number;
+      totalPoints: number;
+    }>;
+  }>;
   examBlueprint?: Array<{
     domain: string;
     count: number;

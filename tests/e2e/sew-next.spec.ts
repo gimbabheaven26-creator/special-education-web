@@ -69,8 +69,11 @@ test.describe('SEW Next (/next)', () => {
     await expect(page).toHaveURL(/\/next\/practice\?mode=mock/);
     await expect(page.getByText('Mock Exam Drill')).toBeVisible();
     await expect(page.getByText('Mock timer')).toBeVisible();
+    await expect(page.getByText('시험지 구조')).toBeVisible();
+    await expect(page.getByText('전공A · 2교시')).toBeVisible();
+    await expect(page.getByText('전공B · 3교시')).toBeVisible();
     await expect(page.getByText('영역 배분')).toBeVisible();
-    await expect(page.getByText(/^전범위 \d+문항$/).first()).toBeVisible();
+    await expect(page.getByText(/^압축 훈련 \d+문항$/).first()).toBeVisible();
     await expect(page.getByText(/문항 1 \//)).toBeVisible();
 
     await page.goto('/next');
@@ -189,6 +192,7 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByRole('heading', { name: 'Mock Exam 리포트' })).toBeVisible();
     await expect(page.getByRole('button', { name: '세션 완료' })).toBeVisible();
     await expect(page.getByText('영역별 결과')).toBeVisible();
+    await expect(page.getByText('시험지별 결과')).toBeVisible();
     await expect(page.getByText('시간 관리 안정')).toBeVisible();
     await expect(page.getByText(/함정 선지 \d+개/)).toBeVisible();
     await expect(page.getByText('다음 처방')).toBeVisible();

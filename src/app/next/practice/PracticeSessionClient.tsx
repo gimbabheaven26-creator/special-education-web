@@ -206,6 +206,11 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
               <span className="rounded-full bg-primary/10 px-2.5 py-1 text-primary">
                 문항 {questionIndex + 1} / {questions.length}
               </span>
+              {question.examMeta && (
+                <span className="rounded-full bg-sky-100 px-2.5 py-1 text-sky-700 dark:bg-sky-950/50 dark:text-sky-300">
+                  {question.examMeta.paperLabel} {question.examMeta.questionNumber}번 · {question.examMeta.format} {question.examMeta.points}점
+                </span>
+              )}
               <span className="rounded-full bg-muted px-2.5 py-1">{question.domain}</span>
               <span className="rounded-full bg-muted px-2.5 py-1">{question.difficulty}</span>
               <span className="rounded-full bg-muted px-2.5 py-1">{question.blueprint}</span>
@@ -291,7 +296,35 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 <p className="mt-1 text-xs text-muted-foreground">
                   {remainingSeconds === 0 ? '제한시간 종료' : '미니 모의고사 제한시간'}
                 </p>
-                <p className="mt-1 text-xs font-semibold text-foreground">전범위 {questions.length}문항</p>
+                <p className="mt-1 text-xs font-semibold text-foreground">압축 훈련 {questions.length}문항</p>
+                {session.officialQuestionCount && session.officialTotalMinutes && session.officialTotalPoints && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    공식 {session.officialQuestionCount}문항 · {session.officialTotalMinutes}분 · {session.officialTotalPoints}점 기준
+                  </p>
+                )}
+                {session.examPapers && session.examPapers.length > 0 && (
+                  <div className="mt-4 rounded-lg bg-muted/40 p-3">
+                    <p className="text-xs font-semibold text-foreground">시험지 구조</p>
+                    <div className="mt-2 space-y-2">
+                      {session.examPapers.map((paper) => (
+                        <div key={paper.label} className="rounded-md bg-background/70 px-3 py-2">
+                          <p className="flex justify-between gap-2 text-xs font-semibold text-foreground">
+                            <span>{paper.label} · {paper.period}</span>
+                            <span>{paper.officialQuestionCount}문항 · {paper.durationMinutes}분 · {paper.totalPoints}점</span>
+                          </p>
+                          <p className="mt-1 text-[11px] text-muted-foreground">
+                            {paper.formats.map((format) =>
+                              `${format.type} ${format.count}문항/${format.totalPoints}점`
+                            ).join(' · ')}
+                          </p>
+                          <p className="mt-1 text-[11px] font-semibold text-primary">
+                            현재 세션 {paper.selectedQuestionCount}문항 배정
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="mt-4 rounded-lg bg-muted/40 p-3">
                   <p className="text-xs font-semibold text-foreground">영역 배분</p>
                   <div className="mt-2 space-y-1">
@@ -442,6 +475,24 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 ))}
               </div>
             </div>
+            {mockReport.paperRows.length > 0 && (
+              <div className="mt-4">
+                <h3 className="text-sm font-bold">시험지별 결과</h3>
+                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                  {mockReport.paperRows.map((row) => (
+                    <div key={row.label} className="rounded-lg border border-border p-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-sm font-semibold">{row.label} · {row.period}</p>
+                        <p className="text-sm font-bold text-primary">{row.earnedPoints}/{row.possiblePoints}점</p>
+                      </div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {row.total}문항 중 {row.correct}문항 정답 · {row.rate}%
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="mt-4 rounded-lg border border-sky-200 bg-sky-50 p-3 dark:border-sky-900/60 dark:bg-sky-950/30">
               <h3 className="text-sm font-bold text-sky-700 dark:text-sky-300">다음 처방</h3>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
