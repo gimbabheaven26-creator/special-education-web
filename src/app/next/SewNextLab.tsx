@@ -83,6 +83,43 @@ function roadmapLabel(status: RoadmapStatus) {
   return '예정';
 }
 
+function CommandLink({
+  href,
+  label,
+  metric,
+  note,
+  tone,
+}: {
+  href: string;
+  label: string;
+  metric: string;
+  note: string;
+  tone: 'primary' | 'risk' | 'record';
+}) {
+  const toneClass = {
+    primary: 'border-primary/40 bg-primary/5 text-primary hover:bg-primary/10',
+    risk: 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300',
+    record: 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300',
+  }[tone];
+
+  return (
+    <Link
+      href={href}
+      className={cn(
+        'group flex min-h-[96px] flex-col justify-between rounded-lg border px-4 py-3 transition-colors',
+        toneClass,
+      )}
+    >
+      <span className="text-xs font-semibold">{label}</span>
+      <span className="mt-2 text-2xl font-bold tracking-tight text-foreground">{metric}</span>
+      <span className="mt-2 inline-flex items-center gap-1 text-xs font-semibold">
+        {note}
+        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </Link>
+  );
+}
+
 function MetricCard({ metric }: { metric: (typeof readinessMetrics)[number] }) {
   return (
     <div className={cn('rounded-lg border p-3', toneStyles[metric.tone])}>
@@ -221,6 +258,51 @@ export function SewNextLab() {
             ))}
           </nav>
         </header>
+
+        <section className="py-5">
+          <div className="rounded-xl border border-border bg-card p-5">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-xs font-semibold text-primary">오늘의 작전판</p>
+                <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground">
+                  실전 감각을 먼저 만들고, 약점은 바로 좁힙니다.
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  남은 시간, 고위험 영역, 기록 피드백을 한 번에 보고 오늘의 첫 행동을 고릅니다.
+                </p>
+              </div>
+              <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900/60 dark:bg-amber-950/30">
+                <p className="text-xs font-semibold text-amber-700 dark:text-amber-300">현재 판정</p>
+                <p className="mt-1 text-2xl font-bold text-foreground">{readinessSnapshot.heroValue}%</p>
+                <p className="mt-1 text-xs text-muted-foreground">관찰 상태 · 오늘 {dailyPrescription.duration}분</p>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              <CommandLink
+                href="/next/practice?mode=mock&variant=full"
+                label="1순위 행동"
+                metric="실전형 23문항 시작"
+                note="전공A/B 전체 점검"
+                tone="primary"
+              />
+              <CommandLink
+                href="#readiness"
+                label="위험 축소"
+                metric="고위험 영역 3개 점검"
+                note="처방 근거 보기"
+                tone="risk"
+              />
+              <CommandLink
+                href="/record"
+                label="결과 추적"
+                metric="기록에서 결과 확인"
+                note="전공A/B 추세 보기"
+                tone="record"
+              />
+            </div>
+          </div>
+        </section>
 
         <section id="readiness" className="scroll-mt-4 grid gap-4 py-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-xl border border-border bg-card p-5">

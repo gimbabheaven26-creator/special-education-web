@@ -7,6 +7,13 @@ test.describe('SEW Next (/next)', () => {
 
     await expect(page.getByRole('heading', { name: 'SEW Next' })).toBeVisible({ timeout: 15000 });
     await expect(page.getByText('시험 준비도 조종실')).toBeVisible();
+    await expect(page.getByText('오늘의 작전판')).toBeVisible();
+    await expect(page.getByRole('link', { name: /실전형 23문항 시작/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock&variant=full',
+    );
+    await expect(page.getByRole('link', { name: /고위험 영역 3개 점검/ })).toHaveAttribute('href', '#readiness');
+    await expect(page.getByRole('link', { name: /기록에서 결과 확인/ })).toHaveAttribute('href', '/record');
     await expect(page.getByText('2027 특수교육 임용 준비도')).toBeVisible();
     await expect(page.getByText('고위험 출제 영역')).toBeVisible();
     await expect(page.getByText('오늘의 처방')).toBeVisible();
@@ -19,15 +26,16 @@ test.describe('SEW Next (/next)', () => {
     await page.waitForLoadState('domcontentloaded');
 
     await page.getByRole('button', { name: /모의고사/ }).click();
+    const practicePanel = page.locator('#practice');
 
     await expect(page.getByRole('button', { name: /모의고사/ })).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByRole('heading', { name: '실전 모의고사' })).toBeVisible();
-    await expect(page.getByText('모의고사 예약')).toBeVisible();
-    await expect(page.getByRole('link', { name: /압축형 8문항/ })).toHaveAttribute(
+    await expect(practicePanel.getByRole('heading', { name: '실전 모의고사' })).toBeVisible();
+    await expect(practicePanel.getByText('모의고사 예약')).toBeVisible();
+    await expect(practicePanel.getByRole('link', { name: /압축형 8문항/ })).toHaveAttribute(
       'href',
       '/next/practice?mode=mock',
     );
-    await expect(page.getByRole('link', { name: /실전형 23문항/ })).toHaveAttribute(
+    await expect(practicePanel.getByRole('link', { name: /실전형 23문항/ })).toHaveAttribute(
       'href',
       '/next/practice?mode=mock&variant=full',
     );
