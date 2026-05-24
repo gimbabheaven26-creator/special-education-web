@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -29,6 +29,21 @@ interface AnswerRecord {
   questionId: string;
   selectedChoiceId: string;
 }
+
+interface PracticeDraft {
+  version: 1;
+  signature: string;
+  questionIndex: number;
+  selectedChoiceId: string | null;
+  submitted: boolean;
+  answers: AnswerRecord[];
+  elapsedSeconds: number;
+  savedAt: number;
+}
+
+type DraftStatus = 'idle' | 'saved' | 'restored';
+
+const PRACTICE_DRAFT_VERSION = 1;
 
 function persistSnapshot(key: string, state: Record<string, unknown>, version: number) {
   if (typeof window === 'undefined') return;
@@ -71,6 +86,48 @@ function getSyncStatusLabel(status: SewNextSyncStatus): string {
   return '로컬 저장 준비';
 }
 
+function getDraftStorageKey(session: PracticeSession): string {
+  return `sew-next-practice-draft:${session.mode}:${session.mockVariant ?? 'standard'}`;
+}
+
+function getQuestionSignature(questions: readonly PracticeQuestion[]): string {
+  return questions.map((question) => question.id).join('|');
+}
+
+function readPracticeDraft(key: string, signature: string): PracticeDraft | null {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const draft = JSON.parse(raw) as Partial<PracticeDraft>;
+    if (
+      draft.version !== PRACTICE_DRAFT_VERSION ||
+      draft.signature !== signature ||
+      !Array.isArray(draft.answers) ||
+      typeof draft.questionIndex !== 'number'
+    ) {
+      return null;
+    }
+    return {
+      version: PRACTICE_DRAFT_VERSION,
+      signature,
+      questionIndex: draft.questionIndex,
+      selectedChoiceId: typeof draft.selectedChoiceId === 'string' ? draft.selectedChoiceId : null,
+      submitted: Boolean(draft.submitted),
+      answers: draft.answers.filter((answer) =>
+        typeof answer.questionId === 'string' &&
+        typeof answer.selectedChoiceId === 'string' &&
+        typeof answer.correct === 'boolean'
+      ),
+      elapsedSeconds: typeof draft.elapsedSeconds === 'number' ? Math.max(0, draft.elapsedSeconds) : 0,
+      savedAt: typeof draft.savedAt === 'number' ? draft.savedAt : Date.now(),
+    };
+  } catch {
+    return null;
+  }
+}
+
 export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const questions = useMemo(
     () => {
@@ -86,11 +143,20 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
-  const [startedAt] = useState(() => Date.now());
+  const [startedAt, setStartedAt] = useState(() => Date.now());
   const [now, setNow] = useState(() => Date.now());
   const [syncStatus, setSyncStatus] = useState<SewNextSyncStatus>('idle');
+  const [draftLoaded, setDraftLoaded] = useState(false);
+  const [draftStatus, setDraftStatus] = useState<DraftStatus>('idle');
+  const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
 
   const question = questions[questionIndex] ?? questions[0];
+  const draftKey = useMemo(() => getDraftStorageKey(session), [session]);
+  const draftSignature = useMemo(() => getQuestionSignature(questions), [questions]);
+  const answersByQuestionId = useMemo(
+    () => new Map(answers.map((answer) => [answer.questionId, answer])),
+    [answers],
+  );
   const selectedChoice = useMemo(
     () => question.choices.find((choice) => choice.id === selectedChoiceId),
     [question.choices, selectedChoiceId],
@@ -119,6 +185,30 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const submitHelperText = submitted && isLastQuestion
     ? '세션이 완료되었습니다. 아래 요약과 리포트를 확인하세요.'
     : '선택 후 해설을 열면 AI 코치와 다음 복습 예약까지 함께 표시됩니다.';
+  const draftStatusLabel = draftStatus === 'restored'
+    ? '저장된 지점에서 이어풀기'
+    : draftStatus === 'saved' || lastSavedAt != null
+      ? '중간 저장됨'
+      : '중간 저장 준비';
+
+  const saveDraft = useCallback((nextStatus?: DraftStatus) => {
+    if (typeof window === 'undefined') return;
+
+    const savedAt = Date.now();
+    const draft: PracticeDraft = {
+      version: PRACTICE_DRAFT_VERSION,
+      signature: draftSignature,
+      questionIndex,
+      selectedChoiceId,
+      submitted,
+      answers,
+      elapsedSeconds: Math.max(0, Math.round((savedAt - startedAt) / 1000)),
+      savedAt,
+    };
+    localStorage.setItem(draftKey, JSON.stringify(draft));
+    setLastSavedAt(savedAt);
+    if (nextStatus) setDraftStatus(nextStatus);
+  }, [answers, draftKey, draftSignature, questionIndex, selectedChoiceId, startedAt, submitted]);
 
   useEffect(() => {
     if (!isMockSession || showSummary) return undefined;
@@ -127,6 +217,33 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
     }, 1000);
     return () => clearInterval(timer);
   }, [isMockSession, showSummary]);
+
+  useEffect(() => {
+    const draft = readPracticeDraft(draftKey, draftSignature);
+    if (draft) {
+      const nextIndex = Math.min(Math.max(0, draft.questionIndex), questions.length - 1);
+      setQuestionIndex(nextIndex);
+      setSelectedChoiceId(draft.selectedChoiceId);
+      setSubmitted(draft.submitted);
+      setAnswers(draft.answers);
+      setStartedAt(Date.now() - draft.elapsedSeconds * 1000);
+      setLastSavedAt(draft.savedAt);
+      setDraftStatus('restored');
+    }
+    setDraftLoaded(true);
+  }, [draftKey, draftSignature, questions.length]);
+
+  useEffect(() => {
+    if (!draftLoaded || typeof window === 'undefined') return;
+
+    if (showSummary) {
+      localStorage.removeItem(draftKey);
+      return;
+    }
+
+    const hasProgress = questionIndex > 0 || selectedChoiceId !== null || answers.length > 0;
+    if (hasProgress) saveDraft();
+  }, [answers.length, draftKey, draftLoaded, questionIndex, saveDraft, selectedChoiceId, showSummary]);
 
   function handleSubmit() {
     if (!selectedChoice || submitted) return;
@@ -178,14 +295,27 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   }
 
   function handleNextQuestion() {
-    setQuestionIndex((current) => Math.min(current + 1, questions.length - 1));
-    setSelectedChoiceId(null);
-    setSubmitted(false);
+    moveToQuestion(Math.min(questionIndex + 1, questions.length - 1));
   }
 
   function handleSelectChoice(choiceId: string) {
     setSelectedChoiceId(choiceId);
     setSubmitted(false);
+  }
+
+  function moveToQuestion(index: number) {
+    const nextIndex = Math.min(Math.max(0, index), questions.length - 1);
+    const nextQuestion = questions[nextIndex] ?? questions[0];
+    const existingAnswer = answersByQuestionId.get(nextQuestion.id);
+    setQuestionIndex(nextIndex);
+    setSelectedChoiceId(existingAnswer?.selectedChoiceId ?? null);
+    setSubmitted(existingAnswer != null);
+  }
+
+  function getPaletteStatus(index: number, item: PracticeQuestion): '현재' | '완료' | '선택' | '미응답' {
+    if (index === questionIndex) return '현재';
+    if (answersByQuestionId.has(item.id)) return '완료';
+    return '미응답';
   }
 
   return (
@@ -361,6 +491,51 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                     23문항 실전형 열기
                   </Link>
                 )}
+              </section>
+            )}
+
+            {isMockSession && (
+              <section className="rounded-xl border border-border bg-card p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="text-sm font-bold">문항 팔레트</h2>
+                  <button
+                    type="button"
+                    onClick={() => saveDraft('saved')}
+                    className="inline-flex min-h-[34px] items-center justify-center rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
+                  >
+                    중간 저장
+                  </button>
+                </div>
+                <p className="mt-2 text-xs font-semibold text-primary">{draftStatusLabel}</p>
+                <div className="mt-3 grid grid-cols-6 gap-1.5">
+                  {questions.map((item, index) => {
+                    const status = getPaletteStatus(index, item);
+                    const statusWithParticle = status === '미응답' ? '미응답으로' : `${status}로`;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        aria-label={`문항 ${index + 1} ${statusWithParticle} 이동`}
+                        onClick={() => moveToQuestion(index)}
+                        className={cn(
+                          'flex h-9 w-9 items-center justify-center rounded-md border text-xs font-bold tabular-nums transition-colors',
+                          status === '현재'
+                            ? 'border-primary bg-primary text-primary-foreground'
+                            : status === '완료'
+                              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300'
+                              : 'border-border bg-muted/40 text-muted-foreground hover:bg-muted',
+                        )}
+                      >
+                        {index + 1}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="mt-3 grid grid-cols-3 gap-1.5 text-[10px] font-medium text-muted-foreground">
+                  <span>현재</span>
+                  <span>완료</span>
+                  <span>미응답</span>
+                </div>
               </section>
             )}
 

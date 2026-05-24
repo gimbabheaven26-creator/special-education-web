@@ -106,6 +106,30 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByText('전공B · 3교시')).toBeVisible();
   });
 
+  test('full mock supports mid-save, resume, and question palette navigation', async ({ page }) => {
+    await page.goto('/next/practice?mode=mock&variant=full');
+    await page.waitForLoadState('domcontentloaded');
+
+    await expect(page.getByText('문항 팔레트')).toBeVisible();
+    await page.getByRole('radio').first().check();
+    await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+    await page.getByRole('button', { name: '다음 문항' }).click();
+    await expect(page.getByText('문항 2 / 23')).toBeVisible();
+
+    await page.getByRole('button', { name: '중간 저장' }).click();
+    await expect(page.getByText('중간 저장됨')).toBeVisible();
+
+    await page.reload();
+    await expect(page.getByText('저장된 지점에서 이어풀기')).toBeVisible();
+    await expect(page.getByText('문항 2 / 23')).toBeVisible();
+
+    await page.getByRole('button', { name: '문항 3 미응답으로 이동' }).click();
+    await expect(page.getByText('문항 3 / 23')).toBeVisible();
+    await page.getByRole('button', { name: '문항 1 완료로 이동' }).click();
+    await expect(page.getByText('문항 1 / 23')).toBeVisible();
+    await expect(page.getByText('AI Answer Coach')).toBeVisible();
+  });
+
   test('adaptive primary action opens a native SEW Next practice session', async ({ page }) => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');

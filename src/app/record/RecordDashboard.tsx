@@ -65,7 +65,12 @@ interface MockExamPaperTrend {
   possiblePoints: number;
   earnedPoints: number;
   fullCount: number;
+  prescription: string;
 }
+
+type MockExamPaperTrendAccumulator = Omit<MockExamPaperTrend, 'rate' | 'prescription'> & {
+  formatMisses: Record<string, number>;
+};
 
 const SEW_NEXT_SESSION_WINDOW_MS = 30 * 60 * 1000;
 
@@ -131,7 +136,7 @@ function getRecentSewNextSessions(quizHistory: readonly QuizResult[]): SewNextSe
 }
 
 function buildMockExamPaperTrends(quizHistory: readonly QuizResult[]): MockExamPaperTrend[] {
-  const rows = new Map<string, Omit<MockExamPaperTrend, 'rate'>>();
+  const rows = new Map<string, MockExamPaperTrendAccumulator>();
 
   for (const result of quizHistory) {
     if (!result.sessionId?.startsWith('sew-next-mock') || !result.sewNextExamMeta) continue;
@@ -145,6 +150,7 @@ function buildMockExamPaperTrends(quizHistory: readonly QuizResult[]): MockExamP
       possiblePoints: 0,
       earnedPoints: 0,
       fullCount: 0,
+      formatMisses: {},
     };
 
     rows.set(meta.paperLabel, {
@@ -154,14 +160,28 @@ function buildMockExamPaperTrends(quizHistory: readonly QuizResult[]): MockExamP
       possiblePoints: current.possiblePoints + meta.points,
       earnedPoints: current.earnedPoints + (result.isCorrect ? meta.points : 0),
       fullCount: current.fullCount + (meta.mockVariant === 'full' ? 1 : 0),
+      formatMisses: result.isCorrect
+        ? current.formatMisses
+        : {
+            ...current.formatMisses,
+            [meta.format]: (current.formatMisses[meta.format] ?? 0) + 1,
+          },
     });
   }
 
   return Array.from(rows.values())
-    .map((row) => ({
-      ...row,
-      rate: row.total > 0 ? Math.round((row.correct / row.total) * 100) : 0,
-    }))
+    .map((row) => {
+      const rate = row.total > 0 ? Math.round((row.correct / row.total) * 100) : 0;
+      const weakestFormat = Object.entries(row.formatMisses)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ko'))[0]?.[0] ?? '서술형';
+      return {
+        ...row,
+        rate,
+        prescription: rate >= 80
+          ? `${row.label} ${row.period}: 현재 흐름을 유지하고 실전형에서 시간 배분을 확인하세요.`
+          : `${row.label} ${row.period}: ${weakestFormat} 2문항을 실전형으로 이어 풀어 보세요.`,
+      };
+    })
     .sort((a, b) => a.label.localeCompare(b.label, 'ko'));
 }
 
@@ -356,6 +376,16 @@ export default function RecordDashboard() {
                 )}
               </div>
             ))}
+          </div>
+          <div className="mt-3 rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-900/60 dark:bg-sky-950/30">
+            <p className="text-xs font-semibold text-sky-700 dark:text-sky-300">교시별 약점 처방</p>
+            <div className="mt-2 space-y-1">
+              {mockExamPaperTrends.map((row) => (
+                <p key={`${row.label}-prescription`} className="text-xs leading-relaxed text-foreground">
+                  {row.prescription}
+                </p>
+              ))}
+            </div>
           </div>
         </section>
       )}

@@ -314,5 +314,7 @@ describe('RecordDashboard', () => {
     expect(screen.getByText('2문항 중 1문항 정답 · 50%')).toBeDefined();
     expect(screen.getByText('2/6점')).toBeDefined();
     expect(screen.getByText('실전형 1문항 포함')).toBeDefined();
+    expect(screen.getByText('교시별 약점 처방')).toBeDefined();
+    expect(screen.getByText('전공A 2교시: 서술형 2문항을 실전형으로 이어 풀어 보세요.')).toBeDefined();
   });
 });

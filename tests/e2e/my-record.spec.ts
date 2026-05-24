@@ -251,6 +251,8 @@ test.describe('/record 대시보드', () => {
     await expect(page.getByText('전공A · 2교시')).toBeVisible();
     await expect(page.getByText('전공B · 3교시')).toBeVisible();
     await expect(page.getByText('실전형 1문항 포함')).toBeVisible();
+    await expect(page.getByText('교시별 약점 처방')).toBeVisible();
+    await expect(page.getByText('전공A 2교시: 서술형 2문항을 실전형으로 이어 풀어 보세요.')).toBeVisible();
   });
 });
 
