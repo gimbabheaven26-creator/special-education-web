@@ -183,6 +183,11 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
     setSubmitted(false);
   }
 
+  function handleSelectChoice(choiceId: string) {
+    setSelectedChoiceId(choiceId);
+    setSubmitted(false);
+  }
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-5xl px-4 py-6 lg:px-6">
@@ -247,10 +252,7 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 return (
                   <label
                     key={choice.id}
-                    onClick={() => {
-                      setSelectedChoiceId(choice.id);
-                      setSubmitted(false);
-                    }}
+                    onClick={() => handleSelectChoice(choice.id)}
                     className={cn(
                       'flex cursor-pointer items-start gap-3 rounded-lg border border-border p-4 transition-colors',
                       checked ? 'border-primary bg-primary/5' : 'hover:bg-muted/40',
@@ -263,10 +265,9 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                       name={question.id}
                       value={choice.id}
                       checked={checked}
-                      onChange={() => {
-                        setSelectedChoiceId(choice.id);
-                        setSubmitted(false);
-                      }}
+                      onChange={() => handleSelectChoice(choice.id)}
+                      onClick={() => handleSelectChoice(choice.id)}
+                      onInput={() => handleSelectChoice(choice.id)}
                       className="mt-1 h-4 w-4 accent-primary"
                     />
                     <span className="flex-1">
