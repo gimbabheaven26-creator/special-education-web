@@ -141,6 +141,38 @@ describe('buildMockExamSession', () => {
       points: 2,
     }));
   });
+
+  it('can build a full official mock with 23 questions and 180 minutes', () => {
+    const session = buildMockExamSession({
+      fallback: practiceSessions.mock,
+      variant: 'full',
+      quizzes: Array.from({ length: 23 }, (_, index) =>
+        makeQuizQuestion({
+          id: `full-${index + 1}`,
+          subject: index % 2 === 0 ? 'laws' : 'behavior-support',
+          chapter: index % 2 === 0 ? 'iep' : 'fba',
+          question: `실전형 문항 ${index + 1}`,
+        })
+      ),
+    });
+
+    const questions = [session.question, ...(session.followUpQuestions ?? [])];
+
+    expect(session.mockVariant).toBe('full');
+    expect(session.timeLimitSeconds).toBe(10800);
+    expect(questions).toHaveLength(23);
+    expect(session.queue).toEqual(expect.arrayContaining([
+      '실전형 23문항',
+      '제한시간 180분',
+    ]));
+    expect(session.examPapers?.map((paper) => ({
+      label: paper.label,
+      selectedQuestionCount: paper.selectedQuestionCount,
+    }))).toEqual([
+      { label: '전공A', selectedQuestionCount: 12 },
+      { label: '전공B', selectedQuestionCount: 11 },
+    ]);
+  });
 });
 
 describe('buildMockExamReport', () => {

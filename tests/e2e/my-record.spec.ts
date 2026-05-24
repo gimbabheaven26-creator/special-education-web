@@ -89,6 +89,46 @@ async function seedSewNextTrendData(page: Page) {
             chapter: 'IEP',
             timestamp: now,
             sessionId: 'sew-next-mock',
+            sewNextExamMeta: {
+              paperLabel: '전공A',
+              period: '2교시',
+              questionNumber: 1,
+              format: '단답형',
+              points: 2,
+              mockVariant: 'quick',
+            },
+          },
+          {
+            questionId: 'sew-latest-2',
+            isCorrect: false,
+            subject: '정서행동장애',
+            chapter: 'FBA',
+            timestamp: now + 1000,
+            sessionId: 'sew-next-mock',
+            sewNextExamMeta: {
+              paperLabel: '전공B',
+              period: '3교시',
+              questionNumber: 1,
+              format: '서술형',
+              points: 4,
+              mockVariant: 'quick',
+            },
+          },
+          {
+            questionId: 'sew-full-a-1',
+            isCorrect: false,
+            subject: '교육과정',
+            chapter: '기본 교육과정',
+            timestamp: now + 2 * 60 * 60 * 1000,
+            sessionId: 'sew-next-mock-full',
+            sewNextExamMeta: {
+              paperLabel: '전공A',
+              period: '2교시',
+              questionNumber: 2,
+              format: '서술형',
+              points: 4,
+              mockVariant: 'full',
+            },
           },
         ],
         diagnosticSessions: [],
@@ -201,11 +241,16 @@ test.describe('/record 대시보드', () => {
 
     await expect(page.getByText('최근 SEW Next 세션')).toBeVisible();
     await expect(page.getByText('최근 3회 SEW Next 흐름')).toBeVisible();
+    await expect(page.getByText('Full Mock Exam').first()).toBeVisible();
     await expect(page.getByText('Mock Exam').first()).toBeVisible();
     await expect(page.getByText('Custom Qbank')).toBeVisible();
     await expect(page.getByText('50%').first()).toBeVisible();
     await expect(page.getByText('다음 추천 학습')).toBeVisible();
-    await expect(page.getByText('특수교육공학 보조공학을 2문항만 더 풀어 보세요.')).toBeVisible();
+    await expect(page.getByText('교육과정 기본 교육과정을 2문항만 더 풀어 보세요.')).toBeVisible();
+    await expect(page.getByText('Mock Exam 전공A/B 추세')).toBeVisible();
+    await expect(page.getByText('전공A · 2교시')).toBeVisible();
+    await expect(page.getByText('전공B · 3교시')).toBeVisible();
+    await expect(page.getByText('실전형 1문항 포함')).toBeVisible();
   });
 });
 

@@ -1,6 +1,7 @@
 export type ReadinessStatus = 'strong' | 'watch' | 'risk';
 
 export type PracticeModeId = 'adaptive' | 'custom' | 'mock' | 'review';
+export type MockExamVariant = 'quick' | 'full';
 
 export type RoadmapStatus = 'live' | 'building' | 'planned';
 
@@ -123,6 +124,7 @@ export interface PracticeSession {
   question: PracticeQuestion;
   followUpQuestions?: PracticeQuestion[];
   timeLimitSeconds?: number;
+  mockVariant?: MockExamVariant;
   officialTotalMinutes?: number;
   officialTotalPoints?: number;
   officialQuestionCount?: number;
@@ -286,16 +288,16 @@ export const practiceModes: PracticeMode[] = [
     id: 'mock',
     label: '모의고사',
     title: '실전 모의고사',
-    subtitle: '시간 압박, 영역 배분, 검토 루틴까지 실제 시험처럼 훈련합니다.',
-    duration: '80분',
-    questionCount: '전범위',
+    subtitle: '압축형으로 빠르게 점검하고, 필요할 때 전공A/B 23문항 실전형으로 이어갑니다.',
+    duration: '20분 / 180분',
+    questionCount: '8문항 / 23문항',
     model: 'Exam simulator + post-exam analytics',
     primaryAction: '모의고사 예약',
     actionHref: '/next/practice?mode=mock',
     steps: [
-      '시험 전 체크인',
-      '영역별 제한 시간',
-      '종료 후 근거 기반 리포트',
+      '압축형 8문항',
+      '실전형 23문항',
+      '전공A/B 리포트',
     ],
     aiTouch: 'AI가 실수 유형을 지식 부족, 시간 관리, 선지 함정으로 분류합니다.',
     evidence: '최근 모의 준비도 63%',

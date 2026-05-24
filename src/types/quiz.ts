@@ -40,6 +40,14 @@ export interface QuizResult {
   subject: string;
   chapter: string;
   sessionId?: string;
+  sewNextExamMeta?: {
+    paperLabel: string;
+    period: string;
+    questionNumber: number;
+    format: string;
+    points: number;
+    mockVariant?: 'quick' | 'full';
+  };
 }
 
 export interface ExamQuestion extends QuizQuestion {

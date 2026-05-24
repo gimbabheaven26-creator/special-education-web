@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { getAllQuizzes } from '@/lib/db/quiz';
 import {
   practiceSessions,
+  type MockExamVariant,
   type PracticeModeId,
 } from '@/lib/sew-next/prototype-data';
 import {
@@ -25,6 +26,7 @@ interface NextPracticePageProps {
     domain?: string;
     difficulty?: string;
     format?: string;
+    variant?: string;
   };
 }
 
@@ -32,6 +34,10 @@ const modes = new Set<PracticeModeId>(['adaptive', 'custom', 'mock', 'review']);
 
 function getMode(value: string | undefined): PracticeModeId {
   return value && modes.has(value as PracticeModeId) ? (value as PracticeModeId) : 'adaptive';
+}
+
+function getMockVariant(value: string | undefined): MockExamVariant {
+  return value === 'full' ? 'full' : 'quick';
 }
 
 export default async function NextPracticePage({ searchParams }: NextPracticePageProps) {
@@ -53,6 +59,7 @@ export default async function NextPracticePage({ searchParams }: NextPracticePag
     session = buildMockExamSession({
       quizzes,
       fallback: practiceSessions.mock,
+      variant: getMockVariant(searchParams?.variant),
     });
   }
 

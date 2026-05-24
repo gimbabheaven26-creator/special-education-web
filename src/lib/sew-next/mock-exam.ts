@@ -1,5 +1,5 @@
 import type { QuizQuestion } from '@/types/quiz';
-import type { PracticeQuestion, PracticeSession } from '@/lib/sew-next/prototype-data';
+import type { MockExamVariant, PracticeQuestion, PracticeSession } from '@/lib/sew-next/prototype-data';
 import {
   buildCompressedExamPapers,
   buildMockExamQuestionMeta,
@@ -141,26 +141,30 @@ function getBalancedMockQuestions(quizzes: QuizQuestion[], questionCount: number
 
 export function buildMockExamSession({
   fallback,
-  questionCount = 8,
+  questionCount,
   quizzes,
-  timeLimitSeconds = 1200,
+  timeLimitSeconds,
+  variant = 'quick',
 }: {
   fallback: PracticeSession;
   questionCount?: number;
   quizzes: QuizQuestion[];
   timeLimitSeconds?: number;
+  variant?: MockExamVariant;
 }): PracticeSession {
+  const officialTotals = getOfficialExamTotals();
+  const targetQuestionCount = questionCount ?? (variant === 'full' ? officialTotals.questions : 8);
+  const targetTimeLimitSeconds = timeLimitSeconds ?? (variant === 'full' ? officialTotals.minutes * 60 : 1200);
   const fallbackQuestions = getQuestions(fallback);
-  const selected = getBalancedMockQuestions(quizzes, questionCount);
+  const selected = getBalancedMockQuestions(quizzes, targetQuestionCount);
   const seen = new Set(selected.map((question) => question.id));
   const mixedQuestions = [
     ...selected,
     ...fallbackQuestions.filter((question) => !seen.has(question.id)),
-  ].slice(0, questionCount);
+  ].slice(0, targetQuestionCount);
   const questions = attachMockExamMeta(mixedQuestions.length > 0 ? mixedQuestions : fallbackQuestions);
   const actualCount = selected.length;
   const examPapers = buildCompressedExamPapers(questions.length);
-  const officialTotals = getOfficialExamTotals();
   const examBlueprint = Array.from(
     questions.reduce((map, question) => {
       map.set(question.domain, (map.get(question.domain) ?? 0) + 1);
@@ -172,20 +176,23 @@ export function buildMockExamSession({
   return {
     ...fallback,
     subtitle: actualCount > 0
-      ? `실제 DB 문제은행에서 전공A/B 구조를 압축한 ${questions.length}문항을 균형 편성했습니다.`
+      ? variant === 'full'
+        ? `실제 DB 문제은행에서 공식 전공A/B ${questions.length}문항을 실전형으로 편성했습니다.`
+        : `실제 DB 문제은행에서 전공A/B 구조를 압축한 ${questions.length}문항을 균형 편성했습니다.`
       : fallback.subtitle,
-    focus: '전공A/B 압축 실전 모의고사',
+    focus: variant === 'full' ? '전공A/B 실전형 모의고사' : '전공A/B 압축 실전 모의고사',
     queue: [
-      `제한시간 ${formatLimit(timeLimitSeconds)}`,
+      variant === 'full' ? `실전형 ${questions.length}문항` : `압축 훈련 ${questions.length}문항`,
+      `제한시간 ${formatLimit(targetTimeLimitSeconds)}`,
       ...examPapers.map((paper) =>
         `${paper.label} ${paper.officialQuestionCount}문항·${paper.durationMinutes}분·${paper.totalPoints}점`
       ),
-      `압축 훈련 ${questions.length}문항`,
       '영역별 리포트',
     ],
     question: questions[0],
     followUpQuestions: questions.slice(1),
-    timeLimitSeconds,
+    timeLimitSeconds: targetTimeLimitSeconds,
+    mockVariant: variant,
     officialTotalMinutes: officialTotals.minutes,
     officialTotalPoints: officialTotals.points,
     officialQuestionCount: officialTotals.questions,

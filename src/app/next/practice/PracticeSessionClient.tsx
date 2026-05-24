@@ -99,6 +99,7 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
   const isLastQuestion = questionIndex === questions.length - 1;
   const showSummary = submitted && selectedChoice && isLastQuestion;
   const isMockSession = session.mode === 'mock';
+  const isFullMock = session.mockVariant === 'full';
   const timeLimitSeconds = session.timeLimitSeconds ?? 180;
   const elapsedSeconds = Math.round((now - startedAt) / 1000);
   const remainingSeconds = Math.max(0, timeLimitSeconds - elapsedSeconds);
@@ -132,7 +133,9 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
 
     const isCorrect = selectedChoice.correct;
     const userAnswer = selectedChoice.label;
-    const sessionId = `sew-next-${session.mode}`;
+    const sessionId = session.mode === 'mock' && isFullMock
+      ? 'sew-next-mock-full'
+      : `sew-next-${session.mode}`;
 
     setAnswers((current) => [
       ...current.filter((answer) => answer.questionId !== question.id),
@@ -147,6 +150,14 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
       subject: question.domain,
       chapter: question.blueprint,
       sessionId,
+      ...(question.examMeta
+        ? {
+            sewNextExamMeta: {
+              ...question.examMeta,
+              mockVariant: session.mockVariant ?? 'quick',
+            },
+          }
+        : {}),
     });
     if (!isCorrect) {
       useQuizStore.getState().addWrongNote(toQuizQuestion(question), userAnswer, sessionId);
@@ -296,7 +307,9 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 <p className="mt-1 text-xs text-muted-foreground">
                   {remainingSeconds === 0 ? '제한시간 종료' : '미니 모의고사 제한시간'}
                 </p>
-                <p className="mt-1 text-xs font-semibold text-foreground">압축 훈련 {questions.length}문항</p>
+                <p className="mt-1 text-xs font-semibold text-foreground">
+                  {isFullMock ? '실전형' : '압축 훈련'} {questions.length}문항
+                </p>
                 {session.officialQuestionCount && session.officialTotalMinutes && session.officialTotalPoints && (
                   <p className="mt-1 text-xs text-muted-foreground">
                     공식 {session.officialQuestionCount}문항 · {session.officialTotalMinutes}분 · {session.officialTotalPoints}점 기준
@@ -339,6 +352,14 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                     ))}
                   </div>
                 </div>
+                {!isFullMock && (
+                  <Link
+                    href="/next/practice?mode=mock&variant=full"
+                    className="mt-4 inline-flex min-h-[40px] w-full items-center justify-center rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold hover:bg-muted"
+                  >
+                    23문항 실전형 열기
+                  </Link>
+                )}
               </section>
             )}
 

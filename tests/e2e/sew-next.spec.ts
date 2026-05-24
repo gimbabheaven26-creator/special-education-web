@@ -74,6 +74,10 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByText('전공B · 3교시')).toBeVisible();
     await expect(page.getByText('영역 배분')).toBeVisible();
     await expect(page.getByText(/^압축 훈련 \d+문항$/).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: '23문항 실전형 열기' })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock&variant=full',
+    );
     await expect(page.getByText(/문항 1 \//)).toBeVisible();
 
     await page.goto('/next');
@@ -86,6 +90,20 @@ test.describe('SEW Next (/next)', () => {
     await expect(page).toHaveURL(/\/next\/practice\?mode=review/);
     await expect(page.getByText('Spaced Review Session')).toBeVisible();
     await expect(page.getByText('기능평가와 선호도 평가를 구분')).toBeVisible();
+  });
+
+  test('full mock variant uses the official 23-question exam structure', async ({ page }) => {
+    await page.goto('/next/practice?mode=mock');
+    await page.getByRole('link', { name: '23문항 실전형 열기' }).click();
+
+    await expect(page).toHaveURL(/\/next\/practice\?mode=mock&variant=full/);
+    await expect(page.getByText('Mock Exam Drill')).toBeVisible();
+    await expect(page.getByText('전공A/B 실전형 모의고사')).toBeVisible();
+    await expect(page.getByText('실전형 23문항').first()).toBeVisible();
+    await expect(page.getByText('제한시간 180분')).toBeVisible();
+    await expect(page.getByText('문항 1 / 23')).toBeVisible();
+    await expect(page.getByText('전공A · 2교시')).toBeVisible();
+    await expect(page.getByText('전공B · 3교시')).toBeVisible();
   });
 
   test('adaptive primary action opens a native SEW Next practice session', async ({ page }) => {
@@ -196,6 +214,22 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByText('시간 관리 안정')).toBeVisible();
     await expect(page.getByText(/함정 선지 \d+개/)).toBeVisible();
     await expect(page.getByText('다음 처방')).toBeVisible();
+
+    const mockHistory = await page.evaluate(() => {
+      const quiz = JSON.parse(localStorage.getItem('quiz-data') ?? '{}');
+      return quiz.state?.quizHistory ?? [];
+    });
+    expect(mockHistory).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          sessionId: 'sew-next-mock',
+          sewNextExamMeta: expect.objectContaining({
+            paperLabel: '전공A',
+            mockVariant: 'quick',
+          }),
+        }),
+      ]),
+    );
   });
 
   test('record dashboard highlights completed SEW Next session', async ({ page }) => {

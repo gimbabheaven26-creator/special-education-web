@@ -50,15 +50,43 @@ interface SewNextNextAction {
   message: string;
 }
 
+interface SewNextRouteInfo {
+  title: string;
+  mode: string;
+  href: string;
+}
+
+interface MockExamPaperTrend {
+  label: string;
+  period: string;
+  total: number;
+  correct: number;
+  rate: number;
+  possiblePoints: number;
+  earnedPoints: number;
+  fullCount: number;
+}
+
 const SEW_NEXT_SESSION_WINDOW_MS = 30 * 60 * 1000;
 
-function getSewNextModeLabel(sessionId: string): string {
+function getSewNextRouteInfo(sessionId: string): SewNextRouteInfo {
   const mode = sessionId.replace(/^sew-next-/, '');
-  if (mode === 'adaptive') return 'Adaptive Readiness';
-  if (mode === 'custom') return 'Custom Qbank';
-  if (mode === 'mock') return 'Mock Exam';
-  if (mode === 'review') return 'Spaced Review';
-  return 'SEW Next';
+  if (mode === 'adaptive') {
+    return { title: 'Adaptive Readiness', mode, href: '/next/practice?mode=adaptive' };
+  }
+  if (mode === 'custom') {
+    return { title: 'Custom Qbank', mode, href: '/next/practice?mode=custom' };
+  }
+  if (mode === 'mock') {
+    return { title: 'Mock Exam', mode, href: '/next/practice?mode=mock' };
+  }
+  if (mode === 'mock-full') {
+    return { title: 'Full Mock Exam', mode: 'mock', href: '/next/practice?mode=mock&variant=full' };
+  }
+  if (mode === 'review') {
+    return { title: 'Spaced Review', mode, href: '/next/practice?mode=review' };
+  }
+  return { title: 'SEW Next', mode: mode || 'adaptive', href: '/next/practice?mode=adaptive' };
 }
 
 function getRecentSewNextSessions(quizHistory: readonly QuizResult[]): SewNextSessionSummary[] {
@@ -84,12 +112,12 @@ function getRecentSewNextSessions(quizHistory: readonly QuizResult[]): SewNextSe
     .map((sessionResults) => {
       const latest = sessionResults[sessionResults.length - 1];
       const correct = sessionResults.filter((result) => result.isCorrect).length;
-      const mode = latest.sessionId?.replace(/^sew-next-/, '') ?? 'adaptive';
+      const route = getSewNextRouteInfo(latest.sessionId ?? '');
 
       return {
-        title: getSewNextModeLabel(latest.sessionId ?? ''),
-        mode,
-        href: `/next/practice?mode=${mode || 'adaptive'}`,
+        title: route.title,
+        mode: route.mode,
+        href: route.href,
         total: sessionResults.length,
         correct,
         rate: Math.round((correct / sessionResults.length) * 100),
@@ -100,6 +128,41 @@ function getRecentSewNextSessions(quizHistory: readonly QuizResult[]): SewNextSe
     })
     .sort((a, b) => b.timestamp - a.timestamp)
     .slice(0, 3);
+}
+
+function buildMockExamPaperTrends(quizHistory: readonly QuizResult[]): MockExamPaperTrend[] {
+  const rows = new Map<string, Omit<MockExamPaperTrend, 'rate'>>();
+
+  for (const result of quizHistory) {
+    if (!result.sessionId?.startsWith('sew-next-mock') || !result.sewNextExamMeta) continue;
+
+    const meta = result.sewNextExamMeta;
+    const current = rows.get(meta.paperLabel) ?? {
+      label: meta.paperLabel,
+      period: meta.period,
+      total: 0,
+      correct: 0,
+      possiblePoints: 0,
+      earnedPoints: 0,
+      fullCount: 0,
+    };
+
+    rows.set(meta.paperLabel, {
+      ...current,
+      total: current.total + 1,
+      correct: current.correct + (result.isCorrect ? 1 : 0),
+      possiblePoints: current.possiblePoints + meta.points,
+      earnedPoints: current.earnedPoints + (result.isCorrect ? meta.points : 0),
+      fullCount: current.fullCount + (meta.mockVariant === 'full' ? 1 : 0),
+    });
+  }
+
+  return Array.from(rows.values())
+    .map((row) => ({
+      ...row,
+      rate: row.total > 0 ? Math.round((row.correct / row.total) * 100) : 0,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label, 'ko'));
 }
 
 function buildSewNextNextAction(sessions: readonly SewNextSessionSummary[]): SewNextNextAction | null {
@@ -130,6 +193,7 @@ export default function RecordDashboard() {
   const recentSewNextSessions = useMemo(() => getRecentSewNextSessions(quizHistory), [quizHistory]);
   const latestSewNextSession = recentSewNextSessions[0] ?? null;
   const sewNextNextAction = useMemo(() => buildSewNextNextAction(recentSewNextSessions), [recentSewNextSessions]);
+  const mockExamPaperTrends = useMemo(() => buildMockExamPaperTrends(quizHistory), [quizHistory]);
 
   if (!mounted) {
     return (
@@ -254,6 +318,45 @@ export default function RecordDashboard() {
               )}
             </div>
           )}
+        </section>
+      )}
+
+      {mockExamPaperTrends.length > 0 && (
+        <section className="rounded-2xl border border-border bg-card p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold text-muted-foreground">Mock Exam 전공A/B 추세</p>
+              <p className="mt-1 text-sm text-foreground">압축형과 실전형 모의고사의 시험지별 누적 결과입니다.</p>
+            </div>
+            <Link
+              href="/next/practice?mode=mock&variant=full"
+              className="shrink-0 rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:bg-muted"
+            >
+              실전형
+            </Link>
+          </div>
+          <div className="mt-3 grid gap-2">
+            {mockExamPaperTrends.map((row) => (
+              <div key={row.label} className="rounded-xl bg-muted/40 p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold">{row.label} · {row.period}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {row.total}문항 중 {row.correct}문항 정답 · {row.rate}%
+                    </p>
+                  </div>
+                  <p className="text-sm font-bold tabular-nums text-primary">
+                    {row.earnedPoints}/{row.possiblePoints}점
+                  </p>
+                </div>
+                {row.fullCount > 0 && (
+                  <p className="mt-2 text-[11px] font-semibold text-sky-700 dark:text-sky-300">
+                    실전형 {row.fullCount}문항 포함
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
         </section>
       )}
 

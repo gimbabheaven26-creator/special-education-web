@@ -34,6 +34,14 @@ const mockQuizState = vi.hoisted(() => ({
     subject: string;
     chapter: string;
     sessionId?: string;
+    sewNextExamMeta?: {
+      paperLabel: string;
+      period: string;
+      questionNumber: number;
+      format: string;
+      points: number;
+      mockVariant?: 'quick' | 'full';
+    };
   }>,
 }));
 
@@ -243,5 +251,68 @@ describe('RecordDashboard', () => {
 
     expect(screen.getByText('다음 추천 학습')).toBeDefined();
     expect(screen.getByText('특수교육공학 보조공학을 2문항만 더 풀어 보세요.')).toBeDefined();
+  });
+
+  it('shows cumulative 전공A/B mock exam trends from stored question metadata', () => {
+    const base = 1779258091373;
+    mockQuizState.quizHistory = [
+      {
+        questionId: 'mock-a-1',
+        isCorrect: true,
+        timestamp: base,
+        subject: '관련 법령',
+        chapter: 'IEP',
+        sessionId: 'sew-next-mock',
+        sewNextExamMeta: {
+          paperLabel: '전공A',
+          period: '2교시',
+          questionNumber: 1,
+          format: '단답형',
+          points: 2,
+          mockVariant: 'quick',
+        },
+      },
+      {
+        questionId: 'mock-b-1',
+        isCorrect: false,
+        timestamp: base + 1000,
+        subject: '정서행동장애',
+        chapter: 'FBA',
+        sessionId: 'sew-next-mock',
+        sewNextExamMeta: {
+          paperLabel: '전공B',
+          period: '3교시',
+          questionNumber: 1,
+          format: '서술형',
+          points: 4,
+          mockVariant: 'quick',
+        },
+      },
+      {
+        questionId: 'mock-full-a-1',
+        isCorrect: false,
+        timestamp: base + 60 * 60 * 1000,
+        subject: '교육과정',
+        chapter: '기본 교육과정',
+        sessionId: 'sew-next-mock-full',
+        sewNextExamMeta: {
+          paperLabel: '전공A',
+          period: '2교시',
+          questionNumber: 2,
+          format: '서술형',
+          points: 4,
+          mockVariant: 'full',
+        },
+      },
+    ];
+
+    render(<RecordDashboard />);
+
+    expect(screen.getByText('Mock Exam 전공A/B 추세')).toBeDefined();
+    expect(screen.getByText('전공A · 2교시')).toBeDefined();
+    expect(screen.getByText('전공B · 3교시')).toBeDefined();
+    expect(screen.getByText('2문항 중 1문항 정답 · 50%')).toBeDefined();
+    expect(screen.getByText('2/6점')).toBeDefined();
+    expect(screen.getByText('실전형 1문항 포함')).toBeDefined();
   });
 });
