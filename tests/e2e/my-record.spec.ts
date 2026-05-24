@@ -220,6 +220,18 @@ test.describe('/record 대시보드', () => {
     expect(hasMetrics + hasCTA + hasContent).toBeGreaterThan(0);
   });
 
+  test('빈 기록에서도 Mock Exam A/B 미리보기를 표시', async ({ page }) => {
+    await page.goto('/record');
+    await expect(page.getByRole('main').first()).toBeVisible();
+
+    await expect(page.getByText('Mock Exam 전공A/B 미리보기')).toBeVisible();
+    await expect(page.getByText('데모 처방')).toBeVisible();
+    await expect(page.getByRole('link', { name: '실전형 23문항 시작' })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock&variant=full',
+    );
+  });
+
   test('정답률과 과목/챕터 이름을 사용자용 문구로 표시', async ({ page }) => {
     await seedRecordData(page);
     await page.goto('/record');

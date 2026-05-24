@@ -23,6 +23,14 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByRole('button', { name: /모의고사/ })).toHaveAttribute('aria-pressed', 'true');
     await expect(page.getByRole('heading', { name: '실전 모의고사' })).toBeVisible();
     await expect(page.getByText('모의고사 예약')).toBeVisible();
+    await expect(page.getByRole('link', { name: /압축형 8문항/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock',
+    );
+    await expect(page.getByRole('link', { name: /실전형 23문항/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock&variant=full',
+    );
   });
 
   test('custom qbank opens a native filter builder and starts a custom session', async ({ page }) => {
@@ -99,6 +107,8 @@ test.describe('SEW Next (/next)', () => {
     await expect(page).toHaveURL(/\/next\/practice\?mode=mock&variant=full/);
     await expect(page.getByText('Mock Exam Drill')).toBeVisible();
     await expect(page.getByText('전공A/B 실전형 모의고사')).toBeVisible();
+    await expect(page.getByRole('heading', { name: '실전형 23문항 모드' })).toBeVisible();
+    await expect(page.getByText('전공A/B 180분 80점')).toBeVisible();
     await expect(page.getByText('실전형 23문항').first()).toBeVisible();
     await expect(page.getByText('제한시간 180분')).toBeVisible();
     await expect(page.getByText('문항 1 / 23')).toBeVisible();

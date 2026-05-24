@@ -45,6 +45,13 @@ const mockQuizState = vi.hoisted(() => ({
   }>,
 }));
 
+const mockStudyState = vi.hoisted(() => ({
+  totalXP: 120,
+  totalQuizzes: 2,
+  dailyProgress: { quizzesCompleted: 2, quizzesCorrect: 1 },
+  dailyGoal: { quizzes: 10, chapters: 2 },
+}));
+
 vi.mock('next/link', () => ({
   default: ({ href, children, ...props }: { href: string; children: React.ReactNode }) =>
     createElement('a', { href, ...props }, children),
@@ -60,12 +67,7 @@ vi.mock('@/hooks/useMounted', () => ({
 
 vi.mock('@/stores/useStudyStore', () => ({
   useStudyStore: (selector: (state: unknown) => unknown) =>
-    selector({
-      totalXP: 120,
-      totalQuizzes: 2,
-      dailyProgress: { quizzesCompleted: 2, quizzesCorrect: 1 },
-      dailyGoal: { quizzes: 10, chapters: 2 },
-    }),
+    selector(mockStudyState),
 }));
 
 vi.mock('@/stores/useQuizStore', () => ({
@@ -109,8 +111,25 @@ vi.mock('@/components/dashboard/FlashcardReviewStats', () => ({
 
 describe('RecordDashboard', () => {
   beforeEach(() => {
+    mockStudyState.totalXP = 120;
+    mockStudyState.totalQuizzes = 2;
+    mockStudyState.dailyProgress = { quizzesCompleted: 2, quizzesCorrect: 1 };
     mockQuizState.wrongNotes = [];
     mockQuizState.quizHistory = [];
+  });
+
+  it('shows a mock exam A/B preview even before the first quiz record', () => {
+    mockStudyState.totalXP = 0;
+    mockStudyState.totalQuizzes = 0;
+    mockStudyState.dailyProgress = { quizzesCompleted: 0, quizzesCorrect: 0 };
+
+    render(<RecordDashboard />);
+
+    expect(screen.getByText('Mock Exam 전공A/B 미리보기')).toBeDefined();
+    expect(screen.getByText('데모 처방')).toBeDefined();
+    expect(screen.getByText('전공A · 2교시')).toBeDefined();
+    expect(screen.getByText('전공B · 3교시')).toBeDefined();
+    expect(screen.getByText('실전형 23문항 시작')).toBeDefined();
   });
 
   it('shows percent values without multiplying them again', () => {

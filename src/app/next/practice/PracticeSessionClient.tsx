@@ -190,6 +190,11 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
     : draftStatus === 'saved' || lastSavedAt != null
       ? '중간 저장됨'
       : '중간 저장 준비';
+  const compactDraftStatusLabel = draftStatus === 'restored'
+    ? '이어풀기'
+    : draftStatus === 'saved' || lastSavedAt != null
+      ? '저장 완료'
+      : '저장 준비';
 
   const saveDraft = useCallback((nextStatus?: DraftStatus) => {
     if (typeof window === 'undefined') return;
@@ -345,6 +350,37 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
             </p>
           </div>
         </header>
+
+        {isFullMock && (
+          <section className="mt-5 rounded-xl border border-primary/30 bg-primary/5 p-4">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-xs font-semibold text-primary">공식 시험 구조</p>
+                <h2 className="mt-1 text-2xl font-bold tracking-tight">실전형 23문항 모드</h2>
+                <p className="mt-2 text-sm font-semibold text-foreground">전공A/B 180분 80점</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  압축 훈련이 아니라 전공A 2교시와 전공B 3교시를 이어서 보는 전체 모의고사 화면입니다.
+                </p>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-center sm:min-w-[360px]">
+                <div className="rounded-lg bg-background/80 px-3 py-2">
+                  <p className="text-xl font-bold tabular-nums text-primary">{questions.length}</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground">문항</p>
+                </div>
+                <div className="rounded-lg bg-background/80 px-3 py-2">
+                  <p className="text-xl font-bold tabular-nums text-primary">
+                    {Math.round(timeLimitSeconds / 60)}
+                  </p>
+                  <p className="text-[10px] font-semibold text-muted-foreground">분</p>
+                </div>
+                <div className="rounded-lg bg-background/80 px-3 py-2">
+                  <p className="text-xl font-bold tabular-nums text-primary">{questionIndex + 1}/{questions.length}</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground">{compactDraftStatusLabel}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="grid gap-4 py-5 lg:grid-cols-[1fr_280px]">
           <div className="rounded-xl border border-border bg-card p-5">

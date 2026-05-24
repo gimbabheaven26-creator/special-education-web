@@ -73,6 +73,30 @@ type MockExamPaperTrendAccumulator = Omit<MockExamPaperTrend, 'rate' | 'prescrip
 };
 
 const SEW_NEXT_SESSION_WINDOW_MS = 30 * 60 * 1000;
+const MOCK_EXAM_PREVIEW_TRENDS: MockExamPaperTrend[] = [
+  {
+    label: '전공A',
+    period: '2교시',
+    total: 12,
+    correct: 8,
+    rate: 67,
+    possiblePoints: 40,
+    earnedPoints: 27,
+    fullCount: 0,
+    prescription: '전공A 2교시: 단답형은 빠르게 통과하고 서술형 근거 문장을 2개씩 고정하세요.',
+  },
+  {
+    label: '전공B',
+    period: '3교시',
+    total: 11,
+    correct: 7,
+    rate: 64,
+    possiblePoints: 40,
+    earnedPoints: 25,
+    fullCount: 0,
+    prescription: '전공B 3교시: 사례 적용형에서 조건, 절차, 근거를 분리해 다시 풀어 보세요.',
+  },
+];
 
 function getSewNextRouteInfo(sessionId: string): SewNextRouteInfo {
   const mode = sessionId.replace(/^sew-next-/, '');
@@ -199,6 +223,71 @@ function buildSewNextNextAction(sessions: readonly SewNextSessionSummary[]): Sew
   };
 }
 
+function MockExamPaperTrendSection({
+  trends,
+  preview = false,
+}: {
+  trends: readonly MockExamPaperTrend[];
+  preview?: boolean;
+}) {
+  return (
+    <section className="rounded-2xl border border-border bg-card p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold text-muted-foreground">
+            {preview ? 'Mock Exam 전공A/B 미리보기' : 'Mock Exam 전공A/B 추세'}
+          </p>
+          <p className="mt-1 text-sm text-foreground">
+            {preview
+              ? '첫 모의고사를 풀면 이 자리에 실제 시험지별 흐름과 처방이 쌓입니다.'
+              : '압축형과 실전형 모의고사의 시험지별 누적 결과입니다.'}
+          </p>
+        </div>
+        <Link
+          href="/next/practice?mode=mock&variant=full"
+          className="shrink-0 rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:bg-muted"
+        >
+          {preview ? '실전형 23문항 시작' : '실전형'}
+        </Link>
+      </div>
+      <div className="mt-3 grid gap-2">
+        {trends.map((row) => (
+          <div key={row.label} className="rounded-xl bg-muted/40 p-3">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold">{row.label} · {row.period}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {row.total}문항 중 {row.correct}문항 정답 · {row.rate}%
+                </p>
+              </div>
+              <p className="text-sm font-bold tabular-nums text-primary">
+                {row.earnedPoints}/{row.possiblePoints}점
+              </p>
+            </div>
+            {row.fullCount > 0 && (
+              <p className="mt-2 text-[11px] font-semibold text-sky-700 dark:text-sky-300">
+                실전형 {row.fullCount}문항 포함
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-900/60 dark:bg-sky-950/30">
+        <p className="text-xs font-semibold text-sky-700 dark:text-sky-300">
+          {preview ? '데모 처방' : '교시별 약점 처방'}
+        </p>
+        <div className="mt-2 space-y-1">
+          {trends.map((row) => (
+            <p key={`${row.label}-prescription`} className="text-xs leading-relaxed text-foreground">
+              {row.prescription}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function RecordDashboard() {
   const mounted = useMounted();
   const { level, weakness, unmasteredCount, recommendations, currentStreak, subjectWeekly, weakToStrong } = useMyPageData();
@@ -229,8 +318,9 @@ export default function RecordDashboard() {
 
   if (totalQuizzes === 0 && wrongNotesCount === 0 && quizHistory.length === 0) {
     return (
-      <main className="max-w-2xl mx-auto px-4 py-8">
-        <h1 className="text-xl font-bold text-foreground mb-6">내 기록</h1>
+      <main className="max-w-2xl mx-auto px-4 py-8 space-y-5">
+        <h1 className="text-xl font-bold text-foreground">내 기록</h1>
+        <MockExamPaperTrendSection trends={MOCK_EXAM_PREVIEW_TRENDS} preview />
         <EmptyState
           icon="📊"
           title="아직 학습 기록이 없어요"
@@ -342,52 +432,7 @@ export default function RecordDashboard() {
       )}
 
       {mockExamPaperTrends.length > 0 && (
-        <section className="rounded-2xl border border-border bg-card p-4">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold text-muted-foreground">Mock Exam 전공A/B 추세</p>
-              <p className="mt-1 text-sm text-foreground">압축형과 실전형 모의고사의 시험지별 누적 결과입니다.</p>
-            </div>
-            <Link
-              href="/next/practice?mode=mock&variant=full"
-              className="shrink-0 rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:bg-muted"
-            >
-              실전형
-            </Link>
-          </div>
-          <div className="mt-3 grid gap-2">
-            {mockExamPaperTrends.map((row) => (
-              <div key={row.label} className="rounded-xl bg-muted/40 p-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold">{row.label} · {row.period}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {row.total}문항 중 {row.correct}문항 정답 · {row.rate}%
-                    </p>
-                  </div>
-                  <p className="text-sm font-bold tabular-nums text-primary">
-                    {row.earnedPoints}/{row.possiblePoints}점
-                  </p>
-                </div>
-                {row.fullCount > 0 && (
-                  <p className="mt-2 text-[11px] font-semibold text-sky-700 dark:text-sky-300">
-                    실전형 {row.fullCount}문항 포함
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-900/60 dark:bg-sky-950/30">
-            <p className="text-xs font-semibold text-sky-700 dark:text-sky-300">교시별 약점 처방</p>
-            <div className="mt-2 space-y-1">
-              {mockExamPaperTrends.map((row) => (
-                <p key={`${row.label}-prescription`} className="text-xs leading-relaxed text-foreground">
-                  {row.prescription}
-                </p>
-              ))}
-            </div>
-          </div>
-        </section>
+        <MockExamPaperTrendSection trends={mockExamPaperTrends} />
       )}
 
       <div className="grid grid-cols-3 gap-3">
