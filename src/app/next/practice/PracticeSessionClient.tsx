@@ -433,6 +433,51 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
           <aside className="space-y-4">
             {isMockSession && (
               <section className="rounded-xl border border-border bg-card p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="text-sm font-bold">문항 팔레트</h2>
+                  <button
+                    type="button"
+                    onClick={() => saveDraft('saved')}
+                    className="inline-flex min-h-[34px] items-center justify-center rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
+                  >
+                    중간 저장
+                  </button>
+                </div>
+                <p className="mt-2 text-xs font-semibold text-primary">{draftStatusLabel}</p>
+                <div className="mt-3 grid grid-cols-6 gap-1.5">
+                  {questions.map((item, index) => {
+                    const status = getPaletteStatus(index, item);
+                    const statusWithParticle = status === '미응답' ? '미응답으로' : `${status}로`;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        aria-label={`문항 ${index + 1} ${statusWithParticle} 이동`}
+                        onClick={() => moveToQuestion(index)}
+                        className={cn(
+                          'flex h-9 w-9 items-center justify-center rounded-md border text-xs font-bold tabular-nums transition-colors',
+                          status === '현재'
+                            ? 'border-primary bg-primary text-primary-foreground'
+                            : status === '완료'
+                              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300'
+                              : 'border-border bg-muted/40 text-muted-foreground hover:bg-muted',
+                        )}
+                      >
+                        {index + 1}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="mt-3 grid grid-cols-3 gap-1.5 text-[10px] font-medium text-muted-foreground">
+                  <span>현재</span>
+                  <span>완료</span>
+                  <span>미응답</span>
+                </div>
+              </section>
+            )}
+
+            {isMockSession && (
+              <section className="rounded-xl border border-border bg-card p-4">
                 <h2 className="text-sm font-bold">Mock timer</h2>
                 <p className="mt-2 text-3xl font-bold tabular-nums text-primary">{formatTimer(remainingSeconds)}</p>
                 <p className="mt-1 text-xs text-muted-foreground">
@@ -491,51 +536,6 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                     23문항 실전형 열기
                   </Link>
                 )}
-              </section>
-            )}
-
-            {isMockSession && (
-              <section className="rounded-xl border border-border bg-card p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-sm font-bold">문항 팔레트</h2>
-                  <button
-                    type="button"
-                    onClick={() => saveDraft('saved')}
-                    className="inline-flex min-h-[34px] items-center justify-center rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
-                  >
-                    중간 저장
-                  </button>
-                </div>
-                <p className="mt-2 text-xs font-semibold text-primary">{draftStatusLabel}</p>
-                <div className="mt-3 grid grid-cols-6 gap-1.5">
-                  {questions.map((item, index) => {
-                    const status = getPaletteStatus(index, item);
-                    const statusWithParticle = status === '미응답' ? '미응답으로' : `${status}로`;
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        aria-label={`문항 ${index + 1} ${statusWithParticle} 이동`}
-                        onClick={() => moveToQuestion(index)}
-                        className={cn(
-                          'flex h-9 w-9 items-center justify-center rounded-md border text-xs font-bold tabular-nums transition-colors',
-                          status === '현재'
-                            ? 'border-primary bg-primary text-primary-foreground'
-                            : status === '완료'
-                              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300'
-                              : 'border-border bg-muted/40 text-muted-foreground hover:bg-muted',
-                        )}
-                      >
-                        {index + 1}
-                      </button>
-                    );
-                  })}
-                </div>
-                <div className="mt-3 grid grid-cols-3 gap-1.5 text-[10px] font-medium text-muted-foreground">
-                  <span>현재</span>
-                  <span>완료</span>
-                  <span>미응답</span>
-                </div>
               </section>
             )}
 
