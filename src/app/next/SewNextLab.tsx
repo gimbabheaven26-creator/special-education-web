@@ -71,6 +71,23 @@ const sewNextTopNavigation = topNavigation.map((item) =>
   item.label === '모의고사' ? { ...item, href: '/next/practice?mode=mock' } : item
 );
 
+type CommandActionKey = 'fullMock' | 'risk' | 'record';
+
+interface CommandBoardStats {
+  fullMock: number;
+  risk: number;
+  record: number;
+  lastAction: CommandActionKey | null;
+}
+
+const COMMAND_BOARD_STORAGE_KEY = 'sew-next-command-board';
+const initialCommandBoardStats: CommandBoardStats = {
+  fullMock: 0,
+  risk: 0,
+  record: 0,
+  lastAction: null,
+};
+
 function statusLabel(status: ReadinessStatus) {
   if (status === 'strong') return '안정';
   if (status === 'watch') return '관찰';
@@ -89,12 +106,16 @@ function CommandLink({
   metric,
   note,
   tone,
+  actionKey,
+  onSelect,
 }: {
   href: string;
   label: string;
   metric: string;
   note: string;
   tone: 'primary' | 'risk' | 'record';
+  actionKey: CommandActionKey;
+  onSelect: (actionKey: CommandActionKey) => void;
 }) {
   const toneClass = {
     primary: 'border-primary/40 bg-primary/5 text-primary hover:bg-primary/10',
@@ -105,6 +126,7 @@ function CommandLink({
   return (
     <Link
       href={href}
+      onClick={() => onSelect(actionKey)}
       className={cn(
         'group flex min-h-[96px] flex-col justify-between rounded-lg border px-4 py-3 transition-colors',
         toneClass,
@@ -118,6 +140,26 @@ function CommandLink({
       </span>
     </Link>
   );
+}
+
+function readCommandBoardStats(): CommandBoardStats {
+  if (typeof window === 'undefined') return initialCommandBoardStats;
+
+  try {
+    const raw = localStorage.getItem(COMMAND_BOARD_STORAGE_KEY);
+    if (!raw) return initialCommandBoardStats;
+    const parsed = JSON.parse(raw) as Partial<CommandBoardStats>;
+    return {
+      fullMock: typeof parsed.fullMock === 'number' ? parsed.fullMock : 0,
+      risk: typeof parsed.risk === 'number' ? parsed.risk : 0,
+      record: typeof parsed.record === 'number' ? parsed.record : 0,
+      lastAction: parsed.lastAction === 'fullMock' || parsed.lastAction === 'risk' || parsed.lastAction === 'record'
+        ? parsed.lastAction
+        : null,
+    };
+  } catch {
+    return initialCommandBoardStats;
+  }
 }
 
 function MetricCard({ metric }: { metric: (typeof readinessMetrics)[number] }) {
@@ -217,6 +259,7 @@ function ModePanel({ mode }: { mode: PracticeMode }) {
 
 export function SewNextLab() {
   const [activeMode, setActiveMode] = useState<PracticeModeId>('adaptive');
+  const [commandBoardStats, setCommandBoardStats] = useState<CommandBoardStats>(initialCommandBoardStats);
   const [readinessSnapshot, setReadinessSnapshot] = useState<ReadinessSnapshot>(() =>
     buildReadinessSnapshot({ quizHistory: [], wrongNotes: [] })
   );
@@ -228,7 +271,25 @@ export function SewNextLab() {
 
   useEffect(() => {
     setReadinessSnapshot(readReadinessSnapshotFromLocalStorage());
+    setCommandBoardStats(readCommandBoardStats());
   }, []);
+
+  function handleCommandAction(actionKey: CommandActionKey) {
+    setCommandBoardStats((current) => {
+      const next = {
+        ...current,
+        [actionKey]: current[actionKey] + 1,
+        lastAction: actionKey,
+      };
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(COMMAND_BOARD_STORAGE_KEY, JSON.stringify(next));
+      }
+      return next;
+    });
+  }
+
+  const commandBoardTotal =
+    commandBoardStats.fullMock + commandBoardStats.risk + commandBoardStats.record;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -270,6 +331,11 @@ export function SewNextLab() {
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                   남은 시간, 고위험 영역, 기록 피드백을 한 번에 보고 오늘의 첫 행동을 고릅니다.
                 </p>
+                {commandBoardTotal > 0 && (
+                  <p className="mt-2 text-xs font-semibold text-primary">
+                    작전판 선택 {commandBoardTotal}회 · 실전 {commandBoardStats.fullMock} · 위험 {commandBoardStats.risk} · 기록 {commandBoardStats.record}
+                  </p>
+                )}
               </div>
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900/60 dark:bg-amber-950/30">
                 <p className="text-xs font-semibold text-amber-700 dark:text-amber-300">현재 판정</p>
@@ -285,6 +351,8 @@ export function SewNextLab() {
                 metric="실전형 23문항 시작"
                 note="전공A/B 전체 점검"
                 tone="primary"
+                actionKey="fullMock"
+                onSelect={handleCommandAction}
               />
               <CommandLink
                 href="#readiness"
@@ -292,6 +360,8 @@ export function SewNextLab() {
                 metric="고위험 영역 3개 점검"
                 note="처방 근거 보기"
                 tone="risk"
+                actionKey="risk"
+                onSelect={handleCommandAction}
               />
               <CommandLink
                 href="/record"
@@ -299,6 +369,8 @@ export function SewNextLab() {
                 metric="기록에서 결과 확인"
                 note="전공A/B 추세 보기"
                 tone="record"
+                actionKey="record"
+                onSelect={handleCommandAction}
               />
             </div>
           </div>

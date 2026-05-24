@@ -27,6 +27,8 @@ interface NextPracticePageProps {
     difficulty?: string;
     format?: string;
     variant?: string;
+    paper?: string;
+    focus?: string;
   };
 }
 
@@ -60,6 +62,8 @@ export default async function NextPracticePage({ searchParams }: NextPracticePag
       quizzes,
       fallback: practiceSessions.mock,
       variant: getMockVariant(searchParams?.variant),
+      paperFocus: searchParams?.paper,
+      formatFocus: searchParams?.focus,
     });
   }
 

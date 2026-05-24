@@ -65,14 +65,27 @@ interface MockExamPaperTrend {
   possiblePoints: number;
   earnedPoints: number;
   fullCount: number;
+  weakestFormat: string;
+  actionHref: string;
   prescription: string;
 }
 
-type MockExamPaperTrendAccumulator = Omit<MockExamPaperTrend, 'rate' | 'prescription'> & {
+type MockExamPaperTrendAccumulator = Omit<MockExamPaperTrend, 'rate' | 'weakestFormat' | 'actionHref' | 'prescription'> & {
   formatMisses: Record<string, number>;
 };
 
 const SEW_NEXT_SESSION_WINDOW_MS = 30 * 60 * 1000;
+
+function buildMockExamFollowUpHref(label: string, format: string): string {
+  const params = new URLSearchParams({
+    mode: 'mock',
+    variant: 'full',
+    paper: label,
+    focus: format,
+  });
+  return `/next/practice?${params.toString()}`;
+}
+
 const MOCK_EXAM_PREVIEW_TRENDS: MockExamPaperTrend[] = [
   {
     label: '전공A',
@@ -83,6 +96,8 @@ const MOCK_EXAM_PREVIEW_TRENDS: MockExamPaperTrend[] = [
     possiblePoints: 40,
     earnedPoints: 27,
     fullCount: 0,
+    weakestFormat: '서술형',
+    actionHref: buildMockExamFollowUpHref('전공A', '서술형'),
     prescription: '전공A 2교시: 단답형은 빠르게 통과하고 서술형 근거 문장을 2개씩 고정하세요.',
   },
   {
@@ -94,6 +109,8 @@ const MOCK_EXAM_PREVIEW_TRENDS: MockExamPaperTrend[] = [
     possiblePoints: 40,
     earnedPoints: 25,
     fullCount: 0,
+    weakestFormat: '사례 적용형',
+    actionHref: buildMockExamFollowUpHref('전공B', '사례 적용형'),
     prescription: '전공B 3교시: 사례 적용형에서 조건, 절차, 근거를 분리해 다시 풀어 보세요.',
   },
 ];
@@ -201,6 +218,8 @@ function buildMockExamPaperTrends(quizHistory: readonly QuizResult[]): MockExamP
       return {
         ...row,
         rate,
+        weakestFormat,
+        actionHref: buildMockExamFollowUpHref(row.label, weakestFormat),
         prescription: rate >= 80
           ? `${row.label} ${row.period}: 현재 흐름을 유지하고 실전형에서 시간 배분을 확인하세요.`
           : `${row.label} ${row.period}: ${weakestFormat} 2문항을 실전형으로 이어 풀어 보세요.`,
@@ -268,6 +287,14 @@ function MockExamPaperTrendSection({
               <p className="mt-2 text-[11px] font-semibold text-sky-700 dark:text-sky-300">
                 실전형 {row.fullCount}문항 포함
               </p>
+            )}
+            {!preview && (
+              <Link
+                href={row.actionHref}
+                className="mt-3 inline-flex min-h-[34px] items-center justify-center rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-semibold hover:bg-muted"
+              >
+                {row.label} 약점 문항 이어풀기
+              </Link>
             )}
           </div>
         ))}

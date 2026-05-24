@@ -676,6 +676,26 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
           </section>
         )}
 
+        {showSummary && isFullMock && (
+          <section className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-950 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-50" aria-live="polite">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">실전형 23문항</p>
+                <h2 className="mt-1 text-2xl font-bold tracking-tight">오늘 실전 점검 완료</h2>
+                <p className="mt-2 text-sm leading-relaxed text-emerald-800 dark:text-emerald-100">
+                  전공A/B 전체 결과가 내 기록에 반영됩니다.
+                </p>
+              </div>
+              <Link
+                href="/record"
+                className="inline-flex min-h-[42px] items-center justify-center rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800"
+              >
+                기록에서 전공A/B 결과 보기
+              </Link>
+            </div>
+          </section>
+        )}
+
         {showSummary && isMockSession && (
           <section className="mt-4 rounded-xl border border-border bg-card p-5" aria-live="polite">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

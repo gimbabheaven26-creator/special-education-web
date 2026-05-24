@@ -19,6 +19,18 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByText('오늘의 처방')).toBeVisible();
     await expect(page.getByText('긍정적 행동지원과 기능평가')).toBeVisible();
     await expect(page.getByRole('button', { name: /처방 세션/ })).toHaveAttribute('aria-pressed', 'true');
+
+    await page.getByRole('link', { name: /고위험 영역 3개 점검/ }).click();
+    await expect(page.locator('#readiness')).toBeInViewport();
+    await expect(page.getByText('작전판 선택 1회')).toBeVisible();
+    const commandBoardStats = await page.evaluate(() => {
+      const raw = localStorage.getItem('sew-next-command-board');
+      return raw ? JSON.parse(raw) : null;
+    });
+    expect(commandBoardStats).toMatchObject({
+      risk: 1,
+      lastAction: 'risk',
+    });
   });
 
   test('practice mode switch updates the session panel', async ({ page }) => {
@@ -146,6 +158,24 @@ test.describe('SEW Next (/next)', () => {
     await page.getByRole('button', { name: '문항 1 완료로 이동' }).click();
     await expect(page.getByText('문항 1 / 23')).toBeVisible();
     await expect(page.getByText('AI Answer Coach')).toBeVisible();
+  });
+
+  test('full mock completion celebrates the official exam check and links to records', async ({ page }) => {
+    await page.goto('/next/practice?mode=mock&variant=full');
+    await page.waitForLoadState('domcontentloaded');
+
+    for (let index = 0; index < 23; index += 1) {
+      await page.getByRole('radio').first().check();
+      await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
+      if (await page.getByRole('heading', { name: 'Mock Exam 리포트' }).isVisible().catch(() => false)) {
+        break;
+      }
+      await page.getByRole('button', { name: '다음 문항' }).click();
+    }
+
+    await expect(page.getByRole('heading', { name: '오늘 실전 점검 완료' })).toBeVisible();
+    await expect(page.getByText('전공A/B 전체 결과가 내 기록에 반영됩니다.')).toBeVisible();
+    await expect(page.getByRole('link', { name: '기록에서 전공A/B 결과 보기' })).toHaveAttribute('href', '/record');
   });
 
   test('adaptive primary action opens a native SEW Next practice session', async ({ page }) => {

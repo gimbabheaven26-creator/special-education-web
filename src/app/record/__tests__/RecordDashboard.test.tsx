@@ -335,5 +335,8 @@ describe('RecordDashboard', () => {
     expect(screen.getByText('실전형 1문항 포함')).toBeDefined();
     expect(screen.getByText('교시별 약점 처방')).toBeDefined();
     expect(screen.getByText('전공A 2교시: 서술형 2문항을 실전형으로 이어 풀어 보세요.')).toBeDefined();
+    expect(screen.getByText('전공A 약점 문항 이어풀기').getAttribute('href')).toBe(
+      '/next/practice?mode=mock&variant=full&paper=%EC%A0%84%EA%B3%B5A&focus=%EC%84%9C%EC%88%A0%ED%98%95',
+    );
   });
 });

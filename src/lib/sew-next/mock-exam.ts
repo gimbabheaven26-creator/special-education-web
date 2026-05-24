@@ -141,12 +141,16 @@ function getBalancedMockQuestions(quizzes: QuizQuestion[], questionCount: number
 
 export function buildMockExamSession({
   fallback,
+  formatFocus,
+  paperFocus,
   questionCount,
   quizzes,
   timeLimitSeconds,
   variant = 'quick',
 }: {
   fallback: PracticeSession;
+  formatFocus?: string;
+  paperFocus?: string;
   questionCount?: number;
   quizzes: QuizQuestion[];
   timeLimitSeconds?: number;
@@ -172,6 +176,7 @@ export function buildMockExamSession({
     }, new Map<string, number>()),
     ([domain, count]) => ({ domain, count }),
   );
+  const focusLabel = paperFocus && formatFocus ? `${paperFocus} ${formatFocus} 약점 문항` : null;
 
   return {
     ...fallback,
@@ -180,8 +185,9 @@ export function buildMockExamSession({
         ? `실제 DB 문제은행에서 공식 전공A/B ${questions.length}문항을 실전형으로 편성했습니다.`
         : `실제 DB 문제은행에서 전공A/B 구조를 압축한 ${questions.length}문항을 균형 편성했습니다.`
       : fallback.subtitle,
-    focus: variant === 'full' ? '전공A/B 실전형 모의고사' : '전공A/B 압축 실전 모의고사',
+    focus: focusLabel ?? (variant === 'full' ? '전공A/B 실전형 모의고사' : '전공A/B 압축 실전 모의고사'),
     queue: [
+      ...(focusLabel ? [focusLabel] : []),
       variant === 'full' ? `실전형 ${questions.length}문항` : `압축 훈련 ${questions.length}문항`,
       `제한시간 ${formatLimit(targetTimeLimitSeconds)}`,
       ...examPapers.map((paper) =>
