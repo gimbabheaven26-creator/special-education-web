@@ -261,6 +261,11 @@ function MockExamPaperTrendSection({
               ? '첫 모의고사를 풀면 이 자리에 실제 시험지별 흐름과 처방이 쌓입니다.'
               : '압축형과 실전형 모의고사의 시험지별 누적 결과입니다.'}
           </p>
+          {!preview && (
+            <p className="mt-1 text-xs font-semibold text-sky-700 dark:text-sky-300">
+              이어풀기 후 기록으로 돌아오면 전공A/B 추세가 갱신됩니다.
+            </p>
+          )}
         </div>
         <Link
           href="/next/practice?mode=mock&variant=full"

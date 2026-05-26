@@ -23,6 +23,7 @@ test.describe('SEW Next (/next)', () => {
     await page.getByRole('link', { name: /고위험 영역 3개 점검/ }).click();
     await expect(page.locator('#readiness')).toBeInViewport();
     await expect(page.getByText('작전판 선택 1회')).toBeVisible();
+    await expect(page.getByText('오늘 가장 많이 선택한 행동: 고위험 영역 점검')).toBeVisible();
     const commandBoardStats = await page.evaluate(() => {
       const raw = localStorage.getItem('sew-next-command-board');
       return raw ? JSON.parse(raw) : null;
@@ -175,6 +176,8 @@ test.describe('SEW Next (/next)', () => {
 
     await expect(page.getByRole('heading', { name: '오늘 실전 점검 완료' })).toBeVisible();
     await expect(page.getByText('전공A/B 전체 결과가 내 기록에 반영됩니다.')).toBeVisible();
+    await expect(page.getByText('전공A 다음 10분 처방')).toBeVisible();
+    await expect(page.getByText('전공B 다음 10분 처방')).toBeVisible();
     await expect(page.getByRole('link', { name: '기록에서 전공A/B 결과 보기' })).toHaveAttribute('href', '/record');
   });
 

@@ -162,6 +162,24 @@ function readCommandBoardStats(): CommandBoardStats {
   }
 }
 
+function getCommandActionLabel(actionKey: CommandActionKey): string {
+  if (actionKey === 'fullMock') return '실전형 23문항 시작';
+  if (actionKey === 'risk') return '고위험 영역 점검';
+  return '기록에서 결과 확인';
+}
+
+function getMostSelectedCommandAction(stats: CommandBoardStats): CommandActionKey | null {
+  const entries: Array<[CommandActionKey, number]> = [
+    ['fullMock', stats.fullMock],
+    ['risk', stats.risk],
+    ['record', stats.record],
+  ];
+  const highest = Math.max(...entries.map(([, count]) => count));
+  if (highest <= 0) return null;
+  if (stats.lastAction && stats[stats.lastAction] === highest) return stats.lastAction;
+  return entries.find(([, count]) => count === highest)?.[0] ?? null;
+}
+
 function MetricCard({ metric }: { metric: (typeof readinessMetrics)[number] }) {
   return (
     <div className={cn('rounded-lg border p-3', toneStyles[metric.tone])}>
@@ -290,6 +308,7 @@ export function SewNextLab() {
 
   const commandBoardTotal =
     commandBoardStats.fullMock + commandBoardStats.risk + commandBoardStats.record;
+  const mostSelectedCommandAction = getMostSelectedCommandAction(commandBoardStats);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -332,9 +351,16 @@ export function SewNextLab() {
                   남은 시간, 고위험 영역, 기록 피드백을 한 번에 보고 오늘의 첫 행동을 고릅니다.
                 </p>
                 {commandBoardTotal > 0 && (
-                  <p className="mt-2 text-xs font-semibold text-primary">
-                    작전판 선택 {commandBoardTotal}회 · 실전 {commandBoardStats.fullMock} · 위험 {commandBoardStats.risk} · 기록 {commandBoardStats.record}
-                  </p>
+                  <div className="mt-2 space-y-1">
+                    <p className="text-xs font-semibold text-primary">
+                      작전판 선택 {commandBoardTotal}회 · 실전 {commandBoardStats.fullMock} · 위험 {commandBoardStats.risk} · 기록 {commandBoardStats.record}
+                    </p>
+                    {mostSelectedCommandAction && (
+                      <p className="text-xs font-semibold text-foreground">
+                        오늘 가장 많이 선택한 행동: {getCommandActionLabel(mostSelectedCommandAction)}
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900/60 dark:bg-amber-950/30">

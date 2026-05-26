@@ -265,6 +265,7 @@ test.describe('/record 대시보드', () => {
     await expect(page.getByText('실전형 1문항 포함')).toBeVisible();
     await expect(page.getByText('교시별 약점 처방')).toBeVisible();
     await expect(page.getByText('전공A 2교시: 서술형 2문항을 실전형으로 이어 풀어 보세요.')).toBeVisible();
+    await expect(page.getByText('이어풀기 후 기록으로 돌아오면 전공A/B 추세가 갱신됩니다.')).toBeVisible();
     await expect(page.getByRole('link', { name: '전공A 약점 문항 이어풀기' })).toHaveAttribute(
       'href',
       '/next/practice?mode=mock&variant=full&paper=%EC%A0%84%EA%B3%B5A&focus=%EC%84%9C%EC%88%A0%ED%98%95',

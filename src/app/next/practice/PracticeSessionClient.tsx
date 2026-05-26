@@ -86,6 +86,25 @@ function getSyncStatusLabel(status: SewNextSyncStatus): string {
   return '로컬 저장 준비';
 }
 
+function getPaperTenMinutePrescription({
+  correct,
+  label,
+  total,
+}: {
+  correct: number;
+  label: string;
+  total: number;
+}): string {
+  const missed = Math.max(0, total - correct);
+  if (missed === 0) {
+    return '맞힌 문항의 핵심 근거를 한 줄로 압축하고, 같은 속도로 다음 시험지로 넘어갑니다.';
+  }
+  if (missed >= 3) {
+    return `${label} 오답 ${missed}문항의 조건, 절차, 근거를 분리해 다시 표시하세요.`;
+  }
+  return `${label} 오답 ${missed}문항의 선지 함정을 지우고 근거 문장 2개를 다시 고정하세요.`;
+}
+
 function getDraftStorageKey(session: PracticeSession): string {
   return `sew-next-practice-draft:${session.mode}:${session.mockVariant ?? 'standard'}`;
 }
@@ -740,6 +759,23 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                       </div>
                       <p className="mt-1 text-xs text-muted-foreground">
                         {row.total}문항 중 {row.correct}문항 정답 · {row.rate}%
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {isFullMock && mockReport.paperRows.length > 0 && (
+              <div className="mt-4">
+                <h3 className="text-sm font-bold">전공A/B 다음 10분 처방</h3>
+                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                  {mockReport.paperRows.map((row) => (
+                    <div key={`${row.label}-ten-minute`} className="rounded-lg border border-amber-200 bg-amber-50 p-3 dark:border-amber-900/60 dark:bg-amber-950/30">
+                      <p className="text-sm font-bold text-amber-800 dark:text-amber-200">
+                        {row.label} 다음 10분 처방
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed text-amber-900 dark:text-amber-100">
+                        {getPaperTenMinutePrescription(row)}
                       </p>
                     </div>
                   ))}
