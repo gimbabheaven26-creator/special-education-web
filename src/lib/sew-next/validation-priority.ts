@@ -42,7 +42,7 @@ const PRIORITIES: Record<ValidationPriority['id'], ValidationPriority> = {
     id: 'record-next-action',
     label: 'Record 다음 처방',
     reason: '기록이 활동 로그로만 보이면 최근 세션에서 바로 이어 풀 다음 행동을 제시해야 합니다.',
-    actionHref: '/record',
+    actionHref: '/next/results',
   },
 };
 

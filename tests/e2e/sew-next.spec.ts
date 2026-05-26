@@ -1,4 +1,113 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+async function seedSewNextTrendData(page: Page) {
+  await page.goto('/next/results');
+  await page.evaluate(() => {
+    const now = Date.now();
+    const today = new Date().toISOString().slice(0, 10);
+    localStorage.setItem('quiz-data', JSON.stringify({
+      state: {
+        wrongNotes: [],
+        quizHistory: [
+          {
+            questionId: 'sew-old-1',
+            isCorrect: true,
+            subject: '정서행동장애',
+            chapter: '기능평가',
+            timestamp: now - 2 * 60 * 60 * 1000,
+            sessionId: 'sew-next-adaptive',
+          },
+          {
+            questionId: 'sew-middle-1',
+            isCorrect: false,
+            subject: '특수교육공학',
+            chapter: '보조공학',
+            timestamp: now - 60 * 60 * 1000,
+            sessionId: 'sew-next-custom',
+          },
+          {
+            questionId: 'sew-middle-2',
+            isCorrect: true,
+            subject: '특수교육공학',
+            chapter: '보조공학',
+            timestamp: now - 60 * 60 * 1000 + 1000,
+            sessionId: 'sew-next-custom',
+          },
+          {
+            questionId: 'sew-latest-1',
+            isCorrect: true,
+            subject: '관련 법령',
+            chapter: 'IEP',
+            timestamp: now,
+            sessionId: 'sew-next-mock',
+            sewNextExamMeta: {
+              paperLabel: '전공A',
+              period: '2교시',
+              questionNumber: 1,
+              format: '단답형',
+              points: 2,
+              mockVariant: 'quick',
+            },
+          },
+          {
+            questionId: 'sew-latest-2',
+            isCorrect: false,
+            subject: '정서행동장애',
+            chapter: 'FBA',
+            timestamp: now + 1000,
+            sessionId: 'sew-next-mock',
+            sewNextExamMeta: {
+              paperLabel: '전공B',
+              period: '3교시',
+              questionNumber: 1,
+              format: '서술형',
+              points: 4,
+              mockVariant: 'quick',
+            },
+          },
+          {
+            questionId: 'sew-full-a-1',
+            isCorrect: false,
+            subject: '교육과정',
+            chapter: '기본 교육과정',
+            timestamp: now + 2 * 60 * 60 * 1000,
+            sessionId: 'sew-next-mock-full',
+            sewNextExamMeta: {
+              paperLabel: '전공A',
+              period: '2교시',
+              questionNumber: 2,
+              format: '서술형',
+              points: 4,
+              mockVariant: 'full',
+            },
+          },
+        ],
+        diagnosticSessions: [],
+        feedbacks: [],
+        errorReports: [],
+      },
+      version: 5,
+    }));
+    localStorage.setItem('special-edu-study', JSON.stringify({
+      state: {
+        currentStreak: 1,
+        longestStreak: 1,
+        lastActiveDate: today,
+        dailyProgress: { date: today, chaptersCompleted: 0, quizzesCompleted: 4, quizzesCorrect: 3, flashcardsReviewed: 0 },
+        dailyGoal: { chapters: 2, quizzes: 10 },
+        recentActivities: [],
+        totalXP: 40,
+        totalQuizzes: 4,
+        totalCorrect: 3,
+        dailyHistory: [],
+        scenarioProgress: {},
+        spacedScenarioSchedules: {},
+        completedChapters: {},
+      },
+      version: 7,
+    }));
+  });
+}
 
 test.describe('SEW Next (/next)', () => {
   test('readiness cockpit and prescribed session render above the fold', async ({ page }) => {
@@ -13,7 +122,7 @@ test.describe('SEW Next (/next)', () => {
       '/next/practice?mode=mock&variant=full',
     );
     await expect(page.getByRole('link', { name: /고위험 영역 3개 점검/ })).toHaveAttribute('href', '#readiness');
-    await expect(page.getByRole('link', { name: /기록에서 결과 확인/ })).toHaveAttribute('href', '/record');
+    await expect(page.getByRole('link', { name: /기록에서 결과 확인/ })).toHaveAttribute('href', '/next/results');
     await expect(page.getByText('2027 특수교육 임용 준비도')).toBeVisible();
     await expect(page.getByText('고위험 출제 영역')).toBeVisible();
     await expect(page.getByText('오늘의 처방')).toBeVisible();
@@ -175,10 +284,10 @@ test.describe('SEW Next (/next)', () => {
     }
 
     await expect(page.getByRole('heading', { name: '오늘 실전 점검 완료' })).toBeVisible();
-    await expect(page.getByText('전공A/B 전체 결과가 내 기록에 반영됩니다.')).toBeVisible();
+    await expect(page.getByText('전공A/B 전체 결과가 Next 결과판에 반영됩니다.')).toBeVisible();
     await expect(page.getByText('전공A 다음 10분 처방')).toBeVisible();
     await expect(page.getByText('전공B 다음 10분 처방')).toBeVisible();
-    await expect(page.getByRole('link', { name: '기록에서 전공A/B 결과 보기' })).toHaveAttribute('href', '/record');
+    await expect(page.getByRole('link', { name: '기록에서 전공A/B 결과 보기' })).toHaveAttribute('href', '/next/results');
   });
 
   test('adaptive primary action opens a native SEW Next practice session', async ({ page }) => {
@@ -307,7 +416,30 @@ test.describe('SEW Next (/next)', () => {
     );
   });
 
-  test('record dashboard highlights completed SEW Next session', async ({ page }) => {
+  test('next results highlights completed SEW Next sessions and mock trends', async ({ page }) => {
+    await seedSewNextTrendData(page);
+    await page.goto('/next/results');
+
+    await expect(page.getByRole('heading', { name: 'SEW Next Results' })).toBeVisible();
+    await expect(page.getByText('최근 SEW Next 세션')).toBeVisible();
+    await expect(page.getByText('최근 3회 SEW Next 흐름')).toBeVisible();
+    await expect(page.getByText('Full Mock Exam').first()).toBeVisible();
+    await expect(page.getByText('Mock Exam').first()).toBeVisible();
+    await expect(page.getByText('Custom Qbank')).toBeVisible();
+    await expect(page.getByText('다음 추천 학습')).toBeVisible();
+    await expect(page.getByText('교육과정 기본 교육과정을 2문항만 더 풀어 보세요.')).toBeVisible();
+    await expect(page.getByText('Mock Exam 전공A/B 추세')).toBeVisible();
+    await expect(page.getByText('전공A · 2교시')).toBeVisible();
+    await expect(page.getByText('전공B · 3교시')).toBeVisible();
+    await expect(page.getByText('실전형 1문항 포함')).toBeVisible();
+    await expect(page.getByText('교시별 약점 처방')).toBeVisible();
+    await expect(page.getByRole('link', { name: '전공A 약점 문항 이어풀기' })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock&variant=full&paper=%EC%A0%84%EA%B3%B5A&focus=%EC%84%9C%EC%88%A0%ED%98%95',
+    );
+  });
+
+  test('next results reflects a completed adaptive session', async ({ page }) => {
     await page.goto('/next/practice?mode=adaptive');
     await page.waitForLoadState('domcontentloaded');
 
@@ -317,7 +449,7 @@ test.describe('SEW Next (/next)', () => {
     await page.getByRole('radio', { name: /행동 직후 따라오는 반응/ }).check();
     await page.getByRole('button', { name: '제출하고 해설 보기' }).click();
 
-    await page.goto('/record');
+    await page.goto('/next/results');
 
     await expect(page.getByText('최근 SEW Next 세션')).toBeVisible();
     await expect(page.getByText('Adaptive Readiness')).toBeVisible();
@@ -325,7 +457,7 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByText('정서행동장애', { exact: true })).toBeVisible();
   });
 
-  test('top navigation links to cockpit sections and live Classic routes', async ({ page }) => {
+  test('top navigation links to cockpit sections and Next-owned results', async ({ page }) => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');
 
@@ -333,7 +465,7 @@ test.describe('SEW Next (/next)', () => {
     await expect(page.getByRole('link', { name: '문제풀이' })).toHaveAttribute('href', '#practice');
     await expect(page.getByRole('link', { name: '모의고사' })).toHaveAttribute('href', '/next/practice?mode=mock');
     await expect(page.getByRole('link', { name: '개념창고' })).toHaveAttribute('href', '/concepts');
-    await expect(page.getByRole('link', { name: '기록', exact: true })).toHaveAttribute('href', '/record');
+    await expect(page.getByRole('link', { name: '기록', exact: true })).toHaveAttribute('href', '/next/results');
     await expect(page.getByRole('link', { name: 'AI 실험실' })).toHaveAttribute('href', '/admin/ai-generate');
     await expect(page.getByText('검증 기반 다음 개선')).toBeVisible();
     await expect(page.getByText('Readiness 근거 설명')).toBeVisible();

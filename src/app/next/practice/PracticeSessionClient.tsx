@@ -702,11 +702,11 @@ export function PracticeSessionClient({ session }: PracticeSessionClientProps) {
                 <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">실전형 23문항</p>
                 <h2 className="mt-1 text-2xl font-bold tracking-tight">오늘 실전 점검 완료</h2>
                 <p className="mt-2 text-sm leading-relaxed text-emerald-800 dark:text-emerald-100">
-                  전공A/B 전체 결과가 내 기록에 반영됩니다.
+                  전공A/B 전체 결과가 Next 결과판에 반영됩니다.
                 </p>
               </div>
               <Link
-                href="/record"
+                href="/next/results"
                 className="inline-flex min-h-[42px] items-center justify-center rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800"
               >
                 기록에서 전공A/B 결과 보기

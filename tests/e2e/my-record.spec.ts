@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
 async function seedRecordData(page: Page) {
-  await page.goto('/');
+  await page.goto('/record');
   await page.evaluate(() => {
     const now = Date.now();
     const today = new Date().toISOString().slice(0, 10);
@@ -50,7 +50,7 @@ async function seedRecordData(page: Page) {
 }
 
 async function seedSewNextTrendData(page: Page) {
-  await page.goto('/');
+  await page.goto('/record');
   await page.evaluate(() => {
     const now = Date.now();
     const today = new Date().toISOString().slice(0, 10);
@@ -220,16 +220,12 @@ test.describe('/record 대시보드', () => {
     expect(hasMetrics + hasCTA + hasContent).toBeGreaterThan(0);
   });
 
-  test('빈 기록에서도 Mock Exam A/B 미리보기를 표시', async ({ page }) => {
+  test('빈 기록에서는 SEW Next 전용 미리보기를 표시하지 않음', async ({ page }) => {
     await page.goto('/record');
     await expect(page.getByRole('main').first()).toBeVisible();
 
-    await expect(page.getByText('Mock Exam 전공A/B 미리보기')).toBeVisible();
-    await expect(page.getByText('데모 처방')).toBeVisible();
-    await expect(page.getByRole('link', { name: '실전형 23문항 시작' })).toHaveAttribute(
-      'href',
-      '/next/practice?mode=mock&variant=full',
-    );
+    await expect(page.getByText('Mock Exam 전공A/B 미리보기')).toHaveCount(0);
+    await expect(page.getByText('최근 SEW Next 세션')).toHaveCount(0);
   });
 
   test('정답률과 과목/챕터 이름을 사용자용 문구로 표시', async ({ page }) => {
@@ -247,32 +243,14 @@ test.describe('/record 대시보드', () => {
     await expect(page.getByText(/^special-education-act$/)).toHaveCount(0);
   });
 
-  test('SEW Next 최근 3회 세션 흐름을 표시', async ({ page }) => {
+  test('Classic 기록은 SEW Next 결과 패널을 렌더링하지 않음', async ({ page }) => {
     await seedSewNextTrendData(page);
     await page.goto('/record');
 
-    await expect(page.getByText('최근 SEW Next 세션')).toBeVisible();
-    await expect(page.getByText('최근 3회 SEW Next 흐름')).toBeVisible();
-    await expect(page.getByText('Full Mock Exam').first()).toBeVisible();
-    await expect(page.getByText('Mock Exam').first()).toBeVisible();
-    await expect(page.getByText('Custom Qbank')).toBeVisible();
-    await expect(page.getByText('50%').first()).toBeVisible();
-    await expect(page.getByText('다음 추천 학습')).toBeVisible();
-    await expect(page.getByText('교육과정 기본 교육과정을 2문항만 더 풀어 보세요.')).toBeVisible();
-    await expect(page.getByText('Mock Exam 전공A/B 추세')).toBeVisible();
-    await expect(page.getByText('전공A · 2교시')).toBeVisible();
-    await expect(page.getByText('전공B · 3교시')).toBeVisible();
-    await expect(page.getByText('실전형 1문항 포함')).toBeVisible();
-    await expect(page.getByText('교시별 약점 처방')).toBeVisible();
-    await expect(page.getByText('전공A 2교시: 서술형 2문항을 실전형으로 이어 풀어 보세요.')).toBeVisible();
-    await expect(page.getByText('이어풀기 후 기록으로 돌아오면 전공A/B 추세가 갱신됩니다.')).toBeVisible();
-    await expect(page.getByRole('link', { name: '전공A 약점 문항 이어풀기' })).toHaveAttribute(
-      'href',
-      '/next/practice?mode=mock&variant=full&paper=%EC%A0%84%EA%B3%B5A&focus=%EC%84%9C%EC%88%A0%ED%98%95',
-    );
-    await page.getByRole('link', { name: '전공A 약점 문항 이어풀기' }).click();
-    await expect(page).toHaveURL(/\/next\/practice\?mode=mock&variant=full&paper=.*&focus=.*/);
-    await expect(page.getByText('전공A 서술형 약점 문항', { exact: true })).toBeVisible();
+    await expect(page.getByText('오늘의 성장')).toBeVisible();
+    await expect(page.getByText('최근 SEW Next 세션')).toHaveCount(0);
+    await expect(page.getByText('Mock Exam 전공A/B 추세')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: '전공A 약점 문항 이어풀기' })).toHaveCount(0);
   });
 });
 

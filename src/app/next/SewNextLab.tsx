@@ -390,7 +390,7 @@ export function SewNextLab() {
                 onSelect={handleCommandAction}
               />
               <CommandLink
-                href="/record"
+                href="/next/results"
                 label="결과 추적"
                 metric="기록에서 결과 확인"
                 note="전공A/B 추세 보기"

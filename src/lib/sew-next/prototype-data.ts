@@ -159,7 +159,7 @@ export const topNavigation = [
   { label: '문제풀이', href: '#practice' },
   { label: '모의고사', href: '/next/practice?mode=mock' },
   { label: '개념창고', href: '/concepts' },
-  { label: '기록', href: '/record' },
+  { label: '기록', href: '/next/results' },
   { label: 'AI 실험실', href: '/admin/ai-generate' },
 ] satisfies TopNavigationItem[];
 

@@ -118,18 +118,16 @@ describe('RecordDashboard', () => {
     mockQuizState.quizHistory = [];
   });
 
-  it('shows a mock exam A/B preview even before the first quiz record', () => {
+  it('keeps SEW Next mock previews out of the Classic record empty state', () => {
     mockStudyState.totalXP = 0;
     mockStudyState.totalQuizzes = 0;
     mockStudyState.dailyProgress = { quizzesCompleted: 0, quizzesCorrect: 0 };
 
     render(<RecordDashboard />);
 
-    expect(screen.getByText('Mock Exam 전공A/B 미리보기')).toBeDefined();
-    expect(screen.getByText('데모 처방')).toBeDefined();
-    expect(screen.getByText('전공A · 2교시')).toBeDefined();
-    expect(screen.getByText('전공B · 3교시')).toBeDefined();
-    expect(screen.getByText('실전형 23문항 시작')).toBeDefined();
+    expect(screen.getByText('아직 학습 기록이 없어요')).toBeDefined();
+    expect(screen.queryByText('Mock Exam 전공A/B 미리보기')).toBeNull();
+    expect(screen.queryByText('최근 SEW Next 세션')).toBeNull();
   });
 
   it('shows percent values without multiplying them again', () => {
@@ -153,7 +151,7 @@ describe('RecordDashboard', () => {
     expect(screen.getByText('2문제 · 50%')).toBeDefined();
   });
 
-  it('highlights the latest SEW Next practice session', () => {
+  it('does not render SEW Next practice sessions on the Classic record surface', () => {
     mockQuizState.quizHistory = [
       {
         questionId: 'next-adaptive-fba-01',
@@ -177,13 +175,11 @@ describe('RecordDashboard', () => {
 
     render(<RecordDashboard />);
 
-    expect(screen.getByText('최근 SEW Next 세션')).toBeDefined();
-    expect(screen.getByText('Adaptive Readiness')).toBeDefined();
-    expect(screen.getByText('2문항 · 100%')).toBeDefined();
-    expect(screen.getByText(/정서행동장애/)).toBeDefined();
+    expect(screen.queryByText('최근 SEW Next 세션')).toBeNull();
+    expect(screen.queryByText('Adaptive Readiness')).toBeNull();
   });
 
-  it('shows the latest three SEW Next session rates as a trend', () => {
+  it('does not render SEW Next session trends on the Classic record surface', () => {
     const base = 1779258091373;
     mockQuizState.quizHistory = [
       {
@@ -222,14 +218,12 @@ describe('RecordDashboard', () => {
 
     render(<RecordDashboard />);
 
-    expect(screen.getByText('최근 3회 SEW Next 흐름')).toBeDefined();
-    expect(screen.getAllByText('Mock Exam').length).toBeGreaterThan(0);
-    expect(screen.getByText('Custom Qbank')).toBeDefined();
-    expect(screen.getAllByText('100%').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('50%').length).toBeGreaterThan(0);
+    expect(screen.queryByText('최근 3회 SEW Next 흐름')).toBeNull();
+    expect(screen.queryByText('Mock Exam')).toBeNull();
+    expect(screen.queryByText('Custom Qbank')).toBeNull();
   });
 
-  it('recommends the next SEW Next study action from the weakest recent session', () => {
+  it('does not recommend SEW Next actions on the Classic record surface', () => {
     const base = 1779258091373;
     mockQuizState.quizHistory = [
       {
@@ -268,11 +262,11 @@ describe('RecordDashboard', () => {
 
     render(<RecordDashboard />);
 
-    expect(screen.getByText('다음 추천 학습')).toBeDefined();
-    expect(screen.getByText('특수교육공학 보조공학을 2문항만 더 풀어 보세요.')).toBeDefined();
+    expect(screen.queryByText('다음 추천 학습')).toBeNull();
+    expect(screen.queryByText('특수교육공학 보조공학을 2문항만 더 풀어 보세요.')).toBeNull();
   });
 
-  it('shows cumulative 전공A/B mock exam trends from stored question metadata', () => {
+  it('does not render cumulative 전공A/B mock exam trends on the Classic record surface', () => {
     const base = 1779258091373;
     mockQuizState.quizHistory = [
       {
@@ -327,17 +321,8 @@ describe('RecordDashboard', () => {
 
     render(<RecordDashboard />);
 
-    expect(screen.getByText('Mock Exam 전공A/B 추세')).toBeDefined();
-    expect(screen.getByText('전공A · 2교시')).toBeDefined();
-    expect(screen.getByText('전공B · 3교시')).toBeDefined();
-    expect(screen.getByText('2문항 중 1문항 정답 · 50%')).toBeDefined();
-    expect(screen.getByText('2/6점')).toBeDefined();
-    expect(screen.getByText('실전형 1문항 포함')).toBeDefined();
-    expect(screen.getByText('교시별 약점 처방')).toBeDefined();
-    expect(screen.getByText('전공A 2교시: 서술형 2문항을 실전형으로 이어 풀어 보세요.')).toBeDefined();
-    expect(screen.getByText('이어풀기 후 기록으로 돌아오면 전공A/B 추세가 갱신됩니다.')).toBeDefined();
-    expect(screen.getByText('전공A 약점 문항 이어풀기').getAttribute('href')).toBe(
-      '/next/practice?mode=mock&variant=full&paper=%EC%A0%84%EA%B3%B5A&focus=%EC%84%9C%EC%88%A0%ED%98%95',
-    );
+    expect(screen.queryByText('Mock Exam 전공A/B 추세')).toBeNull();
+    expect(screen.queryByText('교시별 약점 처방')).toBeNull();
+    expect(screen.queryByText('전공A 약점 문항 이어풀기')).toBeNull();
   });
 });
