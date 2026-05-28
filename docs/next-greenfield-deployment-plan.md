@@ -2,6 +2,7 @@
 
 Date: 2026-05-26
 Branch: `codex/next-greenfield`
+Last updated: 2026-05-28
 
 ## Decision
 
@@ -21,6 +22,67 @@ Recommended Vercel setup:
 - Framework preset: Next.js
 
 Initial SEW Next can keep the existing `/next` route while the branch is isolated. Once the service shape is stable, the branch should promote Next to the root experience for its own deployment. Until then, the separate deployment URL can open `/next` directly for validation.
+
+## Automation Status
+
+Local automation exists for the separate-project flow:
+
+- `npm run deploy:next-greenfield -- --project <vercel-project> --target preview`
+- `npm run verify:next-deploy -- https://<deployment>.vercel.app`
+
+The deploy script:
+
+1. enforces the `codex/next-greenfield` branch unless `--allow-any-branch` is passed
+2. runs `npm run lint`, `npm run test`, and `NEXT_PRIVATE_BUILD_WORKER=0 npm run build`
+3. links the working directory to the target Vercel project with `vercel link --yes`
+4. deploys with `vercel deploy --yes`
+5. runs Playwright smoke checks against `/next`, `/next/results`, and the full mock route
+
+As of 2026-05-28, the local Vercel CLI token is invalid. The project cannot be created or deployed from this machine until `vercel login` is run again or a valid `VERCEL_TOKEN` is provided outside git.
+
+## Vercel Project Bootstrap
+
+Use a separate Vercel Project; do not point the existing Classic production project at `codex/next-greenfield`.
+
+Recommended bootstrap:
+
+```bash
+vercel login
+npm run deploy:next-greenfield -- --project special-education-next --target preview
+```
+
+For a team scope:
+
+```bash
+npm run deploy:next-greenfield -- --project special-education-next --team <team-slug> --target preview
+```
+
+After the preview smoke passes, configure the SEW Next project in Vercel:
+
+- Production branch: `codex/next-greenfield`
+- Install command: `npm ci`
+- Build command: `npm run build`
+- Output directory: Next.js default
+- Framework preset: Next.js
+- Initial validation URL: open `/next` on the SEW Next deployment domain
+
+Required environment variables should be cloned intentionally from Classic, then edited for the Next project when needed:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_SENTRY_DSN`
+- `SENTRY_AUTH_TOKEN`
+- `SENTRY_ORG`
+- `SENTRY_PROJECT`
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL`
+- `ADMIN_API_KEY`
+- `DISCORD_WEBHOOK_URL`
+- `NOTION_API_KEY`
+
+Do not commit `.vercel/`, `.env.local`, tokens, or copied secrets. Both are ignored by `.gitignore`.
 
 ## Boundary Rules
 
@@ -84,6 +146,17 @@ Before pushing SEW Next branch changes:
 - `npm run test:e2e -- tests/e2e/sew-next.spec.ts --project=chromium`
 - `NEXT_PRIVATE_BUILD_WORKER=0 npm run build`
 
+Before accepting a SEW Next Vercel deployment:
+
+- `npm run verify:next-deploy -- https://<deployment>.vercel.app`
+- confirm `/next` renders `SEW Next`
+- confirm `/next/results` renders `SEW Next Results`
+- confirm `/next/practice?mode=mock&variant=full` renders `실전형 23문항 모드`
+- confirm desktop and mobile smoke checks report no horizontal overflow
+- confirm no page errors or browser console errors are emitted during smoke
+
+For local `next dev` smoke only, `--allow-rsc-fetch-warnings` may be used to ignore the known Fast Refresh RSC fallback console warning. Do not use that flag as the default Vercel acceptance gate.
+
 Before changing any Classic route from the Next branch:
 
 - document the reason
@@ -92,4 +165,8 @@ Before changing any Classic route from the Next branch:
 
 ## Immediate Next Step
 
-Create the first branch commit with this plan, then start the separation work by moving Classic `/record` Next-specific UI into a Next-owned results route.
+Authenticate Vercel, create/link the `special-education-next` project, and run:
+
+```bash
+npm run deploy:next-greenfield -- --project special-education-next --target preview
+```
