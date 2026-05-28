@@ -1,5 +1,5 @@
 export const DEFAULT_TARGET = 'preview';
-export const GREENFIELD_META = 'sew-next-greenfield=true';
+export const GREENFIELD_META = 'sew_next_greenfield=true';
 
 function readOption(argv, name) {
   const index = argv.indexOf(name);
@@ -83,12 +83,22 @@ export function buildVercelDeployArgs({ target = DEFAULT_TARGET, prod = false })
 }
 
 export function extractDeploymentUrl(output) {
-  const matches = output.match(/https:\/\/[^\s]+/g) ?? [];
-  return matches.find((url) => url.includes('.vercel.app')) ?? matches[0] ?? null;
+  const matches = output.match(/https:\/\/[^\s"'<>]+/g) ?? [];
+  const urls = matches.map((url) => url.replace(/[),.]+$/g, ''));
+  return urls.find((url) => url.includes('.vercel.app')) ?? urls[0] ?? null;
 }
 
 export function isAllowedRscFetchWarning(message, { allowRscFetchWarnings = false } = {}) {
   return allowRscFetchWarnings
     && message.includes('Failed to fetch RSC payload')
     && message.includes('Falling back to browser navigation');
+}
+
+export function buildVercelProtectionHeaders(secret) {
+  const value = typeof secret === 'string' ? secret.trim() : '';
+  if (!value) return undefined;
+  return {
+    'x-vercel-protection-bypass': value,
+    'x-vercel-set-bypass-cookie': 'true',
+  };
 }

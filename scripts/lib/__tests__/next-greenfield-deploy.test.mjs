@@ -3,6 +3,8 @@ import {
   buildSmokeTargets,
   buildVercelDeployArgs,
   buildVercelLinkArgs,
+  buildVercelProtectionHeaders,
+  extractDeploymentUrl,
   isAllowedRscFetchWarning,
   normalizeBaseUrl,
   parseDeployOptions,
@@ -76,15 +78,22 @@ describe('next greenfield deploy helpers', () => {
       '--target',
       'preview',
       '--meta',
-      'sew-next-greenfield=true',
+      'sew_next_greenfield=true',
     ]);
     expect(buildVercelDeployArgs({ target: 'production', prod: true })).toEqual([
       'deploy',
       '--yes',
       '--prod',
       '--meta',
-      'sew-next-greenfield=true',
+      'sew_next_greenfield=true',
     ]);
+  });
+
+  it('extracts deployment URLs from Vercel JSON output without trailing punctuation', () => {
+    expect(extractDeploymentUrl(`{
+  "url": "https://special-education-next-aogunorhr-gimbabheaven26-8005s-projects.vercel.app",
+  "inspectorUrl": "https://vercel.com/example"
+}`)).toBe('https://special-education-next-aogunorhr-gimbabheaven26-8005s-projects.vercel.app');
   });
 
   it('recognizes the known Next dev RSC fallback warning only when explicitly allowed', () => {
@@ -94,4 +103,13 @@ describe('next greenfield deploy helpers', () => {
     expect(isAllowedRscFetchWarning(warning, { allowRscFetchWarnings: false })).toBe(false);
     expect(isAllowedRscFetchWarning('ReferenceError: boom', { allowRscFetchWarnings: true })).toBe(false);
   });
+
+  it('builds Vercel deployment protection bypass headers when a secret is present', () => {
+    expect(buildVercelProtectionHeaders(' bypass-secret ')).toEqual({
+      'x-vercel-protection-bypass': 'bypass-secret',
+      'x-vercel-set-bypass-cookie': 'true',
+    });
+    expect(buildVercelProtectionHeaders('')).toBeUndefined();
+  });
+
 });

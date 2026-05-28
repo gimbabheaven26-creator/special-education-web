@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from 'node:child_process';
+import { rmSync } from 'node:fs';
 import {
   buildVercelDeployArgs,
   buildVercelLinkArgs,
@@ -49,6 +50,14 @@ function run(command, args, { env = process.env, dryRun = false } = {}) {
   return result;
 }
 
+function cleanNextBuildOutput({ dryRun = false } = {}) {
+  if (dryRun) {
+    console.log('[dry-run] rm -rf .next');
+    return;
+  }
+  rmSync('.next', { recursive: true, force: true });
+}
+
 function currentBranch({ dryRun = false } = {}) {
   if (dryRun) return 'codex/next-greenfield';
   const result = spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
@@ -78,6 +87,7 @@ async function main() {
   if (!options.skipChecks) {
     run('npm', ['run', 'lint'], { dryRun: options.dryRun });
     run('npm', ['run', 'test'], { dryRun: options.dryRun });
+    cleanNextBuildOutput({ dryRun: options.dryRun });
     run('npm', ['run', 'build'], {
       dryRun: options.dryRun,
       env: { ...process.env, NEXT_PRIVATE_BUILD_WORKER: '0' },

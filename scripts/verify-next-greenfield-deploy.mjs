@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 import { chromium } from '@playwright/test';
+import { existsSync, readFileSync } from 'node:fs';
 import {
   buildSmokeTargets,
+  buildVercelProtectionHeaders,
   isAllowedRscFetchWarning,
   normalizeBaseUrl,
 } from './lib/next-greenfield-deploy.mjs';
@@ -21,7 +23,20 @@ Checks:
 
 Options:
   --allow-rsc-fetch-warnings  Allow known Next dev/RSC fallback console errors.
+  --bypass-secret-file <path>  Read Vercel Deployment Protection bypass secret from a file.
 `);
+}
+
+function readBypassSecret(argv) {
+  const fileIndex = argv.indexOf('--bypass-secret-file');
+  const filePath = fileIndex >= 0 ? argv[fileIndex + 1] : '.vercel/automation-bypass-secret';
+  if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+    return process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+  }
+  if (filePath && existsSync(filePath)) {
+    return readFileSync(filePath, 'utf8').trim();
+  }
+  return '';
 }
 
 async function verifyTarget(page, target, options) {
@@ -64,6 +79,21 @@ async function verifyTarget(page, target, options) {
   return { label: target.label, status, url: target.url };
 }
 
+async function installVercelProtectionBypass(context, baseUrl, secret) {
+  const protectionHeaders = buildVercelProtectionHeaders(secret);
+  if (!protectionHeaders) return;
+
+  const origin = new URL(baseUrl).origin;
+  await context.route(`${origin}/**`, async (route) => {
+    await route.continue({
+      headers: {
+        ...route.request().headers(),
+        ...protectionHeaders,
+      },
+    });
+  });
+}
+
 async function main() {
   const argv = process.argv.slice(2);
   if (argv.includes('--help') || argv.includes('-h')) {
@@ -75,6 +105,7 @@ async function main() {
   const options = {
     allowRscFetchWarnings: argv.includes('--allow-rsc-fetch-warnings'),
   };
+  const bypassSecret = readBypassSecret(argv);
   const targets = buildSmokeTargets(baseUrl);
   const browser = await chromium.launch();
 
@@ -84,14 +115,20 @@ async function main() {
       { label: 'desktop', width: 1440, height: 1000 },
       { label: 'mobile', width: 390, height: 844 },
     ]) {
-      for (const target of targets) {
-        const page = await browser.newPage({ viewport });
-        try {
-          const result = await verifyTarget(page, target, options);
-          results.push({ viewport: viewport.label, ...result });
-        } finally {
-          await page.close();
+      const context = await browser.newContext({ viewport });
+      try {
+        await installVercelProtectionBypass(context, baseUrl, bypassSecret);
+        for (const target of targets) {
+          const page = await context.newPage();
+          try {
+            const result = await verifyTarget(page, target, options);
+            results.push({ viewport: viewport.label, ...result });
+          } finally {
+            await page.close();
+          }
         }
+      } finally {
+        await context.close();
       }
     }
 

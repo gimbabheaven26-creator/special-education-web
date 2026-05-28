@@ -16,7 +16,7 @@ Recommended Vercel setup:
 
 - Classic project: deploys `main`
 - SEW Next project: deploys `codex/next-greenfield`
-- SEW Next URL: separate Vercel project domain first, custom subdomain later
+- SEW Next URL: `https://special-education-next-gimbabheaven26-8005s-projects.vercel.app/next` first, custom subdomain later
 - Build command: `npm run build`
 - Install command: `npm ci`
 - Framework preset: Next.js
@@ -33,12 +33,16 @@ Local automation exists for the separate-project flow:
 The deploy script:
 
 1. enforces the `codex/next-greenfield` branch unless `--allow-any-branch` is passed
-2. runs `npm run lint`, `npm run test`, and `NEXT_PRIVATE_BUILD_WORKER=0 npm run build`
+2. runs `npm run lint`, `npm run test`, clears `.next`, and runs `NEXT_PRIVATE_BUILD_WORKER=0 npm run build`
 3. links the working directory to the target Vercel project with `vercel link --yes`
 4. deploys with `vercel deploy --yes`
 5. runs Playwright smoke checks against `/next`, `/next/results`, and the full mock route
 
-As of 2026-05-28, the local Vercel CLI token is invalid. The project cannot be created or deployed from this machine until `vercel login` is run again or a valid `VERCEL_TOKEN` is provided outside git.
+If Vercel Deployment Protection is enabled, enable Protection Bypass for Automation and place the generated secret in `.vercel/automation-bypass-secret` or expose it as `VERCEL_AUTOMATION_BYPASS_SECRET`; `npm run verify:next-deploy` sends the bypass header only to first-party Vercel deployment requests so third-party assets are not affected.
+
+As of 2026-05-28, the Vercel CLI is authenticated, `special-education-next` exists as a separate Vercel project, and the public production alias smoke passed on desktop and mobile for `/next`, `/next/results`, and `/next/practice?mode=mock&variant=full`.
+
+The project-level Vercel Authentication setting is currently disabled for actual user validation. If protection is re-enabled, use Protection Bypass for Automation for smoke tests and do not share preview URLs without either Vercel access or a share/bypass mechanism.
 
 ## Vercel Project Bootstrap
 
@@ -145,6 +149,7 @@ Before pushing SEW Next branch changes:
 - `npm run test`
 - `npm run test:e2e -- tests/e2e/sew-next.spec.ts --project=chromium`
 - `NEXT_PRIVATE_BUILD_WORKER=0 npm run build`
+- `rm -rf .next && NEXT_PRIVATE_BUILD_WORKER=0 npm run build`
 
 Before accepting a SEW Next Vercel deployment:
 
@@ -165,7 +170,13 @@ Before changing any Classic route from the Next branch:
 
 ## Immediate Next Step
 
-Authenticate Vercel, create/link the `special-education-next` project, and run:
+Use the separate production URL for validation:
+
+```bash
+npm run verify:next-deploy -- https://special-education-next-gimbabheaven26-8005s-projects.vercel.app
+```
+
+For a fresh preview:
 
 ```bash
 npm run deploy:next-greenfield -- --project special-education-next --target preview
