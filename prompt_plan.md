@@ -1,102 +1,146 @@
-# M4: 콘텐츠의 숨결 — 데이터 품질과 콘텐츠 파이프라인
+# M5: 서비스 구조 재구성 — SEW Cockpit
 
-> 작성: 2026-05-06 | 담당: X | 상태: Phase 1 완료, Phase 2 대기
-> 배경: M3 20/20 PASS. 학습 경로를 만들었다. 이제 그 경로 위를 달릴 차(콘텐츠)가 필요하다.
-> 카이란 중기 비전: "데이터 검증 작업에만 집중. 기출 동형 문제 생성. 콘텐츠 비율 정규화."
+> 작성: 2026-05-28 | 담당: X | 상태: 계획 승인, Phase 1 대기
+> 배경: M4 이후 48개 라우트가 퇴적층처럼 쌓임. SEW Next(Codex 프로토타입)의 UX 비전은 우수하나 데이터/테스트 부재. Next의 설계 원칙을 기존 코드에 이식한다.
 
 ## 설계 원칙
 
 | 원칙 | 의미 |
 |------|------|
-| **측정한다** | 감으로 부족하다 판단하지 않는다. 현재 3113 퀴즈의 실제 분포를 먼저 센다 |
-| **파이프라인을 돌린다** | 수작업 문항 추가 X. AI 초안→카이란 검수→확정 자동화 |
-| **코어를 세운다** | 기출 3층 중 2층(동형 문제)을 구축한다 |
+| **조종실 중심** | 홈 = 준비도 + 오늘의 작전 + 빠른 진입. 진단/일일/대시보드를 하나로 |
+| **모드 통합** | 모든 문제풀기는 /learn/session?mode=X 하나로 |
+| **탭 통합** | 분석 페이지들은 /record?tab=X 하나로 |
+| **데이터 보존** | 3116 퀴즈, 6개 스토어, Supabase 동기화 그대로 |
+| **점진 배포** | 각 Phase 독립 배포 가능. 리다이렉트로 이전 URL 보장 |
 
-## Phase 0: 선결 정리 + 현황 감사
-
-**목표**: 깨끗한 출발선. 현재 데이터의 실제 모습을 안다.
-
-- [x] 0-1. 미커밋 정리 — handoff.md 삭제 + sw.js 커밋 (d8e30aa), 마이그레이션 2건 카이란 실행 완료
-- [x] 0-2. 퀴즈 현황 감사 스크립트 — 3116 퀴즈 집계 (558ac0e). 개론 -12.9%(+403 필요), 법령 -6.8%(+212 필요), scenario_composite 3개
-
-## Phase 1: AI-Human 파이프라인 실전 가동
-
-**목표**: M2에서 만든 파이프라인(UI+API+스키마)을 실제로 돌린다.
-
-- [x] 1-1. 실전 가동 테스트 — gemini-2.5-flash 모델 업데이트, GEMINI_MODEL env 설정 가능 (283f536). Gemini API 무료 할당량 소진 → 카이란 결제 설정 필요
-- [x] 1-2. 검수 워크플로 검증 — generate→save(draft)→query→approve→verify→reject 6단계 e2e PASS (283f536)
-- [x] 1-3. 배치 생성 기능 — batch-generate.mjs (--subject/--type/--count/--dry-run/--config) (283f536)
-- [x] 1-4. 중복 검출 — POST 저장 시 ilike 40자 프리픽스 검사, duplicateWarning 응답 (283f536)
-
-## Phase 2: 콘텐츠 비율 정규화
-
-**목표**: KICE 출제 비율과 퀴즈 DB 비율의 갭을 해소한다.
-
-- [ ] 2-1. 개론(introduction) 영역 확대 — 최대 갭 영역, 장애유형별 특성 문항 추가
-- [ ] 2-2. KICE 빈출 미출제 주제 문항 생성 — 점자/보행훈련/뇌성마비/청력검사/AAC 등 16개 주제
-- [ ] 2-3. 복합 시나리오(scenario_composite) 문항 확대 — KICE 4점 서술형 패턴
-
-## Phase 3: 기출 2층 — 동형 문제 엔진
-
-**목표**: "같은 개념, 다른 각도, 같은 난이도"의 동형 문제를 기출 원본에서 파생한다.
-
-- [x] 3-1. 동형 변환 프롬프트 설계 — buildIsomorphicPrompt: 원본 과목/챕터/키워드 기반 5규칙 변환 (020513c)
-- [x] 3-2. 기출↔동형 연결 스키마 — source_kice_ref text 컬럼 + partial index (contract.md v2.16, 마이그레이션 카이란 실행 필요)
-- [x] 3-3. 동형 생성+검수 워크플로 — generate route mode='isomorphic' + batch-generate --kice-ref (020513c)
-- [ ] 3-4. UI 연결 — 기출 문제 상세에서 "이 문제의 동형 문제 N개" 링크
-
-## 실행 순서
+## 새 정보 구조 (3+1)
 
 ```
-Phase 0 (정리, 즉시)
-    ↓
-Phase 1 (파이프라인 가동, 핵심)
-    ↓
-Phase 2 (비율 정규화, Phase 1으로 생산)
-    ↓
-Phase 3 (동형 엔진, Phase 1 위에 구축)
+조종실 (/)
+├─ 준비도 hero (readiness %)
+├─ 오늘의 작전판 (daily prescription)
+├─ 고위험 영역 (weak domains)
+└─ 4모드 빠른 진입
+
+학습 (/learn)
+├─ /learn/session?mode=adaptive     (적응형 — 진단+AI추천)
+├─ /learn/session?mode=qbank        (문제은행 — 영역/난도/형식)
+├─ /learn/session?mode=mock         (모의고사 — 압축/실전형)
+├─ /learn/session?mode=review       (복습 — Leitner+오답)
+├─ /learn/concepts                  (개념+용어+플래시카드 탭)
+│   ├─ /learn/concepts/[subject]
+│   └─ /learn/concepts/[subject]/[slug]
+└─ (인터랙티브, 시나리오, 워크시트는 학습 허브 내 탭)
+
+기록 (/record)
+├─ ?tab=overview    (종합 대시보드 + 숙련도 통합)
+├─ ?tab=wrong-notes (오답노트)
+├─ ?tab=bookmarks   (북마크)
+├─ ?tab=kice        (기출분석)
+└─ ?tab=mastery     (숙련도 트리)
+
+함께하기 (/community) — 변경 없음
 ```
 
-## M5 이월 (M4 범위 외)
+**라우트 수: 48 → ~21 (56% 감소)**
 
-- 기출 3층 — 출제 예측 시각화, 2027 출제 확률 대시보드
-- 타 교과 이식 준비 (장기 비전)
+## Phase 1: Foundation (0.5일)
+
+**목표**: 네비게이션 + 라우트 맵 인프라. 보이는 변화 = 네비 라벨만.
+
+- [ ] 1-1. `nav-config.ts` → 3+1 구조 (조종실/학습/기록/함께하기)
+- [ ] 1-2. `route-map.ts` 신규 → OLD→NEW URL 매핑 상수
+- [ ] 1-3. `next.config.mjs` → `redirects()` 함수 추가
+- [ ] 1-4. Header, BottomTabBar 정상 렌더링 확인
+
+## Phase 2: Cockpit — 조종실 (2일)
+
+**목표**: / 페이지를 준비도 조종실로 변환. /today, /daily, /next 흡수.
+
+- [ ] 2-1. ReadinessHero — 준비도 게이지 (실제 퀴즈 데이터)
+- [ ] 2-2. OperationsBoard — 오늘의 작전판
+- [ ] 2-3. HighRiskDomains — 고위험 영역 카드
+- [ ] 2-4. QuickEntry — 4모드 빠른 진입 그리드
+- [ ] 2-5. /today, /daily, /next 리다이렉트
+
+## Phase 3: Learn — 통합 학습 (3-4일) ⚠️ 최대 규모
+
+**목표**: /learn 허브 + /learn/session 통합 세션. 모든 문제풀기를 하나로.
+
+- [ ] 3-1. /learn 학습 허브 (8개 모드 그리드)
+- [ ] 3-2. /learn/session SessionRouter (mode별 클라이언트 분기)
+- [ ] 3-3. adaptive, mock, review, diagnostic 모드 연결
+- [ ] 3-4. qbank, worksheet, scenario, daily 모드 연결
+- [ ] 3-5. 기존 quiz/practice/exam URL 리다이렉트
+
+## Phase 4: Learn/Concepts — 통합 개념 (1.5일)
+
+**목표**: /concepts + /terms + /flashcards → /learn/concepts 탭 통합.
+
+- [ ] 4-1. /learn/concepts 3탭 (개념/용어/플래시카드)
+- [ ] 4-2. /learn/concepts/[subject]/[slug] MDX 렌더링
+- [ ] 4-3. BookmarkStore 경로 마이그레이션
+- [ ] 4-4. 기존 URL 리다이렉트
+
+## Phase 5: Record — 통합 기록 (2일)
+
+**목표**: /record + /mastery + /wrong-notes + /bookmarks + /kice → 탭 통합.
+
+- [ ] 5-1. RecordTabs 5탭 (종합/숙련도/오답/북마크/기출)
+- [ ] 5-2. mastery 흡수 (OverviewTab)
+- [ ] 5-3. wrong-notes, bookmarks, kice 탭 래퍼
+- [ ] 5-4. 기존 URL 리다이렉트
+
+## Phase 6: Cleanup (1.5일)
+
+**목표**: 데드 코드 제거, 내부 링크 전수 조사, PWA 업데이트.
+
+- [ ] 6-1. 폐기 라우트 디렉토리 삭제 (12개+)
+- [ ] 6-2. prototype-data.ts 705줄 삭제
+- [ ] 6-3. 리다이렉트 스텁 → next.config.mjs 통합
+- [ ] 6-4. 내부 href 전수 조사 (폐기 경로 0개)
+- [ ] 6-5. PWA manifest + 빌드 + 테스트 최종 검증
 
 ## Completion Contract
 
-V(평가자)가 80% 이상 통과해야 PASS.
+V(평가자)가 80% 이상 통과해야 PASS. 총 20개 기준.
 
-### 데이터 감사 (Phase 0) — 2/2
-- [x] 현재 퀴즈 과목별 분포 + KICE 갭 수치가 문서화되어 있다
-- [x] 미커밋 마이그레이션 파일이 0개다
+### 구조 기준 (5/5)
+- [ ] 활성 라우트 25개 이하
+- [ ] 네비게이션 3+1 그룹
+- [ ] 모든 문제풀기가 /learn/session 하나로 통합
+- [ ] 모든 분석이 /record 하나로 통합
+- [ ] 모든 개념학습이 /learn/concepts 하나로 통합
 
-### AI 파이프라인 (Phase 1) — 4/4
-- [x] Gemini API로 실제 문항이 생성된다 (mock 아님)
-- [x] 생성된 문항이 ai_status='draft'로 DB에 저장된다
-- [x] 검수 UI에서 draft→approved 상태 전이가 동작한다
-- [x] 배치 생성 시 기존 퀴즈와 중복 검출이 동작한다
+### 기능 기준 (7/7)
+- [ ] 조종실에 준비도 % 표시 (실제 데이터)
+- [ ] 조종실에 오늘의 작전판 표시
+- [ ] /learn/session?mode=mock&variant=full로 23문항 모의고사
+- [ ] /learn/session?mode=adaptive로 적응형 퀴즈
+- [ ] /learn/concepts 3탭 (개념/용어/플래시카드)
+- [ ] /record 5탭 (종합/숙련도/오답/북마크/기출)
+- [ ] 기존 기능 100% 접근 가능 (폐기 기능 없음)
 
-### 콘텐츠 비율 (Phase 2) — 3/3
-- [ ] 개론(introduction) 영역 퀴즈 비율이 KICE 대비 -10% 이내로 줄었다
-- [ ] KICE 빈출 미출제 16개 주제 중 8개 이상에 문항이 존재한다
-- [ ] scenario_composite 타입 문항이 10개 이상이다
+### 호환성 기준 (4/4)
+- [ ] 40+ 기존 URL 전부 301 리다이렉트
+- [ ] 리다이렉트 루프 없음
+- [ ] PWA 정상 동작
+- [ ] Vercel 배포 정상
 
-### 동형 문제 (Phase 3) — 3/3
-- [ ] 기출 원본에서 동형 문제를 생성할 수 있다
-- [ ] 동형 문제가 원본 기출과 연결되어 있다 (source_kice_ref)
-- [ ] 기출 상세 UI에서 동형 문제 링크가 표시된다
+### 품질 기준 (4/4)
+- [ ] `npm run build` exit 0
+- [ ] `npm run lint` 경고 0건
+- [ ] 1013+ 테스트 통과
+- [ ] 내부 href에 폐기 경로 0개
 
-### 빌드/품질 — 4/4
-- [x] `npm run build` exit 0
-- [x] `npm run lint` 경고 0건
-- [x] 950 테스트 통과
-- [x] 새 API에 Zod 입력 검증
-
-**총 16개 기준, 13개(80%) 이상 통과해야 PASS.**
+**총 20개 기준, 16개(80%) 이상 통과해야 PASS.**
 
 ---
 
 ## 이전 계획
+
+### M4: 콘텐츠의 숨결 (2026-05-06)
+> 담당: X | 상태: Phase 0-1 완료, Phase 2 미실행 (M5로 우선순위 변경) | 9/13 task (69%)
 
 ### M3: 학습 경험 재설계 (2026-04-22)
 > 담당: X | 상태: M3 전체 완료 (2026-04-29) | 18/18 task, CC 20/20 PASS 100%
