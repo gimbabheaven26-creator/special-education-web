@@ -311,7 +311,7 @@ export function SewNextLab() {
   const mostSelectedCommandAction = getMostSelectedCommandAction(commandBoardStats);
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-7xl px-4 py-6 lg:px-6">
         <header className="flex flex-col gap-4 border-b border-border pb-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
@@ -586,6 +586,6 @@ export function SewNextLab() {
           </div>
         </footer>
       </div>
-    </main>
+    </div>
   );
 }

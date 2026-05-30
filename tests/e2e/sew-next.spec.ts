@@ -110,6 +110,20 @@ async function seedSewNextTrendData(page: Page) {
 }
 
 test.describe('SEW Next (/next)', () => {
+  test('greenfield production root opens the SEW Next cockpit', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByRole('heading', { name: 'SEW Next' })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('시험 준비도 조종실')).toBeVisible();
+    await expect(page.getByRole('link', { name: /실전형 23문항 시작/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock&variant=full',
+    );
+    await expect(page.getByRole('link', { name: '기록', exact: true })).toHaveAttribute('href', '/next/results');
+  });
+
   test('readiness cockpit and prescribed session render above the fold', async ({ page }) => {
     await page.goto('/next');
     await page.waitForLoadState('domcontentloaded');

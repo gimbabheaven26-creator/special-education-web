@@ -1,19 +1,14 @@
 import type { Metadata } from 'next';
-import { HomeDashboard } from '@/components/dashboard/HomeDashboard';
-import { AdminQuickAccess } from '@/components/dashboard/AdminQuickAccess';
+import { SewNextLab } from './next/SewNextLab';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: '홈',
+  title: 'SEW Next',
   description:
-    '특수교육 임용시험 대비 — 오늘의 미션을 완료하세요.',
+    '특수교육 임용 준비도를 중심으로 재설계한 차세대 학습 서비스입니다.',
 };
 
 export default function HomePage() {
-  return (
-    <HomeDashboard>
-      <AdminQuickAccess />
-    </HomeDashboard>
-  );
+  return <SewNextLab />;
 }

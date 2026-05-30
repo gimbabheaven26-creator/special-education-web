@@ -15,6 +15,7 @@ function printHelp() {
 Verifies the SEW Next greenfield deployment renders the Next-owned product surface.
 
 Checks:
+  - / root cockpit renders
   - /next cockpit renders
   - /next/results renders
   - /next/practice?mode=mock&variant=full renders

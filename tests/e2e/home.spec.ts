@@ -1,18 +1,20 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('홈페이지', () => {
-  test('메인 페이지 렌더링', async ({ page }) => {
+test.describe('SEW Next Greenfield 홈', () => {
+  test('루트 페이지가 SEW Next 조종실로 열린다', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('header')).toBeVisible();
-    await expect(page.locator('main')).toBeVisible();
+    await expect(page.getByRole('main')).toHaveCount(1);
+    await expect(page.getByRole('heading', { name: 'SEW Next' })).toBeVisible();
+    await expect(page.getByText('시험 준비도 조종실')).toBeVisible();
   });
 
-  test('Header에 로고/제목 존재', async ({ page }) => {
+  test('루트에서 핵심 Next 여정으로 이동할 수 있다', async ({ page }) => {
     await page.goto('/');
-    const header = page.locator('header');
-    await expect(header).toBeVisible();
-    // 헤더 내 링크(홈으로)가 존재
-    await expect(header.locator('a[href="/"]')).toBeVisible();
+    await expect(page.getByRole('link', { name: /실전형 23문항 시작/ })).toHaveAttribute(
+      'href',
+      '/next/practice?mode=mock&variant=full',
+    );
+    await expect(page.getByRole('link', { name: '기록', exact: true })).toHaveAttribute('href', '/next/results');
   });
 
   test('페이지 내 링크가 2개 이상 존재', async ({ page }) => {
@@ -33,7 +35,7 @@ test.describe('BottomTabBar (모바일)', () => {
     await expect(nav).toBeVisible();
   });
 
-  test('탭바에 홈 링크 포함', async ({ page }) => {
+  test('탭바에 루트 홈 링크 포함', async ({ page }) => {
     await page.goto('/');
     const nav = page.locator('nav[aria-label="모바일 하단 탭"]');
     await expect(nav.locator('a[href="/"]')).toBeVisible();

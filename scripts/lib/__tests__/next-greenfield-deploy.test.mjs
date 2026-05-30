@@ -19,6 +19,11 @@ describe('next greenfield deploy helpers', () => {
   it('builds the required smoke targets for the Next-owned product surface', () => {
     expect(buildSmokeTargets('https://sew-next.vercel.app/')).toEqual([
       {
+        label: 'root cockpit',
+        url: 'https://sew-next.vercel.app',
+        text: 'SEW Next',
+      },
+      {
         label: 'cockpit',
         url: 'https://sew-next.vercel.app/next',
         text: 'SEW Next',

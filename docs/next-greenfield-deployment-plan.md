@@ -2,7 +2,7 @@
 
 Date: 2026-05-26
 Branch: `codex/next-greenfield`
-Last updated: 2026-05-28
+Last updated: 2026-05-30
 
 ## Decision
 
@@ -16,12 +16,12 @@ Recommended Vercel setup:
 
 - Classic project: deploys `main`
 - SEW Next project: deploys `codex/next-greenfield`
-- SEW Next URL: `https://special-education-next-gimbabheaven26-8005s-projects.vercel.app/next` first, custom subdomain later
+- SEW Next URL: `https://special-education-next-gimbabheaven26-8005s-projects.vercel.app/` first, custom subdomain later
 - Build command: `npm run build`
 - Install command: `npm ci`
 - Framework preset: Next.js
 
-Initial SEW Next can keep the existing `/next` route while the branch is isolated. Once the service shape is stable, the branch should promote Next to the root experience for its own deployment. Until then, the separate deployment URL can open `/next` directly for validation.
+SEW Next is now the root experience in the isolated deployment. The existing `/next` route remains as a compatibility URL while old links and smoke tests settle.
 
 ## Automation Status
 
@@ -36,11 +36,11 @@ The deploy script:
 2. runs `npm run lint`, `npm run test`, clears `.next`, and runs `NEXT_PRIVATE_BUILD_WORKER=0 npm run build`
 3. links the working directory to the target Vercel project with `vercel link --yes`
 4. deploys with `vercel deploy --yes`
-5. runs Playwright smoke checks against `/next`, `/next/results`, and the full mock route
+5. runs Playwright smoke checks against `/`, `/next`, `/next/results`, and the full mock route
 
 If Vercel Deployment Protection is enabled, enable Protection Bypass for Automation and place the generated secret in `.vercel/automation-bypass-secret` or expose it as `VERCEL_AUTOMATION_BYPASS_SECRET`; `npm run verify:next-deploy` sends the bypass header only to first-party Vercel deployment requests so third-party assets are not affected.
 
-As of 2026-05-28, the Vercel CLI is authenticated, `special-education-next` exists as a separate Vercel project, and the public production alias smoke passed on desktop and mobile for `/next`, `/next/results`, and `/next/practice?mode=mock&variant=full`.
+As of 2026-05-30, the Vercel CLI is authenticated, `special-education-next` exists as a separate Vercel project, SEW Next owns the deployment root, and the public production alias smoke should pass on desktop and mobile for `/`, `/next`, `/next/results`, and `/next/practice?mode=mock&variant=full`.
 
 The project-level Vercel Authentication setting is currently disabled for actual user validation. If protection is re-enabled, use Protection Bypass for Automation for smoke tests and do not share preview URLs without either Vercel access or a share/bypass mechanism.
 
@@ -68,7 +68,7 @@ After the preview smoke passes, configure the SEW Next project in Vercel:
 - Build command: `npm run build`
 - Output directory: Next.js default
 - Framework preset: Next.js
-- Initial validation URL: open `/next` on the SEW Next deployment domain
+- Initial validation URL: open `/` on the SEW Next deployment domain
 
 Required environment variables should be cloned intentionally from Classic, then edited for the Next project when needed:
 
@@ -113,6 +113,7 @@ If Next needs a record, result, or dashboard surface, create a Next-owned route 
 Already available in the branch:
 
 - `/next`: readiness cockpit and command board
+- `/`: same readiness cockpit and command board for the isolated SEW Next deployment
 - `/next/qbank`: DB-backed qbank filter builder
 - `/next/practice`: adaptive, custom, mock, and review sessions
 - full mock: 23 questions, 180 minutes, 80 points, 전공A/B structure
@@ -154,6 +155,7 @@ Before pushing SEW Next branch changes:
 Before accepting a SEW Next Vercel deployment:
 
 - `npm run verify:next-deploy -- https://<deployment>.vercel.app`
+- confirm `/` renders `SEW Next`
 - confirm `/next` renders `SEW Next`
 - confirm `/next/results` renders `SEW Next Results`
 - confirm `/next/practice?mode=mock&variant=full` renders `실전형 23문항 모드`
@@ -175,6 +177,10 @@ Use the separate production URL for validation:
 ```bash
 npm run verify:next-deploy -- https://special-education-next-gimbabheaven26-8005s-projects.vercel.app
 ```
+
+User validation script:
+
+- `docs/next-greenfield-user-validation-playbook.md`
 
 For a fresh preview:
 

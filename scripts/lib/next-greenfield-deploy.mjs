@@ -27,6 +27,11 @@ export function buildSmokeTargets(baseUrl) {
   const normalized = normalizeBaseUrl(baseUrl);
   return [
     {
+      label: 'root cockpit',
+      url: normalized,
+      text: 'SEW Next',
+    },
+    {
       label: 'cockpit',
       url: `${normalized}/next`,
       text: 'SEW Next',
