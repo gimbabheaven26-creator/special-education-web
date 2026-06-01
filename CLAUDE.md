@@ -202,9 +202,9 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 
 ---
 
-## 현재 마일스톤 (M4: 콘텐츠의 숨결, 2026-05-06~)
+## 현재 마일스톤 (M5.1: 내부 품질 강화, 2026-06-01~)
 
-M1~M3 완료. M2 Phase 5-B(AI 검수 파이프라인) 백로그 청산 완료. M4 Phase 0+1 완료 (2026-05-06): 콘텐츠 갭 감사, AI 파이프라인 실전 가동, 배치 생성, 중복 검출. Phase 2(콘텐츠 비율 정규화) 대기. 상세는 `prompt_plan.md` 참조.
+M1~M3 완료. M4 Phase 0+1 완료, Phase 2 미실행. M5(구조 재구성) 폐기 — SEW Next 프로토타입 삭제, 기존 48개 라우트 유지. M5.1: 안정성·품질·연계성에 집중. Phase 1(Stability Shield) 대기. 상세는 `prompt_plan.md` 참조.
 
 ---
 
