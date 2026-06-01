@@ -9,33 +9,33 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#2563eb",
+  themeColor: "#101214",
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://special-education-web.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_IEUMJIN_SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://ieumjin.vercel.app"),
   title: {
-    default: "특수교육 공부방",
-    template: "%s | 특수교육 공부방",
+    default: "이음진",
+    template: "%s | 이음진",
   },
-  description: "특수교육 임용시험 대비 학습 플랫폼 — 퀴즈, 기출분석, 오답노트, 플래시카드",
+  description: "용어에서 개념, 기출, AI 동형문제까지 이어지는 특수교육 임용 수험지",
   manifest: "/manifest.json",
   openGraph: {
-    title: "특수교육 공부방",
-    description: "특수교육 임용시험 대비 학습 플랫폼 — 퀴즈, 기출분석, 오답노트, 플래시카드",
+    title: "이음진",
+    description: "용어에서 개념, 기출, AI 동형문제까지 이어지는 특수교육 임용 수험지",
     type: "website",
     locale: "ko_KR",
-    siteName: "특수교육 공부방",
+    siteName: "이음진",
   },
   twitter: {
     card: "summary",
-    title: "특수교육 공부방",
-    description: "특수교육 임용시험 대비 학습 플랫폼",
+    title: "이음진",
+    description: "용어에서 기출까지 이어지는 특수교육 임용 수험지",
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "특수교육 공부방",
+    title: "이음진",
   },
 };
 
@@ -48,6 +48,7 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body className="font-sans antialiased">
         <LayoutProviders>

@@ -1,11 +1,11 @@
 {
-  "name": "특수교육 공부방",
-  "short_name": "공부방",
-  "description": "특수교육 임용고시 학습 앱",
+  "name": "이음진",
+  "short_name": "이음진",
+  "description": "용어에서 개념, 기출, AI 동형문제까지 이어지는 특수교육 임용 수험지",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1e40af",
+  "background_color": "#101214",
+  "theme_color": "#101214",
   "orientation": "portrait",
   "icons": [
     {

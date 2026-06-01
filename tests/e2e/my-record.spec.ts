@@ -49,115 +49,6 @@ async function seedRecordData(page: Page) {
   });
 }
 
-async function seedSewNextTrendData(page: Page) {
-  await page.goto('/record');
-  await page.evaluate(() => {
-    const now = Date.now();
-    const today = new Date().toISOString().slice(0, 10);
-    localStorage.setItem('quiz-data', JSON.stringify({
-      state: {
-        wrongNotes: [],
-        quizHistory: [
-          {
-            questionId: 'sew-old-1',
-            isCorrect: true,
-            subject: '정서행동장애',
-            chapter: '기능평가',
-            timestamp: now - 2 * 60 * 60 * 1000,
-            sessionId: 'sew-next-adaptive',
-          },
-          {
-            questionId: 'sew-middle-1',
-            isCorrect: false,
-            subject: '특수교육공학',
-            chapter: '보조공학',
-            timestamp: now - 60 * 60 * 1000,
-            sessionId: 'sew-next-custom',
-          },
-          {
-            questionId: 'sew-middle-2',
-            isCorrect: true,
-            subject: '특수교육공학',
-            chapter: '보조공학',
-            timestamp: now - 60 * 60 * 1000 + 1000,
-            sessionId: 'sew-next-custom',
-          },
-          {
-            questionId: 'sew-latest-1',
-            isCorrect: true,
-            subject: '관련 법령',
-            chapter: 'IEP',
-            timestamp: now,
-            sessionId: 'sew-next-mock',
-            sewNextExamMeta: {
-              paperLabel: '전공A',
-              period: '2교시',
-              questionNumber: 1,
-              format: '단답형',
-              points: 2,
-              mockVariant: 'quick',
-            },
-          },
-          {
-            questionId: 'sew-latest-2',
-            isCorrect: false,
-            subject: '정서행동장애',
-            chapter: 'FBA',
-            timestamp: now + 1000,
-            sessionId: 'sew-next-mock',
-            sewNextExamMeta: {
-              paperLabel: '전공B',
-              period: '3교시',
-              questionNumber: 1,
-              format: '서술형',
-              points: 4,
-              mockVariant: 'quick',
-            },
-          },
-          {
-            questionId: 'sew-full-a-1',
-            isCorrect: false,
-            subject: '교육과정',
-            chapter: '기본 교육과정',
-            timestamp: now + 2 * 60 * 60 * 1000,
-            sessionId: 'sew-next-mock-full',
-            sewNextExamMeta: {
-              paperLabel: '전공A',
-              period: '2교시',
-              questionNumber: 2,
-              format: '서술형',
-              points: 4,
-              mockVariant: 'full',
-            },
-          },
-        ],
-        diagnosticSessions: [],
-        feedbacks: [],
-        errorReports: [],
-      },
-      version: 5,
-    }));
-    localStorage.setItem('special-edu-study', JSON.stringify({
-      state: {
-        currentStreak: 1,
-        longestStreak: 1,
-        lastActiveDate: today,
-        dailyProgress: { date: today, chaptersCompleted: 0, quizzesCompleted: 4, quizzesCorrect: 3, flashcardsReviewed: 0 },
-        dailyGoal: { chapters: 2, quizzes: 10 },
-        recentActivities: [],
-        totalXP: 40,
-        totalQuizzes: 4,
-        totalCorrect: 3,
-        dailyHistory: [],
-        scenarioProgress: {},
-        spacedScenarioSchedules: {},
-        completedChapters: {},
-      },
-      version: 7,
-    }));
-  });
-}
-
 test.describe('/my 대시보드', () => {
   test('페이지 렌더링 + 주요 섹션 존재', async ({ page }) => {
     await page.goto('/my');
@@ -220,12 +111,12 @@ test.describe('/record 대시보드', () => {
     expect(hasMetrics + hasCTA + hasContent).toBeGreaterThan(0);
   });
 
-  test('빈 기록에서는 SEW Next 전용 미리보기를 표시하지 않음', async ({ page }) => {
+  test('빈 기록에서는 실전형 미리보기를 표시하지 않음', async ({ page }) => {
     await page.goto('/record');
     await expect(page.getByRole('main').first()).toBeVisible();
 
-    await expect(page.getByText('Mock Exam 전공A/B 미리보기')).toHaveCount(0);
-    await expect(page.getByText('최근 SEW Next 세션')).toHaveCount(0);
+    await expect(page.getByText('모의 관문 전공A/B 미리보기')).toHaveCount(0);
+    await expect(page.getByText('최근 이음 세션')).toHaveCount(0);
   });
 
   test('정답률과 과목/챕터 이름을 사용자용 문구로 표시', async ({ page }) => {
@@ -241,16 +132,6 @@ test.describe('/record 대시보드', () => {
     await expect(page.getByText('특수교육법').first()).toBeVisible();
     await expect(page.getByText(/^laws$/)).toHaveCount(0);
     await expect(page.getByText(/^special-education-act$/)).toHaveCount(0);
-  });
-
-  test('Classic 기록은 SEW Next 결과 패널을 렌더링하지 않음', async ({ page }) => {
-    await seedSewNextTrendData(page);
-    await page.goto('/record');
-
-    await expect(page.getByText('오늘의 성장')).toBeVisible();
-    await expect(page.getByText('최근 SEW Next 세션')).toHaveCount(0);
-    await expect(page.getByText('Mock Exam 전공A/B 추세')).toHaveCount(0);
-    await expect(page.getByRole('link', { name: '전공A 약점 문항 이어풀기' })).toHaveCount(0);
   });
 });
 

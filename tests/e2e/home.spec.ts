@@ -1,20 +1,25 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('SEW Next Greenfield 홈', () => {
-  test('루트 페이지가 SEW Next 조종실로 열린다', async ({ page }) => {
+test.describe('이음진 홈', () => {
+  test('루트 페이지가 이음진 입장 경험으로 열린다', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('main')).toHaveCount(1);
-    await expect(page.getByRole('heading', { name: 'SEW Next' })).toBeVisible();
-    await expect(page.getByText('시험 준비도 조종실')).toBeVisible();
+    await expect(page.getByRole('heading', { name: '이음진' })).toBeVisible();
+    await expect(page.getByText('입진증', { exact: true })).toBeVisible();
+    await expect(page.getByText('오늘의 통행 용어', { exact: true })).toBeVisible();
+    await expect(page.getByText('한 용어를 들고 들어와')).toBeVisible();
+    await expect(page.getByText('특수교육 공부방')).toHaveCount(0);
   });
 
-  test('루트에서 핵심 Next 여정으로 이동할 수 있다', async ({ page }) => {
+  test('루트에서 핵심 이음진 여정으로 이동할 수 있다', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('link', { name: /실전형 23문항 시작/ })).toHaveAttribute(
+    await expect(page.getByRole('link', { name: /오늘의 이음 시작/ })).toHaveAttribute(
       'href',
-      '/next/practice?mode=mock&variant=full',
+      /\/terms/,
     );
-    await expect(page.getByRole('link', { name: '기록', exact: true })).toHaveAttribute('href', '/next/results');
+    await expect(page.getByRole('link', { name: /용어당/ })).toHaveAttribute('href', /\/terms/);
+    await expect(page.getByRole('link', { name: /기출진/ })).toHaveAttribute('href', '/kice');
+    await expect(page.getByRole('link', { name: /출제공방/ })).toHaveAttribute('href', '/admin/ai-generate');
   });
 
   test('페이지 내 링크가 2개 이상 존재', async ({ page }) => {
@@ -29,20 +34,20 @@ test.describe('SEW Next Greenfield 홈', () => {
 test.describe('BottomTabBar (모바일)', () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
-  test('모바일에서 하단 탭바 렌더링', async ({ page }) => {
+  test('이음진 루트에서는 Classic 하단 탭바를 숨김', async ({ page }) => {
     await page.goto('/');
+    const nav = page.locator('nav[aria-label="모바일 하단 탭"]');
+    await expect(nav).toHaveCount(0);
+  });
+
+  test('Classic 라우트에서는 하단 탭바 렌더링', async ({ page }) => {
+    await page.goto('/terms');
     const nav = page.locator('nav[aria-label="모바일 하단 탭"]');
     await expect(nav).toBeVisible();
   });
 
-  test('탭바에 루트 홈 링크 포함', async ({ page }) => {
-    await page.goto('/');
-    const nav = page.locator('nav[aria-label="모바일 하단 탭"]');
-    await expect(nav.locator('a[href="/"]')).toBeVisible();
-  });
-
-  test('탭 클릭 시 페이지 이동', async ({ page }) => {
-    await page.goto('/');
+  test('Classic 탭 클릭 시 페이지 이동', async ({ page }) => {
+    await page.goto('/terms');
     const nav = page.locator('nav[aria-label="모바일 하단 탭"]');
     // 홈이 아닌 첫 번째 탭 링크 클릭
     const tabLinks = nav.locator('a:not([href="/"])');

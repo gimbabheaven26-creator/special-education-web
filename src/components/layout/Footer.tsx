@@ -1,5 +1,13 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
 export function Footer() {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+  const isIeumjinRoute = pathname === '/';
+
+  if (isIeumjinRoute) return null;
 
   return (
     <footer className="border-t border-border bg-background">

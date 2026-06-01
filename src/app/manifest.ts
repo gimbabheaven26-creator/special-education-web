@@ -2,13 +2,13 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: '특수교육 공부방',
-    short_name: '특수교육',
-    description: '특수교육 임용시험 대비 학습 플랫폼',
+    name: '이음진',
+    short_name: '이음진',
+    description: '용어에서 개념, 기출, AI 동형문제까지 이어지는 특수교육 임용 수험지',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#2563eb',
+    background_color: '#101214',
+    theme_color: '#101214',
     orientation: 'portrait',
     icons: [
       {
