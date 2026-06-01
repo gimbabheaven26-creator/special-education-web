@@ -11,7 +11,6 @@ describe('isPathMatch', () => {
   });
 
   it('trailing slash 없이 prefix 매칭 차단', () => {
-    // /kice/exam 이 /kice/examfoo 를 매칭하면 안 됨
     expect(isPathMatch('/kice/examfoo', '/kice/exam')).toBe(false);
   });
 
@@ -34,32 +33,32 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/daily')).toBeNull();
   });
 
-  it('/terms → diagnosis', () => {
-    expect(getActiveGroupId('/terms')).toBe('diagnosis');
+  it('/terms → learn', () => {
+    expect(getActiveGroupId('/terms')).toBe('learn');
   });
 
-  it('/concepts → practice', () => {
-    expect(getActiveGroupId('/concepts')).toBe('practice');
+  it('/concepts → learn', () => {
+    expect(getActiveGroupId('/concepts')).toBe('learn');
   });
 
-  it('/concepts/시각장애 → practice (하위 경로)', () => {
-    expect(getActiveGroupId('/concepts/시각장애')).toBe('practice');
+  it('/concepts/시각장애 → learn (하위 경로)', () => {
+    expect(getActiveGroupId('/concepts/시각장애')).toBe('learn');
   });
 
-  it('/kice/exam → metacognition (/kice가 내 기록 항목)', () => {
-    expect(getActiveGroupId('/kice/exam')).toBe('metacognition');
+  it('/kice/exam → record (/kice가 기록 항목)', () => {
+    expect(getActiveGroupId('/kice/exam')).toBe('record');
   });
 
-  it('/my → null (프로필/설정 전용, 내 기록에서 분리됨)', () => {
+  it('/my → null (프로필/설정 전용, 기록에서 분리됨)', () => {
     expect(getActiveGroupId('/my')).toBeNull();
   });
 
-  it('/kice/analytics → metacognition', () => {
-    expect(getActiveGroupId('/kice/analytics')).toBe('metacognition');
+  it('/kice/analytics → record', () => {
+    expect(getActiveGroupId('/kice/analytics')).toBe('record');
   });
 
-  it('/wrong-notes → metacognition', () => {
-    expect(getActiveGroupId('/wrong-notes')).toBe('metacognition');
+  it('/wrong-notes → record', () => {
+    expect(getActiveGroupId('/wrong-notes')).toBe('record');
   });
 
   it('/community → community', () => {
@@ -74,24 +73,28 @@ describe('getActiveGroupId', () => {
     expect(getActiveGroupId('/reviews')).toBeNull();
   });
 
-  it('/scenarios → practice (실력쌓기로 이동)', () => {
-    expect(getActiveGroupId('/scenarios')).toBe('practice');
+  it('/scenarios → learn', () => {
+    expect(getActiveGroupId('/scenarios')).toBe('learn');
   });
 
-  it('/diagnosis → diagnosis', () => {
-    expect(getActiveGroupId('/diagnosis')).toBe('diagnosis');
+  it('/diagnosis → learn', () => {
+    expect(getActiveGroupId('/diagnosis')).toBe('learn');
   });
 
-  it('/quiz/ox → diagnosis', () => {
-    expect(getActiveGroupId('/quiz/ox')).toBe('diagnosis');
+  it('/quiz/ox → learn', () => {
+    expect(getActiveGroupId('/quiz/ox')).toBe('learn');
   });
 
-  it('/quiz/short → diagnosis', () => {
-    expect(getActiveGroupId('/quiz/short')).toBe('diagnosis');
+  it('/quiz/short → learn', () => {
+    expect(getActiveGroupId('/quiz/short')).toBe('learn');
   });
 
-  it('/practice → practice', () => {
-    expect(getActiveGroupId('/practice')).toBe('practice');
+  it('/practice → learn', () => {
+    expect(getActiveGroupId('/practice')).toBe('learn');
+  });
+
+  it('/practice-hub → learn (학습 그룹 href)', () => {
+    expect(getActiveGroupId('/practice-hub')).toBe('learn');
   });
 
   it('알 수 없는 경로 → null', () => {
@@ -100,8 +103,8 @@ describe('getActiveGroupId', () => {
 });
 
 describe('NAV_GROUPS 구조', () => {
-  it('4개 그룹', () => {
-    expect(NAV_GROUPS).toHaveLength(4);
+  it('3개 그룹 (학습/기록/함께하기)', () => {
+    expect(NAV_GROUPS).toHaveLength(3);
   });
 
   it('각 그룹에 id, label, icon, items 존재', () => {
@@ -113,36 +116,29 @@ describe('NAV_GROUPS 구조', () => {
     }
   });
 
-  it('총 서브 항목 수 (3+4+5+1 = 13)', () => {
+  it('총 서브 항목 수 (8+5+1 = 14)', () => {
     const total = NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
-    expect(total).toBe(13);
+    expect(total).toBe(14);
   });
 
-  it('개념학습이 practice 그룹에 존재', () => {
-    const practice = NAV_GROUPS.find((g) => g.id === 'practice');
-    expect(practice).toBeDefined();
-    const conceptItem = practice!.items.find((i) => i.href === '/concepts');
+  it('개념학습이 learn 그룹에 존재', () => {
+    const learn = NAV_GROUPS.find((g) => g.id === 'learn');
+    expect(learn).toBeDefined();
+    const conceptItem = learn!.items.find((i) => i.href === '/concepts');
     expect(conceptItem).toBeDefined();
     expect(conceptItem!.label).toBe('개념학습');
   });
 
-  it('diagnosis 그룹에 href가 /diagnosis', () => {
-    const diagnosis = NAV_GROUPS.find((g) => g.id === 'diagnosis');
-    expect(diagnosis).toBeDefined();
-    expect(diagnosis!.href).toBe('/diagnosis');
+  it('learn 그룹에 href가 /practice-hub', () => {
+    const learn = NAV_GROUPS.find((g) => g.id === 'learn');
+    expect(learn).toBeDefined();
+    expect(learn!.href).toBe('/practice-hub');
   });
 
-  it('metacognition 그룹에 href가 /record', () => {
-    const metacognition = NAV_GROUPS.find((g) => g.id === 'metacognition');
-    expect(metacognition).toBeDefined();
-    expect(metacognition!.href).toBe('/record');
-  });
-
-  it('diagnosis 그룹에 /concepts 항목 없음', () => {
-    const diagnosis = NAV_GROUPS.find((g) => g.id === 'diagnosis');
-    expect(diagnosis).toBeDefined();
-    const conceptItem = diagnosis!.items.find((i) => i.href === '/concepts');
-    expect(conceptItem).toBeUndefined();
+  it('record 그룹에 href가 /record', () => {
+    const record = NAV_GROUPS.find((g) => g.id === 'record');
+    expect(record).toBeDefined();
+    expect(record!.href).toBe('/record');
   });
 
   it('/subjects 항목이 어떤 그룹에도 없음', () => {
