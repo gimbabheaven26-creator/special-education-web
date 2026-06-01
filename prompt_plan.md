@@ -48,10 +48,10 @@
 
 **목표**: 네비게이션 + 라우트 맵 인프라. 보이는 변화 = 네비 라벨만.
 
-- [x] 1-1. `nav-config.ts` → 3+1 구조 (조종실/학습/기록/함께하기)
-- [x] 1-2. `route-map.ts` 신규 → OLD→NEW URL 매핑 상수
-- [x] 1-3. `next.config.mjs` → `redirects()` 함수 추가
-- [x] 1-4. Header, BottomTabBar 정상 렌더링 확인
+- [ ] 1-1. `nav-config.ts` → 3+1 구조 (조종실/학습/기록/함께하기)
+- [ ] 1-2. `route-map.ts` 신규 → OLD→NEW URL 매핑 상수
+- [ ] 1-3. `next.config.mjs` → `redirects()` 함수 추가
+- [ ] 1-4. Header, BottomTabBar 정상 렌더링 확인
 
 ## Phase 2: Cockpit — 조종실 (2일)
 

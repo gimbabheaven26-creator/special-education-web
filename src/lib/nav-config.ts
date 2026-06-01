@@ -1,5 +1,6 @@
 import {
-  GraduationCap,
+  ClipboardCheck,
+  Dumbbell,
   Brain,
   Users,
   type LucideIcon,
@@ -21,24 +22,31 @@ export type NavGroup = {
 
 export const NAV_GROUPS: NavGroup[] = [
   {
-    id: 'learn',
-    label: '학습',
-    icon: GraduationCap,
-    href: '/practice-hub',
+    id: 'diagnosis',
+    label: '진단평가',
+    icon: ClipboardCheck,
+    href: '/diagnosis',
     items: [
-      { href: '/diagnosis', label: '진단평가', description: 'OX·단답형 진단 퀴즈' },
       { href: '/quiz/ox', label: 'OX 퀴즈', description: '전 과목 OX 문제' },
       { href: '/quiz/short', label: '단답형', description: '전 과목 단답형 문제' },
+      { href: '/terms', label: '용어학습', description: '핵심 용어 플래시카드' },
+    ],
+  },
+  {
+    id: 'practice',
+    label: '실력쌓기',
+    icon: Dumbbell,
+    href: '/practice-hub',
+    items: [
       { href: '/concepts', label: '개념학습', description: '과목별 핵심 개념 정리' },
       { href: '/practice', label: '문제풀기', description: '모의고사·워크시트 실전 대비' },
-      { href: '/terms', label: '용어학습', description: '핵심 용어 플래시카드' },
       { href: '/interactive', label: '인터랙티브', description: '매칭·빈칸·절차 연습' },
       { href: '/scenarios', label: '상황 시뮬레이션', description: '교실 상황 분기형 의사결정' },
     ],
   },
   {
-    id: 'record',
-    label: '기록',
+    id: 'metacognition',
+    label: '내 기록',
     icon: Brain,
     href: '/record',
     items: [
