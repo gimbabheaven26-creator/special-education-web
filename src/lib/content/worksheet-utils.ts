@@ -1,3 +1,5 @@
+import { safeJsonParse } from '@/lib/safe-json-parse';
+
 // ─── Types (migrated from @/data/worksheets/types) ───
 
 export interface WorksheetQuestion {
@@ -62,13 +64,9 @@ export function saveWorksheet(worksheet: WorksheetConfig): void {
  */
 export function loadWorksheet(id: string): WorksheetConfig | null {
   if (typeof window === 'undefined') return null;
-  try {
-    const stored = localStorage.getItem(`worksheet-${id}`);
-    if (stored) return JSON.parse(stored);
-  } catch {
-    // Parse error
-  }
-  return null;
+  const stored = localStorage.getItem(`worksheet-${id}`);
+  if (!stored) return null;
+  return safeJsonParse<WorksheetConfig | null>(stored, null);
 }
 
 /**

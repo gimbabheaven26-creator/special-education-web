@@ -4,6 +4,7 @@
  */
 
 import { createClient } from '@/lib/supabase/browser';
+import { storeSchemas } from './sync-schemas';
 
 export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding' | 'focus';
 
@@ -158,7 +159,6 @@ export async function migrateGuestData(userId: string): Promise<void> {
  * 이 함수는 클라이언트에서만 호출 가능.
  */
 export async function syncAllStores(userId: string): Promise<void> {
-  // Dynamic imports to avoid circular deps / SSR issues
   const [
     { useStudyStore },
     { useQuizStore },
@@ -176,20 +176,32 @@ export async function syncAllStores(userId: string): Promise<void> {
   ]);
 
   const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus'];
-  const results = await Promise.all(keys.map((k) => pullFromServer(userId, k)));
+  const results = await Promise.allSettled(keys.map((k) => pullFromServer(userId, k)));
 
-  const [studyData, quizData, leitnerData, bookmarkData, onboardingData, focusData] = results;
+  const storeSetters: Record<StoreKey, { setState: (d: unknown) => void }> = {
+    study: { setState: (d) => useStudyStore.setState(d as Partial<ReturnType<typeof useStudyStore.getState>>) },
+    quiz: { setState: (d) => useQuizStore.setState(d as Partial<ReturnType<typeof useQuizStore.getState>>) },
+    leitner: { setState: (d) => useLeitnerStore.setState(d as Partial<ReturnType<typeof useLeitnerStore.getState>>) },
+    bookmark: { setState: (d) => useBookmarkStore.setState(d as Partial<ReturnType<typeof useBookmarkStore.getState>>) },
+    onboarding: { setState: (d) => useOnboardingStore.setState(d as Partial<ReturnType<typeof useOnboardingStore.getState>>) },
+    focus: { setState: (d) => useFocusStore.setState(d as Partial<ReturnType<typeof useFocusStore.getState>>) },
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (studyData) useStudyStore.setState(studyData as any);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (quizData) useQuizStore.setState(quizData as any);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (leitnerData) useLeitnerStore.setState(leitnerData as any);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (bookmarkData) useBookmarkStore.setState(bookmarkData as any);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (onboardingData) useOnboardingStore.setState(onboardingData as any);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (focusData) useFocusStore.setState(focusData as any);
+  keys.forEach((key, i) => {
+    const result = results[i];
+    if (result.status === 'rejected') {
+      console.warn(`[sync] pull ${key} failed:`, result.reason);
+      return;
+    }
+    const serverData = result.value;
+    if (!serverData) return;
+
+    const schema = storeSchemas[key];
+    const parsed = schema.safeParse(serverData);
+    if (parsed.success) {
+      storeSetters[key].setState(parsed.data);
+    } else {
+      console.warn(`[sync] ${key} data validation failed:`, parsed.error.issues);
+    }
+  });
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { MessageSquarePlus, X, Send, Trash2, ImagePlus, Loader2 } from 'lucide-react';
+import { safeJsonParse } from '@/lib/safe-json-parse';
 
 const MAX_IMAGES = 5;
 
@@ -43,11 +44,7 @@ const REVIEWER_NAME_KEY = 'se-reviewer-name';
 
 function getLocalNotes(): Record<string, string> {
   if (typeof window === 'undefined') return {};
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-  } catch {
-    return {};
-  }
+  return safeJsonParse(localStorage.getItem(STORAGE_KEY) || '{}', {});
 }
 
 function saveLocalNotes(notes: Record<string, string>) {
@@ -56,11 +53,7 @@ function saveLocalNotes(notes: Record<string, string>) {
 
 function getLocalImages(): Record<string, string[]> {
   if (typeof window === 'undefined') return {};
-  try {
-    return JSON.parse(localStorage.getItem(IMAGES_STORAGE_KEY) || '{}');
-  } catch {
-    return {};
-  }
+  return safeJsonParse(localStorage.getItem(IMAGES_STORAGE_KEY) || '{}', {});
 }
 
 function saveLocalImages(images: Record<string, string[]>) {

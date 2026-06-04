@@ -8,6 +8,7 @@
  *  - 스토어 변경 시: 1500ms debounce 후 서버에 push (optimistic update)
  *  - 서버가 더 최신이면 push 건너뜀 → pull로 최신 데이터 가져옴
  *  - SIGNED_OUT: 동기화 중단 (로컬 데이터는 유지)
+ *  - visibilitychange(hidden) 시 pending push 즉시 flush
  */
 
 import { useEffect, useRef } from 'react';
@@ -19,6 +20,7 @@ import {
   syncAllStores,
   type StoreKey,
 } from '@/lib/db/sync';
+import { storeSchemas } from '@/lib/db/sync-schemas';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
@@ -28,85 +30,109 @@ import { useFocusStore } from '@/stores/useFocusStore';
 
 const DEBOUNCE_MS = 1500;
 
-/** 스토어별 hydrate 맵 — 서버가 더 최신일 때 단일 스토어를 갱신 */
-const STORE_SETTERS: Record<StoreKey, { setState: (data: Record<string, unknown>) => void }> = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  study: { setState: (d) => useStudyStore.setState(d as any) },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  quiz: { setState: (d) => useQuizStore.setState(d as any) },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  leitner: { setState: (d) => useLeitnerStore.setState(d as any) },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  bookmark: { setState: (d) => useBookmarkStore.setState(d as any) },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onboarding: { setState: (d) => useOnboardingStore.setState(d as any) },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  focus: { setState: (d) => useFocusStore.setState(d as any) },
+// Zod validates data before reaching these setters — cast bridges validated data to Zustand's type
+const STORE_SETTERS: Record<StoreKey, { setState: (data: unknown) => void }> = {
+  study: { setState: (d) => useStudyStore.setState(d as Partial<ReturnType<typeof useStudyStore.getState>>) },
+  quiz: { setState: (d) => useQuizStore.setState(d as Partial<ReturnType<typeof useQuizStore.getState>>) },
+  leitner: { setState: (d) => useLeitnerStore.setState(d as Partial<ReturnType<typeof useLeitnerStore.getState>>) },
+  bookmark: { setState: (d) => useBookmarkStore.setState(d as Partial<ReturnType<typeof useBookmarkStore.getState>>) },
+  onboarding: { setState: (d) => useOnboardingStore.setState(d as Partial<ReturnType<typeof useOnboardingStore.getState>>) },
+  focus: { setState: (d) => useFocusStore.setState(d as Partial<ReturnType<typeof useFocusStore.getState>>) },
 };
+
+function validateAndSetState(key: StoreKey, data: Record<string, unknown>): void {
+  const schema = storeSchemas[key];
+  const parsed = schema.safeParse(data);
+  if (parsed.success) {
+    STORE_SETTERS[key].setState(parsed.data);
+  } else {
+    console.warn(`[sync] ${key} data validation failed:`, parsed.error.issues);
+  }
+}
 
 export function SyncManager() {
   const isSyncing = useRef(false);
   const userIdRef = useRef<string | null>(null);
   const lastSyncTs = useRef<Partial<Record<StoreKey, string>>>({});
   const timers = useRef<Partial<Record<StoreKey, ReturnType<typeof setTimeout>>>>({});
+  const pendingStates = useRef<Partial<Record<StoreKey, Record<string, unknown>>>>({});
+  const syncPromise = useRef<Promise<void> | null>(null);
 
-  function schedulePush(key: StoreKey, state: Record<string, unknown>) {
+  function schedulePush(key: StoreKey, state: unknown) {
+    pendingStates.current[key] = state as Record<string, unknown>;
     clearTimeout(timers.current[key]);
-    timers.current[key] = setTimeout(async () => {
-      const userId = userIdRef.current;
-      if (!userId) return;
+    timers.current[key] = setTimeout(() => executePush(key), DEBOUNCE_MS);
+  }
 
-      const result = await pushToServer(
-        userId,
-        key,
-        serializeState(state),
-        lastSyncTs.current[key],
-      );
+  async function executePush(key: StoreKey) {
+    const userId = userIdRef.current;
+    const state = pendingStates.current[key];
+    if (!userId || !state) return;
+    delete pendingStates.current[key];
+    delete timers.current[key];
 
-      if (result === 'pushed') {
-        lastSyncTs.current[key] = new Date().toISOString();
-      } else if (result === 'skipped') {
-        // 서버가 더 최신 — 서버 데이터를 pull하여 로컬에 반영
-        isSyncing.current = true;
-        try {
-          const serverData = await pullFromServer(userId, key);
-          if (serverData) {
-            STORE_SETTERS[key].setState(serverData);
-          }
-          lastSyncTs.current[key] = new Date().toISOString();
-        } finally {
-          isSyncing.current = false;
+    const result = await pushToServer(
+      userId,
+      key,
+      serializeState(state),
+      lastSyncTs.current[key],
+    );
+
+    if (result === 'pushed') {
+      lastSyncTs.current[key] = new Date().toISOString();
+    } else if (result === 'skipped') {
+      isSyncing.current = true;
+      try {
+        const serverData = await pullFromServer(userId, key);
+        if (serverData) {
+          validateAndSetState(key, serverData);
         }
+        lastSyncTs.current[key] = new Date().toISOString();
+      } finally {
+        isSyncing.current = false;
       }
-    }, DEBOUNCE_MS);
+    }
+  }
+
+  function flushAllPending() {
+    const keys = Object.keys(pendingStates.current) as StoreKey[];
+    for (const key of keys) {
+      clearTimeout(timers.current[key]);
+      executePush(key);
+    }
   }
 
   async function syncOnLogin(userId: string) {
-    if (userIdRef.current === userId) return; // 이미 동기화한 유저 — 이중 호출 방지
-    userIdRef.current = userId;
-    isSyncing.current = true;
-    try {
-      await syncAllStores(userId);
-      // 초기 동기화 완료 시점 기록
-      const now = new Date().toISOString();
-      const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus'];
-      keys.forEach((k) => { lastSyncTs.current[k] = now; });
-    } catch (err) {
-      console.error('[SyncManager] syncOnLogin error:', err);
-    } finally {
-      isSyncing.current = false;
-    }
+    if (syncPromise.current) return syncPromise.current;
+    if (userIdRef.current === userId) return;
+
+    const doSync = async () => {
+      userIdRef.current = userId;
+      isSyncing.current = true;
+      try {
+        await syncAllStores(userId);
+        const now = new Date().toISOString();
+        const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus'];
+        keys.forEach((k) => { lastSyncTs.current[k] = now; });
+      } catch (err) {
+        console.error('[SyncManager] syncOnLogin error:', err);
+      } finally {
+        isSyncing.current = false;
+        syncPromise.current = null;
+      }
+    };
+
+    syncPromise.current = doSync();
+    return syncPromise.current;
   }
 
   useEffect(() => {
     const supabase = createClient();
 
-    // 이미 로그인 상태면 즉시 동기화
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (user) syncOnLogin(user.id);
     });
 
-    // 로그인 이벤트 감지
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) syncOnLogin(session.user.id);
       if (event === 'SIGNED_OUT') {
@@ -115,39 +141,33 @@ export function SyncManager() {
       }
     });
 
-    // 스토어 변경 구독 → debounce push (5개 스토어)
-    const unsubs = [
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      useStudyStore.subscribe((state: any) => {
-        if (!isSyncing.current) schedulePush('study', state as Record<string, unknown>);
-      }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      useQuizStore.subscribe((state: any) => {
-        if (!isSyncing.current) schedulePush('quiz', state as Record<string, unknown>);
-      }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      useLeitnerStore.subscribe((state: any) => {
-        if (!isSyncing.current) schedulePush('leitner', state as Record<string, unknown>);
-      }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      useBookmarkStore.subscribe((state: any) => {
-        if (!isSyncing.current) schedulePush('bookmark', state as Record<string, unknown>);
-      }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      useOnboardingStore.subscribe((state: any) => {
-        if (!isSyncing.current) schedulePush('onboarding', state as Record<string, unknown>);
-      }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      useFocusStore.subscribe((state: any) => {
-        if (!isSyncing.current) schedulePush('focus', state as Record<string, unknown>);
-      }),
+    const stores = [
+      { store: useStudyStore, key: 'study' as StoreKey },
+      { store: useQuizStore, key: 'quiz' as StoreKey },
+      { store: useLeitnerStore, key: 'leitner' as StoreKey },
+      { store: useBookmarkStore, key: 'bookmark' as StoreKey },
+      { store: useOnboardingStore, key: 'onboarding' as StoreKey },
+      { store: useFocusStore, key: 'focus' as StoreKey },
     ];
 
-    const pendingTimers = timers.current; // cleanup 시점 스냅샷
+    const unsubs = stores.map(({ store, key }) =>
+      store.subscribe((state) => {
+        if (!isSyncing.current) schedulePush(key, state);
+      }),
+    );
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        flushAllPending();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       subscription.unsubscribe();
       unsubs.forEach((u) => u());
-      Object.values(pendingTimers).forEach(clearTimeout);
+      Object.values(timers.current).forEach(clearTimeout);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
