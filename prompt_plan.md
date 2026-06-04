@@ -1,6 +1,6 @@
 # M5.1: 내부 품질 강화 — 안정성·품질·연계성
 
-> 작성: 2026-06-01 | 담당: X | 상태: 계획 승인, Phase 1 대기
+> 작성: 2026-06-01 | 담당: X | 상태: Phase 1 완료 (2026-06-04), Phase 2 대기
 > 배경: M5(구조 재구성) 폐기. SEW Next 프로토타입 삭제 완료. 기존 48개 라우트 구조 유지하면서 내부 품질에 집중.
 
 ## 진단 요약
@@ -15,13 +15,13 @@
 
 **목표**: CRITICAL/HIGH 안정성 이슈 수정. 사용자 데이터 보호. API 검증 강화.
 
-- [ ] 1-1. sync 레이어 Zod 스키마 도입 — `as any` 12개 제거, 스토어 hydration 검증
-- [ ] 1-2. safeJsonParse 유틸 — 6곳 무방비 JSON.parse 수정
-- [ ] 1-3. SyncManager 경쟁 조건 수정 — syncPromise 뮤텍스, Promise.allSettled
-- [ ] 1-4. beforeunload flush — 디바운스 타이머 데이터 손실 방지
-- [ ] 1-5. API 라우트 Zod 검증 — PATCH quiz, bulk import 검증
-- [ ] 1-6. API 라우트 테스트 확장 — 3/22 → 9/22 (41%)
-- [ ] 1-7. vitest coverage threshold 추가
+- [x] 1-1. sync 레이어 Zod 스키마 도입 — `as any` 12개 → 0개, 6개 스토어 스키마 검증
+- [x] 1-2. safeJsonParse 유틸 — 3곳 적용 (나머지는 이미 try-catch 보호)
+- [x] 1-3. SyncManager 경쟁 조건 수정 — syncPromise 뮤텍스, Promise.allSettled
+- [x] 1-4. visibilitychange flush — 탭 닫기 시 pending push 즉시 전송
+- [x] 1-5. API 라우트 Zod 검증 — PATCH quiz (strict), bulk import (항목별 검증)
+- [x] 1-6. API 라우트 테스트 확장 — 3/22 → 9/22 (41%), 989→1051 테스트
+- [x] 1-7. vitest coverage threshold 추가 (v8, statements 20%)
 
 ## Phase 2: Quiz Quality Gate (2일)
 
