@@ -163,10 +163,11 @@ export function SyncManager() {
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
+    const pendingTimers = timers.current;
     return () => {
       subscription.unsubscribe();
       unsubs.forEach((u) => u());
-      Object.values(timers.current).forEach(clearTimeout);
+      Object.values(pendingTimers).forEach(clearTimeout);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
