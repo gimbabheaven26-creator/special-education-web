@@ -1,7 +1,34 @@
 import { NextResponse } from 'next/server';
 import * as Sentry from '@sentry/nextjs';
+import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
+
+const BulkQuizItemSchema = z.object({
+  id: z.string().uuid().optional(),
+  subject: z.string().min(1, '과목 필수'),
+  chapter: z.string().min(1, '챕터 필수'),
+  type: z.enum(['ox', 'fill_in', 'multiple', 'descriptive', 'scenario_composite', 'case', 'multiple_choice']),
+  question: z.string().min(1, '문제 내용 필수'),
+  answer: z.union([z.string(), z.number(), z.boolean()]),
+  explanation: z.string().optional(),
+  difficulty: z.number().int().min(1).max(5).optional(),
+  options: z.array(z.string()).nullable().optional(),
+  caseContext: z.string().optional(),
+  case_context: z.string().optional(),
+  wrongExplanations: z.record(z.string(), z.string()).nullable().optional(),
+  wrong_explanations: z.record(z.string(), z.string()).nullable().optional(),
+  subQuestions: z.array(z.object({}).passthrough()).nullable().optional(),
+  sub_questions: z.array(z.object({}).passthrough()).nullable().optional(),
+  imageUrl: z.string().optional(),
+  image_url: z.string().optional(),
+  source: z.string().nullable().optional(),
+  tags: z.array(z.string()).nullable().optional(),
+});
+
+const BulkRequestSchema = z.object({
+  questions: z.array(BulkQuizItemSchema).min(1, '문항 배열이 필요합니다').max(500, '최대 500건까지 처리 가능합니다'),
+});
 
 export async function POST(request: Request) {
   const auth = await verifyAdminOrApiKey(request);
@@ -10,20 +37,30 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { questions } = await request.json();
-
-    if (!Array.isArray(questions) || questions.length === 0) {
-      return NextResponse.json({ error: '문항 배열이 필요합니다' }, { status: 400 });
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: '잘못된 요청 형식입니다' }, { status: 400 });
     }
 
-    if (questions.length > 500) {
-      return NextResponse.json({ error: '최대 500건까지 처리 가능합니다' }, { status: 400 });
+    const parsed = BulkRequestSchema.safeParse(body);
+    if (!parsed.success) {
+      const issuesByIndex: Record<number, z.ZodIssue[]> = {};
+      for (const issue of parsed.error.issues) {
+        const idx = typeof issue.path[1] === 'number' ? issue.path[1] : -1;
+        (issuesByIndex[idx] ??= []).push(issue);
+      }
+      return NextResponse.json(
+        { error: '입력 검증 실패', details: parsed.error.issues, issuesByIndex },
+        { status: 400 },
+      );
     }
 
+    const { questions } = parsed.data;
     const supabase = await createClient();
 
-    // Convert camelCase to snake_case for DB
-    const rows = questions.map((q: Record<string, unknown>) => ({
+    const rows = questions.map((q) => ({
       id: q.id,
       subject: q.subject,
       chapter: q.chapter,
@@ -42,7 +79,6 @@ export async function POST(request: Request) {
       updated_by: auth.userId,
     }));
 
-    // Batch upsert in chunks of 50
     const results: { id: string }[] = [];
     for (let i = 0; i < rows.length; i += 50) {
       const chunk = rows.slice(i, i + 50);

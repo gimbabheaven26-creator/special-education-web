@@ -9,6 +9,17 @@ export default defineConfig({
     globals: true,
     setupFiles: [],
     exclude: ['node_modules', 'tests/e2e/**', 'nadaun/**', '.claude/**'],
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/**/*.test.*', 'src/**/*.d.ts', 'src/**/*.stories.*'],
+      thresholds: {
+        statements: 20,
+        branches: 15,
+        functions: 15,
+        lines: 20,
+      },
+    },
   },
   resolve: {
     alias: {

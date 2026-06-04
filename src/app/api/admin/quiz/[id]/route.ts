@@ -1,7 +1,28 @@
 import { NextResponse } from 'next/server';
 import * as Sentry from '@sentry/nextjs';
+import { z } from 'zod';
 import { createClient, createServiceClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
+
+const QuizPatchSchema = z.object({
+  type: z.enum(['ox', 'fill_in', 'multiple', 'descriptive', 'scenario_composite', 'case', 'multiple_choice']).optional(),
+  question: z.string().min(1).max(5000).optional(),
+  answer: z.union([z.string(), z.number(), z.boolean()]).optional(),
+  subject: z.string().min(1).max(100).optional(),
+  chapter: z.string().min(1).max(200).optional(),
+  explanation: z.string().max(5000).optional(),
+  difficulty: z.number().int().min(1).max(5).optional(),
+  options: z.array(z.string()).optional(),
+  caseContext: z.string().max(5000).optional(),
+  case_context: z.string().max(5000).optional(),
+  wrongExplanations: z.record(z.string(), z.string()).optional(),
+  wrong_explanations: z.record(z.string(), z.string()).optional(),
+  subQuestions: z.array(z.object({}).passthrough()).optional(),
+  sub_questions: z.array(z.object({}).passthrough()).optional(),
+  imageUrl: z.string().url().optional(),
+  image_url: z.string().url().optional(),
+  subjects: z.array(z.string()).optional(),
+}).strict();
 
 export async function PATCH(
   request: Request,
@@ -22,9 +43,15 @@ export async function PATCH(
       return NextResponse.json({ error: '잘못된 요청 형식입니다.' }, { status: 400 });
     }
 
-    const input = body as Record<string, unknown>;
+    const parsed = QuizPatchSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: '입력 검증 실패', details: parsed.error.issues },
+        { status: 400 },
+      );
+    }
+    const input = parsed.data;
 
-    // camelCase → snake_case 변환 (전달된 필드만 업데이트)
     const updateData: Record<string, unknown> = {};
 
     const directFields = [
@@ -33,11 +60,10 @@ export async function PATCH(
     ] as const;
     for (const field of directFields) {
       if (field in input) {
-        updateData[field] = input[field];
+        updateData[field] = input[field as keyof typeof input];
       }
     }
 
-    // snake_case 매핑이 필요한 필드
     const mappedFields: Record<string, string> = {
       caseContext: 'case_context',
       case_context: 'case_context',
@@ -52,7 +78,7 @@ export async function PATCH(
 
     for (const [inputKey, dbKey] of Object.entries(mappedFields)) {
       if (inputKey in input) {
-        updateData[dbKey] = input[inputKey];
+        updateData[dbKey] = input[inputKey as keyof typeof input];
       }
     }
 
