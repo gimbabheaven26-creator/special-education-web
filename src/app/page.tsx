@@ -38,29 +38,31 @@ const todaysTerms = [
   },
 ];
 
+const primaryTermHref = todaysTerms[0].href;
+
 const gates = [
   {
     name: '용어당',
     detail: '뜻과 변별 기준',
-    href: todaysTerms[0].href,
+    href: primaryTermHref,
     icon: Search,
   },
   {
     name: '개념교',
     detail: '묶어 외울 구조',
-    href: '/concepts',
+    href: `${primaryTermHref}#concept-bridge`,
     icon: BookOpenCheck,
   },
   {
     name: '기출진',
     detail: '물음의 방식',
-    href: '/kice',
+    href: `${primaryTermHref}#exam-sense`,
     icon: FileText,
   },
   {
     name: '출제공방',
     detail: '동형 문제 초안',
-    href: '/admin/ai-generate',
+    href: `${primaryTermHref}#analog-seed`,
     icon: Sparkles,
   },
 ];

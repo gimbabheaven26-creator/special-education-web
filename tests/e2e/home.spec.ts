@@ -18,8 +18,29 @@ test.describe('이음진 홈', () => {
       /\/terms/,
     );
     await expect(page.getByRole('link', { name: /용어당/ })).toHaveAttribute('href', /\/terms/);
-    await expect(page.getByRole('link', { name: /기출진/ })).toHaveAttribute('href', '/kice');
-    await expect(page.getByRole('link', { name: /출제공방/ })).toHaveAttribute('href', '/admin/ai-generate');
+    await expect(page.getByRole('link', { name: /개념교/ })).toHaveAttribute('href', /\/terms.*#concept-bridge/);
+    await expect(page.getByRole('link', { name: /기출진/ })).toHaveAttribute('href', /\/terms.*#exam-sense/);
+    await expect(page.getByRole('link', { name: /출제공방/ })).toHaveAttribute('href', /\/terms.*#analog-seed/);
+    await expect(page.locator('a[href="/concepts"]')).toHaveCount(0);
+    await expect(page.locator('a[href="/kice"]')).toHaveCount(0);
+    await expect(page.locator('a[href="/admin/ai-generate"]')).toHaveCount(0);
+  });
+
+  test('루트 CTA로 들어간 용어당은 구 용어사전 폼을 쓰지 않는다', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('link', { name: /오늘의 이음 시작/ }).click();
+    await page.waitForURL(/\/terms\?/);
+
+    await expect(page.getByRole('banner').getByText('이음진', { exact: true })).toBeVisible();
+    await expect(page.getByText('기능적 행동평가 7분 이음권', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '용어당' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /기능적 행동평가/ })).toBeVisible();
+    await expect(page.getByText('동형문제 씨앗', { exact: true })).toBeVisible();
+    await expect(page.getByText('특수교육 공부방')).toHaveCount(0);
+    await expect(page.getByText('NISE 특수교육학 용어사전')).toHaveCount(0);
+    await expect(page.getByPlaceholder('한국어, 영어, 한자로 검색...')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: '플래시카드 모드' })).toHaveCount(0);
+    await expect(page.locator('nav[aria-label="모바일 하단 탭"]')).toHaveCount(0);
   });
 
   test('페이지 내 링크가 2개 이상 존재', async ({ page }) => {
@@ -40,24 +61,19 @@ test.describe('BottomTabBar (모바일)', () => {
     await expect(nav).toHaveCount(0);
   });
 
-  test('Classic 라우트에서는 하단 탭바 렌더링', async ({ page }) => {
-    await page.goto('/terms');
+  test('구 서비스 라우트 직접 접근은 이음진 입구로 돌아온다', async ({ page }) => {
+    await page.goto('/concepts');
+    await expect(page).toHaveURL(/\/\?from=legacy/);
+    await expect(page.getByRole('heading', { name: '이음진' })).toBeVisible();
     const nav = page.locator('nav[aria-label="모바일 하단 탭"]');
-    await expect(nav).toBeVisible();
+    await expect(nav).toHaveCount(0);
   });
 
-  test('Classic 탭 클릭 시 페이지 이동', async ({ page }) => {
-    await page.goto('/terms');
-    const nav = page.locator('nav[aria-label="모바일 하단 탭"]');
-    // 홈이 아닌 첫 번째 탭 링크 클릭
-    const tabLinks = nav.locator('a:not([href="/"])');
-    const count = await tabLinks.count();
-    if (count > 0) {
-      const href = await tabLinks.first().getAttribute('href');
-      await tabLinks.first().click();
-      await page.waitForURL(`**${href}*`);
-      expect(page.url()).toContain(href);
-    }
+  test('구 관리자 라우트 직접 접근도 Classic 로그인 화면을 노출하지 않는다', async ({ page }) => {
+    await page.goto('/admin/ai-generate');
+    await expect(page).toHaveURL(/\/\?from=legacy/);
+    await expect(page.getByText('특수교육 공부방')).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: '이음진' })).toBeVisible();
   });
 });
 

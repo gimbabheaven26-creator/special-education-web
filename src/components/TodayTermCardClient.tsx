@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, X, ArrowRight } from 'lucide-react';
-import type { Term } from '@/app/terms/page';
+import type { TermEntry } from '@/lib/content/term-utils';
 
-export function TodayTermCardClient({ term }: { term: Term }) {
+export function TodayTermCardClient({ term }: { term: TermEntry }) {
   const [open, setOpen] = useState(false);
 
   return (

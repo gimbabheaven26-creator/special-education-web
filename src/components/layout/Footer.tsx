@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 export function Footer() {
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
-  const isIeumjinRoute = pathname === '/';
+  const isIeumjinRoute = pathname === '/' || pathname === '/terms';
 
   if (isIeumjinRoute) return null;
 
