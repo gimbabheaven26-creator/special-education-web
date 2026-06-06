@@ -1,6 +1,6 @@
 # M5.1: 내부 품질 강화 — 안정성·품질·연계성
 
-> 작성: 2026-06-01 | 담당: X | 상태: Phase 1 완료 (2026-06-04), Phase 2 대기
+> 작성: 2026-06-01 | 담당: X | 상태: Phase 1-2 완료 (2026-06-06), Phase 3 대기
 > 배경: M5(구조 재구성) 폐기. SEW Next 프로토타입 삭제 완료. 기존 48개 라우트 구조 유지하면서 내부 품질에 집중.
 
 ## 진단 요약
@@ -27,10 +27,10 @@
 
 **목표**: 서버사이드 퀴즈 품질 검증 파이프라인. 중복 감지. 품질 메트릭 API.
 
-- [ ] 2-1. quiz-schema.ts 품질 규칙 확장 — 설명 필수, OX 답 검증, 옵션 4개 검증
-- [ ] 2-2. duplicate-detector.ts — Jaccard 유사도 기반 한국어 중복 감지
-- [ ] 2-3. GET /api/admin/quiz/quality — 품질 메트릭 대시보드 API
-- [ ] 2-4. bulk import 품질 체크 통합 — 검증 + 중복 경고 반환
+- [x] 2-1. quiz-quality.ts 품질 규칙 엔진 — OX 답 검증, 옵션 4개, explanation 경고, subject/type 검증
+- [x] 2-2. duplicate-detector.ts — Jaccard 유사도 기반 한국어 중복 감지 (tokenize + threshold 0.85)
+- [x] 2-3. GET /api/admin/quiz/quality — 품질 메트릭 API (byType, bySubject, qualityIssues, duplicates 옵션)
+- [x] 2-4. bulk import 품질 체크 통합 — 에러 항목 거부 + warnings 배열 반환
 
 ## Phase 3: Feature Bridges (3일)
 
