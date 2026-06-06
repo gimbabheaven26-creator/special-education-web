@@ -82,7 +82,9 @@ docs/cloudy-requests.md    # 작업 요청 큐 (구 클루디, 현 X)
 docs/v-reviews/            # V(외부 검증) 리뷰 파일 — 세션 시작 시 OPEN 항목 확인 필수
 
 src/lib/content/                   # 개념/구조/URL 유틸 (concept-urls, concepts, structure-utils, worksheet-utils)
-src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-difficulty, answer-checker, flashcard-converter 등)
+src/lib/quiz/                      # 퀴즈 로직 (seeded-sample, adaptive-difficulty, answer-checker, flashcard-converter, quiz-quality, duplicate-detector 등)
+src/lib/db/sync-schemas.ts         # 6개 Zustand 스토어 Zod 검증 스키마 (sync 레이어에서 사용)
+src/lib/safe-json-parse.ts         # 안전한 JSON.parse 래퍼 유틸
 src/lib/study/                     # 학습 진도 (mastery, badges, xp-constants, stats-utils, study-planner, focus-utils — getWeakSubjectsFromDiagnosis/pickWeakestSubject/generateDailyMission 등)
 src/stores/useFocusStore.ts        # 집중 모드 + 오늘의 미션 (Zustand persist, 6시간 로테이션)
 src/components/dashboard/          # 홈 재설계 — HomeDashboard, FocusBanner, MissionBlockList
