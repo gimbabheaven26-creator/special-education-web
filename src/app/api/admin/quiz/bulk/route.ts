@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/nextjs';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { verifyAdminOrApiKey } from '@/lib/db/admin-auth';
+import { validateQuizQuality } from '@/lib/quiz/quiz-quality';
 
 const BulkQuizItemSchema = z.object({
   id: z.string().uuid().optional(),
@@ -60,7 +61,30 @@ export async function POST(request: Request) {
     const { questions } = parsed.data;
     const supabase = await createClient();
 
-    const rows = questions.map((q) => ({
+    const accepted: typeof questions = [];
+    const warnings: Array<{ index: number; id: string; issues: string[] }> = [];
+    let rejected = 0;
+
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      const quality = validateQuizQuality({
+        ...q,
+        case_context: q.caseContext ?? q.case_context ?? undefined,
+        sub_questions: q.subQuestions ?? q.sub_questions ?? undefined,
+      });
+
+      if (!quality.isValid) {
+        rejected++;
+        warnings.push({ index: i, id: q.id ?? `(index ${i})`, issues: quality.errors });
+      } else {
+        if (quality.warnings.length > 0) {
+          warnings.push({ index: i, id: q.id ?? `(index ${i})`, issues: quality.warnings });
+        }
+        accepted.push(q);
+      }
+    }
+
+    const rows = accepted.map((q) => ({
       id: q.id,
       subject: q.subject,
       chapter: q.chapter,
@@ -99,6 +123,8 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       processed: results.length,
+      rejected,
+      warnings: warnings.length > 0 ? warnings : undefined,
     });
   } catch (err) {
     Sentry.captureException(err);

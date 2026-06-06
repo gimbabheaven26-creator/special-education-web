@@ -25,11 +25,13 @@ function makeRequest(body: unknown) {
 
 function validQuestion(overrides?: Record<string, unknown>) {
   return {
-    subject: 'math',
+    subject: 'introduction',
     chapter: 'ch1',
     type: 'ox',
-    question: '1+1=2?',
+    question: '특수교육은 장애 학생만을 위한 교육이다.',
     answer: 'O',
+    explanation: '특수교육은 특수한 교육적 요구가 있는 모든 학생을 위한 교육입니다.',
+    difficulty: 2,
     ...overrides,
   };
 }
