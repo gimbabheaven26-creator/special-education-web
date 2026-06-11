@@ -20,21 +20,9 @@ export const metadata: Metadata = {
 const todaysTerms = [
   {
     title: '기능적 행동평가',
-    subject: '정서행동장애',
-    clue: '행동의 형태가 아니라 유지 기능을 묻는 사례형 함정',
+    subject: '행동지원',
+    clue: '공식 정의, ABC 관찰, 2019 전공A 14번, 동형 씨앗까지 한 번에 잇는 첫 렌즈',
     href: '/terms?q=%EA%B8%B0%EB%8A%A5%EC%A0%81%20%ED%96%89%EB%8F%99%ED%8F%89%EA%B0%80',
-  },
-  {
-    title: '개별화교육계획',
-    subject: '특수교육법',
-    clue: '회의 구성, 현재 수행 수준, 지원 책임이 함께 움직이는 법령 축',
-    href: '/terms?q=%EA%B0%9C%EB%B3%84%ED%99%94%EA%B5%90%EC%9C%A1%EA%B3%84%ED%9A%8D',
-  },
-  {
-    title: '보편적 학습설계',
-    subject: '특수교육공학',
-    clue: '전체 수업 설계와 개별 보조공학 지원을 가르는 응용형 용어',
-    href: '/terms?q=%EB%B3%B4%ED%8E%B8%EC%A0%81%20%ED%95%99%EC%8A%B5%EC%84%A4%EA%B3%84',
   },
 ];
 
@@ -90,7 +78,7 @@ export default function HomePage() {
 
           <section>
             <p className="text-xs font-black text-cyan-200">오늘의 통행 용어</p>
-            <div className="mt-4 grid gap-3 lg:grid-cols-3">
+            <div className="mt-4 grid max-w-3xl gap-3">
               {todaysTerms.map((term, index) => (
                 <Link
                   key={term.title}
@@ -104,7 +92,7 @@ export default function HomePage() {
                     </div>
                     <span className="font-mono text-sm font-bold text-cyan-200">{String(index + 1).padStart(2, '0')}</span>
                   </div>
-                  <p className="mt-4 min-h-[48px] text-sm leading-relaxed text-stone-300">{term.clue}</p>
+                  <p className="mt-4 text-sm leading-relaxed text-stone-300">{term.clue}</p>
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-cyan-100">
                     용어 열기
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

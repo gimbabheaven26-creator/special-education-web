@@ -1,0 +1,144 @@
+{
+  "id": "fba",
+  "status": "source-linked",
+  "term": {
+    "label": "기능적 행동평가",
+    "hanja": "機能的 行動評價",
+    "english": "functional behavior assessment",
+    "aliases": ["FBA", "기능평가", "기능행동평가", "functional behavior assessment"]
+  },
+  "ticket": "행동의 모양보다 행동이 유지되는 이유를 먼저 묻는 용어",
+  "subject": "행동지원",
+  "answerGoal": "기능적 행동평가는 문제행동의 기능을 확인하기 위해 선행사건, 행동, 후속결과 정보를 수집·분석하고, 그 결과를 바탕으로 행동지원계획과 대체행동 교수를 설계하는 과정이다.",
+  "officialDefinition": {
+    "summary": "행동의 이유나 목적을 확인하기 위해 선행 사건, 행동, 후속 결과에 관한 정보를 수집하여 분석하는 방법이다.",
+    "sourceId": "nise-383398"
+  },
+  "distinction": {
+    "title": "진단명이 아니라 기능을 묻는다",
+    "body": "기능적 행동평가는 행동 이름을 붙이는 작업이 아니라, 어떤 선행사건 뒤에 행동이 일어나고 어떤 후속결과로 유지되는지 보아 중재 방향을 정하는 과정이다."
+  },
+  "sources": [
+    {
+      "kind": "nise",
+      "id": "383398",
+      "label": "NISE 특수교육학 용어: 기능적 행동평가",
+      "path": "data/terminology/nise-dictionary.json"
+    },
+    {
+      "kind": "concept",
+      "id": "behavior-pbs",
+      "label": "행동수정 - 긍정적 행동지원",
+      "path": "src/content/concepts/행동수정/06-긍정적행동지원.mdx"
+    },
+    {
+      "kind": "concept",
+      "id": "intellectual-behavior-support",
+      "label": "지적장애 - 행동지원 연계",
+      "path": "src/content/concepts/지적장애/06-행동지원연계.mdx"
+    },
+    {
+      "kind": "kice",
+      "id": "2019-전공A-14",
+      "label": "2019 전공A 14번",
+      "path": "data/kice-기출/2019/전공A.json"
+    }
+  ],
+  "conceptBridge": [
+    {
+      "title": "ABC 관찰",
+      "body": "선행사건, 행동, 후속결과를 시간 흐름으로 기록해 기능 가설의 근거를 만든다."
+    },
+    {
+      "title": "긍정적 행동지원",
+      "body": "FBA 결과를 바탕으로 문제행동을 억압하기보다 환경 조정과 기술 교수를 설계한다."
+    },
+    {
+      "title": "기능 가설",
+      "body": "어떤 상황에서 어떤 행동이 나타나며 무엇을 얻거나 피하려는지 문장으로 설명한다."
+    },
+    {
+      "title": "대체행동 교수",
+      "body": "문제행동과 같은 기능을 더 적절한 방식으로 충족하는 행동을 가르친다."
+    }
+  ],
+  "kiceRefs": [
+    {
+      "year": 2019,
+      "session": "전공A",
+      "number": 14,
+      "points": 4,
+      "type": "descriptive",
+      "label": "PBS 내용 속 FBA, MAS, ABC 관찰, 교체기술"
+    },
+    {
+      "year": 2021,
+      "session": "전공A",
+      "number": 10,
+      "points": 4,
+      "type": "descriptive",
+      "label": "ABC 분석, 기능평가, 소거, 선행사건 중재"
+    },
+    {
+      "year": 2025,
+      "session": "전공A",
+      "number": 11,
+      "points": 4,
+      "type": "descriptive",
+      "label": "ABC 관찰과 행동 기능"
+    },
+    {
+      "year": 2026,
+      "session": "전공A",
+      "number": 3,
+      "points": 2,
+      "type": "fill_in",
+      "label": "동일기능 대체행동과 강화/처벌 구분"
+    }
+  ],
+  "examDna": {
+    "representativeRef": {
+      "year": 2019,
+      "session": "전공A",
+      "number": 14
+    },
+    "format": "서술형 4점",
+    "scene": "정서·행동장애 학생 S를 위한 긍정적 행동지원 내용",
+    "materials": ["문제행동", "기능적 행동평가", "가설 설정", "지원 계획", "평가 계획"],
+    "asks": ["교체기술 특성", "대처기술 명칭", "수준 변화 분석", "즉각성 분석"],
+    "transformAxes": ["행동 기능", "대체행동", "ABC 관찰", "단일대상연구 그래프 분석"]
+  },
+  "analogSeed": {
+    "condition": "점심시간 직전 자해 행동이 반복되고, 행동 뒤 어려운 과제가 지연되는 사례",
+    "task": "ABC 관찰 기록을 근거로 기능 가설을 쓰고, 대체행동 교수와 선행사건 중재를 제안하게 한다.",
+    "guardrail": "장애명이나 행동 강도만으로 기능을 단정하지 않고, 선행사건과 후속결과 자료를 근거로 판단하게 한다.",
+    "status": "ai-draft"
+  },
+  "twentyMinuteFlow": [
+    {
+      "minutes": 3,
+      "title": "정의 회상",
+      "prompt": "선행사건, 행동, 후속결과라는 세 단어를 써서 FBA를 설명해 보세요."
+    },
+    {
+      "minutes": 3,
+      "title": "공식 정의 확인",
+      "prompt": "NISE 정의 후보에서 반드시 남겨야 할 핵심어를 표시합니다."
+    },
+    {
+      "minutes": 3,
+      "title": "혼동 구분",
+      "prompt": "FBA, 기능 분석, ABC 관찰, PBS를 한 문장씩 구분합니다."
+    },
+    {
+      "minutes": 5,
+      "title": "기출 DNA 분석",
+      "prompt": "2019 전공A 14번에서 자료, 물음, 채점 키워드를 분리합니다."
+    },
+    {
+      "minutes": 6,
+      "title": "동형 풀이와 복습 예약",
+      "prompt": "동형 씨앗의 기능 가설을 쓰고 다시 볼 날짜를 남깁니다."
+    }
+  ]
+}

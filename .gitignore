@@ -35,6 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /data/*
+!/data/ieumjin/
 !/data/kice-기출/
 !/data/terminology/
 !/data/worksheets/

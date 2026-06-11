@@ -8,6 +8,8 @@ test.describe('이음진 홈', () => {
     await expect(page.getByText('입진증', { exact: true })).toBeVisible();
     await expect(page.getByText('오늘의 통행 용어', { exact: true })).toBeVisible();
     await expect(page.getByText('한 용어를 들고 들어와')).toBeVisible();
+    await expect(page.getByText('개별화교육계획')).toHaveCount(0);
+    await expect(page.getByText('보편적 학습설계')).toHaveCount(0);
     await expect(page.getByText('특수교육 공부방')).toHaveCount(0);
   });
 
@@ -32,9 +34,11 @@ test.describe('이음진 홈', () => {
     await page.waitForURL(/\/terms\?/);
 
     await expect(page.getByRole('banner').getByText('이음진', { exact: true })).toBeVisible();
-    await expect(page.getByText('기능적 행동평가 7분 이음권', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '용어당' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /기능적 행동평가/ })).toBeVisible();
+    await expect(page.getByText('기능적 행동평가 20분 이음', { exact: true })).toBeVisible();
+    await expect(page.getByText('source-linked', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '기능적 행동평가' })).toBeVisible();
+    await expect(page.getByText('NISE · 383398', { exact: true })).toBeVisible();
+    await expect(page.getByText('2019 전공A 14번').first()).toBeVisible();
     await expect(page.getByText('동형문제 씨앗', { exact: true })).toBeVisible();
     await expect(page.getByText('특수교육 공부방')).toHaveCount(0);
     await expect(page.getByText('NISE 특수교육학 용어사전')).toHaveCount(0);

@@ -52,10 +52,10 @@ function IeumjinChrome({ children }: { children: React.ReactNode }) {
             <div>
               <p className="text-xs font-bold text-cyan-200">오늘의 이음권</p>
               <p className="mt-1 text-base font-black text-stone-50 sm:text-lg">
-                기능적 행동평가 7분 이음권
+                기능적 행동평가 20분 이음
               </p>
               <p className="mt-1 text-xs font-semibold leading-relaxed text-stone-400">
-                용어의 뜻을 잡고, 연결 개념과 기출 선지 함정까지 한 줄로 이어 봅니다.
+                공식 출처, 연결 개념, 기출 DNA, 동형문제 씨앗을 한 줄로 이어 봅니다.
               </p>
             </div>
 
