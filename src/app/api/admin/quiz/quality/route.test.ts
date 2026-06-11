@@ -26,11 +26,11 @@ function mockSupabase(questions: unknown[]) {
 describe('GET /api/admin/quiz/quality', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedAuth.mockResolvedValue({ authorized: true, isAdmin: true, isApiKey: true, userId: 'admin' });
+    mockedAuth.mockResolvedValue({ authorized: true, isApiKey: true, userId: 'admin' });
   });
 
   it('returns 401 when not authorized', async () => {
-    mockedAuth.mockResolvedValue({ authorized: false, isAdmin: false, isApiKey: false, userId: null });
+    mockedAuth.mockResolvedValue({ authorized: false, isApiKey: false });
     const res = await GET(makeRequest());
     expect(res.status).toBe(401);
   });

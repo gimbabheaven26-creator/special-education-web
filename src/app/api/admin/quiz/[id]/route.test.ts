@@ -48,11 +48,11 @@ const params = Promise.resolve({ id: 'q1' });
 describe('PATCH /api/admin/quiz/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedAuth.mockResolvedValue({ authorized: true, isAdmin: true, isApiKey: true, userId: 'admin' });
+    mockedAuth.mockResolvedValue({ authorized: true, isApiKey: true, userId: 'admin' });
   });
 
   it('returns 401 when not authorized', async () => {
-    mockedAuth.mockResolvedValue({ authorized: false, isAdmin: false, isApiKey: false, userId: null });
+    mockedAuth.mockResolvedValue({ authorized: false, isApiKey: false });
     const res = await PATCH(makeRequest({ question: 'test' }), { params });
     expect(res.status).toBe(401);
   });
@@ -97,11 +97,11 @@ describe('PATCH /api/admin/quiz/[id]', () => {
 describe('DELETE /api/admin/quiz/[id]', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedAuth.mockResolvedValue({ authorized: true, isAdmin: true, isApiKey: true, userId: 'admin' });
+    mockedAuth.mockResolvedValue({ authorized: true, isApiKey: true, userId: 'admin' });
   });
 
   it('returns 401 when not authorized', async () => {
-    mockedAuth.mockResolvedValue({ authorized: false, isAdmin: false, isApiKey: false, userId: null });
+    mockedAuth.mockResolvedValue({ authorized: false, isApiKey: false });
     const res = await DELETE(makeDeleteRequest(), { params });
     expect(res.status).toBe(401);
   });

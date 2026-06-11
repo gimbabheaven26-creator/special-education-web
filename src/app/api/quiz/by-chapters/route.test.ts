@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@sentry/nextjs', () => ({
@@ -24,13 +25,13 @@ const mockedGetIp = vi.mocked(getIp);
 describe('/api/quiz/by-chapters', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedDefaultLimiter.mockReturnValue({ allowed: true });
+    mockedDefaultLimiter.mockReturnValue({ allowed: true, remaining: 10 });
     mockedGetIp.mockReturnValue('127.0.0.1');
     mockedGetQuizzesByChapters.mockResolvedValue([]);
   });
 
   it('deduplicates chapter pairs before fetching quizzes', async () => {
-    const request = new Request('http://localhost/api/quiz/by-chapters', {
+    const request = new NextRequest('http://localhost/api/quiz/by-chapters', {
       method: 'POST',
       body: JSON.stringify({
         chapters: [
@@ -55,7 +56,7 @@ describe('/api/quiz/by-chapters', () => {
   });
 
   it('rejects more than 50 chapter pairs', async () => {
-    const request = new Request('http://localhost/api/quiz/by-chapters', {
+    const request = new NextRequest('http://localhost/api/quiz/by-chapters', {
       method: 'POST',
       body: JSON.stringify({
         chapters: Array.from({ length: 51 }, (_, index) => ({
@@ -74,7 +75,7 @@ describe('/api/quiz/by-chapters', () => {
   });
 
   it('rejects unsafe chapter filter characters', async () => {
-    const request = new Request('http://localhost/api/quiz/by-chapters', {
+    const request = new NextRequest('http://localhost/api/quiz/by-chapters', {
       method: 'POST',
       body: JSON.stringify({
         chapters: [{ subject: 'assessment', chapter: '지능검사),subject.eq.laws' }],

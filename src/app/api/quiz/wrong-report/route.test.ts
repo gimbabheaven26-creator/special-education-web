@@ -25,11 +25,11 @@ function makeRequest(body: unknown) {
 describe('POST /api/quiz/wrong-report', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedLimiter.mockReturnValue({ allowed: true });
+    mockedLimiter.mockReturnValue({ allowed: true, remaining: 10 });
   });
 
   it('returns 429 when rate limited', async () => {
-    mockedLimiter.mockReturnValue({ allowed: false });
+    mockedLimiter.mockReturnValue({ allowed: false, remaining: 0 });
     const res = await POST(makeRequest({ questionId: 'q1' }));
     expect(res.status).toBe(429);
   });

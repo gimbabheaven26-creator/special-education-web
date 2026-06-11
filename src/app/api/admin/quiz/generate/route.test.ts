@@ -25,11 +25,10 @@ describe('/api/admin/quiz/generate', () => {
     delete process.env.GEMINI_API_KEY;
     mockedVerifyAdminOrApiKey.mockResolvedValue({
       authorized: true,
-      isAdmin: true,
       isApiKey: true,
       userId: 'admin',
     });
-    mockedAdminGenerateLimiter.mockReturnValue({ allowed: true });
+    mockedAdminGenerateLimiter.mockReturnValue({ allowed: true, remaining: 10 });
   });
 
   it('accepts isomorphic generation without standard type and subject fields', async () => {

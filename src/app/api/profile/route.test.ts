@@ -32,7 +32,7 @@ const mockedGetIp = vi.mocked(getIp);
 describe('/api/profile', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedMutationLimiter.mockReturnValue({ allowed: true });
+    mockedMutationLimiter.mockReturnValue({ allowed: true, remaining: 10 });
     mockedGetIp.mockReturnValue('127.0.0.1');
   });
 

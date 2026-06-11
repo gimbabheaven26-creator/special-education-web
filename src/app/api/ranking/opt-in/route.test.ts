@@ -25,12 +25,12 @@ function makeRequest(body: unknown) {
 describe('POST /api/ranking/opt-in', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedLimiter.mockReturnValue({ allowed: true });
+    mockedLimiter.mockReturnValue({ allowed: true, remaining: 10 });
     mockedUpdate.mockResolvedValue({ error: null } as never);
   });
 
   it('returns 429 when rate limited', async () => {
-    mockedLimiter.mockReturnValue({ allowed: false });
+    mockedLimiter.mockReturnValue({ allowed: false, remaining: 0 });
     const res = await POST(makeRequest({ show: true }));
     expect(res.status).toBe(429);
   });

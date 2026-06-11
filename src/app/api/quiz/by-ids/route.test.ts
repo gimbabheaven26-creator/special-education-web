@@ -25,12 +25,12 @@ function makeRequest(body: unknown) {
 describe('POST /api/quiz/by-ids', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedLimiter.mockReturnValue({ allowed: true });
+    mockedLimiter.mockReturnValue({ allowed: true, remaining: 10 });
     mockedGetQuizzes.mockResolvedValue([]);
   });
 
   it('returns 429 when rate limited', async () => {
-    mockedLimiter.mockReturnValue({ allowed: false });
+    mockedLimiter.mockReturnValue({ allowed: false, remaining: 0 });
     const res = await POST(makeRequest({ ids: ['q1'] }));
     expect(res.status).toBe(429);
   });

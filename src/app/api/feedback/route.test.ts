@@ -22,12 +22,12 @@ function makeRequest(body: unknown) {
 describe('POST /api/feedback', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedLimiter.mockReturnValue({ allowed: true });
+    mockedLimiter.mockReturnValue({ allowed: true, remaining: 10 });
     delete process.env.DISCORD_WEBHOOK_URL;
   });
 
   it('returns 429 when rate limited', async () => {
-    mockedLimiter.mockReturnValue({ allowed: false });
+    mockedLimiter.mockReturnValue({ allowed: false, remaining: 0 });
     const res = await POST(makeRequest({ type: 'bug', message: 'test bug report' }));
     expect(res.status).toBe(429);
   });
