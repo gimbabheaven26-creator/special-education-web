@@ -12,6 +12,7 @@ import {
   computeTrend,
 } from '@/lib/study/stats-utils';
 import { getSubjectDisplayName } from '@/lib/study/display-labels';
+import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/content/concept-urls';
 
 const TREND_LABELS: Record<string, string> = {
   improving: '향상 중',
@@ -81,12 +82,17 @@ export function WeaknessInsight() {
         <div className="space-y-2">
           {data.weakSubjects.map((s) => {
             const wrongCount = data.wrongBySubject.get(s.subject) ?? 0;
+            const hasConcept = !!SLUG_TO_CONCEPTS_FOLDER[s.subject];
             return (
-              <Link
+              <div
                 key={s.subject}
-                href={`/quiz/${s.subject}`}
-                className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted/50 transition-colors -mx-1"
+                className="relative flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted/50 transition-colors -mx-1"
               >
+                <Link
+                  href={`/quiz/${s.subject}`}
+                  className="absolute inset-0 z-0 rounded-lg"
+                  aria-label={`${getSubjectDisplayName(s.subject)} 퀴즈 연습하기`}
+                />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-foreground truncate">{getSubjectDisplayName(s.subject)}</span>
@@ -97,9 +103,17 @@ export function WeaknessInsight() {
                     {wrongCount > 0 && ` · 오답 ${wrongCount}개`}
                   </p>
                 </div>
+                {hasConcept && (
+                  <Link
+                    href={getConceptUrl(s.subject)}
+                    className="relative z-10 text-xs text-muted-foreground hover:text-primary hover:underline shrink-0"
+                  >
+                    개념 복습
+                  </Link>
+                )}
                 <span className="text-xs text-primary shrink-0">연습하기</span>
                 <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              </Link>
+              </div>
             );
           })}
         </div>

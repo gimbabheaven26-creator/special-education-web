@@ -1,6 +1,6 @@
 # M5.1: 내부 품질 강화 — 안정성·품질·연계성
 
-> 작성: 2026-06-01 | 담당: X | 상태: Phase 1-2 완료 (2026-06-06), Phase 3 대기
+> 작성: 2026-06-01 | 담당: X | 상태: Phase 1-3 완료 (2026-06-11), Completion Contract V 검증 대기
 > 배경: M5(구조 재구성) 폐기. SEW Next 프로토타입 삭제 완료. 기존 48개 라우트 구조 유지하면서 내부 품질에 집중.
 
 ## 진단 요약
@@ -36,11 +36,11 @@
 
 **목표**: 끊어진 사용자 여정 연결. 새 페이지 없음. 기존 컴포넌트에 링크·넛지만 추가.
 
-- [ ] 3-1. 개념→퀴즈 브릿지 — concepts/[subject]/[slug] 페이지에 "이 개념 퀴즈로 확인" CTA
-- [ ] 3-2. 완료 화면 넛지 — QuizResultScreen, CompletionScreen, ExamResultScreen에 NextStepNudge
-- [ ] 3-3. 약점→개념 링크 — WeaknessInsight, WeakAreas에 "개념 복습" 버튼
-- [ ] 3-4. 대시보드 SRS 알림 — DailyReviewCard 홈 노출 확인
-- [ ] 3-5. 북마크 서피싱 — 추천 시스템에 "북마크 복습" 항목 추가
+- [x] 3-1. 개념→퀴즈 브릿지 — 기구현 확인 (ConceptActionPanel "관련 퀴즈 풀기", 스크롤 없이 보이는 헤더 위치)
+- [x] 3-2. 완료 화면 넛지 — NextStepNudge 신규 컴포넌트. QuizResultScreen(오답>0→오답노트, <60%→개념) + ExamResultScreen(자동채점<60%→최약영역 개념). CompletionScreen은 기존 링크로 기충족
+- [x] 3-3. 약점→개념 링크 — WeaknessInsight(overlay 패턴으로 "개념 복습" 추가), WeakAreas("개념 복습" 링크)
+- [x] 3-4. 대시보드 SRS 알림 — DailyReviewCard가 미마운트 상태였음을 발견, HomeDashboard에 마운트
+- [x] 3-5. 북마크 서피싱 — useMyPageData 추천에 bookmark 타입 추가 → /bookmarks/quiz
 
 ## Completion Contract
 

@@ -87,7 +87,8 @@ src/lib/db/sync-schemas.ts         # 6개 Zustand 스토어 Zod 검증 스키마
 src/lib/safe-json-parse.ts         # 안전한 JSON.parse 래퍼 유틸
 src/lib/study/                     # 학습 진도 (mastery, badges, xp-constants, stats-utils, study-planner, focus-utils — getWeakSubjectsFromDiagnosis/pickWeakestSubject/generateDailyMission 등)
 src/stores/useFocusStore.ts        # 집중 모드 + 오늘의 미션 (Zustand persist, 6시간 로테이션)
-src/components/dashboard/          # 홈 재설계 — HomeDashboard, FocusBanner, MissionBlockList
+src/components/dashboard/          # 홈 재설계 — HomeDashboard, FocusBanner, MissionBlockList, DailyReviewCard(홈 SRS 알림)
+src/components/quiz/NextStepNudge.tsx  # 완료 화면 다음 단계 넛지 (QuizResultScreen, ExamResultScreen에서 사용)
 src/app/my/useMyPageData.ts        # /my 대시보드 통합 훅 (3스토어 데이터 가공)
 src/app/my/LevelBadge.tsx          # XP 레벨 + 진행바 + 스트릭 → /mastery 링크
 src/app/my/WeeklyActivityChart.tsx  # 7일 학습 CSS 바 차트
@@ -206,7 +207,7 @@ nadaun Supabase (별도): https://clyznibsrnypkdorqbfl.supabase.co
 
 ## 현재 마일스톤 (M5.1: 내부 품질 강화, 2026-06-01~)
 
-M1~M3 완료. M4 Phase 0+1 완료, Phase 2 미실행. M5(구조 재구성) 폐기 — SEW Next 프로토타입 삭제, 기존 48개 라우트 유지. M5.1: 안정성·품질·연계성에 집중. Phase 1(Stability Shield) 대기. 상세는 `prompt_plan.md` 참조.
+M1~M3 완료. M4 Phase 0+1 완료, Phase 2 미실행. M5(구조 재구성) 폐기 — SEW Next 프로토타입 삭제, 기존 48개 라우트 유지. M5.1: 안정성·품질·연계성 — Phase 1~3 전체 완료 (2026-06-11), Completion Contract V 검증 대기. 상세는 `prompt_plan.md` 참조.
 
 ---
 

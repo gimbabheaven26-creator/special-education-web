@@ -10,6 +10,7 @@ import { SUBJECT_LABELS } from '@/types/kice'
 import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/content/concept-urls'
 import type { KiceExam, KiceQuestion } from '@/types/kice'
 import { checkBlank } from '@/lib/quiz/check-blank'
+import { NextStepNudge, type NextStep } from '@/components/quiz/NextStepNudge'
 
 interface UserAnswer {
   blanks: Record<string, string>
@@ -442,6 +443,21 @@ export default function ExamResultScreen({ exam, answers, elapsedSeconds }: Exam
           </CardContent>
         </Card>
       )}
+
+      {/* Next Step Nudge — 자동 채점 60% 미만이면 최약 영역 개념 복습 제안 */}
+      {(() => {
+        const autoRate = stats.autoMax > 0 ? (stats.autoScore / stats.autoMax) * 100 : null
+        if (autoRate === null || autoRate >= 60) return null
+        const weakest = subjectStats.find((s) => SLUG_TO_CONCEPTS_FOLDER[s.subject])
+        const nextSteps: NextStep[] = weakest
+          ? [{
+              href: getConceptUrl(weakest.subject),
+              label: `${SUBJECT_LABELS[weakest.subject] ?? weakest.subject} 개념부터 다시 정리하기`,
+              emoji: '📖',
+            }]
+          : [{ href: '/concepts', label: '개념부터 다시 정리하기', emoji: '📖' }]
+        return <NextStepNudge steps={nextSteps} />
+      })()}
 
       {/* Actions */}
       <div className="flex gap-3 pb-10">

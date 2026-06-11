@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RotateCcw, XCircle, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { getConceptUrl } from '@/lib/content/concept-urls';
 import { normalizeOXAnswer } from '@/lib/quiz';
+import { NextStepNudge, type NextStep } from '@/components/quiz/NextStepNudge';
 import { createScoreTiers, getScoreTier } from '@/lib/study/score-tiers';
 
 const SCORE_TIERS = createScoreTiers([
@@ -350,6 +351,30 @@ export function QuizResultScreen({
 
       {/* Question Review */}
       <QuestionReviewSection questions={questions} answers={answers} />
+
+      {/* Next Step Nudge */}
+      {(() => {
+        const nextSteps: NextStep[] = [];
+        if (wrongAnswerCount > 0) {
+          nextSteps.push({
+            href: '/wrong-notes',
+            label: `오답노트에서 ${wrongAnswerCount}문제 정리하기`,
+            emoji: '📋',
+          });
+        }
+        if (answeredCount > 0 && rate < 60) {
+          nextSteps.push({
+            href: getConceptUrl(subjectSlug),
+            label: '개념부터 다시 정리하기',
+            emoji: '📖',
+          });
+        }
+        return nextSteps.length > 0 ? (
+          <div className="mb-6">
+            <NextStepNudge steps={nextSteps} />
+          </div>
+        ) : null;
+      })()}
 
       {/* Action Buttons */}
       <div className="flex gap-3 flex-wrap justify-center">

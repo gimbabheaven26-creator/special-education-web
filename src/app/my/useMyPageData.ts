@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useStudyStore } from '@/stores/useStudyStore';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { useLeitnerStore } from '@/stores/useLeitnerStore';
+import { useBookmarkStore } from '@/stores/useBookmarkStore';
 import { useShallow } from 'zustand/react/shallow';
 import { getLevel, getLevelProgress, getLevelName, LEVEL_NAMES } from '@/lib/study/xp-constants';
 import {
@@ -18,7 +19,7 @@ import {
 import { getSubjectDisplayName } from '@/lib/study/display-labels';
 
 export interface Recommendation {
-  type: 'flashcard' | 'weak' | 'wrong' | 'daily' | 'continue';
+  type: 'flashcard' | 'weak' | 'wrong' | 'daily' | 'continue' | 'bookmark';
   label: string;
   href: string;
   emoji: string;
@@ -29,6 +30,7 @@ export function useMyPageData() {
   const quizHistory = useQuizStore((s) => s.quizHistory);
   const wrongNotes = useQuizStore((s) => s.wrongNotes);
   const leitnerStats = useLeitnerStore(useShallow((s) => s.getStats()));
+  const bookmarkCount = useBookmarkStore((s) => s.bookmarks.length);
 
   const level = useMemo(() => {
     const lv = getLevel(totalXP);
@@ -82,13 +84,16 @@ export function useMyPageData() {
     if (unmasteredCount > 0) {
       items.push({ type: 'wrong', label: `오답 ${unmasteredCount}개 아직 미해결`, href: '/wrong-notes', emoji: '📋' });
     }
+    if (bookmarkCount > 0) {
+      items.push({ type: 'bookmark', label: `북마크 ${bookmarkCount}개 복습`, href: '/bookmarks/quiz', emoji: '🔖' });
+    }
     if (recentActivities.length > 0) {
       const last = recentActivities[0];
       items.push({ type: 'continue', label: `${last.subjectTitle} 이어서 학습`, href: `/concepts/${last.subjectTitle}`, emoji: '📖' });
     }
 
     return items.slice(0, 3);
-  }, [dailyProgress, leitnerStats, weakness, unmasteredCount, recentActivities]);
+  }, [dailyProgress, leitnerStats, weakness, unmasteredCount, bookmarkCount, recentActivities]);
 
   return { level, weeklyActivity, weakness, unmasteredCount, recommendations, currentStreak, subjectWeekly, weakToStrong };
 }

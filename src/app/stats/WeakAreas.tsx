@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { SubjectStats, ChapterStats } from '@/lib/study/stats-utils';
+import { getConceptUrl, SLUG_TO_CONCEPTS_FOLDER } from '@/lib/content/concept-urls';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
@@ -65,6 +66,14 @@ function WeakSubjectRow({
           <span className={`text-sm font-medium ${rateColorClass(area.rate)}`}>
             {area.rate}%
           </span>
+          {SLUG_TO_CONCEPTS_FOLDER[area.subject] && (
+            <Link
+              href={getConceptUrl(area.subject)}
+              className="text-xs text-muted-foreground hover:text-primary hover:underline whitespace-nowrap"
+            >
+              개념 복습
+            </Link>
+          )}
           <Link
             href={`/wrong-notes?subject=${area.subject}`}
             className="text-xs text-muted-foreground hover:text-primary hover:underline whitespace-nowrap"
