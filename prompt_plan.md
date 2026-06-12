@@ -1,7 +1,8 @@
 # M5.1: 내부 품질 강화 — 안정성·품질·연계성
 
 > 작성: 2026-06-01 | 담당: X | 상태: **M5.1 완료** — V 검증 22/22 PASS (2026-06-11, `docs/v-reviews/v-review-20260611-m51-completion-contract.md`)
-> 후속 권고(V, MEDIUM): syncAllStores 부분 실패 hydration·syncOnLogin 뮤텍스·bulk warnings 응답 — 코드는 있으나 회귀 테스트 부재. 다음 작업 큐 등록 권고 (반나절)
+> 후속 권고(V, MEDIUM): syncAllStores 부분 실패 hydration·syncOnLogin 뮤텍스·bulk warnings 응답 회귀 테스트 — **이행 완료** (2026-06-12, `c4c3ee1`, +6 테스트). 추가로 stale E2E `sew-next.spec.ts` 제거로 CI 복구 (`baa4ed6`)
+> 잔여 OPEN(V, LOW): CompletionScreen 점수 기반 조건부 넛지 승격, visibilitychange flush keepalive — 차기 작업 후보
 > 배경: M5(구조 재구성) 폐기. SEW Next 프로토타입 삭제 완료. 기존 48개 라우트 구조 유지하면서 내부 품질에 집중.
 
 ## 진단 요약
