@@ -102,6 +102,39 @@ describe('POST /api/admin/quiz/bulk', () => {
     expect(json.processed).toBe(1);
   });
 
+  it('rejects quality-failed items with warnings array (V 권고 회귀)', async () => {
+    mockSupabase();
+    const res = await POST(makeRequest({
+      questions: [
+        validQuestion(),
+        // OX인데 answer가 O/X가 아님 → validateQuizQuality가 error로 거부
+        validQuestion({ answer: '예' }),
+      ],
+    }));
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.success).toBe(true);
+    expect(json.processed).toBe(1);
+    expect(json.rejected).toBe(1);
+    expect(json.warnings).toHaveLength(1);
+    expect(json.warnings[0].index).toBe(1);
+    expect(json.warnings[0].issues.join()).toContain('OX answer');
+  });
+
+  it('accepts items with quality warnings and surfaces them in warnings array', async () => {
+    mockSupabase();
+    const res = await POST(makeRequest({
+      // explanation 누락 → 거부는 아니지만 warning으로 보고
+      questions: [validQuestion({ explanation: undefined })],
+    }));
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.processed).toBe(1);
+    expect(json.rejected).toBe(0);
+    expect(json.warnings).toHaveLength(1);
+    expect(json.warnings[0].issues.join()).toContain('explanation');
+  });
+
   it('includes item-level validation details', async () => {
     const res = await POST(makeRequest({
       questions: [
