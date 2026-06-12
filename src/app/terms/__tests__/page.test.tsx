@@ -17,5 +17,7 @@ describe('TermsPage', () => {
     expect(screen.getByText('NISE · 383398')).toBeDefined();
     expect(screen.getAllByText(/2019 전공A 14번/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/20분 이음/).length).toBeGreaterThan(0);
+    expect(screen.getByText('FBA 20분 실전 이음')).toBeDefined();
+    expect(screen.getByLabelText('기출 답안')).toBeDefined();
   });
 });

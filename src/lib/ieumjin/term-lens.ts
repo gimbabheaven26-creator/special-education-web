@@ -29,6 +29,36 @@ export type ExamDna = {
   transformAxes: string[];
 };
 
+export type PracticeRubricItem = {
+  id: string;
+  label: string;
+  points: number;
+  keywordGroups: string[][];
+  feedback: string;
+  repairPrompt: string;
+};
+
+export type PracticeQuestion = {
+  id: string;
+  title: string;
+  sourceLabel: string;
+  prompt: string;
+  answerGuide: string;
+  rubric: PracticeRubricItem[];
+};
+
+export type PracticeReviewDelay = {
+  days: number;
+  label: string;
+};
+
+export type PracticeLoop = {
+  storageKey: string;
+  examQuestion: PracticeQuestion;
+  analogQuestion: PracticeQuestion;
+  reviewDelays: PracticeReviewDelay[];
+};
+
 export type TermLens = {
   id: string;
   status: TermLensStatus;
@@ -62,6 +92,7 @@ export type TermLens = {
     guardrail: string;
     status: Extract<TermLensStatus, 'ai-draft' | 'source-linked' | 'verified'>;
   };
+  practiceLoop: PracticeLoop;
   twentyMinuteFlow: Array<{
     minutes: number;
     title: string;

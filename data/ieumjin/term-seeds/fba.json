@@ -114,6 +114,96 @@
     "guardrail": "장애명이나 행동 강도만으로 기능을 단정하지 않고, 선행사건과 후속결과 자료를 근거로 판단하게 한다.",
     "status": "ai-draft"
   },
+  "practiceLoop": {
+    "storageKey": "ieumjin:fba-practice-loop",
+    "examQuestion": {
+      "id": "fba-exam-2019-a14",
+      "title": "기출 답안 작성",
+      "sourceLabel": "2019 전공A 14번 변형",
+      "prompt": "정서·행동장애 학생의 문제행동을 기능적 행동평가로 살핀다고 할 때, 답안에 반드시 들어가야 할 평가 근거와 지원 방향을 쓰세요.",
+      "answerGuide": "선행사건, 행동, 후속결과 자료를 수집해 기능 가설을 세우고, 같은 기능을 충족하는 대체행동 교수와 선행사건·후속결과 중재를 설계한다.",
+      "rubric": [
+        {
+          "id": "abc",
+          "label": "ABC 자료",
+          "points": 1,
+          "keywordGroups": [["선행사건", "선행 사건"], ["행동"], ["후속결과", "후속 결과"]],
+          "feedback": "선행사건-행동-후속결과가 모두 잡혔다.",
+          "repairPrompt": "선행사건, 행동, 후속결과를 한 문장에 함께 넣어 보세요."
+        },
+        {
+          "id": "function-hypothesis",
+          "label": "기능 가설",
+          "points": 1,
+          "keywordGroups": [["기능"], ["가설", "목적", "이유"]],
+          "feedback": "행동의 기능을 가설로 설명했다.",
+          "repairPrompt": "행동이 무엇을 얻거나 피하려는지 기능 가설로 쓰세요."
+        },
+        {
+          "id": "support-plan",
+          "label": "지원 계획",
+          "points": 1,
+          "keywordGroups": [["대체행동", "교체기술", "대안행동"], ["중재", "지원", "교수", "강화"]],
+          "feedback": "대체행동과 중재 방향이 연결됐다.",
+          "repairPrompt": "같은 기능을 충족하는 대체행동 교수와 중재를 붙이세요."
+        },
+        {
+          "id": "evidence-guardrail",
+          "label": "근거 판단",
+          "points": 1,
+          "keywordGroups": [["자료", "근거", "관찰", "기록", "면담"]],
+          "feedback": "장애명이나 행동 강도만으로 단정하지 않았다.",
+          "repairPrompt": "자료나 관찰 근거를 기준으로 판단한다는 말을 넣으세요."
+        }
+      ]
+    },
+    "analogQuestion": {
+      "id": "fba-analog-1",
+      "title": "동형문제 풀이",
+      "sourceLabel": "이음진 동형 초안",
+      "prompt": "점심시간 직전 어려운 쓰기 과제가 제시되면 자해 행동이 반복되고, 행동 뒤 과제가 지연된다. 기능 가설과 대체행동 교수, 선행사건 중재를 쓰세요.",
+      "answerGuide": "쓰기 과제 회피 기능을 가설로 세우고, 도움 요청이나 휴식 요청 같은 대체행동을 가르치며, 과제 난이도 조정과 사전 선택지를 제공한다.",
+      "rubric": [
+        {
+          "id": "abc",
+          "label": "ABC 자료",
+          "points": 1,
+          "keywordGroups": [["쓰기 과제", "과제"], ["자해"], ["지연", "회피", "벗어"]],
+          "feedback": "사례의 선행사건, 행동, 후속결과를 연결했다.",
+          "repairPrompt": "쓰기 과제, 자해 행동, 과제 지연을 ABC 흐름으로 다시 쓰세요."
+        },
+        {
+          "id": "function-hypothesis",
+          "label": "기능 가설",
+          "points": 1,
+          "keywordGroups": [["회피", "벗어", "지연"], ["기능", "가설", "목적"]],
+          "feedback": "과제 회피 기능을 가설로 세웠다.",
+          "repairPrompt": "자해 행동이 과제 회피 기능을 할 수 있음을 가설로 쓰세요."
+        },
+        {
+          "id": "support-plan",
+          "label": "지원 계획",
+          "points": 1,
+          "keywordGroups": [["대체행동", "도움 요청", "휴식 요청"], ["교수", "가르", "중재"]],
+          "feedback": "같은 기능을 하는 대체행동을 제안했다.",
+          "repairPrompt": "도움 요청이나 휴식 요청 같은 대체행동 교수를 넣으세요."
+        },
+        {
+          "id": "evidence-guardrail",
+          "label": "선행사건 중재",
+          "points": 1,
+          "keywordGroups": [["선행사건", "난이도", "선택지", "사전"]],
+          "feedback": "행동 전 조건을 바꾸는 중재가 들어갔다.",
+          "repairPrompt": "과제 난이도 조정, 선택지 제공 같은 선행사건 중재를 쓰세요."
+        }
+      ]
+    },
+    "reviewDelays": [
+      { "days": 1, "label": "내일" },
+      { "days": 3, "label": "3일 뒤" },
+      { "days": 7, "label": "7일 뒤" }
+    ]
+  },
   "twentyMinuteFlow": [
     {
       "minutes": 3,

@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { getTermLensByQuery, type KiceRef, type TermLens } from '@/lib/ieumjin';
+import TermPracticeClient from './TermPracticeClient';
 
 export const dynamic = 'force-dynamic';
 
@@ -167,6 +168,8 @@ export default function TermsPage({
               ))}
             </div>
           </section>
+
+          <TermPracticeClient lens={lens} />
 
           <section id="analog-seed" className="rounded-sm border border-stone-900 bg-stone-950 p-5 text-stone-50 scroll-mt-44">
             <div className="flex items-center gap-2">
