@@ -82,6 +82,24 @@ describe('validateQuizQuality', () => {
     expect(result.isValid).toBe(true);
   });
 
+  it('valid 5-choice (임용 기출) question passes', () => {
+    const result = validateQuizQuality(makeQuiz({
+      type: 'multiple',
+      answer: '4',
+      options: ['가', '나', '다', '라', '마'],
+    }));
+    expect(result.isValid).toBe(true);
+  });
+
+  it('rejects 5-choice with answer out of range', () => {
+    const result = validateQuizQuality(makeQuiz({
+      type: 'multiple',
+      answer: '5',
+      options: ['가', '나', '다', '라', '마'],
+    }));
+    expect(result.isValid).toBe(false);
+  });
+
   it('rejects scenario_composite without case_context', () => {
     const result = validateQuizQuality(makeQuiz({
       type: 'scenario_composite',

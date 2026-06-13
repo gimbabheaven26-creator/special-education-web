@@ -8,7 +8,6 @@ const VALID_QUIZ_TYPES = new Set([
   'multiple', 'ox', 'fill_in', 'descriptive', 'scenario_composite',
 ]);
 
-const VALID_MULTIPLE_ANSWERS = new Set(['0', '1', '2', '3']);
 const VALID_OX_ANSWERS = new Set(['O', 'X']);
 
 export interface QualityResult {
@@ -66,11 +65,16 @@ export function validateQuizQuality(q: QuizInput): QualityResult {
   }
 
   if (q.type === 'multiple') {
-    if (!Array.isArray(q.options) || q.options.length !== 4) {
-      errors.push('multiple은 options 4개 필수');
+    const n = Array.isArray(q.options) ? q.options.length : 0;
+    // 임용 1차는 5지선다가 표준 — 4지선다(서비스 자체 제작) 및 5지선다(기출) 모두 허용
+    if (!Array.isArray(q.options) || (n !== 4 && n !== 5)) {
+      errors.push('multiple은 options 4개 또는 5개 필수');
     }
-    if (q.answer !== undefined && q.answer !== null && !VALID_MULTIPLE_ANSWERS.has(String(q.answer))) {
-      errors.push(`multiple answer는 0~3이어야 함: "${q.answer}"`);
+    if (q.answer !== undefined && q.answer !== null) {
+      const a = String(q.answer);
+      if (!/^\d+$/.test(a) || +a < 0 || +a >= n) {
+        errors.push(`multiple answer는 0~${Math.max(n - 1, 0)} 범위여야 함: "${q.answer}"`);
+      }
     }
   }
 

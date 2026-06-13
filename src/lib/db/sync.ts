@@ -8,6 +8,59 @@ import { storeSchemas } from './sync-schemas';
 
 export type StoreKey = 'study' | 'leitner' | 'quiz' | 'bookmark' | 'onboarding' | 'focus';
 
+/** 모든 동기화 대상 스토어 키 (단일 소스) */
+export const STORE_KEYS: readonly StoreKey[] = [
+  'study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus',
+];
+
+/**
+ * 각 스토어의 zustand persist localStorage 키 (단일 소스).
+ * MigrationModal 등 다른 모듈은 반드시 이 상수를 import 해서 키를 일치시킨다.
+ */
+export const STORE_LS_KEYS: Record<StoreKey, string> = {
+  study: 'special-edu-study',
+  leitner: 'leitner-cards',
+  quiz: 'quiz-data',
+  bookmark: 'bookmarks',
+  onboarding: 'special-edu-onboarding',
+  focus: 'focus-store',
+};
+
+// ─── 로컬 수정 타임스탬프 영속화 (H1: pull stale-write 방지) ──────────────────
+// lastSyncTs는 in-memory ref라 리로드 시 소멸 → 로컬이 서버보다 최신인지 알 방법이
+// 없었다. 로컬 변경 시각을 localStorage에 영속화하여 로그인 pull 시 비교한다.
+
+const LOCAL_TS_PREFIX = 'sew-local-ts-';
+
+/** 스토어의 마지막 로컬 수정 시각을 기록 (ISO 문자열) */
+export function setLocalModified(key: StoreKey, ts: string = new Date().toISOString()): void {
+  try {
+    localStorage.setItem(LOCAL_TS_PREFIX + key, ts);
+  } catch {
+    // localStorage 사용 불가 — 무시 (비교 생략 → 서버 우선)
+  }
+}
+
+/** 스토어의 마지막 로컬 수정 시각 조회 (없으면 null) */
+export function getLocalModified(key: StoreKey): string | null {
+  try {
+    return localStorage.getItem(LOCAL_TS_PREFIX + key);
+  } catch {
+    return null;
+  }
+}
+
+/** 모든 로컬 수정 타임스탬프 삭제 (로그아웃 시) */
+export function clearLocalModified(): void {
+  for (const key of STORE_KEYS) {
+    try {
+      localStorage.removeItem(LOCAL_TS_PREFIX + key);
+    } catch {
+      // 무시
+    }
+  }
+}
+
 /** 함수 제거, 직렬화 가능한 데이터만 추출 */
 export function serializeState(state: Record<string, unknown>): Record<string, unknown> {
   return Object.fromEntries(
@@ -123,19 +176,35 @@ export async function pullFromServer(
 }
 
 /**
+ * 특정 스토어 데이터를 서버 updated_at과 함께 조회.
+ * H1: 로그인 pull 시 로컬 타임스탬프와 비교하기 위해 메타가 필요하다.
+ */
+export async function pullFromServerWithMeta(
+  userId: string,
+  key: StoreKey,
+): Promise<{ data: Record<string, unknown>; updatedAt: string | null } | null> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('user_data')
+    .select('data, updated_at')
+    .eq('user_id', userId)
+    .eq('store_key', key)
+    .maybeSingle();
+
+  if (error) {
+    console.error(`[sync] pull ${key} failed:`, error.message);
+    return null;
+  }
+  if (!data) return null;
+  const row = data as { data: Record<string, unknown>; updated_at?: string | null };
+  return { data: row.data, updatedAt: row.updated_at ?? null };
+}
+
+/**
  * 게스트 → 로그인 마이그레이션.
  * localStorage에 남아있는 5개 스토어 데이터를 서버에 일괄 push.
  */
 export async function migrateGuestData(userId: string): Promise<void> {
-  const STORE_LS_KEYS: Record<StoreKey, string> = {
-    study: 'special-edu-study',
-    leitner: 'leitner-cards',
-    quiz: 'quiz-data',
-    bookmark: 'bookmarks',
-    onboarding: 'special-edu-onboarding',
-    focus: 'focus-store',
-  };
-
   const promises: Promise<unknown>[] = [];
   for (const [key, lsKey] of Object.entries(STORE_LS_KEYS) as [StoreKey, string][]) {
     try {
@@ -146,7 +215,14 @@ export async function migrateGuestData(userId: string): Promise<void> {
       // Zustand persist wraps state in { state: {...}, version: N }
       const state = (parsed as Record<string, unknown>).state;
       if (!state || typeof state !== 'object') continue;
-      promises.push(pushToServer(userId, key, serializeState(state as Record<string, unknown>)));
+      // 서버에 이미 데이터가 있으면 게스트 데이터로 덮어쓰지 않는다.
+      // (기존 계정으로 로그인 시 계정 데이터 보호 — 완전한 병합은 후속 과제)
+      promises.push(
+        pullFromServer(userId, key).then((serverData) => {
+          if (serverData) return undefined;
+          return pushToServer(userId, key, serializeState(state as Record<string, unknown>));
+        }),
+      );
     } catch {
       // localStorage read/parse failure — skip
     }
@@ -158,7 +234,7 @@ export async function migrateGuestData(userId: string): Promise<void> {
  * 서버에서 6개 스토어 데이터를 pull 하여 각 Zustand 스토어에 hydrate.
  * 이 함수는 클라이언트에서만 호출 가능.
  */
-export async function syncAllStores(userId: string): Promise<void> {
+export async function syncAllStores(userId: string): Promise<{ keptLocal: StoreKey[] }> {
   const [
     { useStudyStore },
     { useQuizStore },
@@ -176,7 +252,7 @@ export async function syncAllStores(userId: string): Promise<void> {
   ]);
 
   const keys: StoreKey[] = ['study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus'];
-  const results = await Promise.allSettled(keys.map((k) => pullFromServer(userId, k)));
+  const results = await Promise.allSettled(keys.map((k) => pullFromServerWithMeta(userId, k)));
 
   const storeSetters: Record<StoreKey, { setState: (d: unknown) => void }> = {
     study: { setState: (d) => useStudyStore.setState(d as Partial<ReturnType<typeof useStudyStore.getState>>) },
@@ -187,21 +263,35 @@ export async function syncAllStores(userId: string): Promise<void> {
     focus: { setState: (d) => useFocusStore.setState(d as Partial<ReturnType<typeof useFocusStore.getState>>) },
   };
 
+  const keptLocal: StoreKey[] = [];
+
   keys.forEach((key, i) => {
     const result = results[i];
     if (result.status === 'rejected') {
       console.warn(`[sync] pull ${key} failed:`, result.reason);
       return;
     }
-    const serverData = result.value;
-    if (!serverData) return;
+    const server = result.value;
+    if (!server) return;
+
+    // H1: 로컬이 서버보다 최신이면 hydration을 건너뛰고 로컬을 보존한다.
+    // (오프라인 학습 후 push 실패 → 다음 로그인 pull이 로컬 신규 데이터를 파괴하는 것 방지)
+    const localTs = getLocalModified(key);
+    if (localTs && server.updatedAt && localTs > server.updatedAt) {
+      keptLocal.push(key);
+      return;
+    }
 
     const schema = storeSchemas[key];
-    const parsed = schema.safeParse(serverData);
+    const parsed = schema.safeParse(server.data);
     if (parsed.success) {
       storeSetters[key].setState(parsed.data);
+      // 로컬 타임스탬프를 서버와 동기화 (이후 push가 stale로 오인되지 않도록)
+      if (server.updatedAt) setLocalModified(key, server.updatedAt);
     } else {
       console.warn(`[sync] ${key} data validation failed:`, parsed.error.issues);
     }
   });
+
+  return { keptLocal };
 }

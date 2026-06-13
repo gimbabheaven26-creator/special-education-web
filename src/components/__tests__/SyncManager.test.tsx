@@ -11,11 +11,15 @@ vi.mock('@/lib/db/sync', () => ({
   pushToServer: vi.fn().mockResolvedValue('pushed'),
   pullFromServer: vi.fn().mockResolvedValue(null),
   serializeState: vi.fn((s: Record<string, unknown>) => s),
-  syncAllStores: vi.fn(),
+  syncAllStores: vi.fn().mockResolvedValue({ keptLocal: [] }),
+  setLocalModified: vi.fn(),
+  clearLocalModified: vi.fn(),
+  STORE_KEYS: ['study', 'quiz', 'leitner', 'bookmark', 'onboarding', 'focus'],
 }));
 
 import { createClient } from '@/lib/supabase/browser';
 import { syncAllStores } from '@/lib/db/sync';
+import { useStudyStore } from '@/stores/useStudyStore';
 import { SyncManager } from '../SyncManager';
 
 const mockedCreateClient = vi.mocked(createClient);
@@ -52,7 +56,7 @@ describe('SyncManager — syncOnLogin 뮤텍스 (V 권고 회귀)', () => {
     // syncAllStores를 수동 resolve 가능한 pending 상태로 유지
     let resolveSync: () => void = () => {};
     mockedSyncAllStores.mockImplementation(
-      () => new Promise<void>((resolve) => { resolveSync = resolve; }),
+      () => new Promise((resolve) => { resolveSync = () => resolve({ keptLocal: [] }); }),
     );
 
     render(<SyncManager />);
@@ -78,7 +82,7 @@ describe('SyncManager — syncOnLogin 뮤텍스 (V 권고 회귀)', () => {
   it('다른 사용자로 로그인하면 새 동기화가 실행된다 (뮤텍스 과차단 방지)', async () => {
     const sb = makeAuthSupabase();
     mockedCreateClient.mockReturnValue(sb as never);
-    mockedSyncAllStores.mockResolvedValue(undefined);
+    mockedSyncAllStores.mockResolvedValue({ keptLocal: [] });
 
     render(<SyncManager />);
     await act(async () => {});
@@ -96,5 +100,29 @@ describe('SyncManager — syncOnLogin 뮤텍스 (V 권고 회귀)', () => {
     expect(mockedSyncAllStores).toHaveBeenCalledTimes(2);
     expect(mockedSyncAllStores).toHaveBeenNthCalledWith(1, 'user-1');
     expect(mockedSyncAllStores).toHaveBeenNthCalledWith(2, 'user-2');
+  });
+
+  it('SIGNED_OUT 시 스토어가 초기 상태로 리셋된다 (H3: 공용 기기 데이터 격리)', async () => {
+    const sb = makeAuthSupabase();
+    mockedCreateClient.mockReturnValue(sb as never);
+    mockedSyncAllStores.mockResolvedValue({ keptLocal: [] });
+
+    render(<SyncManager />);
+    await act(async () => {});
+
+    await act(async () => {
+      sb.fireAuth('SIGNED_IN', { user: { id: 'user-1' } });
+    });
+
+    // 사용자 A의 학습 데이터 모사
+    act(() => { useStudyStore.setState({ totalXP: 999 }); });
+    expect(useStudyStore.getState().totalXP).toBe(999);
+
+    // 로그아웃 → 로컬 데이터가 초기화되어야 다음 사용자에게 새지 않는다
+    await act(async () => {
+      sb.fireAuth('SIGNED_OUT', null);
+    });
+
+    expect(useStudyStore.getState().totalXP).toBe(useStudyStore.getInitialState().totalXP);
   });
 });

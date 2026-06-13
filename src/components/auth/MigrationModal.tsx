@@ -11,7 +11,7 @@
 
 import { useState } from 'react';
 import { CloudUpload, X } from 'lucide-react';
-import { migrateGuestData } from '@/lib/db/sync';
+import { migrateGuestData, STORE_LS_KEYS } from '@/lib/db/sync';
 
 const MIGRATED_KEY = 'sew-migrated';
 
@@ -95,10 +95,11 @@ export function shouldShowMigration(): boolean {
   if (typeof window === 'undefined') return false;
   if (localStorage.getItem(MIGRATED_KEY)) return false;
 
-  // Check Zustand store state from localStorage
+  // Check Zustand store state from localStorage.
+  // 키는 STORE_LS_KEYS 단일 소스에서 가져온다 (이전엔 '*-store' 오타로 항상 false였음).
   try {
-    const studyRaw = localStorage.getItem('special-edu-study-store');
-    const quizRaw = localStorage.getItem('special-edu-quiz-store');
+    const studyRaw = localStorage.getItem(STORE_LS_KEYS.study);
+    const quizRaw = localStorage.getItem(STORE_LS_KEYS.quiz);
 
     let hasStudyData = false;
     let hasWrongNotes = false;

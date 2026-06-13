@@ -107,7 +107,7 @@ communication-disorder:
 | type | text | NOT NULL | `multiple` \| `ox` \| `fill_in` \| `descriptive` \| `scenario_composite` |
 | question | text | NOT NULL | 문제 본문 |
 | case_context | text | NULL | 사례 지문 |
-| options | text[] | NULL | 객관식 선택지 (multiple: 정확히 4개) |
+| options | text[] | NULL | 객관식 선택지 (multiple: 4개[자체제작] 또는 5개[임용 기출]) |
 | answer | text | NOT NULL | 정답 |
 | explanation | text | NOT NULL | 해설 |
 | wrong_explanations | jsonb | NULL | 오답별 해설 `{"0": "...", "2": "..."}` |
@@ -422,9 +422,10 @@ isAdmin(userId: string): Promise<boolean>
 - `type` (quiz): `multiple`, `ox`, `fill_in`, `descriptive`, `scenario_composite`
 - `type` (worksheet): `fill_in`, `descriptive`
 - `difficulty`: 정수 1, 2, 3
-- `answer` (multiple): `"0"` ~ `"3"` 문자열
-- `answer` (ox): `"O"` 또는 `"X"`
-- `options` (multiple): 정확히 4개 문자열 배열
+- `answer` (multiple): 0-인덱스 문자열 `"0"`~`"3"`(4지선다) 또는 `"0"`~`"4"`(5지선다). 항상 options 길이 범위 내
+- `answer` (ox): `"O"` 또는 `"X"` (DB 저장 시 options=`["O","X"]`의 인덱스가 아니라 값 자체)
+- `options` (multiple): 4개(자체제작) 또는 5개(임용 1차 기출) 문자열 배열
+- `wrong_explanations`: 키는 정답을 제외한 모든 선택지의 0-인덱스. 즉 `{0..n-1} ∖ {answer}`. 정답 인덱스를 키로 포함하지 않는다
 
 ---
 
