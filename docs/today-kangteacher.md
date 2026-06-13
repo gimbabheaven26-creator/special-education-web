@@ -1,4 +1,38 @@
-# X 세션 핸드오프 — 2026-03-31 세션 3 (rules 토큰 다이어트)
+# X 세션 핸드오프 — 2026-06-12 (CI 복구 + V 권고 회귀 테스트)
+
+## 2026-06-12 세션 — M5.1 후처리: CI 복구 + V 권고 이행
+
+### 커밋 (3건)
+| 해시 | 내용 |
+|------|------|
+| baa4ed6 | stale E2E 제거 — 삭제된 SEW Next(/next) 참조 `sew-next.spec.ts` 14건 |
+| c4c3ee1 | V 권고 회귀 테스트 3건 — sync 핵심 안정성 장치 보호 (+6 테스트) |
+| 706f297 | prompt_plan 갱신 — V 권고 이행 완료 표기 + 잔여 LOW 큐 등록 |
+
+### 무슨 일이 있었나 (맥락)
+6/11 세션에서 Fable 5로 M5.1을 종료(V 검증 22/22 PASS)했는데, 그 세션이 두 가지 부채를 남겼다.
+
+**1) CI가 하루 동안 빨간불이었다.** 6/11 "테스트 부채 정리" 때 stale E2E를 지운다며 `my-record.spec.ts` 2건만 제거하고 `sew-next.spec.ts`(삭제된 SEW Next 프로토타입 `/next`를 통째로 테스트하는 14건)는 놓쳤다. 그 결과 E2E CI가 매 push마다 21분간 타임아웃 반복 후 실패. 로컬 "17/17 통과"는 sew-next.spec이 실행 범위에서 빠진 부분 실행이었고, 진실은 CI에 있었다. 파일 삭제 후 E2E가 5분대 success로 복구됐다(이게 원인이었다는 확정 증거).
+
+**2) V가 PASS를 주면서도 MEDIUM 숙제를 남겼다.** M5.1을 통과시킨 핵심 안정성 장치 3개에 회귀 테스트가 전혀 없었다 — syncAllStores 부분 실패 hydration, syncOnLogin 뮤텍스, bulk import warnings 응답. "코드는 맞지만 누가 건드리면 조용히 깨지는" 상태. 이번 세션에 6개 테스트로 메웠다.
+
+### 구현 디테일 (다음 세션이 알아야 할 것)
+- **syncAllStores는 same-module 함수를 직접 호출** → `vi.mock('@/lib/db/sync')`로 pullFromServer를 mock해도 안 먹힌다. 의존성 경계인 `createClient`를 mock하고 store_key별 응답을 분기하는 `makePerKeySupabase` 패턴을 썼다.
+- **Zustand 전역 스토어 테스트는 격리 필수** → beforeEach에서 `getState()` 스냅샷, afterEach에서 `setState(snapshot, true)`(replace 플래그)로 복원. 안 하면 배열 데이터가 테스트 간 누적된다.
+- **SyncManager.test.tsx는 이 컴포넌트의 첫 테스트**다. 뮤텍스는 수동 resolve 가능한 deferred Promise로 in-flight를 고정한 뒤 동시 이벤트 3연발 → 1회 호출 assert, 그리고 다른 userId는 재동기화되는지(과차단 방지)를 쌍으로 검증했다.
+
+### 현재 상태
+- 이 세션(6/12) 종료 시점: main 클린, origin 동기화. lint 0 / tsc 0 / Vitest 85파일 **1,098 통과** / build exit 0 / E2E CI success.
+- M5.1 마일스톤은 완전히 닫혔다 (V 22/22 + 권고 이행).
+- ⚠️ **이후 6/13 병렬 세션이 커밋 `16ea2dc`(동기화 데이터 손실 H1/H2/H3 + 퀴즈 데이터 정합성 수정)를 main에 올림.** sync.ts/SyncManager.tsx 대폭 재작성, guard 테스트·MigrationModal·guest-data-persistence E2E 추가. **이 커밋은 origin에 미push 상태** — 다음 세션이 검증 후 push 필요. 내 회귀 테스트 15개는 재작성된 sync.ts에서도 통과 확인함.
+
+### 다음 작업 후보 (prompt_plan.md 헤더에 큐 등록됨)
+- **V LOW-a**: CompletionScreen 점수 기반 조건부 넛지 승격 — `src/app/daily/_components/CompletionScreen.tsx`가 oxPct 무관 무조건 개념 링크 표시 중. `QuizResultScreen.tsx:365`의 `rate<60 → getConceptUrl` 패턴을 재사용해 oxPct<60일 때 wrongChapters 기반 직링크로 승격.
+- **V LOW-b**: visibilitychange flush의 fetch keepalive — `SyncManager.tsx:161` flushAllPending → `sync.ts:63` pushToServer가 keepalive 없는 Supabase fetch 사용. 탭 닫기 시 in-flight 취소 위험. navigator.sendBeacon 또는 keepalive 옵션 검토.
+- **프로덕션 검증**: `/web-checklist`로 Phase 3 기능(홈 DailyReviewCard, NextStepNudge) 실서비스 동작 확인 — 미실시.
+- **coverage threshold 상향**: 현재 vitest.config.ts statements 20%로 매우 낮음. 회귀 테스트 추가분 반영해 실측 후 상향 검토.
+
+---
 
 ## 2026-03-31 세션 3 — rules 토큰 다이어트 (~18,000 tok/세션 절약)
 

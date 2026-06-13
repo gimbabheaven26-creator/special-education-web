@@ -73,7 +73,7 @@ npm test (전체)
 
 | # | 항목 | 심각도 | 담당 | 상태 |
 |---|------|--------|------|------|
-| 1 | 통합 테스트 갭 3건 — 구현은 코드로 확인했으나 회귀 방지 테스트 부재 | MEDIUM | X | OPEN |
+| 1 | 통합 테스트 갭 3건 — 구현은 코드로 확인했으나 회귀 방지 테스트 부재 | MEDIUM | X | ✅ RESOLVED (2026-06-12, `c4c3ee1`) |
 | 2 | CompletionScreen 개념 링크가 점수 무관 무조건 표시 (조건부 넛지 아님) | LOW | X | OPEN |
 | 3 | visibilitychange flush의 fetch 내구성 — keepalive 미사용 | LOW | X | OPEN |
 
@@ -87,6 +87,11 @@ npm test (전체)
 - [증거] `grep -rn "syncAllStores\|syncOnLogin" src --include="*.test.*" -l` → 0건. bulk/route.test.ts에 "warnings" 문자열 0건
 - [리스크] 다음 리팩토링에서 allSettled→all 회귀, 뮤텍스 제거, warnings 누락이 발생해도 테스트가 잡지 못한다. 이번 계약의 핵심 안정성 장치가 무방비
 - [제안] SyncManager 훅 테스트(동시 syncOnLogin 2회 → pull 1회 assert), syncAllStores 1개 rejection 주입 테스트, bulk 품질거부 항목 포함 요청 → `rejected: 1, warnings: [...]` assert. 3개 합쳐 반나절 작업
+- [이행] ✅ 2026-06-12, 커밋 `c4c3ee1` — 신규 테스트 6개:
+  (a) `src/lib/db/__tests__/sync-all-stores.test.ts` — 1개 스토어 pull reject 시 나머지 hydrate + Zod 손상 데이터 거부 (2건)
+  (b) `src/components/__tests__/SyncManager.test.tsx` — 동시 SIGNED_IN 3연발 → syncAllStores 1회 + 다른 userId 재동기화(과차단 방지) (2건)
+  (c) `src/app/api/admin/quiz/bulk/route.test.ts` 확장 — 품질거부 항목 `rejected:1, warnings[]` + 경고만 있는 항목 warnings 노출 (2건)
+  검증: lint 0 / tsc 0 / Vitest 1,098 통과 / build exit 0 / E2E CI success
 
 **#2 CompletionScreen 무조건 링크 (LOW)**
 - [문제] 기준 18의 의도는 "점수 기반 조건부 넛지"로 읽히나, 실제는 상시 노출 정적 링크. 기준 문구("<60%일 때 표시")는 충족하므로 PASS 판정했으나, 고득점 사용자에게도 "개념학습 보기"가 동일 강도로 노출되어 넛지 효과가 희석됨
